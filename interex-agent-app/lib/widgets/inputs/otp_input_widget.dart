@@ -7,34 +7,26 @@ import '../../utils/dimensions.dart';
 class OtpInputTextFieldWidget extends StatelessWidget {
   const OtpInputTextFieldWidget({super.key, required this.controller});
 
-  final TextEditingController controller;
+  final PinInputController controller;
 
   @override
   Widget build(BuildContext context) {
-    return PinCodeTextField(
-      controller: controller,
-      appContext: context,
-                     cursorColor: CustomColor.primaryLightColor,
-
+    return MaterialPinField(
+      pinController: controller,
       length: 6,
-      obscureText: false,
-      keyboardType: TextInputType.number,
-      textStyle: TextStyle(color: Theme.of(context).primaryColor),
-      animationType: AnimationType.fade,
-      pinTheme: PinTheme(
-        shape: PinCodeFieldShape.box,
-        borderRadius: BorderRadius.circular(
-          Dimensions.radius * 0.5,
-        ),
-        selectedColor: CustomColor.primaryTextColor,
-        activeColor: Theme.of(context).primaryColor,
-        inactiveColor: CustomColor.primaryTextColor,
-        fieldHeight: 50,
-        fieldWidth: 48,
-        activeFillColor: CustomColor.transparent,
-        borderWidth: 2,
-      ),
       onChanged: (String value) {},
+      theme: MaterialPinTheme(
+        borderRadius: BorderRadius.circular(Dimensions.radius * 0.5),
+        cellSize: const Size(48, 50),
+        borderWidth: 2,
+        borderColor: CustomColor.primaryTextColor,
+        focusedBorderColor: CustomColor.primaryTextColor,
+        filledBorderColor: Theme.of(context).primaryColor,
+        fillColor: CustomColor.transparent,
+        textStyle: TextStyle(color: Theme.of(context).primaryColor),
+        cursorColor: CustomColor.primaryLightColor,
+        entryAnimation: MaterialPinAnimation.fade,
+      ),
     );
   }
 }

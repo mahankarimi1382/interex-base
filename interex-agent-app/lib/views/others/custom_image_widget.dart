@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+
 // ignore_for_file: deprecated_member_use
 class CustomImageWidget extends StatelessWidget {
   const CustomImageWidget({
@@ -39,7 +40,7 @@ class CustomImageWidget extends StatelessWidget {
               path,
               height: height,
               width: width,
-              color: color, 
+              color: color,
               fit: fit ?? BoxFit.contain,
             ),
           )

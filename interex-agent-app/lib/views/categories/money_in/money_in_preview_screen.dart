@@ -39,21 +39,20 @@ class MoneyInPreviewScreen extends StatelessWidget {
     return ListView(
       padding: EdgeInsets.symmetric(horizontal: Dimensions.paddingSize * 0.8),
       physics: const BouncingScrollPhysics(),
-      children: [
-        _amountWidget(context),
-        _amountInformationWidget(context),
-      ],
+      children: [_amountWidget(context), _amountInformationWidget(context)],
     );
   }
 
   Widget _amountWidget(BuildContext context) {
     return previewAmount(
-        amount:
-            '${controller.senderAmountController.text} ${controller.selectSenderWallet.value?.currency.code}');
+      amount:
+          '${controller.senderAmountController.text} ${controller.selectSenderWallet.value?.currency.code}',
+    );
   }
 
   Widget _amountInformationWidget(BuildContext context) {
-    int precision = controller.selectSenderWallet.value!.currency.type == 'FIAT'
+    final int precision =
+        controller.selectSenderWallet.value!.currency.type == 'FIAT'
         ? LocalStorage.getFiatPrecision()
         : LocalStorage.getCryptoPrecision();
     return amountInformationWidget(
@@ -75,9 +74,7 @@ class MoneyInPreviewScreen extends StatelessWidget {
 
   Container _buttonWidget(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(
-        top: Dimensions.marginSizeVertical * 2,
-      ),
+      margin: EdgeInsets.only(top: Dimensions.marginSizeVertical * 2),
       child: Obx(
         () => controller.isMoneyInLoading
             ? const CustomLoadingAPI()
@@ -86,14 +83,14 @@ class MoneyInPreviewScreen extends StatelessWidget {
                 onPressed: () {
                   if (dashBoardController.kycStatus.value == 1) {
                     controller.moneyInProcess().then(
-                          (value) => StatusScreen.show(
-                            context: context,
-                            subTitle: Strings.yourmoneySenSuccess,
-                            onPressed: () {
-                              Get.offAllNamed(Routes.bottomNavBarScreen);
-                            },
-                          ),
-                        );
+                      (value) => StatusScreen.show(
+                        context: context,
+                        subTitle: Strings.yourmoneySenSuccess,
+                        onPressed: () {
+                          Get.offAllNamed(Routes.bottomNavBarScreen);
+                        },
+                      ),
+                    );
                   } else {
                     CustomSnackBar.error(Strings.pleaseSubmitYourInformation);
                     Future.delayed(const Duration(seconds: 2), () {

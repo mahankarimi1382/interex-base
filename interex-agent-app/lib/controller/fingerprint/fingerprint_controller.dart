@@ -13,18 +13,17 @@ class FingerprintController extends GetxController {
 
   @override
   void onInit() async {
-    auth.isDeviceSupported().then(
-          (bool isSupported) =>
-      supportState =
-      isSupported ? SupportState.supported : SupportState.unsupported,
+    await auth.isDeviceSupported().then(
+      (bool isSupported) => supportState = isSupported
+          ? SupportState.supported
+          : SupportState.unsupported,
     );
     if (LocalStorage.isLoggedIn()) {
-      bool isAuthenticated = await Authentication.authenticateWithBiometrics(
-
-      );
+      final bool isAuthenticated =
+          await Authentication.authenticateWithBiometrics();
 
       if (isAuthenticated) {
-        Get.offAndToNamed(Routes.bottomNavBarScreen);
+        await Get.offAndToNamed(Routes.bottomNavBarScreen);
       } else {
         debugPrint('isAuthenticated : false');
       }
@@ -33,17 +32,15 @@ class FingerprintController extends GetxController {
   }
 }
 
-enum SupportState {
-  unknown,
-  supported,
-  unsupported,
-}
+enum SupportState { unknown, supported, unsupported }
 
 class Authentication {
   static Future<bool> authenticateWithBiometrics() async {
     final LocalAuthentication localAuthentication = LocalAuthentication();
-    bool isBiometricSupported = await localAuthentication.isDeviceSupported();
-    bool canCheckBiometrics = await localAuthentication.canCheckBiometrics;
+    final bool isBiometricSupported = await localAuthentication
+        .isDeviceSupported();
+    final bool canCheckBiometrics =
+        await localAuthentication.canCheckBiometrics;
 
     bool isAuthenticated = false;
 

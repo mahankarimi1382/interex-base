@@ -19,15 +19,13 @@ class ExchangeMoneyLogScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var data = controller.transactioData.data.transactions.exchangeMoney;
+    final data = controller.transactioData.data.transactions.exchangeMoney;
     return SizedBox(
       height: MediaQuery.of(context).size.height,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(
-            height: Dimensions.heightSize * 1.5,
-          ),
+          SizedBox(height: Dimensions.heightSize * 1.5),
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.78,
             child: data.isNotEmpty
@@ -42,17 +40,19 @@ class ExchangeMoneyLogScreen extends StatelessWidget {
                       return _mainListWidget(i, data, context);
                     },
                   )
-                : NoDataWidget(
-                    title: Strings.noTransaction.tr,
-                  ),
+                : NoDataWidget(title: Strings.noTransaction.tr),
           ),
         ],
       ),
     );
   }
 
-  GestureDetector _mainListWidget(int i, List<ExchangeMoney> data, BuildContext context) {
-    RxBool isExpansion = false.obs;
+  GestureDetector _mainListWidget(
+    int i,
+    List<ExchangeMoney> data,
+    BuildContext context,
+  ) {
+    final RxBool isExpansion = false.obs;
     return GestureDetector(
       onTap: () {
         isExpansion.value = !isExpansion.value;
@@ -68,41 +68,42 @@ class ExchangeMoneyLogScreen extends StatelessWidget {
             transaction: data[i].trx,
             monthText: DateFormat.MMMM().format(data[i].dateTime),
           ),
-          Obx(() => Visibility(
-                visible: isExpansion.value,
-                child: Container(
-                  padding: EdgeInsets.all(Dimensions.paddingSize * .6),
-                  decoration: BoxDecoration(
-                    color: CustomColor.primaryLightColor.withValues(alpha:0.9),
-                    borderRadius: BorderRadius.circular(Dimensions.radius),
-                  ),
-                  child: Column(
-                    children: [
-                      ExpendedItemWidget(
-                        title: Strings.transactionId.tr,
-                        value: data[i].trx,
-                      ),
-                      ExpendedItemWidget(
-                        title: Strings.feesAndCharges.tr,
-                        value: data[i].totalCharge,
-                      ),
-                      ExpendedItemWidget(
-                        title: Strings.exchangeableAmount,
-                        value: data[i].exchangeableAmount,
-                      ),
-                      ExpendedItemWidget(
-                        title: Strings.currentBalance.tr,
-                        value: data[i].currentBalance,
-                      ),
-                      ExpendedItemWidget(
-                        title: Strings.timeAndDate.tr,
-                        value:
-                            DateFormat('yyyy-MM-dd').format(data[i].dateTime),
-                      ),
-                    ],
-                  ),
+          Obx(
+            () => Visibility(
+              visible: isExpansion.value,
+              child: Container(
+                padding: EdgeInsets.all(Dimensions.paddingSize * .6),
+                decoration: BoxDecoration(
+                  color: CustomColor.primaryLightColor.withValues(alpha: 0.9),
+                  borderRadius: BorderRadius.circular(Dimensions.radius),
                 ),
-              ))
+                child: Column(
+                  children: [
+                    ExpendedItemWidget(
+                      title: Strings.transactionId.tr,
+                      value: data[i].trx,
+                    ),
+                    ExpendedItemWidget(
+                      title: Strings.feesAndCharges.tr,
+                      value: data[i].totalCharge,
+                    ),
+                    ExpendedItemWidget(
+                      title: Strings.exchangeableAmount,
+                      value: data[i].exchangeableAmount,
+                    ),
+                    ExpendedItemWidget(
+                      title: Strings.currentBalance.tr,
+                      value: data[i].currentBalance,
+                    ),
+                    ExpendedItemWidget(
+                      title: Strings.timeAndDate.tr,
+                      value: DateFormat('yyyy-MM-dd').format(data[i].dateTime),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
         ],
       ),
     );

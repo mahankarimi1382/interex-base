@@ -25,38 +25,23 @@ class ShareLinkScreenMobile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PopScope(
-        canPop: true,
-        onPopInvokedWithResult: (isTrue,value)
-    {
-      Get.offAllNamed(Routes.bottomNavBarScreen);
-    },
-    child: Scaffold(
-    body: _bodyWidget(
-    context,
-    )
-    ,
-    )
-    ,
+      onPopInvokedWithResult: (isTrue, value) {
+        Get.offAllNamed(Routes.bottomNavBarScreen);
+      },
+      child: Scaffold(body: _bodyWidget(context)),
     );
   }
 
   // body widget containing all widget elements
   SizedBox _bodyWidget(BuildContext context) {
     return SizedBox(
-      height: MediaQuery
-          .of(context)
-          .size
-          .height,
+      height: MediaQuery.of(context).size.height,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          _congratulationImageWidget(
-            context,
-          ),
+          _congratulationImageWidget(context),
           verticalSpace(Dimensions.heightSize * 2),
-          _congratulationInfoWidget(
-            context,
-          ),
+          _congratulationInfoWidget(context),
           verticalSpace(Dimensions.heightSize * 1.33),
           _buttonWidget(context),
         ],
@@ -67,20 +52,15 @@ class ShareLinkScreenMobile extends StatelessWidget {
   Container _buttonWidget(BuildContext context) {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: Dimensions.marginSizeHorizontal),
-      child: PrimaryButton(
-        title: btnName,
-        onPressed: onButtonTap,
-      ),
+      child: PrimaryButton(title: btnName, onPressed: onButtonTap),
     );
   }
 
-  SvgPicture _congratulationImageWidget(BuildContext context,) {
-    return SvgPicture.asset(
-      Assets.clipart.confirmation,
-    );
+  SvgPicture _congratulationImageWidget(BuildContext context) {
+    return SvgPicture.asset(Assets.clipart.confirmation);
   }
 
-  Container _congratulationInfoWidget(BuildContext context,) {
+  Container _congratulationInfoWidget(BuildContext context) {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: Dimensions.marginSizeHorizontal),
       child: Column(
@@ -89,7 +69,8 @@ class ShareLinkScreenMobile extends StatelessWidget {
         children: [
           Padding(
             padding: EdgeInsets.symmetric(
-                horizontal: Dimensions.marginSizeHorizontal),
+              horizontal: Dimensions.marginSizeHorizontal,
+            ),
             child: TitleHeading2Widget(
               text: title,
               color: CustomColor.primaryLightTextColor,
@@ -105,7 +86,7 @@ class ShareLinkScreenMobile extends StatelessWidget {
             fillColor: CustomColor.whiteColor,
             readOnly: true,
             suffixIcon: _customCopyWidget(),
-          )
+          ),
         ],
       ),
     );
@@ -122,12 +103,13 @@ class ShareLinkScreenMobile extends StatelessWidget {
             topRight: Radius.circular(Dimensions.radius * 0.5),
             bottomRight: Radius.circular(Dimensions.radius * 0.5),
           ),
-          color: Theme
-              .of(Get.context!)
-              .primaryColor,
+          color: Theme.of(Get.context!).primaryColor,
         ),
-        child: Icon(Icons.copy,
-            color: CustomColor.whiteColor, size: Dimensions.heightSize * 1.5),
+        child: Icon(
+          Icons.copy,
+          color: CustomColor.whiteColor,
+          size: Dimensions.heightSize * 1.5,
+        ),
       ),
     );
   }

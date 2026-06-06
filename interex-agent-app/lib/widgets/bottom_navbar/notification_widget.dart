@@ -17,10 +17,11 @@ class NotificationWidget extends StatelessWidget {
       padding: EdgeInsets.only(bottom: Dimensions.marginSizeVertical * 0.3),
       child: Container(
         margin: EdgeInsets.symmetric(
-            horizontal: Dimensions.marginSizeVertical * 0.7),
+          horizontal: Dimensions.marginSizeVertical * 0.7,
+        ),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(Dimensions.radius),
-          color: Theme.of(context).primaryColor.withValues(alpha:0.05),
+          color: Theme.of(context).primaryColor.withValues(alpha: 0.05),
         ),
         padding: EdgeInsets.only(right: Dimensions.paddingSize * 0.2),
         height: Dimensions.heightSize * 6,
@@ -40,9 +41,12 @@ class NotificationWidget extends StatelessWidget {
               ),
               decoration: BoxDecoration(
                 color: Get.isDarkMode
-                    ? CustomColor.primaryDarkScaffoldBackgroundColor
-                        .withValues(alpha:0.7)
-                    : Theme.of(context).colorScheme.surface.withValues(alpha:0.5),
+                    ? CustomColor.primaryDarkScaffoldBackgroundColor.withValues(
+                        alpha: 0.7,
+                      )
+                    : Theme.of(
+                        context,
+                      ).colorScheme.surface.withValues(alpha: 0.5),
                 borderRadius: BorderRadius.circular(Dimensions.radius),
               ),
               child: Column(
@@ -52,11 +56,12 @@ class NotificationWidget extends StatelessWidget {
                   CustomTitleHeadingWidget(
                     text: dateText,
                     style: CustomStyle.darkHeading4TextStyle.copyWith(
-                        fontSize: Dimensions.headingTextSize3 * 1.6,
-                        fontWeight: FontWeight.w800,
-                        color: Get.isDarkMode
-                            ? CustomColor.whiteColor
-                            : Theme.of(context).primaryColor),
+                      fontSize: Dimensions.headingTextSize3 * 1.6,
+                      fontWeight: FontWeight.w800,
+                      color: Get.isDarkMode
+                          ? CustomColor.whiteColor
+                          : Theme.of(context).primaryColor,
+                    ),
                   ),
                   CustomTitleHeadingWidget(
                     text: monthText,
@@ -78,9 +83,7 @@ class NotificationWidget extends StatelessWidget {
                 crossAxisAlignment: crossStart,
                 mainAxisAlignment: mainCenter,
                 children: [
-                  TitleHeading3Widget(
-                    text: title,
-                  ),
+                  TitleHeading3Widget(text: title),
                   verticalSpace(Dimensions.widthSize * 0.7),
                   CustomTitleHeadingWidget(
                     text: subtitle,

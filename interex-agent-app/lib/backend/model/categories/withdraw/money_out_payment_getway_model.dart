@@ -7,10 +7,7 @@ class WithdrawInfoModel {
   final Message message;
   final Data data;
 
-  WithdrawInfoModel({
-    required this.message,
-    required this.data,
-  });
+  WithdrawInfoModel({required this.message, required this.data});
 
   factory WithdrawInfoModel.fromJson(Map<String, dynamic> json) =>
       WithdrawInfoModel(
@@ -38,25 +35,24 @@ class Data {
   });
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
-        baseCurr: json["base_curr"],
-        getRemainingFields:
-            GetRemainingFields.fromJson(json["get_remaining_fields"]),
-        defaultImage: json["default_image"],
-        imagePath: json["image_path"],
-        gateways: List<Gateway>.from(
-            json["gateways"].map((x) => Gateway.fromJson(x))),
-        transactions: List<dynamic>.from(json["transactions"].map((x) => x)),
-      );
+    baseCurr: json["base_curr"],
+    getRemainingFields: GetRemainingFields.fromJson(
+      json["get_remaining_fields"],
+    ),
+    defaultImage: json["default_image"],
+    imagePath: json["image_path"],
+    gateways: List<Gateway>.from(
+      json["gateways"].map((x) => Gateway.fromJson(x)),
+    ),
+    transactions: List<dynamic>.from(json["transactions"].map((x) => x)),
+  );
 }
 
 class GetRemainingFields {
   String transactionType;
   String attribute;
 
-  GetRemainingFields({
-    required this.transactionType,
-    required this.attribute,
-  });
+  GetRemainingFields({required this.transactionType, required this.attribute});
 
   factory GetRemainingFields.fromJson(Map<String, dynamic> json) =>
       GetRemainingFields(
@@ -65,9 +61,9 @@ class GetRemainingFields {
       );
 
   Map<String, dynamic> toJson() => {
-        "transaction_type": transactionType,
-        "attribute": attribute,
-      };
+    "transaction_type": transactionType,
+    "attribute": attribute,
+  };
 }
 
 class Gateway {
@@ -98,20 +94,22 @@ class Gateway {
   });
 
   factory Gateway.fromJson(Map<String, dynamic> json) => Gateway(
-        id: json["id"],
-        name: json["name"],
-        image: json["image"] ?? '',
-        slug: json["slug"],
-        code: json["code"],
-        type: json["type"],
-        alias: json["alias"],
-        supportedCurrencies:
-            List<String>.from(json["supported_currencies"].map((x) => x)),
-        inputFields: json["input_fields"],
-        status: json["status"],
-        currencies: List<Currency>.from(
-            json["currencies"].map((x) => Currency.fromJson(x))),
-      );
+    id: json["id"],
+    name: json["name"],
+    image: json["image"] ?? '',
+    slug: json["slug"],
+    code: json["code"],
+    type: json["type"],
+    alias: json["alias"],
+    supportedCurrencies: List<String>.from(
+      json["supported_currencies"].map((x) => x),
+    ),
+    inputFields: json["input_fields"],
+    status: json["status"],
+    currencies: List<Currency>.from(
+      json["currencies"].map((x) => Currency.fromJson(x)),
+    ),
+  );
 }
 
 class Currency {
@@ -134,80 +132,70 @@ class Currency {
   final DateTime createdAt;
   final DateTime updatedAt;
 
-  Currency(
-      {required this.id,
-      required this.paymentGatewayId,
-      required this.type,
-      required this.name,
-      required this.alias,
-      required this.currencyCode,
-      required this.currencySymbol,
-      this.image,
-      required this.minLimit,
-      required this.maxLimit,
-      required this.percentCharge,
-      required this.fixedCharge,
-      required this.dailyLimit,
-      required this.monthlyLimit,
-      required this.rate,
-      required this.createdAt,
-      required this.updatedAt,
-      required this.crypto});
+  Currency({
+    required this.id,
+    required this.paymentGatewayId,
+    required this.type,
+    required this.name,
+    required this.alias,
+    required this.currencyCode,
+    required this.currencySymbol,
+    this.image,
+    required this.minLimit,
+    required this.maxLimit,
+    required this.percentCharge,
+    required this.fixedCharge,
+    required this.dailyLimit,
+    required this.monthlyLimit,
+    required this.rate,
+    required this.createdAt,
+    required this.updatedAt,
+    required this.crypto,
+  });
 
   factory Currency.fromJson(Map<String, dynamic> json) => Currency(
-        id: json["id"],
-        paymentGatewayId: json["payment_gateway_id"],
-        type: json["type"],
-        name: json["name"],
-        alias: json["alias"],
-        currencyCode: json["currency_code"],
-        currencySymbol: json["currency_symbol"],
-        image: json["image"] ?? '',
-        minLimit: json["min_limit"],
-        maxLimit: json["max_limit"],
-        percentCharge: json["percent_charge"],
-        fixedCharge: json["fixed_charge"],
-        dailyLimit: json["daily_limit"],
-        monthlyLimit: json["monthly_limit"],
-        rate: json["rate"],
-        crypto: json["crypto"],
-        createdAt: DateTime.parse(json["created_at"]),
-        updatedAt: DateTime.parse(json["updated_at"]),
-      );
+    id: json["id"],
+    paymentGatewayId: json["payment_gateway_id"],
+    type: json["type"],
+    name: json["name"],
+    alias: json["alias"],
+    currencyCode: json["currency_code"],
+    currencySymbol: json["currency_symbol"],
+    image: json["image"] ?? '',
+    minLimit: json["min_limit"],
+    maxLimit: json["max_limit"],
+    percentCharge: json["percent_charge"],
+    fixedCharge: json["fixed_charge"],
+    dailyLimit: json["daily_limit"],
+    monthlyLimit: json["monthly_limit"],
+    rate: json["rate"],
+    crypto: json["crypto"],
+    createdAt: DateTime.parse(json["created_at"]),
+    updatedAt: DateTime.parse(json["updated_at"]),
+  );
 }
 
 class UserWallet {
   final dynamic balance;
   final String currency;
 
-  UserWallet({
-    required this.balance,
-    required this.currency,
-  });
+  UserWallet({required this.balance, required this.currency});
 
-  factory UserWallet.fromJson(Map<String, dynamic> json) => UserWallet(
-        balance: json["balance"],
-        currency: json["currency"],
-      );
+  factory UserWallet.fromJson(Map<String, dynamic> json) =>
+      UserWallet(balance: json["balance"], currency: json["currency"]);
 
-  Map<String, dynamic> toJson() => {
-        "balance": balance,
-        "currency": currency,
-      };
+  Map<String, dynamic> toJson() => {"balance": balance, "currency": currency};
 }
 
 class Message {
   final List<String> success;
 
-  Message({
-    required this.success,
-  });
+  Message({required this.success});
 
-  factory Message.fromJson(Map<String, dynamic> json) => Message(
-        success: List<String>.from(json["success"].map((x) => x)),
-      );
+  factory Message.fromJson(Map<String, dynamic> json) =>
+      Message(success: List<String>.from(json["success"].map((x) => x)));
 
   Map<String, dynamic> toJson() => {
-        "success": List<dynamic>.from(success.map((x) => x)),
-      };
+    "success": List<dynamic>.from(success.map((x) => x)),
+  };
 }

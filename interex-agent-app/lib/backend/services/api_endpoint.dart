@@ -64,8 +64,7 @@ class ApiEndpoint {
   static String logout = '/agent/logout'.addBaseURl();
 
   //! send money
-  static String addMoneyInsertURL = '/agent/add-money/submit-data'
-      .addBaseURl();
+  static String addMoneyInsertURL = '/agent/add-money/submit-data'.addBaseURl();
   static String addMoneyAuthorizeConfirmURL =
       '/agent/add-money/authorize-payment-submit'.addBaseURl();
   static String addMoneyManualConfirmURL =

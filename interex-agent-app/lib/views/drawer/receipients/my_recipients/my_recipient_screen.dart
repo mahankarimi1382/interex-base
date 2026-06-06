@@ -22,18 +22,13 @@ class SaveRecipientScreen extends StatelessWidget {
     return ResponsiveLayout(
       mobileScaffold: Scaffold(
         floatingActionButton: FloatingActionButton(
-            backgroundColor: Theme.of(context).primaryColor,
-            child: const Icon(
-              Icons.add,
-              color: CustomColor.whiteColor,
-              size: 30,
-            ),
-            onPressed: () {
-              Get.toNamed(Routes.addRecipientScreen);
-            }),
-        appBar: const AppBarWidget(
-          text: Strings.recipients,
+          backgroundColor: Theme.of(context).primaryColor,
+          child: const Icon(Icons.add, color: CustomColor.whiteColor, size: 30),
+          onPressed: () {
+            Get.toNamed(Routes.addRecipientScreen);
+          },
         ),
+        appBar: const AppBarWidget(text: Strings.recipients),
         body: Obx(
           () => controller.isLoading
               ? const CustomLoadingAPI()
@@ -56,13 +51,17 @@ class SaveRecipientScreen extends StatelessWidget {
           )
         : ListView.builder(
             physics: const BouncingScrollPhysics(),
-            padding:
-                EdgeInsets.symmetric(horizontal: Dimensions.paddingSize * 0.76),
+            padding: EdgeInsets.symmetric(
+              horizontal: Dimensions.paddingSize * 0.76,
+            ),
             itemCount:
                 controller.allRecepientData.data.receiverRecipients.length,
             itemBuilder: (context, index) {
-              var data = controller
-                  .allRecepientData.data.receiverRecipients[index].obs;
+              final data = controller
+                  .allRecepientData
+                  .data
+                  .receiverRecipients[index]
+                  .obs;
               return SaveRecipientWidget(
                 title: "${data.value.firstname} ${data.value.lastname}",
                 subTitle: data.value.mobile,
@@ -72,17 +71,17 @@ class SaveRecipientScreen extends StatelessWidget {
                     Navigator.pop(context);
                     controller
                         .recipientDeleteApiProcess(id: data.value.id.toString())
-                        .then(
-                          (value) => controller.getMyRecipientData(),
-                        );
+                        .then((value) => controller.getMyRecipientData());
                   } else if (value == "Edit Recipient") {
                     Navigator.pop(context);
                     controller.recipientEditApiProcess(
-                        id: data.value.id.toString());
+                      id: data.value.id.toString(),
+                    );
                   } else if (value == "Send") {
                   } else {}
                 },
               );
-            });
+            },
+          );
   }
 }

@@ -1,7 +1,5 @@
 class ErrorResponse {
-  ErrorResponse({
-    required this.message,
-  });
+  ErrorResponse({required this.message});
 
   late final Message message;
 
@@ -17,9 +15,7 @@ class ErrorResponse {
 }
 
 class Message {
-  Message({
-    required this.error,
-  });
+  Message({required this.error});
 
   late final List<String> error;
 

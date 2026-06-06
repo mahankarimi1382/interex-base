@@ -60,13 +60,9 @@ class _PrimaryInputWidgetState extends State<InputWithText> {
     }
 
     return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        TitleHeading4Widget(
-          text: widget.label,
-          fontWeight: FontWeight.w600,
-        ),
+        TitleHeading4Widget(text: widget.label, fontWeight: FontWeight.w600),
         verticalSpace(Dimensions.heightSize * 0.7),
         Row(
           children: [
@@ -101,11 +97,11 @@ class _PrimaryInputWidgetState extends State<InputWithText> {
                 textAlign: TextAlign.left,
                 style: CustomStyle.darkHeading3TextStyle.copyWith(
                   color: Get.isDarkMode
-                      ? CustomColor.primaryDarkTextColor.withValues(alpha:0.2)
+                      ? CustomColor.primaryDarkTextColor.withValues(alpha: 0.2)
                       : CustomColor.primaryTextColor,
                 ),
                 inputFormatters: <TextInputFormatter>[
-                  FilteringTextInputFormatter.digitsOnly
+                  FilteringTextInputFormatter.digitsOnly,
                 ],
                 keyboardType: TextInputType.number,
                 maxLines: widget.maxLines,
@@ -115,21 +111,29 @@ class _PrimaryInputWidgetState extends State<InputWithText> {
                     fontSize: Dimensions.headingTextSize3,
                     fontWeight: FontWeight.w500,
                     color: Get.isDarkMode
-                        ? CustomColor.primaryDarkTextColor.withValues(alpha:0.2)
-                        : CustomColor.primaryTextColor.withValues(alpha:0.2),
+                        ? CustomColor.primaryDarkTextColor.withValues(
+                            alpha: 0.2,
+                          )
+                        : CustomColor.primaryTextColor.withValues(alpha: 0.2),
                   ),
                   enabledBorder: OutlineInputBorder(
-                    borderRadius:
-                        BorderRadius.circular(Dimensions.radius * 0.5),
+                    borderRadius: BorderRadius.circular(
+                      Dimensions.radius * 0.5,
+                    ),
                     borderSide: BorderSide(
-                      color: Theme.of(context).primaryColor.withValues(alpha:0.2),
+                      color: Theme.of(
+                        context,
+                      ).primaryColor.withValues(alpha: 0.2),
                     ),
                   ),
                   focusedBorder: OutlineInputBorder(
-                    borderRadius:
-                        BorderRadius.circular(Dimensions.radius * 0.5),
+                    borderRadius: BorderRadius.circular(
+                      Dimensions.radius * 0.5,
+                    ),
                     borderSide: BorderSide(
-                        width: 2, color: Theme.of(context).primaryColor),
+                      width: 2,
+                      color: Theme.of(context).primaryColor,
+                    ),
                   ),
                   contentPadding: EdgeInsets.symmetric(
                     horizontal: Dimensions.widthSize * 1.7,
@@ -161,7 +165,7 @@ class _PrimaryInputWidgetState extends State<InputWithText> {
               ),
             ),
           ],
-        )
+        ),
       ],
     );
   }

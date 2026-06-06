@@ -1,9 +1,7 @@
 import '/utils/basic_screen_imports.dart';
 
 extension PreviewAmount on Widget {
-  Widget previewAmount({
-    required String amount,
-  }) {
+  Widget previewAmount({required String amount}) {
     return Container(
       decoration: BoxDecoration(
         color: Get.isDarkMode
@@ -12,10 +10,12 @@ extension PreviewAmount on Widget {
         borderRadius: BorderRadius.circular(Dimensions.radius * 1.5),
         boxShadow: const [BoxShadow()],
       ),
-      margin:
-          EdgeInsets.symmetric(vertical: Dimensions.marginSizeVertical * 0.2),
-      padding:
-          EdgeInsets.symmetric(vertical: Dimensions.marginSizeVertical * 1.3),
+      margin: EdgeInsets.symmetric(
+        vertical: Dimensions.marginSizeVertical * 0.2,
+      ),
+      padding: EdgeInsets.symmetric(
+        vertical: Dimensions.marginSizeVertical * 1.3,
+      ),
       child: Column(
         mainAxisAlignment: mainCenter,
         children: [

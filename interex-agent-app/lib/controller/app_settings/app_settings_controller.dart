@@ -18,7 +18,7 @@ class AppSettingsController extends GetxController {
   RxString path = ''.obs;
 
   RxString baseUrl = ''.obs;
-  
+
   RxBool isVisible = false.obs;
   @override
   void onInit() {
@@ -39,58 +39,70 @@ class AppSettingsController extends GetxController {
   Future<AppSettingsModel> getSplashAndOnboardData() async {
     _isLoading.value = true;
     update();
-    
-    await ApiServices.appSettingsApi().then((value) { 
-      _appSettingsModel = value!;
-      LocalStorage.saveFiatPrecision(
-          value: _appSettingsModel
-              .data.appSettings.agent.basicSettings.fiatPrecisionValue);
-      LocalStorage.saveCryptoPrecision(
-          value: _appSettingsModel
-              .data.appSettings.agent.basicSettings.cryptoPrecisionValue);
-      splashImagePath.value =
-          "${_appSettingsModel.data.baseUrl}/${_appSettingsModel.data.screenImagePath}/${_appSettingsModel.data.appSettings.agent.splashScreen.splashScreenImage}";
-      debugPrint(splashImagePath.value);
-      for (var element
-          in _appSettingsModel.data.appSettings.agent.onboardScreen) {
-        onboardScreen.add(
-          OnboardScreen(
-            id: element.id,
-            title: element.title,
-            subTitle: element.subTitle,
-            image: element.image,
-            status: element.status,
-            createdAt: element.createdAt,
-            updatedAt: element.updatedAt,
-          ),
-        );
-      }
-      baseUrl.value = _appSettingsModel.data.baseUrl;
 
-      path.value =
-          "${baseUrl.value}/${_appSettingsModel.data.logoImagePath}/";
+    await ApiServices.appSettingsApi()
+        .then((value) {
+          _appSettingsModel = value!;
+          LocalStorage.saveFiatPrecision(
+            value: _appSettingsModel
+                .data
+                .appSettings
+                .agent
+                .basicSettings
+                .fiatPrecisionValue,
+          );
+          LocalStorage.saveCryptoPrecision(
+            value: _appSettingsModel
+                .data
+                .appSettings
+                .agent
+                .basicSettings
+                .cryptoPrecisionValue,
+          );
+          splashImagePath.value =
+              "${_appSettingsModel.data.baseUrl}/${_appSettingsModel.data.screenImagePath}/${_appSettingsModel.data.appSettings.agent.splashScreen.splashScreenImage}";
+          debugPrint(splashImagePath.value);
+          for (var element
+              in _appSettingsModel.data.appSettings.agent.onboardScreen) {
+            onboardScreen.add(
+              OnboardScreen(
+                id: element.id,
+                title: element.title,
+                subTitle: element.subTitle,
+                image: element.image,
+                status: element.status,
+                createdAt: element.createdAt,
+                updatedAt: element.updatedAt,
+              ),
+            );
+          }
+          baseUrl.value = _appSettingsModel.data.baseUrl;
 
-      if (_appSettingsModel.data.appSettings.agent.basicSettings.siteLogo ==
-          '') {
-        appBasicLogoWhite.value =
-            "${baseUrl.value}/${_appSettingsModel.data.defaultImage}";
-        appBasicLogoDark.value = appBasicLogoWhite.value;
-      } else {
-        appBasicLogoWhite.value =
-            "${baseUrl.value}/${_appSettingsModel.data.logoImagePath}/${_appSettingsModel.data.appSettings.agent.basicSettings.siteLogo}";
-        appBasicLogoDark.value =
-            "${baseUrl.value}/${_appSettingsModel.data.logoImagePath}/${_appSettingsModel.data.appSettings.agent.basicSettings.siteLogoDark}";
-      }
+          path.value =
+              "${baseUrl.value}/${_appSettingsModel.data.logoImagePath}/";
 
-      Strings.appName =
-          _appSettingsModel.data.appSettings.agent.basicSettings.siteName;
-      update();
-      _isLoading.value = false;
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-      _isLoading.value = false;
-    });
+          if (_appSettingsModel.data.appSettings.agent.basicSettings.siteLogo ==
+              '') {
+            appBasicLogoWhite.value =
+                "${baseUrl.value}/${_appSettingsModel.data.defaultImage}";
+            appBasicLogoDark.value = appBasicLogoWhite.value;
+          } else {
+            appBasicLogoWhite.value =
+                "${baseUrl.value}/${_appSettingsModel.data.logoImagePath}/${_appSettingsModel.data.appSettings.agent.basicSettings.siteLogo}";
+            appBasicLogoDark.value =
+                "${baseUrl.value}/${_appSettingsModel.data.logoImagePath}/${_appSettingsModel.data.appSettings.agent.basicSettings.siteLogoDark}";
+          }
+
+          Strings.appName =
+              _appSettingsModel.data.appSettings.agent.basicSettings.siteName;
+          update();
+          _isLoading.value = false;
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+          _isLoading.value = false;
+        });
     _isLoading.value = false;
     update();
     return _appSettingsModel;

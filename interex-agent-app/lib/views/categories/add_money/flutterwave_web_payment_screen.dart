@@ -17,13 +17,11 @@ class FlutterWaveWebPaymentScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PopScope(
-      canPop: true,
       onPopInvokedWithResult: (isTrue, value) {
         Get.offAllNamed(Routes.bottomNavBarScreen);
       },
       child: Scaffold(
         appBar: AppBarWidget(
-          homeButtonShow: false,
           text: Strings.flutterwavePayment,
           onTapLeading: () {
             Get.offAllNamed(Routes.bottomNavBarScreen);
@@ -40,10 +38,10 @@ class FlutterWaveWebPaymentScreen extends StatelessWidget {
 
   InAppWebView _bodyWidget(BuildContext context) {
     final data = controller.addMoneyInsertFlutterWaveModel.data;
-    var paymentUrl = data.url;
+    final paymentUrl = data.url;
 
     return InAppWebView(
-      initialUrlRequest: URLRequest(url:WebUri(paymentUrl)),
+      initialUrlRequest: URLRequest(url: WebUri(paymentUrl)),
 
       onWebViewCreated: (InAppWebViewController controller) {},
       onProgressChanged: (InAppWebViewController controller, int progress) {},

@@ -1,12 +1,14 @@
 import 'dart:async';
-import 'package:flutter/material.dart';
+
 import 'package:get/get.dart';
+import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:qrpay/routes/routes.dart';
+
 import 'kyc_form_controller.dart';
 
 class OtpSmsController extends GetxController {
   final basicDataController = Get.put(BasicDataController());
-  final smsOtpInputController = TextEditingController();
+  final smsOtpInputController = PinInputController();
 
   bool hasError = false;
   RxString currentText = "".obs;

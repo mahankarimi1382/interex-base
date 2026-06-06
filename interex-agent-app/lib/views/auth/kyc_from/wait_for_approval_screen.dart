@@ -18,12 +18,11 @@ class WaitForApprovalScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return ResponsiveLayout(
       mobileScaffold: PopScope(
-          canPop: false,
-          onPopInvokedWithResult: (isTrue,value) {},
-      child: Scaffold(
-        body: _bodyWidget(context),
+        canPop: false,
+        onPopInvokedWithResult: (isTrue, value) {},
+        child: Scaffold(body: _bodyWidget(context)),
       ),
-    ),);
+    );
   }
 
   Padding _bodyWidget(BuildContext context) {
@@ -64,12 +63,8 @@ class WaitForApprovalScreen extends StatelessWidget {
         onPressed: (() {
           Get.offAllNamed(Routes.bottomNavBarScreen);
         }),
-        borderColor: Theme
-            .of(context)
-            .primaryColor,
-        buttonColor: Theme
-            .of(context)
-            .primaryColor,
+        borderColor: Theme.of(context).primaryColor,
+        buttonColor: Theme.of(context).primaryColor,
       ),
     );
   }

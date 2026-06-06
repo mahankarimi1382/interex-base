@@ -25,7 +25,7 @@ class MoneyInScreen extends StatelessWidget {
   MoneyInScreen({super.key});
 
   final controller = Get.put(MoneyInController());
-  
+
   final formKey = GlobalKey<FormState>();
 
   @override
@@ -43,7 +43,8 @@ class MoneyInScreen extends StatelessWidget {
   }
 
   ListView _bodyWidget(BuildContext context) {
-    int precision = controller.selectSenderWallet.value!.currency.type == 'FIAT'
+    final int precision =
+        controller.selectSenderWallet.value!.currency.type == 'FIAT'
         ? LocalStorage.getFiatPrecision()
         : LocalStorage.getCryptoPrecision();
     return ListView(
@@ -53,10 +54,11 @@ class MoneyInScreen extends StatelessWidget {
         _inputWidget(context),
         Obx(() {
           return LimitWidget(
-              fee:
-                  '${controller.totalFee.value.toStringAsFixed(precision)} ${controller.selectSenderWallet.value?.currency.code}',
-              limit:
-                  '${controller.limitMin.toStringAsFixed(precision)} - ${controller.limitMax.toStringAsFixed(precision)} ${controller.selectSenderWallet.value?.currency.code}');
+            fee:
+                '${controller.totalFee.value.toStringAsFixed(precision)} ${controller.selectSenderWallet.value?.currency.code}',
+            limit:
+                '${controller.limitMin.toStringAsFixed(precision)} - ${controller.limitMax.toStringAsFixed(precision)} ${controller.selectSenderWallet.value?.currency.code}',
+          );
         }),
         _limitInformation(context),
         _buttonWidget(context),
@@ -91,7 +93,7 @@ class MoneyInScreen extends StatelessWidget {
                         ? CustomColor.greenColor
                         : CustomColor.redColor,
                   );
-                })
+                }),
               ],
             ),
             verticalSpace(Dimensions.heightSize),
@@ -100,7 +102,6 @@ class MoneyInScreen extends StatelessWidget {
               hint: Strings.zero00,
               label: Strings.senderAmount,
               selectWallet: controller.selectSenderWallet,
-              
             ),
             verticalSpace(Dimensions.heightSize),
             MoneyInInputWithDropdown(
@@ -110,7 +111,7 @@ class MoneyInScreen extends StatelessWidget {
               selectWallet: controller.selectReceiverWallet,
             ),
             verticalSpace(Dimensions.heightSize),
-            PrimaryInputWidget(             
+            PrimaryInputWidget(
               controller: controller.remarkController,
               hint: Strings.enterRemark,
               isValidator: false,
@@ -125,7 +126,8 @@ class MoneyInScreen extends StatelessWidget {
   }
 
   LimitInformationWidget _limitInformation(BuildContext context) {
-    int precision = controller.selectSenderWallet.value!.currency.type == 'FIAT'
+    final int precision =
+        controller.selectSenderWallet.value!.currency.type == 'FIAT'
         ? LocalStorage.getFiatPrecision()
         : LocalStorage.getCryptoPrecision();
     return LimitInformationWidget(
@@ -154,29 +156,35 @@ class MoneyInScreen extends StatelessWidget {
         () => controller.isMoneyInLoading
             ? const CustomLoadingAPI()
             : PrimaryButton(
-                buttonColor: controller.isValidUser.value &&
-                        double.parse(controller
-                                .remainingController.senderAmount.value) <
+                buttonColor:
+                    controller.isValidUser.value &&
+                        double.parse(
+                              controller.remainingController.senderAmount.value,
+                            ) <
                             controller.dailyLimit.value &&
-                        double.parse(controller
-                                .remainingController.senderAmount.value) <
+                        double.parse(
+                              controller.remainingController.senderAmount.value,
+                            ) <
                             controller.monthlyLimit.value
                     ? CustomColor.primaryLightColor
-                    : CustomColor.primaryLightColor.withValues(alpha:0.3),
+                    : CustomColor.primaryLightColor.withValues(alpha: 0.3),
                 title: Strings.send,
                 onPressed: () {
                   if (controller.isValidUser.value &&
-                      double.parse(controller
-                              .remainingController.senderAmount.value) <
+                      double.parse(
+                            controller.remainingController.senderAmount.value,
+                          ) <
                           controller.dailyLimit.value &&
-                      double.parse(controller
-                              .remainingController.senderAmount.value) <
+                      double.parse(
+                            controller.remainingController.senderAmount.value,
+                          ) <
                           controller.monthlyLimit.value) {
-
-                    Get.find<SetUpPinController>().showPinDialog(context, onSuccess: (){
-                      Get.toNamed(Routes.moneyInPreviewScreen);
-                    });
-
+                    Get.find<SetUpPinController>().showPinDialog(
+                      context,
+                      onSuccess: () {
+                        Get.toNamed(Routes.moneyInPreviewScreen);
+                      },
+                    );
                   }
                 },
               ),

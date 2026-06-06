@@ -25,25 +25,23 @@ class ResetPasswordScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return ResponsiveLayout(
       mobileScaffold: PopScope(
-          canPop: true,
-          onPopInvokedWithResult: (isTrue,value) {
-    Get.offAllNamed(Routes.signInScreen);
-    },
-      child: Scaffold(
-        appBar: AppBar(
-          elevation: 0,
-          backgroundColor: Theme
-              .of(context)
-              .scaffoldBackgroundColor,
-          leading: BackButtonWidget(
-            onTap: () {
-              Get.toNamed(Routes.signInScreen);
-            },
+        onPopInvokedWithResult: (isTrue, value) {
+          Get.offAllNamed(Routes.signInScreen);
+        },
+        child: Scaffold(
+          appBar: AppBar(
+            elevation: 0,
+            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+            leading: BackButtonWidget(
+              onTap: () {
+                Get.toNamed(Routes.signInScreen);
+              },
+            ),
           ),
+          body: _bodyWidget(context),
         ),
-        body: _bodyWidget(context),
       ),
-    ),);
+    );
   }
 
   ListView _bodyWidget(BuildContext context) {
@@ -60,17 +58,13 @@ class ResetPasswordScreen extends StatelessWidget {
 
   Container _titleAndSubtitleWidget(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(
-        top: Dimensions.marginSizeVertical * 0.1,
-      ),
+      margin: EdgeInsets.only(top: Dimensions.marginSizeVertical * 0.1),
       child: Column(
         crossAxisAlignment: crossStart,
         children: [
           TitleHeading2Widget(text: Strings.resetPassword),
           verticalSpace(Dimensions.heightSize * 0.7),
-          const TitleHeading4Widget(
-            text: Strings.resetPasswordDetails,
-          )
+          const TitleHeading4Widget(text: Strings.resetPasswordDetails),
         ],
       ),
     );
@@ -78,8 +72,9 @@ class ResetPasswordScreen extends StatelessWidget {
 
   Container _inputWidget(BuildContext context) {
     return Container(
-      margin:
-      EdgeInsets.symmetric(vertical: Dimensions.marginSizeVertical * 1.4),
+      margin: EdgeInsets.symmetric(
+        vertical: Dimensions.marginSizeVertical * 1.4,
+      ),
       child: Form(
         key: _resetFormKey,
         child: Column(
@@ -105,26 +100,27 @@ class ResetPasswordScreen extends StatelessWidget {
   Column _continueButtonWidget(BuildContext context) {
     return Column(
       children: [
-        Obx(() =>
-        controller.isLoading
-            ? const CustomLoadingAPI()
-            : PrimaryButton(
-          title: Strings.resetPassword,
-          onPressed: () {
-            if (_resetFormKey.currentState!.validate()) {
-              controller.resetApiProcess().then(
-                    (value) =>
-                    StatusScreen.show(
-                      // ignore: use_build_context_synchronously
-                        context: context,
-                        subTitle: Strings.yourPasswordHasBeen.tr,
-                        onPressed: () {
-                          Get.offAllNamed(Routes.signInScreen);
-                        }),
-              );
-            }
-          },
-        )),
+        Obx(
+          () => controller.isLoading
+              ? const CustomLoadingAPI()
+              : PrimaryButton(
+                  title: Strings.resetPassword,
+                  onPressed: () {
+                    if (_resetFormKey.currentState!.validate()) {
+                      controller.resetApiProcess().then(
+                        (value) => StatusScreen.show(
+                          // ignore: use_build_context_synchronously
+                          context: context,
+                          subTitle: Strings.yourPasswordHasBeen.tr,
+                          onPressed: () {
+                            Get.offAllNamed(Routes.signInScreen);
+                          },
+                        ),
+                      );
+                    }
+                  },
+                ),
+        ),
         verticalSpace(Dimensions.heightSize * 2),
       ],
     );

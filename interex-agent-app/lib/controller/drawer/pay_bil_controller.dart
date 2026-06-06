@@ -6,16 +6,12 @@ import '../../backend/utils/logger.dart';
 
 final log = logger(PayBillLogUpController);
 
-class PayBillLogUpController extends GetxController{
-
-
+class PayBillLogUpController extends GetxController {
   final _isLoading = false.obs;
   bool get isLoading => _isLoading.value;
 
   late TransactionLogModel _transactioData;
-  TransactionLogModel get transactioData =>
-      _transactioData;
-
+  TransactionLogModel get transactioData => _transactioData;
 
   @override
   void onInit() {
@@ -28,17 +24,17 @@ class PayBillLogUpController extends GetxController{
     _isLoading.value = true;
     update();
 
-    await ApiServices.getTransactionLogAPi(type: "/bill-pay").then((value) {
-      _transactioData = value!;
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-    });
+    await ApiServices.getTransactionLogAPi(type: "/bill-pay")
+        .then((value) {
+          _transactioData = value!;
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+        });
 
     _isLoading.value = false;
     update();
     return _transactioData;
   }
-
-
 }

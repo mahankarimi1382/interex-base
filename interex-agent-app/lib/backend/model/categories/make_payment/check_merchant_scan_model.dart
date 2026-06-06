@@ -4,23 +4,23 @@
 
 import 'dart:convert';
 
-CheckMercantWithQrCodeModel checkMercantWithQrCodeModelFromJson(String str) => CheckMercantWithQrCodeModel.fromJson(json.decode(str));
+CheckMercantWithQrCodeModel checkMercantWithQrCodeModelFromJson(String str) =>
+    CheckMercantWithQrCodeModel.fromJson(json.decode(str));
 
-String checkMercantWithQrCodeModelToJson(CheckMercantWithQrCodeModel data) => json.encode(data.toJson());
+String checkMercantWithQrCodeModelToJson(CheckMercantWithQrCodeModel data) =>
+    json.encode(data.toJson());
 
 class CheckMercantWithQrCodeModel {
   Message message;
   Data data;
 
-  CheckMercantWithQrCodeModel({
-    required this.message,
-    required this.data,
-  });
+  CheckMercantWithQrCodeModel({required this.message, required this.data});
 
-  factory CheckMercantWithQrCodeModel.fromJson(Map<String, dynamic> json) => CheckMercantWithQrCodeModel(
-    message: Message.fromJson(json["message"]),
-    data: Data.fromJson(json["data"]),
-  );
+  factory CheckMercantWithQrCodeModel.fromJson(Map<String, dynamic> json) =>
+      CheckMercantWithQrCodeModel(
+        message: Message.fromJson(json["message"]),
+        data: Data.fromJson(json["data"]),
+      );
 
   Map<String, dynamic> toJson() => {
     "message": message.toJson(),
@@ -31,29 +31,21 @@ class CheckMercantWithQrCodeModel {
 class Data {
   String merchantMobile;
 
-  Data({
-    required this.merchantMobile,
-  });
+  Data({required this.merchantMobile});
 
-  factory Data.fromJson(Map<String, dynamic> json) => Data(
-    merchantMobile: json["merchant_mobile"],
-  );
+  factory Data.fromJson(Map<String, dynamic> json) =>
+      Data(merchantMobile: json["merchant_mobile"]);
 
-  Map<String, dynamic> toJson() => {
-    "merchant_mobile": merchantMobile,
-  };
+  Map<String, dynamic> toJson() => {"merchant_mobile": merchantMobile};
 }
 
 class Message {
   List<String> success;
 
-  Message({
-    required this.success,
-  });
+  Message({required this.success});
 
-  factory Message.fromJson(Map<String, dynamic> json) => Message(
-    success: List<String>.from(json["success"].map((x) => x)),
-  );
+  factory Message.fromJson(Map<String, dynamic> json) =>
+      Message(success: List<String>.from(json["success"].map((x) => x)));
 
   Map<String, dynamic> toJson() => {
     "success": List<dynamic>.from(success.map((x) => x)),

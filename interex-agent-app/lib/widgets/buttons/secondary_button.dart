@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 import '../../utils/custom_style.dart';
@@ -28,15 +27,9 @@ class SecondaryButton extends StatelessWidget {
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
           backgroundColor: backgroundColorName,
-          side: BorderSide(
-            width: borderWidth,
-            color: borderColorName,
-          ),
+          side: BorderSide(width: borderWidth, color: borderColorName),
         ),
-        child: Text(
-          title,
-          style: CustomStyle.darkHeading3TextStyle,
-        ),
+        child: Text(title, style: CustomStyle.darkHeading3TextStyle),
       ),
     );
   }

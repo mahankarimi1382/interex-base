@@ -50,7 +50,6 @@ class CustomAmountWidget extends StatelessWidget {
       height: Dimensions.inputBoxHeight,
       width: double.infinity,
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Directionality(
@@ -73,13 +72,16 @@ class CustomAmountWidget extends StatelessWidget {
                             ),
                       readOnly: true,
                       controller: controller.amountTextController,
-                      keyboardType:
-                          const TextInputType.numberWithOptions(decimal: true),
+                      keyboardType: const TextInputType.numberWithOptions(
+                        decimal: true,
+                      ),
                       inputFormatters: <TextInputFormatter>[
                         FilteringTextInputFormatter.allow(
-                            RegExp(r'(^-?\d*\.?\d*)')),
+                          RegExp(r'(^-?\d*\.?\d*)'),
+                        ),
                         LengthLimitingTextInputFormatter(
-                            6), //max length of 12 characters
+                          6,
+                        ), //max length of 12 characters
                       ],
                       validator: (String? value) {
                         if (value!.isEmpty) {
@@ -117,12 +119,9 @@ class CustomAmountWidget extends StatelessWidget {
       mainAxisSpacing: 10.0,
       childAspectRatio: 3 / 1.7,
       shrinkWrap: true,
-      children: List.generate(
-        controller.keyboardItemList.length,
-        (index) {
-          return controller.inputItem(index);
-        },
-      ),
+      children: List.generate(controller.keyboardItemList.length, (index) {
+        return controller.inputItem(index);
+      }),
     );
   }
 
@@ -196,20 +195,24 @@ class CustomAmountWidget extends StatelessWidget {
                 controller.crypto.value = value.crypto;
                 controller.currencyWalletCode.value = value.currencyCode;
                 controller.gatewayRate.value = double.parse(value.rate);
-                controller.exchangeRate.value = double.parse(value.rate) /
+                controller.exchangeRate.value =
+                    double.parse(value.rate) /
                     double.parse(
-                        controller.selectMainWallet.value!.currency.rate);
+                      controller.selectMainWallet.value!.currency.rate,
+                    );
                 controller.fee.value = double.parse(value.fixedCharge);
                 controller.min.value = double.parse(value.minLimit);
                 controller.max.value = double.parse(value.maxLimit);
 
                 controller.dailyLimit.value = double.parse(value.dailyLimit);
-                controller.monthlyLimit.value =
-                    double.parse(value.monthlyLimit);
+                controller.monthlyLimit.value = double.parse(
+                  value.monthlyLimit,
+                );
                 controller.updateExchangeRate();
                 controller.getFee();
-                controller.percentCharge.value =
-                    double.parse(value.percentCharge.toString());
+                controller.percentCharge.value = double.parse(
+                  value.percentCharge.toString(),
+                );
                 controller.remainingController.cardId.value = value.id;
                 controller.remainingController.getRemainingBalanceProcess();
               },
@@ -219,16 +222,14 @@ class CustomAmountWidget extends StatelessWidget {
                 height: 40.h,
                 child: Row(
                   children: [
-                    SizedBox(
-                      width: Dimensions.widthSize * 0.2,
-                    ),
+                    SizedBox(width: Dimensions.widthSize * 0.2),
                     Text(
                       value.name,
                       style: TextStyle(
                         color:
                             controller.selectedCurrencyName.value == value.name
-                                ? CustomColor.primaryLightColor
-                                : CustomColor.primaryLightColor,
+                            ? CustomColor.primaryLightColor
+                            : CustomColor.primaryLightColor,
                         fontSize: Dimensions.headingTextSize4,
                         fontWeight: FontWeight.w500,
                       ),
@@ -263,8 +264,9 @@ class CustomAmountWidget extends StatelessWidget {
           vertical: Dimensions.marginSizeVertical * 0.2,
         ),
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(Dimensions.radius * 3),
-            color: CustomColor.primaryLightColor),
+          borderRadius: BorderRadius.circular(Dimensions.radius * 3),
+          color: CustomColor.primaryLightColor,
+        ),
         child: DropdownButton<MainUserWallet>(
           underline: Container(),
           hint: TitleHeading4Widget(
@@ -282,8 +284,9 @@ class CustomAmountWidget extends StatelessWidget {
                 ? Dimensions.iconSizeLarge * 1.4
                 : Dimensions.iconSizeLarge,
           ),
-          items: controller.walletsList
-              .map<DropdownMenuItem<MainUserWallet>>((value) {
+          items: controller.walletsList.map<DropdownMenuItem<MainUserWallet>>((
+            value,
+          ) {
             return DropdownMenuItem<MainUserWallet>(
               value: value,
               child: Container(
@@ -305,9 +308,10 @@ class CustomAmountWidget extends StatelessWidget {
           onChanged: (MainUserWallet? value) {
             controller.selectMainWallet.value = value!;
             controller.selectCurrency.value = value.currency.code;
-            controller.exchangeRate.value = controller.gatewayRate.value /
+            controller.exchangeRate.value =
+                controller.gatewayRate.value /
                 double.parse(value.currency.rate);
-                
+
             if (value.currency.type == "CRYPTO") {
               controller.isCryptoCurrency.value = true;
             } else {
@@ -326,10 +330,10 @@ class CustomAmountWidget extends StatelessWidget {
 
   Obx _minMaxWidget() {
     return Obx(() {
-      int precision = controller.crypto.value == 0
+      final int precision = controller.crypto.value == 0
           ? LocalStorage.getFiatPrecision()
           : LocalStorage.getCryptoPrecision();
-      int limitPrecision = !controller.isCryptoCurrency.value
+      final int limitPrecision = !controller.isCryptoCurrency.value
           ? LocalStorage.getFiatPrecision()
           : LocalStorage.getCryptoPrecision();
       return Center(
@@ -348,29 +352,32 @@ class CustomAmountWidget extends StatelessWidget {
               children: [
                 TitleHeading5Widget(
                   text: Strings.remainingDailyLimit,
-                  color: CustomColor.primaryLightColor.withValues(alpha:0.6),
+                  color: CustomColor.primaryLightColor.withValues(alpha: 0.6),
                 ),
-                horizontalSpace(Dimensions.widthSize), 
+                horizontalSpace(Dimensions.widthSize),
                 TitleHeading5Widget(
-                    color: CustomColor.primaryLightColor.withValues(alpha:0.6),
-                    text:
-                        ": ${controller.remainingController.remainingDailyLimit.value.toStringAsFixed(precision)} ${controller.selectMainWallet.value!.currency.code}"),
+                  color: CustomColor.primaryLightColor.withValues(alpha: 0.6),
+                  text:
+                      ": ${controller.remainingController.remainingDailyLimit.value.toStringAsFixed(precision)} ${controller.selectMainWallet.value!.currency.code}",
+                ),
               ],
-            ), 
+            ),
 
             Row(
               mainAxisAlignment: mainCenter,
               children: [
                 TitleHeading5Widget(
-                    color: CustomColor.primaryLightColor.withValues(alpha:0.6),
-                    text: Strings.remainingMonthlyLimit),
+                  color: CustomColor.primaryLightColor.withValues(alpha: 0.6),
+                  text: Strings.remainingMonthlyLimit,
+                ),
                 horizontalSpace(Dimensions.widthSize),
                 TitleHeading5Widget(
-                    color: CustomColor.primaryLightColor.withValues(alpha:0.6),
-                    text:
-                        ": ${controller.remainingController.remainingMonthLyLimit.value.toStringAsFixed(precision)} ${controller.selectMainWallet.value!.currency.code}"),
+                  color: CustomColor.primaryLightColor.withValues(alpha: 0.6),
+                  text:
+                      ": ${controller.remainingController.remainingMonthLyLimit.value.toStringAsFixed(precision)} ${controller.selectMainWallet.value!.currency.code}",
+                ),
               ],
-            )
+            ),
           ],
         ),
       );

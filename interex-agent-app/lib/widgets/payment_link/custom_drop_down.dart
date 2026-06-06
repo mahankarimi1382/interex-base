@@ -69,9 +69,10 @@ class _CustomDropDownState<T extends DropdownModel>
                   fontWeight: FontWeight.w600,
                   fontSize: Dimensions.headingTextSize3,
                 ).paddingOnly(bottom: Dimensions.marginBetweenInputTitleAndBox),
-                _dropDown()
+                _dropDown(),
               ],
-            ))
+            ),
+          )
         : _dropDown();
   }
 
@@ -84,19 +85,21 @@ class _CustomDropDownState<T extends DropdownModel>
         //color: widget.dropDownFieldColor,
         border: widget.borderEnable
             ? widget.border ??
-                Border.all(
-                  color: widget.borderColor ??
-                      (_selectedItem != null
-                          ? Theme.of(context)
-                              .primaryColor
-                              .withValues(alpha: 0.2)
-                          : Theme.of(context)
-                              .primaryColor
-                              .withValues(alpha: 0.2)),
-                  width: 1.5,
-                )
+                  Border.all(
+                    color:
+                        widget.borderColor ??
+                        (_selectedItem != null
+                            ? Theme.of(
+                                context,
+                              ).primaryColor.withValues(alpha: 0.2)
+                            : Theme.of(
+                                context,
+                              ).primaryColor.withValues(alpha: 0.2)),
+                    width: 1.5,
+                  )
             : null,
-        borderRadius: widget.customBorderRadius ??
+        borderRadius:
+            widget.customBorderRadius ??
             BorderRadius.circular(
               widget.fieldBorderRadius ?? Dimensions.radius * 0.5,
             ),
@@ -120,7 +123,8 @@ class _CustomDropDownState<T extends DropdownModel>
               padding: const EdgeInsets.only(right: 4),
               child: Icon(
                 Icons.arrow_drop_down_rounded,
-                color: widget.dropDownIconColor ??
+                color:
+                    widget.dropDownIconColor ??
                     (_selectedItem != null
                         ? Theme.of(context).primaryColor
                         : Theme.of(context).primaryColor),
@@ -142,17 +146,15 @@ class _CustomDropDownState<T extends DropdownModel>
                 widget.onChanged(_selectedItem);
               });
             },
-            items: widget.items.map<DropdownMenuItem<T>>(
-              (T value) {
-                return DropdownMenuItem<T>(
-                  value: value,
-                  child: Text(
-                    value.title,
-                    style: CustomStyle.lightHeading3TextStyle,
-                  ),
-                );
-              },
-            ).toList(),
+            items: widget.items.map<DropdownMenuItem<T>>((T value) {
+              return DropdownMenuItem<T>(
+                value: value,
+                child: Text(
+                  value.title,
+                  style: CustomStyle.lightHeading3TextStyle,
+                ),
+              );
+            }).toList(),
           ),
         ),
       ),

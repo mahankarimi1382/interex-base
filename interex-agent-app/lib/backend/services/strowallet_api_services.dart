@@ -14,12 +14,10 @@ class StrowalletApiServices {
   static Future<StrowalletCardModel?> strowalletCardInfoApi() async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false).get(
-        ApiEndpoint.strowalletCardURL,
-        code: 200,
-        showResult: false,
-      );
-      StrowalletCardModel strowalletCardInfoModel =
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).get(ApiEndpoint.strowalletCardURL);
+      final StrowalletCardModel strowalletCardInfoModel =
           StrowalletCardModel.fromJson(mapResponse!);
 
       return strowalletCardInfoModel;
@@ -32,39 +30,38 @@ class StrowalletApiServices {
 
   // Card details api
   static Future<StrowalletCardDetailsModel?> strowalletCardDetailsApi(
-      String id) async {
+    String id,
+  ) async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false).get(
-        ApiEndpoint.strowalletCardDetailsURL + id,
-        code: 200,
-        showResult: false,
-      );
-      StrowalletCardDetailsModel cardDetailsModel =
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).get(ApiEndpoint.strowalletCardDetailsURL + id);
+      final StrowalletCardDetailsModel cardDetailsModel =
           StrowalletCardDetailsModel.fromJson(mapResponse!);
 
       return cardDetailsModel;
     } catch (e) {
       log.e(
-          '🐞🐞🐞 err from strowallet card details api service ==> $e 🐞🐞🐞');
+        '🐞🐞🐞 err from strowallet card details api service ==> $e 🐞🐞🐞',
+      );
       CustomSnackBar.error('Something went Wrong!');
       return null;
     }
   }
 
   //strowallet card inactive api
-  static Future<CommonSuccessModel?> strowalletInactiveApi(
-      {required Map<String, dynamic> body}) async {
+  static Future<CommonSuccessModel?> strowalletInactiveApi({
+    required Map<String, dynamic> body,
+  }) async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false).post(
-        ApiEndpoint.strowalletCardUnBlockURL,
-        body,
-        code: 200,
-        showResult: false,
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).post(ApiEndpoint.strowalletCardUnBlockURL, body, code: 200);
+      final CommonSuccessModel cardUnBlockModel = CommonSuccessModel.fromJson(
+        mapResponse!,
       );
-      CommonSuccessModel cardUnBlockModel =
-          CommonSuccessModel.fromJson(mapResponse!);
 
       return cardUnBlockModel;
     } catch (e) {
@@ -75,23 +72,23 @@ class StrowalletApiServices {
   }
 
   // strowallet card active api
-  static Future<CommonSuccessModel?> strowalletpeActiveApi(
-      {required Map<String, dynamic> body}) async {
+  static Future<CommonSuccessModel?> strowalletpeActiveApi({
+    required Map<String, dynamic> body,
+  }) async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false).post(
-        ApiEndpoint.strowalletCardBLockURL,
-        body,
-        code: 200,
-        showResult: false,
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).post(ApiEndpoint.strowalletCardBLockURL, body, code: 200);
+      final CommonSuccessModel cardUnBlockModel = CommonSuccessModel.fromJson(
+        mapResponse!,
       );
-      CommonSuccessModel cardUnBlockModel =
-          CommonSuccessModel.fromJson(mapResponse!);
 
       return cardUnBlockModel;
     } catch (e) {
       log.e(
-          '🐞🐞🐞 err from strowallet card active Api api service ==> $e 🐞🐞🐞');
+        '🐞🐞🐞 err from strowallet card active Api api service ==> $e 🐞🐞🐞',
+      );
       CustomSnackBar.error('Something went Wrong!');
       return null;
     }
@@ -99,37 +96,39 @@ class StrowalletApiServices {
 
   //strowallet card transaction method
   static Future<StrowalletCardTransactionModel?> strowalletCardTransactionApi(
-      String cardId) async {
+    String cardId,
+  ) async {
     Map<String, dynamic>? mapResponse;
     try {
       mapResponse = await ApiMethod(isBasic: false).get(
         "${ApiEndpoint.strowalletCardTransactionURL}$cardId",
         showResult: true,
       );
-      StrowalletCardTransactionModel cardTransactionModel =
+      final StrowalletCardTransactionModel cardTransactionModel =
           StrowalletCardTransactionModel.fromJson(mapResponse!);
 
       return cardTransactionModel;
     } catch (e) {
       log.e(
-          '🐞🐞🐞 err from my strowallet Card Transaction Api service ==> $e 🐞🐞🐞');
+        '🐞🐞🐞 err from my strowallet Card Transaction Api service ==> $e 🐞🐞🐞',
+      );
       CustomSnackBar.error('Something went Wrong!');
       return null;
     }
   }
 
   // Card Fund Api Method
-  static Future<CommonSuccessModel?> strowalletCardFundApi(
-      {required Map<String, dynamic> body}) async {
+  static Future<CommonSuccessModel?> strowalletCardFundApi({
+    required Map<String, dynamic> body,
+  }) async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false).post(
-        ApiEndpoint.strowalletCardFundURL,
-        body,
-        showResult: true,
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).post(ApiEndpoint.strowalletCardFundURL, body, showResult: true);
+      final CommonSuccessModel cardFundModel = CommonSuccessModel.fromJson(
+        mapResponse!,
       );
-      CommonSuccessModel cardFundModel =
-          CommonSuccessModel.fromJson(mapResponse!);
       // CustomSnackBar.success(cardFundModel.message.success.first.toString());
       return cardFundModel;
     } catch (e) {
@@ -142,33 +141,33 @@ class StrowalletApiServices {
   static Future<StrowalletChargeModel?> strollerCardChargesApi() async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false).get(
-        ApiEndpoint.strowalletCardChargeURL,
-        showResult: true,
-      );
-      StrowalletChargeModel cardChargesModel =
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).get(ApiEndpoint.strowalletCardChargeURL, showResult: true);
+      final StrowalletChargeModel cardChargesModel =
           StrowalletChargeModel.fromJson(mapResponse!);
       return cardChargesModel;
     } catch (e) {
       log.e(
-          '🐞🐞🐞 err from sudo strowallet Charges Api service ==> $e 🐞🐞🐞');
+        '🐞🐞🐞 err from sudo strowallet Charges Api service ==> $e 🐞🐞🐞',
+      );
       CustomSnackBar.error('Something went Wrong!');
       return null;
     }
   }
 
   // strowallet create card Api method
-  static Future<CommonSuccessModel?> strowalletBuyCardApi(
-      {required Map<String, dynamic> body}) async {
+  static Future<CommonSuccessModel?> strowalletBuyCardApi({
+    required Map<String, dynamic> body,
+  }) async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false).post(
-        ApiEndpoint.strowalletBuyCardURL,
-        body,
-        showResult: true,
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).post(ApiEndpoint.strowalletBuyCardURL, body, showResult: true);
+      final CommonSuccessModel cardUnblockModel = CommonSuccessModel.fromJson(
+        mapResponse!,
       );
-      CommonSuccessModel cardUnblockModel =
-          CommonSuccessModel.fromJson(mapResponse!);
       CustomSnackBar.success(cardUnblockModel.message.success.first.toString());
       return cardUnblockModel;
     } catch (e) {
@@ -179,24 +178,27 @@ class StrowalletApiServices {
   }
 
   // strowallet card make or remove default api
-  static Future<CommonSuccessModel?> strowalletCardMakeOrRemoveDefaultApi(
-      {required Map<String, dynamic> body}) async {
+  static Future<CommonSuccessModel?> strowalletCardMakeOrRemoveDefaultApi({
+    required Map<String, dynamic> body,
+  }) async {
     Map<String, dynamic>? mapResponse;
     try {
       mapResponse = await ApiMethod(isBasic: false).post(
         ApiEndpoint.strowalletCardMakeOrRemoveDefaultFundURL,
         body,
         code: 200,
-        showResult: false,
       );
       if (mapResponse != null) {
-        CommonSuccessModel result = CommonSuccessModel.fromJson(mapResponse);
+        final CommonSuccessModel result = CommonSuccessModel.fromJson(
+          mapResponse,
+        );
 
         return result;
       }
     } catch (e) {
       log.e(
-          '🐞🐞🐞 err from card strowallet Card Make Or Remove Default Api api service ==> $e 🐞🐞🐞');
+        '🐞🐞🐞 err from card strowallet Card Make Or Remove Default Api api service ==> $e 🐞🐞🐞',
+      );
       CustomSnackBar.error('Something went Wrong!');
       return null;
     }

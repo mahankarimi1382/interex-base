@@ -121,98 +121,127 @@ class DepositController extends GetxController {
     _isLoading.value = true;
     update();
 
-    await ApiServices.addMoneyPaymentGatewayAPi().then((value) {
-      _addMoneyPaymentGatewayModel = value!;
+    await ApiServices.addMoneyPaymentGatewayAPi()
+        .then((value) {
+          _addMoneyPaymentGatewayModel = value!;
 
-      selectMainWallet.value =
-          walletsController.walletsInfoModel.data.userWallets.first;
+          selectMainWallet.value =
+              walletsController.walletsInfoModel.data.userWallets.first;
 
-      currencyWalletCode.value = _addMoneyPaymentGatewayModel
-          .data.gateways.first.currencies.first.currencyCode;
+          currencyWalletCode.value = _addMoneyPaymentGatewayModel
+              .data
+              .gateways
+              .first
+              .currencies
+              .first
+              .currencyCode;
 
-      for (var gateways in _addMoneyPaymentGatewayModel.data.gateways) {
-        for (var currency in gateways.currencies) {
-          currencyList.add(
-            Currency(
-              id: currency.id,
-              paymentGatewayId: currency.paymentGatewayId,
-              name: currency.name,
-              alias: currency.alias,
-              currencyCode: currency.currencyCode,
-              currencySymbol: currency.currencySymbol,
-              minLimit: currency.minLimit,
-              maxLimit: currency.maxLimit,
-              percentCharge: currency.percentCharge,
-              fixedCharge: currency.fixedCharge,
-              dailyLimit: currency.dailyLimit,
-              monthlyLimit: currency.monthlyLimit,
-              rate: currency.rate,
-              createdAt: currency.createdAt,
-              updatedAt: currency.updatedAt,
-              type: currency.type,
-              image: currency.image,
-              crypto: currency.crypto,
-            ),
+          for (var gateways in _addMoneyPaymentGatewayModel.data.gateways) {
+            for (var currency in gateways.currencies) {
+              currencyList.add(
+                Currency(
+                  id: currency.id,
+                  paymentGatewayId: currency.paymentGatewayId,
+                  name: currency.name,
+                  alias: currency.alias,
+                  currencyCode: currency.currencyCode,
+                  currencySymbol: currency.currencySymbol,
+                  minLimit: currency.minLimit,
+                  maxLimit: currency.maxLimit,
+                  percentCharge: currency.percentCharge,
+                  fixedCharge: currency.fixedCharge,
+                  dailyLimit: currency.dailyLimit,
+                  monthlyLimit: currency.monthlyLimit,
+                  rate: currency.rate,
+                  createdAt: currency.createdAt,
+                  updatedAt: currency.updatedAt,
+                  type: currency.type,
+                  image: currency.image,
+                  crypto: currency.crypto,
+                ),
+              );
+            }
+          }
+
+          final Currency currency =
+              _addMoneyPaymentGatewayModel.data.gateways.first.currencies.first;
+          final Gateway gateway =
+              _addMoneyPaymentGatewayModel.data.gateways.first;
+
+          selectedCurrencyAlias.value = currency.alias;
+          selectedCurrencyType.value = currency.type;
+          selectedGatewaySlug.value = gateway.slug;
+          selectedCurrencyId.value = currency.id;
+          selectedCurrencyName.value = currency.name;
+
+          gatewayRate.value = double.parse(currency.rate.toString());
+          walletsCurrencyRate.value = double.parse(
+            walletsController
+                .walletsInfoModel
+                .data
+                .userWallets
+                .first
+                .currency
+                .rate
+                .toString(),
           );
-        }
-      }
 
-      Currency currency =
-          _addMoneyPaymentGatewayModel.data.gateways.first.currencies.first;
-      Gateway gateway = _addMoneyPaymentGatewayModel.data.gateways.first;
+          exchangeRate.value = gatewayRate.value / walletsCurrencyRate.value;
+          fee.value = double.parse(currency.fixedCharge.toString());
+          limitMin.value =
+              double.parse(currency.minLimit.toString()) / exchangeRate.value;
+          limitMax.value =
+              double.parse(currency.maxLimit.toString()) / exchangeRate.value;
+          percentCharge.value = double.parse(currency.percentCharge.toString());
 
-      selectedCurrencyAlias.value = currency.alias;
-      selectedCurrencyType.value = currency.type;
-      selectedGatewaySlug.value = gateway.slug;
-      selectedCurrencyId.value = currency.id;
-      selectedCurrencyName.value = currency.name;
+          // Base Currency
+          baseCurrency.value = _addMoneyPaymentGatewayModel.data.baseCurr;
+          for (var element
+              in walletsController.walletsInfoModel.data.userWallets) {
+            walletsList.add(
+              MainUserWallet(
+                balance: element.balance,
+                currency: element.currency,
+                status: element.status,
+              ),
+            );
+          }
 
-      gatewayRate.value = double.parse(currency.rate.toString());
-      walletsCurrencyRate.value = double.parse(walletsController
-          .walletsInfoModel.data.userWallets.first.currency.rate
-          .toString());
+          //start remaing get
+          remainingController.transactionType.value =
+              _addMoneyPaymentGatewayModel
+                  .data
+                  .getRemainingFields
+                  .transactionType;
+          remainingController.attribute.value =
+              _addMoneyPaymentGatewayModel.data.getRemainingFields.attribute;
+          remainingController.cardId.value = _addMoneyPaymentGatewayModel
+              .data
+              .gateways
+              .first
+              .currencies
+              .first
+              .id;
+          remainingController.senderAmount.value = amountTextController.text;
+          remainingController.senderCurrency.value = walletsController
+              .walletsInfoModel
+              .data
+              .userWallets
+              .first
+              .currency
+              .code;
 
-      exchangeRate.value = gatewayRate.value / walletsCurrencyRate.value;
-      fee.value = double.parse(currency.fixedCharge.toString());
-      limitMin.value =
-          double.parse(currency.minLimit.toString()) / exchangeRate.value;
-      limitMax.value =
-          double.parse(currency.maxLimit.toString()) / exchangeRate.value;
-      percentCharge.value = double.parse(currency.percentCharge.toString());
+          remainingController.getRemainingBalanceProcess();
 
-      // Base Currency
-      baseCurrency.value = _addMoneyPaymentGatewayModel.data.baseCurr;
-      for (var element in walletsController.walletsInfoModel.data.userWallets) {
-        walletsList.add(
-          MainUserWallet(
-            balance: element.balance,
-            currency: element.currency,
-            status: element.status,
-          ),
-        );
-      }
-
-      //start remaing get
-      remainingController.transactionType.value =
-          _addMoneyPaymentGatewayModel.data.getRemainingFields.transactionType;
-      remainingController.attribute.value =
-          _addMoneyPaymentGatewayModel.data.getRemainingFields.attribute;
-      remainingController.cardId.value =
-          _addMoneyPaymentGatewayModel.data.gateways.first.currencies.first.id;
-      remainingController.senderAmount.value = amountTextController.text;
-      remainingController.senderCurrency.value = walletsController
-          .walletsInfoModel.data.userWallets.first.currency.code;
-
-      remainingController.getRemainingBalanceProcess();
-
-      _isLoading.value = false;
-      update();
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-      _isLoading.value = false;
-      update();
-    });
+          _isLoading.value = false;
+          update();
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+          _isLoading.value = false;
+          update();
+        });
 
     return _addMoneyPaymentGatewayModel;
   }
@@ -234,25 +263,27 @@ class DepositController extends GetxController {
     _isInsertLoading.value = true;
     update();
 
-    Map<String, dynamic> inputBody = {
+    final Map<String, dynamic> inputBody = {
       'amount': amountTextController.text,
       'currency': selectedCurrencyAlias.value,
       'wallet_currency': selectMainWallet.value!.currency.code,
     };
 
-    await ApiServices.sendMoneyInsertPaypalApi(body: inputBody).then((value) {
-      _addMoneyInsertPaypalModel = value!;
-      final data = _addMoneyInsertPaypalModel.data.paymentInformation;
-      enteredAmount = data.requestAmount;
-      transferFeeAmount = data.totalCharge;
-      totalCharge = data.totalCharge;
-      youWillGet = data.willGet;
-      payableAmount = data.payableAmount;
-      gotoPreview();
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-    });
+    await ApiServices.sendMoneyInsertPaypalApi(body: inputBody)
+        .then((value) {
+          _addMoneyInsertPaypalModel = value!;
+          final data = _addMoneyInsertPaypalModel.data.paymentInformation;
+          enteredAmount = data.requestAmount;
+          transferFeeAmount = data.totalCharge;
+          totalCharge = data.totalCharge;
+          youWillGet = data.willGet;
+          payableAmount = data.payableAmount;
+          gotoPreview();
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+        });
     _isInsertLoading.value = false;
     update();
     return _addMoneyInsertPaypalModel;
@@ -266,11 +297,11 @@ class DepositController extends GetxController {
   // --------------------------- Api function ----------------------------------
   // add money paypal
   Future<AddMoneyFlutterWavePaymentModel>
-      addMoneyFlutterWaveInsertProcess() async {
+  addMoneyFlutterWaveInsertProcess() async {
     _isInsertLoading.value = true;
     update();
 
-    Map<String, dynamic> inputBody = {
+    final Map<String, dynamic> inputBody = {
       'amount': amountTextController.text,
       'currency': selectedCurrencyAlias.value,
       'wallet_currency': selectMainWallet.value!.currency.code,
@@ -278,18 +309,19 @@ class DepositController extends GetxController {
 
     await ApiServices.sendMoneyInsertFlutterWaveApi(body: inputBody)
         .then((value) {
-      _addMoneyInsertFlutterWaveModel = value!;
-      final data = _addMoneyInsertFlutterWaveModel.data.paymentInformation;
-      enteredAmount = data.requestAmount;
-      transferFeeAmount = data.totalCharge;
-      totalCharge = data.totalCharge;
-      youWillGet = data.willGet;
-      payableAmount = data.payableAmount;
-      gotoPreview();
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-    });
+          _addMoneyInsertFlutterWaveModel = value!;
+          final data = _addMoneyInsertFlutterWaveModel.data.paymentInformation;
+          enteredAmount = data.requestAmount;
+          transferFeeAmount = data.totalCharge;
+          totalCharge = data.totalCharge;
+          youWillGet = data.willGet;
+          payableAmount = data.payableAmount;
+          gotoPreview();
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+        });
     _isInsertLoading.value = false;
     update();
     return _addMoneyInsertFlutterWaveModel;
@@ -306,25 +338,27 @@ class DepositController extends GetxController {
     _isInsertLoading.value = true;
     update();
 
-    Map<String, dynamic> inputBody = {
+    final Map<String, dynamic> inputBody = {
       'amount': amountTextController.text,
       'currency': selectedCurrencyAlias.value,
       'wallet_currency': selectMainWallet.value!.currency.code,
     };
 
-    await ApiServices.addMoneySslProcessApi(body: inputBody).then((value) {
-      _addMoneySslInsertModel = value!;
-      final data = _addMoneySslInsertModel.data.paymentInformation;
-      enteredAmount = data.requestAmount;
-      transferFeeAmount = data.totalCharge;
-      totalCharge = data.totalCharge;
-      youWillGet = data.willGet;
-      payableAmount = data.payableAmount;
-      gotoPreview();
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-    });
+    await ApiServices.addMoneySslProcessApi(body: inputBody)
+        .then((value) {
+          _addMoneySslInsertModel = value!;
+          final data = _addMoneySslInsertModel.data.paymentInformation;
+          enteredAmount = data.requestAmount;
+          transferFeeAmount = data.totalCharge;
+          totalCharge = data.totalCharge;
+          youWillGet = data.willGet;
+          payableAmount = data.payableAmount;
+          gotoPreview();
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+        });
     _isInsertLoading.value = false;
     update();
     return _addMoneySslInsertModel;
@@ -342,26 +376,28 @@ class DepositController extends GetxController {
     _isInsertLoading.value = true;
     update();
 
-    Map<String, dynamic> inputBody = {
+    final Map<String, dynamic> inputBody = {
       'amount': amountTextController.text,
       'currency': selectedCurrencyAlias.value,
       'wallet_currency': selectMainWallet.value!.currency.code,
     };
 
-    await ApiServices.addMoneyCoinGateProcessApi(body: inputBody).then((value) {
-      _addMoneyCoinGateInsertModel = value!;
-      final data = _addMoneyCoinGateInsertModel.data.paymentInformation;
-      enteredAmount = data.requestAmount;
-      transferFeeAmount = data.totalCharge;
-      totalCharge = data.totalCharge;
-      youWillGet = data.willGet;
-      payableAmount = data.payableAmount;
-      gotoPreview();
+    await ApiServices.addMoneyCoinGateProcessApi(body: inputBody)
+        .then((value) {
+          _addMoneyCoinGateInsertModel = value!;
+          final data = _addMoneyCoinGateInsertModel.data.paymentInformation;
+          enteredAmount = data.requestAmount;
+          transferFeeAmount = data.totalCharge;
+          totalCharge = data.totalCharge;
+          youWillGet = data.willGet;
+          payableAmount = data.payableAmount;
+          gotoPreview();
 
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-    });
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+        });
     _isInsertLoading.value = false;
     update();
     return _addMoneyCoinGateInsertModel;
@@ -379,25 +415,27 @@ class DepositController extends GetxController {
     _isInsertLoading.value = true;
     update();
 
-    Map<String, dynamic> inputBody = {
+    final Map<String, dynamic> inputBody = {
       'amount': amountTextController.text,
       'currency': selectedCurrencyAlias.value,
       'wallet_currency': selectMainWallet.value!.currency.code,
     };
 
-    await ApiServices.addMoneyInsertRazorPayApi(body: inputBody).then((value) {
-      _addMoneyRazorPayInsertModel = value!;
-      final data = _addMoneyRazorPayInsertModel.data.paymentInformation;
-      enteredAmount = data.requestAmount;
-      transferFeeAmount = data.totalCharge;
-      totalCharge = data.totalCharge;
-      youWillGet = data.willGet;
-      payableAmount = data.payableAmount;
-      gotoPreview();
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-    });
+    await ApiServices.addMoneyInsertRazorPayApi(body: inputBody)
+        .then((value) {
+          _addMoneyRazorPayInsertModel = value!;
+          final data = _addMoneyRazorPayInsertModel.data.paymentInformation;
+          enteredAmount = data.requestAmount;
+          transferFeeAmount = data.totalCharge;
+          totalCharge = data.totalCharge;
+          youWillGet = data.willGet;
+          payableAmount = data.payableAmount;
+          gotoPreview();
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+        });
     _isInsertLoading.value = false;
     update();
     return _addMoneyRazorPayInsertModel;
@@ -412,34 +450,35 @@ class DepositController extends GetxController {
   // --------------------------- Api function ----------------------------------
   // add money Perfect Money
   Future<AddMoneyRazorPayInsertModel>
-      addMoneyPerfectMoneyInsertProcess() async {
+  addMoneyPerfectMoneyInsertProcess() async {
     _isInsertLoading.value = true;
     update();
 
-    Map<String, dynamic> inputBody = {
+    final Map<String, dynamic> inputBody = {
       'amount': amountTextController.text,
       'currency': selectedCurrencyAlias.value,
       'wallet_currency': selectMainWallet.value!.currency.code,
     };
 
-    await ApiServices.addMoneyInsertRazorPayApi(body: inputBody).then((value) {
-      _addMoneyPerfectMoneyInsertModel = value!;
-      final data = _addMoneyPerfectMoneyInsertModel.data.paymentInformation;
-      enteredAmount = data.requestAmount;
-      transferFeeAmount = data.totalCharge;
-      totalCharge = data.totalCharge;
-      youWillGet = data.willGet;
-      payableAmount = data.payableAmount;
-      gotoPreview();
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-    });
+    await ApiServices.addMoneyInsertRazorPayApi(body: inputBody)
+        .then((value) {
+          _addMoneyPerfectMoneyInsertModel = value!;
+          final data = _addMoneyPerfectMoneyInsertModel.data.paymentInformation;
+          enteredAmount = data.requestAmount;
+          transferFeeAmount = data.totalCharge;
+          totalCharge = data.totalCharge;
+          youWillGet = data.willGet;
+          payableAmount = data.payableAmount;
+          gotoPreview();
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+        });
     _isInsertLoading.value = false;
     update();
     return _addMoneyPerfectMoneyInsertModel;
   }
-
 
   /// >>> Add Money Bikash Money Insert Process
   late AddMoneyBkashInsertModel _addMoneyBikashInsertModel;
@@ -453,25 +492,27 @@ class DepositController extends GetxController {
     _isInsertLoading.value = true;
     update();
 
-    Map<String, dynamic> inputBody = {
+    final Map<String, dynamic> inputBody = {
       'amount': amountTextController.text,
       'currency': selectedCurrencyAlias.value,
       'wallet_currency': selectMainWallet.value!.currency.code,
     };
 
-    await ApiServices.addMoneyInsertBkashApi(body: inputBody).then((value) {
-      _addMoneyBikashInsertModel = value!;
-      final data = _addMoneyBikashInsertModel.data.paymentInformation;
-      enteredAmount = data.requestAmount;
-      transferFeeAmount = data.totalCharge;
-      totalCharge = data.totalCharge;
-      youWillGet = data.willGet;
-      payableAmount = data.payableAmount;
-      gotoPreview();
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-    });
+    await ApiServices.addMoneyInsertBkashApi(body: inputBody)
+        .then((value) {
+          _addMoneyBikashInsertModel = value!;
+          final data = _addMoneyBikashInsertModel.data.paymentInformation;
+          enteredAmount = data.requestAmount;
+          transferFeeAmount = data.totalCharge;
+          totalCharge = data.totalCharge;
+          youWillGet = data.willGet;
+          payableAmount = data.payableAmount;
+          gotoPreview();
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+        });
     _isInsertLoading.value = false;
     update();
     return _addMoneyBikashInsertModel;
@@ -489,30 +530,31 @@ class DepositController extends GetxController {
     _isInsertLoading.value = true;
     update();
 
-    Map<String, dynamic> inputBody = {
+    final Map<String, dynamic> inputBody = {
       'amount': amountTextController.text,
       'currency': selectedCurrencyAlias.value,
       'wallet_currency': selectMainWallet.value!.currency.code,
     };
 
-    await ApiServices.addMoneyInsertStripeApi(body: inputBody).then((value) {
-      _addMoneyInsertStripeModel = value!;
-      final data = _addMoneyInsertStripeModel.data.paymentInformation;
-      enteredAmount = data.requestAmount;
-      transferFeeAmount = data.totalCharge;
-      totalCharge = data.totalCharge;
-      youWillGet = data.willGet;
-      payableAmount = data.payableAmount;
-      gotoPreview();
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-    });
+    await ApiServices.addMoneyInsertStripeApi(body: inputBody)
+        .then((value) {
+          _addMoneyInsertStripeModel = value!;
+          final data = _addMoneyInsertStripeModel.data.paymentInformation;
+          enteredAmount = data.requestAmount;
+          transferFeeAmount = data.totalCharge;
+          totalCharge = data.totalCharge;
+          youWillGet = data.willGet;
+          payableAmount = data.payableAmount;
+          gotoPreview();
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+        });
     _isInsertLoading.value = false;
     update();
     return _addMoneyInsertStripeModel;
   }
-
 
   // ---------------------------- AddMoneyStripeInsertModel --------------------
   late AddMoneyAuthorizeInsertModel _addMoneyAuthorizeInsertModel;
@@ -526,31 +568,31 @@ class DepositController extends GetxController {
     _isInsertLoading.value = true;
     update();
 
-    Map<String, dynamic> inputBody = {
+    final Map<String, dynamic> inputBody = {
       'amount': amountTextController.text,
       'currency': selectedCurrencyAlias.value,
       'wallet_currency': selectMainWallet.value!.currency.code,
     };
 
-    await ApiServices.addMoneyInsertAuthorizeApi(body: inputBody).then((value) {
-      _addMoneyAuthorizeInsertModel = value!;
-      final data = _addMoneyAuthorizeInsertModel.data.paymentInformation;
-      enteredAmount = data.requestAmount;
-      transferFeeAmount = data.totalCharge;
-      totalCharge = data.totalCharge;
-      youWillGet = data.willGet;
-      payableAmount = data.payableAmount;
-      gotoPreview();
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-    });
+    await ApiServices.addMoneyInsertAuthorizeApi(body: inputBody)
+        .then((value) {
+          _addMoneyAuthorizeInsertModel = value!;
+          final data = _addMoneyAuthorizeInsertModel.data.paymentInformation;
+          enteredAmount = data.requestAmount;
+          transferFeeAmount = data.totalCharge;
+          totalCharge = data.totalCharge;
+          youWillGet = data.willGet;
+          payableAmount = data.payableAmount;
+          gotoPreview();
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+        });
     _isInsertLoading.value = false;
     update();
     return _addMoneyAuthorizeInsertModel;
   }
-
-
 
   /// ------------------------------------- >>
   final _isAuthorizedSubmitLoading = false.obs;
@@ -572,7 +614,7 @@ class DepositController extends GetxController {
   Future<CommonSuccessModel> authorizedSubmitProcess() async {
     _isAuthorizedSubmitLoading.value = true;
     update();
-    Map<String, String> inputBody = {
+    final Map<String, String> inputBody = {
       "identifier": addMoneyAuthorizeInsertModel.data.paymentInformation.trx,
       "card_number": cardNumberController.text.trim(),
       "date": cardExpiryController.text,
@@ -581,28 +623,27 @@ class DepositController extends GetxController {
 
     await ApiServices.addMoneyConfirmAuthorizeApi(body: inputBody)
         .then((value) {
-      _authorizedSubmitModel = value!;
+          _authorizedSubmitModel = value!;
 
-      StatusScreen.show(
-        context: Get.context!,
-        subTitle: Strings.yourMoneyAddedSucces.tr,
-        onPressed: () {
-          Get.offAllNamed(Routes.bottomNavBarScreen);
-        },
-      );
+          StatusScreen.show(
+            context: Get.context!,
+            subTitle: Strings.yourMoneyAddedSucces.tr,
+            onPressed: () {
+              Get.offAllNamed(Routes.bottomNavBarScreen);
+            },
+          );
 
-      _isAuthorizedSubmitLoading.value = false;
-      update();
-    })
+          _isAuthorizedSubmitLoading.value = false;
+          update();
+        })
         .catchError((onError) {
-      log.e(onError);
-    });
+          log.e(onError);
+        });
     _isAuthorizedSubmitLoading.value = false;
     update();
 
     return _authorizedSubmitModel;
   }
-
 
   /// >>> Add Money Pagadito Insert Process
   late AddMoneyPagaditoInsertModel _addMoneyPagaditoInsertModel;
@@ -616,30 +657,31 @@ class DepositController extends GetxController {
     _isInsertLoading.value = true;
     update();
 
-    Map<String, dynamic> inputBody = {
+    final Map<String, dynamic> inputBody = {
       'amount': amountTextController.text,
       'currency': selectedCurrencyAlias.value,
       'wallet_currency': selectMainWallet.value!.currency.code,
     };
 
-    await ApiServices.addMoneyInsertPagaditoApi(body: inputBody).then((value) {
-      _addMoneyPagaditoInsertModel = value!;
-      final data = _addMoneyPagaditoInsertModel.data.paymentInformation;
-      enteredAmount = data.requestAmount;
-      transferFeeAmount = data.totalCharge;
-      totalCharge = data.totalCharge;
-      youWillGet = data.willGet;
-      payableAmount = data.payableAmount;
-      gotoPreview();
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-    });
+    await ApiServices.addMoneyInsertPagaditoApi(body: inputBody)
+        .then((value) {
+          _addMoneyPagaditoInsertModel = value!;
+          final data = _addMoneyPagaditoInsertModel.data.paymentInformation;
+          enteredAmount = data.requestAmount;
+          transferFeeAmount = data.totalCharge;
+          totalCharge = data.totalCharge;
+          youWillGet = data.willGet;
+          payableAmount = data.payableAmount;
+          gotoPreview();
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+        });
     _isInsertLoading.value = false;
     update();
     return _addMoneyPagaditoInsertModel;
   }
-
 
   void goToWebPaymentViewScreen() {
     Get.toNamed(Routes.paypalWebPaymentScreen);
@@ -684,6 +726,7 @@ class DepositController extends GetxController {
   void goToManualSendMoneyManualScreen() {
     Get.toNamed(Routes.sendMoneyManualPaymentScreen);
   }
+
   void goToBkashWebPaymentScreen() {
     Get.toNamed(Routes.bkashtoWebPaymnetScreen);
   }
@@ -704,113 +747,119 @@ class DepositController extends GetxController {
     inputFieldControllers.clear();
     update();
 
-    Map<String, dynamic> inputBody = {
+    final Map<String, dynamic> inputBody = {
       'amount': amountTextController.text,
       'currency': selectedCurrencyAlias.value,
       'wallet_currency': selectMainWallet.value!.currency.code,
     };
 
-    await ApiServices.addMoneyManualInsertApi(body: inputBody).then((value) {
-      _addMoneyManualInsertModel = value!;
+    await ApiServices.addMoneyManualInsertApi(body: inputBody)
+        .then((value) {
+          _addMoneyManualInsertModel = value!;
 
-      final previewData = _addMoneyManualInsertModel.data.paymentInformation;
-      enteredAmount = previewData.requestAmount;
-      transferFeeAmount = previewData.totalCharge;
-      totalCharge = previewData.totalCharge;
-      youWillGet = previewData.willGet;
-      payableAmount = previewData.payableAmount;
+          final previewData =
+              _addMoneyManualInsertModel.data.paymentInformation;
+          enteredAmount = previewData.requestAmount;
+          transferFeeAmount = previewData.totalCharge;
+          totalCharge = previewData.totalCharge;
+          youWillGet = previewData.willGet;
+          payableAmount = previewData.payableAmount;
 
-      //-------------------------- Process inputs start ------------------------
-      final data = _addMoneyManualInsertModel.data.inputFields;
+          //-------------------------- Process inputs start ------------------------
+          final data = _addMoneyManualInsertModel.data.inputFields;
 
-      for (int item = 0; item < data.length; item++) {
-        // make the dynamic controller
-        var textEditingController = TextEditingController();
-        inputFieldControllers.add(textEditingController);
+          for (int item = 0; item < data.length; item++) {
+            // make the dynamic controller
+            final textEditingController = TextEditingController();
+            inputFieldControllers.add(textEditingController);
 
-        // make dynamic input widget
-        if (data[item].type.contains('file')) {
-          hasFile.value = true;
-          inputFields.add(
-            Padding(
-              padding: const EdgeInsets.only(bottom: 8.0),
-              child: ManualPaymentImageWidget(
-                labelName: data[item].label,
-                fieldName: data[item].name,
-              ),
-            ),
-          );
-        } else if (data[item].type.contains('text') ||
-            data[item].type.contains('textarea')) {
-          inputFields.add(
-            Column(
-              children: [
-                PrimaryInputWidget(
-                  paddings: EdgeInsets.only(
-                      left: Dimensions.widthSize,
-                      right: Dimensions.widthSize,
-                      top: Dimensions.heightSize * 0.5),
-                  controller: inputFieldControllers[item],
-                  label: data[item].label,
-                  hint: data[item].label,
-                  isValidator: data[item].required,
-                  inputFormatters: [
-                    LengthLimitingTextInputFormatter(
-                      int.parse(data[item].validation.max.toString()),
+            // make dynamic input widget
+            if (data[item].type.contains('file')) {
+              hasFile.value = true;
+              inputFields.add(
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 8.0),
+                  child: ManualPaymentImageWidget(
+                    labelName: data[item].label,
+                    fieldName: data[item].name,
+                  ),
+                ),
+              );
+            } else if (data[item].type.contains('text') ||
+                data[item].type.contains('textarea')) {
+              inputFields.add(
+                Column(
+                  children: [
+                    PrimaryInputWidget(
+                      paddings: EdgeInsets.only(
+                        left: Dimensions.widthSize,
+                        right: Dimensions.widthSize,
+                        top: Dimensions.heightSize * 0.5,
+                      ),
+                      controller: inputFieldControllers[item],
+                      label: data[item].label,
+                      hint: data[item].label,
+                      isValidator: data[item].required,
+                      inputFormatters: [
+                        LengthLimitingTextInputFormatter(
+                          int.parse(data[item].validation.max.toString()),
+                        ),
+                      ],
                     ),
+                    verticalSpace(Dimensions.heightSize * 0.8),
                   ],
                 ),
-                verticalSpace(Dimensions.heightSize * 0.8),
-              ],
-            ),
-          );
-        }
-        // final selectedIDType = "".obs;
-        // List<IdTypeModel> idTypeList = [];
-        else if (data[item].type.contains('select')) {
-          hasFile.value = true;
-          selectedIDType.value = data[item].validation.options.first.toString();
-          inputFieldControllers[item].text = selectedIDType.value;
-          for (var element in data[item].validation.options) {
-            idTypeList.add(IdTypeModel(element, element));
-          }
-          inputFields.add(
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Obx(() => CustomDropDown<IdTypeModel>(
-                    items: idTypeList,
-                    title: data[item].label,
-                    hint: selectedIDType.value.isEmpty
-                        ? Strings.selectType
-                        : selectedIDType.value,
-                    onChanged: (value) {
-                      selectedIDType.value = value!.title;
-                    },
-                    padding: EdgeInsets.symmetric(
-                      horizontal: Dimensions.paddingHorizontalSize * 0.25,
+              );
+            }
+            // final selectedIDType = "".obs;
+            // List<IdTypeModel> idTypeList = [];
+            else if (data[item].type.contains('select')) {
+              hasFile.value = true;
+              selectedIDType.value = data[item].validation.options.first
+                  .toString();
+              inputFieldControllers[item].text = selectedIDType.value;
+              for (var element in data[item].validation.options) {
+                idTypeList.add(IdTypeModel(element, element));
+              }
+              inputFields.add(
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Obx(
+                      () => CustomDropDown<IdTypeModel>(
+                        items: idTypeList,
+                        title: data[item].label,
+                        hint: selectedIDType.value.isEmpty
+                            ? Strings.selectType
+                            : selectedIDType.value,
+                        onChanged: (value) {
+                          selectedIDType.value = value!.title;
+                        },
+                        padding: EdgeInsets.symmetric(
+                          horizontal: Dimensions.paddingHorizontalSize * 0.25,
+                        ),
+                        titleTextColor: CustomColor.primaryLightTextColor
+                            .withValues(alpha: .2),
+                        dropDownIconColor: CustomColor.primaryLightTextColor
+                            .withValues(alpha: .2),
+                      ),
                     ),
-                    titleTextColor:
-                        CustomColor.primaryLightTextColor.withValues(alpha:.2),
-                    borderEnable: true,
-                    dropDownFieldColor: Colors.transparent,
-                    dropDownIconColor:
-                        CustomColor.primaryLightTextColor.withValues(alpha:.2))),
-                verticalSpace(Dimensions.marginBetweenInputBox * .8),
-              ],
-            ),
-          );
-        }
-      }
+                    verticalSpace(Dimensions.marginBetweenInputBox * .8),
+                  ],
+                ),
+              );
+            }
+          }
 
-      //-------------------------- Process inputs end --------------------------
-      _isInsertLoading.value = false;
-      gotoPreview();
-      update();
-    }).catchError((onError) {
-      _isInsertLoading.value = false;
-      log.e(onError);
-    });
+          //-------------------------- Process inputs end --------------------------
+          _isInsertLoading.value = false;
+          gotoPreview();
+          update();
+        })
+        .catchError((onError) {
+          _isInsertLoading.value = false;
+          log.e(onError);
+        });
 
     update();
     return _addMoneyManualInsertModel;
@@ -829,7 +878,7 @@ class DepositController extends GetxController {
 
   Future<CommonSuccessModel> manualPaymentProcess() async {
     _isConfirmManualLoading.value = true;
-    Map<String, String> inputBody = {
+    final Map<String, String> inputBody = {
       'track': addMoneyManualInsertModel.data.paymentInformation.trx,
     };
 
@@ -842,28 +891,32 @@ class DepositController extends GetxController {
     }
 
     await ApiServices.manualPaymentConfirmApi(
-            body: inputBody, fieldList: listFieldName, pathList: listImagePath)
+          body: inputBody,
+          fieldList: listFieldName,
+          pathList: listImagePath,
+        )
         .then((value) {
-      _manualPaymentConfirmModel = value!;
-      StatusScreen.show(
-        context: Get.context!,
-        subTitle: Strings.yourmoneyDepositSuccess.tr,
-        onPressed: () {
-          Get.offAllNamed(Routes.bottomNavBarScreen);
-        },
-      );
-      _isConfirmManualLoading.value = false;
-      update();
-      Get.offAndToNamed(Routes.bottomNavBarScreen);
-    }).catchError((onError) {
-      log.e(onError);
-    });
+          _manualPaymentConfirmModel = value!;
+          StatusScreen.show(
+            context: Get.context!,
+            subTitle: Strings.yourmoneyDepositSuccess.tr,
+            onPressed: () {
+              Get.offAllNamed(Routes.bottomNavBarScreen);
+            },
+          );
+          _isConfirmManualLoading.value = false;
+          update();
+          Get.offAndToNamed(Routes.bottomNavBarScreen);
+        })
+        .catchError((onError) {
+          log.e(onError);
+        });
     _isConfirmManualLoading.value = false;
     update();
     return _manualPaymentConfirmModel;
   }
 
-// keyboard fuction
+  // keyboard fuction
   final amountTextController = TextEditingController();
   List<String> totalAmount = [];
 
@@ -890,7 +943,7 @@ class DepositController extends GetxController {
     '9',
     '.',
     '0',
-    '<'
+    '<',
   ];
 
   InkWell inputItem(int index) {
@@ -900,7 +953,7 @@ class DepositController extends GetxController {
         if (index == 11) {
           if (totalAmount.isNotEmpty) {
             totalAmount.clear();
-            amountTextController.text = totalAmount.join('');
+            amountTextController.text = totalAmount.join();
           } else {
             return;
           }
@@ -910,7 +963,7 @@ class DepositController extends GetxController {
         if (index == 11) {
           if (totalAmount.isNotEmpty) {
             totalAmount.removeLast();
-            amountTextController.text = totalAmount.join('');
+            amountTextController.text = totalAmount.join();
           } else {
             return;
           }
@@ -919,8 +972,8 @@ class DepositController extends GetxController {
             return;
           } else {
             totalAmount.add(keyboardItemList[index]);
-            amountTextController.text = totalAmount.join('');
-            debugPrint(totalAmount.join(''));
+            amountTextController.text = totalAmount.join();
+            debugPrint(totalAmount.join());
           }
         }
         getFee();
@@ -953,54 +1006,58 @@ class DepositController extends GetxController {
     _isInsertLoading.value = true;
     update();
 
-    Map<String, dynamic> inputBody = {
+    final Map<String, dynamic> inputBody = {
       'amount': amountTextController.text,
       'currency': selectedCurrencyAlias.value,
       'wallet_currency': selectMainWallet.value!.currency.code,
     };
 
-    await ApiServices.tatumInsertApi(body: inputBody).then((value) {
-      _tatumGatewayModel = value!;
+    await ApiServices.tatumInsertApi(body: inputBody)
+        .then((value) {
+          _tatumGatewayModel = value!;
 
-      final data = _tatumGatewayModel.data.gatewayInfo.addressInfo.inputFields;
-      qrAddress.value = _tatumGatewayModel.data.gatewayInfo.addressInfo.address;
-      for (int item = 0; item < data.length; item++) {
-        // make the dynamic controller
-        var textEditingController = TextEditingController();
-        inputFieldControllers.add(textEditingController);
+          final data =
+              _tatumGatewayModel.data.gatewayInfo.addressInfo.inputFields;
+          qrAddress.value =
+              _tatumGatewayModel.data.gatewayInfo.addressInfo.address;
+          for (int item = 0; item < data.length; item++) {
+            // make the dynamic controller
+            final textEditingController = TextEditingController();
+            inputFieldControllers.add(textEditingController);
 
-        if (data[item].type.contains('text')) {
-          inputFields.add(
-            Column(
-              children: [
-                PrimaryInputWidget(
-                  controller: inputFieldControllers[item],
-                  label: data[item].label,
-                  hint: data[item].label,
-                  isValidator: data[item].required,
-                  inputFormatters: [
-                    LengthLimitingTextInputFormatter(
-                      int.parse(data[item].validation.max.toString()),
+            if (data[item].type.contains('text')) {
+              inputFields.add(
+                Column(
+                  children: [
+                    PrimaryInputWidget(
+                      controller: inputFieldControllers[item],
+                      label: data[item].label,
+                      hint: data[item].label,
+                      isValidator: data[item].required,
+                      inputFormatters: [
+                        LengthLimitingTextInputFormatter(
+                          int.parse(data[item].validation.max.toString()),
+                        ),
+                      ],
                     ),
+                    verticalSpace(Dimensions.heightSize),
                   ],
                 ),
-                verticalSpace(Dimensions.heightSize),
-              ],
-            ),
-          );
-        }
-      }
-      final paymentInfo = _tatumGatewayModel.data.paymentInfo;
-      enteredAmount = paymentInfo.requestAmount;
-      transferFeeAmount = paymentInfo.totalCharge;
-      totalCharge = paymentInfo.totalCharge;
-      youWillGet = paymentInfo.willGet;
-      payableAmount = paymentInfo.payableAmount;
-      gotoPreview();
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-    });
+              );
+            }
+          }
+          final paymentInfo = _tatumGatewayModel.data.paymentInfo;
+          enteredAmount = paymentInfo.requestAmount;
+          transferFeeAmount = paymentInfo.totalCharge;
+          totalCharge = paymentInfo.totalCharge;
+          youWillGet = paymentInfo.willGet;
+          payableAmount = paymentInfo.payableAmount;
+          gotoPreview();
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+        });
     _isInsertLoading.value = false;
     update();
     return _tatumGatewayModel;
@@ -1018,7 +1075,7 @@ class DepositController extends GetxController {
     _isTatumConfirmLoading.value = true;
     update();
 
-    Map<String, String> inputBody = {};
+    final Map<String, String> inputBody = {};
     final data = _tatumGatewayModel.data.gatewayInfo.addressInfo.inputFields;
 
     for (int i = 0; i < data.length; i += 1) {
@@ -1028,23 +1085,25 @@ class DepositController extends GetxController {
     }
 
     await ApiServices.tatumConfirmApiProcess(
-      body: inputBody,
-      url: _tatumGatewayModel.data.gatewayInfo.addressInfo.submitUrl,
-    ).then((value) {
-      _addMoneyConfirm = value!;
-      StatusScreen.show(
-        // ignore: use_build_context_synchronously
-        context: context,
-        subTitle: Strings.yourMoneyAddedSucces.tr,
-        onPressed: () {
-          Get.offAllNamed(Routes.bottomNavBarScreen);
-        },
-      );
+          body: inputBody,
+          url: _tatumGatewayModel.data.gatewayInfo.addressInfo.submitUrl,
+        )
+        .then((value) {
+          _addMoneyConfirm = value!;
+          StatusScreen.show(
+            // ignore: use_build_context_synchronously
+            context: context,
+            subTitle: Strings.yourMoneyAddedSucces.tr,
+            onPressed: () {
+              Get.offAllNamed(Routes.bottomNavBarScreen);
+            },
+          );
 
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-    });
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+        });
 
     _isTatumConfirmLoading.value = false;
     update();
@@ -1063,17 +1122,21 @@ class DepositController extends GetxController {
   }
 
   void updateExchangeRate() {
-    exchangeRate.value = gatewayRate.value /
+    exchangeRate.value =
+        gatewayRate.value /
         double.parse(selectMainWallet.value!.currency.rate.toString());
     updateLimit();
   }
 
   RxDouble getFee() {
     double value = fee.value * exchangeRate.value;
-    value = value +
-        (double.parse(amountTextController.text.isEmpty
-                ? '0.0'
-                : amountTextController.text) *
+    value =
+        value +
+        (double.parse(
+              amountTextController.text.isEmpty
+                  ? '0.0'
+                  : amountTextController.text,
+            ) *
             (percentCharge.value / 100));
 
     if (amountTextController.text.isEmpty) {
@@ -1095,7 +1158,7 @@ class DepositController extends GetxController {
   Future<AddMoneyPaystackInsertModel> addMoneyPayStackInsertProcess() async {
     _isInsertLoading.value = true;
     update();
-    Map<String, dynamic> inputBody = {
+    final Map<String, dynamic> inputBody = {
       'amount': amountTextController.text,
       'currency': selectedCurrencyAlias.value,
       'wallet_currency': selectMainWallet.value!.currency.code,
@@ -1103,18 +1166,19 @@ class DepositController extends GetxController {
 
     await ApiServices.addMoneyInsertPaystackPayApi(body: inputBody)
         .then((value) {
-      _payStackModel = value!;
-      final data = _payStackModel.data.paymentInformations;
-      enteredAmount = data.requestAmount;
-      transferFeeAmount = data.totalCharge;
-      totalCharge = data.totalCharge;
-      youWillGet = data.willGet;
-      payableAmount = data.payableAmount;
-      gotoPreview();
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-    });
+          _payStackModel = value!;
+          final data = _payStackModel.data.paymentInformations;
+          enteredAmount = data.requestAmount;
+          transferFeeAmount = data.totalCharge;
+          totalCharge = data.totalCharge;
+          youWillGet = data.willGet;
+          payableAmount = data.payableAmount;
+          gotoPreview();
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+        });
     _isInsertLoading.value = false;
     update();
     return _payStackModel;

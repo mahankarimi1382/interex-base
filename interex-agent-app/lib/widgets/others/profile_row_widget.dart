@@ -6,12 +6,13 @@ import 'package:qrpay/views/others/custom_image_widget.dart';
 import '../text_labels/title_heading3_widget.dart';
 
 class TileWidget extends StatelessWidget {
-  const TileWidget(
-      {super.key,
-      required this.icon,
-      required this.text,
-      required this.iconColor,
-      required this.textColor});
+  const TileWidget({
+    super.key,
+    required this.icon,
+    required this.text,
+    required this.iconColor,
+    required this.textColor,
+  });
 
   final String icon, text;
   final Color iconColor, textColor;
@@ -20,12 +21,7 @@ class TileWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        CustomImageWidget(
-          path: icon,
-          height: 24,
-          width: 24,
-          color: iconColor,
-        ),
+        CustomImageWidget(path: icon, height: 24, width: 24, color: iconColor),
         horizontalSpace(Dimensions.widthSize * 2),
         TitleHeading3Widget(
           text: text,

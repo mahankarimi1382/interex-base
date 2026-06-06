@@ -10,63 +10,67 @@ import '../../../widgets/bottom_navbar/transaction_history_widget.dart';
 import '../../../widgets/expended_item_widget.dart';
 
 class RequestMoneyLogScreen extends StatelessWidget {
-  RequestMoneyLogScreen({
-    super.key,
-  });
+  RequestMoneyLogScreen({super.key});
   final controller = Get.put(RequestMoneyLogsController());
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const AppBarWidget(text: Strings.requestMoneyLog),
-      body: Obx(
-        () {
-          return controller.isLoading
-              ? const CustomLoadingAPI()
-              : SizedBox(
-                  height: MediaQuery.of(context).size.height,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(
-                        height: Dimensions.heightSize * 1.5,
-                      ),
-                      Flexible(
-                        //height: MediaQuery.of(context).size.height,
-                        child: controller.requestMoneyInfoModel.data
-                                .transactions.isNotEmpty
-                            ? ListView.separated(
-                                physics: const BouncingScrollPhysics(),
-                                padding: EdgeInsets.symmetric(
-                                  horizontal: Dimensions.paddingSize * .3,
-                                ),
-                                separatorBuilder: (_, index) =>
-                                    verticalSpace(4),
-                                itemCount: controller.requestMoneyInfoModel.data
-                                    .transactions.length,
-                                itemBuilder: (_, i) {
-                                  return _mainListWidget(
-                                    i,
-                                    controller.requestMoneyInfoModel.data
-                                        .transactions,
-                                    context,
-                                  );
-                                },
-                              )
-                            : NoDataWidget(
-                                title: Strings.noTransaction.tr,
+      body: Obx(() {
+        return controller.isLoading
+            ? const CustomLoadingAPI()
+            : SizedBox(
+                height: MediaQuery.of(context).size.height,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(height: Dimensions.heightSize * 1.5),
+                    Flexible(
+                      //height: MediaQuery.of(context).size.height,
+                      child:
+                          controller
+                              .requestMoneyInfoModel
+                              .data
+                              .transactions
+                              .isNotEmpty
+                          ? ListView.separated(
+                              physics: const BouncingScrollPhysics(),
+                              padding: EdgeInsets.symmetric(
+                                horizontal: Dimensions.paddingSize * .3,
                               ),
-                      ),
-                    ],
-                  ),
-                );
-        },
-      ),
+                              separatorBuilder: (_, index) => verticalSpace(4),
+                              itemCount: controller
+                                  .requestMoneyInfoModel
+                                  .data
+                                  .transactions
+                                  .length,
+                              itemBuilder: (_, i) {
+                                return _mainListWidget(
+                                  i,
+                                  controller
+                                      .requestMoneyInfoModel
+                                      .data
+                                      .transactions,
+                                  context,
+                                );
+                              },
+                            )
+                          : NoDataWidget(title: Strings.noTransaction.tr),
+                    ),
+                  ],
+                ),
+              );
+      }),
     );
   }
 
-  GestureDetector _mainListWidget(int i, List<Transaction> data, BuildContext context) {
-    RxBool isExpansion = false.obs;
+  GestureDetector _mainListWidget(
+    int i,
+    List<Transaction> data,
+    BuildContext context,
+  ) {
+    final RxBool isExpansion = false.obs;
     return GestureDetector(
       onTap: () {
         isExpansion.value = !isExpansion.value;
@@ -89,7 +93,7 @@ class RequestMoneyLogScreen extends StatelessWidget {
               child: Container(
                 padding: EdgeInsets.all(Dimensions.paddingSize * .6),
                 decoration: BoxDecoration(
-                  color: CustomColor.primaryLightColor.withValues(alpha:0.9),
+                  color: CustomColor.primaryLightColor.withValues(alpha: 0.9),
                   borderRadius: BorderRadius.circular(Dimensions.radius),
                 ),
                 child: Column(
@@ -139,12 +143,12 @@ class RequestMoneyLogScreen extends StatelessWidget {
                           ),
                         ],
                       ),
-                    )
+                    ),
                   ],
                 ),
               ),
             ),
-          )
+          ),
         ],
       ),
     );
@@ -160,9 +164,7 @@ class RequestMoneyLogScreen extends StatelessWidget {
             margin: EdgeInsets.symmetric(
               horizontal: Dimensions.marginSizeHorizontal * 0.5,
             ),
-            child: const CustomLoadingAPI(
-              colors: CustomColor.whiteColor,
-            ),
+            child: const CustomLoadingAPI(colors: CustomColor.whiteColor),
           )
         : InkWell(
             onTap: onTap,

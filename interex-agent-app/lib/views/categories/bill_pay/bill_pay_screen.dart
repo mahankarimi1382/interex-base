@@ -3,7 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../set_up_pin/controller/set_up_pin_controller.dart';
 import '/backend/utils/custom_loading_api.dart';
 import '/controller/app_settings/app_settings_controller.dart';
 import '/utils/dimensions.dart';
@@ -28,6 +27,7 @@ import '../../../widgets/inputs/primary_text_input_widget.dart';
 import '../../../widgets/others/congratulation_widget.dart';
 import '../../../widgets/others/limit_information_widget.dart';
 import '../../../widgets/text_labels/custom_title_heading_widget.dart';
+import '../../set_up_pin/controller/set_up_pin_controller.dart';
 
 class BillPayScreen extends StatelessWidget {
   BillPayScreen({super.key});
@@ -40,9 +40,11 @@ class BillPayScreen extends StatelessWidget {
     return ResponsiveLayout(
       mobileScaffold: Scaffold(
         appBar: const AppBarWidget(text: Strings.billPay),
-        body: Obx(() => controller.isLoading
-            ? const CustomLoadingAPI()
-            : _bodyWidget(context)),
+        body: Obx(
+          () => controller.isLoading
+              ? const CustomLoadingAPI()
+              : _bodyWidget(context),
+        ),
       ),
     );
   }
@@ -50,23 +52,21 @@ class BillPayScreen extends StatelessWidget {
   RefreshIndicator _bodyWidget(BuildContext context) {
     return RefreshIndicator(
       onRefresh: () async {
-        controller.getBillPayInfoData();
+        await controller.getBillPayInfoData();
       },
       child: ListView(
         padding: EdgeInsets.symmetric(
           horizontal: Dimensions.marginSizeHorizontal,
         ),
-        children: [
-          _inputWidget(context),
-          _buttonWidget(context),
-        ],
+        children: [_inputWidget(context), _buttonWidget(context)],
       ),
     );
   }
 
   // Drop down input, bill number input ,and amount input
   Container _inputWidget(BuildContext context) {
-    int precision = controller.selectMainWallet.value!.currency.type == 'FIAT'
+    final int precision =
+        controller.selectMainWallet.value!.currency.type == 'FIAT'
         ? LocalStorage.getFiatPrecision()
         : LocalStorage.getCryptoPrecision();
     return Container(
@@ -79,7 +79,7 @@ class BillPayScreen extends StatelessWidget {
             style: CustomStyle.darkHeading4TextStyle.copyWith(
               fontWeight: FontWeight.w600,
               color: Get.isDarkMode
-                  ? CustomColor.primaryDarkTextColor.withValues(alpha:0.7)
+                  ? CustomColor.primaryDarkTextColor.withValues(alpha: 0.7)
                   : CustomColor.primaryTextColor,
             ),
           ),
@@ -159,21 +159,20 @@ class BillPayScreen extends StatelessWidget {
                   dropdownColor: CustomColor.primaryLightColor,
                   underline: Container(),
                   items: controller.walletsList
-                      .map<DropdownMenuItem<MainUserWallet>>(
-                    (value) {
-                      return DropdownMenuItem<MainUserWallet>(
-                        value: value,
-                        child: Text(
-                          value.currency.code,
-                          style: GoogleFonts.inter(
-                            color: CustomColor.whiteColor,
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.w500,
+                      .map<DropdownMenuItem<MainUserWallet>>((value) {
+                        return DropdownMenuItem<MainUserWallet>(
+                          value: value,
+                          child: Text(
+                            value.currency.code,
+                            style: GoogleFonts.inter(
+                              color: CustomColor.whiteColor,
+                              fontSize: 16.sp,
+                              fontWeight: FontWeight.w500,
+                            ),
                           ),
-                        ),
-                      );
-                    },
-                  ).toList(),
+                        );
+                      })
+                      .toList(),
                   onChanged: (MainUserWallet? value) {
                     controller.selectMainWallet.value = value!;
                     controller.isCrypto.value = value.currency.type == "CRYPTO";
@@ -185,11 +184,19 @@ class BillPayScreen extends StatelessWidget {
                     controller.getFee(rate: double.parse(value.currency.rate));
                     controller.exchangeRateUpdate();
                     controller.getAutomaticFee();
-                    controller.dailyLimit.value = controller
-                            .billPayInfoData.data.billPayCharge.dailyLimit *
+                    controller.dailyLimit.value =
+                        controller
+                            .billPayInfoData
+                            .data
+                            .billPayCharge
+                            .dailyLimit *
                         double.parse(value.currency.rate);
-                    controller.monthlyLimit.value = controller
-                            .billPayInfoData.data.billPayCharge.monthlyLimit *
+                    controller.monthlyLimit.value =
+                        controller
+                            .billPayInfoData
+                            .data
+                            .billPayCharge
+                            .monthlyLimit *
                         double.parse(value.currency.rate);
                   },
                 ),
@@ -197,41 +204,41 @@ class BillPayScreen extends StatelessWidget {
             ),
           ),
 
-          Obx(
-            () {
-              int cryptoPrecision = Get.find<AppSettingsController>()
-                  .appSettingsModel
-                  .data
-                  .appSettings
-                  .agent
-                  .basicSettings
-                  .cryptoPrecisionValue;
-              int fiatPrecision = Get.find<AppSettingsController>()
-                  .appSettingsModel
-                  .data
-                  .appSettings
-                  .agent
-                  .basicSettings
-                  .fiatPrecisionValue;
-              return controller.isAutomatic.value
-                  ? LimitWidget(
-                      fee:
-                          '${controller.automaticTotalFee.value.toStringAsFixed(controller.isCrypto.value ? cryptoPrecision : fiatPrecision)} ${controller.selectMainWallet.value!.currency.code}',
-                      limit:
-                          '${controller.automaticLimitMin.value.toStringAsFixed(controller.isCrypto.value ? cryptoPrecision : fiatPrecision)} - ${controller.automaticLimitMax.value.toStringAsFixed(controller.isCrypto.value ? cryptoPrecision : fiatPrecision)} ${controller.selectMainWallet.value!.currency.code}')
-                  : LimitWidget(
-                      fee:
-                          '${controller.totalFee.value.toStringAsFixed(controller.isCrypto.value ? cryptoPrecision : fiatPrecision)} ${controller.selectMainWallet.value!.currency.code}',
-                      limit:
-                          '${controller.manualLimitMin.value.toStringAsFixed(controller.isCrypto.value ? cryptoPrecision : fiatPrecision)} - ${controller.manualLimitMax.value.toStringAsFixed(controller.isCrypto.value ? cryptoPrecision : fiatPrecision)} ${controller.selectMainWallet.value!.currency.code}',
-                    );
-            },
-          ),
+          Obx(() {
+            final int cryptoPrecision = Get.find<AppSettingsController>()
+                .appSettingsModel
+                .data
+                .appSettings
+                .agent
+                .basicSettings
+                .cryptoPrecisionValue;
+            final int fiatPrecision = Get.find<AppSettingsController>()
+                .appSettingsModel
+                .data
+                .appSettings
+                .agent
+                .basicSettings
+                .fiatPrecisionValue;
+            return controller.isAutomatic.value
+                ? LimitWidget(
+                    fee:
+                        '${controller.automaticTotalFee.value.toStringAsFixed(controller.isCrypto.value ? cryptoPrecision : fiatPrecision)} ${controller.selectMainWallet.value!.currency.code}',
+                    limit:
+                        '${controller.automaticLimitMin.value.toStringAsFixed(controller.isCrypto.value ? cryptoPrecision : fiatPrecision)} - ${controller.automaticLimitMax.value.toStringAsFixed(controller.isCrypto.value ? cryptoPrecision : fiatPrecision)} ${controller.selectMainWallet.value!.currency.code}',
+                  )
+                : LimitWidget(
+                    fee:
+                        '${controller.totalFee.value.toStringAsFixed(controller.isCrypto.value ? cryptoPrecision : fiatPrecision)} ${controller.selectMainWallet.value!.currency.code}',
+                    limit:
+                        '${controller.manualLimitMin.value.toStringAsFixed(controller.isCrypto.value ? cryptoPrecision : fiatPrecision)} - ${controller.manualLimitMax.value.toStringAsFixed(controller.isCrypto.value ? cryptoPrecision : fiatPrecision)} ${controller.selectMainWallet.value!.currency.code}',
+                  );
+          }),
 
           LimitInformationWidget(
             showDailyLimit: controller.dailyLimit.value == 0.0 ? false : true,
-            showMonthlyLimit:
-                controller.monthlyLimit.value == 0.0 ? false : true,
+            showMonthlyLimit: controller.monthlyLimit.value == 0.0
+                ? false
+                : true,
             transactionLimit:
                 '${controller.limitMin.value.toStringAsFixed(precision)} - ${controller.limitMax.value.toStringAsFixed(precision)} ${controller.selectMainWallet.value!.currency.code}',
             dailyLimit:
@@ -250,44 +257,45 @@ class BillPayScreen extends StatelessWidget {
 
   Container _buttonWidget(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(
-        vertical: Dimensions.marginSizeVertical * 2,
-      ),
+      margin: EdgeInsets.symmetric(vertical: Dimensions.marginSizeVertical * 2),
       child: controller.isInsertLoading
           ? const CustomLoadingAPI()
           : PrimaryButton(
               title: Strings.payBill.tr,
               onPressed: () {
                 if (dashboardController.kycStatus.value == 1) {
-
-                  Get.find<SetUpPinController>().showPinDialog(context, onSuccess: (){
-
-                    controller.type.value =
-                    controller.getType(controller.billMethodselected.value)!;
-                    controller
-                        .billPayApiProcess(
-                        amount: controller.amountController.text,
-                        billNumber: controller.billNumberController.text,
-                        type: controller.type.value)
-                        .then(
-                          (value) => StatusScreen.show(
-                        // ignore: use_build_context_synchronously
-                        context: context,
-                        subTitle: Strings.yourBillPaySuccess.tr,
-                        onPressed: () {
-                          Get.offAllNamed(Routes.bottomNavBarScreen);
-                        },
-                      ),
-                    );
-                  });
-
+                  Get.find<SetUpPinController>().showPinDialog(
+                    context,
+                    onSuccess: () {
+                      controller.type.value = controller.getType(
+                        controller.billMethodselected.value,
+                      )!;
+                      controller
+                          .billPayApiProcess(
+                            amount: controller.amountController.text,
+                            billNumber: controller.billNumberController.text,
+                            type: controller.type.value,
+                          )
+                          .then(
+                            (value) => StatusScreen.show(
+                              // ignore: use_build_context_synchronously
+                              context: context,
+                              subTitle: Strings.yourBillPaySuccess.tr,
+                              onPressed: () {
+                                Get.offAllNamed(Routes.bottomNavBarScreen);
+                              },
+                            ),
+                          );
+                    },
+                  );
                 } else {
                   CustomSnackBar.error(Strings.pleaseSubmitYourInformation);
                   Future.delayed(const Duration(seconds: 2), () {
                     Get.toNamed(Routes.updateKycScreen);
                   });
                 }
-              }),
+              },
+            ),
     );
   }
 
@@ -300,7 +308,7 @@ class BillPayScreen extends StatelessWidget {
           style: CustomStyle.darkHeading4TextStyle.copyWith(
             fontWeight: FontWeight.w600,
             color: Get.isDarkMode
-                ? CustomColor.primaryDarkTextColor.withValues(alpha:0.7)
+                ? CustomColor.primaryDarkTextColor.withValues(alpha: 0.7)
                 : CustomColor.primaryTextColor,
           ),
         ),

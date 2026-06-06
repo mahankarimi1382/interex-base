@@ -28,9 +28,7 @@ class ProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return ResponsiveLayout(
       mobileScaffold: Scaffold(
-        appBar: AppBarWidget(
-          text: Strings.profile.tr,
-        ),
+        appBar: AppBarWidget(text: Strings.profile.tr),
         body: Obx(
           () => controller.isLoading
               ? const CustomLoadingAPI()
@@ -43,15 +41,12 @@ class ProfileScreen extends StatelessWidget {
   ListView _bodyWidget(BuildContext context) {
     return ListView(
       physics: const BouncingScrollPhysics(),
-      children: [
-        _userImageText(context),
-        _tileWidget(context),
-      ],
+      children: [_userImageText(context), _tileWidget(context)],
     );
   }
 
   Column _userImageText(BuildContext context) {
-    var data = controller.profileModel.data;
+    final data = controller.profileModel.data;
 
     final image =
         '${Get.find<AppSettingsController>().baseUrl.value}/${data.imagePath}/${data.user.image}';
@@ -83,10 +78,9 @@ class ProfileScreen extends StatelessWidget {
                 width: double.infinity,
                 fit: BoxFit.cover,
                 image: NetworkImage(
-                    data.imagePath.isNotEmpty ? image : defaultImage),
-                placeholder: AssetImage(
-                  Assets.clipart.user.path,
+                  data.imagePath.isNotEmpty ? image : defaultImage,
                 ),
+                placeholder: AssetImage(Assets.clipart.user.path),
                 imageErrorBuilder: (context, error, stackTrace) {
                   return Image.asset(
                     Assets.clipart.user.path,
@@ -112,7 +106,7 @@ class ProfileScreen extends StatelessWidget {
           color: Theme.of(context).primaryColor,
           fontSize: Dimensions.headingTextSize3,
         ),
-        verticalSpace(Dimensions.heightSize * 2)
+        verticalSpace(Dimensions.heightSize * 2),
       ],
     );
   }
@@ -128,13 +122,14 @@ class ProfileScreen extends StatelessWidget {
             width: MediaQuery.of(context).size.width * 0.75,
             padding: EdgeInsets.all(Dimensions.paddingSize * 0.4),
             decoration: BoxDecoration(
-                color: controller.myWallet.value
-                    ? Theme.of(context).primaryColor
-                    : CustomColor.primaryLightScaffoldBackgroundColor,
-                borderRadius: BorderRadius.only(
-                  topRight: Radius.circular(Dimensions.radius * 10),
-                  bottomRight: Radius.circular(Dimensions.radius * 10),
-                )),
+              color: controller.myWallet.value
+                  ? Theme.of(context).primaryColor
+                  : CustomColor.primaryLightScaffoldBackgroundColor,
+              borderRadius: BorderRadius.only(
+                topRight: Radius.circular(Dimensions.radius * 10),
+                bottomRight: Radius.circular(Dimensions.radius * 10),
+              ),
+            ),
             child: InkWell(
               onTap: (() {
                 controller.myWallet.value = true;
@@ -163,11 +158,12 @@ class ProfileScreen extends StatelessWidget {
         Container(
           padding: EdgeInsets.all(Dimensions.paddingSize * 0.4),
           decoration: BoxDecoration(
-              color: Theme.of(context).primaryColor,
-              borderRadius: BorderRadius.only(
-                topRight: Radius.circular(Dimensions.radius * 10),
-                bottomRight: Radius.circular(Dimensions.radius * 10),
-              )),
+            color: Theme.of(context).primaryColor,
+            borderRadius: BorderRadius.only(
+              topRight: Radius.circular(Dimensions.radius * 10),
+              bottomRight: Radius.circular(Dimensions.radius * 10),
+            ),
+          ),
           child: InkWell(
             onTap: (() {
               Get.toNamed(Routes.updateProfileScreen);
@@ -189,16 +185,16 @@ class ProfileScreen extends StatelessWidget {
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       border: Border.all(
-                        color: CustomColor.whiteColor.withValues(alpha:0.3),
+                        color: CustomColor.whiteColor.withValues(alpha: 0.3),
                         width: 2,
                       ),
                     ),
                     child: Icon(
                       Icons.arrow_forward,
-                      color: CustomColor.whiteColor.withValues(alpha:0.3),
+                      color: CustomColor.whiteColor.withValues(alpha: 0.3),
                       size: Dimensions.iconSizeDefault,
                     ),
-                  )
+                  ),
                 ],
               ),
             ),
@@ -211,11 +207,12 @@ class ProfileScreen extends StatelessWidget {
           width: MediaQuery.of(context).size.width * 0.75,
           padding: EdgeInsets.all(Dimensions.paddingSize * 0.4),
           decoration: BoxDecoration(
-              color: Colors.transparent,
-              borderRadius: BorderRadius.only(
-                topRight: Radius.circular(Dimensions.radius * 10),
-                bottomRight: Radius.circular(Dimensions.radius * 10),
-              )),
+            color: Colors.transparent,
+            borderRadius: BorderRadius.only(
+              topRight: Radius.circular(Dimensions.radius * 10),
+              bottomRight: Radius.circular(Dimensions.radius * 10),
+            ),
+          ),
           child: InkWell(
             onTap: (() {
               controller.updateKYCFrom.value = true;
@@ -246,11 +243,12 @@ class ProfileScreen extends StatelessWidget {
           width: MediaQuery.of(context).size.width * 0.75,
           padding: EdgeInsets.all(Dimensions.paddingSize * 0.4),
           decoration: BoxDecoration(
-              color: Colors.transparent,
-              borderRadius: BorderRadius.only(
-                topRight: Radius.circular(Dimensions.radius * 10),
-                bottomRight: Radius.circular(Dimensions.radius * 10),
-              )),
+            color: Colors.transparent,
+            borderRadius: BorderRadius.only(
+              topRight: Radius.circular(Dimensions.radius * 10),
+              bottomRight: Radius.circular(Dimensions.radius * 10),
+            ),
+          ),
           child: InkWell(
             onTap: (() {
               controller.fASecurity.value = true;
@@ -275,40 +273,44 @@ class ProfileScreen extends StatelessWidget {
           ),
         ),
 
-
         //!pin setup
-        !Get.find<DashBoardController>().pinVerification.value ? SizedBox.shrink(): Container(
-          width: MediaQuery.of(context).size.width * 0.75,
-          padding: EdgeInsets.all(Dimensions.paddingSize * 0.4),
-          decoration: BoxDecoration(
-              color: Colors.transparent,
-              borderRadius: BorderRadius.only(
-                topRight: Radius.circular(Dimensions.radius * 10),
-                bottomRight: Radius.circular(Dimensions.radius * 10),
-              )),
-          child: InkWell(
-            onTap: (() {
-              controller.pinSecurity.value = true;
-              Timer(const Duration(milliseconds: 10), () {
-                controller.pinSecurity.value = false;
-                Get.toNamed(Routes.pinSetupScreen);
-              });
-            }),
-            child: Padding(
-              padding: EdgeInsets.only(left: Dimensions.paddingSize * 1.3),
-              child: TileWidget(
-                iconColor: Get.isDarkMode
-                    ? CustomColor.whiteColor
-                    : CustomColor.blackColor,
-                textColor: Get.isDarkMode
-                    ? CustomColor.primaryDarkTextColor
-                    : CustomColor.primaryTextColor,
-                icon: Assets.icon.twoFa,
-                text: Strings.pinSetup,
+        !Get.find<DashBoardController>().pinVerification.value
+            ? const SizedBox.shrink()
+            : Container(
+                width: MediaQuery.of(context).size.width * 0.75,
+                padding: EdgeInsets.all(Dimensions.paddingSize * 0.4),
+                decoration: BoxDecoration(
+                  color: Colors.transparent,
+                  borderRadius: BorderRadius.only(
+                    topRight: Radius.circular(Dimensions.radius * 10),
+                    bottomRight: Radius.circular(Dimensions.radius * 10),
+                  ),
+                ),
+                child: InkWell(
+                  onTap: (() {
+                    controller.pinSecurity.value = true;
+                    Timer(const Duration(milliseconds: 10), () {
+                      controller.pinSecurity.value = false;
+                      Get.toNamed(Routes.pinSetupScreen);
+                    });
+                  }),
+                  child: Padding(
+                    padding: EdgeInsets.only(
+                      left: Dimensions.paddingSize * 1.3,
+                    ),
+                    child: TileWidget(
+                      iconColor: Get.isDarkMode
+                          ? CustomColor.whiteColor
+                          : CustomColor.blackColor,
+                      textColor: Get.isDarkMode
+                          ? CustomColor.primaryDarkTextColor
+                          : CustomColor.primaryTextColor,
+                      icon: Assets.icon.twoFa,
+                      text: Strings.pinSetup,
+                    ),
+                  ),
+                ),
               ),
-            ),
-          ),
-        ),
       ],
     );
   }

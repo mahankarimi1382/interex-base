@@ -19,12 +19,12 @@ class BillPaymentLogScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return ResponsiveLayout(
       mobileScaffold: Scaffold(
-        appBar: const AppBarWidget(
-          text: Strings.billPaymentLog,
+        appBar: const AppBarWidget(text: Strings.billPaymentLog),
+        body: Obx(
+          () => controller.isLoading
+              ? const CustomLoadingAPI()
+              : _bodyWidget(context),
         ),
-        body: Obx(() => controller.isLoading
-            ? const CustomLoadingAPI()
-            : _bodyWidget(context)),
       ),
     );
   }
@@ -39,7 +39,7 @@ class BillPaymentLogScreen extends StatelessWidget {
             itemCount:
                 controller.transactioData.data.transactions.billPay.length,
             itemBuilder: (context, index) {
-              var data =
+              final data =
                   controller.transactioData.data.transactions.billPay[index];
 
               return TransactionWidget(
@@ -50,7 +50,8 @@ class BillPaymentLogScreen extends StatelessWidget {
                 monthText: "${data.dateTime.month}/${data.dateTime.year}",
                 payableAmount: data.payable,
               );
-            })
+            },
+          )
         : const NoDataWidget();
   }
 }

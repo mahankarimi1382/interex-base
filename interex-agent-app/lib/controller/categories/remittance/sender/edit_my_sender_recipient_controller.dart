@@ -58,15 +58,17 @@ class MySenderEditRecipientController extends GetxController {
 
     update();
 
-    await MySenderRecipientApiServices.saveRecipientInfoAPi().then((value) {
-      _recipientInfoData = value!;
+    await MySenderRecipientApiServices.saveRecipientInfoAPi()
+        .then((value) {
+          _recipientInfoData = value!;
 
-      setValues(_recipientInfoData);
+          setValues(_recipientInfoData);
 
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-    });
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+        });
 
     _isLoading.value = false;
     update();
@@ -97,18 +99,19 @@ class MySenderEditRecipientController extends GetxController {
         numberCode.value = i.mobileCode;
         receiverCountrySelectedMethod.value = i.name;
         receiverCountry = i;
-        receiverCountryList.add(ReceiverCountry(
-          id: i.id,
-          country: i.country,
-          name: i.name,
-          code: i.code,
+        receiverCountryList.add(
+          ReceiverCountry(
+            id: i.id,
+            country: i.country,
+            name: i.name,
+            code: i.code,
 
-          symbol: i.symbol,
-          rate: i.rate,
-          status: i.status, mobileCode: i.mobileCode,
-
-
-        ));
+            symbol: i.symbol,
+            rate: i.rate,
+            status: i.status,
+            mobileCode: i.mobileCode,
+          ),
+        );
       }
     }
     debugPrint("Set Value in add recipient controller--------------");
@@ -166,7 +169,7 @@ class MySenderEditRecipientController extends GetxController {
     _isLoading.value = true;
     update();
 
-    Map<String, dynamic> inputBody = {
+    final Map<String, dynamic> inputBody = {
       'id': updateUserId.value,
       'transaction_type': transactionType.fieldName,
       'country': receiverCountry.id,
@@ -186,12 +189,13 @@ class MySenderEditRecipientController extends GetxController {
     // calling login api from api service
     await MySenderRecipientApiServices.myRecipientUpdateApi(body: inputBody)
         .then((value) {
-      _successDatya = value!;
-      _isLoading.value = false;
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-    });
+          _successDatya = value!;
+          _isLoading.value = false;
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+        });
 
     _isLoading.value = false;
     update();

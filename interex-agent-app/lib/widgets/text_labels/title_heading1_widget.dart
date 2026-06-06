@@ -35,28 +35,28 @@ class TitleHeading1Widget extends StatelessWidget {
       () => languageController.isLoading
           ? const Text('')
           : Opacity(
-        opacity: opacity,
-        child: Padding(
-          padding: padding,
-          child: Text(
-            languageController.getTranslation(text),
-            style: Get.isDarkMode
-                ? CustomStyle.darkHeading1TextStyle.copyWith(
-                    fontSize: fontSize,
-                    fontWeight: fontWeight,
-                    color: color,
-                  )
-                : CustomStyle.lightHeading1TextStyle.copyWith(
-                    fontSize: fontSize,
-                    fontWeight: fontWeight,
-                    color: color,
-                  ),
-            textAlign: textAlign,
-            overflow: textOverflow,
-            maxLines: maxLines,
-          ),
-        ),
-      ),
+              opacity: opacity,
+              child: Padding(
+                padding: padding,
+                child: Text(
+                  languageController.getTranslation(text),
+                  style: Get.isDarkMode
+                      ? CustomStyle.darkHeading1TextStyle.copyWith(
+                          fontSize: fontSize,
+                          fontWeight: fontWeight,
+                          color: color,
+                        )
+                      : CustomStyle.lightHeading1TextStyle.copyWith(
+                          fontSize: fontSize,
+                          fontWeight: fontWeight,
+                          color: color,
+                        ),
+                  textAlign: textAlign,
+                  overflow: textOverflow,
+                  maxLines: maxLines,
+                ),
+              ),
+            ),
     );
   }
 }

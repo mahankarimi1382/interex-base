@@ -15,18 +15,18 @@ mixin PaymentLinkApiServices {
   Future<PaymentLinkModel?> getPaymentLinkProcessApi() async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false).get(
-        ApiEndpoint.paymentLinkGetURL,
-        code: 200,
-      );
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).get(ApiEndpoint.paymentLinkGetURL);
       if (mapResponse != null) {
-        PaymentLinkModel result = PaymentLinkModel.fromJson(mapResponse);
+        final PaymentLinkModel result = PaymentLinkModel.fromJson(mapResponse);
 
         return result;
       }
     } catch (e) {
       log.e(
-          '🐞🐞🐞 err from  Get Payment Link process api service ==> $e 🐞🐞🐞');
+        '🐞🐞🐞 err from  Get Payment Link process api service ==> $e 🐞🐞🐞',
+      );
       CustomSnackBar.error('Something went Wrong! in Payment Link Model');
       return null;
     }
@@ -34,21 +34,25 @@ mixin PaymentLinkApiServices {
   }
 
   ///* post paymentLinkStore  without img process api
-  Future<PaymentLinkStoreModel?> paymentLinkStoreWithoutImageApi(
-      {required Map<String, dynamic> body}) async {
+  Future<PaymentLinkStoreModel?> paymentLinkStoreWithoutImageApi({
+    required Map<String, dynamic> body,
+  }) async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false)
-          .post(ApiEndpoint.paymentLinkStoreURL, body, code: 200);
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).post(ApiEndpoint.paymentLinkStoreURL, body, code: 200);
       if (mapResponse != null) {
-        PaymentLinkStoreModel result =
-            PaymentLinkStoreModel.fromJson(mapResponse);
+        final PaymentLinkStoreModel result = PaymentLinkStoreModel.fromJson(
+          mapResponse,
+        );
         CustomSnackBar.success(result.message.success.first.toString());
         return result;
       }
     } catch (e) {
       log.e(
-          'err from post PaymentLink Process without image Api service ==> $e');
+        'err from post PaymentLink Process without image Api service ==> $e',
+      );
       CustomSnackBar.error('Something went Wrong!');
       return null;
     }
@@ -56,19 +60,22 @@ mixin PaymentLinkApiServices {
   }
 
   ///* post  paymentLinkStore with img process api
-  Future<PaymentLinkStoreModel?> paymentLinkStoreWithImageApi(
-      {required Map<String, String> body, required dynamic filepath}) async {
+  Future<PaymentLinkStoreModel?> paymentLinkStoreWithImageApi({
+    required Map<String, String> body,
+    required dynamic filepath,
+  }) async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false).multipart(
-          ApiEndpoint.paymentLinkStoreURL, body, filepath, 'image',
-          code: 200);
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).multipart(ApiEndpoint.paymentLinkStoreURL, body, filepath, 'image');
 
       if (mapResponse != null) {
-        PaymentLinkStoreModel paymentLinkStoreModel =
+        final PaymentLinkStoreModel paymentLinkStoreModel =
             PaymentLinkStoreModel.fromJson(mapResponse);
         CustomSnackBar.success(
-            paymentLinkStoreModel.message.success.first.toString());
+          paymentLinkStoreModel.message.success.first.toString(),
+        );
         return paymentLinkStoreModel;
       }
     } catch (e) {
@@ -82,14 +89,18 @@ mixin PaymentLinkApiServices {
   ///******************************* payment log status update api ************************************///
 
   ///* post payment log status update api
-  Future<CommonSuccessModel?> updatePaymentLinkStatusApi(
-      {required Map<String, dynamic> body}) async {
+  Future<CommonSuccessModel?> updatePaymentLinkStatusApi({
+    required Map<String, dynamic> body,
+  }) async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false)
-          .post(ApiEndpoint.statusURL, body, code: 200);
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).post(ApiEndpoint.statusURL, body, code: 200);
       if (mapResponse != null) {
-        CommonSuccessModel result = CommonSuccessModel.fromJson(mapResponse);
+        final CommonSuccessModel result = CommonSuccessModel.fromJson(
+          mapResponse,
+        );
         CustomSnackBar.success(result.message.success.first.toString());
         return result;
       }
@@ -107,19 +118,20 @@ mixin PaymentLinkApiServices {
   Future<PaymentLinkEditModel?> getPaymentEditLinkProcessApi(int target) async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false).get(
-        "${ApiEndpoint.paymentLinkEditGetURL}$target",
-        code: 200,
-      );
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).get("${ApiEndpoint.paymentLinkEditGetURL}$target");
       if (mapResponse != null) {
-        PaymentLinkEditModel result =
-            PaymentLinkEditModel.fromJson(mapResponse);
+        final PaymentLinkEditModel result = PaymentLinkEditModel.fromJson(
+          mapResponse,
+        );
 
         return result;
       }
     } catch (e) {
       log.e(
-          '🐞🐞🐞 err from  Get Payment Link Edit process api service ==> $e 🐞🐞🐞');
+        '🐞🐞🐞 err from  Get Payment Link Edit process api service ==> $e 🐞🐞🐞',
+      );
       CustomSnackBar.error('Something went Wrong! in Payment Link Edit Model');
       return null;
     }
@@ -128,19 +140,22 @@ mixin PaymentLinkApiServices {
 
   ///* post  payment Link update with img process api
 
-  Future<PaymentLinkUpdateModel?> updatePaymentWithImageApi(
-      {required Map<String, String> body, required dynamic filepath}) async {
+  Future<PaymentLinkUpdateModel?> updatePaymentWithImageApi({
+    required Map<String, String> body,
+    required dynamic filepath,
+  }) async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false).multipart(
-          ApiEndpoint.paymentLinkUpdateURL, body, filepath, 'image',
-          code: 200);
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).multipart(ApiEndpoint.paymentLinkUpdateURL, body, filepath, 'image');
 
       if (mapResponse != null) {
-        PaymentLinkUpdateModel paymentLinkUpdateModel =
+        final PaymentLinkUpdateModel paymentLinkUpdateModel =
             PaymentLinkUpdateModel.fromJson(mapResponse);
         CustomSnackBar.success(
-            paymentLinkUpdateModel.message.success.first.toString());
+          paymentLinkUpdateModel.message.success.first.toString(),
+        );
         return paymentLinkUpdateModel;
       }
     } catch (e) {
@@ -152,15 +167,18 @@ mixin PaymentLinkApiServices {
   }
 
   ///* post payment Link update without image api
-  Future<PaymentLinkUpdateModel?> updatePaymentWithoutImageApi(
-      {required Map<String, dynamic> body}) async {
+  Future<PaymentLinkUpdateModel?> updatePaymentWithoutImageApi({
+    required Map<String, dynamic> body,
+  }) async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false)
-          .post(ApiEndpoint.paymentLinkUpdateURL, body, code: 200);
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).post(ApiEndpoint.paymentLinkUpdateURL, body, code: 200);
       if (mapResponse != null) {
-        PaymentLinkUpdateModel result =
-            PaymentLinkUpdateModel.fromJson(mapResponse);
+        final PaymentLinkUpdateModel result = PaymentLinkUpdateModel.fromJson(
+          mapResponse,
+        );
         CustomSnackBar.success(result.message.success.first.toString());
         return result;
       }

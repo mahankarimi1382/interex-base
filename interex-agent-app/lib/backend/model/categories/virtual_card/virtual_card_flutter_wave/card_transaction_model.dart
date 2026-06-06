@@ -7,10 +7,7 @@ String cardTransactionModelToJson(CardTransactionModel data) =>
     json.encode(data.toJson());
 
 class CardTransactionModel {
-  CardTransactionModel({
-    required this.message,
-    required this.data,
-  });
+  CardTransactionModel({required this.message, required this.data});
 
   final Message message;
   final Data data;
@@ -22,27 +19,27 @@ class CardTransactionModel {
       );
 
   Map<String, dynamic> toJson() => {
-        "message": message.toJson(),
-        "data": data.toJson(),
-      };
+    "message": message.toJson(),
+    "data": data.toJson(),
+  };
 }
 
 class Data {
-  Data({
-    required this.cardTransactions,
-  });
+  Data({required this.cardTransactions});
 
   final List<CardTransaction> cardTransactions;
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
-        cardTransactions: List<CardTransaction>.from(
-            json["cardTransactions"].map((x) => CardTransaction.fromJson(x))),
-      );
+    cardTransactions: List<CardTransaction>.from(
+      json["cardTransactions"].map((x) => CardTransaction.fromJson(x)),
+    ),
+  );
 
   Map<String, dynamic> toJson() => {
-        "cardTransactions":
-            List<dynamic>.from(cardTransactions.map((x) => x.toJson())),
-      };
+    "cardTransactions": List<dynamic>.from(
+      cardTransactions.map((x) => x.toJson()),
+    ),
+  };
 }
 
 class CardTransaction {
@@ -79,29 +76,26 @@ class CardTransaction {
       );
 
   Map<String, dynamic> toJson() => {
-        "trx": trx,
-        "amount": amount,
-        "payment_details": paymentDetails,
-        "reference": reference,
-        "gateway_reference": gatewayReference,
-        "response_message": responseMessage,
-        "status": status,
-        "date": date,
-      };
+    "trx": trx,
+    "amount": amount,
+    "payment_details": paymentDetails,
+    "reference": reference,
+    "gateway_reference": gatewayReference,
+    "response_message": responseMessage,
+    "status": status,
+    "date": date,
+  };
 }
 
 class Message {
-  Message({
-    required this.success,
-  });
+  Message({required this.success});
 
   final List<String> success;
 
-  factory Message.fromJson(Map<String, dynamic> json) => Message(
-        success: List<String>.from(json["success"].map((x) => x)),
-      );
+  factory Message.fromJson(Map<String, dynamic> json) =>
+      Message(success: List<String>.from(json["success"].map((x) => x)));
 
   Map<String, dynamic> toJson() => {
-        "success": List<dynamic>.from(success.map((x) => x)),
-      };
+    "success": List<dynamic>.from(success.map((x) => x)),
+  };
 }

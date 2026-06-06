@@ -107,7 +107,7 @@ class _SignInScreenState extends State<SignInScreen> {
     BuildContext context, {
     required Widget child,
   }) {
-    Radius borderRadius = const Radius.circular(20);
+    const Radius borderRadius = Radius.circular(20);
     return Container(
       margin: EdgeInsets.symmetric(
         horizontal: Dimensions.marginSizeHorizontal * 0.5,
@@ -116,7 +116,7 @@ class _SignInScreenState extends State<SignInScreen> {
         color: Get.isDarkMode
             ? CustomColor.primaryBGDarkColor
             : CustomColor.primaryBGLightColor,
-        borderRadius: BorderRadius.only(
+        borderRadius: const BorderRadius.only(
           topLeft: borderRadius,
           topRight: borderRadius,
         ),
@@ -125,7 +125,6 @@ class _SignInScreenState extends State<SignInScreen> {
             color: CustomColor.primaryLightColor.withValues(alpha: 0.015),
             spreadRadius: 7,
             blurRadius: 5,
-            offset: const Offset(0, 0),
           ),
         ],
       ),
@@ -220,7 +219,6 @@ class _SignInScreenState extends State<SignInScreen> {
                         controller.loginProcess();
                       }
                     },
-                    buttonTextColor: CustomColor.whiteColor,
                   ),
           ),
           verticalSpace(Dimensions.heightSize),
@@ -231,16 +229,15 @@ class _SignInScreenState extends State<SignInScreen> {
             child: PrimaryButton(
               title: Strings.signInWithTouchId.tr,
               onPressed: () async {
-                bool isAuthenticated =
+                final bool isAuthenticated =
                     await Authentication.authenticateWithBiometrics();
 
                 if (isAuthenticated) {
-                  Get.offAndToNamed(Routes.bottomNavBarScreen);
+                  await Get.offAndToNamed(Routes.bottomNavBarScreen);
                 } else {
                   debugPrint('isAuthenticated : false');
                 }
               },
-              buttonTextColor: CustomColor.whiteColor,
             ),
           ),
           verticalSpace(Dimensions.heightSize * 2.5),
@@ -290,7 +287,7 @@ class _SignInScreenState extends State<SignInScreen> {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         content: Builder(
           builder: (context) {
-            var width = MediaQuery.of(context).size.width;
+            final width = MediaQuery.of(context).size.width;
             return Stack(
               children: [
                 Container(
@@ -354,7 +351,6 @@ class _SignInScreenState extends State<SignInScreen> {
                                   },
                                 ),
                                 PhoneNumberInputWidget(
-                                  readOnly: false,
                                   countryCode: controller.selectedPhoneCode,
                                   controller:
                                       controller.phoneNumberForgotController,
@@ -433,7 +429,6 @@ class _SignInScreenState extends State<SignInScreen> {
                 },
               ),
               PhoneNumberInputWidget(
-                readOnly: false,
                 countryCode: controller.selectedPhoneCode,
                 controller: controller.phoneNumberController,
                 hint: Strings.enterPhone,

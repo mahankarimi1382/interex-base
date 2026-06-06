@@ -1,6 +1,7 @@
+import 'package:flutter/services.dart';
+
 import '../../language/language_controller.dart';
 import '../../utils/basic_screen_imports.dart';
-import 'package:flutter/services.dart';
 
 class PrimaryTextInputWidget extends StatelessWidget {
   final TextEditingController controller;
@@ -43,7 +44,6 @@ class PrimaryTextInputWidget extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
-          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             TitleHeading4Widget(text: labelText, fontWeight: FontWeight.w600),
             horizontalSpace(Dimensions.widthSize * 0.5),
@@ -70,17 +70,19 @@ class PrimaryTextInputWidget extends StatelessWidget {
           controller: controller,
           inputFormatters: inputFormatters,
           keyboardType: keyboardType,
-          validator: validator ?? (String? value) {
-            if (value!.isEmpty && maxLine == 1) {
-              return Get.find<LanguageController>().isLoading
-                  ? ""
-                  : Get.find<LanguageController>().getTranslation(
-                      Strings.pleaseFillOutTheField,
-                    );
-            } else {
-              return null;
-            }
-          },
+          validator:
+              validator ??
+              (String? value) {
+                if (value!.isEmpty && maxLine == 1) {
+                  return Get.find<LanguageController>().isLoading
+                      ? ""
+                      : Get.find<LanguageController>().getTranslation(
+                          Strings.pleaseFillOutTheField,
+                        );
+                } else {
+                  return null;
+                }
+              },
           onChanged: onChanged,
           decoration: InputDecoration(
             enabledBorder: OutlineInputBorder(
@@ -98,11 +100,11 @@ class PrimaryTextInputWidget extends StatelessWidget {
             ),
             errorBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(Dimensions.radius * 0.5),
-              borderSide: const BorderSide(color: Colors.red, width: 1),
+              borderSide: const BorderSide(color: Colors.red),
             ),
             focusedErrorBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(Dimensions.radius * 0.5),
-              borderSide: const BorderSide(color: Colors.red, width: 1),
+              borderSide: const BorderSide(color: Colors.red),
             ),
             filled: true,
             fillColor: color,

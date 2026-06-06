@@ -29,12 +29,6 @@ class ScanScreenState extends State<QRCodeScreen> {
   RxBool isVisible = true.obs;
   final moneyInController = Get.put(MoneyInController());
 
-  @override
-  void dispose() {
-    controller?.dispose();
-    super.dispose();
-  }
-
   // In order to get hot reload to work we need to pause the camera if the platform
   // is android, or resume the camera if the platform is iOS.
   @override
@@ -43,14 +37,13 @@ class ScanScreenState extends State<QRCodeScreen> {
     if (Platform.isAndroid) {
       await controller!.pauseCamera();
     } else if (Platform.isIOS) {
-      controller!.resumeCamera();
+      await controller!.resumeCamera();
     }
   }
 
   void readQr() async {
     if (barcode != null) {
-      controller!.pauseCamera();
-      controller!.dispose();
+      await controller!.pauseCamera();
     }
   }
 

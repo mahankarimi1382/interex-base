@@ -41,7 +41,7 @@ class SettingScreen extends StatelessWidget {
       child: Column(
         children: [
           !Get.find<DashBoardController>().pinVerification.value
-              ? SizedBox.shrink()
+              ? const SizedBox.shrink()
               : _inSetUpText(context),
           _changePasswordText(context),
           _changeLanguageWidget(context),
@@ -164,7 +164,7 @@ class SettingScreen extends StatelessWidget {
           height: Dimensions.heightSize * 1.8,
           child: Switch.adaptive(
             value: Themes().theme == ThemeMode.dark,
-            activeColor: CustomColor.primaryDarkColor,
+            activeThumbColor: CustomColor.primaryDarkColor,
             onChanged: (value) {
               Themes().switchTheme();
             },
@@ -219,7 +219,7 @@ class SettingScreen extends StatelessWidget {
           ),
           content: Builder(
             builder: (context) {
-              var width = MediaQuery.of(context).size.width;
+              final width = MediaQuery.of(context).size.width;
               return Container(
                 width: width * 0.84,
                 margin: EdgeInsets.all(Dimensions.paddingSize * 0.5),

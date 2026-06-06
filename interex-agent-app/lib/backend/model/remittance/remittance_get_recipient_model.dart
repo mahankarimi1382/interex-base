@@ -10,10 +10,7 @@ class RemittanceGetRecipientModel {
   Message message;
   Data data;
 
-  RemittanceGetRecipientModel({
-    required this.message,
-    required this.data,
-  });
+  RemittanceGetRecipientModel({required this.message, required this.data});
 
   factory RemittanceGetRecipientModel.fromJson(Map<String, dynamic> json) =>
       RemittanceGetRecipientModel(
@@ -22,26 +19,25 @@ class RemittanceGetRecipientModel {
       );
 
   Map<String, dynamic> toJson() => {
-        "message": message.toJson(),
-        "data": data.toJson(),
-      };
+    "message": message.toJson(),
+    "data": data.toJson(),
+  };
 }
 
 class Data {
   List<RecipientInfo> recipient;
 
-  Data({
-    required this.recipient,
-  });
+  Data({required this.recipient});
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
-        recipient: List<RecipientInfo>.from(
-            json["recipient"].map((x) => RecipientInfo.fromJson(x))),
-      );
+    recipient: List<RecipientInfo>.from(
+      json["recipient"].map((x) => RecipientInfo.fromJson(x)),
+    ),
+  );
 
   Map<String, dynamic> toJson() => {
-        "recipient": List<dynamic>.from(recipient.map((x) => x.toJson())),
-      };
+    "recipient": List<dynamic>.from(recipient.map((x) => x.toJson())),
+  };
 }
 
 class RecipientInfo {
@@ -82,56 +78,53 @@ class RecipientInfo {
   });
 
   factory RecipientInfo.fromJson(Map<String, dynamic> json) => RecipientInfo(
-        id: json["id"],
-        userId: json["user_id"],
-        country: json["country"],
-        type: json["type"],
-        alias: json["alias"],
-        firstname: json["firstname"],
-        lastname: json["lastname"],
-        mobileCode: json["mobile_code"],
-        mobile: json["mobile"],
-        city: json["city"],
-        state: json["state"],
-        address: json["address"],
-        zipCode: json["zip_code"],
-        details: json["details"],
-        createdAt: DateTime.parse(json["created_at"]),
-        updatedAt: DateTime.parse(json["updated_at"]),
-      );
+    id: json["id"],
+    userId: json["user_id"],
+    country: json["country"],
+    type: json["type"],
+    alias: json["alias"],
+    firstname: json["firstname"],
+    lastname: json["lastname"],
+    mobileCode: json["mobile_code"],
+    mobile: json["mobile"],
+    city: json["city"],
+    state: json["state"],
+    address: json["address"],
+    zipCode: json["zip_code"],
+    details: json["details"],
+    createdAt: DateTime.parse(json["created_at"]),
+    updatedAt: DateTime.parse(json["updated_at"]),
+  );
 
   Map<String, dynamic> toJson() => {
-        "id": id,
-        "user_id": userId,
-        "country": country,
-        "type": type,
-        "alias": alias,
-        "firstname": firstname,
-        "lastname": lastname,
-        "mobile_code": mobileCode,
-        "mobile": mobile,
-        "city": city,
-        "state": state,
-        "address": address,
-        "zip_code": zipCode,
-        "details": details,
-        "created_at": createdAt.toIso8601String(),
-        "updated_at": updatedAt.toIso8601String(),
-      };
+    "id": id,
+    "user_id": userId,
+    "country": country,
+    "type": type,
+    "alias": alias,
+    "firstname": firstname,
+    "lastname": lastname,
+    "mobile_code": mobileCode,
+    "mobile": mobile,
+    "city": city,
+    "state": state,
+    "address": address,
+    "zip_code": zipCode,
+    "details": details,
+    "created_at": createdAt.toIso8601String(),
+    "updated_at": updatedAt.toIso8601String(),
+  };
 }
 
 class Message {
   List<String> success;
 
-  Message({
-    required this.success,
-  });
+  Message({required this.success});
 
-  factory Message.fromJson(Map<String, dynamic> json) => Message(
-        success: List<String>.from(json["success"].map((x) => x)),
-      );
+  factory Message.fromJson(Map<String, dynamic> json) =>
+      Message(success: List<String>.from(json["success"].map((x) => x)));
 
   Map<String, dynamic> toJson() => {
-        "success": List<dynamic>.from(success.map((x) => x)),
-      };
+    "success": List<dynamic>.from(success.map((x) => x)),
+  };
 }

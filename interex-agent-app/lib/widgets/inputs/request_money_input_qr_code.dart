@@ -62,13 +62,9 @@ class _PrimaryInputWidgetState extends State<CopyRequestMoneyInputWidget> {
   @override
   Widget build(BuildContext context) {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        TitleHeading4Widget(
-          text: widget.label,
-          fontWeight: FontWeight.w600,
-        ),
+        TitleHeading4Widget(text: widget.label, fontWeight: FontWeight.w600),
         verticalSpace(7),
         TextFormField(
           validator: widget.isValidator == false
@@ -89,7 +85,10 @@ class _PrimaryInputWidgetState extends State<CopyRequestMoneyInputWidget> {
           },
           onFieldSubmitted: (value) {
             if (widget
-                .requestMoneyController.copyInputController.text.isNotEmpty) {
+                .requestMoneyController
+                .copyInputController
+                .text
+                .isNotEmpty) {
               widget.requestMoneyController.getCheckUserExist();
             }
             setState(() {
@@ -98,14 +97,17 @@ class _PrimaryInputWidgetState extends State<CopyRequestMoneyInputWidget> {
           },
           onTapOutside: (value) {
             if (widget
-                .requestMoneyController.copyInputController.text.isNotEmpty) {
+                .requestMoneyController
+                .copyInputController
+                .text
+                .isNotEmpty) {
               widget.requestMoneyController.getCheckUserExist();
             }
             setState(() {
               focusNode!.unfocus();
             });
           },
-                cursorColor: CustomColor.primaryLightColor,
+          cursorColor: CustomColor.primaryLightColor,
 
           focusNode: focusNode,
           textAlign: TextAlign.left,
@@ -119,19 +121,21 @@ class _PrimaryInputWidgetState extends State<CopyRequestMoneyInputWidget> {
               fontSize: Dimensions.headingTextSize3,
               fontWeight: FontWeight.w500,
               color: Get.isDarkMode
-                  ? CustomColor.primaryDarkTextColor.withValues(alpha:0.2)
-                  : CustomColor.primaryTextColor.withValues(alpha:0.2),
+                  ? CustomColor.primaryDarkTextColor.withValues(alpha: 0.2)
+                  : CustomColor.primaryTextColor.withValues(alpha: 0.2),
             ),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(Dimensions.radius * 0.5),
               borderSide: BorderSide(
-                color: Theme.of(context).primaryColor.withValues(alpha:0.2),
+                color: Theme.of(context).primaryColor.withValues(alpha: 0.2),
               ),
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(Dimensions.radius * 0.5),
-              borderSide:
-                  BorderSide(width: 2, color: Theme.of(context).primaryColor),
+              borderSide: BorderSide(
+                width: 2,
+                color: Theme.of(context).primaryColor,
+              ),
             ),
             errorBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(Dimensions.radius * 0.5),
@@ -145,15 +149,17 @@ class _PrimaryInputWidgetState extends State<CopyRequestMoneyInputWidget> {
               horizontal: Dimensions.widthSize * 1.7,
               vertical: Dimensions.heightSize,
             ),
-            
+
             suffixIcon: GestureDetector(
               onTap: widget.onTap,
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: CircleAvatar(
                   backgroundColor: Theme.of(context).primaryColor,
-                  child: SvgPicture.asset(widget.suffixIcon,
-                      color: widget.suffixColor),
+                  child: SvgPicture.asset(
+                    widget.suffixIcon,
+                    color: widget.suffixColor,
+                  ),
                 ),
               ),
             ),

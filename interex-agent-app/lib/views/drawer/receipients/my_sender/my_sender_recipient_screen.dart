@@ -22,18 +22,13 @@ class MySenderRecipientScreen extends StatelessWidget {
     return ResponsiveLayout(
       mobileScaffold: Scaffold(
         floatingActionButton: FloatingActionButton(
-            backgroundColor: Theme.of(context).primaryColor,
-            child: const Icon(
-              Icons.add,
-              color: CustomColor.whiteColor,
-              size: 30,
-            ),
-            onPressed: () {
-              Get.toNamed(Routes.addMySenderRecipientScreen);
-            }),
-        appBar: const AppBarWidget(
-          text: Strings.mySenders,
+          backgroundColor: Theme.of(context).primaryColor,
+          child: const Icon(Icons.add, color: CustomColor.whiteColor, size: 30),
+          onPressed: () {
+            Get.toNamed(Routes.addMySenderRecipientScreen);
+          },
         ),
+        appBar: const AppBarWidget(text: Strings.mySenders),
         body: Obx(
           () => controller.isLoading
               ? const CustomLoadingAPI()
@@ -56,11 +51,12 @@ class MySenderRecipientScreen extends StatelessWidget {
           )
         : ListView.builder(
             physics: const BouncingScrollPhysics(),
-            padding:
-                EdgeInsets.symmetric(horizontal: Dimensions.paddingSize * 0.76),
+            padding: EdgeInsets.symmetric(
+              horizontal: Dimensions.paddingSize * 0.76,
+            ),
             itemCount: controller.allRecepientData.data.senderRecipients.length,
             itemBuilder: (context, index) {
-              var data =
+              final data =
                   controller.allRecepientData.data.senderRecipients[index].obs;
               return SaveRecipientWidget(
                 title: "${data.value.firstname} ${data.value.lastname}",
@@ -75,11 +71,13 @@ class MySenderRecipientScreen extends StatelessWidget {
                   } else if (value == "Edit Recipient") {
                     Navigator.pop(context);
                     controller.recipientEditApiProcess(
-                        id: data.value.id.toString());
+                      id: data.value.id.toString(),
+                    );
                   } else if (value == "Send") {
                   } else {}
                 },
               );
-            });
+            },
+          );
   }
 }

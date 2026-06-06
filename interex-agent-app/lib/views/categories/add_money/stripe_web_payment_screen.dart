@@ -17,13 +17,11 @@ class StripeWebPaymentScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PopScope(
-      canPop: true,
       onPopInvokedWithResult: (isTrue, value) {
         Get.offAllNamed(Routes.bottomNavBarScreen);
       },
       child: Scaffold(
         appBar: AppBarWidget(
-          homeButtonShow: false,
           // text: Strings.stripePayment.tr,
           text: "Stripe Payment",
           onTapLeading: () {
@@ -41,16 +39,16 @@ class StripeWebPaymentScreen extends StatelessWidget {
 
   InAppWebView _bodyWidget(BuildContext context) {
     final data = controller.addMoneyInsertStripeModel.data;
-    var paymentUrl = data.url;
+    final paymentUrl = data.url;
 
     return InAppWebView(
-      initialUrlRequest: URLRequest(url:WebUri(paymentUrl)),
+      initialUrlRequest: URLRequest(url: WebUri(paymentUrl)),
       onWebViewCreated: (InAppWebViewController controller) {},
       onProgressChanged: (InAppWebViewController controller, int progress) {},
       onLoadStop: (controller, url) {
         if (url.toString().contains('stripe/payment/success/')) {
           StatusScreen.show(
-            context: context,     
+            context: context,
             subTitle: Strings.yourMoneyAddedSucces.tr,
             onPressed: () {
               Get.offAllNamed(Routes.bottomNavBarScreen);

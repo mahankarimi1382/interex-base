@@ -48,8 +48,11 @@ class CardPreviewWidget extends StatelessWidget {
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16),
-        gradient: LinearGradient(
-          colors: [CustomColor.secondaryDarkColor, CustomColor.primaryLightColor],
+        gradient: const LinearGradient(
+          colors: [
+            CustomColor.secondaryDarkColor,
+            CustomColor.primaryLightColor,
+          ],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
@@ -59,9 +62,10 @@ class CardPreviewWidget extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-           TitleHeading3Widget(
+          const TitleHeading3Widget(
             text: Strings.cardNumber,
-          color: Colors.white70, fontSize: 12
+            color: Colors.white70,
+            fontSize: 12,
           ),
           Text(
             cardNumber.isEmpty ? "0000 0000 0000 0000" : cardNumber,
@@ -78,10 +82,10 @@ class CardPreviewWidget extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  TitleHeading3Widget(
-                      text: Strings.expiry,
-                      color: Colors.white70,
-                      fontSize: 12
+                  const TitleHeading3Widget(
+                    text: Strings.expiry,
+                    color: Colors.white70,
+                    fontSize: 12,
                   ),
                   Text(
                     expiryDate.isEmpty ? "YY/MM" : expiryDate,
@@ -116,8 +120,11 @@ class CardPreviewWidget extends StatelessWidget {
           padding: const EdgeInsets.all(20),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(16),
-            gradient: LinearGradient(
-              colors: [CustomColor.secondaryLightColor, CustomColor.primaryLightColor],
+            gradient: const LinearGradient(
+              colors: [
+                CustomColor.secondaryLightColor,
+                CustomColor.primaryLightColor,
+              ],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),

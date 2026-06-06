@@ -42,10 +42,9 @@ class DashboardScreen extends StatelessWidget {
     return RefreshIndicator(
       color: CustomColor.primaryLightColor,
       triggerMode: RefreshIndicatorTriggerMode.anywhere,
-      strokeWidth: 2.5,
       onRefresh: () async {
-        controller.getDashboardData();
-        controller.walletController.getWalletsInfoProcess();
+        await controller.getDashboardData();
+        await controller.walletController.getWalletsInfoProcess();
         return Future<void>.delayed(const Duration(seconds: 3));
       },
       child: Stack(
@@ -63,7 +62,7 @@ class DashboardScreen extends StatelessWidget {
               _categoriesWidget(context),
             ],
           ),
-          _draggableSheet(context)
+          _draggableSheet(context),
         ],
       ),
     );
@@ -103,11 +102,9 @@ class DashboardScreen extends StatelessWidget {
       child: GridView.count(
         padding: const EdgeInsets.only(),
         physics: const NeverScrollableScrollPhysics(),
-        scrollDirection: Axis.vertical,
         crossAxisCount: 4,
         crossAxisSpacing: 2.0,
         mainAxisSpacing: 10.0,
-        childAspectRatio: 1,
         shrinkWrap: true,
         children: List.generate(
           controller.categoriesData.length,
@@ -116,7 +113,8 @@ class DashboardScreen extends StatelessWidget {
               // Get.find<SetUpPinController>().showPinDialog(context, onSuccess: (){});
 
               Get.find<SetUpPinController>().pinVerificationCheck(
-                  onChecked: controller.categoriesData[index].onTap);
+                onChecked: controller.categoriesData[index].onTap,
+              );
             },
             icon: controller.categoriesData[index].icon,
             text: controller.categoriesData[index].text,
@@ -126,8 +124,11 @@ class DashboardScreen extends StatelessWidget {
     );
   }
 
-  Widget _transactionWidget(BuildContext context, ScrollController scrollController) {
-    var data = controller.dashBoardModel.data.transactions;
+  Widget _transactionWidget(
+    BuildContext context,
+    ScrollController scrollController,
+  ) {
+    final data = controller.dashBoardModel.data.transactions;
     return data.isEmpty
         ? const LottieAnimation().paddingOnly(
             bottom: Dimensions.marginSizeVertical * 2.5,
@@ -156,36 +157,40 @@ class DashboardScreen extends StatelessWidget {
               SizedBox(
                 height: MediaQuery.of(context).size.height * .6,
                 child: ListView.builder(
-                    controller: scrollController,
-                    shrinkWrap: true,
-                    physics: const AlwaysScrollableScrollPhysics(),
-                    itemCount: data.length,
-                    itemBuilder: (context, index) {
-                      return TransactionWidget(
-                        amount: data[index].requestAmount,
-                        status: data[index].status,
-                        title: data[index].transactionType,
-                        dateText: DateFormat.d().format(data[index].dateTime),
-                        transaction: data[index].trx,
-                        monthText:
-                            DateFormat.MMMM().format(data[index].dateTime),
-                        payableAmount: data[index].payable,
-                      );
-                    }),
-              )
+                  controller: scrollController,
+                  shrinkWrap: true,
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  itemCount: data.length,
+                  itemBuilder: (context, index) {
+                    return TransactionWidget(
+                      amount: data[index].requestAmount,
+                      status: data[index].status,
+                      title: data[index].transactionType,
+                      dateText: DateFormat.d().format(data[index].dateTime),
+                      transaction: data[index].trx,
+                      monthText: DateFormat.MMMM().format(data[index].dateTime),
+                      payableAmount: data[index].payable,
+                    );
+                  },
+                ),
+              ),
             ],
           ).customGlassWidget();
   }
 
   Column _walletsWidget(BuildContext context) {
-    var wallets = controller.walletController.walletsInfoModel.data.userWallets
+    final wallets = controller
+        .walletController
+        .walletsInfoModel
+        .data
+        .userWallets
         .where(
           (e) =>
               e.currency.type ==
               (controller.switchCurrency.value == 0 ? 'FIAT' : 'CRYPTO'),
         )
         .toList();
-    int precision = controller.switchCurrency.value == 0
+    final int precision = controller.switchCurrency.value == 0
         ? LocalStorage.getFiatPrecision()
         : LocalStorage.getCryptoPrecision();
     return Column(
@@ -195,11 +200,7 @@ class DashboardScreen extends StatelessWidget {
           padding: EdgeInsets.symmetric(
             horizontal: Dimensions.marginSizeHorizontal * 0.9,
           ),
-          child: Column(
-            children: [
-              _currencySwitchWidget(context),
-            ],
-          ),
+          child: Column(children: [_currencySwitchWidget(context)]),
         ),
         verticalSpace(Dimensions.heightSize * 0.8),
         SizedBox(
@@ -247,11 +248,12 @@ class DashboardScreen extends StatelessWidget {
                         Row(
                           children: [
                             TitleHeading3Widget(
-                              text: wallets[index]
-                                  .balance
-                                  .toStringAsFixed(precision),
-                              color:
-                                  Get.isDarkMode ? Colors.white : Colors.black,
+                              text: wallets[index].balance.toStringAsFixed(
+                                precision,
+                              ),
+                              color: Get.isDarkMode
+                                  ? Colors.white
+                                  : Colors.black,
                             ),
                             horizontalSpace(Dimensions.widthSize * 0.5),
                             TitleHeading3Widget(
@@ -283,13 +285,14 @@ class DashboardScreen extends StatelessWidget {
           child: Chip(
             backgroundColor: controller.switchCurrency.value == 0
                 ? Get.isDarkMode
-                    ? CustomColor.primaryBGDarkColor
-                    : CustomColor.whiteColor
+                      ? CustomColor.primaryBGDarkColor
+                      : CustomColor.whiteColor
                 : Theme.of(context).scaffoldBackgroundColor,
             side: BorderSide(
-                color: controller.switchCurrency.value == 0
-                    ? Colors.transparent
-                    : Colors.grey.withValues(alpha: 0.2)),
+              color: controller.switchCurrency.value == 0
+                  ? Colors.transparent
+                  : Colors.grey.withValues(alpha: 0.2),
+            ),
             label: const TitleHeading4Widget(
               text: Strings.fiatCurrency,
               fontWeight: FontWeight.w500,
@@ -307,13 +310,14 @@ class DashboardScreen extends StatelessWidget {
           child: Chip(
             backgroundColor: controller.switchCurrency.value == 1
                 ? Get.isDarkMode
-                    ? CustomColor.primaryBGDarkColor
-                    : CustomColor.whiteColor
+                      ? CustomColor.primaryBGDarkColor
+                      : CustomColor.whiteColor
                 : Theme.of(context).scaffoldBackgroundColor,
             side: BorderSide(
-                color: controller.switchCurrency.value == 1
-                    ? Colors.transparent
-                    : Colors.grey.withValues(alpha: 0.2)),
+              color: controller.switchCurrency.value == 1
+                  ? Colors.transparent
+                  : Colors.grey.withValues(alpha: 0.2),
+            ),
             label: const TitleHeading4Widget(
               text: Strings.cryptoCurrency,
               fontWeight: FontWeight.w500,

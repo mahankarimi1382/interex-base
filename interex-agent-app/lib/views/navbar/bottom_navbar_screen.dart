@@ -16,7 +16,7 @@ import '../../widgets/drawer/drawer_widget.dart';
 import '../../widgets/text_labels/title_heading4_widget.dart';
 
 class BottomNavBarScreen extends StatelessWidget {
-  final bottomNavBarController = Get.put(NavbarController(), permanent: false);
+  final bottomNavBarController = Get.put(NavbarController());
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey();
 
   BottomNavBarScreen({super.key});
@@ -30,8 +30,10 @@ class BottomNavBarScreen extends StatelessWidget {
         appBar: appBarWidget(context),
         extendBody: true,
         backgroundColor: Theme.of(context).primaryColor,
-        bottomNavigationBar:
-            buildBottomNavigationMenu(context, bottomNavBarController),
+        bottomNavigationBar: buildBottomNavigationMenu(
+          context,
+          bottomNavBarController,
+        ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         body: bottomNavBarController
             .page[bottomNavBarController.selectedIndex.value],
@@ -92,10 +94,9 @@ class BottomNavBarScreen extends StatelessWidget {
         bottomNavBarController.selectedIndex.value == 0
             ? Padding(
                 padding: EdgeInsets.symmetric(
-                    horizontal: Dimensions.marginSizeHorizontal * 0.6,
-                    vertical: Dimensions.marginSizeHorizontal * 0.36,
-                    
-                    ),
+                  horizontal: Dimensions.marginSizeHorizontal * 0.6,
+                  vertical: Dimensions.marginSizeHorizontal * 0.36,
+                ),
                 child: GestureDetector(
                   onTap: () {
                     Get.toNamed(Routes.profileScreen);

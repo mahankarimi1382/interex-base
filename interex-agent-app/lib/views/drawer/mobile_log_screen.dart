@@ -19,12 +19,12 @@ class MobileLogScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return ResponsiveLayout(
       mobileScaffold: Scaffold(
-        appBar: const AppBarWidget(
-          text: Strings.mobileTopUpLog,
+        appBar: const AppBarWidget(text: Strings.mobileTopUpLog),
+        body: Obx(
+          () => controller.isLoading
+              ? const CustomLoadingAPI()
+              : _bodyWidget(context),
         ),
-        body: Obx(() => controller.isLoading
-            ? const CustomLoadingAPI()
-            : _bodyWidget(context)),
       ),
     );
   }
@@ -39,8 +39,11 @@ class MobileLogScreen extends StatelessWidget {
             itemCount:
                 controller.transactioData.data.transactions.mobileTopUp.length,
             itemBuilder: (context, index) {
-              var data = controller
-                  .transactioData.data.transactions.mobileTopUp[index];
+              final data = controller
+                  .transactioData
+                  .data
+                  .transactions
+                  .mobileTopUp[index];
 
               return TransactionWidget(
                 amount: data.requestAmount,
@@ -50,7 +53,8 @@ class MobileLogScreen extends StatelessWidget {
                 monthText: "${data.dateTime.month}/${data.dateTime.year}",
                 payableAmount: data.payable,
               );
-            })
+            },
+          )
         : const NoDataWidget();
   }
 }

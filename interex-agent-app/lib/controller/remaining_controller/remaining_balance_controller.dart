@@ -19,8 +19,7 @@ class RemaingBalanceController extends GetxController {
   //   getRemainingBalanceProcess();
   //   super.onInit();
   // }
- 
- 
+
   final _isLoading = false.obs;
   bool get isLoading => _isLoading.value;
   late RemainingBalanceModel _remainingBalanceModel;
@@ -31,27 +30,31 @@ class RemaingBalanceController extends GetxController {
     update();
 
     await ApiServices.remainingBalanceAPi(
-            transactionType.value,
-            attribute.value,
-            senderAmount.value,
-            senderCurrency.value,
-            cardId.value)      
+          transactionType.value,
+          attribute.value,
+          senderAmount.value,
+          senderCurrency.value,
+          cardId.value,
+        )
         .then((value) {
-      _remainingBalanceModel = value!;
+          _remainingBalanceModel = value!;
 
-      remainingDailyLimit.value =
-          double.parse(_remainingBalanceModel.data.remainingDaily.toString());
+          remainingDailyLimit.value = double.parse(
+            _remainingBalanceModel.data.remainingDaily.toString(),
+          );
 
-      senderCurrency.value = _remainingBalanceModel.data.currency;
-      remainingMonthLyLimit.value =
-          double.parse(_remainingBalanceModel.data.remainingMonthly.toString());
+          senderCurrency.value = _remainingBalanceModel.data.currency;
+          remainingMonthLyLimit.value = double.parse(
+            _remainingBalanceModel.data.remainingMonthly.toString(),
+          );
 
-      _isLoading.value = false;
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-      _isLoading.value = false;
-    });
+          _isLoading.value = false;
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+          _isLoading.value = false;
+        });
     _isLoading.value = false;
     update();
     return _remainingBalanceModel;

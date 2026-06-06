@@ -1,21 +1,18 @@
 import 'dart:convert';
 
 RemittanceSenderRecipientModel remittanceSenderRecipientModelFromJson(
-        String str) =>
-    RemittanceSenderRecipientModel.fromJson(json.decode(str));
+  String str,
+) => RemittanceSenderRecipientModel.fromJson(json.decode(str));
 
 String remittanceSenderRecipientModelToJson(
-        RemittanceSenderRecipientModel data) =>
-    json.encode(data.toJson());
+  RemittanceSenderRecipientModel data,
+) => json.encode(data.toJson());
 
 class RemittanceSenderRecipientModel {
   final Message message;
   final Data data;
 
-  RemittanceSenderRecipientModel({
-    required this.message,
-    required this.data,
-  });
+  RemittanceSenderRecipientModel({required this.message, required this.data});
 
   factory RemittanceSenderRecipientModel.fromJson(Map<String, dynamic> json) =>
       RemittanceSenderRecipientModel(
@@ -24,27 +21,27 @@ class RemittanceSenderRecipientModel {
       );
 
   Map<String, dynamic> toJson() => {
-        "message": message.toJson(),
-        "data": data.toJson(),
-      };
+    "message": message.toJson(),
+    "data": data.toJson(),
+  };
 }
 
 class Data {
   final List<SenderRecipient> senderRecipient;
 
-  Data({
-    required this.senderRecipient,
-  });
+  Data({required this.senderRecipient});
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
-        senderRecipient: List<SenderRecipient>.from(
-            json["sender_recipient"].map((x) => SenderRecipient.fromJson(x))),
-      );
+    senderRecipient: List<SenderRecipient>.from(
+      json["sender_recipient"].map((x) => SenderRecipient.fromJson(x)),
+    ),
+  );
 
   Map<String, dynamic> toJson() => {
-        "sender_recipient":
-            List<dynamic>.from(senderRecipient.map((x) => x.toJson())),
-      };
+    "sender_recipient": List<dynamic>.from(
+      senderRecipient.map((x) => x.toJson()),
+    ),
+  };
 }
 
 class SenderRecipient {
@@ -111,39 +108,36 @@ class SenderRecipient {
       );
 
   Map<String, dynamic> toJson() => {
-        "id": id,
-        "country": country,
-        "country_name": countryName,
-        "trx_type": trxType,
-        "recipient_type": recipientType,
-        "trx_type_name": trxTypeName,
-        "alias": alias,
-        "firstname": firstname,
-        "lastname": lastname,
-        "email": email,
-        "mobile_code": mobileCode,
-        "mobile": mobile,
-        "city": city,
-        "state": state,
-        "address": address,
-        "zip_code": zipCode,
-        "created_at": createdAt.toIso8601String(),
-        "updated_at": updatedAt.toIso8601String(),
-      };
+    "id": id,
+    "country": country,
+    "country_name": countryName,
+    "trx_type": trxType,
+    "recipient_type": recipientType,
+    "trx_type_name": trxTypeName,
+    "alias": alias,
+    "firstname": firstname,
+    "lastname": lastname,
+    "email": email,
+    "mobile_code": mobileCode,
+    "mobile": mobile,
+    "city": city,
+    "state": state,
+    "address": address,
+    "zip_code": zipCode,
+    "created_at": createdAt.toIso8601String(),
+    "updated_at": updatedAt.toIso8601String(),
+  };
 }
 
 class Message {
   final List<String> success;
 
-  Message({
-    required this.success,
-  });
+  Message({required this.success});
 
-  factory Message.fromJson(Map<String, dynamic> json) => Message(
-        success: List<String>.from(json["success"].map((x) => x)),
-      );
+  factory Message.fromJson(Map<String, dynamic> json) =>
+      Message(success: List<String>.from(json["success"].map((x) => x)));
 
   Map<String, dynamic> toJson() => {
-        "success": List<dynamic>.from(success.map((x) => x)),
-      };
+    "success": List<dynamic>.from(success.map((x) => x)),
+  };
 }

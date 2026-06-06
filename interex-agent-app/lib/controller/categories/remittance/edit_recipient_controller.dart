@@ -55,15 +55,17 @@ class EditRecipientController extends GetxController {
     _isLoading.value = true;
     update();
 
-    await ApiServices.saveRecipientInfoAPi().then((value) {
-      _recipientInfoData = value!;
+    await ApiServices.saveRecipientInfoAPi()
+        .then((value) {
+          _recipientInfoData = value!;
 
-      setValues(_recipientInfoData);
+          setValues(_recipientInfoData);
 
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-    });
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+        });
 
     _isLoading.value = false;
     update();
@@ -154,7 +156,7 @@ class EditRecipientController extends GetxController {
     _isLoading.value = true;
     update();
 
-    Map<String, dynamic> inputBody = {
+    final Map<String, dynamic> inputBody = {
       'id': updateUserId.value,
       'transaction_type': transactionType.fieldName,
       'country': receiverCountry.id,
@@ -172,13 +174,15 @@ class EditRecipientController extends GetxController {
       'account_number': accountNumberController.text,
     };
     // calling login api from api service
-    await ApiServices.myRecipientUpdateApi(body: inputBody).then((value) {
-      _successDatya = value!;
-      _isLoading.value = false;
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-    });
+    await ApiServices.myRecipientUpdateApi(body: inputBody)
+        .then((value) {
+          _successDatya = value!;
+          _isLoading.value = false;
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+        });
 
     _isLoading.value = false;
     update();

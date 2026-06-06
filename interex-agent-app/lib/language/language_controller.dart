@@ -160,23 +160,21 @@ class LanguageController extends GetxController {
     final box = GetStorage();
     box.write(selectedLanguageKey, newLanguage);
     LocalStorage.saveRtl(
-        type: languageDirection == TextDirection.rtl ? true : false);
+      type: languageDirection == TextDirection.rtl ? true : false,
+    );
     update();
   }
 
   String getTranslation(String key) {
     final selectedLang = languages.firstWhere(
       (lang) => lang.code == selectedLanguage.value,
-      orElse: () => languages.firstWhere(
-        (lang) => lang.code == defLangKey.value,
-      ),
+      orElse: () =>
+          languages.firstWhere((lang) => lang.code == defLangKey.value),
     );
 
     final defaultLanguage = languages.firstWhere(
       (lang) => lang.code == 'en',
-      orElse: () => languages.firstWhere(
-        (lang) => lang.code == 'en',
-      ),
+      orElse: () => languages.firstWhere((lang) => lang.code == 'en'),
     );
 
     String value;
@@ -196,9 +194,8 @@ class LanguageController extends GetxController {
     try {
       final selectedLang = languages.firstWhere(
         (lang) => lang.code == selectedLanguage.value,
-        orElse: () => languages.firstWhere(
-          (lang) => lang.code == defLangKey.value,
-        ),
+        orElse: () =>
+            languages.firstWhere((lang) => lang.code == defLangKey.value),
       );
       isLoadingValue.value = false;
       LocalStorage.saveRtl(type: selectedLang.dir == 'rtl' ? true : false);
@@ -207,5 +204,13 @@ class LanguageController extends GetxController {
     } catch (e) {
       return TextDirection.ltr; // Fallback to left-to-right (LTR)
     }
+  }
+
+  ValueNotifier<String?> get selectedLanguageNotifier {
+    final notifier = ValueNotifier<String?>(selectedLanguage.value);
+    ever(selectedLanguage, (String value) {
+      notifier.value = value;
+    });
+    return notifier;
   }
 }

@@ -5,7 +5,7 @@ import 'custom_color.dart';
 import 'dimensions.dart';
 
 class CustomStyle {
-//------------------------dark--------------------------------
+  //------------------------dark--------------------------------
   static var darkHeading1TextStyle = GoogleFonts.inter(
     color: CustomColor.whiteColor,
     fontSize: Dimensions.headingTextSize1,
@@ -22,9 +22,7 @@ class CustomStyle {
     fontWeight: FontWeight.w700,
   );
   static var darkHeading4TextStyle = GoogleFonts.inter(
-    color: CustomColor.whiteColor.withValues(alpha:
-      0.6,
-    ),
+    color: CustomColor.whiteColor.withValues(alpha: 0.6),
     fontSize: Dimensions.headingTextSize4,
     fontWeight: FontWeight.w400,
   );
@@ -34,7 +32,7 @@ class CustomStyle {
     fontWeight: FontWeight.w400,
   );
 
-//------------------------light--------------------------------
+  //------------------------light--------------------------------
   static var lightHeading1TextStyle = GoogleFonts.inter(
     color: CustomColor.primaryLightTextColor,
     fontSize: Dimensions.headingTextSize1,
@@ -62,58 +60,64 @@ class CustomStyle {
   );
 
   static var screenGradientBG2 = const BoxDecoration(
-      gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [
-        CustomColor.primaryDarkColor,
-        CustomColor.primaryBGDarkColor,
-      ]));
+    gradient: LinearGradient(
+      begin: Alignment.topCenter,
+      end: Alignment.bottomCenter,
+      colors: [CustomColor.primaryDarkColor, CustomColor.primaryBGDarkColor],
+    ),
+  );
 
   static var onboardTitleStyle = GoogleFonts.inter(
-      textStyle: TextStyle(
-    color: CustomColor.primaryTextColor,
-    fontSize: Dimensions.headingTextSize2,
-    fontWeight: FontWeight.w900,
-  ));
+    textStyle: TextStyle(
+      color: CustomColor.primaryTextColor,
+      fontSize: Dimensions.headingTextSize2,
+      fontWeight: FontWeight.w900,
+    ),
+  );
 
   static var onboardSubTitleStyle = GoogleFonts.inter(
-      textStyle: TextStyle(
-    color: CustomColor.primaryTextColor.withValues(alpha:0.6),
-    fontSize: Dimensions.headingTextSize4 * 0.9,
-    fontWeight: FontWeight.w400,
-  ));
+    textStyle: TextStyle(
+      color: CustomColor.primaryTextColor.withValues(alpha: 0.6),
+      fontSize: Dimensions.headingTextSize4 * 0.9,
+      fontWeight: FontWeight.w400,
+    ),
+  );
 
   static var onboardSkipStyle = GoogleFonts.inter(
-      textStyle: TextStyle(
-    color: CustomColor.primaryTextColor,
-    fontSize: Dimensions.headingTextSize5,
-    fontWeight: FontWeight.w500,
-  ));
+    textStyle: TextStyle(
+      color: CustomColor.primaryTextColor,
+      fontSize: Dimensions.headingTextSize5,
+      fontWeight: FontWeight.w500,
+    ),
+  );
   static var signInInfoTitleStyle = GoogleFonts.inter(
-      textStyle: TextStyle(
-    color: CustomColor.primaryTextColor,
-    fontSize: Dimensions.headingTextSize2,
-    fontWeight: FontWeight.w700,
-  ));
+    textStyle: TextStyle(
+      color: CustomColor.primaryTextColor,
+      fontSize: Dimensions.headingTextSize2,
+      fontWeight: FontWeight.w700,
+    ),
+  );
   static var signInInfoSubTitleStyle = GoogleFonts.inter(
-      textStyle: TextStyle(
-    color: CustomColor.primaryTextColor,
-    fontSize: Dimensions.headingTextSize4,
-    fontWeight: FontWeight.w400,
-  ));
+    textStyle: TextStyle(
+      color: CustomColor.primaryTextColor,
+      fontSize: Dimensions.headingTextSize4,
+      fontWeight: FontWeight.w400,
+    ),
+  );
   static var f20w600pri = GoogleFonts.inter(
-      textStyle: GoogleFonts.inter(
-    color: CustomColor.primaryTextColor,
-    fontSize: Dimensions.headingTextSize2,
-    fontWeight: FontWeight.w600,
-  ));
+    textStyle: GoogleFonts.inter(
+      color: CustomColor.primaryTextColor,
+      fontSize: Dimensions.headingTextSize2,
+      fontWeight: FontWeight.w600,
+    ),
+  );
   static var labelTextStyle = GoogleFonts.inter(
-      textStyle: GoogleFonts.inter(
-    fontWeight: FontWeight.w600,
-    color: CustomColor.primaryLightColor,
-    fontSize: Dimensions.headingTextSize4,
-  ));
+    textStyle: GoogleFonts.inter(
+      fontWeight: FontWeight.w600,
+      color: CustomColor.primaryLightColor,
+      fontSize: Dimensions.headingTextSize4,
+    ),
+  );
 
   static var whiteTextStyle = TextStyle(
     color: CustomColor.whiteColor,

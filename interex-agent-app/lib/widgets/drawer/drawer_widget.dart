@@ -1,6 +1,6 @@
-import '../../controller/app_settings/app_settings_controller.dart';
 import '/backend/utils/custom_loading_api.dart';
 import '/utils/basic_screen_imports.dart';
+import '../../controller/app_settings/app_settings_controller.dart';
 import '../../controller/others/log_out_controller.dart';
 import '../../controller/profile/update_profile_controller.dart';
 import '../../custom_assets/assets.gen.dart';
@@ -35,7 +35,7 @@ class CustomDrawer extends StatelessWidget {
   }
 
   Center _userImgWidget(BuildContext context) {
-    var data = controller.profileModel.data;
+    final data = controller.profileModel.data;
 
     final image =
         '${Get.find<AppSettingsController>().baseUrl.value}/${data.imagePath}/${data.user.image}';
@@ -79,7 +79,7 @@ class CustomDrawer extends StatelessWidget {
   }
 
   Column _userTextWidget(BuildContext context) {
-    var data = controller.profileModel.data;
+    final data = controller.profileModel.data;
     return Column(
       children: [
         TitleHeading3Widget(
@@ -216,12 +216,12 @@ class CustomDrawer extends StatelessWidget {
       barrierColor: Colors.transparent,
       context: context,
       builder: (context) {
-        bool isBigText =
+        final bool isBigText =
             Get.find<LanguageController>()
                 .getTranslation(Strings.signOut)
                 .length >
             8;
-        bool isBigText2 =
+        final bool isBigText2 =
             Get.find<LanguageController>()
                 .getTranslation(Strings.cancel)
                 .length >
@@ -238,7 +238,7 @@ class CustomDrawer extends StatelessWidget {
           ),
           content: Builder(
             builder: (context) {
-              var width = MediaQuery.of(context).size.width;
+              final width = MediaQuery.of(context).size.width;
               return Container(
                 width: width * 0.84,
                 margin: EdgeInsets.all(Dimensions.paddingSize * 0.5),

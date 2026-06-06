@@ -50,23 +50,27 @@ class RequestMoneyController extends GetxController
     _isLoading.value = true;
     update();
 
-    await getRequestMoneyInfoProcessApi().then((value) {
-      _requestMoneyInfoModel = value!;
-      baseCurrency.value = _requestMoneyInfoModel.data.baseCurr;
-      baseCurrencyList.add(_requestMoneyInfoModel.data.baseCurr);
+    await getRequestMoneyInfoProcessApi()
+        .then((value) {
+          _requestMoneyInfoModel = value!;
+          baseCurrency.value = _requestMoneyInfoModel.data.baseCurr;
+          baseCurrencyList.add(_requestMoneyInfoModel.data.baseCurr);
 
-      limitMin.value = _requestMoneyInfoModel.data.requestMoneyCharge.minLimit;
-      limitMax.value = _requestMoneyInfoModel.data.requestMoneyCharge.maxLimit;
-      percentCharge.value =
-          _requestMoneyInfoModel.data.requestMoneyCharge.percentCharge;
-      fixedCharge.value =
-          _requestMoneyInfoModel.data.requestMoneyCharge.fixedCharge;
-      rate.value = _requestMoneyInfoModel.data.baseCurrRate;
+          limitMin.value =
+              _requestMoneyInfoModel.data.requestMoneyCharge.minLimit;
+          limitMax.value =
+              _requestMoneyInfoModel.data.requestMoneyCharge.maxLimit;
+          percentCharge.value =
+              _requestMoneyInfoModel.data.requestMoneyCharge.percentCharge;
+          fixedCharge.value =
+              _requestMoneyInfoModel.data.requestMoneyCharge.fixedCharge;
+          rate.value = _requestMoneyInfoModel.data.baseCurrRate;
 
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-    });
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+        });
 
     _isLoading.value = false;
     update();
@@ -79,18 +83,20 @@ class RequestMoneyController extends GetxController
       _checkUserWithQrCodeModel;
   Future<CheckUserQrCodeModel> getCheckUserWithQrCodeData(String qrcode) async {
     _isCheckUserLoading.value = true;
-    Map<String, dynamic> inputBody = {'qr_code': qrcode};
+    final Map<String, dynamic> inputBody = {'qr_code': qrcode};
     update();
-    await checkUserWithQrCodeApi(body: inputBody).then((value) {
-      _checkUserWithQrCodeModel = value!;
-      copyInputController.clear();
-      copyInputController.text = _checkUserWithQrCodeModel.data.userEmail;
-      isValidUser.value = true;
-      update();
-    }).catchError((onError) {
-      isValidUser.value = false;
-      log.e(onError);
-    });
+    await checkUserWithQrCodeApi(body: inputBody)
+        .then((value) {
+          _checkUserWithQrCodeModel = value!;
+          copyInputController.clear();
+          copyInputController.text = _checkUserWithQrCodeModel.data.userEmail;
+          isValidUser.value = true;
+          update();
+        })
+        .catchError((onError) {
+          isValidUser.value = false;
+          log.e(onError);
+        });
 
     _isCheckUserLoading.value = false;
     update();
@@ -102,19 +108,21 @@ class RequestMoneyController extends GetxController
   CommonSuccessModel get checkUserExistModel => _checkUserExistModel;
   Future<CommonSuccessModel> getCheckUserExist() async {
     _isCheckUserLoading.value = true;
-    Map<String, dynamic> inputBody = {'email': copyInputController.text};
+    final Map<String, dynamic> inputBody = {'email': copyInputController.text};
     update();
 
-    await checkUserExistApi(body: inputBody).then((value) {
-      _checkUserExistModel = value!;
-      checkUserMessage.value = _checkUserExistModel.message.success.first;
-      isValidUser.value = true;
-      update();
-    }).catchError((onError) {
-      checkUserMessage.value = Strings.notValidUser;
-      isValidUser.value = false;
-      log.e(onError);
-    });
+    await checkUserExistApi(body: inputBody)
+        .then((value) {
+          _checkUserExistModel = value!;
+          checkUserMessage.value = _checkUserExistModel.message.success.first;
+          isValidUser.value = true;
+          update();
+        })
+        .catchError((onError) {
+          checkUserMessage.value = Strings.notValidUser;
+          isValidUser.value = false;
+          log.e(onError);
+        });
     _isCheckUserLoading.value = false;
     update();
     return _checkUserExistModel;
@@ -126,22 +134,24 @@ class RequestMoneyController extends GetxController
   Future<CommonSuccessModel> requestMoneyProcess() async {
     _isRequestMoneyLoading.value = true;
 
-    Map<String, dynamic> inputBody = {
+    final Map<String, dynamic> inputBody = {
       'email': copyInputController.text,
       'request_amount': amountController.text,
       'currency': baseCurrency.value,
-      'remark': remarkController.text
+      'remark': remarkController.text,
     };
     update();
 
-    await requestMoneySubmitURL(body: inputBody).then((value) {
-      _requestMoneyModel = value!;
-      update();
-      // Get.offAllNamed(Routes.bottomNavBarScreen);
-    }).catchError((onError) {
-      isValidUser.value = false;
-      log.e(onError);
-    });
+    await requestMoneySubmitURL(body: inputBody)
+        .then((value) {
+          _requestMoneyModel = value!;
+          update();
+          // Get.offAllNamed(Routes.bottomNavBarScreen);
+        })
+        .catchError((onError) {
+          isValidUser.value = false;
+          log.e(onError);
+        });
 
     _isRequestMoneyLoading.value = false;
     update();
@@ -150,9 +160,11 @@ class RequestMoneyController extends GetxController
 
   RxDouble getFee({required double rate}) {
     double value = fixedCharge.value * rate;
-    value = value +
+    value =
+        value +
         (double.parse(
-                amountController.text.isEmpty ? '0.0' : amountController.text) *
+              amountController.text.isEmpty ? '0.0' : amountController.text,
+            ) *
             (percentCharge.value / 100));
 
     if (amountController.text.isEmpty) {

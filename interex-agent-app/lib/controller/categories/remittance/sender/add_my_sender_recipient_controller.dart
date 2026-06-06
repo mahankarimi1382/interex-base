@@ -63,15 +63,17 @@ class AddMySenderRecipientController extends GetxController {
     _isLoading.value = true;
     update();
 
-    await MySenderRecipientApiServices.saveRecipientInfoAPi().then((value) {
-      _recipientInfoData = value!;
+    await MySenderRecipientApiServices.saveRecipientInfoAPi()
+        .then((value) {
+          _recipientInfoData = value!;
 
-      setValues(_recipientInfoData);
+          setValues(_recipientInfoData);
 
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-    });
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+        });
 
     _isLoading.value = false;
     update();
@@ -144,11 +146,12 @@ class AddMySenderRecipientController extends GetxController {
 
   // Login process function
   Future<CommonSuccessModel> recipientStoreApiProcess(
-      BuildContext context) async {
+    BuildContext context,
+  ) async {
     _isLoading.value = true;
     update();
 
-    Map<String, dynamic> inputBody = {
+    final Map<String, dynamic> inputBody = {
       'transaction_type': transactionType.fieldName,
       'country': receiverCountry.id,
       'firstname': firstNameController.text,
@@ -167,12 +170,13 @@ class AddMySenderRecipientController extends GetxController {
     // calling login api from api service
     await MySenderRecipientApiServices.myRecipientStoreApi(body: inputBody)
         .then((value) {
-      _successDatya = value!;
-      _isLoading.value = false;
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-    });
+          _successDatya = value!;
+          _isLoading.value = false;
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+        });
 
     _isLoading.value = false;
     update();
@@ -191,29 +195,30 @@ class AddMySenderRecipientController extends GetxController {
     _isCheckLoading.value = true;
     update();
 
-    Map<String, dynamic> inputBody = {'email': emailController.text};
+    final Map<String, dynamic> inputBody = {'email': emailController.text};
 
     await MySenderRecipientApiServices.checkRecipientApi(body: inputBody)
         .then((value) {
-      _checkRecipientModel = value!;
+          _checkRecipientModel = value!;
 
-      checkUserMessage.value = _checkRecipientModel.message.success.first;
+          checkUserMessage.value = _checkRecipientModel.message.success.first;
 
-      final data = _checkRecipientModel;
-      firstNameController.text = data.data.user.firstname;
-      lastNameController.text = data.data.user.lastname;
-      numberController.text = data.data.user.mobile;
-      cityController.text = data.data.user.address.city;
-      addressController.text = data.data.user.address.city;
-      zipController.text = data.data.user.address.zip;
-      stateController.text = data.data.user.address.state;
+          final data = _checkRecipientModel;
+          firstNameController.text = data.data.user.firstname;
+          lastNameController.text = data.data.user.lastname;
+          numberController.text = data.data.user.mobile;
+          cityController.text = data.data.user.address.city;
+          addressController.text = data.data.user.address.city;
+          zipController.text = data.data.user.address.zip;
+          stateController.text = data.data.user.address.state;
 
-      isValidUser.value = true;
-      _isCheckLoading.value = false;
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-    });
+          isValidUser.value = true;
+          _isCheckLoading.value = false;
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+        });
 
     _isCheckLoading.value = false;
     update();

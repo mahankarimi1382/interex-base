@@ -28,9 +28,11 @@ class MoneyReceiveScreen extends StatelessWidget {
     return ResponsiveLayout(
       mobileScaffold: Scaffold(
         appBar: const AppBarWidget(text: Strings.moneyReceive),
-        body: Obx(() => controller.isLoading
-            ? const CustomLoadingAPI()
-            : _bodyWidget(context)),
+        body: Obx(
+          () => controller.isLoading
+              ? const CustomLoadingAPI()
+              : _bodyWidget(context),
+        ),
       ),
     );
   }
@@ -38,7 +40,8 @@ class MoneyReceiveScreen extends StatelessWidget {
   ListView _bodyWidget(BuildContext context) {
     return ListView(
       padding: EdgeInsets.symmetric(
-          horizontal: Dimensions.marginSizeHorizontal * 0.9),
+        horizontal: Dimensions.marginSizeHorizontal * 0.9,
+      ),
       physics: const BouncingScrollPhysics(),
       children: [
         _imgWidget(context),
@@ -55,8 +58,9 @@ class MoneyReceiveScreen extends StatelessWidget {
         vertical: Dimensions.paddingSize * 1,
       ),
       decoration: BoxDecoration(
-          color: CustomColor.whiteColor,
-          borderRadius: BorderRadius.circular(Dimensions.radius * 1.5)),
+        color: CustomColor.whiteColor,
+        borderRadius: BorderRadius.circular(Dimensions.radius * 1.5),
+      ),
       alignment: Alignment.center,
       height: MediaQuery.of(context).size.height * 0.3,
       margin: EdgeInsets.symmetric(
@@ -82,17 +86,13 @@ class MoneyReceiveScreen extends StatelessWidget {
           suffixIcon: Assets.icon.copy,
           onTap: () {
             Clipboard.setData(
-                    ClipboardData(text: controller.inputController.text))
-                .then(
-              (_) {
-                // ignore: use_build_context_synchronously
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text(Strings.qrCodeAddressCopy),
-                  ),
-                );
-              },
-            );
+              ClipboardData(text: controller.inputController.text),
+            ).then((_) {
+              // ignore: use_build_context_synchronously
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text(Strings.qrCodeAddressCopy)),
+              );
+            });
           },
           controller: controller.inputController,
           hint: Strings.qrCode,
@@ -107,7 +107,7 @@ class MoneyReceiveScreen extends StatelessWidget {
             fontWeight: FontWeight.w500,
             color: Colors.grey,
           ),
-        )
+        ),
       ],
     );
   }
@@ -115,13 +115,17 @@ class MoneyReceiveScreen extends StatelessWidget {
   Container _buttonWidget(BuildContext context) {
     return Container(
       margin: EdgeInsets.only(
-          top: Dimensions.marginSizeVertical * 4,
-          bottom: Dimensions.marginSizeVertical * 0.4),
+        top: Dimensions.marginSizeVertical * 4,
+        bottom: Dimensions.marginSizeVertical * 0.4,
+      ),
       child: PrimaryButton(
-          title: Strings.share,
-          onPressed: () {
-            Share.share(controller.receiveMoneyModel.data.qrCode);
-          }),
+        title: Strings.share,
+        onPressed: () {
+          SharePlus.instance.share(
+            ShareParams(text: controller.receiveMoneyModel.data.qrCode),
+          );
+        },
+      ),
     );
   }
 }

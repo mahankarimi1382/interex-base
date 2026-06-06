@@ -14,19 +14,20 @@ mixin RequestMoneyApiServices {
   Future<RequestMoneyInfoModel?> getRequestMoneyInfoProcessApi() async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false).get(
-        ApiEndpoint.requestMoneyInfoURL,
-        code: 200,
-      );
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).get(ApiEndpoint.requestMoneyInfoURL);
       if (mapResponse != null) {
-        RequestMoneyInfoModel result =
-            RequestMoneyInfoModel.fromJson(mapResponse);
+        final RequestMoneyInfoModel result = RequestMoneyInfoModel.fromJson(
+          mapResponse,
+        );
 
         return result;
       }
     } catch (e) {
       log.e(
-          '🐞🐞🐞 err from  Get request money info process api service ==> $e 🐞🐞🐞');
+        '🐞🐞🐞 err from  Get request money info process api service ==> $e 🐞🐞🐞',
+      );
       CustomSnackBar.error('Something went Wrong!');
       return null;
     }
@@ -34,19 +35,18 @@ mixin RequestMoneyApiServices {
   }
 
   /// Check user by mail
-  Future<CommonSuccessModel?> checkUserExistApi(
-      {required Map<String, dynamic> body}) async {
+  Future<CommonSuccessModel?> checkUserExistApi({
+    required Map<String, dynamic> body,
+  }) async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false).post(
-        ApiEndpoint.requestMoneyCheckUserURL,
-        body,
-        code: 200,
-        showResult: false,
-      );
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).post(ApiEndpoint.requestMoneyCheckUserURL, body, code: 200);
       if (mapResponse != null) {
-        CommonSuccessModel cardUnBlockModel =
-            CommonSuccessModel.fromJson(mapResponse);
+        final CommonSuccessModel cardUnBlockModel = CommonSuccessModel.fromJson(
+          mapResponse,
+        );
 
         return cardUnBlockModel;
       }
@@ -59,25 +59,25 @@ mixin RequestMoneyApiServices {
   }
 
   /// check user using qr code
-  Future<CheckUserQrCodeModel?> checkUserWithQrCodeApi(
-      {required Map<String, dynamic> body}) async {
+  Future<CheckUserQrCodeModel?> checkUserWithQrCodeApi({
+    required Map<String, dynamic> body,
+  }) async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false).post(
-        ApiEndpoint.requestMoneyQrScanURL,
-        body,
-        code: 200,
-        showResult: false,
-      );
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).post(ApiEndpoint.requestMoneyQrScanURL, body, code: 200);
       if (mapResponse != null) {
-        CheckUserQrCodeModel result =
-            CheckUserQrCodeModel.fromJson(mapResponse);
+        final CheckUserQrCodeModel result = CheckUserQrCodeModel.fromJson(
+          mapResponse,
+        );
 
         return result;
       }
     } catch (e) {
       log.e(
-          '🐞🐞🐞 err from check user with qr code api service ==> $e 🐞🐞🐞');
+        '🐞🐞🐞 err from check user with qr code api service ==> $e 🐞🐞🐞',
+      );
       CustomSnackBar.error('Something went Wrong!');
       return null;
     }
@@ -85,17 +85,18 @@ mixin RequestMoneyApiServices {
   }
 
   /// Request money process api
-  Future<CommonSuccessModel?> requestMoneySubmitURL(
-      {required Map<String, dynamic> body}) async {
+  Future<CommonSuccessModel?> requestMoneySubmitURL({
+    required Map<String, dynamic> body,
+  }) async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false).post(
-        ApiEndpoint.requestMoneySubmitURL,
-        body,
-        code: 200,
-      );
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).post(ApiEndpoint.requestMoneySubmitURL, body, code: 200);
       if (mapResponse != null) {
-        CommonSuccessModel result = CommonSuccessModel.fromJson(mapResponse);
+        final CommonSuccessModel result = CommonSuccessModel.fromJson(
+          mapResponse,
+        );
         CustomSnackBar.success(result.message.success.first.toString());
         return result;
       }
@@ -111,19 +112,20 @@ mixin RequestMoneyApiServices {
   Future<RequestMoneyLogModel?> getRequestMoneyLogApi() async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false).get(
-        ApiEndpoint.requestMoneyLogsURL,
-        code: 200,
-      );
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).get(ApiEndpoint.requestMoneyLogsURL);
       if (mapResponse != null) {
-        RequestMoneyLogModel result =
-            RequestMoneyLogModel.fromJson(mapResponse);
+        final RequestMoneyLogModel result = RequestMoneyLogModel.fromJson(
+          mapResponse,
+        );
 
         return result;
       }
     } catch (e) {
       log.e(
-          '🐞🐞🐞 err from  Get request money info process api service ==> $e 🐞🐞🐞');
+        '🐞🐞🐞 err from  Get request money info process api service ==> $e 🐞🐞🐞',
+      );
       CustomSnackBar.error('Something went Wrong!');
       return null;
     }
@@ -131,24 +133,25 @@ mixin RequestMoneyApiServices {
   }
 
   /// Request money log reject api
-  Future<CommonSuccessModel?> rejectRequestMoneyApi(
-      {required Map<String, dynamic> body}) async {
+  Future<CommonSuccessModel?> rejectRequestMoneyApi({
+    required Map<String, dynamic> body,
+  }) async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false).post(
-        ApiEndpoint.requestMoneyLogsRejectURL,
-        body,
-        code: 200,
-        showResult: false,
-      );
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).post(ApiEndpoint.requestMoneyLogsRejectURL, body, code: 200);
       if (mapResponse != null) {
-        CommonSuccessModel result = CommonSuccessModel.fromJson(mapResponse);
+        final CommonSuccessModel result = CommonSuccessModel.fromJson(
+          mapResponse,
+        );
 
         return result;
       }
     } catch (e) {
       log.e(
-          '🐞🐞🐞 err from Request money log reject api service ==> $e 🐞🐞🐞');
+        '🐞🐞🐞 err from Request money log reject api service ==> $e 🐞🐞🐞',
+      );
       CustomSnackBar.error('Something went Wrong!');
       return null;
     }
@@ -156,24 +159,25 @@ mixin RequestMoneyApiServices {
   }
 
   /// Request money log approve api
-  Future<CommonSuccessModel?> approveRequestMoneyApi(
-      {required Map<String, dynamic> body}) async {
+  Future<CommonSuccessModel?> approveRequestMoneyApi({
+    required Map<String, dynamic> body,
+  }) async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false).post(
-        ApiEndpoint.requestMoneyLogsApproveURL,
-        body,
-        code: 200,
-        showResult: false,
-      );
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).post(ApiEndpoint.requestMoneyLogsApproveURL, body, code: 200);
       if (mapResponse != null) {
-        CommonSuccessModel result = CommonSuccessModel.fromJson(mapResponse);
+        final CommonSuccessModel result = CommonSuccessModel.fromJson(
+          mapResponse,
+        );
 
         return result;
       }
     } catch (e) {
       log.e(
-          '🐞🐞🐞 err from Request money log approve api service ==> $e 🐞🐞🐞');
+        '🐞🐞🐞 err from Request money log approve api service ==> $e 🐞🐞🐞',
+      );
       CustomSnackBar.error('Something went Wrong!');
       return null;
     }

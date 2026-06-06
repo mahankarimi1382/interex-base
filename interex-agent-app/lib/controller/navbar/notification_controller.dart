@@ -1,12 +1,9 @@
-
-
 import 'package:get/get.dart';
 
 import '../../backend/model/bottom_navbar_model/notification_model.dart';
 import '../../backend/services/api_services.dart';
 
-class NotificationController extends GetxController{
-
+class NotificationController extends GetxController {
   @override
   void onInit() {
     getNotificationData();
@@ -24,14 +21,16 @@ class NotificationController extends GetxController{
     update();
 
     // calling  from api service
-    await ApiServices.getNotificationAPi().then((value) {
-      _notificationModelData = value!;
+    await ApiServices.getNotificationAPi()
+        .then((value) {
+          _notificationModelData = value!;
 
-      _isLoading.value = false;
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-    });
+          _isLoading.value = false;
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+        });
     update();
     return _notificationModelData;
   }

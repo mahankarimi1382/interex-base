@@ -38,7 +38,7 @@ class RemittanceController extends GetxController {
 
   RxDouble toCountriesRate = 0.0.obs;
   RxDouble fromCountriesRate = 0.0.obs;
-   RxDouble exchangeRate = 0.0.obs;
+  RxDouble exchangeRate = 0.0.obs;
 
   RxInt sendingCountryId = 0.obs;
   RxInt receivingCountryId = 0.obs;
@@ -64,8 +64,8 @@ class RemittanceController extends GetxController {
   @override
   void onInit() {
     getRemittanceInfo();
-    
-    amountController.text = "0"; 
+
+    amountController.text = "0";
     super.onInit();
   }
 
@@ -85,70 +85,72 @@ class RemittanceController extends GetxController {
     _isLoading.value = true;
     update();
 
-    await ApiServices.remittanceInfoAPi().then((value) {
-      _remittanceInfoModel = value!;
-      var data = _remittanceInfoModel.data;
+    await ApiServices.remittanceInfoAPi()
+        .then((value) {
+          _remittanceInfoModel = value!;
+          final data = _remittanceInfoModel.data;
 
-      sendingCountryCurrencyList = data.fromCountry;
-      receivingCountryCurrencyList = data.toCountries;
-      transactionTypeList = data.transactionTypes;
+          sendingCountryCurrencyList = data.fromCountry;
+          receivingCountryCurrencyList = data.toCountries;
+          transactionTypeList = data.transactionTypes;
 
-      // baseCurrency.value = data.agentWallet.currency;
+          // baseCurrency.value = data.agentWallet.currency;
 
-      selectedSendingCountryCurrency.value =
-          "${data.fromCountry.first.name} (${data.fromCountry.first.code})";
-      selectedReceivingCountryCurrency.value =
-          "${data.toCountries.first.name} (${data.toCountries.first.code})";
+          selectedSendingCountryCurrency.value =
+              "${data.fromCountry.first.name} (${data.fromCountry.first.code})";
+          selectedReceivingCountryCurrency.value =
+              "${data.toCountries.first.name} (${data.toCountries.first.code})";
 
-      toCountriesRate.value = data.toCountries.first.rate;
-      fromCountriesRate.value = data.fromCountry.first.rate;
+          toCountriesRate.value = data.toCountries.first.rate;
+          fromCountriesRate.value = data.fromCountry.first.rate;
 
-      sendingCountryId.value = data.fromCountry.first.id;
-      receivingCountryId.value = data.toCountries.first.id;
-      selectedSendingCountryCode.value = data.fromCountry.first.code;
-      selectedReceivingCountryCode.value = data.toCountries.first.code;
+          sendingCountryId.value = data.fromCountry.first.id;
+          receivingCountryId.value = data.toCountries.first.id;
+          selectedSendingCountryCode.value = data.fromCountry.first.code;
+          selectedReceivingCountryCode.value = data.toCountries.first.code;
 
-      //get remaining controller
-      remainingController.transactionType.value =
-          data.getRemainingFields.transactionType;
-      remainingController.attribute.value = data.getRemainingFields.attribute;
-      remainingController.cardId.value = data.remittanceCharge.id;
-      remainingController.senderAmount.value = amountController.text;
-      remainingController.senderCurrency.value =
-          selectedSendingCountryCode.value;
-      remainingController.getRemainingBalanceProcess();
-   
+          //get remaining controller
+          remainingController.transactionType.value =
+              data.getRemainingFields.transactionType;
+          remainingController.attribute.value =
+              data.getRemainingFields.attribute;
+          remainingController.cardId.value = data.remittanceCharge.id;
+          remainingController.senderAmount.value = amountController.text;
+          remainingController.senderCurrency.value =
+              selectedSendingCountryCode.value;
+          remainingController.getRemainingBalanceProcess();
 
-      if (data.receiverRecipients.isNotEmpty) {
-        selectedMethod.value = data.receiverRecipients.first.trxTypeName;
-        selectedTrxType.value = data.receiverRecipients.first.trxType;
-        selectedConfirmTrxType.value = data.receiverRecipients.first.trxType;
-        selectedRecipientId.value = data.receiverRecipients.first.id;
-        remittanceGetRecipientProcess();
-      }
-      if (data.senderRecipients.isNotEmpty) {
-        selectedMethod.value = data.senderRecipients.first.trxTypeName;
-        selectedTrxType.value = data.senderRecipients.first.trxType;
-        selectedConfirmTrxType.value = data.senderRecipients.first.trxType;
-        selectedSenderRecipientId.value = data.senderRecipients.first.id;
-        remittanceSenderRecipientProcess();
-      }
-      getRate();
+          if (data.receiverRecipients.isNotEmpty) {
+            selectedMethod.value = data.receiverRecipients.first.trxTypeName;
+            selectedTrxType.value = data.receiverRecipients.first.trxType;
+            selectedConfirmTrxType.value =
+                data.receiverRecipients.first.trxType;
+            selectedRecipientId.value = data.receiverRecipients.first.id;
+            remittanceGetRecipientProcess();
+          }
+          if (data.senderRecipients.isNotEmpty) {
+            selectedMethod.value = data.senderRecipients.first.trxTypeName;
+            selectedTrxType.value = data.senderRecipients.first.trxType;
+            selectedConfirmTrxType.value = data.senderRecipients.first.trxType;
+            selectedSenderRecipientId.value = data.senderRecipients.first.id;
+            remittanceSenderRecipientProcess();
+          }
+          getRate();
 
-      // Remittance Charge
-      var remittanceCharge = data.remittanceCharge;
-      fixedCharge.value = remittanceCharge.fixedCharge;
-      percentCharge.value = remittanceCharge.percentCharge;
-      minLimit.value = remittanceCharge.minLimit;
-      maxLimit.value = remittanceCharge.maxLimit;
-      monthlyLimit.value = remittanceCharge.monthlyLimit;
-      dailyLimit.value = remittanceCharge.dailyLimit;
-      
+          // Remittance Charge
+          final remittanceCharge = data.remittanceCharge;
+          fixedCharge.value = remittanceCharge.fixedCharge;
+          percentCharge.value = remittanceCharge.percentCharge;
+          minLimit.value = remittanceCharge.minLimit;
+          maxLimit.value = remittanceCharge.maxLimit;
+          monthlyLimit.value = remittanceCharge.monthlyLimit;
+          dailyLimit.value = remittanceCharge.dailyLimit;
 
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-    });
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+        });
 
     _isLoading.value = false;
     update();
@@ -166,11 +168,12 @@ class RemittanceController extends GetxController {
   CommonSuccessModel get remittanceConfirmModel => _remittanceConfirmModel;
 
   Future<CommonSuccessModel> remittanceConfirmProcess(
-      BuildContext context) async {
+    BuildContext context,
+  ) async {
     _isRemittanceConfirm.value = true;
     update();
 
-    Map<String, dynamic> inputBody = {
+    final Map<String, dynamic> inputBody = {
       'form_country': sendingCountryId.value,
       'to_country': receivingCountryId.value,
       'transaction_type': selectedTrxType.value,
@@ -181,28 +184,28 @@ class RemittanceController extends GetxController {
       'receiver_recipient': selectedRecipientId.value,
     };
 
-    await ApiServices.remittanceConfirmAPi(body: inputBody).then((value) {
-      _remittanceConfirmModel = value!;
-      update();
-      StatusScreen.show(
-        // ignore: use_build_context_synchronously
-        context: context,
-        subTitle: Strings.sendMoneySuccesfully.tr,
-        onPressed: () {
-          // NotificationService.showLocalNotification(
-          //   title: 'Success',
-          //   body:
-          //       'Your money has been send Successfully. Thanks for using QRPAY',
-          // );
-          Get.offAllNamed(
-            Routes.bottomNavBarScreen,
+    await ApiServices.remittanceConfirmAPi(body: inputBody)
+        .then((value) {
+          _remittanceConfirmModel = value!;
+          update();
+          StatusScreen.show(
+            // ignore: use_build_context_synchronously
+            context: context,
+            subTitle: Strings.sendMoneySuccesfully.tr,
+            onPressed: () {
+              // NotificationService.showLocalNotification(
+              //   title: 'Success',
+              //   body:
+              //       'Your money has been send Successfully. Thanks for using QRPAY',
+              // );
+              Get.offAllNamed(Routes.bottomNavBarScreen);
+            },
           );
-        },
-      );
-    }).catchError((onError) {
-      log.e(onError);
-      _isRemittanceConfirm.value = false;
-    });
+        })
+        .catchError((onError) {
+          log.e(onError);
+          _isRemittanceConfirm.value = false;
+        });
     _isRemittanceConfirm.value = false;
     update();
     return _remittanceConfirmModel;
@@ -224,31 +227,33 @@ class RemittanceController extends GetxController {
     selectedRecipient.value = "No Recipient";
     update();
 
-    Map<String, dynamic> inputBody = {
+    final Map<String, dynamic> inputBody = {
       'to_country': receivingCountryId.value,
       'transaction_type': selectedTrxType.value,
     };
 
-    await ApiServices.remittanceGetRecipientAPi(body: inputBody).then((value) {
-      _getRemittanceModel = value!;
-      var name = _getRemittanceModel.data.senderRecipient.first;
+    await ApiServices.remittanceGetRecipientAPi(body: inputBody)
+        .then((value) {
+          _getRemittanceModel = value!;
+          final name = _getRemittanceModel.data.senderRecipient.first;
 
-      recipientList.value = _getRemittanceModel.data.senderRecipient;
-      selectedRecipient.value = "${name.firstname} ${name.lastname}";
-      selectedRecipientId.value =
-          _getRemittanceModel.data.senderRecipient.first.id;
+          recipientList.value = _getRemittanceModel.data.senderRecipient;
+          selectedRecipient.value = "${name.firstname} ${name.lastname}";
+          selectedRecipientId.value =
+              _getRemittanceModel.data.senderRecipient.first.id;
 
-      /// sender recipient
-      /// senderRecipientList.value = _getRemittanceModel.data.senderRecipient;
+          /// sender recipient
+          /// senderRecipientList.value = _getRemittanceModel.data.senderRecipient;
 
-      selectedRecipient.value = "${name.firstname} ${name.lastname}";
-      selectedRecipientId.value =
-          _getRemittanceModel.data.senderRecipient.first.id;
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-      _isGetRemittance.value = false;
-    });
+          selectedRecipient.value = "${name.firstname} ${name.lastname}";
+          selectedRecipientId.value =
+              _getRemittanceModel.data.senderRecipient.first.id;
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+          _isGetRemittance.value = false;
+        });
     _isGetRemittance.value = false;
     update();
     return _getRemittanceModel;
@@ -264,34 +269,36 @@ class RemittanceController extends GetxController {
       _remittanceSenderRecipientModel;
 
   Future<RemittanceSenderRecipientModel>
-      remittanceSenderRecipientProcess() async {
+  remittanceSenderRecipientProcess() async {
     _isGetRemittance.value = true;
     senderRecipientList.clear();
     selectedSenderRecipient.value = "No Recipient";
     update();
 
-    Map<String, dynamic> inputBody = {
+    final Map<String, dynamic> inputBody = {
       "from_country": '${sendingCountryId.value}',
       'transaction_type': selectedTrxType.value,
     };
 
     await ApiServices.remittanceSenderRecipientAPi(body: inputBody)
         .then((value) {
-      _remittanceSenderRecipientModel = value!;
-      var name = _remittanceSenderRecipientModel.data.senderRecipient.first;
+          _remittanceSenderRecipientModel = value!;
+          final name =
+              _remittanceSenderRecipientModel.data.senderRecipient.first;
 
-      /// sender recipient
-      senderRecipientList.value =
-          _remittanceSenderRecipientModel.data.senderRecipient;
-      selectedSenderRecipient.value = "${name.firstname} ${name.lastname}";
-      selectedSenderRecipientId.value =
-          _remittanceSenderRecipientModel.data.senderRecipient.first.id;
+          /// sender recipient
+          senderRecipientList.value =
+              _remittanceSenderRecipientModel.data.senderRecipient;
+          selectedSenderRecipient.value = "${name.firstname} ${name.lastname}";
+          selectedSenderRecipientId.value =
+              _remittanceSenderRecipientModel.data.senderRecipient.first.id;
 
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-      _isGetRemittance.value = false;
-    });
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+          _isGetRemittance.value = false;
+        });
     _isGetRemittance.value = false;
     update();
     return _remittanceSenderRecipientModel;
@@ -304,7 +311,7 @@ class RemittanceController extends GetxController {
   dynamic get senderSendAmount => _senderSendAmount();
 
   void _senderSendAmount() {
-    var amount = _doubleParse(recipientGetController.text);
+    final amount = _doubleParse(recipientGetController.text);
 
     amountController.text = (amount / fromCountriesRate.value).toStringAsFixed(
       isCrypto1.value
@@ -315,14 +322,14 @@ class RemittanceController extends GetxController {
   }
 
   void _recipientGetOnChange() {
-    var amount = _doubleParse(amountController.text);
+    final amount = _doubleParse(amountController.text);
 
-    recipientGetController.text =
-        (amount * toCountriesRate.value).toStringAsFixed(
-      isCrypto2.value
-          ? LocalStorage.getCryptoPrecision()
-          : LocalStorage.getFiatPrecision(),
-    );
+    recipientGetController.text = (amount * toCountriesRate.value)
+        .toStringAsFixed(
+          isCrypto2.value
+              ? LocalStorage.getCryptoPrecision()
+              : LocalStorage.getFiatPrecision(),
+        );
     updateLimit();
   }
 
@@ -330,20 +337,20 @@ class RemittanceController extends GetxController {
     return double.parse(amount.isNotEmpty ? amount : '0.0');
   }
 
-  getRate(){
-     exchangeRate.value = toCountriesRate.value/fromCountriesRate.value;
-
+  void getRate() {
+    exchangeRate.value = toCountriesRate.value / fromCountriesRate.value;
   }
 
   RxDouble getFee({required double rate}) {
-   
     debugPrint("getFee method working");
-        debugPrint("${exchangeRate.value}");
+    debugPrint("${exchangeRate.value}");
 
     double value = fixedCharge.value * rate;
-    value = value +
+    value =
+        value +
         (double.parse(
-                amountController.text.isEmpty ? '0.0' : amountController.text) *
+              amountController.text.isEmpty ? '0.0' : amountController.text,
+            ) *
             (percentCharge.value / 100));
 
     if (amountController.text.isEmpty) {
@@ -357,7 +364,7 @@ class RemittanceController extends GetxController {
   }
 
   void updateLimit() {
-    var limit = _remittanceInfoModel.data.remittanceCharge;
+    final limit = _remittanceInfoModel.data.remittanceCharge;
     minLimit.value = limit.minLimit! * fromCountriesRate.value;
     maxLimit.value = limit.maxLimit! * fromCountriesRate.value;
 

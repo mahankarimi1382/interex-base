@@ -33,8 +33,7 @@ class _DropFileState extends State<DropFile> {
           horizontal: Dimensions.paddingSize * 0.3,
           vertical: Dimensions.paddingSize * 0.5,
         ),
-        color: Theme.of(context).primaryColor.withValues(alpha:0.2),
-        strokeWidth: 1,
+        color: Theme.of(context).primaryColor.withValues(alpha: 0.2),
       ),
       // padding: EdgeInsets.symmetric(
       //   horizontal: Dimensions.paddingSize * 0.3,
@@ -51,10 +50,11 @@ class _DropFileState extends State<DropFile> {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(Dimensions.radius * 0.5),
             image: DecorationImage(
-                image: widget.image == null
-                    ? const AssetImage("")
-                    : FileImage(widget.image!) as ImageProvider,
-                scale: 3),
+              image: widget.image == null
+                  ? const AssetImage("")
+                  : FileImage(widget.image!) as ImageProvider,
+              scale: 3,
+            ),
           ),
           alignment: Alignment.center,
           height: Dimensions.heightSize * 5,
@@ -66,7 +66,9 @@ class _DropFileState extends State<DropFile> {
                     verticalSpace(Dimensions.heightSize * 0.5),
                     TitleHeading4Widget(
                       text: Strings.dropYourFile.tr,
-                      color: Theme.of(context).primaryColor.withValues(alpha:0.3),
+                      color: Theme.of(
+                        context,
+                      ).primaryColor.withValues(alpha: 0.3),
                       fontSize: Dimensions.headingTextSize5,
                       fontWeight: FontWeight.w500,
                     ),
@@ -96,86 +98,88 @@ class _DropFileState extends State<DropFile> {
     } else {}
   }
 
-  void openImageSourceOptions(
-    BuildContext context,
-  ) {
+  void openImageSourceOptions(BuildContext context) {
     showGeneralDialog(
-        barrierLabel:
-            MaterialLocalizations.of(context).modalBarrierDismissLabel,
-        barrierDismissible: true,
-        barrierColor: Colors.black.withValues(alpha:0.6),
-        transitionDuration: const Duration(milliseconds: 700),
-        context: context,
-        pageBuilder: (_, _, _) {
-          return Material(
-            type: MaterialType.transparency,
-            child: Align(
-              alignment: Alignment.center,
-              child: Container(
-                height: Dimensions.heightSize * 13,
-                width: Dimensions.widthSize * 25,
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(Dimensions.radius)),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        GestureDetector(
-                          child: const Icon(
-                            Icons.camera_alt,
-                            size: 40.0,
-                            color: Colors.blue,
-                          ),
-                          onTap: () {
-                            chooseFromCamera();
-                            Navigator.of(context).pop();
-                          },
+      barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
+      barrierDismissible: true,
+      barrierColor: Colors.black.withValues(alpha: 0.6),
+      transitionDuration: const Duration(milliseconds: 700),
+      context: context,
+      pageBuilder: (_, _, _) {
+        return Material(
+          type: MaterialType.transparency,
+          child: Align(
+            child: Container(
+              height: Dimensions.heightSize * 13,
+              width: Dimensions.widthSize * 25,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(Dimensions.radius),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      GestureDetector(
+                        child: const Icon(
+                          Icons.camera_alt,
+                          size: 40.0,
+                          color: Colors.blue,
                         ),
-                        Text(
-                          'from Camera',
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: Dimensions.headingTextSize4),
-                        )
-                      ],
-                    ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        GestureDetector(
-                          child: const Icon(
-                            Icons.photo,
-                            size: 40.0,
-                            color: Colors.green,
-                          ),
-                          onTap: () {
-                            chooseFromGallery();
-                            Navigator.of(context).pop();
-                          },
+                        onTap: () {
+                          chooseFromCamera();
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                      Text(
+                        'from Camera',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: Dimensions.headingTextSize4,
                         ),
-                        Text(
-                          'From Gallery',
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: Dimensions.headingTextSize4),
-                        )
-                      ],
-                    ),
-                  ],
-                ),
+                      ),
+                    ],
+                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      GestureDetector(
+                        child: const Icon(
+                          Icons.photo,
+                          size: 40.0,
+                          color: Colors.green,
+                        ),
+                        onTap: () {
+                          chooseFromGallery();
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                      Text(
+                        'From Gallery',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: Dimensions.headingTextSize4,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
               ),
             ),
-          );
-        },
-        transitionBuilder: (_, anim, _, child) {
-          return SlideTransition(
-            position: Tween(begin: const Offset(0, 1), end: const Offset(0, 0))
-                .animate(anim),
-            child: child,
-          );
-        });
+          ),
+        );
+      },
+      transitionBuilder: (_, anim, _, child) {
+        return SlideTransition(
+          position: Tween(
+            begin: const Offset(0, 1),
+            end: const Offset(0, 0),
+          ).animate(anim),
+          child: child,
+        );
+      },
+    );
   }
 }

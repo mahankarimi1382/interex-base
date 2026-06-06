@@ -30,25 +30,18 @@ class ScanScreenState extends State<RequestMoneyQRCodeScreen> {
   final requestMoneyController = Get.put(RequestMoneyController());
 
   @override
-  void dispose() {
-    controller?.dispose();
-    super.dispose();
-  }
-
-  @override
   void reassemble() async {
     super.reassemble();
     if (Platform.isAndroid) {
       await controller!.pauseCamera();
     } else if (Platform.isIOS) {
-      controller!.resumeCamera();
+      await controller!.resumeCamera();
     }
   }
 
   void readQr() async {
     if (barcode != null) {
-      controller!.pauseCamera();
-      controller!.dispose();
+      await controller!.pauseCamera();
     }
   }
 
@@ -56,13 +49,12 @@ class ScanScreenState extends State<RequestMoneyQRCodeScreen> {
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(
       const SystemUiOverlayStyle(
-          statusBarColor: CustomColor.primaryLightScaffoldBackgroundColor),
+        statusBarColor: CustomColor.primaryLightScaffoldBackgroundColor,
+      ),
     );
     return ResponsiveLayout(
       mobileScaffold: Scaffold(
-        appBar: const AppBarWidget(
-          text: Strings.scanQR,
-        ),
+        appBar: const AppBarWidget(text: Strings.scanQR),
         body: _bodyWidget(context),
       ),
     );
@@ -74,10 +66,7 @@ class ScanScreenState extends State<RequestMoneyQRCodeScreen> {
       child: Stack(
         alignment: Alignment.center,
         children: [
-          Positioned(
-            top: 40,
-            child: _scanQrCodeWidget(context),
-          ),
+          Positioned(top: 40, child: _scanQrCodeWidget(context)),
           Positioned(
             bottom: 20,
             right: 5,
@@ -102,48 +91,52 @@ class ScanScreenState extends State<RequestMoneyQRCodeScreen> {
       key: qrKey,
       onQRViewCreated: onQRViewCreated,
       overlay: QrScannerOverlayShape(
-          cutOutSize: MediaQuery.of(context).size.width * 0.6,
-          borderWidth: 8,
-          borderLength: 20,
-          borderRadius: 10,
-          borderColor: Theme.of(context).primaryColor),
+        cutOutSize: MediaQuery.of(context).size.width * 0.6,
+        borderWidth: 8,
+        borderLength: 20,
+        borderRadius: 10,
+        borderColor: Theme.of(context).primaryColor,
+      ),
     );
   }
 
   void onQRViewCreated(QRViewController? controller) {
     setState(() => this.controller = controller);
-    controller!.scannedDataStream.listen((barcode) => setState(() {
-          this.barcode = barcode;
-          requestMoneyController.getCheckUserWithQrCodeData(
-            this.barcode!.code.toString(),
-          );
-          debugPrint(this.barcode!.code);
+    controller!.scannedDataStream.listen(
+      (barcode) => setState(() {
+        this.barcode = barcode;
+        requestMoneyController.getCheckUserWithQrCodeData(
+          this.barcode!.code.toString(),
+        );
+        debugPrint(this.barcode!.code);
 
-          requestMoneyController.copyInputController.text = this.barcode!.code!;
-          Get.toNamed(Routes.requestMoneyScreen);
+        requestMoneyController.copyInputController.text = this.barcode!.code!;
+        Get.toNamed(Routes.requestMoneyScreen);
 
-          readQr();
-        }));
+        readQr();
+      }),
+    );
   }
 
   Container _iconButtonWidget(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: Dimensions.paddingSize * 0.8),
-      margin: EdgeInsets.only(
-        bottom: Dimensions.marginSizeVertical,
-      ),
-      child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
-        GestureDetector(
-          onTap: () {
-            // Get.toNamed(Routes.moneyTransferScreen);
-          },
-          child: CircleAvatar(
-            radius: 30,
-            backgroundColor: Colors.black,
-            child: CustomImageWidget(path: Assets.icon.scan),
+      margin: EdgeInsets.only(bottom: Dimensions.marginSizeVertical),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          GestureDetector(
+            onTap: () {
+              // Get.toNamed(Routes.moneyTransferScreen);
+            },
+            child: CircleAvatar(
+              radius: 30,
+              backgroundColor: Colors.black,
+              child: CustomImageWidget(path: Assets.icon.scan),
+            ),
           ),
-        ),
-      ]),
+        ],
+      ),
     );
   }
 }

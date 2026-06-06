@@ -19,12 +19,10 @@ class MySenderRecipientApiServices {
   static Future<MySenderRecipientListModel?> myRecipientAPi() async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false).get(
-        ApiEndpoint.senderRecipientListURL,
-        code: 200,
-        showResult: false,
-      );
-      MySenderRecipientListModel modelData =
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).get(ApiEndpoint.senderRecipientListURL);
+      final MySenderRecipientListModel modelData =
           MySenderRecipientListModel.fromJson(mapResponse!);
 
       return modelData;
@@ -36,13 +34,17 @@ class MySenderRecipientApiServices {
     return null;
   }
 
-  static Future<CommonSuccessModel?> myRecipientStoreApi(
-      {required Map<String, dynamic> body}) async {
+  static Future<CommonSuccessModel?> myRecipientStoreApi({
+    required Map<String, dynamic> body,
+  }) async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false)
-          .post(ApiEndpoint.senderRecipientStoreURL, body, code: 200);
-      CommonSuccessModel result = CommonSuccessModel.fromJson(mapResponse!);
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).post(ApiEndpoint.senderRecipientStoreURL, body, code: 200);
+      final CommonSuccessModel result = CommonSuccessModel.fromJson(
+        mapResponse!,
+      );
 
       return result;
     } catch (e) {
@@ -53,13 +55,17 @@ class MySenderRecipientApiServices {
     return null;
   }
 
-  static Future<CommonSuccessModel?> myRecipientUpdateApi(
-      {required Map<String, dynamic> body}) async {
+  static Future<CommonSuccessModel?> myRecipientUpdateApi({
+    required Map<String, dynamic> body,
+  }) async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false)
-          .post(ApiEndpoint.senderRecipientUpdateURL, body, code: 200);
-      CommonSuccessModel modelData = CommonSuccessModel.fromJson(mapResponse!);
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).post(ApiEndpoint.senderRecipientUpdateURL, body, code: 200);
+      final CommonSuccessModel modelData = CommonSuccessModel.fromJson(
+        mapResponse!,
+      );
 
       return modelData;
     } catch (e) {
@@ -70,13 +76,17 @@ class MySenderRecipientApiServices {
     return null;
   }
 
-  static Future<CommonSuccessModel?> myRecipientDeleteApi(
-      {required Map<String, dynamic> body}) async {
+  static Future<CommonSuccessModel?> myRecipientDeleteApi({
+    required Map<String, dynamic> body,
+  }) async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false)
-          .post(ApiEndpoint.senderRecipientDeleteURL, body, code: 200);
-      CommonSuccessModel modelData = CommonSuccessModel.fromJson(mapResponse!);
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).post(ApiEndpoint.senderRecipientDeleteURL, body, code: 200);
+      final CommonSuccessModel modelData = CommonSuccessModel.fromJson(
+        mapResponse!,
+      );
       // CustomSnackBar.success(modelData.message.success.first.toString());
       return modelData;
     } catch (e) {
@@ -87,16 +97,17 @@ class MySenderRecipientApiServices {
     return null;
   }
 
-  static Future<RecipientEditModel?> receiverRecipientEditAPi(
-      {required String id}) async {
+  static Future<RecipientEditModel?> receiverRecipientEditAPi({
+    required String id,
+  }) async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false).get(
-        ApiEndpoint.senderRecipientEditURL + id,
-        code: 200,
-        showResult: false,
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).get(ApiEndpoint.senderRecipientEditURL + id);
+      final RecipientEditModel modelData = RecipientEditModel.fromJson(
+        mapResponse!,
       );
-      RecipientEditModel modelData = RecipientEditModel.fromJson(mapResponse!);
 
       return modelData;
     } catch (e) {
@@ -107,21 +118,20 @@ class MySenderRecipientApiServices {
     return null;
   }
 
-  static Future<CheckRecipientModel?> checkRecipientApi(
-      {required Map<String, dynamic> body}) async {
+  static Future<CheckRecipientModel?> checkRecipientApi({
+    required Map<String, dynamic> body,
+  }) async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false).post(
-        ApiEndpoint.recipientCheckUserURL,
-        body,
-        code: 200,
-        duration: 25,
-      );
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).post(ApiEndpoint.recipientCheckUserURL, body, code: 200, duration: 25);
       if (mapResponse != null) {
-        CheckRecipientModel checkRegisterModel =
+        final CheckRecipientModel checkRegisterModel =
             CheckRecipientModel.fromJson(mapResponse);
         CustomSnackBar.success(
-            checkRegisterModel.message.success.first.toString());
+          checkRegisterModel.message.success.first.toString(),
+        );
         return checkRegisterModel;
       }
     } catch (e) {
@@ -135,13 +145,11 @@ class MySenderRecipientApiServices {
   static Future<SaveRecipientInfoModel?> saveRecipientInfoAPi() async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false).get(
-        ApiEndpoint.senderRecipientInfoURL,
-        code: 200,
-        showResult: false,
-      );
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).get(ApiEndpoint.senderRecipientInfoURL);
       if (mapResponse != null) {
-        SaveRecipientInfoModel modelData =
+        final SaveRecipientInfoModel modelData =
             SaveRecipientInfoModel.fromJson(mapResponse);
 
         return modelData;

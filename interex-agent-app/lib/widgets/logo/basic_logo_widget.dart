@@ -16,7 +16,8 @@ class BasicLogoWidget extends StatelessWidget {
                   ? controller.appBasicLogoWhite.value
                   : controller.appBasicLogoDark.value,
               width: MediaQuery.of(context).size.width * 0.52,
-              height: MediaQuery.of(context).size.height *
+              height:
+                  MediaQuery.of(context).size.height *
                   (isDashBoard ? 0.055 : 0.1),
             ),
     );

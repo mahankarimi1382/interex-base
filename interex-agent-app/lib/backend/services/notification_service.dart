@@ -14,18 +14,15 @@ class NotificationService {
         FlutterLocalNotificationsPlugin();
     flutterLocalNotificationsPlugin
         .resolvePlatformSpecificImplementation<
-            AndroidFlutterLocalNotificationsPlugin>()
+          AndroidFlutterLocalNotificationsPlugin
+        >()
         ?.requestNotificationsPermission();
     flutterLocalNotificationsPlugin.initialize(
-      const InitializationSettings(
+      settings: const InitializationSettings(
         // Android settings.
         android: AndroidInitializationSettings('@mipmap/launcher_icon'),
         // iOS settings.
-        iOS: DarwinInitializationSettings(
-          requestAlertPermission: true,
-          requestBadgePermission: true,
-          requestSoundPermission: true,
-        ),
+        iOS: DarwinInitializationSettings(),
       ),
     );
   }
@@ -34,10 +31,7 @@ class NotificationService {
       FlutterLocalNotificationsPlugin();
   static NotificationDetails notificationDetails = NotificationDetails(
     // Android details.
-    android: AndroidNotificationDetails(
-      channelId,
-      channelName,
-    ),
+    android: AndroidNotificationDetails(channelId, channelName),
     // iOS details.
     iOS: const DarwinNotificationDetails(
       presentAlert: true,
@@ -46,19 +40,23 @@ class NotificationService {
     ),
   );
 
-  static void showLocalNotificationPusher(
-      {required String title, required String body}) {
+  static void showLocalNotificationPusher({
+    required String title,
+    required String body,
+  }) {
     flutterLocalNotificationsPlugin.show(
-      const Uuid().v4().hashCode, // Use the unique ID as the notification ID
-      title,
-      body,
-      notificationDetails,
+      id: const Uuid()
+          .v4()
+          .hashCode, // Use the unique ID as the notification ID
+      title: title,
+      body: body,
+      notificationDetails: notificationDetails,
     );
     debugPrint("<<< Success! >>>");
   }
 
   Future<void> cancelNotification(int id) async {
-    await flutterLocalNotificationsPlugin.cancel(id);
+    await flutterLocalNotificationsPlugin.cancel(id: id);
   }
 
   Future<void> cancelAllNotifications() async {

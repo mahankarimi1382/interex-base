@@ -5,6 +5,7 @@ import 'package:qrpay/utils/custom_switch_loading_api.dart';
 import 'package:qrpay/utils/responsive_layout.dart';
 import 'package:qrpay/widgets/appbar/appbar_widget.dart';
 import 'package:qrpay/widgets/others/limit_widget.dart';
+
 import '../../../backend/local_storage/local_storage.dart';
 import '../../../backend/model/wallet/wallets_model.dart';
 import '../../../backend/utils/custom_loading_api.dart';
@@ -56,60 +57,61 @@ class MobileTopUpScreen extends StatelessWidget {
         if (controller.selectTopUpType.value == "MANUAL" ||
             controller.selectTopUpType.value == "AUTOMATIC") ...[
           _buttonWidget(context),
-        ]
+        ],
       ],
     );
   }
 
   Container _buttonWidget(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(
-        vertical: Dimensions.marginSizeVertical * 2,
-      ),
+      margin: EdgeInsets.symmetric(vertical: Dimensions.marginSizeVertical * 2),
       child: Obx(
         () => controller.isInsertLoading
             ? const CustomLoadingAPI()
             : PrimaryButton(
                 title: Strings.topUpNow,
-                disable: controller.selectTopUpType.value == "AUTOMATIC" &&
+                disable:
+                    controller.selectTopUpType.value == "AUTOMATIC" &&
                     controller.isGettingOperator.value == false,
                 onPressed: () {
                   if (dashboardController.kycStatus.value == 1) {
-
-                    Get.find<SetUpPinController>().showPinDialog(context, onSuccess: (){
-
-                      if (controller.selectTopUpType.value == "AUTOMATIC" &&
-                          controller.isGettingOperator.value == true) {
-
-                        controller.mobileTopUpAutomaticProcess().then(
-                              (value) => StatusScreen.show(
-                            context: context,
-                            subTitle: Strings.yourTopUpSuccess.tr,
-                            onPressed: () {
-                              Get.offAllNamed(Routes.bottomNavBarScreen);
-                            },
-                          ),
-                        );
-                      } else if (controller.selectTopUpType.value == "MANUAL") {
-                        controller.type.value = controller
-                            .getType(controller.billMethodselected.value)!;
-                        controller
-                            .topUpApiProcess(
-                            amount: controller.amountController.text,
-                            number: controller.mobileNumberController.text,
-                            type: controller.type.value)
-                            .then(
-                              (value) => StatusScreen.show(
-                            context: context,
-                            subTitle: Strings.yourTopUpSuccess.tr,
-                            onPressed: () {
-                              Get.offAllNamed(Routes.bottomNavBarScreen);
-                            },
-                          ),
-                        );
-                      }
-                    });
-
+                    Get.find<SetUpPinController>().showPinDialog(
+                      context,
+                      onSuccess: () {
+                        if (controller.selectTopUpType.value == "AUTOMATIC" &&
+                            controller.isGettingOperator.value == true) {
+                          controller.mobileTopUpAutomaticProcess().then(
+                            (value) => StatusScreen.show(
+                              context: context,
+                              subTitle: Strings.yourTopUpSuccess.tr,
+                              onPressed: () {
+                                Get.offAllNamed(Routes.bottomNavBarScreen);
+                              },
+                            ),
+                          );
+                        } else if (controller.selectTopUpType.value ==
+                            "MANUAL") {
+                          controller.type.value = controller.getType(
+                            controller.billMethodselected.value,
+                          )!;
+                          controller
+                              .topUpApiProcess(
+                                amount: controller.amountController.text,
+                                number: controller.mobileNumberController.text,
+                                type: controller.type.value,
+                              )
+                              .then(
+                                (value) => StatusScreen.show(
+                                  context: context,
+                                  subTitle: Strings.yourTopUpSuccess.tr,
+                                  onPressed: () {
+                                    Get.offAllNamed(Routes.bottomNavBarScreen);
+                                  },
+                                ),
+                              );
+                        }
+                      },
+                    );
                   } else {
                     CustomSnackBar.error(Strings.pleaseSubmitYourInformation);
                     Future.delayed(const Duration(seconds: 2), () {
@@ -122,9 +124,10 @@ class MobileTopUpScreen extends StatelessWidget {
     );
   }
 
-//automatic
+  //automatic
   Container _inputWidget(BuildContext context) {
-    int precision = controller.selectMainWallet.value!.currency.type == 'FIAT'
+    final int precision =
+        controller.selectMainWallet.value!.currency.type == 'FIAT'
         ? LocalStorage.getFiatPrecision()
         : LocalStorage.getCryptoPrecision();
     return Container(
@@ -165,25 +168,25 @@ class MobileTopUpScreen extends StatelessWidget {
             onChanged: (v) {
               controller.getFee(
                 rate: double.parse(
-                    controller.selectMainWallet.value!.currency.rate),
+                  controller.selectMainWallet.value!.currency.rate,
+                ),
               );
             },
             suffixIcon: _walletsWidget(context),
           ),
-          Obx(
-            () {
-              return LimitWidget(
-                fee:
-                    '${controller.totalFee.value.toStringAsFixed(precision)} ${controller.selectMainWallet.value!.currency.code}',
-                limit:
-                    '${controller.limitMin.toStringAsFixed(precision)} - ${controller.limitMax.toStringAsFixed(precision)} ${controller.selectMainWallet.value!.currency.code}',
-              );
-            },
-          ),
+          Obx(() {
+            return LimitWidget(
+              fee:
+                  '${controller.totalFee.value.toStringAsFixed(precision)} ${controller.selectMainWallet.value!.currency.code}',
+              limit:
+                  '${controller.limitMin.toStringAsFixed(precision)} - ${controller.limitMax.toStringAsFixed(precision)} ${controller.selectMainWallet.value!.currency.code}',
+            );
+          }),
           LimitInformationWidget(
             showDailyLimit: controller.dailyLimit.value == 0.0 ? false : true,
-            showMonthlyLimit:
-                controller.monthlyLimit.value == 0.0 ? false : true,
+            showMonthlyLimit: controller.monthlyLimit.value == 0.0
+                ? false
+                : true,
             transactionLimit:
                 '${controller.limitMin.value.toStringAsFixed(precision)} - ${controller.limitMax.value.toStringAsFixed(precision)} ${controller.selectMainWallet.value!.currency.code}',
             dailyLimit:
@@ -224,7 +227,8 @@ class MobileTopUpScreen extends StatelessWidget {
   }
 
   Obx _automaticInputWidget(BuildContext context) {
-    int precision = controller.selectMainWallet.value!.currency.type == 'FIAT'
+    final int precision =
+        controller.selectMainWallet.value!.currency.type == 'FIAT'
         ? LocalStorage.getFiatPrecision()
         : LocalStorage.getCryptoPrecision();
     return Obx(
@@ -258,7 +262,7 @@ class MobileTopUpScreen extends StatelessWidget {
               child: const CustomSwitchLoading(
                 color: CustomColor.primaryDarkColor,
               ),
-            )
+            ),
           ],
           if (controller.isGettingOperator.value) ...[
             verticalSpace(Dimensions.heightSize * 0.5),
@@ -274,7 +278,8 @@ class MobileTopUpScreen extends StatelessWidget {
                     onChanged: (v) {
                       controller.getFee(
                         rate: double.parse(
-                            controller.selectMainWallet.value!.currency.rate),
+                          controller.selectMainWallet.value!.currency.rate,
+                        ),
                       );
                     },
                     suffixIcon: _walletsWidget(context),
@@ -292,11 +297,20 @@ class MobileTopUpScreen extends StatelessWidget {
               Wrap(
                 children: List.generate(
                   controller
-                      .detectOperatorModel.data.data!.localFixedAmounts!.length,
+                      .detectOperatorModel
+                      .data
+                      .data!
+                      .localFixedAmounts!
+                      .length,
                   (index) {
-                    var amount = double.parse(controller.detectOperatorModel
-                        .data.data!.localFixedAmounts![index]
-                        .toString());
+                    final amount = double.parse(
+                      controller
+                          .detectOperatorModel
+                          .data
+                          .data!
+                          .localFixedAmounts![index]
+                          .toString(),
+                    );
                     return InkWell(
                       highlightColor: Colors.transparent,
                       hoverColor: Colors.transparent,
@@ -317,8 +331,9 @@ class MobileTopUpScreen extends StatelessWidget {
                           color: controller.selectedAmount.value == index
                               ? CustomColor.primaryLightColor
                               : CustomColor.kDarkBlue,
-                          borderRadius:
-                              BorderRadius.circular(Dimensions.radius),
+                          borderRadius: BorderRadius.circular(
+                            Dimensions.radius,
+                          ),
                         ),
                         child: Center(
                           child: TitleHeading4Widget(
@@ -335,52 +350,61 @@ class MobileTopUpScreen extends StatelessWidget {
               ),
             ],
 
-            Obx(
-              () {
-                var data = controller.detectOperatorModel.data.data!;
-                bool isNotLocalLimit = data.supportsLocalAmounts == true &&
-                    data.destinationCurrencyCode == data.senderCurrencyCode &&
-                    data.localMinAmount == 0.0 &&
-                    data.localMaxAmount == 0.0;
-                bool isLocalLimitFx = data.supportsLocalAmounts == true &&
-                    data.localMinAmount != 0.0 &&
-                    data.localMaxAmount != 0.0;
-
-                return LimitWidget(
-                    showLimit: controller
-                            .detectOperatorModel.data.data!.denominationType !=
-                        'FIXED',
-                    fee:
-                        '${controller.feesAndCharge.value.toStringAsFixed(precision)} ${controller.isCountry.value == false ? controller.operatorCurrency.value : controller.selectMainWallet.value!.currency.code} ${controller.percentCharge.value.toStringAsFixed(precision)}%',
-                    limit: isNotLocalLimit
-                        ? '${double.parse(controller.operatorLimitMin.toStringAsFixed(precision))} - ${double.parse(controller.operatorLimitMax.toStringAsFixed(precision))} ${controller.isCountry.value == false ? controller.operatorCurrency.value : controller.selectMainWallet.value!.currency.code}'
-                        : isLocalLimitFx
-                            ? '${double.parse(controller.operatorLocalLimitMin.toStringAsFixed(precision))} - ${double.parse(controller.operatorLocalLimitMax.toStringAsFixed(precision))} ${controller.isCountry.value == false ? controller.operatorCurrency.value : controller.selectMainWallet.value!.currency.code}'
-                            : '${double.parse(controller.operatorLimitFxMin.toStringAsFixed(precision))} - ${double.parse(controller.operatorLimitFxMax.toStringAsFixed(precision))} ${controller.isCountry.value == false ? controller.operatorCurrency.value : controller.selectMainWallet.value!.currency.code}');
-              },
-            ),
-
             Obx(() {
-              var currency =
-                  '${controller.isCountry.value == false ? controller.operatorCurrency.value : controller.selectMainWallet.value!.currency.code} ';
-              var data = controller.detectOperatorModel.data.data!;
-              bool isNotLocalLimit = data.supportsLocalAmounts == true &&
+              final data = controller.detectOperatorModel.data.data!;
+              final bool isNotLocalLimit =
+                  data.supportsLocalAmounts == true &&
                   data.destinationCurrencyCode == data.senderCurrencyCode &&
                   data.localMinAmount == 0.0 &&
                   data.localMaxAmount == 0.0;
-              bool isLocalLimitFx = data.supportsLocalAmounts == true &&
+              final bool isLocalLimitFx =
+                  data.supportsLocalAmounts == true &&
+                  data.localMinAmount != 0.0 &&
+                  data.localMaxAmount != 0.0;
+
+              return LimitWidget(
+                showLimit:
+                    controller
+                        .detectOperatorModel
+                        .data
+                        .data!
+                        .denominationType !=
+                    'FIXED',
+                fee:
+                    '${controller.feesAndCharge.value.toStringAsFixed(precision)} ${controller.isCountry.value == false ? controller.operatorCurrency.value : controller.selectMainWallet.value!.currency.code} ${controller.percentCharge.value.toStringAsFixed(precision)}%',
+                limit: isNotLocalLimit
+                    ? '${double.parse(controller.operatorLimitMin.toStringAsFixed(precision))} - ${double.parse(controller.operatorLimitMax.toStringAsFixed(precision))} ${controller.isCountry.value == false ? controller.operatorCurrency.value : controller.selectMainWallet.value!.currency.code}'
+                    : isLocalLimitFx
+                    ? '${double.parse(controller.operatorLocalLimitMin.toStringAsFixed(precision))} - ${double.parse(controller.operatorLocalLimitMax.toStringAsFixed(precision))} ${controller.isCountry.value == false ? controller.operatorCurrency.value : controller.selectMainWallet.value!.currency.code}'
+                    : '${double.parse(controller.operatorLimitFxMin.toStringAsFixed(precision))} - ${double.parse(controller.operatorLimitFxMax.toStringAsFixed(precision))} ${controller.isCountry.value == false ? controller.operatorCurrency.value : controller.selectMainWallet.value!.currency.code}',
+              );
+            }),
+
+            Obx(() {
+              final currency =
+                  '${controller.isCountry.value == false ? controller.operatorCurrency.value : controller.selectMainWallet.value!.currency.code} ';
+              final data = controller.detectOperatorModel.data.data!;
+              final bool isNotLocalLimit =
+                  data.supportsLocalAmounts == true &&
+                  data.destinationCurrencyCode == data.senderCurrencyCode &&
+                  data.localMinAmount == 0.0 &&
+                  data.localMaxAmount == 0.0;
+              final bool isLocalLimitFx =
+                  data.supportsLocalAmounts == true &&
                   data.localMinAmount != 0.0 &&
                   data.localMaxAmount != 0.0;
               return LimitInformationWidget(
-                showDailyLimit:
-                    controller.dailyLimit.value == 0.0 ? false : true,
-                showMonthlyLimit:
-                    controller.monthlyLimit.value == 0.0 ? false : true,
+                showDailyLimit: controller.dailyLimit.value == 0.0
+                    ? false
+                    : true,
+                showMonthlyLimit: controller.monthlyLimit.value == 0.0
+                    ? false
+                    : true,
                 transactionLimit: isNotLocalLimit
                     ? '${double.parse(controller.operatorLimitMin.toStringAsFixed(precision))} - ${double.parse(controller.operatorLimitMax.toStringAsFixed(precision))} ${controller.isCountry.value == false ? controller.operatorCurrency.value : controller.selectMainWallet.value!.currency.code}'
                     : isLocalLimitFx
-                        ? '${double.parse(controller.operatorLocalLimitMin.toStringAsFixed(precision))} - ${double.parse(controller.operatorLocalLimitMax.toStringAsFixed(precision))} $currency'
-                        : '${double.parse(controller.operatorLimitFxMin.toStringAsFixed(precision))} - ${double.parse(controller.operatorLimitFxMax.toStringAsFixed(precision))} $currency',
+                    ? '${double.parse(controller.operatorLocalLimitMin.toStringAsFixed(precision))} - ${double.parse(controller.operatorLocalLimitMax.toStringAsFixed(precision))} $currency'
+                    : '${double.parse(controller.operatorLimitFxMin.toStringAsFixed(precision))} - ${double.parse(controller.operatorLimitFxMax.toStringAsFixed(precision))} $currency',
                 dailyLimit:
                     '${controller.dailyLimit.value.toStringAsFixed(precision)} $currency',
                 monthlyLimit:
@@ -391,13 +415,13 @@ class MobileTopUpScreen extends StatelessWidget {
                     '${controller.remainingController.remainingDailyLimit.value.toStringAsFixed(precision)} $currency',
               );
             }),
-          ]
+          ],
         ],
       ),
     );
   }
 
-//wallet widget
+  //wallet widget
   Container _walletsWidget(BuildContext context) {
     return Container(
       height: Dimensions.inputBoxHeight,
@@ -426,67 +450,69 @@ class MobileTopUpScreen extends StatelessWidget {
           iconSize: Dimensions.heightSize * 1.5,
           dropdownColor: CustomColor.primaryLightColor,
           underline: Container(),
-          items: controller.walletsList.map<DropdownMenuItem<MainUserWallet>>(
-            (value) {
-              return DropdownMenuItem<MainUserWallet>(
-                value: value,
-                child: Text(
-                  value.currency.code,
-                  style: GoogleFonts.inter(
-                    color: CustomColor.whiteColor,
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.w500,
-                  ),
+          items: controller.walletsList.map<DropdownMenuItem<MainUserWallet>>((
+            value,
+          ) {
+            return DropdownMenuItem<MainUserWallet>(
+              value: value,
+              child: Text(
+                value.currency.code,
+                style: GoogleFonts.inter(
+                  color: CustomColor.whiteColor,
+                  fontSize: 16.sp,
+                  fontWeight: FontWeight.w500,
                 ),
-              );
-            },
-          ).toList(),
+              ),
+            );
+          }).toList(),
           onChanged: (MainUserWallet? value) {
             controller.isCountry.value = true;
             controller.selectMainWallet.value = value;
             if (controller.selectTopUpType.value == "AUTOMATIC") {
-              controller.exchangeRate.value = controller.operatorRate.value /
+              controller.exchangeRate.value =
+                  controller.operatorRate.value /
                   double.parse(value!.currency.rate);
               controller.getAutomaticFee(
-                  rate: double.parse(value.currency.rate));
+                rate: double.parse(value.currency.rate),
+              );
               //operator limit
               controller.operatorLimitMin.value =
                   controller.detectOperatorModel.data.data!.minAmount! /
-                      controller.exchangeRate.value;
+                  controller.exchangeRate.value;
               controller.operatorLimitMax.value =
                   (controller.detectOperatorModel.data.data!.maxAmount! /
-                      controller.exchangeRate.value);
+                  controller.exchangeRate.value);
               //operator limit local
               controller.operatorLocalLimitMin.value =
                   controller.detectOperatorModel.data.data!.minAmount! /
-                      controller.exchangeRate.value;
+                  controller.exchangeRate.value;
               controller.operatorLocalLimitMin.value =
                   (controller.detectOperatorModel.data.data!.maxAmount! /
-                      controller.exchangeRate.value);
+                  controller.exchangeRate.value);
               //Fx filteer limit
               controller.operatorLimitFxMin.value =
                   ((controller.detectOperatorModel.data.data!.minAmount! *
-                          controller.detectOperatorModel.data.data!.fx!.rate) /
-                      controller.exchangeRate.value);
+                      controller.detectOperatorModel.data.data!.fx!.rate) /
+                  controller.exchangeRate.value);
 
               controller.operatorLimitFxMax.value =
                   ((controller.detectOperatorModel.data.data!.minAmount! *
-                          controller.detectOperatorModel.data.data!.fx!.rate) /
-                      controller.exchangeRate.value);
+                      controller.detectOperatorModel.data.data!.fx!.rate) /
+                  controller.exchangeRate.value);
 
               controller.limitMin.value =
                   controller.topUpInfoData.data.topupCharge.minLimit *
-                      double.parse(value.currency.rate);
+                  double.parse(value.currency.rate);
               controller.limitMax.value =
                   controller.topUpInfoData.data.topupCharge.maxLimit *
-                      double.parse(value.currency.rate);
+                  double.parse(value.currency.rate);
 
               controller.dailyLimit.value =
                   controller.topUpInfoData.data.topupCharge.dailyLimit *
-                      double.parse(value.currency.rate);
+                  double.parse(value.currency.rate);
               controller.monthlyLimit.value =
                   controller.topUpInfoData.data.topupCharge.dailyLimit *
-                      double.parse(value.currency.rate);
+                  double.parse(value.currency.rate);
               controller.remainingController.senderCurrency.value =
                   value.currency.code;
               controller.remainingController.getRemainingBalanceProcess();
@@ -496,10 +522,10 @@ class MobileTopUpScreen extends StatelessWidget {
 
               controller.limitMin.value =
                   controller.topUpInfoData.data.topupCharge.minLimit *
-                      double.parse(value.currency.rate);
+                  double.parse(value.currency.rate);
               controller.limitMax.value =
                   controller.topUpInfoData.data.topupCharge.maxLimit *
-                      double.parse(value.currency.rate);
+                  double.parse(value.currency.rate);
 
               controller.remainingController.senderCurrency.value =
                   value.currency.code;
@@ -509,10 +535,10 @@ class MobileTopUpScreen extends StatelessWidget {
 
               controller.dailyLimit.value =
                   controller.topUpInfoData.data.topupCharge.dailyLimit *
-                      double.parse(value.currency.rate);
+                  double.parse(value.currency.rate);
               controller.monthlyLimit.value =
                   controller.topUpInfoData.data.topupCharge.dailyLimit *
-                      double.parse(value.currency.rate);
+                  double.parse(value.currency.rate);
             }
           },
         ),

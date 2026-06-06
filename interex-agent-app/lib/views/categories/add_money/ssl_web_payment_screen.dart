@@ -17,13 +17,11 @@ class SslWebPaymentScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PopScope(
-      canPop: true,
       onPopInvokedWithResult: (isTrue, value) {
         Get.offAllNamed(Routes.bottomNavBarScreen);
       },
       child: Scaffold(
         appBar: AppBarWidget(
-          homeButtonShow: false,
           text: Strings.sslPayment.tr,
           onTapLeading: () {
             Get.offAllNamed(Routes.bottomNavBarScreen);
@@ -40,10 +38,10 @@ class SslWebPaymentScreen extends StatelessWidget {
 
   InAppWebView _bodyWidget(BuildContext context) {
     final data = controller.addMoneySslInsertModel.data;
-    var paymentUrl = data.url;
+    final paymentUrl = data.url;
 
     return InAppWebView(
-      initialUrlRequest: URLRequest(url:WebUri(paymentUrl)),
+      initialUrlRequest: URLRequest(url: WebUri(paymentUrl)),
       onWebViewCreated: (InAppWebViewController controller) {},
       onProgressChanged: (InAppWebViewController controller, int progress) {},
       onLoadStop: (controller, url) {

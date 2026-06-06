@@ -40,7 +40,7 @@ class CopyInputWidget extends StatefulWidget {
     this.onTap,
     required this.suffixIcon,
     this.suffixColor,
-     this.onChanged,
+    this.onChanged,
   });
 
   @override
@@ -65,16 +65,12 @@ class _PrimaryInputWidgetState extends State<CopyInputWidget> {
   @override
   Widget build(BuildContext context) {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        TitleHeading4Widget(
-          text: widget.label,
-          fontWeight: FontWeight.w600,
-        ),
+        TitleHeading4Widget(text: widget.label, fontWeight: FontWeight.w600),
         verticalSpace(7),
         TextFormField(
-          onChanged:widget. onChanged,
+          onChanged: widget.onChanged,
           validator: widget.isValidator == false
               ? null
               : (String? value) {
@@ -93,7 +89,10 @@ class _PrimaryInputWidgetState extends State<CopyInputWidget> {
           },
           onFieldSubmitted: (value) {
             if (widget
-                .sendMoneyController.copyInputController.text.isNotEmpty) {
+                .sendMoneyController
+                .copyInputController
+                .text
+                .isNotEmpty) {
               widget.sendMoneyController.getCheckUserExistDate();
             }
             setState(() {
@@ -103,7 +102,10 @@ class _PrimaryInputWidgetState extends State<CopyInputWidget> {
           },
           onTapOutside: (value) {
             if (widget
-                .sendMoneyController.copyInputController.text.isNotEmpty) {
+                .sendMoneyController
+                .copyInputController
+                .text
+                .isNotEmpty) {
               widget.sendMoneyController.getCheckUserExistDate();
             }
             setState(() {
@@ -122,19 +124,21 @@ class _PrimaryInputWidgetState extends State<CopyInputWidget> {
               fontSize: Dimensions.headingTextSize3,
               fontWeight: FontWeight.w500,
               color: Get.isDarkMode
-                  ? CustomColor.primaryDarkTextColor.withValues(alpha:0.2)
-                  : CustomColor.primaryTextColor.withValues(alpha:0.2),
+                  ? CustomColor.primaryDarkTextColor.withValues(alpha: 0.2)
+                  : CustomColor.primaryTextColor.withValues(alpha: 0.2),
             ),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(Dimensions.radius * 0.5),
               borderSide: BorderSide(
-                color: Theme.of(context).primaryColor.withValues(alpha:0.2),
+                color: Theme.of(context).primaryColor.withValues(alpha: 0.2),
               ),
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(Dimensions.radius * 0.5),
-              borderSide:
-                  BorderSide(width: 2, color: Theme.of(context).primaryColor),
+              borderSide: BorderSide(
+                width: 2,
+                color: Theme.of(context).primaryColor,
+              ),
             ),
             errorBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(Dimensions.radius * 0.5),

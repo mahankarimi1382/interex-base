@@ -28,15 +28,11 @@ class UpdateProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return ResponsiveLayout(
       mobileScaffold: Scaffold(
-        appBar: const AppBarWidget(
-          text: Strings.updateProfile,
-        ),
+        appBar: const AppBarWidget(text: Strings.updateProfile),
         body: Obx(
           () => controller.isLoading
               ? const CustomLoadingAPI()
-              : _bodyWidget(
-                  context,
-                ),
+              : _bodyWidget(context),
         ),
       ),
     );
@@ -124,9 +120,7 @@ class UpdateProfileScreen extends StatelessWidget {
           ),
 
           //ended country number picker
-          verticalSpace(
-            Dimensions.heightSize,
-          ),
+          verticalSpace(Dimensions.heightSize),
           Row(
             children: [
               Expanded(
@@ -154,9 +148,7 @@ class UpdateProfileScreen extends StatelessWidget {
 
   Container _buttonWidget(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(
-        vertical: Dimensions.marginSizeVertical,
-      ),
+      margin: EdgeInsets.symmetric(vertical: Dimensions.marginSizeVertical),
       child: Obx(
         () => controller.isUpdateLoading
             ? const CustomLoadingAPI()
@@ -165,25 +157,27 @@ class UpdateProfileScreen extends StatelessWidget {
                 onPressed: () {
                   if (_fromKey.currentState!.validate()) {
                     if (controller.imageController.isImagePathSet.value) {
-                      controller
-                          .profileUpdateWithImageProcess()
-                          .then((value) => StatusScreen.show(
-                              // ignore: use_build_context_synchronously
-                              context: context,
-                              subTitle: value.message.success.first,
-                              onPressed: () {
-                                Get.offAllNamed(Routes.bottomNavBarScreen);
-                              }));
+                      controller.profileUpdateWithImageProcess().then(
+                        (value) => StatusScreen.show(
+                          // ignore: use_build_context_synchronously
+                          context: context,
+                          subTitle: value.message.success.first,
+                          onPressed: () {
+                            Get.offAllNamed(Routes.bottomNavBarScreen);
+                          },
+                        ),
+                      );
                     } else {
-                      controller
-                          .profileUpdateWithOutImageProcess()
-                          .then((value) => StatusScreen.show(
-                              // ignore: use_build_context_synchronously
-                              context: context,
-                              subTitle: value.message.success.first,
-                              onPressed: () {
-                                Get.offAllNamed(Routes.bottomNavBarScreen);
-                              }));
+                      controller.profileUpdateWithOutImageProcess().then(
+                        (value) => StatusScreen.show(
+                          // ignore: use_build_context_synchronously
+                          context: context,
+                          subTitle: value.message.success.first,
+                          onPressed: () {
+                            Get.offAllNamed(Routes.bottomNavBarScreen);
+                          },
+                        ),
+                      );
                     }
                   }
                 },

@@ -19,14 +19,14 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await ScreenUtil.ensureScreenSize();
   // Locking Device Orientation
-  SystemChrome.setPreferredOrientations([
+  await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
   NotificationService.init();
   // check internet connection
   InternetCheckDependencyInjection.init();
-  GetStorage.init();
+  await GetStorage.init();
   // main app
   runApp(const MyApp());
 }
@@ -48,8 +48,6 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
 
   Future<void> initPusherBeams() async {
     if (!kIsWeb) {
- 
-
       await PusherBeams.instance.onMessageReceivedInTheForeground(
         _onMessageReceivedInTheForeground,
       );

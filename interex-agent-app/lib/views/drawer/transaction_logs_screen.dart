@@ -33,14 +33,15 @@ class TransactionLogScreen extends StatelessWidget {
         length: 10,
         child: Scaffold(
           appBar: TransactionAppBarWidget(
-              text: Strings.transactionLog,
-              bottomBar: PreferredSize(
-                preferredSize: _tabBarWidget.preferredSize,
-                child: ColoredBox(
-                  color: Theme.of(context).scaffoldBackgroundColor,
-                  child: _tabBarWidget,
-                ),
-              )),
+            text: Strings.transactionLog,
+            bottomBar: PreferredSize(
+              preferredSize: _tabBarWidget.preferredSize,
+              child: ColoredBox(
+                color: Theme.of(context).scaffoldBackgroundColor,
+                child: _tabBarWidget,
+              ),
+            ),
+          ),
           body: Obx(
             () => controller.isLoading
                 ? const CustomLoadingAPI()
@@ -53,96 +54,54 @@ class TransactionLogScreen extends StatelessWidget {
 
   // tab bar widget
   TabBar get _tabBarWidget => TabBar(
-        dividerColor: Colors.transparent,
-        isScrollable: true,
-        labelColor: Colors.white,
-        unselectedLabelColor: CustomColor.primaryLightTextColor,
-        indicatorSize: TabBarIndicatorSize.tab,
-        labelStyle: CustomStyle.lightHeading4TextStyle.copyWith(
-          color: CustomColor.primaryLightColor,
-          fontSize: Dimensions.headingTextSize4,
+    dividerColor: Colors.transparent,
+    isScrollable: true,
+    labelColor: Colors.white,
+    unselectedLabelColor: CustomColor.primaryLightTextColor,
+    indicatorSize: TabBarIndicatorSize.tab,
+    labelStyle: CustomStyle.lightHeading4TextStyle.copyWith(
+      color: CustomColor.primaryLightColor,
+      fontSize: Dimensions.headingTextSize4,
+    ),
+    unselectedLabelStyle: CustomStyle.lightHeading4TextStyle.copyWith(
+      color: CustomColor.primaryLightTextColor,
+      fontSize: Dimensions.headingTextSize4,
+    ),
+    indicator: BoxDecoration(
+      borderRadius: BorderRadius.circular(50),
+      color: CustomColor.primaryLightColor,
+    ),
+    tabs: [
+      Tab(child: _textWidget(Strings.addMoneyLog, textAlign: TextAlign.center)),
+      Tab(child: _textWidget(Strings.moneyIn, textAlign: TextAlign.center)),
+      Tab(child: _textWidget(Strings.profitLog, textAlign: TextAlign.center)),
+      Tab(child: _textWidget(Strings.withdrawLog, textAlign: TextAlign.center)),
+      Tab(
+        child: _textWidget(Strings.sendMoneyLog, textAlign: TextAlign.center),
+      ),
+      // add new tab
+      Tab(
+        child: _textWidget('Exchange Money Log', textAlign: TextAlign.center),
+      ),
+      Tab(child: _textWidget(Strings.billPayLog, textAlign: TextAlign.center)),
+      Tab(
+        child: _textWidget(Strings.mobileTopUpLog, textAlign: TextAlign.center),
+      ),
+      Tab(
+        child: _textWidget(Strings.remittanceLog, textAlign: TextAlign.center),
+      ),
+      Tab(
+        child: _textWidget(
+          Strings.addSubBalanceLog,
+          textAlign: TextAlign.center,
         ),
-        unselectedLabelStyle: CustomStyle.lightHeading4TextStyle.copyWith(
-          color: CustomColor.primaryLightTextColor,
-          fontSize: Dimensions.headingTextSize4,
-        ),
-        indicator: BoxDecoration(
-          shape: BoxShape.rectangle,
-          borderRadius: BorderRadius.circular(50),
-          color: CustomColor.primaryLightColor,
-        ),
-        tabs: [
-          Tab(
-            child: _textWidget(
-              Strings.addMoneyLog,
-              textAlign: TextAlign.center,
-            ),
-          ),
-          Tab(
-            child: _textWidget(
-              Strings.moneyIn,
-              textAlign: TextAlign.center,
-            ),
-          ),
-          Tab(
-            child: _textWidget(
-              Strings.profitLog,
-              textAlign: TextAlign.center,
-            ),
-          ),
-          Tab(
-            child: _textWidget(
-              Strings.withdrawLog,
-              textAlign: TextAlign.center,
-            ),
-          ),
-          Tab(
-            child: _textWidget(
-              Strings.sendMoneyLog,
-              textAlign: TextAlign.center,
-            ),
-          ),
-          // add new tab
-          Tab(
-            child: _textWidget(
-              'Exchange Money Log',
-              textAlign: TextAlign.center,
-            ),
-          ),
-          Tab(
-            child: _textWidget(
-              Strings.billPayLog,
-              textAlign: TextAlign.center,
-            ),
-          ),
-          Tab(
-            child: _textWidget(
-              Strings.mobileTopUpLog,
-              textAlign: TextAlign.center,
-            ),
-          ),
-          Tab(
-            child: _textWidget(
-              Strings.remittanceLog,
-              textAlign: TextAlign.center,
-            ),
-          ),
-          Tab(
-            child: _textWidget(
-              Strings.addSubBalanceLog,
-              textAlign: TextAlign.center,
-            ),
-          ),
-        ],
-      );
+      ),
+    ],
+  );
 
   Obx _textWidget(String text, {required TextAlign textAlign}) {
     final languageController = Get.put(LanguageController());
-    return Obx(
-      () => Text(
-        languageController.getTranslation(text),
-      ),
-    );
+    return Obx(() => Text(languageController.getTranslation(text)));
   }
 
   Container _bodyWidget(BuildContext context) {
@@ -150,7 +109,8 @@ class TransactionLogScreen extends StatelessWidget {
       height: MediaQuery.of(context).size.height,
       width: MediaQuery.of(context).size.width,
       margin: EdgeInsets.symmetric(
-          horizontal: Dimensions.marginSizeHorizontal * 0.5),
+        horizontal: Dimensions.marginSizeHorizontal * 0.5,
+      ),
       child: TabBarView(
         physics: const BouncingScrollPhysics(),
         children: [

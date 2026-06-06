@@ -273,8 +273,8 @@ class RemittanceScreen extends StatelessWidget {
   }
 
   Column _selectedInputWidget(BuildContext context) {
-    var currency = controller.baseCurrency.value;
-    int precision = !controller.isCrypto1.value
+    final currency = controller.baseCurrency.value;
+    final int precision = !controller.isCrypto1.value
         ? LocalStorage.getFiatPrecision()
         : LocalStorage.getCryptoPrecision();
     return Column(
@@ -292,7 +292,6 @@ class RemittanceScreen extends StatelessWidget {
               controller.remainingController.senderAmount.value =
                   controller.amountController.text;
               controller.remainingController.getRemainingBalanceProcess();
-      
             }
             controller.recipientGet;
             controller.getFee(rate: controller.fromCountriesRate.value);
@@ -352,8 +351,6 @@ class RemittanceScreen extends StatelessWidget {
   }
 
   Container _buttonWidget(BuildContext context) {
-  
-
     return Container(
       margin: EdgeInsets.symmetric(vertical: Dimensions.marginSizeVertical),
       child: PrimaryButton(

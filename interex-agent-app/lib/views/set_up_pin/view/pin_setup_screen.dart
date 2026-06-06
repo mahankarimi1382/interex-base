@@ -14,9 +14,7 @@ class PinSetupScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const AppBarWidget(
-        text: Strings.pinSetup,
-      ),
+      appBar: const AppBarWidget(text: Strings.pinSetup),
       body: Obx(
         () => controller.isLoading
             ? const CustomLoadingAPI()
@@ -28,12 +26,10 @@ class PinSetupScreen extends StatelessWidget {
   ListView _bodyWidget(BuildContext context) {
     return ListView(
       padding: EdgeInsets.symmetric(
-          horizontal: Dimensions.marginSizeHorizontal * 0.9),
+        horizontal: Dimensions.marginSizeHorizontal * 0.9,
+      ),
       physics: const BouncingScrollPhysics(),
-      children: [
-        _inputWidget(context),
-        _buttonWidget(context),
-      ],
+      children: [_inputWidget(context), _buttonWidget(context)],
     );
   }
 

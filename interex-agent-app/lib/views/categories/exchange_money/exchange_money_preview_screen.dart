@@ -42,35 +42,33 @@ class ExchangeMoneyPreviewScreen extends StatelessWidget {
   }
 
   Widget _amountWidget(BuildContext context) {
-    int precision = controller.selectFromWallet.value!.currency.type == "CRYPTO"
+    final int precision =
+        controller.selectFromWallet.value!.currency.type == "CRYPTO"
         ? controller.cryptoPrecision.value
         : controller.fiatPrecision.value;
     return previewAmount(
-        amount:
-            '${double.parse(controller.exchangeFromAmountController.text).toStringAsFixed(precision)} ${controller.selectFromWallet.value!.currency.code}');
+      amount:
+          '${double.parse(controller.exchangeFromAmountController.text).toStringAsFixed(precision)} ${controller.selectFromWallet.value!.currency.code}',
+    );
   }
 
   Widget _amountInformationWidget(BuildContext context) {
-    var senderCurrency = controller.selectFromWallet.value!.currency;
-    var receiverCurrency = controller.selectToWallet.value!.currency;
+    final senderCurrency = controller.selectFromWallet.value!.currency;
+    final receiverCurrency = controller.selectToWallet.value!.currency;
 
-    int precision = controller.selectFromWallet.value!.currency.type == "CRYPTO"
+    final int precision =
+        controller.selectFromWallet.value!.currency.type == "CRYPTO"
         ? controller.cryptoPrecision.value
         : controller.fiatPrecision.value;
-    int precision2 = controller.selectToWallet.value!.currency.type == "CRYPTO"
+    final int precision2 =
+        controller.selectToWallet.value!.currency.type == "CRYPTO"
         ? controller.cryptoPrecision.value
         : controller.fiatPrecision.value;
     return amountInformationWidget(
       children: Column(
         children: [
-          _rowWidget(
-            title: Strings.fromWallet,
-            subTitle: senderCurrency.code,
-          ),
-          _rowWidget(
-            title: Strings.toWallet,
-            subTitle: receiverCurrency.code,
-          ),
+          _rowWidget(title: Strings.fromWallet, subTitle: senderCurrency.code),
+          _rowWidget(title: Strings.toWallet, subTitle: receiverCurrency.code),
         ],
       ),
       information: Strings.amountInformation,
@@ -91,9 +89,7 @@ class ExchangeMoneyPreviewScreen extends StatelessWidget {
 
   Container _buttonWidget(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(
-        top: Dimensions.marginSizeVertical * 2,
-      ),
+      margin: EdgeInsets.only(top: Dimensions.marginSizeVertical * 2),
       child: Obx(
         () => controller.isMoneyExchangeLoading
             ? const CustomLoadingAPI()
@@ -101,7 +97,9 @@ class ExchangeMoneyPreviewScreen extends StatelessWidget {
                 title: Strings.confirm,
                 onPressed: () {
                   if (dashboardController.kycStatus.value == 1) {
-                    controller.moneyExchangeProcess(context).then(
+                    controller
+                        .moneyExchangeProcess(context)
+                        .then(
                           (value) => StatusScreen.show(
                             context: context,
                             subTitle: value.message.success.first,
@@ -119,7 +117,7 @@ class ExchangeMoneyPreviewScreen extends StatelessWidget {
                 },
               ),
       ),
-    ); 
+    );
   }
 
   Column _rowWidget({required String title, required String subTitle}) {
@@ -131,18 +129,14 @@ class ExchangeMoneyPreviewScreen extends StatelessWidget {
             TitleHeading4Widget(
               text: title,
               color: Get.isDarkMode
-                  ? CustomColor.primaryDarkTextColor.withValues(alpha:0.6)
-                  : CustomColor.primaryLightColor.withValues(alpha:
-                      0.4,
-                    ),
+                  ? CustomColor.primaryDarkTextColor.withValues(alpha: 0.6)
+                  : CustomColor.primaryLightColor.withValues(alpha: 0.4),
             ),
             TitleHeading3Widget(
               text: subTitle,
               color: Get.isDarkMode
-                  ? CustomColor.primaryDarkTextColor.withValues(alpha:0.6)
-                  : CustomColor.primaryLightColor.withValues(alpha:
-                      0.6,
-                    ),
+                  ? CustomColor.primaryDarkTextColor.withValues(alpha: 0.6)
+                  : CustomColor.primaryLightColor.withValues(alpha: 0.6),
               fontWeight: FontWeight.w600,
             ),
           ],

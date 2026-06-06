@@ -12,8 +12,11 @@ import '../../utils/dimensions.dart';
 File? imageFile;
 
 class ManualPaymentImageWidget extends StatelessWidget {
-  ManualPaymentImageWidget(
-      {super.key, required this.labelName, required this.fieldName});
+  ManualPaymentImageWidget({
+    super.key,
+    required this.labelName,
+    required this.fieldName,
+  });
 
   final controller = Get.put(DepositController());
   final String labelName;
@@ -21,15 +24,17 @@ class ManualPaymentImageWidget extends StatelessWidget {
 
   Future pickImage(ImageSource imageSource) async {
     try {
-      final image =
-          await ImagePicker().pickImage(source: imageSource, imageQuality: 50);
+      final image = await ImagePicker().pickImage(
+        source: imageSource,
+        imageQuality: 50,
+      );
       if (image == null) return;
 
       imageFile = File(image.path);
 
       if (controller.listFieldName.isNotEmpty) {
         if (controller.listFieldName.contains(fieldName)) {
-          int itemIndex = controller.listFieldName.indexOf(fieldName);
+          final int itemIndex = controller.listFieldName.indexOf(fieldName);
           controller.listFieldName[itemIndex] = fieldName;
           controller.listImagePath[itemIndex] = imageFile!.path;
         } else {
@@ -62,21 +67,13 @@ class ManualPaymentImageWidget extends StatelessWidget {
         padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(Dimensions.radius * 2),
-          border: Border.all(
-            width: 1,
-            color: Theme.of(context).primaryColor,
-          ),
+          border: Border.all(color: Theme.of(context).primaryColor),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
-              Icons.file_upload,
-              color: Theme.of(context).primaryColor,
-            ),
-            SizedBox(
-              width: Dimensions.widthSize * 0.5,
-            ),
+            Icon(Icons.file_upload, color: Theme.of(context).primaryColor),
+            SizedBox(width: Dimensions.widthSize * 0.5),
             Text(
               labelName,
               style: TextStyle(
@@ -86,7 +83,7 @@ class ManualPaymentImageWidget extends StatelessWidget {
               ),
               // overflow: TextOverflow.ellipsis,
               // maxLines: 2,
-            )
+            ),
           ],
         ),
       ),
@@ -104,26 +101,28 @@ class ManualPaymentImageWidget extends StatelessWidget {
           Padding(
             padding: EdgeInsets.all(Dimensions.paddingSize),
             child: IconButton(
-                onPressed: () {
-                  pickImage(ImageSource.gallery);
-                },
-                icon: Icon(
-                  Icons.image,
-                  color: Theme.of(context).primaryColor,
-                  size: 50,
-                )),
+              onPressed: () {
+                pickImage(ImageSource.gallery);
+              },
+              icon: Icon(
+                Icons.image,
+                color: Theme.of(context).primaryColor,
+                size: 50,
+              ),
+            ),
           ),
           Padding(
             padding: EdgeInsets.all(Dimensions.paddingSize),
             child: IconButton(
-                onPressed: () {
-                  pickImage(ImageSource.camera);
-                },
-                icon: Icon(
-                  Icons.camera,
-                  color: Theme.of(context).primaryColor,
-                  size: 50,
-                )),
+              onPressed: () {
+                pickImage(ImageSource.camera);
+              },
+              icon: Icon(
+                Icons.camera,
+                color: Theme.of(context).primaryColor,
+                size: 50,
+              ),
+            ),
           ),
         ],
       ),

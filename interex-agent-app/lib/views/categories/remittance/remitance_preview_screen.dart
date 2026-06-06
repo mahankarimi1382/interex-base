@@ -45,12 +45,13 @@ class RemittancePreviewScreen extends StatelessWidget {
   }
 
   Widget _amountWidget(BuildContext context) {
-    int precision = !controller.isCrypto1.value
+    final int precision = !controller.isCrypto1.value
         ? LocalStorage.getFiatPrecision()
         : LocalStorage.getCryptoPrecision();
     return previewAmount(
-        amount:
-            "${double.parse(controller.amountController.text).toStringAsFixed(precision)} ${controller.selectedSendingCountryCode.value}");
+      amount:
+          "${double.parse(controller.amountController.text).toStringAsFixed(precision)} ${controller.selectedSendingCountryCode.value}",
+    );
   }
 
   Widget _recipientWidget(BuildContext context) {
@@ -64,17 +65,17 @@ class RemittancePreviewScreen extends StatelessWidget {
   }
 
   Widget _amountInformationWidget(BuildContext context) {
-    int precision = !controller.isCrypto1.value
+    final int precision = !controller.isCrypto1.value
         ? LocalStorage.getFiatPrecision()
         : LocalStorage.getCryptoPrecision();
-    int precision2 = !controller.isCrypto2.value
+    final int precision2 = !controller.isCrypto2.value
         ? LocalStorage.getFiatPrecision()
         : LocalStorage.getCryptoPrecision();
-    var data = controller.remittanceInfoModel.data.remittanceCharge;
-    double amount = double.parse(controller.amountController.text);
-    double cardChare = double.parse(data.fixedCharge.toString());
-    double percentCharge = (amount / 100) * data.percentCharge;
-    double totalPayable = amount + (cardChare + percentCharge);
+    final data = controller.remittanceInfoModel.data.remittanceCharge;
+    final double amount = double.parse(controller.amountController.text);
+    final double cardChare = double.parse(data.fixedCharge.toString());
+    final double percentCharge = (amount / 100) * data.percentCharge;
+    final double totalPayable = amount + (cardChare + percentCharge);
     return amountInformationWidget(
       information: Strings.amountInformation,
       enterAmount: Strings.enterAmount,
@@ -92,12 +93,9 @@ class RemittancePreviewScreen extends StatelessWidget {
     );
   }
 
-
   Container _buttonWidget(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(
-        top: Dimensions.marginSizeVertical * 2,
-      ),
+      margin: EdgeInsets.only(top: Dimensions.marginSizeVertical * 2),
       child: Obx(
         () => controller.isRemittanceConfirm
             ? const CustomLoadingAPI()

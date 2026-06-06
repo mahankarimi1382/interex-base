@@ -71,8 +71,9 @@ class _FlutterWaveBanksBranchesDropDownState
               ),
               PrimaryInputWidget(
                 controller: controller.branchNameController,
-                hint: Get.find<LanguageController>()
-                    .getTranslation(Strings.search),
+                hint: Get.find<LanguageController>().getTranslation(
+                  Strings.search,
+                ),
                 label: '',
                 prefixIcon: const Icon(Icons.search),
                 onChanged: (value) {
@@ -97,14 +98,18 @@ class _FlutterWaveBanksBranchesDropDownState
                           controller: scrollController,
                           itemCount: controller.branch.value.length,
                           itemBuilder: (_, index) {
-                            var data = controller.branch.value[index];
+                            final data = controller.branch.value[index];
                             return ListTile(
                               title: Text(data.branchName),
                               onTap: () {
-                                controller.selectFlutterWaveBankBranchCode
-                                    .value = data.branchCode;
-                                controller.selectFlutterWaveBankBranchName
-                                    .value = data.branchName;
+                                controller
+                                        .selectFlutterWaveBankBranchCode
+                                        .value =
+                                    data.branchCode;
+                                controller
+                                        .selectFlutterWaveBankBranchName
+                                        .value =
+                                    data.branchName;
 
                                 controller.branchNameController.text =
                                     data.branchName;
@@ -145,29 +150,39 @@ class _FlutterWaveBanksBranchesDropDownState
                   readOnly: true,
                   onTap: _openBankSearch,
                   decoration: InputDecoration(
-                    hintText: Get.find<LanguageController>()
-                        .getTranslation(Strings.enterBranchName),
+                    hintText: Get.find<LanguageController>().getTranslation(
+                      Strings.enterBranchName,
+                    ),
                     hintStyle: GoogleFonts.inter(
                       fontSize: Dimensions.headingTextSize3,
                       fontWeight: FontWeight.w500,
-                      color: CustomColor.primaryTextColor.withValues(alpha:0.2),
+                      color: CustomColor.primaryTextColor.withValues(
+                        alpha: 0.2,
+                      ),
                     ),
                     border: OutlineInputBorder(
-                      borderRadius:
-                          BorderRadius.circular(Dimensions.radius * 0.5),
+                      borderRadius: BorderRadius.circular(
+                        Dimensions.radius * 0.5,
+                      ),
                     ),
                     enabledBorder: OutlineInputBorder(
-                      borderRadius:
-                          BorderRadius.circular(Dimensions.radius * 0.5),
+                      borderRadius: BorderRadius.circular(
+                        Dimensions.radius * 0.5,
+                      ),
                       borderSide: BorderSide(
-                        color: CustomColor.primaryLightColor.withValues(alpha:0.2),
+                        color: CustomColor.primaryLightColor.withValues(
+                          alpha: 0.2,
+                        ),
                       ),
                     ),
                     focusedBorder: OutlineInputBorder(
-                      borderRadius:
-                          BorderRadius.circular(Dimensions.radius * 0.5),
+                      borderRadius: BorderRadius.circular(
+                        Dimensions.radius * 0.5,
+                      ),
                       borderSide: const BorderSide(
-                          width: 2, color: CustomColor.primaryLightColor),
+                        width: 2,
+                        color: CustomColor.primaryLightColor,
+                      ),
                     ),
                     contentPadding: EdgeInsets.symmetric(
                       horizontal: Dimensions.widthSize * 1.7,
@@ -180,7 +195,7 @@ class _FlutterWaveBanksBranchesDropDownState
                     ),
                   ),
                 ),
-                verticalSpace(Dimensions.heightSize)
+                verticalSpace(Dimensions.heightSize),
               ],
             ),
     );

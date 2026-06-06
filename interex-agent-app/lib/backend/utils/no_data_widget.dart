@@ -13,7 +13,6 @@ class NoDataWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Align(
-      alignment: Alignment.center,
       child: Container(
         width: double.infinity,
         height: double.infinity,
@@ -30,16 +29,16 @@ class NoDataWidget extends StatelessWidget {
             children: [
               Icon(
                 Icons.hourglass_empty,
-                color: CustomColor.blackColor.withValues(alpha:0.4),
+                color: CustomColor.blackColor.withValues(alpha: 0.4),
                 size: Dimensions.iconSizeLarge * 1.5,
               ),
               verticalSpace(Dimensions.paddingSize * 0.3),
               TitleHeading1Widget(
                 text: title ?? Strings.emptyStatus,
-                color: CustomColor.blackColor.withValues(alpha:0.4),
+                color: CustomColor.blackColor.withValues(alpha: 0.4),
                 textAlign: TextAlign.center,
                 fontSize: Dimensions.headingTextSize3,
-              )
+              ),
             ],
           ),
         ),

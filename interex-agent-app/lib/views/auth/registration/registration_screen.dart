@@ -49,9 +49,7 @@ class RegistrationScreen extends StatelessWidget {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
     return SingleChildScrollView(
-      padding: EdgeInsets.symmetric(
-        horizontal: Dimensions.paddingSize * 0.05,
-      ),
+      padding: EdgeInsets.symmetric(horizontal: Dimensions.paddingSize * 0.05),
       physics: const BouncingScrollPhysics(),
       child: SizedBox(
         height: height,
@@ -59,10 +57,7 @@ class RegistrationScreen extends StatelessWidget {
         child: ListView(
           physics: const BouncingScrollPhysics(),
           children: [
-            _logoWidget(
-              context,
-              logoHeight: height * 0.27,
-            ),
+            _logoWidget(context, logoHeight: height * 0.27),
             _bottomContainerWidget(
               context,
               child: Column(
@@ -93,8 +88,11 @@ class RegistrationScreen extends StatelessWidget {
     );
   }
 
-  Container _bottomContainerWidget(BuildContext context, {required Widget child}) {
-    Radius borderRadius = const Radius.circular(20);
+  Container _bottomContainerWidget(
+    BuildContext context, {
+    required Widget child,
+  }) {
+    const Radius borderRadius = Radius.circular(20);
     return Container(
       margin: EdgeInsets.symmetric(
         horizontal: Dimensions.marginSizeHorizontal * 0.55,
@@ -103,14 +101,15 @@ class RegistrationScreen extends StatelessWidget {
         color: Get.isDarkMode
             ? CustomColor.primaryBGDarkColor
             : CustomColor.primaryBGLightColor,
-        borderRadius:
-            BorderRadius.only(topLeft: borderRadius, topRight: borderRadius),
+        borderRadius: const BorderRadius.only(
+          topLeft: borderRadius,
+          topRight: borderRadius,
+        ),
         boxShadow: [
           BoxShadow(
             color: CustomColor.primaryLightColor.withValues(alpha: 0.015),
             spreadRadius: 7,
             blurRadius: 5,
-            offset: const Offset(0, 0),
           ),
         ],
       ),
@@ -128,12 +127,8 @@ class RegistrationScreen extends StatelessWidget {
         crossAxisAlignment: crossStart,
         children: [
           TitleHeading2Widget(text: Strings.signUpInformation.tr),
-          verticalSpace(
-            Dimensions.heightSize * 0.5,
-          ),
-          TitleHeading4Widget(
-            text: Strings.signUpDetails.tr,
-          ),
+          verticalSpace(Dimensions.heightSize * 0.5),
+          TitleHeading4Widget(text: Strings.signUpDetails.tr),
         ],
       ),
     );
@@ -142,9 +137,7 @@ class RegistrationScreen extends StatelessWidget {
   Obx _inputAndForgotWidget(BuildContext context) {
     return Obx(
       () => Container(
-        margin: EdgeInsets.only(
-          top: Dimensions.marginSizeVertical * 0.8,
-        ),
+        margin: EdgeInsets.only(top: Dimensions.marginSizeVertical * 0.8),
         child: Form(
           key: _signUpFormKey,
           child: Column(
@@ -193,14 +186,14 @@ class RegistrationScreen extends StatelessWidget {
                         controller.checkExistUserProcess();
                       }
                     },
-                    buttonTextColor: CustomColor.whiteColor,
                   ),
           ),
           verticalSpace(Dimensions.heightSize * 2.5),
           RichText(
             text: TextSpan(
-              text: languageController
-                  .getTranslation(Strings.alreadyHaveAnAccount),
+              text: languageController.getTranslation(
+                Strings.alreadyHaveAnAccount,
+              ),
               style: GoogleFonts.inter(
                 fontSize: Dimensions.headingTextSize5,
                 color: Get.isDarkMode
@@ -259,7 +252,6 @@ class RegistrationScreen extends StatelessWidget {
                 },
               ),
               PhoneNumberInputWidget(
-                readOnly: false,
                 countryCode: controller.selectedPhoneCode,
                 controller: controller.phoneNumberController,
                 hint: Strings.enterPhone,

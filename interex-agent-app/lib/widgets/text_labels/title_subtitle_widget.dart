@@ -7,11 +7,12 @@ import '../../utils/dimensions.dart';
 import 'title_heading1_widget.dart';
 
 class TitleSubTitleWidget extends StatelessWidget {
-  const TitleSubTitleWidget(
-      {super.key,
-      required this.title,
-      required this.subtitle,
-      this.crossAxisAlignment = CrossAxisAlignment.start});
+  const TitleSubTitleWidget({
+    super.key,
+    required this.title,
+    required this.subtitle,
+    this.crossAxisAlignment = CrossAxisAlignment.start,
+  });
   final String title, subtitle;
   final CrossAxisAlignment crossAxisAlignment;
 
@@ -30,7 +31,7 @@ class TitleSubTitleWidget extends StatelessWidget {
           style: CustomStyle.darkHeading4TextStyle.copyWith(
             fontSize: Dimensions.headingTextSize4,
             fontWeight: FontWeight.w500,
-            color: CustomColor.primaryLightTextColor.withValues(alpha:0.5),
+            color: CustomColor.primaryLightTextColor.withValues(alpha: 0.5),
           ),
         ),
       ],

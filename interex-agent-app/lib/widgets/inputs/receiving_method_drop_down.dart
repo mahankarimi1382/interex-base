@@ -26,10 +26,7 @@ class ReceivingMethodDropDown extends StatelessWidget {
       () => Container(
         height: Dimensions.inputBoxHeight * 0.72,
         decoration: BoxDecoration(
-          border: Border.all(
-            color: Theme.of(context).primaryColor,
-            width: 2,
-          ),
+          border: Border.all(color: Theme.of(context).primaryColor, width: 2),
           borderRadius: BorderRadius.circular(Dimensions.radius * 0.5),
         ),
         child: DropdownButtonHideUnderline(
@@ -41,9 +38,10 @@ class ReceivingMethodDropDown extends StatelessWidget {
                 child: Text(
                   selectMethod.value,
                   style: GoogleFonts.inter(
-                      fontSize: Dimensions.headingTextSize4,
-                      fontWeight: FontWeight.w600,
-                      color: Theme.of(context).primaryColor),
+                    fontSize: Dimensions.headingTextSize4,
+                    fontWeight: FontWeight.w600,
+                    color: Theme.of(context).primaryColor,
+                  ),
                 ),
               ),
               icon: const Padding(

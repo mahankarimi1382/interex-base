@@ -44,15 +44,16 @@ class _CustomCountryPickerWidgetState extends State<CustomCountryPickerWidget> {
         Container(
           height: Dimensions.inputBoxHeight * 0.72,
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(Dimensions.radius * 0.5),
-              border: Border.all(color: Theme.of(context).primaryColor)),
+            borderRadius: BorderRadius.circular(Dimensions.radius * 0.5),
+            border: Border.all(color: Theme.of(context).primaryColor),
+          ),
           width: widget.width,
           child: Theme(
             data: Theme.of(context).copyWith(
               canvasColor: CustomColor.whiteColor,
-              buttonTheme: ButtonTheme.of(context).copyWith(
-                alignedDropdown: true,
-              ),
+              buttonTheme: ButtonTheme.of(
+                context,
+              ).copyWith(alignedDropdown: true),
             ),
             child: DropdownButtonHideUnderline(
               child: DropdownButton<String>(
@@ -60,14 +61,16 @@ class _CustomCountryPickerWidgetState extends State<CustomCountryPickerWidget> {
                   widget.hintText,
                   style: Get.isDarkMode
                       ? CustomStyle.darkHeading3TextStyle.copyWith(
-                          color:
-                              CustomColor.primaryDarkTextColor.withValues(alpha:0.3),
+                          color: CustomColor.primaryDarkTextColor.withValues(
+                            alpha: 0.3,
+                          ),
                           fontWeight: FontWeight.normal,
                           fontSize: Dimensions.headingTextSize5,
                         )
                       : CustomStyle.lightHeading3TextStyle.copyWith(
-                          color: CustomColor.primaryLightTextColor
-                              .withValues(alpha:0.3),
+                          color: CustomColor.primaryLightTextColor.withValues(
+                            alpha: 0.3,
+                          ),
                           fontWeight: FontWeight.normal,
                           fontSize: Dimensions.headingTextSize5,
                         ),
@@ -75,7 +78,7 @@ class _CustomCountryPickerWidgetState extends State<CustomCountryPickerWidget> {
                 isExpanded: true,
                 icon: Icon(
                   Icons.keyboard_arrow_down,
-                  color: Colors.white.withValues(alpha:0.5),
+                  color: Colors.white.withValues(alpha: 0.5),
                   size: Dimensions.iconSizeDefault * 1.5,
                 ),
                 value: widget.value,
@@ -97,9 +100,7 @@ class _CustomCountryPickerWidgetState extends State<CustomCountryPickerWidget> {
             ),
           ),
         ),
-        SizedBox(
-          height: Dimensions.heightSize,
-        )
+        SizedBox(height: Dimensions.heightSize),
         // CustomSize.heightBetween()
       ],
     );

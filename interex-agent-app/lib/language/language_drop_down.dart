@@ -23,7 +23,7 @@ class ChangeLanguageWidget extends StatelessWidget {
                 horizontal: Dimensions.paddingHorizontalSize * 0.05,
               ),
               decoration: BoxDecoration(
-                color: CustomColor.whiteColor.withValues(alpha:0.1),
+                color: CustomColor.whiteColor.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(Dimensions.radius * 0.6),
               ),
               child: _dropDown(context),
@@ -35,8 +35,6 @@ class ChangeLanguageWidget extends StatelessWidget {
     return SizedBox(
       width: MediaQuery.sizeOf(context).width * 0.8,
       child: DropdownButton2<String>(
-        isDense: false,
-        isExpanded: false,
         iconStyleData: const IconStyleData(
           icon: Padding(
             padding: EdgeInsets.only(right: 4),
@@ -53,25 +51,24 @@ class ChangeLanguageWidget extends StatelessWidget {
             borderRadius: BorderRadius.circular(Dimensions.radius),
           ),
         ),
-        value: Get.find<LanguageController>().selectedLanguage.value,
+        valueListenable:
+            Get.find<LanguageController>().selectedLanguageNotifier,
         underline: Container(),
         onChanged: (String? newValue) {
           if (newValue != null) {
             Get.find<LanguageController>().changeLanguage(newValue);
           }
         },
-        items: Get.find<LanguageController>()
-            .languages
-            .map<DropdownMenuItem<String>>(
-          (language) {
-            return DropdownMenuItem<String>(
-              value: language.code,
-              child: TitleHeading4Widget(
-                text: isOnboard ? language.code.toUpperCase() : language.name,
-              ),
-            );
-          },
-        ).toList(),
+        items: Get.find<LanguageController>().languages
+            .map<DropdownItem<String>>((language) {
+              return DropdownItem<String>(
+                value: language.code,
+                child: TitleHeading4Widget(
+                  text: isOnboard ? language.code.toUpperCase() : language.name,
+                ),
+              );
+            })
+            .toList(),
       ),
     );
   }

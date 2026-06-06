@@ -34,7 +34,9 @@ class ManualImageInputWidget extends StatelessWidget {
 
       if (basicDataController.listFieldName.isNotEmpty) {
         if (basicDataController.listFieldName.contains(fieldName)) {
-          int itemIndex = basicDataController.listFieldName.indexOf(fieldName);
+          final int itemIndex = basicDataController.listFieldName.indexOf(
+            fieldName,
+          );
           basicDataController.listFieldName[itemIndex] = fieldName;
           basicDataController.listImagePath[itemIndex] = imageFile!.path;
         } else {
@@ -67,7 +69,7 @@ class ManualImageInputWidget extends StatelessWidget {
         padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(Dimensions.radius * 2),
-          border: Border.all(width: 1, color: Theme.of(context).primaryColor),
+          border: Border.all(color: Theme.of(context).primaryColor),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,

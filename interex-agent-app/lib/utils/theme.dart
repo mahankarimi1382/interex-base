@@ -21,49 +21,41 @@ class Themes {
   }
 
   static ThemeData light = ThemeData.light().copyWith(
-      primaryColor: CustomColor.primaryLightColor,
-      scaffoldBackgroundColor: CustomColor.primaryLightScaffoldBackgroundColor,
-      brightness: Brightness.light,
-      textTheme: ThemeData.dark().textTheme.apply(
-          fontFamily: GoogleFonts.josefinSans().fontFamily,
-          bodyColor: Colors.black),
-      colorScheme: const ColorScheme.light(surface: CustomColor.whiteColor),
-      textSelectionTheme: const TextSelectionThemeData(
-        cursorColor: CustomColor.primaryLightColor,
-        selectionColor: CustomColor.primaryLightColor,
-        selectionHandleColor: CustomColor.primaryLightColor,
-      ),
-      appBarTheme: const AppBarTheme(
-        scrolledUnderElevation: 0,
-      ));
+    primaryColor: CustomColor.primaryLightColor,
+    scaffoldBackgroundColor: CustomColor.primaryLightScaffoldBackgroundColor,
+    brightness: Brightness.light,
+    textTheme: ThemeData.dark().textTheme.apply(
+      fontFamily: GoogleFonts.josefinSans().fontFamily,
+      bodyColor: Colors.black,
+    ),
+    colorScheme: const ColorScheme.light(),
+    textSelectionTheme: const TextSelectionThemeData(
+      cursorColor: CustomColor.primaryLightColor,
+      selectionColor: CustomColor.primaryLightColor,
+      selectionHandleColor: CustomColor.primaryLightColor,
+    ),
+    appBarTheme: const AppBarTheme(scrolledUnderElevation: 0),
+  );
   static ThemeData dark = ThemeData.dark().copyWith(
     primaryColor: CustomColor.primaryDarkColor,
     scaffoldBackgroundColor: CustomColor.primaryDarkScaffoldBackgroundColor,
     brightness: Brightness.dark,
     textTheme: ThemeData.dark().textTheme.apply(
-          fontFamily: GoogleFonts.josefinSans().fontFamily,
-          bodyColor: Colors.black,
-        ),
+      fontFamily: GoogleFonts.josefinSans().fontFamily,
+      bodyColor: Colors.black,
+    ),
     colorScheme: const ColorScheme.light(surface: CustomColor.blackColor),
     textSelectionTheme: const TextSelectionThemeData(
       cursorColor: CustomColor.primaryLightColor,
       selectionColor: CustomColor.primaryLightColor,
       selectionHandleColor: CustomColor.primaryLightColor,
     ),
-    appBarTheme: const AppBarTheme(
-      scrolledUnderElevation: 0,
-    ),
+    appBarTheme: const AppBarTheme(scrolledUnderElevation: 0),
   );
 
-  static void init({
-    required ColorMode primary,
-  }) {
-    dark = ThemeData.dark().copyWith(
-      primaryColor: primary.dark,
-    );
-    light = ThemeData.light().copyWith(
-      primaryColor: primary.light,
-    );
+  static void init({required ColorMode primary}) {
+    dark = ThemeData.dark().copyWith(primaryColor: primary.dark);
+    light = ThemeData.light().copyWith(primaryColor: primary.light);
   }
 }
 

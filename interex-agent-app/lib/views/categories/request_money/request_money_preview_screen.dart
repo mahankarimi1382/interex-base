@@ -42,8 +42,9 @@ class RequestMoneyPreviewScreen extends StatelessWidget {
 
   Widget _amountWidget(BuildContext context) {
     return previewAmount(
-        amount:
-            '${controller.amountController.text} ${controller.baseCurrency.value}');
+      amount:
+          '${controller.amountController.text} ${controller.baseCurrency.value}',
+    );
   }
 
   Widget _amountInformationWidget(BuildContext context) {
@@ -66,9 +67,7 @@ class RequestMoneyPreviewScreen extends StatelessWidget {
 
   Container _buttonWidget(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(
-        top: Dimensions.marginSizeVertical * 2,
-      ),
+      margin: EdgeInsets.only(top: Dimensions.marginSizeVertical * 2),
       child: Obx(
         () => controller.isRequestMoneyLoading
             ? const CustomLoadingAPI()
@@ -76,15 +75,15 @@ class RequestMoneyPreviewScreen extends StatelessWidget {
                 title: Strings.confirm,
                 onPressed: () {
                   controller.requestMoneyProcess().then(
-                        (value) => StatusScreen.show(
-                          // ignore: use_build_context_synchronously
-                          context: context,
-                          subTitle: Strings.requestMoneySuccess,
-                          onPressed: () {
-                            Get.offAllNamed(Routes.bottomNavBarScreen);
-                          },
-                        ),
-                      );
+                    (value) => StatusScreen.show(
+                      // ignore: use_build_context_synchronously
+                      context: context,
+                      subTitle: Strings.requestMoneySuccess,
+                      onPressed: () {
+                        Get.offAllNamed(Routes.bottomNavBarScreen);
+                      },
+                    ),
+                  );
                 },
               ),
       ),

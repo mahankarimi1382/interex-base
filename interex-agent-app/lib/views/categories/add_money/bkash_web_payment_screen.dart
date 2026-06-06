@@ -18,13 +18,11 @@ class BkashWebPaymentScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PopScope(
-      canPop: true,
       onPopInvoked: (value) {
         Get.offAllNamed(Routes.bottomNavBarScreen);
       },
       child: Scaffold(
         appBar: AppBarWidget(
-          homeButtonShow: false,
           text: Strings.bkashPayment,
           onTapLeading: () {
             Get.offAllNamed(Routes.bottomNavBarScreen);
@@ -41,7 +39,7 @@ class BkashWebPaymentScreen extends StatelessWidget {
 
   InAppWebView _bodyWidget(BuildContext context) {
     final data = controller.addMoneyBikashInsertModel.data;
-    var paymentUrl = data.url;
+    final paymentUrl = data.url;
 
     return InAppWebView(
       initialUrlRequest: URLRequest(url: WebUri(paymentUrl)),
@@ -56,7 +54,7 @@ class BkashWebPaymentScreen extends StatelessWidget {
               Get.offAllNamed(Routes.bottomNavBarScreen);
             },
           );
-        }  else if (url.toString().contains('/add-money/success')) {
+        } else if (url.toString().contains('/add-money/success')) {
           Get.offAllNamed(Routes.bottomNavBarScreen);
         }
       },

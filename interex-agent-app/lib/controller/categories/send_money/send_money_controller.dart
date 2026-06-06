@@ -80,52 +80,57 @@ class SendMoneyController extends GetxController {
     _isLoading.value = true;
     update();
 
-    await ApiServices.sendMoneyInfoApi().then((value) {
-      _sendMoneyInfoModel = value!;
-      selectReceiverWallet.value =
-          walletsController.walletsInfoModel.data.userWallets.first;
-      selectSenderWallet.value =
-          walletsController.walletsInfoModel.data.userWallets.first;
+    await ApiServices.sendMoneyInfoApi()
+        .then((value) {
+          _sendMoneyInfoModel = value!;
+          selectReceiverWallet.value =
+              walletsController.walletsInfoModel.data.userWallets.first;
+          selectSenderWallet.value =
+              walletsController.walletsInfoModel.data.userWallets.first;
 
-      limitMin.value = _sendMoneyInfoModel.data.sendMoneyCharge.minLimit;
-      limitMax.value = _sendMoneyInfoModel.data.sendMoneyCharge.maxLimit;
-      dailyLimit.value = _sendMoneyInfoModel.data.sendMoneyCharge.dailyLimit;
-      monthlyLimit.value =
-          _sendMoneyInfoModel.data.sendMoneyCharge.monthlyLimit;
-      percentCharge.value =
-          _sendMoneyInfoModel.data.sendMoneyCharge.percentCharge;
-      fixedCharge.value = _sendMoneyInfoModel.data.sendMoneyCharge.fixedCharge;
-      receiverExchangeRate.value = walletsController.exchangeRate.value;
-      senderExchangeRate.value = walletsController.exchangeRate.value;
+          limitMin.value = _sendMoneyInfoModel.data.sendMoneyCharge.minLimit;
+          limitMax.value = _sendMoneyInfoModel.data.sendMoneyCharge.maxLimit;
+          dailyLimit.value =
+              _sendMoneyInfoModel.data.sendMoneyCharge.dailyLimit;
+          monthlyLimit.value =
+              _sendMoneyInfoModel.data.sendMoneyCharge.monthlyLimit;
+          percentCharge.value =
+              _sendMoneyInfoModel.data.sendMoneyCharge.percentCharge;
+          fixedCharge.value =
+              _sendMoneyInfoModel.data.sendMoneyCharge.fixedCharge;
+          receiverExchangeRate.value = walletsController.exchangeRate.value;
+          senderExchangeRate.value = walletsController.exchangeRate.value;
 
-      //start remaing get
-      remainingController.transactionType.value =
-          _sendMoneyInfoModel.data.getRemainingFields.transactionType;
-      remainingController.attribute.value =
-          _sendMoneyInfoModel.data.getRemainingFields.attribute;
-      remainingController.cardId.value =
-          _sendMoneyInfoModel.data.sendMoneyCharge.id;
-      remainingController.senderAmount.value = senderAmountController.text;
-      remainingController.senderCurrency.value =
-          selectSenderWallet.value!.currency.code;
+          //start remaing get
+          remainingController.transactionType.value =
+              _sendMoneyInfoModel.data.getRemainingFields.transactionType;
+          remainingController.attribute.value =
+              _sendMoneyInfoModel.data.getRemainingFields.attribute;
+          remainingController.cardId.value =
+              _sendMoneyInfoModel.data.sendMoneyCharge.id;
+          remainingController.senderAmount.value = senderAmountController.text;
+          remainingController.senderCurrency.value =
+              selectSenderWallet.value!.currency.code;
 
-      remainingController.getRemainingBalanceProcess();
+          remainingController.getRemainingBalanceProcess();
 
-      for (var element in walletsController.walletsInfoModel.data.userWallets) {
-        walletsList.add(
-          MainUserWallet(
-            balance: element.balance,
-            currency: element.currency,
-            status: element.status,
-          ),
-        );
-      }
-      // remaining balance
+          for (var element
+              in walletsController.walletsInfoModel.data.userWallets) {
+            walletsList.add(
+              MainUserWallet(
+                balance: element.balance,
+                currency: element.currency,
+                status: element.status,
+              ),
+            );
+          }
+          // remaining balance
 
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-    });
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+        });
 
     _isLoading.value = false;
     update();
@@ -154,19 +159,23 @@ class SendMoneyController extends GetxController {
   Future<CommonSuccessModel> getCheckUserExistDate() async {
     _isCheckUserLoading.value = true;
 
-    Map<String, dynamic> inputBody = {'credentials': copyInputController.text};
+    final Map<String, dynamic> inputBody = {
+      'credentials': copyInputController.text,
+    };
     update();
 
-    await ApiServices.checkUserExistApi(body: inputBody).then((value) {
-      _checkUserExistModel = value!;
-      checkUserMessage.value = _checkUserExistModel.message.success.first;
-      isValidUser.value = true;
-      update();
-    }).catchError((onError) {
-      checkUserMessage.value = Strings.notValidUser;
-      isValidUser.value = false;
-      log.e(onError);
-    });
+    await ApiServices.checkUserExistApi(body: inputBody)
+        .then((value) {
+          _checkUserExistModel = value!;
+          checkUserMessage.value = _checkUserExistModel.message.success.first;
+          isValidUser.value = true;
+          update();
+        })
+        .catchError((onError) {
+          checkUserMessage.value = Strings.notValidUser;
+          isValidUser.value = false;
+          log.e(onError);
+        });
     _isCheckUserLoading.value = false;
     update();
     return _checkUserExistModel;
@@ -186,22 +195,25 @@ class SendMoneyController extends GetxController {
   // ------------------------------API Function---------------------------------
   //
   Future<CheckUserWithQrCodeModel> getCheckUserWithQrCodeData(
-      String qrcode) async {
+    String qrcode,
+  ) async {
     _isCheckUserLoading.value = true;
 
-    Map<String, dynamic> inputBody = {'qr_code': qrcode};
+    final Map<String, dynamic> inputBody = {'qr_code': qrcode};
     update();
 
-    await ApiServices.checkUserWithQrCodeApi(body: inputBody).then((value) {
-      _checkUserWithQrCodeModel = value!;
-      copyInputController.clear();
-      copyInputController.text = _checkUserWithQrCodeModel.data.userMobile;
-      isValidUser.value = true;
-      update();
-    }).catchError((onError) {
-      isValidUser.value = false;
-      log.e(onError);
-    });
+    await ApiServices.checkUserWithQrCodeApi(body: inputBody)
+        .then((value) {
+          _checkUserWithQrCodeModel = value!;
+          copyInputController.clear();
+          copyInputController.text = _checkUserWithQrCodeModel.data.userMobile;
+          isValidUser.value = true;
+          update();
+        })
+        .catchError((onError) {
+          isValidUser.value = false;
+          log.e(onError);
+        });
 
     _isCheckUserLoading.value = false;
     update();
@@ -228,7 +240,7 @@ class SendMoneyController extends GetxController {
   Future<CommonSuccessModel> sendMoneyProcess(BuildContext context) async {
     _isSendMoneyLoading.value = true;
 
-    Map<String, dynamic> inputBody = {
+    final Map<String, dynamic> inputBody = {
       'credentials': copyInputController.text,
       'sender_amount': senderAmountController.text,
       'receiver_amount': receiverAmountController.text,
@@ -238,14 +250,16 @@ class SendMoneyController extends GetxController {
     };
     update();
 
-    await ApiServices.sendMoneyApi(body: inputBody).then((value) {
-      _sendMoneyModel = value!;
-      update();
-      // Get.offAllNamed(Routes.bottomNavBarScreen);
-    }).catchError((onError) {
-      isValidUser.value = false;
-      log.e(onError);
-    });
+    await ApiServices.sendMoneyApi(body: inputBody)
+        .then((value) {
+          _sendMoneyModel = value!;
+          update();
+          // Get.offAllNamed(Routes.bottomNavBarScreen);
+        })
+        .catchError((onError) {
+          isValidUser.value = false;
+          log.e(onError);
+        });
 
     _isSendMoneyLoading.value = false;
     update();
@@ -254,10 +268,13 @@ class SendMoneyController extends GetxController {
 
   RxDouble getFee({required double rate}) {
     double value = fixedCharge.value * rate;
-    value = value +
-        (double.parse(senderAmountController.text.isEmpty
-                ? '0.0'
-                : senderAmountController.text) *
+    value =
+        value +
+        (double.parse(
+              senderAmountController.text.isEmpty
+                  ? '0.0'
+                  : senderAmountController.text,
+            ) *
             (percentCharge.value / 100));
 
     if (senderAmountController.text.isEmpty) {
@@ -273,52 +290,54 @@ class SendMoneyController extends GetxController {
   void updateExchangeRate() {
     receiverExchangeRate.value =
         double.parse(selectReceiverWallet.value!.currency.rate) /
-            double.parse(selectSenderWallet.value!.currency.rate);
+        double.parse(selectSenderWallet.value!.currency.rate);
 
     senderExchangeRate.value =
         double.parse(selectSenderWallet.value!.currency.rate) /
-            double.parse(selectReceiverWallet.value!.currency.rate);
+        double.parse(selectReceiverWallet.value!.currency.rate);
 
     getFee(rate: double.parse(selectSenderWallet.value!.currency.rate));
     updateLimit();
   }
 
   void getSenderAmount() {
-    double receiverAmount =
+    final double receiverAmount =
         double.tryParse(receiverAmountController.text) ?? 0.0;
 
-    int precision = selectSenderWallet.value!.currency.type == 'FIAT'
+    final int precision = selectSenderWallet.value!.currency.type == 'FIAT'
         ? LocalStorage.getFiatPrecision()
         : LocalStorage.getCryptoPrecision();
-    senderAmountController.text =
-        (receiverAmount * senderExchangeRate.value).toStringAsFixed(precision);
+    senderAmountController.text = (receiverAmount * senderExchangeRate.value)
+        .toStringAsFixed(precision);
 
     getFee(rate: double.parse(selectSenderWallet.value!.currency.rate));
   }
 
   void getReceiverAmount() {
-    double senderAmount = double.tryParse(senderAmountController.text) ?? 0.0;
+    final double senderAmount =
+        double.tryParse(senderAmountController.text) ?? 0.0;
 
-    int precision = selectReceiverWallet.value!.currency.type == 'FIAT'
+    final int precision = selectReceiverWallet.value!.currency.type == 'FIAT'
         ? LocalStorage.getFiatPrecision()
         : LocalStorage.getCryptoPrecision();
 
-    receiverAmountController.text =
-        (senderAmount * receiverExchangeRate.value).toStringAsFixed(precision);
+    receiverAmountController.text = (senderAmount * receiverExchangeRate.value)
+        .toStringAsFixed(precision);
     getFee(rate: double.parse(selectSenderWallet.value!.currency.rate));
   }
 
   void updateLimit() {
-    var limit = _sendMoneyInfoModel.data.sendMoneyCharge;
+    final limit = _sendMoneyInfoModel.data.sendMoneyCharge;
     limitMin.value =
         limit.minLimit! * double.parse(selectSenderWallet.value!.currency.rate);
     limitMax.value =
         limit.maxLimit! * double.parse(selectSenderWallet.value!.currency.rate);
-    dailyLimit.value = limit.dailyLimit! *
+    dailyLimit.value =
+        limit.dailyLimit! *
         double.parse(selectSenderWallet.value!.currency.rate);
-    monthlyLimit.value = limit.monthlyLimit! *
+    monthlyLimit.value =
+        limit.monthlyLimit! *
         double.parse(selectSenderWallet.value!.currency.rate);
-
 
     remainingController.senderAmount.value = senderAmountController.text;
   }

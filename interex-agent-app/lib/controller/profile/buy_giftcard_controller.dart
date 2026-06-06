@@ -7,7 +7,8 @@ class BuyGiftCardController extends GetxController {
   void ontapCard() {
     Get.toNamed(Routes.cardDetailsScreen);
   }
- final CarouselSliderController carouselController =
+
+  final CarouselSliderController carouselController =
       CarouselSliderController();
 
   RxInt current = 0.obs;

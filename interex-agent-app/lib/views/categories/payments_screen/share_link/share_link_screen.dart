@@ -3,13 +3,14 @@ import '../../../../utils/responsive_layout.dart';
 import 'share_link_screen_mobile.dart';
 
 class ShareLinkScreen extends StatelessWidget {
-  const ShareLinkScreen(
-      {super.key,
-      required this.title,
-      required this.controller,
-      required this.btnName,
-      required this.onTap,
-      required this.onButtonTap});
+  const ShareLinkScreen({
+    super.key,
+    required this.title,
+    required this.controller,
+    required this.btnName,
+    required this.onTap,
+    required this.onButtonTap,
+  });
 
   final String title, btnName;
   final VoidCallback onTap;

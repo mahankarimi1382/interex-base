@@ -2,10 +2,7 @@ class SaveRecipientInfoModel {
   final Message message;
   final Data data;
 
-  SaveRecipientInfoModel({
-    required this.message,
-    required this.data,
-  });
+  SaveRecipientInfoModel({required this.message, required this.data});
 
   factory SaveRecipientInfoModel.fromJson(Map<String, dynamic> json) =>
       SaveRecipientInfoModel(
@@ -14,9 +11,9 @@ class SaveRecipientInfoModel {
       );
 
   Map<String, dynamic> toJson() => {
-        "message": message.toJson(),
-        "data": data.toJson(),
-      };
+    "message": message.toJson(),
+    "data": data.toJson(),
+  };
 }
 
 class Data {
@@ -39,30 +36,36 @@ class Data {
   });
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
-        baseCurr: json["base_curr"],
-        countryFlugPath: json["countryFlugPath"],
-        defaultImage: json["default_image"],
-        transactionTypes: List<TransactionType>.from(
-            json["transactionTypes"].map((x) => TransactionType.fromJson(x))),
-        receiverCountries: List<ReceiverCountry>.from(
-            json["receiverCountries"].map((x) => ReceiverCountry.fromJson(x))),
-        banks: List<Bank>.from(json["banks"].map((x) => Bank.fromJson(x))),
-        cashPickupsPoints: List<Bank>.from(
-            json["cashPickupsPoints"].map((x) => Bank.fromJson(x))),
-      );
+    baseCurr: json["base_curr"],
+    countryFlugPath: json["countryFlugPath"],
+    defaultImage: json["default_image"],
+    transactionTypes: List<TransactionType>.from(
+      json["transactionTypes"].map((x) => TransactionType.fromJson(x)),
+    ),
+    receiverCountries: List<ReceiverCountry>.from(
+      json["receiverCountries"].map((x) => ReceiverCountry.fromJson(x)),
+    ),
+    banks: List<Bank>.from(json["banks"].map((x) => Bank.fromJson(x))),
+    cashPickupsPoints: List<Bank>.from(
+      json["cashPickupsPoints"].map((x) => Bank.fromJson(x)),
+    ),
+  );
 
   Map<String, dynamic> toJson() => {
-        "base_curr": baseCurr,
-        "countryFlugPath": countryFlugPath,
-        "default_image": defaultImage,
-        "transactionTypes":
-            List<dynamic>.from(transactionTypes.map((x) => x.toJson())),
-        "receiverCountries":
-            List<dynamic>.from(receiverCountries.map((x) => x.toJson())),
-        "banks": List<dynamic>.from(banks.map((x) => x.toJson())),
-        "cashPickupsPoints":
-            List<dynamic>.from(cashPickupsPoints.map((x) => x.toJson())),
-      };
+    "base_curr": baseCurr,
+    "countryFlugPath": countryFlugPath,
+    "default_image": defaultImage,
+    "transactionTypes": List<dynamic>.from(
+      transactionTypes.map((x) => x.toJson()),
+    ),
+    "receiverCountries": List<dynamic>.from(
+      receiverCountries.map((x) => x.toJson()),
+    ),
+    "banks": List<dynamic>.from(banks.map((x) => x.toJson())),
+    "cashPickupsPoints": List<dynamic>.from(
+      cashPickupsPoints.map((x) => x.toJson()),
+    ),
+  };
 }
 
 class Bank {
@@ -85,24 +88,24 @@ class Bank {
   });
 
   factory Bank.fromJson(Map<String, dynamic> json) => Bank(
-        id: json["id"],
-        adminId: json["admin_id"],
-        name: json["name"],
-        alias: json["alias"],
-        status: json["status"],
+    id: json["id"],
+    adminId: json["admin_id"],
+    name: json["name"],
+    alias: json["alias"],
+    status: json["status"],
 
-        editData: json["editData"],
-      );
+    editData: json["editData"],
+  );
 
   Map<String, dynamic> toJson() => {
-        "id": id,
-        "admin_id": adminId,
-        "name": name,
-        "alias": alias,
-        "status": status,
+    "id": id,
+    "admin_id": adminId,
+    "name": name,
+    "alias": alias,
+    "status": status,
 
-        "editData": editData,
-      };
+    "editData": editData,
+  };
 }
 
 class ReceiverCountry {
@@ -116,8 +119,6 @@ class ReceiverCountry {
   final double rate;
   final int status;
 
-
-
   ReceiverCountry({
     required this.id,
     required this.country,
@@ -128,8 +129,6 @@ class ReceiverCountry {
     this.flag,
     required this.rate,
     required this.status,
-
-
   });
 
   factory ReceiverCountry.fromJson(Map<String, dynamic> json) =>
@@ -143,23 +142,19 @@ class ReceiverCountry {
         flag: json["flag"] ?? "",
         rate: double.parse(json["rate"] ?? "0.0"),
         status: json["status"],
-
-
       );
 
   Map<String, dynamic> toJson() => {
-        "id": id,
-        "country": country,
-        "name": name,
-        "code": code,
-        "mobile_code": mobileCode,
-        "symbol": symbol,
-        "flag": flag,
-        "rate": rate,
-        "status": status,
-
-
-      };
+    "id": id,
+    "country": country,
+    "name": name,
+    "code": code,
+    "mobile_code": mobileCode,
+    "symbol": symbol,
+    "flag": flag,
+    "rate": rate,
+    "status": status,
+  };
 }
 
 class TransactionType {
@@ -181,24 +176,21 @@ class TransactionType {
       );
 
   Map<String, dynamic> toJson() => {
-        "id": id,
-        "field_name": fieldName,
-        "label_name": labelName,
-      };
+    "id": id,
+    "field_name": fieldName,
+    "label_name": labelName,
+  };
 }
 
 class Message {
   final List<String> success;
 
-  Message({
-    required this.success,
-  });
+  Message({required this.success});
 
-  factory Message.fromJson(Map<String, dynamic> json) => Message(
-        success: List<String>.from(json["success"].map((x) => x)),
-      );
+  factory Message.fromJson(Map<String, dynamic> json) =>
+      Message(success: List<String>.from(json["success"].map((x) => x)));
 
   Map<String, dynamic> toJson() => {
-        "success": List<dynamic>.from(success.map((x) => x)),
-      };
+    "success": List<dynamic>.from(success.map((x) => x)),
+  };
 }

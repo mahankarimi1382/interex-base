@@ -56,18 +56,18 @@ class $AssetsCardGen {
 
   /// List of all assets
   List<AssetGenImage> get values => [
-        backPart,
-        chip,
-        contactLess,
-        frontPart,
-        googlePlayBack,
-        googlePlayFront,
-        idcardBack,
-        netflixBack,
-        netflixFront,
-        stripe,
-        verificationPerson
-      ];
+    backPart,
+    chip,
+    contactLess,
+    frontPart,
+    googlePlayBack,
+    googlePlayFront,
+    idcardBack,
+    netflixBack,
+    netflixFront,
+    stripe,
+    verificationPerson,
+  ];
 }
 
 class $AssetsClipartGen {
@@ -100,14 +100,14 @@ class $AssetsClipartGen {
 
   /// List of all assets
   List<dynamic> get values => [
-        confirmation,
-        recipient1,
-        recipient2,
-        recipient3,
-        uploadImage,
-        user,
-        waitForApproval
-      ];
+    confirmation,
+    recipient1,
+    recipient2,
+    recipient3,
+    uploadImage,
+    user,
+    waitForApproval,
+  ];
 }
 
 class $AssetsIconGen {
@@ -266,59 +266,59 @@ class $AssetsIconGen {
 
   /// List of all assets
   List<String> get values => [
-        about,
-        america,
-        backward,
-        billLog,
-        billPay,
-        buyGift,
-        camera,
-        copy,
-        cross,
-        deposit,
-        details,
-        drawerMenu,
-        dropdown,
-        edit,
-        eyeOff,
-        facelock,
-        finger,
-        fund,
-        giftLog,
-        helpCenter,
-        home,
-        kycUpdate,
-        mobileTopUp,
-        myGift,
-        myWallet,
-        wallet,
-        paypal,
-        privacy,
-        profile,
-        receipient,
-        receipt,
-        receive,
-        remittance,
-        rightArrow,
-        saved,
-        scan,
-        send,
-        settings,
-        signout,
-        tLog,
-        topUpLog,
-        torch,
-        transaction,
-        twoFa,
-        upload,
-        userRecipient,
-        virtualCard,
-        withdraw,
-        payLink,
-        requestMoney,
-        requestMoney2,
-        recipientsIcon,
-      ];
+    about,
+    america,
+    backward,
+    billLog,
+    billPay,
+    buyGift,
+    camera,
+    copy,
+    cross,
+    deposit,
+    details,
+    drawerMenu,
+    dropdown,
+    edit,
+    eyeOff,
+    facelock,
+    finger,
+    fund,
+    giftLog,
+    helpCenter,
+    home,
+    kycUpdate,
+    mobileTopUp,
+    myGift,
+    myWallet,
+    wallet,
+    paypal,
+    privacy,
+    profile,
+    receipient,
+    receipt,
+    receive,
+    remittance,
+    rightArrow,
+    saved,
+    scan,
+    send,
+    settings,
+    signout,
+    tLog,
+    topUpLog,
+    torch,
+    transaction,
+    twoFa,
+    upload,
+    userRecipient,
+    virtualCard,
+    withdraw,
+    payLink,
+    requestMoney,
+    requestMoney2,
+    recipientsIcon,
+  ];
 }
 
 class $AssetsLogoGen {
@@ -349,7 +349,8 @@ class $AssetsOnboardGen {
   /// File path: assets/onboard/small-business-qr-code-cashless-payment-store.jpg
   AssetGenImage get smallBusinessQrCodeCashlessPaymentStore =>
       const AssetGenImage(
-          'assets/onboard/small-business-qr-code-cashless-payment-store.jpg');
+        'assets/onboard/small-business-qr-code-cashless-payment-store.jpg',
+      );
 
   /// File path: assets/onboard/two_onboard.png
   AssetGenImage get twoOnboard =>
@@ -357,11 +358,11 @@ class $AssetsOnboardGen {
 
   /// List of all assets
   List<AssetGenImage> get values => [
-        assets1,
-        oneOnboard,
-        smallBusinessQrCodeCashlessPaymentStore,
-        twoOnboard
-      ];
+    assets1,
+    oneOnboard,
+    smallBusinessQrCodeCashlessPaymentStore,
+    twoOnboard,
+  ];
 }
 
 class $AssetsQrGen {
@@ -449,15 +450,8 @@ class AssetGenImage {
     );
   }
 
-  ImageProvider provider({
-    AssetBundle? bundle,
-    String? package,
-  }) {
-    return AssetImage(
-      _assetName,
-      bundle: bundle,
-      package: package,
-    );
+  ImageProvider provider({AssetBundle? bundle, String? package}) {
+    return AssetImage(_assetName, bundle: bundle, package: package);
   }
 
   String get path => _assetName;

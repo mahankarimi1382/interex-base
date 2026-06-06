@@ -22,15 +22,13 @@ class AddMoneyLogScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var data = controller.transactioData.data.transactions.addMoney;
+    final data = controller.transactioData.data.transactions.addMoney;
     return SizedBox(
       height: MediaQuery.of(context).size.height,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(
-            height: Dimensions.heightSize * 1.5,
-          ),
+          SizedBox(height: Dimensions.heightSize * 1.5),
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.78,
             child: data.isNotEmpty
@@ -45,9 +43,7 @@ class AddMoneyLogScreen extends StatelessWidget {
                       return _mainListWidget(i, data[i], context);
                     },
                   )
-                : NoDataWidget(
-                    title: Strings.noTransaction.tr,
-                  ),
+                : NoDataWidget(title: Strings.noTransaction.tr),
           ),
         ],
       ),
@@ -55,7 +51,7 @@ class AddMoneyLogScreen extends StatelessWidget {
   }
 
   Column _mainListWidget(int i, data, BuildContext context) {
-    RxBool isExpansion = false.obs;
+    final RxBool isExpansion = false.obs;
     return Column(
       children: [
         InkWell(
@@ -66,7 +62,7 @@ class AddMoneyLogScreen extends StatelessWidget {
               controller.inputFields.clear();
               final metaData = data.dynamicInputs;
               for (int item = 0; item < metaData.length; item++) {
-                var textEditingController = TextEditingController();
+                final textEditingController = TextEditingController();
                 controller.inputFieldControllers.add(textEditingController);
                 controller.inputFields.add(
                   Column(
@@ -103,42 +99,44 @@ class AddMoneyLogScreen extends StatelessWidget {
             payableAmount: data.payable,
           ),
         ),
-        Obx(() => Visibility(
-              visible: isExpansion.value,
-              child: Container(
-                padding: EdgeInsets.all(Dimensions.paddingSize * .6),
-                decoration: BoxDecoration(
-                  color: CustomColor.primaryLightColor.withValues(alpha:0.9),
-                  borderRadius: BorderRadius.circular(Dimensions.radius),
-                ),
-                child: ListView(
-                  shrinkWrap: true,
-                  children: [
-                    ExpendedItemWidget(
-                      title: Strings.transactionId.tr,
-                      value: data.trx,
-                    ),
-                    ExpendedItemWidget(
-                      title: Strings.exchangeRate.tr,
-                      value: data.exchangeRate,
-                    ),
-                    ExpendedItemWidget(
-                      title: Strings.feesAndCharges.tr,
-                      value: data.totalCharge,
-                    ),
-                    ExpendedItemWidget(
-                      title: Strings.currentBalance.tr,
-                      value: data.currentBalance,
-                    ),
-                    ExpendedItemWidget(
-                      title: Strings.timeAndDate.tr,
-                      value: DateFormat('yyyy-MM-dd').format(data.dateTime),
-                    ),
-                    _tatumInputField(data, context),
-                  ],
-                ),
+        Obx(
+          () => Visibility(
+            visible: isExpansion.value,
+            child: Container(
+              padding: EdgeInsets.all(Dimensions.paddingSize * .6),
+              decoration: BoxDecoration(
+                color: CustomColor.primaryLightColor.withValues(alpha: 0.9),
+                borderRadius: BorderRadius.circular(Dimensions.radius),
               ),
-            ))
+              child: ListView(
+                shrinkWrap: true,
+                children: [
+                  ExpendedItemWidget(
+                    title: Strings.transactionId.tr,
+                    value: data.trx,
+                  ),
+                  ExpendedItemWidget(
+                    title: Strings.exchangeRate.tr,
+                    value: data.exchangeRate,
+                  ),
+                  ExpendedItemWidget(
+                    title: Strings.feesAndCharges.tr,
+                    value: data.totalCharge,
+                  ),
+                  ExpendedItemWidget(
+                    title: Strings.currentBalance.tr,
+                    value: data.currentBalance,
+                  ),
+                  ExpendedItemWidget(
+                    title: Strings.timeAndDate.tr,
+                    value: DateFormat('yyyy-MM-dd').format(data.dateTime),
+                  ),
+                  _tatumInputField(data, context),
+                ],
+              ),
+            ),
+          ),
+        ),
       ],
     );
   }

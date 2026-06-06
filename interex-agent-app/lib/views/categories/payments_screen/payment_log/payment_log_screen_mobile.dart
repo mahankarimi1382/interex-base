@@ -19,117 +19,115 @@ class PaymentLogScreenMobile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PopScope(
-        canPop: true,
-        onPopInvokedWithResult: (isTrue,value)
-    {
-      Get.offAllNamed(Routes.bottomNavBarScreen);
-    },
-    child: Scaffold(
-    appBar: AppBarWidget(
-    text: Strings.payments,
-    onTapLeading: () {
-    Get.offAllNamed(Routes.bottomNavBarScreen);
-    },
-    ),
-    floatingActionButton: Obx(() {
-    return Visibility(
-    visible: !controller.isLoading,
-    child: FloatingActionButton(
-    elevation: 3,
-    backgroundColor: CustomColor.primaryLightColor,
-    shape: const CircleBorder(),
-    onPressed: () {
-    controller.typeSelection.value =
-    controller.typeSelectionList.first.title;
-    controller.onPayments;
-    },
-    child: Icon(
-    Icons.add,
-    size: Dimensions.iconSizeLarge,
-    color: Colors.white,
-    ),
-    ),
-    );
-    }),
-    body: Obx(
-    () => controller.isLoading || controller.isStatusLoading
-    ? const CustomLoadingAPI()
-        : _bodyWidget(context),
-    ),
-    ),
+      onPopInvokedWithResult: (isTrue, value) {
+        Get.offAllNamed(Routes.bottomNavBarScreen);
+      },
+      child: Scaffold(
+        appBar: AppBarWidget(
+          text: Strings.payments,
+          onTapLeading: () {
+            Get.offAllNamed(Routes.bottomNavBarScreen);
+          },
+        ),
+        floatingActionButton: Obx(() {
+          return Visibility(
+            visible: !controller.isLoading,
+            child: FloatingActionButton(
+              elevation: 3,
+              backgroundColor: CustomColor.primaryLightColor,
+              shape: const CircleBorder(),
+              onPressed: () {
+                controller.typeSelection.value =
+                    controller.typeSelectionList.first.title;
+                controller.onPayments;
+              },
+              child: Icon(
+                Icons.add,
+                size: Dimensions.iconSizeLarge,
+                color: Colors.white,
+              ),
+            ),
+          );
+        }),
+        body: Obx(
+          () => controller.isLoading || controller.isStatusLoading
+              ? const CustomLoadingAPI()
+              : _bodyWidget(context),
+        ),
+      ),
     );
   }
 
   Widget _bodyWidget(BuildContext context) {
-    var data = controller.paymentLinkModel.data.paymentLinks;
+    final data = controller.paymentLinkModel.data.paymentLinks;
     return data.isNotEmpty
         ? RefreshIndicator(
-      color: CustomColor.primaryLightColor,
-      onRefresh: () async {
-        controller.getPaymentLinkProcess();
-      },
-      child: Column(
-        children: [
-          AnimationLimiter(
-            child: Expanded(
-              child: ListView.builder(
-                physics: const BouncingScrollPhysics(
-                  parent: AlwaysScrollableScrollPhysics(),
-                ),
-                itemCount: data.length,
-                itemBuilder: (context, index) {
-                  return CustomListViewAnimation(
-                    index: index,
-                    child: PaymentLogWidget(
-                      title: data[index].title,
-                      dateText: data[index].createdAt.day.toString(),
-                      status: data[index].stringStatus,
-                      monthText: DateFormat("MMMM")
-                          .format(data[index].createdAt),
-                      amount: data[index].type == "pay" &&
-                          data[index].limit == 2
-                          ? Strings.unlimited.tr
-                          : data[index].limit == 1
-                          ? "${data[index].minAmount} - ${data[index]
-                          .maxAmount} ${data[index].currency}"
-                          : data[index].type == "sub"
-                          ? "${data[index].price}(${data[index]
-                          .qty}) ${data[index].currency}"
-                          : "${data[index].price} ${data[index].currency}",
-                      onEditTap: () {
-                        Get.toNamed(Routes.paymentsEditScreen,
-                            arguments: data[index].id);
-                      },
-                      onCopyTap: () {
-                        controller.copyLinkController.text =
-                        "${ApiEndpoint
-                            .mainDomain}/payment-link/share/${data[index]
-                            .token}";
+            color: CustomColor.primaryLightColor,
+            onRefresh: () async {
+              await controller.getPaymentLinkProcess();
+            },
+            child: Column(
+              children: [
+                AnimationLimiter(
+                  child: Expanded(
+                    child: ListView.builder(
+                      physics: const BouncingScrollPhysics(
+                        parent: AlwaysScrollableScrollPhysics(),
+                      ),
+                      itemCount: data.length,
+                      itemBuilder: (context, index) {
+                        return CustomListViewAnimation(
+                          index: index,
+                          child: PaymentLogWidget(
+                            title: data[index].title,
+                            dateText: data[index].createdAt.day.toString(),
+                            status: data[index].stringStatus,
+                            monthText: DateFormat(
+                              "MMMM",
+                            ).format(data[index].createdAt),
+                            amount:
+                                data[index].type == "pay" &&
+                                    data[index].limit == 2
+                                ? Strings.unlimited.tr
+                                : data[index].limit == 1
+                                ? "${data[index].minAmount} - ${data[index].maxAmount} ${data[index].currency}"
+                                : data[index].type == "sub"
+                                ? "${data[index].price}(${data[index].qty}) ${data[index].currency}"
+                                : "${data[index].price} ${data[index].currency}",
+                            onEditTap: () {
+                              Get.toNamed(
+                                Routes.paymentsEditScreen,
+                                arguments: data[index].id,
+                              );
+                            },
+                            onCopyTap: () {
+                              controller.copyLinkController.text =
+                                  "${ApiEndpoint.mainDomain}/payment-link/share/${data[index].token}";
 
-                        controller.onCopyTap;
-                      },
-                      onActiveTap: () {
-                        Get.close(1);
-                        controller.updateStatusProcess(
-                            id: data[index].id);
-                      },
-                      onCloseTap: () {
-                        Get.close(1);
+                              controller.onCopyTap;
+                            },
+                            onActiveTap: () {
+                              Get.close(1);
+                              controller.updateStatusProcess(
+                                id: data[index].id,
+                              );
+                            },
+                            onCloseTap: () {
+                              Get.close(1);
 
-                        controller.updateStatusProcess(
-                            id: data[index].id);
+                              controller.updateStatusProcess(
+                                id: data[index].id,
+                              );
+                            },
+                          ).paddingSymmetric(horizontal: Dimensions.paddingHorizontalSize * .6),
+                        );
                       },
-                    ).paddingSymmetric(
-                      horizontal: Dimensions.paddingHorizontalSize * .6,
                     ),
-                  );
-                },
-              ),
+                  ),
+                ),
+              ],
             ),
-          ),
-        ],
-      ),
-    )
+          )
         : NoDataWidget(title: Strings.noPaymentCreatedYet.tr);
   }
 }

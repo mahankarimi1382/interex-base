@@ -19,7 +19,7 @@ class AddMoneyAuthorizedPaymentScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return ResponsiveLayout(
       mobileScaffold: Scaffold(
-        appBar: AppBarWidget(text: Strings.payWithCard),
+        appBar: const AppBarWidget(text: Strings.payWithCard),
         body: _bodyWidget(context),
       ),
     );
@@ -66,7 +66,6 @@ class AddMoneyAuthorizedPaymentScreen extends StatelessWidget {
             child: PrimaryTextInputWidget(
               labelText: Strings.cardNumber,
               keyboardType: const TextInputType.numberWithOptions(),
-              maxLine: 1,
 
               hint: "0000 0000 0000 0000",
               controller: controller.cardNumberController,
@@ -117,7 +116,6 @@ class AddMoneyAuthorizedPaymentScreen extends StatelessWidget {
             child: PrimaryTextInputWidget(
               labelText: Strings.expirationDate,
               keyboardType: const TextInputType.numberWithOptions(),
-              maxLine: 1,
               hint: "YY/MM",
               controller: controller.cardExpiryController,
               inputFormatters: [
@@ -140,7 +138,6 @@ class AddMoneyAuthorizedPaymentScreen extends StatelessWidget {
             child: PrimaryTextInputWidget(
               labelText: Strings.cvv,
               keyboardType: const TextInputType.numberWithOptions(),
-              maxLine: 1,
               inputFormatters: [
                 LengthLimitingTextInputFormatter(4),
                 FilteringTextInputFormatter.digitsOnly,
@@ -233,10 +230,10 @@ class ExpiryDateFormatter2 extends TextInputFormatter {
 
     String formatted = text;
     if (text.length > 2) {
-      String yy = text.substring(0, 2);
+      final String yy = text.substring(0, 2);
       String mm = text.substring(2);
 
-      int? month = int.tryParse(mm);
+      final int? month = int.tryParse(mm);
       if (month != null) {
         if (month < 1) {
           mm = "0";
@@ -249,7 +246,7 @@ class ExpiryDateFormatter2 extends TextInputFormatter {
     } else {
       String yy = text;
 
-      int? year = int.tryParse(yy);
+      final int? year = int.tryParse(yy);
       if (year != null) {
         debugPrint(DateTime.now().year.toString().substring(3));
 
@@ -278,8 +275,8 @@ class CardNumberFormatter2 extends TextInputFormatter {
     TextEditingValue oldValue,
     TextEditingValue newValue,
   ) {
-    String digitsOnly = newValue.text.replaceAll(' ', '');
-    StringBuffer buffer = StringBuffer();
+    final String digitsOnly = newValue.text.replaceAll(' ', '');
+    final StringBuffer buffer = StringBuffer();
 
     for (int i = 0; i < digitsOnly.length; i++) {
       buffer.write(digitsOnly[i]);

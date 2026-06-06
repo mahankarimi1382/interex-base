@@ -1,5 +1,6 @@
 // ignore_for_file: unused_field
 import 'dart:async';
+
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -13,9 +14,10 @@ class NetworkController extends GetxController {
   @override
   void onInit() async {
     super.onInit();
-    _initConnectivity();
-    _streamSubscription =
-        _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
+    await _initConnectivity();
+    _streamSubscription = _connectivity.onConnectivityChanged.listen(
+      _updateConnectionStatus,
+    );
   }
 
   Future<void> _initConnectivity() async {
@@ -27,19 +29,15 @@ class NetworkController extends GetxController {
 
     if (connectivityResult.contains(ConnectivityResult.none)) {
       Get.rawSnackbar(
-        messageText: const Text('PLEASE CONNECT TO THE INTERNET',
-            style: TextStyle(color: Colors.white, fontSize: 14)),
+        messageText: const Text(
+          'PLEASE CONNECT TO THE INTERNET',
+          style: TextStyle(color: Colors.white, fontSize: 14),
+        ),
         isDismissible: false,
         duration: const Duration(days: 1),
         backgroundColor: Colors.red[400]!,
-        icon: const Icon(
-          Icons.wifi_off,
-          color: Colors.white,
-          size: 35,
-        ),
-        margin: EdgeInsets.zero,
+        icon: const Icon(Icons.wifi_off, color: Colors.white, size: 35),
         snackStyle: SnackStyle.GROUNDED,
-        snackPosition: SnackPosition.BOTTOM,
       );
     } else {
       if (Get.isSnackbarOpen) {

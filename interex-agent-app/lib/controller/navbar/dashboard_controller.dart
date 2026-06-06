@@ -1,8 +1,8 @@
-
 import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
 // import 'package:pusher_beams/pusher_beams.dart';
 
 import '../../backend/local_storage/local_storage.dart';
@@ -60,89 +60,95 @@ class DashBoardController extends GetxController {
     update();
 
     // calling  from api service
-    await ApiServices.dashboardApi().then((value) async {
-      _dashboardModel = value!;
+    await ApiServices.dashboardApi()
+        .then((value) async {
+          _dashboardModel = value!;
 
-      pinStatus.value = _dashboardModel.data.agent.pinStatus;
-      pinVerification.value = _dashboardModel.data.pinVerification;
-      // pinCode.value = _dashboardModel.data.agent.pinCode.toString();
+          pinStatus.value = _dashboardModel.data.agent.pinStatus;
+          pinVerification.value = _dashboardModel.data.pinVerification;
+          // pinCode.value = _dashboardModel.data.agent.pinCode.toString();
 
-      final data = _dashboardModel.data.moduleAccess;
-      totalReceive.value = _dashboardModel.data.totalReceiveMoney;
-      profitBalance.value = _dashboardModel.data.agentProfits;
-      categoriesData.clear();
-      getPusherAuth();
-      // await PusherBeams.instance.start(
-      //   _dashboardModel.data.pusherCredentials.instanceId,
-      // );
-      if (data.transferMoney) {
-        categoriesData.add(CategoriesModel(Assets.icon.send, Strings.send, () {
-          Get.toNamed(Routes.moneyTransferScreen);
-        }));
-      }
+          final data = _dashboardModel.data.moduleAccess;
+          totalReceive.value = _dashboardModel.data.totalReceiveMoney;
+          profitBalance.value = _dashboardModel.data.agentProfits;
+          categoriesData.clear();
+          await getPusherAuth();
+          // await PusherBeams.instance.start(
+          //   _dashboardModel.data.pusherCredentials.instanceId,
+          // );
+          if (data.transferMoney) {
+            categoriesData.add(
+              CategoriesModel(Assets.icon.send, Strings.send, () {
+                Get.toNamed(Routes.moneyTransferScreen);
+              }),
+            );
+          }
 
-      if (data.receiveMoney) {
-        categoriesData
-            .add(CategoriesModel(Assets.icon.receive, Strings.receive, () {
-          Get.toNamed(Routes.moneyReceiveScreen);
-        }));
-      }
+          if (data.receiveMoney) {
+            categoriesData.add(
+              CategoriesModel(Assets.icon.receive, Strings.receive, () {
+                Get.toNamed(Routes.moneyReceiveScreen);
+              }),
+            );
+          }
 
-      if (data.remittanceMoney) {
-        categoriesData.add(
-            CategoriesModel(Assets.icon.remittance, Strings.remittance, () {
-          Get.toNamed(Routes.remittanceScreen);
-        }));
-      }
+          if (data.remittanceMoney) {
+            categoriesData.add(
+              CategoriesModel(Assets.icon.remittance, Strings.remittance, () {
+                Get.toNamed(Routes.remittanceScreen);
+              }),
+            );
+          }
 
-      if (data.addMoney) {
-        categoriesData.add(
-          CategoriesModel(Assets.icon.deposit, Strings.addMoney, () {
-            Get.toNamed(Routes.addMoneyScreen);
-          }),
-        );
-      }
+          if (data.addMoney) {
+            categoriesData.add(
+              CategoriesModel(Assets.icon.deposit, Strings.addMoney, () {
+                Get.toNamed(Routes.addMoneyScreen);
+              }),
+            );
+          }
 
-      if (data.moneyIn) {
-        categoriesData.add(
-          CategoriesModel(Assets.icon.deposit, Strings.moneyIn, () {
-            Get.toNamed(Routes.moneyInScreen);
-          }),
-        );
-      }
-      if (data.withdrawMoney) {
-        categoriesData.add(
-          CategoriesModel(Assets.icon.withdraw, Strings.withdraw, () {
-            Get.toNamed(Routes.withdrawScreen);
-          }),
-        );
-      }
+          if (data.moneyIn) {
+            categoriesData.add(
+              CategoriesModel(Assets.icon.deposit, Strings.moneyIn, () {
+                Get.toNamed(Routes.moneyInScreen);
+              }),
+            );
+          }
+          if (data.withdrawMoney) {
+            categoriesData.add(
+              CategoriesModel(Assets.icon.withdraw, Strings.withdraw, () {
+                Get.toNamed(Routes.withdrawScreen);
+              }),
+            );
+          }
 
-      if (data.billPay) {
-        categoriesData
-            .add(CategoriesModel(Assets.icon.billPay, Strings.billPay, () {
-          Get.toNamed(Routes.billPayScreen);
-        }));
-      }
+          if (data.billPay) {
+            categoriesData.add(
+              CategoriesModel(Assets.icon.billPay, Strings.billPay, () {
+                Get.toNamed(Routes.billPayScreen);
+              }),
+            );
+          }
 
-      if (data.mobileTopUp) {
-        categoriesData.add(
-          CategoriesModel(Assets.icon.mobileTopUp, Strings.mobileTopUp, () {
-            Get.toNamed(Routes.mobileToUpScreen);
-          }),
-        );
-      }
-            kycStatus.value = _dashboardModel.data.agent.kycVerified;
+          if (data.mobileTopUp) {
+            categoriesData.add(
+              CategoriesModel(Assets.icon.mobileTopUp, Strings.mobileTopUp, () {
+                Get.toNamed(Routes.mobileToUpScreen);
+              }),
+            );
+          }
+          kycStatus.value = _dashboardModel.data.agent.kycVerified;
 
-      _isLoading.value = false;
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-    });
+          _isLoading.value = false;
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+        });
     update();
     return _dashboardModel;
   }
-
 
   Future<DashboardModel> getDashboardData2() async {
     // _isLoading.value = true;
@@ -150,20 +156,22 @@ class DashBoardController extends GetxController {
     update();
 
     // calling  from api service
-    await ApiServices.dashboardApi().then((value) async {
-      _dashboardModel = value!;
+    await ApiServices.dashboardApi()
+        .then((value) async {
+          _dashboardModel = value!;
 
-      pinStatus.value = _dashboardModel.data.agent.pinStatus;
-      pinVerification.value = _dashboardModel.data.pinVerification;
-      // pinCode.value = _dashboardModel.data.agent.pinCode.toString();
+          pinStatus.value = _dashboardModel.data.agent.pinStatus;
+          pinVerification.value = _dashboardModel.data.pinVerification;
+          // pinCode.value = _dashboardModel.data.agent.pinCode.toString();
 
-      kycStatus.value = _dashboardModel.data.agent.kycVerified;
+          kycStatus.value = _dashboardModel.data.agent.kycVerified;
 
-      _isLoading.value = false;
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-    });
+          _isLoading.value = false;
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+        });
     update();
     return _dashboardModel;
   }
@@ -181,14 +189,17 @@ class DashBoardController extends GetxController {
     update();
     await PusherApiServices.getPusherBeamsAuth(LocalStorage.getId()!)
         .then((value) {
-      _pusherBeamsModel = value!;
-      // getSecure();
-      LocalStorage.savePusherAuthenticationKey(pusherAuthenticationKey: true);
-      _isPusherBeamsLoading.value = false;
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-    });
+          _pusherBeamsModel = value!;
+          // getSecure();
+          LocalStorage.savePusherAuthenticationKey(
+            pusherAuthenticationKey: true,
+          );
+          _isPusherBeamsLoading.value = false;
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+        });
     update();
     return _pusherBeamsModel;
   }

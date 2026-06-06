@@ -17,29 +17,25 @@ class PaypalWebPaymentScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PopScope(
-        canPop: true,
-        onPopInvokedWithResult: (isTrue,value)
-    {
-      Get.offAllNamed(Routes.bottomNavBarScreen);
-    },
-    child: Scaffold(
-    appBar: AppBarWidget(
-    homeButtonShow: false,
-    text: Strings.paypalPayment,
-    onTapAction: () {
-    Get.offAllNamed(Routes.bottomNavBarScreen);
-    },
-    onTapLeading: () {
-    Get.offAllNamed(Routes.bottomNavBarScreen);
-    },
-    ),
-    body: Obx(
-    () =>
-    controller.isLoading
-    ? const CustomLoadingAPI()
-        : _bodyWidget(context),
-    ),
-    ),
+      onPopInvokedWithResult: (isTrue, value) {
+        Get.offAllNamed(Routes.bottomNavBarScreen);
+      },
+      child: Scaffold(
+        appBar: AppBarWidget(
+          text: Strings.paypalPayment,
+          onTapAction: () {
+            Get.offAllNamed(Routes.bottomNavBarScreen);
+          },
+          onTapLeading: () {
+            Get.offAllNamed(Routes.bottomNavBarScreen);
+          },
+        ),
+        body: Obx(
+          () => controller.isLoading
+              ? const CustomLoadingAPI()
+              : _bodyWidget(context),
+        ),
+      ),
     );
   }
 
@@ -52,7 +48,7 @@ class PaypalWebPaymentScreen extends StatelessWidget {
       }
     }
     return InAppWebView(
-      initialUrlRequest: URLRequest(url:WebUri(paymentUrl)),
+      initialUrlRequest: URLRequest(url: WebUri(paymentUrl)),
 
       onWebViewCreated: (InAppWebViewController controller) {},
       onProgressChanged: (InAppWebViewController controller, int progress) {},

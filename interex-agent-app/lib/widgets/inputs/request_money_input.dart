@@ -60,13 +60,9 @@ class _PrimaryInputWidgetState extends State<RequestMoneyInputWithDropdown> {
     }
 
     return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        TitleHeading4Widget(
-          text: widget.label,
-          fontWeight: FontWeight.w600,
-        ),
+        TitleHeading4Widget(text: widget.label, fontWeight: FontWeight.w600),
         verticalSpace(Dimensions.marginBetweenInputTitleAndBox),
         Row(
           children: [
@@ -91,7 +87,8 @@ class _PrimaryInputWidgetState extends State<RequestMoneyInputWithDropdown> {
                 },
                 onChanged: (v) {
                   currencyController.getFee(
-                      rate: currencyController.rate.value);
+                    rate: currencyController.rate.value,
+                  );
                 },
                 onFieldSubmitted: (value) {
                   setState(() {
@@ -106,7 +103,7 @@ class _PrimaryInputWidgetState extends State<RequestMoneyInputWithDropdown> {
                     ? CustomStyle.darkHeading3TextStyle
                     : CustomStyle.lightHeading3TextStyle,
                 inputFormatters: <TextInputFormatter>[
-                  FilteringTextInputFormatter.digitsOnly
+                  FilteringTextInputFormatter.digitsOnly,
                 ],
                 keyboardType: TextInputType.number,
                 maxLines: widget.maxLines,
@@ -116,30 +113,40 @@ class _PrimaryInputWidgetState extends State<RequestMoneyInputWithDropdown> {
                     fontSize: Dimensions.headingTextSize3,
                     fontWeight: FontWeight.w500,
                     color: Get.isDarkMode
-                        ? CustomColor.primaryDarkTextColor.withValues(alpha:0.2)
-                        : CustomColor.primaryTextColor.withValues(alpha:0.2),
+                        ? CustomColor.primaryDarkTextColor.withValues(
+                            alpha: 0.2,
+                          )
+                        : CustomColor.primaryTextColor.withValues(alpha: 0.2),
                   ),
                   enabledBorder: OutlineInputBorder(
-                    borderRadius:
-                        BorderRadius.circular(Dimensions.radius * 0.5),
+                    borderRadius: BorderRadius.circular(
+                      Dimensions.radius * 0.5,
+                    ),
                     borderSide: BorderSide(
-                      color: Theme.of(context).primaryColor.withValues(alpha:0.2),
+                      color: Theme.of(
+                        context,
+                      ).primaryColor.withValues(alpha: 0.2),
                     ),
                   ),
                   focusedBorder: OutlineInputBorder(
-                    borderRadius:
-                        BorderRadius.circular(Dimensions.radius * 0.5),
+                    borderRadius: BorderRadius.circular(
+                      Dimensions.radius * 0.5,
+                    ),
                     borderSide: BorderSide(
-                        width: 2, color: Theme.of(context).primaryColor),
+                      width: 2,
+                      color: Theme.of(context).primaryColor,
+                    ),
                   ),
                   errorBorder: OutlineInputBorder(
-                    borderRadius:
-                        BorderRadius.circular(Dimensions.radius * 0.5),
+                    borderRadius: BorderRadius.circular(
+                      Dimensions.radius * 0.5,
+                    ),
                     borderSide: const BorderSide(color: Colors.red, width: 2),
                   ),
                   focusedErrorBorder: OutlineInputBorder(
-                    borderRadius:
-                        BorderRadius.circular(Dimensions.radius * 0.5),
+                    borderRadius: BorderRadius.circular(
+                      Dimensions.radius * 0.5,
+                    ),
                     borderSide: const BorderSide(color: Colors.red, width: 2),
                   ),
                   contentPadding: EdgeInsets.symmetric(
@@ -149,19 +156,20 @@ class _PrimaryInputWidgetState extends State<RequestMoneyInputWithDropdown> {
                   suffixIcon: Obx(
                     () => Container(
                       height: Dimensions.inputBoxHeight * 0.85,
-                      padding:
-                          EdgeInsets.only(left: Dimensions.widthSize * 0.5),
+                      padding: EdgeInsets.only(
+                        left: Dimensions.widthSize * 0.5,
+                      ),
                       alignment: Alignment.centerRight,
                       width: isTablet()
                           ? Dimensions.widthSize * 6
                           : Dimensions.widthSize * 7.5,
                       decoration: BoxDecoration(
-                          color: Theme.of(context).primaryColor,
-                          borderRadius: BorderRadius.only(
-                            topRight: Radius.circular(Dimensions.radius * 0.5),
-                            bottomRight:
-                                Radius.circular(Dimensions.radius * 0.5),
-                          )),
+                        color: Theme.of(context).primaryColor,
+                        borderRadius: BorderRadius.only(
+                          topRight: Radius.circular(Dimensions.radius * 0.5),
+                          bottomRight: Radius.circular(Dimensions.radius * 0.5),
+                        ),
+                      ),
                       child: Padding(
                         padding: const EdgeInsets.only(right: 10),
                         child: DropdownButton(
@@ -170,21 +178,20 @@ class _PrimaryInputWidgetState extends State<RequestMoneyInputWithDropdown> {
                           dropdownColor: Theme.of(context).primaryColor,
                           underline: Container(),
                           items: currencyController.baseCurrencyList
-                              .map<DropdownMenuItem<String>>(
-                            (value) {
-                              return DropdownMenuItem<String>(
-                                value: value,
-                                child: Text(
-                                  value,
-                                  style: GoogleFonts.inter(
-                                    color: CustomColor.whiteColor,
-                                    fontSize: 16.sp,
-                                    fontWeight: FontWeight.w500,
+                              .map<DropdownMenuItem<String>>((value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: Text(
+                                    value,
+                                    style: GoogleFonts.inter(
+                                      color: CustomColor.whiteColor,
+                                      fontSize: 16.sp,
+                                      fontWeight: FontWeight.w500,
+                                    ),
                                   ),
-                                ),
-                              );
-                            },
-                          ).toList(),
+                                );
+                              })
+                              .toList(),
                           onChanged: (String? value) {
                             currencyController.baseCurrency.value = value!;
                           },
@@ -197,7 +204,7 @@ class _PrimaryInputWidgetState extends State<RequestMoneyInputWithDropdown> {
               ),
             ),
           ],
-        )
+        ),
       ],
     );
   }

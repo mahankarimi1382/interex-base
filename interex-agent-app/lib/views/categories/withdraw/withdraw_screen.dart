@@ -37,34 +37,38 @@ class WithdrawScreen extends StatelessWidget {
       physics: const BouncingScrollPhysics(),
       children: [
         WithdrawKeyboardWidget(
-            isLoading: controller.isInsertLoading.obs,
-            buttonText: Strings.withdraw,
-            onTap: () {
-              if (dashboardController.kycStatus.value == 1) {
-                debugPrint(controller.selectedCurrencyAlias.value);
+          isLoading: controller.isInsertLoading.obs,
+          buttonText: Strings.withdraw,
+          onTap: () {
+            if (dashboardController.kycStatus.value == 1) {
+              debugPrint(controller.selectedCurrencyAlias.value);
 
-                Get.find<SetUpPinController>().showPinDialog(context, onSuccess: (){
+              Get.find<SetUpPinController>().showPinDialog(
+                context,
+                onSuccess: () {
                   if (controller.amountTextController.text.isNotEmpty) {
-                    if (controller.selectedCurrencyType.value
-                        .contains("AUTOMATIC")) {
-                      if (controller.selectedCurrencyAlias.value
-                          .contains('flutterwave')) {
+                    if (controller.selectedCurrencyType.value.contains(
+                      "AUTOMATIC",
+                    )) {
+                      if (controller.selectedCurrencyAlias.value.contains(
+                        'flutterwave',
+                      )) {
                         controller.automaticPaymentFlutterwaveInsertProcess();
                       }
                     } else {
                       controller.manualPaymentGetGatewaysProcess();
                     }
                   }
-                });
-
-              }
-              else {
-                CustomSnackBar.error(Strings.pleaseSubmitYourInformation);
-                Future.delayed(const Duration(seconds: 2), () {
-                  Get.toNamed(Routes.updateKycScreen);
-                });
-              }
-            }),
+                },
+              );
+            } else {
+              CustomSnackBar.error(Strings.pleaseSubmitYourInformation);
+              Future.delayed(const Duration(seconds: 2), () {
+                Get.toNamed(Routes.updateKycScreen);
+              });
+            }
+          },
+        ),
       ],
     );
   }

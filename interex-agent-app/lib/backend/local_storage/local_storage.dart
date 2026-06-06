@@ -40,6 +40,7 @@ const String isPusherAuthenticationKey = "isPusherAuthenticationKey";
 const String pusherInstanceIdKey = "pusherInstanceIdKey";
 
 const String isSmsVerificationKey = "isSmsVerificationKey";
+
 class LocalStorage {
   static Future<void> savePusherInstanceId({required String key}) async {
     final box = GetStorage();
@@ -49,15 +50,19 @@ class LocalStorage {
   static String getPusherInstanceId() {
     return GetStorage().read(pusherInstanceIdKey) ?? "";
   }
-  static Future<void> saveSmsVerification(
-      {required bool isSmsVerification}) async {
+
+  static Future<void> saveSmsVerification({
+    required bool isSmsVerification,
+  }) async {
     final box = GetStorage();
 
     await box.write(isSmsVerificationKey, isSmsVerification);
     debugPrint(isSmsVerification.toString());
   }
-  static Future<void> savePusherAuthenticationKey(
-      {required bool pusherAuthenticationKey}) async {
+
+  static Future<void> savePusherAuthenticationKey({
+    required bool pusherAuthenticationKey,
+  }) async {
     final box = GetStorage();
 
     await box.write(isPusherAuthenticationKey, pusherAuthenticationKey);
@@ -67,16 +72,18 @@ class LocalStorage {
     return GetStorage().read(isPusherAuthenticationKey) ?? false;
   }
 
-  static Future<void> saveEmailVerification(
-      {required bool isEmailVerification}) async {
+  static Future<void> saveEmailVerification({
+    required bool isEmailVerification,
+  }) async {
     final box = GetStorage();
 
     await box.write(isEmailVerificationKey, isEmailVerification);
     debugPrint(isEmailVerification.toString());
   }
 
-  static Future<void> saveKycVerification(
-      {required bool isKycVerification}) async {
+  static Future<void> saveKycVerification({
+    required bool isKycVerification,
+  }) async {
     final box = GetStorage();
 
     await box.write(isKycVerificationKey, isKycVerification);
@@ -135,8 +142,9 @@ class LocalStorage {
     await box.write(tokenKey, token);
   }
 
-  static Future<void> saveCountryCode(
-      {required String countryCodeValue}) async {
+  static Future<void> saveCountryCode({
+    required String countryCodeValue,
+  }) async {
     final box = GetStorage();
 
     await box.write(countryCode, countryCodeValue);
@@ -178,8 +186,9 @@ class LocalStorage {
     await box.write(showAdKey, isShowAdYes);
   }
 
-  static Future<void> saveOnboardDoneOrNot(
-      {required bool isOnBoardDone}) async {
+  static Future<void> saveOnboardDoneOrNot({
+    required bool isOnBoardDone,
+  }) async {
     final box = GetStorage();
 
     await box.write(isOnBoardDoneKey, isOnBoardDone);
@@ -194,17 +203,17 @@ class LocalStorage {
     final box2 = GetStorage();
     final box3 = GetStorage();
     languageStateName = languageName;
-    var locale = Locale(langSmall, langCap);
-    Get.updateLocale(locale);
+    final locale = Locale(langSmall, langCap);
+    await Get.updateLocale(locale);
     await box1.write(smallLanguage, langSmall);
     await box2.write(capitalLanguage, langCap);
     await box3.write(language, languageName);
   }
 
   static List getLanguage() {
-    String small = GetStorage().read(smallLanguage) ?? 'en';
-    String capital = GetStorage().read(capitalLanguage) ?? 'EN';
-    String languages = GetStorage().read(language) ?? 'English';
+    final String small = GetStorage().read(smallLanguage) ?? 'en';
+    final String capital = GetStorage().read(capitalLanguage) ?? 'EN';
+    final String languages = GetStorage().read(language) ?? 'English';
     return [small, capital, languages];
   }
 
@@ -226,7 +235,7 @@ class LocalStorage {
   }
 
   static String? getToken() {
-    var rtrn = GetStorage().read(tokenKey);
+    final rtrn = GetStorage().read(tokenKey);
 
     debugPrint(rtrn == null ? "##Token is null###" : "");
 
@@ -234,7 +243,7 @@ class LocalStorage {
   }
 
   static String? getCountryCode() {
-    var rtrn = GetStorage().read(countryCode);
+    final rtrn = GetStorage().read(countryCode);
 
     debugPrint(rtrn == null ? "##Country Code is null###" : "");
 
@@ -242,7 +251,7 @@ class LocalStorage {
   }
 
   static String? getCountry() {
-    var rtrn = GetStorage().read(country);
+    final rtrn = GetStorage().read(country);
 
     debugPrint(rtrn == null ? "##Country is null###" : "");
 
@@ -252,9 +261,11 @@ class LocalStorage {
   static String? getImage() {
     return GetStorage().read(imageKey);
   }
+
   static bool isSmsVerification() {
     return GetStorage().read(isSmsVerificationKey) ?? false;
   }
+
   static bool isLoggedIn() {
     return GetStorage().read(isLoggedInKey) ?? false;
   }

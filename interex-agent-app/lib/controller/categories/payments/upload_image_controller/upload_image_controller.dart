@@ -7,17 +7,14 @@ File? pickedFile;
 ImagePicker imagePicker = ImagePicker();
 
 class UploadImageController extends GetxController {
-
-
   RxString userImagePath = ''.obs;
-
 
   //-> Image Picker
   RxBool isImagePathSet = false.obs;
   File? image;
   ImagePicker picker = ImagePicker();
   Future<void> chooseImageFromGallery() async {
-    var pickImage = await picker.pickImage(source: ImageSource.gallery);
+    final pickImage = await picker.pickImage(source: ImageSource.gallery);
     image = File(pickImage!.path);
     if (image!.path.isNotEmpty) {
       userImagePath.value = image!.path;
@@ -26,7 +23,7 @@ class UploadImageController extends GetxController {
   }
 
   Future<void> chooseImageFromCamera() async {
-    var pickImage = await picker.pickImage(source: ImageSource.camera);
+    final pickImage = await picker.pickImage(source: ImageSource.camera);
     image = File(pickImage!.path);
     if (image!.path.isNotEmpty) {
       userImagePath.value = image!.path;

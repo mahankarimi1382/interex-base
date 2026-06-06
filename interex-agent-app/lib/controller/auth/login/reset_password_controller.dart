@@ -1,6 +1,6 @@
-import 'package:qrpay/controller/auth/login/signin_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:qrpay/controller/auth/login/signin_controller.dart';
 
 import '../../../backend/model/auth/login/reset_password.dart';
 import '../../../backend/services/api_services.dart';
@@ -30,21 +30,23 @@ class ResetPasswordController extends GetxController {
     _isLoading.value = true;
     update();
 
-    Map<String, dynamic> inputBody = {
+    final Map<String, dynamic> inputBody = {
       'code': Get.arguments['otp'],
       'email': Get.arguments['email'],
       'password': newPasswordController.text,
       'password_confirmation': confirmPasswordController.text,
     };
     // calling login api from api service
-    await ApiServices.resetPasswordApi(body: inputBody).then((value) {
-      _resetPasswordModel = value!;
-      Get.toNamed(Routes.signInScreen);
-      _isLoading.value = false;
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-    });
+    await ApiServices.resetPasswordApi(body: inputBody)
+        .then((value) {
+          _resetPasswordModel = value!;
+          Get.toNamed(Routes.signInScreen);
+          _isLoading.value = false;
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+        });
 
     _isLoading.value = false;
     update();

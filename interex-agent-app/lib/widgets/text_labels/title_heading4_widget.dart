@@ -33,25 +33,31 @@ class TitleHeading4Widget extends StatelessWidget {
     final languageController = Get.put(LanguageController());
 
     return Obx(
-      () =>languageController.isLoading
+      () => languageController.isLoading
           ? const Text('')
-          :  Opacity(
-        opacity: opacity,
-        child: Padding(
-          padding: padding,
-          child: Text(
-            languageController.getTranslation(text),
-            style: Get.isDarkMode
-                ? CustomStyle.darkHeading4TextStyle.copyWith(
-                    fontSize: fontSize, fontWeight: fontWeight, color: color)
-                : CustomStyle.lightHeading4TextStyle.copyWith(
-                    fontSize: fontSize, fontWeight: fontWeight, color: color),
-            textAlign: textAlign,
-            overflow: textOverflow,
-            maxLines: maxLines,
-          ),
-        ),
-      ),
+          : Opacity(
+              opacity: opacity,
+              child: Padding(
+                padding: padding,
+                child: Text(
+                  languageController.getTranslation(text),
+                  style: Get.isDarkMode
+                      ? CustomStyle.darkHeading4TextStyle.copyWith(
+                          fontSize: fontSize,
+                          fontWeight: fontWeight,
+                          color: color,
+                        )
+                      : CustomStyle.lightHeading4TextStyle.copyWith(
+                          fontSize: fontSize,
+                          fontWeight: fontWeight,
+                          color: color,
+                        ),
+                  textAlign: textAlign,
+                  overflow: textOverflow,
+                  maxLines: maxLines,
+                ),
+              ),
+            ),
     );
   }
 }

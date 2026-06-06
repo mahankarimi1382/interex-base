@@ -95,7 +95,8 @@ class Routes {
       '/sendMoneyStripeAnimatedScreen';
   static const String razorPayScreen = '/razorPayScreen';
   static const String paystackScreen = '/paystackScreen';
-  static const String addMoneyAuthorizedPaymentScreen = '/AddMoneyAuthorizedPaymentScreen';
+  static const String addMoneyAuthorizedPaymentScreen =
+      '/AddMoneyAuthorizedPaymentScreen';
   static const String sendMoneyManualPaymentScreen =
       '/sendMoneyManualPaymentScreen';
 
@@ -146,8 +147,8 @@ class Routes {
       '/exchangeMoneyPreviewScreen';
   static const String walletsScreen = '/walletsScreen';
 
-  //phone auth 
-    static const String smsOtpScreen = '/smsOtpScreen';
+  //phone auth
+  static const String smsOtpScreen = '/smsOtpScreen';
   static const String phoneVerificationScreen = '/phoneVerificationScreen';
   static const String resetPhoneOtpScreen = '/resetPhoneOtpScreen';
   static const String resetPasswordPhoneScreen = '/resetPasswordPhoneScreen';

@@ -1,4 +1,3 @@
-
 class AddMoneyStripeInsertModel {
   AddMoneyStripeInsertModel({
     // required this.message,
@@ -15,9 +14,9 @@ class AddMoneyStripeInsertModel {
       );
 
   Map<String, dynamic> toJson() => {
-        // "message": message.toJson(),
-        "data": data.toJson(),
-      };
+    // "message": message.toJson(),
+    "data": data.toJson(),
+  };
 }
 
 class Data {
@@ -40,25 +39,26 @@ class Data {
   final String method;
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
-        gatewayType: json["gateway_type"],
-        gatewayCurrencyName: json["gateway_currency_name"],
-        alias: json["alias"],
-        identify: json["identify"],
-        paymentInformation:
-            PaymentInformation.fromJson(json["payment_information"]),
-        url: json["url"],
-        method: json["method"],
-      );
+    gatewayType: json["gateway_type"],
+    gatewayCurrencyName: json["gateway_currency_name"],
+    alias: json["alias"],
+    identify: json["identify"],
+    paymentInformation: PaymentInformation.fromJson(
+      json["payment_information"],
+    ),
+    url: json["url"],
+    method: json["method"],
+  );
 
   Map<String, dynamic> toJson() => {
-        "gateway_type": gatewayType,
-        "gateway_currency_name": gatewayCurrencyName,
-        "alias": alias,
-        "identify": identify,
-        "payment_information": paymentInformation.toJson(),
-        "url": url,
-        "method": method,
-      };
+    "gateway_type": gatewayType,
+    "gateway_currency_name": gatewayCurrencyName,
+    "alias": alias,
+    "identify": identify,
+    "payment_information": paymentInformation.toJson(),
+    "url": url,
+    "method": method,
+  };
 }
 
 class PaymentInformation {
@@ -92,14 +92,14 @@ class PaymentInformation {
       );
 
   Map<String, dynamic> toJson() => {
-        "trx": trx,
-        "gateway_currency_name": gatewayCurrencyName,
-        "request_amount": requestAmount,
-        "exchange_rate": exchangeRate,
-        "total_charge": totalCharge,
-        "will_get": willGet,
-        "payable_amount": payableAmount,
-      };
+    "trx": trx,
+    "gateway_currency_name": gatewayCurrencyName,
+    "request_amount": requestAmount,
+    "exchange_rate": exchangeRate,
+    "total_charge": totalCharge,
+    "will_get": willGet,
+    "payable_amount": payableAmount,
+  };
 }
 
 // class Message {

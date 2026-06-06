@@ -43,7 +43,7 @@ class AddMoneyManualPaymentScreen extends StatelessWidget {
             ...controller.inputFields.map((element) {
               return element;
             }),
-            _buttonWidget(context)
+            _buttonWidget(context),
           ],
         ),
       ),
@@ -53,16 +53,18 @@ class AddMoneyManualPaymentScreen extends StatelessWidget {
   Container _buttonWidget(BuildContext context) {
     return Container(
       margin: EdgeInsets.symmetric(vertical: Dimensions.marginSizeVertical),
-      child: Obx(() => controller.isConfirmManualLoading
-          ? const CustomLoadingAPI()
-          : PrimaryButton(
-              title: Strings.payNow.tr,
-              onPressed: () {
-                if (formKey.currentState!.validate()) {
-                  controller.manualPaymentProcess();
-                }
-              },
-            )),
+      child: Obx(
+        () => controller.isConfirmManualLoading
+            ? const CustomLoadingAPI()
+            : PrimaryButton(
+                title: Strings.payNow.tr,
+                onPressed: () {
+                  if (formKey.currentState!.validate()) {
+                    controller.manualPaymentProcess();
+                  }
+                },
+              ),
+      ),
     );
   }
 
@@ -70,20 +72,20 @@ class AddMoneyManualPaymentScreen extends StatelessWidget {
     final data = controller.addMoneyManualInsertModel.data;
     return Container(
       padding: EdgeInsets.symmetric(
-          vertical: Dimensions.paddingSize * 0.5,
-          horizontal: Dimensions.paddingSize * 0.2),
-      margin:
-          EdgeInsets.symmetric(vertical: Dimensions.marginSizeVertical * 0.4),
+        vertical: Dimensions.paddingSize * 0.5,
+        horizontal: Dimensions.paddingSize * 0.2,
+      ),
+      margin: EdgeInsets.symmetric(
+        vertical: Dimensions.marginSizeVertical * 0.4,
+      ),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(Dimensions.radius),
         border: Border.all(
           width: 0.8,
-          color: CustomColor.primaryLightColor.withValues(alpha:0.3),
+          color: CustomColor.primaryLightColor.withValues(alpha: 0.3),
         ),
       ),
-      child: Html(
-        data: data.details,
-      ),
+      child: Html(data: data.details),
     );
   }
 }

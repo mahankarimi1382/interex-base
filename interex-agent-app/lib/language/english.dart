@@ -64,7 +64,7 @@ class Strings {
   static const String enterYourVerificationCode = 'enterYourVerificationCode';
   static const String resendCode = 'resendCode';
 
-// KYC
+  // KYC
   static const String kYCForm = 'kycForm';
   static const String kYCFormDetails = 'kYcformDetails';
   static const String firstName = 'firstName';
@@ -88,7 +88,7 @@ class Strings {
   static const String or = 'or';
   static const String resetPasswordDetails = 'resetPasswordDetails';
 
-// Fingerprint
+  // Fingerprint
   static const String fingerprint = 'fingerprint';
   static const String fingerprintAuthentication = 'fingerprintAuthentication';
   static const String useFingerPrintSystem = 'useFingerPrintSystem';
@@ -97,13 +97,13 @@ class Strings {
   static const String confirm = 'confirm';
   static const String skipNow = 'skipNow';
 
-// FaceLock
+  // FaceLock
   static const String facelock = 'facelock';
   static const String facelockAuthentication = 'facelockAuthentication';
   static const String useFacelockSystem = 'useFacelockSystem';
   static const String capture = 'capture';
 
-// Wait for Approval
+  // Wait for Approval
   static const String waitApproval = 'waitApproval';
   static const String waitForYourSubmitted = 'waitForYourSubmitted';
   static const String okay = 'okay';
@@ -111,7 +111,7 @@ class Strings {
   static const String reload = 'reload';
   static const String exit = 'exit';
 
-// Sign In
+  // Sign In
   static const String welcomeBackto = 'welcomeBackto';
   static const String signInWith = 'signInWith';
   static const String forgotPasswordd = 'forgotPasswordd';
@@ -120,12 +120,12 @@ class Strings {
   static const String cancel = 'cancel';
   static const String enterPhone = 'enterPhone';
 
-// Reset Password
+  // Reset Password
   static const String resetPassword = 'resetPassword';
   static const String newPassword = 'newPassword';
   static const String enterNewPassword = 'enterNewPassword';
 
-// Congratulations
+  // Congratulations
   static const String congratulations = 'congratulations';
   static const String yourPasswordHasBeen = 'yourPasswordHasBeen';
   static const String sendMoneySuccesfully = 'sendMoneySuccesfully';
@@ -167,14 +167,14 @@ class Strings {
   static const String myGiftcard = 'myGiftcard';
 
   //Scan QR
-// For Individuals
+  // For Individuals
   static const String forIndivisual = 'forIndivisual';
   static const String useAllpayScan = 'useAllpayScan';
   static const String specifyanAmount = 'specifyanAmount';
   static const String saveImage = 'saveImage';
   static const String transactionHistory = 'transactionHistory';
 
-// Money Transfer
+  // Money Transfer
   static const String moneyTransfer = 'moneyTransfer';
   static const String qrAddress = 'qrAddress';
   static const String qrCode = 'qrCode';
@@ -191,7 +191,7 @@ class Strings {
   static const String limit = 'limit';
   static const String limitAmount = 'limitAmount';
 
-// Preview
+  // Preview
   static const String preview = 'preview';
   static const String tRX2136987 = 'tRX2136987';
   static const String transactionNo = 'transactionNo';
@@ -230,7 +230,7 @@ class Strings {
   static const String updateYourAppRight = 'updateYourAppRight';
   static const String moreOffer = 'moreOffer';
 
-// Money Send
+  // Money Send
   static const String selectReceipient = 'selectReceipient';
   static const String receivingMethod = 'receivingMethod';
   static const String selectMethod = 'selectMethod';
@@ -249,11 +249,11 @@ class Strings {
   static const String sfrancisco = 'sfrancisco';
   static const String changeLanguage = 'changeLanguage';
 
-// Money Receive
+  // Money Receive
   static const String moneyReceiveDetails = 'moneyReceiveDetails';
   static const String share = 'share';
 
-// Remittance
+  // Remittance
   static const String sendingCountry = 'sendingCountry';
   static const String receivingCountry = 'receivingCountry';
   static const String receipient = 'receipient';
@@ -265,7 +265,7 @@ class Strings {
   static const String bankDeposit = 'bankDeposit';
   static const String aud = 'aud';
 
-// Virtual Card
+  // Virtual Card
   static const String virtualCardDetails = 'virtualCardDetails';
   static const String activationFee = 'activationFee';
   static const String viewMoreInfo = 'viewMoreInfo';
@@ -286,7 +286,7 @@ class Strings {
   static const String cardLoadType = 'cardLoadType';
   static const String inssuanceFee = 'inssuanceFee';
 
-// Bill Pay
+  // Bill Pay
   static const String selectBillCategory = 'selectBillCategory';
   static const String enterBillNumber = 'enterBillNumber';
   static const String billType = 'billType';
@@ -303,7 +303,7 @@ class Strings {
   static const String bN135678951 = 'bN135678951';
   static const String yourBillHasBeenPaid = 'yourBillHasBeenPaid';
 
-// Mobile Top Up
+  // Mobile Top Up
   static const String mobileNumber = 'mobileNumber';
   static const String loadFee = 'loadFee';
   static const String minLoad = 'minLoad';
@@ -319,7 +319,7 @@ class Strings {
   static const String mobileTopUpSuccess = 'mobileTopUpSuccess';
   static const String yourMobileTopUp = 'yourMobileTopUp';
 
-// Buy Gift Card
+  // Buy Gift Card
   static const String googlePlay = 'googlePlay';
   static const String googlePlayGiftCard = 'googlePlayGiftCard';
   static const String category = 'category';
@@ -339,7 +339,7 @@ class Strings {
   static const String googlePlay60 = 'googlePlay60';
   static const String yourGiffCard = 'yourGiffCard';
 
-// Profile
+  // Profile
   static const String profile = 'profile';
   static const String myWallet = 'myWallet';
   static const String myVirtualCards = 'myVirtualCards';
@@ -347,7 +347,7 @@ class Strings {
   static const String updateKYCForm = 'updateKycform';
   static const String fA2Security = 'FaSecurity';
 
-// My Virtual Cards
+  // My Virtual Cards
   static const String nineEight = 'nineEight';
   static const String plusBuyNewCard = 'plusBuyNewCard';
   static const String enterAmount = 'enterAmount';
@@ -356,18 +356,18 @@ class Strings {
   static const String addFundSucces = 'addFundSucces';
   static const String yourMoneyAddedSucces = 'yourMoneyAddedSucces';
 
-// Update Profile & Update KYC
+  // Update Profile & Update KYC
   static const String uploadPassportNidDri = 'uploadPassportNidDri';
   static const String updateKYC = 'updateKyc';
 
-// 2FA Security
+  // 2FA Security
   static const String enable2FASecurity = 'enableFasecurity';
   static const String twoFADetails = 'twoFADetails';
   static const String sendVerificationCode = 'sendVerificationCode';
   static const String yourTwoSecurityHAsBeenActive =
       'yourTwoSecurityHAsBeenActive';
 
-// Drawer
+  // Drawer
   static const String transactionsLog = 'transactionsLog';
   static const String transactionLog = 'transactionLog';
   static const String virtualCardLog = 'virtualCardLog';
@@ -383,7 +383,7 @@ class Strings {
   static const String billPaymentLog = 'billPaymentLog';
   static const String mobileTopUpLog = 'mobileTopUpLog';
 
-// Save Recipient
+  // Save Recipient
   static const String admanWarm = 'admanWarm';
   static const String admangmail = 'admangmail';
   static const String anthonyGolsambir = 'anthonyGolsambir';
@@ -401,7 +401,7 @@ class Strings {
   static const String wingston = 'wingston';
   static const String wingstonGmail = 'wingstonGmail';
 
-// Gift Card
+  // Gift Card
   static const String cN20236598 = 'cN20236598';
   static const String usd15 = 'usd15';
   static const String usd5 = 'usd5';
@@ -466,7 +466,7 @@ class Strings {
   static const String makeDefault = 'makeDefault';
   static const String removeDefault = 'removeDefault';
 
-// Transaction Log
+  // Transaction Log
   static const String addMoneyLog = 'addMoneyLog';
   static const String withdrawLog = 'withdrawLog';
   static const String transferMoneyLog = 'transferMoneyLog';
@@ -640,7 +640,7 @@ class Strings {
   static const String emailOrPhone = 'appLEmailOrPhone';
   static const String phoneEmail = "phoneEmail";
   static const String enterEmailPhone = "enterEmailPhone";
-// pro
+  // pro
   static const String restart = 'applrestart';
   static const String customerChoose = 'applcustomerchoose';
   static const String pleaseFillOutTheField = 'applpleasefilloutthefield';
@@ -662,8 +662,10 @@ class Strings {
   static const String bkashPayment = 'applbkashpayment';
   static const String chargedAmount = 'applchargedamount';
   static const String balanceBeforeTermination = 'applbalancebeforetermination';
-  static const String poleaseFilledTheFiledswithvalidInfo = 'applpoleasefilledthefiledswithvalidinfo';
-  static const String pleaseSubmitYourInformation = 'applpleasesubmityourinformation';
+  static const String poleaseFilledTheFiledswithvalidInfo =
+      'applpoleasefilledthefiledswithvalidinfo';
+  static const String pleaseSubmitYourInformation =
+      'applpleasesubmityourinformation';
   static const String pinSetup = 'applpinsetup';
   static const String pinUpdate = 'applpinupdate';
   static const String oldPin = 'apploldpin';

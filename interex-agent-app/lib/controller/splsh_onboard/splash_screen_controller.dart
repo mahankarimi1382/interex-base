@@ -38,7 +38,6 @@ import '../../backend/local_storage/local_storage.dart';
 import '../../backend/services/navigator_plug.dart';
 import '../../routes/routes.dart';
 
-
 class SplashController extends GetxController {
   final navigatorPlug = NavigatorPlug();
 
@@ -46,17 +45,16 @@ class SplashController extends GetxController {
   void onReady() {
     super.onReady();
     navigatorPlug.startListening(
-        seconds: 3,
-        onChanged: () {
-          LocalStorage.isLoggedIn()
-              ? Get.offAndToNamed(Routes.signInScreen)
-              : Get.offAndToNamed(
-            LocalStorage.isOnBoardDone()
-                ? Routes.signInScreen
-                : Routes.onboardScreen,
-          );
-        }
-
+      seconds: 3,
+      onChanged: () {
+        LocalStorage.isLoggedIn()
+            ? Get.offAndToNamed(Routes.signInScreen)
+            : Get.offAndToNamed(
+                LocalStorage.isOnBoardDone()
+                    ? Routes.signInScreen
+                    : Routes.onboardScreen,
+              );
+      },
     );
   }
 

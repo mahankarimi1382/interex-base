@@ -8,9 +8,9 @@ class DashboardModel {
   });
 
   factory DashboardModel.fromJson(Map<String, dynamic> json) => DashboardModel(
-        // message: Message.fromJson(json["message"]),
-        data: Data.fromJson(json["data"]),
-      );
+    // message: Message.fromJson(json["message"]),
+    data: Data.fromJson(json["data"]),
+  );
 }
 
 class Data {
@@ -59,45 +59,40 @@ class Data {
   });
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
-        pusherCredentials:
-            PusherCredentials.fromJson(json["pusher_credentials"]),
-        // baseCurr: json["base_curr"],
-        // agentWallet: List<AgentWallet>.from(
-        //     json["userWallets"].map((x) => AgentWallet.fromJson(x))),
-        // baseUrl: json["base_url"],
-        // defaultImage: json["default_image"],
-        // imagePath: json["image_path"],
-        moduleAccess: ModuleAccess.fromJson(json["module_access"]),
-        agent: Agent.fromJson(json["agent"]),
-        // totalAddMoney: json["totalAddMoney"],
-        // totalWithdrawMoney: json["totalWithdrawMoney"],
-        // totalSendMoney: json["totalSendMoney"],
-        // totalMoneyIn: json["totalMoneyIn"],
-        totalReceiveMoney: json["totalReceiveMoney"],
-        pinVerification: json["pin_verification"],
-        // totalSendRemittance: json["totalSendRemittance"],
-        // billPay: json["billPay"],
-        // topUps: json["topUps"],
-        // totalTransaction: json["total_transaction"],
-        agentProfits: json["agent_profits"],
-        transactions: List<Transaction>.from(
-            json["transactions"].map((x) => Transaction.fromJson(x))),
-      );
+    pusherCredentials: PusherCredentials.fromJson(json["pusher_credentials"]),
+    // baseCurr: json["base_curr"],
+    // agentWallet: List<AgentWallet>.from(
+    //     json["userWallets"].map((x) => AgentWallet.fromJson(x))),
+    // baseUrl: json["base_url"],
+    // defaultImage: json["default_image"],
+    // imagePath: json["image_path"],
+    moduleAccess: ModuleAccess.fromJson(json["module_access"]),
+    agent: Agent.fromJson(json["agent"]),
+    // totalAddMoney: json["totalAddMoney"],
+    // totalWithdrawMoney: json["totalWithdrawMoney"],
+    // totalSendMoney: json["totalSendMoney"],
+    // totalMoneyIn: json["totalMoneyIn"],
+    totalReceiveMoney: json["totalReceiveMoney"],
+    pinVerification: json["pin_verification"],
+    // totalSendRemittance: json["totalSendRemittance"],
+    // billPay: json["billPay"],
+    // topUps: json["topUps"],
+    // totalTransaction: json["total_transaction"],
+    agentProfits: json["agent_profits"],
+    transactions: List<Transaction>.from(
+      json["transactions"].map((x) => Transaction.fromJson(x)),
+    ),
+  );
 }
 
 class Agent {
   final int kycVerified;
   final bool pinStatus;
 
-  Agent({
-    required this.kycVerified,
-    required this.pinStatus,
-  });
+  Agent({required this.kycVerified, required this.pinStatus});
 
-  factory Agent.fromJson(Map<String, dynamic> json) => Agent(
-        kycVerified: json["kyc_verified"],
-        pinStatus: json["pin_status"],
-      );
+  factory Agent.fromJson(Map<String, dynamic> json) =>
+      Agent(kycVerified: json["kyc_verified"], pinStatus: json["pin_status"]);
 }
 
 class ModuleAccess {
@@ -122,26 +117,26 @@ class ModuleAccess {
   });
 
   factory ModuleAccess.fromJson(Map<String, dynamic> json) => ModuleAccess(
-        receiveMoney: json["receive_money"],
-        addMoney: json["add_money"],
-        withdrawMoney: json["withdraw_money"],
-        transferMoney: json["transfer_money"],
-        moneyIn: json["money_in"],
-        billPay: json["bill_pay"],
-        mobileTopUp: json["mobile_top_up"],
-        remittanceMoney: json["remittance_money"],
-      );
+    receiveMoney: json["receive_money"],
+    addMoney: json["add_money"],
+    withdrawMoney: json["withdraw_money"],
+    transferMoney: json["transfer_money"],
+    moneyIn: json["money_in"],
+    billPay: json["bill_pay"],
+    mobileTopUp: json["mobile_top_up"],
+    remittanceMoney: json["remittance_money"],
+  );
 
   Map<String, dynamic> toJson() => {
-        "receive_money": receiveMoney,
-        "add_money": addMoney,
-        "withdraw_money": withdrawMoney,
-        "transfer_money": transferMoney,
-        "money_in": moneyIn,
-        "bill_pay": billPay,
-        "mobile_top_up": mobileTopUp,
-        "remittance_money": remittanceMoney,
-      };
+    "receive_money": receiveMoney,
+    "add_money": addMoney,
+    "withdraw_money": withdrawMoney,
+    "transfer_money": transferMoney,
+    "money_in": moneyIn,
+    "bill_pay": billPay,
+    "mobile_top_up": mobileTopUp,
+    "remittance_money": remittanceMoney,
+  };
 }
 
 class Transaction {
@@ -163,23 +158,20 @@ class Transaction {
   });
 
   factory Transaction.fromJson(Map<String, dynamic> json) => Transaction(
-        trx: json["trx"],
-        transactionType: json["transaction_type"],
-        requestAmount: json["request_amount"],
-        payable: json["payable"],
-        status: json["status"],
-        dateTime: DateTime.parse(json["date_time"]),
-      );
+    trx: json["trx"],
+    transactionType: json["transaction_type"],
+    requestAmount: json["request_amount"],
+    payable: json["payable"],
+    status: json["status"],
+    dateTime: DateTime.parse(json["date_time"]),
+  );
 }
 
 class PusherCredentials {
   final String instanceId;
   final String secretKey;
 
-  PusherCredentials({
-    required this.instanceId,
-    required this.secretKey,
-  });
+  PusherCredentials({required this.instanceId, required this.secretKey});
 
   factory PusherCredentials.fromJson(Map<String, dynamic> json) =>
       PusherCredentials(

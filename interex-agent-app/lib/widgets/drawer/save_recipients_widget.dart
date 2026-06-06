@@ -113,7 +113,6 @@ class SaveRecipientWidget extends StatelessWidget {
     showDialog(
       barrierColor: CustomColor.whiteColor.withValues(alpha: 0.8),
       context: context,
-      barrierDismissible: true,
       builder: (context) {
         return GestureDetector(
           onTap: () {
@@ -123,7 +122,6 @@ class SaveRecipientWidget extends StatelessWidget {
             padding: const EdgeInsets.all(30),
             child: Column(
               mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.end,
               children: List.generate(
                 moreList.length,
@@ -183,8 +181,8 @@ class SaveRecipientWidget extends StatelessWidget {
   }
 
   String convertToCamelCase(String input) {
-    List<String> parts = input.split(' ');
-    String camelCase =
+    final List<String> parts = input.split(' ');
+    final String camelCase =
         parts.first.toLowerCase() +
         parts
             .sublist(1)

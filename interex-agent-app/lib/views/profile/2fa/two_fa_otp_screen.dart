@@ -27,8 +27,7 @@ class Otp2FaScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return ResponsiveLayout(
       mobileScaffold: PopScope(
-        canPop: true,
-        onPopInvokedWithResult: (isTrue, value) {    
+        onPopInvokedWithResult: (isTrue, value) {
           Get.close(0);
         },
         child: Scaffold(
@@ -61,15 +60,13 @@ class Otp2FaScreen extends StatelessWidget {
 
   Container _titleAndSubtitleWidget(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(
-        top: Dimensions.marginSizeVertical * 3,
-      ),
+      margin: EdgeInsets.only(top: Dimensions.marginSizeVertical * 3),
       child: Column(
         crossAxisAlignment: crossStart,
         children: [
           TitleHeading2Widget(text: Strings.enable2FASecurity),
           verticalSpace(Dimensions.heightSize * 0.7),
-          const TitleHeading4Widget(text: Strings.enterTheGoogleAuthOTPCode)
+          const TitleHeading4Widget(text: Strings.enterTheGoogleAuthOTPCode),
         ],
       ),
     );
@@ -80,9 +77,7 @@ class Otp2FaScreen extends StatelessWidget {
       mainAxisAlignment: mainCenter,
       children: [
         Padding(
-          padding: EdgeInsets.only(
-            top: Dimensions.heightSize * 5,
-          ),
+          padding: EdgeInsets.only(top: Dimensions.heightSize * 5),
           child: OtpInputTextFieldWidget(
             controller: controller.emailOtpInputController,
           ),
@@ -92,22 +87,25 @@ class Otp2FaScreen extends StatelessWidget {
   }
 
   Obx _continueButtonWidget(BuildContext context) {
-    return Obx(() => controller.isLoading
-        ? const CustomLoadingAPI()
-        : PrimaryButton(
-            title: Strings.submit,
-            onPressed: () {
-              controller.twoFAEnabledProcess().then(
-                    (value) => StatusScreen.show(
-                        context: context,
-                        subTitle: Strings.yourTwoSecurityHAsBeenActive.tr,
-                        onPressed: () {
-                          LocalStorage.isLoginSuccess(isLoggedIn: true);
-                          LocalStorage.isLoggedIn();
-                          Get.offAllNamed(Routes.bottomNavBarScreen);
-                        }),
-                  );
-            },
-          ));
+    return Obx(
+      () => controller.isLoading
+          ? const CustomLoadingAPI()
+          : PrimaryButton(
+              title: Strings.submit,
+              onPressed: () {
+                controller.twoFAEnabledProcess().then(
+                  (value) => StatusScreen.show(
+                    context: context,
+                    subTitle: Strings.yourTwoSecurityHAsBeenActive.tr,
+                    onPressed: () {
+                      LocalStorage.isLoginSuccess(isLoggedIn: true);
+                      LocalStorage.isLoggedIn();
+                      Get.offAllNamed(Routes.bottomNavBarScreen);
+                    },
+                  ),
+                );
+              },
+            ),
+    );
   }
 }

@@ -9,20 +9,17 @@ class TwoFaInfoModel {
   final Message message;
   final Data data;
 
-  TwoFaInfoModel({
-    required this.message,
-    required this.data,
-  });
+  TwoFaInfoModel({required this.message, required this.data});
 
   factory TwoFaInfoModel.fromJson(Map<String, dynamic> json) => TwoFaInfoModel(
-        message: Message.fromJson(json["message"]),
-        data: Data.fromJson(json["data"]),
-      );
+    message: Message.fromJson(json["message"]),
+    data: Data.fromJson(json["data"]),
+  );
 
   Map<String, dynamic> toJson() => {
-        "message": message.toJson(),
-        "data": data.toJson(),
-      };
+    "message": message.toJson(),
+    "data": data.toJson(),
+  };
 }
 
 class Data {
@@ -39,32 +36,29 @@ class Data {
   });
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
-        qrCode: json["qr_code"],
-        qrSecrete: json["qr_secrete"],
-        qrStatus: json["qr_status"],
-        alert: json["alert"],
-      );
+    qrCode: json["qr_code"],
+    qrSecrete: json["qr_secrete"],
+    qrStatus: json["qr_status"],
+    alert: json["alert"],
+  );
 
   Map<String, dynamic> toJson() => {
-        "qr_code": qrCode,
-        "qr_secrete": qrSecrete,
-        "qr_status": qrStatus,
-        "alert": alert,
-      };
+    "qr_code": qrCode,
+    "qr_secrete": qrSecrete,
+    "qr_status": qrStatus,
+    "alert": alert,
+  };
 }
 
 class Message {
   final List<String> success;
 
-  Message({
-    required this.success,
-  });
+  Message({required this.success});
 
-  factory Message.fromJson(Map<String, dynamic> json) => Message(
-        success: List<String>.from(json["success"].map((x) => x)),
-      );
+  factory Message.fromJson(Map<String, dynamic> json) =>
+      Message(success: List<String>.from(json["success"].map((x) => x)));
 
   Map<String, dynamic> toJson() => {
-        "success": List<dynamic>.from(success.map((x) => x)),
-      };
+    "success": List<dynamic>.from(success.map((x) => x)),
+  };
 }

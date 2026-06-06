@@ -40,7 +40,7 @@ class BuyGiftCardWidget extends StatelessWidget {
               fontFamily: "AgencyFB",
               fontSize: 32,
               fontWeight: FontWeight.w700,
-              color: CustomColor.whiteColor.withValues(alpha:0.6),
+              color: CustomColor.whiteColor.withValues(alpha: 0.6),
             ),
           ),
           verticalSpace(Dimensions.heightSize * 2),
@@ -52,13 +52,14 @@ class BuyGiftCardWidget extends StatelessWidget {
                 children: [
                   Text(
                     Strings.nineElevent,
-                    style: CustomStyle.f20w600pri
-                        .copyWith(color: CustomColor.whiteColor),
+                    style: CustomStyle.f20w600pri.copyWith(
+                      color: CustomColor.whiteColor,
+                    ),
                   ),
                   Text(
                     Strings.expiryDate,
                     style: CustomStyle.darkHeading3TextStyle.copyWith(
-                      color: CustomColor.whiteColor.withValues(alpha:0.6),
+                      color: CustomColor.whiteColor.withValues(alpha: 0.6),
                       fontWeight: FontWeight.w500,
                       fontSize: Dimensions.headingTextSize5,
                     ),
@@ -70,13 +71,14 @@ class BuyGiftCardWidget extends StatelessWidget {
                 children: [
                   Text(
                     Strings.nineSix,
-                    style: CustomStyle.f20w600pri
-                        .copyWith(color: CustomColor.whiteColor),
+                    style: CustomStyle.f20w600pri.copyWith(
+                      color: CustomColor.whiteColor,
+                    ),
                   ),
                   Text(
                     Strings.cvc,
                     style: CustomStyle.darkHeading3TextStyle.copyWith(
-                      color: CustomColor.whiteColor.withValues(alpha:0.6),
+                      color: CustomColor.whiteColor.withValues(alpha: 0.6),
                       fontWeight: FontWeight.w500,
                       fontSize: Dimensions.headingTextSize5,
                     ),

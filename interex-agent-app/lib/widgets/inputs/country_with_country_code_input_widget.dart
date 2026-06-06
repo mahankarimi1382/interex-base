@@ -62,7 +62,6 @@ class _PrimaryInputWidgetState extends State<CountryInputWidget> {
   @override
   Widget build(BuildContext context) {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         TitleHeading4Widget(
@@ -170,13 +169,13 @@ class _PrimaryInputWidgetState extends State<CountryInputWidget> {
               child: ListView.builder(
                 itemCount: basicController.basicDataModel.data.countries.length,
                 itemBuilder: (BuildContext context, int index) {
-                  var data = basicController.basicDataModel.data.countries;
-                  var code = basicController
+                  final data = basicController.basicDataModel.data.countries;
+                  final code = basicController
                       .basicDataModel
                       .data
                       .countries[index]
                       .mobileCode;
-                  var country =
+                  final country =
                       basicController.basicDataModel.data.countries[index].name;
                   return InkWell(
                     highlightColor: Colors.yellow.withValues(alpha: 0.9),

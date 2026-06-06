@@ -3,10 +3,7 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:qrpay/utils/dimensions.dart';
 
 class CustomLoadingAPI extends StatelessWidget {
-  const CustomLoadingAPI({
-    super.key,
-    this.colors,
-  });
+  const CustomLoadingAPI({super.key, this.colors});
   final Color? colors;
 
   @override

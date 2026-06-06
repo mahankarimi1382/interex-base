@@ -114,8 +114,9 @@ class KycFromScreen extends StatelessWidget {
           ),
           verticalSpace(Dimensions.heightSize),
           PrimaryInputWidget(
-            readOnly:
-                registrationController.selectedRegID.value == 0 ? true : false,
+            readOnly: registrationController.selectedRegID.value == 0
+                ? true
+                : false,
             controller: registrationController.emailController,
             hint: Strings.enterEmailAddress.tr,
             label: Strings.emailAddress.tr,
@@ -152,8 +153,9 @@ class KycFromScreen extends StatelessWidget {
             hint: Strings.xxx.tr,
             label: Strings.phoneNumber.tr,
             keyBoardType: TextInputType.number,
-            readOnly:
-                registrationController.selectedRegID.value == 1 ? true : false,
+            readOnly: registrationController.selectedRegID.value == 1
+                ? true
+                : false,
             isValidator: LocalStorage.isSmsVerification(),
           ),
           verticalSpace(Dimensions.heightSize * 0.6),
@@ -182,24 +184,23 @@ class KycFromScreen extends StatelessWidget {
           Visibility(
             visible: kycController.inputFileFields.isNotEmpty,
             child: Container(
-              margin: EdgeInsets.only(
-                top: Dimensions.marginSizeVertical * 0.5,
-              ),
+              margin: EdgeInsets.only(top: Dimensions.marginSizeVertical * 0.5),
               height: kycController.inputFileFields.length == 2
                   ? MediaQuery.of(context).size.height * 0.20
                   : MediaQuery.of(context).size.height * 0.25,
               child: GridView.builder(
-                  physics: const BouncingScrollPhysics(),
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2, // Number of columns in the grid
-                    crossAxisSpacing: 10.0, // Spacing between columns
-                    mainAxisSpacing: 10.0, // Spacing between rows
-                  ),
-                  itemCount: kycController.inputFileFields.length,
-                  // Number of items in the grid
-                  itemBuilder: (BuildContext context, int index) {
-                    return kycController.inputFileFields[index];
-                  }),
+                physics: const BouncingScrollPhysics(),
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2, // Number of columns in the grid
+                  crossAxisSpacing: 10.0, // Spacing between columns
+                  mainAxisSpacing: 10.0, // Spacing between rows
+                ),
+                itemCount: kycController.inputFileFields.length,
+                // Number of items in the grid
+                itemBuilder: (BuildContext context, int index) {
+                  return kycController.inputFileFields[index];
+                },
+              ),
             ),
           ),
           Obx(() {
@@ -236,27 +237,28 @@ class KycFromScreen extends StatelessWidget {
                     width: 20,
                     child: Checkbox(
                       shape: RoundedRectangleBorder(
-                        borderRadius:
-                            BorderRadius.circular(Dimensions.radius * 0.3),
+                        borderRadius: BorderRadius.circular(
+                          Dimensions.radius * 0.3,
+                        ),
                       ),
                       fillColor: WidgetStateProperty.all(
-                          Theme.of(context).primaryColor),
+                        Theme.of(context).primaryColor,
+                      ),
                       value: kycController.termsAndCondition.value,
                       onChanged: kycController.termsAndCondition.call,
                       side: WidgetStateBorderSide.resolveWith(
                         (states) => BorderSide(
                           width: 1.4,
-                          color:
-                              Theme.of(context).primaryColor.withValues(alpha:0.2),
+                          color: Theme.of(
+                            context,
+                          ).primaryColor.withValues(alpha: 0.2),
                         ),
                       ),
                     ),
                   ),
                 ),
                 Theme(
-                  data: ThemeData(
-                    splashColor: Colors.transparent,
-                  ),
+                  data: ThemeData(splashColor: Colors.transparent),
                   child: TextButton(
                     onPressed: () {
                       Get.toNamed(Routes.privacyScreen);
@@ -268,10 +270,10 @@ class KycFromScreen extends StatelessWidget {
                       text: Strings.agreed.tr,
                     ),
                   ),
-                )
+                ),
               ],
             ),
-          )
+          ),
         ],
       ),
     );
@@ -279,8 +281,9 @@ class KycFromScreen extends StatelessWidget {
 
   Container _buttonWidget(BuildContext context) {
     return Container(
-      margin:
-          EdgeInsets.symmetric(vertical: Dimensions.marginSizeVertical * 1.4),
+      margin: EdgeInsets.symmetric(
+        vertical: Dimensions.marginSizeVertical * 1.4,
+      ),
       child: Obx(
         () => kycController.isLoading
             ? const CustomLoadingAPI()

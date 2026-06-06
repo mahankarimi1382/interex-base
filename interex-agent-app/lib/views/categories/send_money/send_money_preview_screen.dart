@@ -44,14 +44,15 @@ class SendMoneyPreviewScreen extends StatelessWidget {
 
   Widget _amountWidget(BuildContext context) {
     return previewAmount(
-        amount:
-            '${controller.senderAmountController.text} ${controller.selectSenderWallet.value!.currency.code}');
+      amount:
+          '${controller.senderAmountController.text} ${controller.selectSenderWallet.value!.currency.code}',
+    );
   }
 
   Widget _amountInformationWidget(BuildContext context) {
-    var senderCurrency = controller.selectSenderWallet.value!.currency;
-    var receiverCurrency = controller.selectReceiverWallet.value!.currency;
-    int precision =
+    final senderCurrency = controller.selectSenderWallet.value!.currency;
+    final receiverCurrency = controller.selectReceiverWallet.value!.currency;
+    final int precision =
         controller.selectSenderWallet.value!.currency.type == 'FIAT' ? 4 : 8;
 
     return amountInformationWidget(
@@ -85,9 +86,7 @@ class SendMoneyPreviewScreen extends StatelessWidget {
 
   Container _buttonWidget(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(
-        top: Dimensions.marginSizeVertical * 2,
-      ),
+      margin: EdgeInsets.only(top: Dimensions.marginSizeVertical * 2),
       child: Obx(
         () => controller.isSendMoneyLoading
             ? const CustomLoadingAPI()
@@ -95,7 +94,9 @@ class SendMoneyPreviewScreen extends StatelessWidget {
                 title: Strings.confirm,
                 onPressed: () {
                   if (dashboardController.kycStatus.value == 1) {
-                    controller.sendMoneyProcess(context).then(
+                    controller
+                        .sendMoneyProcess(context)
+                        .then(
                           (value) => StatusScreen.show(
                             context: context,
                             subTitle: Strings.yourmoneySenSuccess,
@@ -125,18 +126,14 @@ class SendMoneyPreviewScreen extends StatelessWidget {
             TitleHeading5Widget(
               text: title,
               color: Get.isDarkMode
-                  ? CustomColor.primaryDarkTextColor.withValues(alpha:0.6)
-                  : CustomColor.primaryLightColor.withValues(alpha:
-                      0.4,
-                    ),
+                  ? CustomColor.primaryDarkTextColor.withValues(alpha: 0.6)
+                  : CustomColor.primaryLightColor.withValues(alpha: 0.4),
             ),
             TitleHeading4Widget(
               text: subTitle,
               color: Get.isDarkMode
-                  ? CustomColor.primaryDarkTextColor.withValues(alpha:0.6)
-                  : CustomColor.primaryLightColor.withValues(alpha:
-                      0.6,
-                    ),
+                  ? CustomColor.primaryDarkTextColor.withValues(alpha: 0.6)
+                  : CustomColor.primaryLightColor.withValues(alpha: 0.6),
               fontWeight: FontWeight.w600,
             ),
           ],

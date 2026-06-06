@@ -19,8 +19,6 @@ class SignInController extends GetxController {
   final emailForgotController = TextEditingController();
   final phoneNumberForgotController = TextEditingController();
 
- 
-
   RxString selectedPhoneCode = '+1'.obs;
 
   @override
@@ -51,7 +49,7 @@ class SignInController extends GetxController {
     _isLoading.value = true;
     update();
 
-    Map<String, dynamic> inputBody = {
+    final Map<String, dynamic> inputBody = {
       'login_type': selectedLogInID.value == 0 ? 'Email' : 'Phone',
       'credentials': selectedLogInID.value == 0
           ? emailController.text
@@ -108,7 +106,7 @@ class SignInController extends GetxController {
     _isSendOTPLoading.value = true;
     update();
 
-    Map<String, dynamic> inputBody = {};
+    final Map<String, dynamic> inputBody = {};
 
     await ApiServices.sendOTPEmailApi(body: inputBody)
         .then((value) {
@@ -138,7 +136,7 @@ class SignInController extends GetxController {
     _isLoading2.value = true;
     update();
 
-    Map<String, dynamic> inputBody = {'code': otpCode};
+    final Map<String, dynamic> inputBody = {'code': otpCode};
 
     await ApiServices.verifyEmailApi(body: inputBody)
         .then((value) {
@@ -203,7 +201,7 @@ class SignInController extends GetxController {
   late CommonSuccessModel _commonSuccessModel;
   CommonSuccessModel get commonSuccessModel => _commonSuccessModel;
   Future<CommonSuccessModel?> smsOtpProcess() async {
-    Map<String, dynamic> inputBody = {};
+    final Map<String, dynamic> inputBody = {};
 
     return RequestProcess().request<CommonSuccessModel>(
       fromJson: CommonSuccessModel.fromJson,
@@ -221,7 +219,7 @@ class SignInController extends GetxController {
   bool get isVerifyPhoneOtpLoading => _isVerifyPhoneOtpLoading.value;
 
   Future<CommonSuccessModel?> verifyPhoneOtpProcess(String code) async {
-    Map<String, dynamic> inputBody = {'code': code};
+    final Map<String, dynamic> inputBody = {'code': code};
 
     return RequestProcess().request<CommonSuccessModel>(
       fromJson: CommonSuccessModel.fromJson,
@@ -249,7 +247,7 @@ class SignInController extends GetxController {
     _isSendForgotOTPLoading.value = true;
     update();
 
-    Map<String, dynamic> inputBody = {
+    final Map<String, dynamic> inputBody = {
       'type': selectedLogInID.value == 0 ? 'Email' : 'Phone',
       'credentials': selectedLogInID.value == 0
           ? emailForgotController.text
@@ -288,7 +286,7 @@ class SignInController extends GetxController {
     _isLoading2.value = true;
     update();
 
-    Map<String, dynamic> inputBody = {
+    final Map<String, dynamic> inputBody = {
       'code': otpCode,
       'email': emailForgotController.text,
     };
@@ -317,7 +315,7 @@ class SignInController extends GetxController {
   bool get isForgotPhoneOtpLoading => _isForgotPhoneOtpLoading.value;
 
   Future<CommonSuccessModel?> resendForgotPhoneOtpProcess() async {
-    Map<String, dynamic> inputBody = {
+    final Map<String, dynamic> inputBody = {
       'mobile_code': selectedPhoneCode.value,
       'mobile': phoneNumberController.text,
     };
@@ -342,7 +340,7 @@ class SignInController extends GetxController {
   Future<CommonSuccessModel?> resendForgotPhoneOtpVerifyProcess({
     required String otpCode,
   }) async {
-    Map<String, dynamic> inputBody = {
+    final Map<String, dynamic> inputBody = {
       'mobile_code': selectedPhoneCode.value,
       'mobile': phoneNumberController.text,
       'code': otpCode,

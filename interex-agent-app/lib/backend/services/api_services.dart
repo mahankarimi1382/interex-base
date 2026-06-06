@@ -81,19 +81,16 @@ class ApiServices {
       Map<String, dynamic>? mapResponse;
 
       if (method == 'POST') {
-        mapResponse = await ApiMethod(isBasic: isBasic).post(
-          apiEndpoint,
-          body ?? {},
-          code: statusCode,
-        );
+        mapResponse = await ApiMethod(
+          isBasic: isBasic,
+        ).post(apiEndpoint, body ?? {}, code: statusCode);
       } else if (method == 'GET') {
-        mapResponse = await ApiMethod(isBasic: isBasic).get(
-          apiEndpoint,
-          showResult: showResult,
-        );
+        mapResponse = await ApiMethod(
+          isBasic: isBasic,
+        ).get(apiEndpoint, showResult: showResult);
       }
       if (mapResponse != null) {
-        T result = fromJson(mapResponse);
+        final T result = fromJson(mapResponse);
         // CommonSuccessModel messages = CommonSuccessModel.fromJson(mapResponse);
         // CustomSnackBar.success(messages.message.success.first.toString());
         return result;
@@ -107,17 +104,17 @@ class ApiServices {
     }
   }
 
-// App Settings Api
+  // App Settings Api
   static Future<AppSettingsModel?> appSettingsApi() async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: true).get(
-        ApiEndpoint.appSettingsURL,
-        showResult: true,
-      );
+      mapResponse = await ApiMethod(
+        isBasic: true,
+      ).get(ApiEndpoint.appSettingsURL, showResult: true);
       if (mapResponse != null) {
-        AppSettingsModel appSettingsModel =
-            AppSettingsModel.fromJson(mapResponse);
+        final AppSettingsModel appSettingsModel = AppSettingsModel.fromJson(
+          mapResponse,
+        );
 
         return appSettingsModel;
       }
@@ -129,18 +126,17 @@ class ApiServices {
     return null;
   }
 
-//!Login Api method
-  static Future<LoginModel?> loginApi(
-      {required Map<String, dynamic> body}) async {
+  //!Login Api method
+  static Future<LoginModel?> loginApi({
+    required Map<String, dynamic> body,
+  }) async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: true).post(
-        ApiEndpoint.loginURL,
-        body,
-        code: 200,
-      );
+      mapResponse = await ApiMethod(
+        isBasic: true,
+      ).post(ApiEndpoint.loginURL, body, code: 200);
       if (mapResponse != null) {
-        LoginModel loginModel = LoginModel.fromJson(mapResponse);
+        final LoginModel loginModel = LoginModel.fromJson(mapResponse);
         // CustomSnackBar.success(loginModel.message.success.first.toString());
         return loginModel;
       }
@@ -156,13 +152,11 @@ class ApiServices {
   static Future<CommonSuccessModel?> logOut() async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false).get(
-        ApiEndpoint.logOutURL,
-        code: 200,
-      );
+      mapResponse = await ApiMethod(isBasic: false).get(ApiEndpoint.logOutURL);
       if (mapResponse != null) {
-        CommonSuccessModel logOutModel =
-            CommonSuccessModel.fromJson(mapResponse);
+        final CommonSuccessModel logOutModel = CommonSuccessModel.fromJson(
+          mapResponse,
+        );
         return logOutModel;
       }
     } catch (e) {
@@ -174,18 +168,18 @@ class ApiServices {
   }
 
   // send otp email
-  static Future<CommonSuccessModel?> sendOTPEmailApi(
-      {required Map<String, dynamic> body}) async {
+  static Future<CommonSuccessModel?> sendOTPEmailApi({
+    required Map<String, dynamic> body,
+  }) async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false).post(
-        ApiEndpoint.sendOTPEmailURL,
-        body,
-        code: 200,
-      );
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).post(ApiEndpoint.sendOTPEmailURL, body, code: 200);
       if (mapResponse != null) {
-        CommonSuccessModel checkUserModel =
-            CommonSuccessModel.fromJson(mapResponse);
+        final CommonSuccessModel checkUserModel = CommonSuccessModel.fromJson(
+          mapResponse,
+        );
         CustomSnackBar.success(checkUserModel.message.success.first.toString());
         return checkUserModel;
       }
@@ -198,44 +192,43 @@ class ApiServices {
   }
 
   // verify Email User Process
-  static Future<CommonSuccessModel?> verifyEmailApi(
-      {required Map<String, dynamic> body}) async {
+  static Future<CommonSuccessModel?> verifyEmailApi({
+    required Map<String, dynamic> body,
+  }) async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false).post(
-        ApiEndpoint.verifyEmailURL,
-        body,
-        code: 200,
-      );
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).post(ApiEndpoint.verifyEmailURL, body, code: 200);
       if (mapResponse != null) {
-        CommonSuccessModel verifyEmailUserModel =
+        final CommonSuccessModel verifyEmailUserModel =
             CommonSuccessModel.fromJson(mapResponse);
         CustomSnackBar.success(
-            verifyEmailUserModel.message.success.first.toString());
+          verifyEmailUserModel.message.success.first.toString(),
+        );
         return verifyEmailUserModel;
       }
     } catch (e) {
       log.e('🐞🐞🐞 err from send otp email service ==> $e 🐞🐞🐞');
       CustomSnackBar.error(
-          'Something went Wrong! in verify Email  checkUserModel');
+        'Something went Wrong! in verify Email  checkUserModel',
+      );
       return null;
     }
     return null;
   }
 
-//! forgot password
-  static Future<CheckRegisterUserModel?> checkRegisterApi(
-      {required Map<String, dynamic> body}) async {
+  //! forgot password
+  static Future<CheckRegisterUserModel?> checkRegisterApi({
+    required Map<String, dynamic> body,
+  }) async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: true).post(
-        ApiEndpoint.checkRegisterURL,
-        body,
-        code: 200,
-        duration: 25,
-      );
+      mapResponse = await ApiMethod(
+        isBasic: true,
+      ).post(ApiEndpoint.checkRegisterURL, body, code: 200, duration: 25);
       if (mapResponse != null) {
-        CheckRegisterUserModel checkRegisterModel =
+        final CheckRegisterUserModel checkRegisterModel =
             CheckRegisterUserModel.fromJson(mapResponse);
         // CustomSnackBar.success(
         //     checkRegisterModel.message.success.first.toString());
@@ -250,17 +243,16 @@ class ApiServices {
   }
 
   //! reset password api service
-  static Future<ResetPasswordModel?> resetPasswordApi(
-      {required Map<String, dynamic> body}) async {
+  static Future<ResetPasswordModel?> resetPasswordApi({
+    required Map<String, dynamic> body,
+  }) async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: true).post(
-        ApiEndpoint.resetPasswordURL,
-        body,
-        code: 200,
-      );
+      mapResponse = await ApiMethod(
+        isBasic: true,
+      ).post(ApiEndpoint.resetPasswordURL, body, code: 200);
       if (mapResponse != null) {
-        ResetPasswordModel resetPasswordModel =
+        final ResetPasswordModel resetPasswordModel =
             ResetPasswordModel.fromJson(mapResponse);
         // CustomSnackBar.success(
         //     resetPasswordModel.message.success.first.toString());
@@ -274,17 +266,16 @@ class ApiServices {
     return null;
   }
 
-  static Future<ResetPasswordModel?> resetPasswordPhoneApi(
-      {required Map<String, dynamic> body}) async {
+  static Future<ResetPasswordModel?> resetPasswordPhoneApi({
+    required Map<String, dynamic> body,
+  }) async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: true).post(
-        ApiEndpoint.resetPasswordSmsURL,
-        body,
-        code: 200,
-      );
+      mapResponse = await ApiMethod(
+        isBasic: true,
+      ).post(ApiEndpoint.resetPasswordSmsURL, body, code: 200);
       if (mapResponse != null) {
-        ResetPasswordModel resetPasswordModel =
+        final ResetPasswordModel resetPasswordModel =
             ResetPasswordModel.fromJson(mapResponse);
 
         return resetPasswordModel;
@@ -297,21 +288,21 @@ class ApiServices {
     return null;
   }
 
-//!Register Api Service
+  //!Register Api Service
 
   // send otp email
-  static Future<CommonSuccessModel?> sendRegisterOTPEmailApi(
-      {required Map<String, dynamic> body}) async {
+  static Future<CommonSuccessModel?> sendRegisterOTPEmailApi({
+    required Map<String, dynamic> body,
+  }) async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: true).post(
-        ApiEndpoint.sendRegisterEmailOTPURL,
-        body,
-        code: 200,
-      );
+      mapResponse = await ApiMethod(
+        isBasic: true,
+      ).post(ApiEndpoint.sendRegisterEmailOTPURL, body, code: 200);
       if (mapResponse != null) {
-        CommonSuccessModel checkUserModel =
-            CommonSuccessModel.fromJson(mapResponse);
+        final CommonSuccessModel checkUserModel = CommonSuccessModel.fromJson(
+          mapResponse,
+        );
         CustomSnackBar.success(checkUserModel.message.success.first.toString());
         return checkUserModel;
       }
@@ -323,18 +314,19 @@ class ApiServices {
     return null;
   }
 
-// check register exist
-  static Future<CheckUserModel?> checkUserApi(
-      {required Map<String, dynamic> body}) async {
+  // check register exist
+  static Future<CheckUserModel?> checkUserApi({
+    required Map<String, dynamic> body,
+  }) async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: true).post(
-        ApiEndpoint.checkingUserURL,
-        body,
-        code: 200,
-      );
+      mapResponse = await ApiMethod(
+        isBasic: true,
+      ).post(ApiEndpoint.checkingUserURL, body, code: 200);
       if (mapResponse != null) {
-        CheckUserModel checkUserModel = CheckUserModel.fromJson(mapResponse);
+        final CheckUserModel checkUserModel = CheckUserModel.fromJson(
+          mapResponse,
+        );
         // CustomSnackBar.success(checkUserModel.message.success.first.toString());
         return checkUserModel;
       }
@@ -347,52 +339,54 @@ class ApiServices {
   }
 
   // verify register Email User Process
-  static Future<CommonSuccessModel?> verifyRegisterEmailApi(
-      {required Map<String, dynamic> body}) async {
+  static Future<CommonSuccessModel?> verifyRegisterEmailApi({
+    required Map<String, dynamic> body,
+  }) async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: true).post(
-        ApiEndpoint.verifyRegisterEmailOTPURL,
-        body,
-        code: 200,
-      );
+      mapResponse = await ApiMethod(
+        isBasic: true,
+      ).post(ApiEndpoint.verifyRegisterEmailOTPURL, body, code: 200);
       if (mapResponse != null) {
-        CommonSuccessModel verifyEmailUserModel =
+        final CommonSuccessModel verifyEmailUserModel =
             CommonSuccessModel.fromJson(mapResponse);
         CustomSnackBar.success(
-            verifyEmailUserModel.message.success.first.toString());
+          verifyEmailUserModel.message.success.first.toString(),
+        );
         return verifyEmailUserModel;
       }
     } catch (e) {
       log.e('🐞🐞🐞 err from send otp email service ==> $e 🐞🐞🐞');
       CustomSnackBar.error(
-          'Something went Wrong! in verify Email  checkUserModel');
+        'Something went Wrong! in verify Email  checkUserModel',
+      );
       return null;
     }
     return null;
   }
 
   // verify register Email User Process
-  static Future<CommonSuccessModel?> verifyEmailBeforeRegisterApi(
-      {required Map<String, dynamic> body}) async {
+  static Future<CommonSuccessModel?> verifyEmailBeforeRegisterApi({
+    required Map<String, dynamic> body,
+  }) async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: true).post(
-        ApiEndpoint.verifyEmailBeforeRegisterOTPURL,
-        body,
-        code: 200,
-      );
+      mapResponse = await ApiMethod(
+        isBasic: true,
+      ).post(ApiEndpoint.verifyEmailBeforeRegisterOTPURL, body, code: 200);
       if (mapResponse != null) {
-        CommonSuccessModel verifyEmailUserModel =
+        final CommonSuccessModel verifyEmailUserModel =
             CommonSuccessModel.fromJson(mapResponse);
         CustomSnackBar.success(
-            verifyEmailUserModel.message.success.first.toString());
+          verifyEmailUserModel.message.success.first.toString(),
+        );
         return verifyEmailUserModel;
       }
     } catch (e) {
       log.e('🐞🐞🐞 err from send otp email service ==> $e 🐞🐞🐞');
       CustomSnackBar.error(
-          'Something went Wrong! in verify Email  checkUserModel');
+        'Something went Wrong! in verify Email  checkUserModel',
+      );
       return null;
     }
     return null;
@@ -402,12 +396,13 @@ class ApiServices {
   static Future<BasicDataModel?> basicData() async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: true).get(
-        ApiEndpoint.basicDataURL,
-        code: 200,
-      );
+      mapResponse = await ApiMethod(
+        isBasic: true,
+      ).get(ApiEndpoint.basicDataURL);
       if (mapResponse != null) {
-        BasicDataModel basicDataModel = BasicDataModel.fromJson(mapResponse);
+        final BasicDataModel basicDataModel = BasicDataModel.fromJson(
+          mapResponse,
+        );
 
         return basicDataModel;
       }
@@ -435,7 +430,7 @@ class ApiServices {
         pathList: pathList,
       );
       if (mapResponse != null) {
-        RegistrationWithKycModel registrationModel =
+        final RegistrationWithKycModel registrationModel =
             RegistrationWithKycModel.fromJson(mapResponse);
         // CustomSnackBar.success(
         //     registrationModel.message.success.first.toString());
@@ -455,34 +450,38 @@ class ApiServices {
   }) async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: true).post(
-        ApiEndpoint.verifyRegisterPhoneOTPURL,
-        body,
-        code: 200,
-      );
+      mapResponse = await ApiMethod(
+        isBasic: true,
+      ).post(ApiEndpoint.verifyRegisterPhoneOTPURL, body, code: 200);
       if (mapResponse != null) {
-        CommonSuccessModel result = CommonSuccessModel.fromJson(mapResponse);
+        final CommonSuccessModel result = CommonSuccessModel.fromJson(
+          mapResponse,
+        );
         CustomSnackBar.success(result.message.success.first.toString());
         return result;
       }
     } catch (e) {
       log.e('🐞🐞🐞 err from send otp Phone service ==> $e 🐞🐞🐞');
       CustomSnackBar.error(
-          'Something went Wrong! in verify Phone  checkUserModel');
+        'Something went Wrong! in verify Phone  checkUserModel',
+      );
       return null;
     }
     return null;
   }
 
-//!  dashboard Api method
+  //!  dashboard Api method
 
   static Future<DashboardModel?> dashboardApi() async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false)
-          .get(ApiEndpoint.dashboardURL, code: 200, showResult: true);
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).get(ApiEndpoint.dashboardURL, showResult: true);
       if (mapResponse != null) {
-        DashboardModel dashboardModel = DashboardModel.fromJson(mapResponse);
+        final DashboardModel dashboardModel = DashboardModel.fromJson(
+          mapResponse,
+        );
 
         return dashboardModel;
       }
@@ -498,13 +497,13 @@ class ApiServices {
   static Future<NotificationModel?> getNotificationAPi() async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false).get(
-        ApiEndpoint.notificationsURL,
-        code: 200,
-        showResult: false,
-      );
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).get(ApiEndpoint.notificationsURL);
       if (mapResponse != null) {
-        NotificationModel modelData = NotificationModel.fromJson(mapResponse);
+        final NotificationModel modelData = NotificationModel.fromJson(
+          mapResponse,
+        );
 
         return modelData;
       }
@@ -521,12 +520,11 @@ class ApiServices {
   static Future<ProfileModel?> profileAPi() async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false).get(
-        ApiEndpoint.dashboardURL,
-        code: 200,
-      );
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).get(ApiEndpoint.dashboardURL);
       if (mapResponse != null) {
-        ProfileModel profileModel = ProfileModel.fromJson(mapResponse);
+        final ProfileModel profileModel = ProfileModel.fromJson(mapResponse);
 
         return profileModel;
       }
@@ -540,19 +538,17 @@ class ApiServices {
 
   //! update profile APi
 
-//  update profile  Api method
-  static Future<CommonSuccessModel?> updateProfileWithoutImageApi(
-      {required Map<String, dynamic> body}) async {
+  //  update profile  Api method
+  static Future<CommonSuccessModel?> updateProfileWithoutImageApi({
+    required Map<String, dynamic> body,
+  }) async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false).post(
-        ApiEndpoint.updateProfileApi,
-        body,
-        code: 200,
-        showResult: true,
-      );
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).post(ApiEndpoint.updateProfileApi, body, code: 200, showResult: true);
       if (mapResponse != null) {
-        CommonSuccessModel updateProfileModel =
+        final CommonSuccessModel updateProfileModel =
             CommonSuccessModel.fromJson(mapResponse);
         // CustomSnackBar.success(
         //     updateProfileModel.message.success.first.toString());
@@ -567,16 +563,18 @@ class ApiServices {
   }
 
   // with img update profile api
-  static Future<CommonSuccessModel?> updateProfileWithImageApi(
-      {required Map<String, String> body, required String filepath}) async {
+  static Future<CommonSuccessModel?> updateProfileWithImageApi({
+    required Map<String, String> body,
+    required String filepath,
+  }) async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false).multipart(
-          ApiEndpoint.updateProfileApi, body, filepath, 'image',
-          code: 200);
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).multipart(ApiEndpoint.updateProfileApi, body, filepath, 'image');
 
       if (mapResponse != null) {
-        CommonSuccessModel profileUpdateModel =
+        final CommonSuccessModel profileUpdateModel =
             CommonSuccessModel.fromJson(mapResponse);
         // CustomSnackBar.success(
         //     profileUpdateModel.message.success.first.toString());
@@ -594,23 +592,22 @@ class ApiServices {
   // add_money_get
 
   static Future<AddMoneyPaymentGatewayModel?>
-      addMoneyPaymentGatewayAPi() async {
+  addMoneyPaymentGatewayAPi() async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false).get(
-        ApiEndpoint.addMoneyInfoURL,
-        code: 200,
-        showResult: false,
-      );
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).get(ApiEndpoint.addMoneyInfoURL);
       if (mapResponse != null) {
-        AddMoneyPaymentGatewayModel addMoneyPaymentGatewayModel =
+        final AddMoneyPaymentGatewayModel addMoneyPaymentGatewayModel =
             AddMoneyPaymentGatewayModel.fromJson(mapResponse);
 
         return addMoneyPaymentGatewayModel;
       }
     } catch (e) {
       log.e(
-          '🐞🐞🐞 err from Add Money Payment Gateway api service ==> $e 🐞🐞🐞');
+        '🐞🐞🐞 err from Add Money Payment Gateway api service ==> $e 🐞🐞🐞',
+      );
       CustomSnackBar.error('Something went Wrong! in add money info Api');
       return null;
     }
@@ -618,14 +615,16 @@ class ApiServices {
   }
 
   //!drawer
-  static Future<CommonSuccessModel?> passwordUpdateApi(
-      {required Map<String, dynamic> body}) async {
+  static Future<CommonSuccessModel?> passwordUpdateApi({
+    required Map<String, dynamic> body,
+  }) async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false)
-          .post(ApiEndpoint.passwordUpdate, body, code: 200);
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).post(ApiEndpoint.passwordUpdate, body, code: 200);
       if (mapResponse != null) {
-        CommonSuccessModel updateProfileModel =
+        final CommonSuccessModel updateProfileModel =
             CommonSuccessModel.fromJson(mapResponse);
 
         return updateProfileModel;
@@ -639,15 +638,17 @@ class ApiServices {
   }
 
   /// ---
-//  send money insert paypal  Api method
-  static Future<AddMoneyPaypalInsertModel?> sendMoneyInsertPaypalApi(
-      {required Map<String, dynamic> body}) async {
+  //  send money insert paypal  Api method
+  static Future<AddMoneyPaypalInsertModel?> sendMoneyInsertPaypalApi({
+    required Map<String, dynamic> body,
+  }) async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false)
-          .post(ApiEndpoint.addMoneyInsertURL, body, code: 200);
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).post(ApiEndpoint.addMoneyInsertURL, body, code: 200);
       if (mapResponse != null) {
-        AddMoneyPaypalInsertModel sendMoneyPaypalInsertModel =
+        final AddMoneyPaypalInsertModel sendMoneyPaypalInsertModel =
             AddMoneyPaypalInsertModel.fromJson(mapResponse);
         // CustomSnackBar.success(
         //     sendMoneyPaypalInsertModel.message.success.first.toString());
@@ -662,14 +663,15 @@ class ApiServices {
   }
 
   //  send money insert paypal  Api method
-  static Future<AddMoneyFlutterWavePaymentModel?> sendMoneyInsertFlutterWaveApi(
-      {required Map<String, dynamic> body}) async {
+  static Future<AddMoneyFlutterWavePaymentModel?>
+  sendMoneyInsertFlutterWaveApi({required Map<String, dynamic> body}) async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false)
-          .post(ApiEndpoint.addMoneyInsertURL, body, code: 200);
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).post(ApiEndpoint.addMoneyInsertURL, body, code: 200);
       if (mapResponse != null) {
-        AddMoneyFlutterWavePaymentModel sendMoneyFlutterWaveInsertModel =
+        final AddMoneyFlutterWavePaymentModel sendMoneyFlutterWaveInsertModel =
             AddMoneyFlutterWavePaymentModel.fromJson(mapResponse);
         // CustomSnackBar.success(
         //     sendMoneyFlutterWaveInsertModel.message.success.first.toString());
@@ -684,14 +686,18 @@ class ApiServices {
   }
 
   //  add money coinGate Api method
-  static Future<CoinGateInsertModel?> addMoneyCoinGateProcessApi(
-      {required Map<String, dynamic> body}) async {
+  static Future<CoinGateInsertModel?> addMoneyCoinGateProcessApi({
+    required Map<String, dynamic> body,
+  }) async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false)
-          .post(ApiEndpoint.addMoneyInsertURL, body, code: 200);
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).post(ApiEndpoint.addMoneyInsertURL, body, code: 200);
       if (mapResponse != null) {
-        CoinGateInsertModel result = CoinGateInsertModel.fromJson(mapResponse);
+        final CoinGateInsertModel result = CoinGateInsertModel.fromJson(
+          mapResponse,
+        );
 
         return result;
       }
@@ -704,15 +710,18 @@ class ApiServices {
   }
 
   //  add money insert ssl  Api method
-  static Future<AddMoneySslInsertModel?> addMoneySslProcessApi(
-      {required Map<String, dynamic> body}) async {
+  static Future<AddMoneySslInsertModel?> addMoneySslProcessApi({
+    required Map<String, dynamic> body,
+  }) async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false)
-          .post(ApiEndpoint.addMoneyInsertURL, body, code: 200);
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).post(ApiEndpoint.addMoneyInsertURL, body, code: 200);
       if (mapResponse != null) {
-        AddMoneySslInsertModel result =
-            AddMoneySslInsertModel.fromJson(mapResponse);
+        final AddMoneySslInsertModel result = AddMoneySslInsertModel.fromJson(
+          mapResponse,
+        );
 
         return result;
       }
@@ -725,14 +734,16 @@ class ApiServices {
   }
 
   // Add Money Insert RazorPay api
-  static Future<AddMoneyRazorPayInsertModel?> addMoneyInsertRazorPayApi(
-      {required Map<String, dynamic> body}) async {
+  static Future<AddMoneyRazorPayInsertModel?> addMoneyInsertRazorPayApi({
+    required Map<String, dynamic> body,
+  }) async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false)
-          .post(ApiEndpoint.addMoneyInsertURL, body, code: 200);
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).post(ApiEndpoint.addMoneyInsertURL, body, code: 200);
       if (mapResponse != null) {
-        AddMoneyRazorPayInsertModel result =
+        final AddMoneyRazorPayInsertModel result =
             AddMoneyRazorPayInsertModel.fromJson(mapResponse);
 
         return result;
@@ -746,14 +757,16 @@ class ApiServices {
   }
 
   // Add Money Insert RazorPay api
-  static Future<AddMoneyPaystackInsertModel?> addMoneyInsertPaystackPayApi(
-      {required Map<String, dynamic> body}) async {
+  static Future<AddMoneyPaystackInsertModel?> addMoneyInsertPaystackPayApi({
+    required Map<String, dynamic> body,
+  }) async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false)
-          .post(ApiEndpoint.addMoneyInsertURL, body, code: 200);
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).post(ApiEndpoint.addMoneyInsertURL, body, code: 200);
       if (mapResponse != null) {
-        AddMoneyPaystackInsertModel result =
+        final AddMoneyPaystackInsertModel result =
             AddMoneyPaystackInsertModel.fromJson(mapResponse);
 
         return result;
@@ -766,15 +779,17 @@ class ApiServices {
     return null;
   }
 
-//  send money insert paypal  Api method
-  static Future<AddMoneyStripeInsertModel?> addMoneyInsertStripeApi(
-      {required Map<String, dynamic> body}) async {
+  //  send money insert paypal  Api method
+  static Future<AddMoneyStripeInsertModel?> addMoneyInsertStripeApi({
+    required Map<String, dynamic> body,
+  }) async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false)
-          .post(ApiEndpoint.addMoneyInsertURL, body, code: 200);
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).post(ApiEndpoint.addMoneyInsertURL, body, code: 200);
       if (mapResponse != null) {
-        AddMoneyStripeInsertModel sendMoneyStripeInsertModel =
+        final AddMoneyStripeInsertModel sendMoneyStripeInsertModel =
             AddMoneyStripeInsertModel.fromJson(mapResponse);
         // CustomSnackBar.success(
         //     sendMoneyStripeInsertModel.message.success.first.toString());
@@ -788,18 +803,18 @@ class ApiServices {
     return null;
   }
 
-
-
-//  send money insert paypal  Api method
-  static Future<AddMoneyAuthorizeInsertModel?> addMoneyInsertAuthorizeApi(
-      {required Map<String, dynamic> body}) async {
+  //  send money insert paypal  Api method
+  static Future<AddMoneyAuthorizeInsertModel?> addMoneyInsertAuthorizeApi({
+    required Map<String, dynamic> body,
+  }) async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false)
-          .post(ApiEndpoint.addMoneyInsertURL, body, code: 200);
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).post(ApiEndpoint.addMoneyInsertURL, body, code: 200);
       if (mapResponse != null) {
-        AddMoneyAuthorizeInsertModel sendMoneyStripeInsertModel =
-        AddMoneyAuthorizeInsertModel.fromJson(mapResponse);
+        final AddMoneyAuthorizeInsertModel sendMoneyStripeInsertModel =
+            AddMoneyAuthorizeInsertModel.fromJson(mapResponse);
         // CustomSnackBar.success(
         //     sendMoneyStripeInsertModel.message.success.first.toString());
         return sendMoneyStripeInsertModel;
@@ -812,18 +827,20 @@ class ApiServices {
     return null;
   }
 
-//  send money insert paypal  Api method
-  static Future<CommonSuccessModel?> addMoneyConfirmAuthorizeApi(
-      {required Map<String, dynamic> body}) async {
+  //  send money insert paypal  Api method
+  static Future<CommonSuccessModel?> addMoneyConfirmAuthorizeApi({
+    required Map<String, dynamic> body,
+  }) async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false)
-          .post(ApiEndpoint.addMoneyAuthorizeConfirmURL, body, code: 200);
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).post(ApiEndpoint.addMoneyAuthorizeConfirmURL, body, code: 200);
       if (mapResponse != null) {
-        CommonSuccessModel confirmModel =
-        CommonSuccessModel.fromJson(mapResponse);
-        CustomSnackBar.success(
-            confirmModel.message.success.first.toString());
+        final CommonSuccessModel confirmModel = CommonSuccessModel.fromJson(
+          mapResponse,
+        );
+        CustomSnackBar.success(confirmModel.message.success.first.toString());
         return confirmModel;
       }
     } catch (e) {
@@ -834,15 +851,17 @@ class ApiServices {
     return null;
   }
 
-//  send money manual insert  Api method
-  static Future<AddMoneyManualInsertModel?> addMoneyManualInsertApi(
-      {required Map<String, dynamic> body}) async {
+  //  send money manual insert  Api method
+  static Future<AddMoneyManualInsertModel?> addMoneyManualInsertApi({
+    required Map<String, dynamic> body,
+  }) async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false)
-          .post(ApiEndpoint.addMoneyInsertURL, body, code: 200);
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).post(ApiEndpoint.addMoneyInsertURL, body, code: 200);
       if (mapResponse != null) {
-        AddMoneyManualInsertModel sendMoneyManualInsertModel =
+        final AddMoneyManualInsertModel sendMoneyManualInsertModel =
             AddMoneyManualInsertModel.fromJson(mapResponse);
         // CustomSnackBar.success(
         //     sendMoneyManualInsertModel.message.success.first.toString());
@@ -865,11 +884,14 @@ class ApiServices {
     Map<String, dynamic>? mapResponse;
     try {
       mapResponse = await ApiMethod(isBasic: false).multipartMultiFile(
-          ApiEndpoint.addMoneyManualConfirmURL, body,
-          fieldList: fieldList, pathList: pathList, code: 200);
+        ApiEndpoint.addMoneyManualConfirmURL,
+        body,
+        fieldList: fieldList,
+        pathList: pathList,
+      );
 
       if (mapResponse != null) {
-        CommonSuccessModel sendMoneyManualConfirmModel =
+        final CommonSuccessModel sendMoneyManualConfirmModel =
             CommonSuccessModel.fromJson(mapResponse);
         // CustomSnackBar.success(
         //     sendMoneyManualConfirmModel.message.success.first.toString());
@@ -884,14 +906,16 @@ class ApiServices {
   }
 
   // Add Money Insert Pagadito api
-  static Future<AddMoneyPagaditoInsertModel?> addMoneyInsertPagaditoApi(
-      {required Map<String, dynamic> body}) async {
+  static Future<AddMoneyPagaditoInsertModel?> addMoneyInsertPagaditoApi({
+    required Map<String, dynamic> body,
+  }) async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false)
-          .post(ApiEndpoint.addMoneyInsertURL, body, code: 200);
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).post(ApiEndpoint.addMoneyInsertURL, body, code: 200);
       if (mapResponse != null) {
-        AddMoneyPagaditoInsertModel result =
+        final AddMoneyPagaditoInsertModel result =
             AddMoneyPagaditoInsertModel.fromJson(mapResponse);
 
         return result;
@@ -914,13 +938,11 @@ class ApiServices {
   static Future<CardInfoModel?> cardInfoApi() async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false).get(
-        ApiEndpoint.cardInfoURL,
-        code: 200,
-        showResult: false,
-      );
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).get(ApiEndpoint.cardInfoURL);
       if (mapResponse != null) {
-        CardInfoModel cardInfoModel = CardInfoModel.fromJson(mapResponse);
+        final CardInfoModel cardInfoModel = CardInfoModel.fromJson(mapResponse);
 
         return cardInfoModel;
       }
@@ -936,14 +958,13 @@ class ApiServices {
   static Future<CardDetailsModel?> cardDetailsApi({required String id}) async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false).get(
-        ApiEndpoint.cardDetailsURL + id,
-        code: 200,
-        showResult: false,
-      );
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).get(ApiEndpoint.cardDetailsURL + id);
       if (mapResponse != null) {
-        CardDetailsModel cardDetailsModel =
-            CardDetailsModel.fromJson(mapResponse);
+        final CardDetailsModel cardDetailsModel = CardDetailsModel.fromJson(
+          mapResponse,
+        );
 
         return cardDetailsModel;
       }
@@ -956,19 +977,18 @@ class ApiServices {
   }
 
   // card block api
-  static Future<CommonSuccessModel?> cardBlockApi(
-      {required Map<String, dynamic> body}) async {
+  static Future<CommonSuccessModel?> cardBlockApi({
+    required Map<String, dynamic> body,
+  }) async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false).post(
-        ApiEndpoint.cardBlockURL,
-        body,
-        code: 200,
-        showResult: false,
-      );
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).post(ApiEndpoint.cardBlockURL, body, code: 200);
       if (mapResponse != null) {
-        CommonSuccessModel cardBlockModel =
-            CommonSuccessModel.fromJson(mapResponse);
+        final CommonSuccessModel cardBlockModel = CommonSuccessModel.fromJson(
+          mapResponse,
+        );
 
         return cardBlockModel;
       }
@@ -981,19 +1001,18 @@ class ApiServices {
   }
 
   // card block api
-  static Future<CommonSuccessModel?> cardUnBlockApi(
-      {required Map<String, dynamic> body}) async {
+  static Future<CommonSuccessModel?> cardUnBlockApi({
+    required Map<String, dynamic> body,
+  }) async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false).post(
-        ApiEndpoint.cardUnBlockURL,
-        body,
-        code: 200,
-        showResult: false,
-      );
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).post(ApiEndpoint.cardUnBlockURL, body, code: 200);
       if (mapResponse != null) {
-        CommonSuccessModel cardUnBlockModel =
-            CommonSuccessModel.fromJson(mapResponse);
+        final CommonSuccessModel cardUnBlockModel = CommonSuccessModel.fromJson(
+          mapResponse,
+        );
 
         return cardUnBlockModel;
       }
@@ -1006,20 +1025,18 @@ class ApiServices {
   }
 
   // card add fund api
-  static Future<CommonSuccessModel?> carAddFundApi(
-      {required Map<String, dynamic> body}) async {
+  static Future<CommonSuccessModel?> carAddFundApi({
+    required Map<String, dynamic> body,
+  }) async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false).post(
-        ApiEndpoint.cardAddFundURL,
-        body,
-        code: 200,
-        duration: 45,
-        showResult: false,
-      );
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).post(ApiEndpoint.cardAddFundURL, body, code: 200, duration: 45);
       if (mapResponse != null) {
-        CommonSuccessModel cardAddFundModel =
-            CommonSuccessModel.fromJson(mapResponse);
+        final CommonSuccessModel cardAddFundModel = CommonSuccessModel.fromJson(
+          mapResponse,
+        );
 
         return cardAddFundModel;
       }
@@ -1032,19 +1049,18 @@ class ApiServices {
   }
 
   // card create api
-  static Future<CommonSuccessModel?> createCardApi(
-      {required Map<String, dynamic> body}) async {
+  static Future<CommonSuccessModel?> createCardApi({
+    required Map<String, dynamic> body,
+  }) async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false).post(
-        ApiEndpoint.createCardURL,
-        body,
-        code: 200,
-        showResult: false,
-      );
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).post(ApiEndpoint.createCardURL, body, code: 200);
       if (mapResponse != null) {
-        CommonSuccessModel cardAddFundModel =
-            CommonSuccessModel.fromJson(mapResponse);
+        final CommonSuccessModel cardAddFundModel = CommonSuccessModel.fromJson(
+          mapResponse,
+        );
 
         return cardAddFundModel;
       }
@@ -1057,18 +1073,16 @@ class ApiServices {
   }
 
   // card transaction api
-  static Future<CardTransactionModel?> cardTransactionApi(
-      {required String id}) async {
+  static Future<CardTransactionModel?> cardTransactionApi({
+    required String id,
+  }) async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false).get(
-        ApiEndpoint.cardTransactionURL + id,
-        code: 200,
-        duration: 45,
-        showResult: false,
-      );
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).get(ApiEndpoint.cardTransactionURL + id, duration: 45);
       if (mapResponse != null) {
-        CardTransactionModel cardTransactionModel =
+        final CardTransactionModel cardTransactionModel =
             CardTransactionModel.fromJson(mapResponse);
 
         return cardTransactionModel;
@@ -1081,24 +1095,23 @@ class ApiServices {
     return null;
   }
 
-//
-// ---------------------------------------------------------------------------
-//                               Receive Money
-// ---------------------------------------------------------------------------
-//
+  //
+  // ---------------------------------------------------------------------------
+  //                               Receive Money
+  // ---------------------------------------------------------------------------
+  //
 
   // Receive Money api
   static Future<ReceiveMoneyModel?> receiveMoneyApi() async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false).get(
-        ApiEndpoint.receiveMoneyURL,
-        code: 200,
-        showResult: false,
-      );
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).get(ApiEndpoint.receiveMoneyURL);
       if (mapResponse != null) {
-        ReceiveMoneyModel receiveMoneyModel =
-            ReceiveMoneyModel.fromJson(mapResponse);
+        final ReceiveMoneyModel receiveMoneyModel = ReceiveMoneyModel.fromJson(
+          mapResponse,
+        );
 
         return receiveMoneyModel;
       }
@@ -1120,13 +1133,11 @@ class ApiServices {
   static Future<SendMoneyInfoModel?> sendMoneyInfoApi() async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false).get(
-        ApiEndpoint.sendMoneyInfoURL,
-        code: 200,
-        showResult: false,
-      );
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).get(ApiEndpoint.sendMoneyInfoURL);
       if (mapResponse != null) {
-        SendMoneyInfoModel sendMoneyInfoModel =
+        final SendMoneyInfoModel sendMoneyInfoModel =
             SendMoneyInfoModel.fromJson(mapResponse);
 
         return sendMoneyInfoModel;
@@ -1140,19 +1151,18 @@ class ApiServices {
   }
 
   // check user api
-  static Future<CommonSuccessModel?> checkUserExistApi(
-      {required Map<String, dynamic> body}) async {
+  static Future<CommonSuccessModel?> checkUserExistApi({
+    required Map<String, dynamic> body,
+  }) async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false).post(
-        ApiEndpoint.checkUserExistURL,
-        body,
-        code: 200,
-        showResult: false,
-      );
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).post(ApiEndpoint.checkUserExistURL, body, code: 200);
       if (mapResponse != null) {
-        CommonSuccessModel cardUnBlockModel =
-            CommonSuccessModel.fromJson(mapResponse);
+        final CommonSuccessModel cardUnBlockModel = CommonSuccessModel.fromJson(
+          mapResponse,
+        );
 
         return cardUnBlockModel;
       }
@@ -1165,25 +1175,24 @@ class ApiServices {
   }
 
   // check user api
-  static Future<CheckUserWithQrCodeModel?> checkUserWithQrCodeApi(
-      {required Map<String, dynamic> body}) async {
+  static Future<CheckUserWithQrCodeModel?> checkUserWithQrCodeApi({
+    required Map<String, dynamic> body,
+  }) async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false).post(
-        ApiEndpoint.checkUserWithQeCodeURL,
-        body,
-        code: 200,
-        showResult: false,
-      );
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).post(ApiEndpoint.checkUserWithQeCodeURL, body, code: 200);
       if (mapResponse != null) {
-        CheckUserWithQrCodeModel checkUserWithQrCodeModel =
+        final CheckUserWithQrCodeModel checkUserWithQrCodeModel =
             CheckUserWithQrCodeModel.fromJson(mapResponse);
 
         return checkUserWithQrCodeModel;
       }
     } catch (e) {
       log.e(
-          '🐞🐞🐞 err from check user with qr code api service ==> $e 🐞🐞🐞');
+        '🐞🐞🐞 err from check user with qr code api service ==> $e 🐞🐞🐞',
+      );
       CustomSnackBar.error('Something went Wrong! in add money info Api');
       return null;
     }
@@ -1191,19 +1200,18 @@ class ApiServices {
   }
 
   // check user api
-  static Future<CommonSuccessModel?> sendMoneyApi(
-      {required Map<String, dynamic> body}) async {
+  static Future<CommonSuccessModel?> sendMoneyApi({
+    required Map<String, dynamic> body,
+  }) async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false).post(
-        ApiEndpoint.sendMoneyURL,
-        body,
-        code: 200,
-        showResult: false,
-      );
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).post(ApiEndpoint.sendMoneyURL, body, code: 200);
       if (mapResponse != null) {
-        CommonSuccessModel sendMoneyModel =
-            CommonSuccessModel.fromJson(mapResponse);
+        final CommonSuccessModel sendMoneyModel = CommonSuccessModel.fromJson(
+          mapResponse,
+        );
         // CustomSnackBar.success(sendMoneyModel.message.success.first);
         return sendMoneyModel;
       }
@@ -1219,20 +1227,19 @@ class ApiServices {
   static Future<WithdrawInfoModel?> withdrawInfoAPi() async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false).get(
-        ApiEndpoint.withdrawInfoURL,
-        code: 200,
-        showResult: false,
-      );
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).get(ApiEndpoint.withdrawInfoURL);
       if (mapResponse != null) {
-        WithdrawInfoModel addMoneyPaymentGatewayModel =
+        final WithdrawInfoModel addMoneyPaymentGatewayModel =
             WithdrawInfoModel.fromJson(mapResponse);
 
         return addMoneyPaymentGatewayModel;
       }
     } catch (e) {
       log.e(
-          '🐞🐞🐞 err from Money Out Payment Gateway api service ==> $e 🐞🐞🐞');
+        '🐞🐞🐞 err from Money Out Payment Gateway api service ==> $e 🐞🐞🐞',
+      );
       CustomSnackBar.error('Something went Wrong! in money out info Api');
       return null;
     }
@@ -1241,39 +1248,43 @@ class ApiServices {
 
   /// get flutter wave banks list
   static Future<FlutterWaveBanksModel?> getFlutterWaveBanksApi(
-      String trx) async {
+    String trx,
+  ) async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false).get(
-        "${ApiEndpoint.flutterWaveBanksURL}$trx",
-        code: 200,
-        showResult: false,
-      );
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).get("${ApiEndpoint.flutterWaveBanksURL}$trx");
       if (mapResponse != null) {
-        FlutterWaveBanksModel result =
-            FlutterWaveBanksModel.fromJson(mapResponse);
+        final FlutterWaveBanksModel result = FlutterWaveBanksModel.fromJson(
+          mapResponse,
+        );
 
         return result;
       }
     } catch (e) {
       log.e(
-          '🐞🐞🐞 err from get flutter wave banks list api service ==> $e 🐞🐞🐞');
+        '🐞🐞🐞 err from get flutter wave banks list api service ==> $e 🐞🐞🐞',
+      );
       CustomSnackBar.error(
-          'Something went Wrong! in Flutter wave banks list Api');
+        'Something went Wrong! in Flutter wave banks list Api',
+      );
       return null;
     }
     return null;
   }
 
   //  money out manual insert  Api method
-  static Future<WithdrawManualInsertModel?> withdrawManualInsertApi(
-      {required Map<String, dynamic> body}) async {
+  static Future<WithdrawManualInsertModel?> withdrawManualInsertApi({
+    required Map<String, dynamic> body,
+  }) async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false)
-          .post(ApiEndpoint.withdrawInsertURL, body, code: 200);
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).post(ApiEndpoint.withdrawInsertURL, body, code: 200);
       if (mapResponse != null) {
-        WithdrawManualInsertModel sendMoneyManualInsertModel =
+        final WithdrawManualInsertModel sendMoneyManualInsertModel =
             WithdrawManualInsertModel.fromJson(mapResponse);
         // // CustomSnackBar.success(
         //     sendMoneyManualInsertModel.message.success.first.toString());
@@ -1289,18 +1300,16 @@ class ApiServices {
 
   //  withdraw automatic flutterwave insert  Api method
   static Future<WithdrawFlutterWaveInsertModel?>
-      withdrawAutomaticFluuerwaveInsertApi(
-          {required Map<String, dynamic> body}) async {
+  withdrawAutomaticFluuerwaveInsertApi({
+    required Map<String, dynamic> body,
+  }) async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false).post(
-        ApiEndpoint.withdrawInsertURL,
-        body,
-        code: 200,
-        showResult: true,
-      );
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).post(ApiEndpoint.withdrawInsertURL, body, code: 200, showResult: true);
       if (mapResponse != null) {
-        WithdrawFlutterWaveInsertModel sendMoneyManualInsertModel =
+        final WithdrawFlutterWaveInsertModel sendMoneyManualInsertModel =
             WithdrawFlutterWaveInsertModel.fromJson(mapResponse);
         // // CustomSnackBar.success(
         //     sendMoneyManualInsertModel.message.success.first.toString());
@@ -1315,14 +1324,16 @@ class ApiServices {
   }
 
   //  withdraw automatic flutterwave insert  Api method
-  static Future<CommonSuccessModel?> withdrawFluuerwaveConfirmApiApi(
-      {required Map<String, dynamic> body}) async {
+  static Future<CommonSuccessModel?> withdrawFluuerwaveConfirmApiApi({
+    required Map<String, dynamic> body,
+  }) async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false)
-          .post(ApiEndpoint.automaticWithdrawConfirmURL, body, code: 200);
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).post(ApiEndpoint.automaticWithdrawConfirmURL, body, code: 200);
       if (mapResponse != null) {
-        CommonSuccessModel sendMoneyManualInsertModel =
+        final CommonSuccessModel sendMoneyManualInsertModel =
             CommonSuccessModel.fromJson(mapResponse);
         // // CustomSnackBar.success(
         //     sendMoneyManualInsertModel.message.success.first.toString());
@@ -1337,14 +1348,16 @@ class ApiServices {
   }
 
   //  withdraw automatic flutterwave insert  Api method
-  static Future<FlutterwaveAccountCheckModel?> flutterwaveAccountCheackerApi(
-      {required Map<String, dynamic> body}) async {
+  static Future<FlutterwaveAccountCheckModel?> flutterwaveAccountCheackerApi({
+    required Map<String, dynamic> body,
+  }) async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false)
-          .post(ApiEndpoint.checkFlutterwaveAccountURL, body, code: 200);
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).post(ApiEndpoint.checkFlutterwaveAccountURL, body, code: 200);
       if (mapResponse != null) {
-        FlutterwaveAccountCheckModel sendMoneyManualInsertModel =
+        final FlutterwaveAccountCheckModel sendMoneyManualInsertModel =
             FlutterwaveAccountCheckModel.fromJson(mapResponse);
         // // CustomSnackBar.success(
         //     sendMoneyManualInsertModel.message.success.first.toString());
@@ -1367,11 +1380,16 @@ class ApiServices {
     Map<String, dynamic>? mapResponse;
     try {
       mapResponse = await ApiMethod(isBasic: false).multipartMultiFile(
-          ApiEndpoint.manualWithdrawConfirmURL, body,
-          fieldList: fieldList, pathList: pathList, code: 200);
+        ApiEndpoint.manualWithdrawConfirmURL,
+        body,
+        fieldList: fieldList,
+        pathList: pathList,
+      );
 
       if (mapResponse != null) {
-        CommonSuccessModel modelData = CommonSuccessModel.fromJson(mapResponse);
+        final CommonSuccessModel modelData = CommonSuccessModel.fromJson(
+          mapResponse,
+        );
         // CustomSnackBar.success(modelData.message.success.first.toString());
         return modelData;
       }
@@ -1387,13 +1405,13 @@ class ApiServices {
   static Future<BillPayInfoModel?> billPayInfoAPi() async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false).get(
-        ApiEndpoint.billPayInfoURL,
-        code: 200,
-        showResult: false,
-      );
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).get(ApiEndpoint.billPayInfoURL);
       if (mapResponse != null) {
-        BillPayInfoModel modelData = BillPayInfoModel.fromJson(mapResponse);
+        final BillPayInfoModel modelData = BillPayInfoModel.fromJson(
+          mapResponse,
+        );
 
         return modelData;
       }
@@ -1406,14 +1424,18 @@ class ApiServices {
   }
 
   //  money out manual insert  Api method
-  static Future<CommonSuccessModel?> billPayConfirmedApi(
-      {required Map<String, dynamic> body}) async {
+  static Future<CommonSuccessModel?> billPayConfirmedApi({
+    required Map<String, dynamic> body,
+  }) async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false)
-          .post(ApiEndpoint.billPayConfirmedURL, body, code: 200);
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).post(ApiEndpoint.billPayConfirmedURL, body, code: 200);
       if (mapResponse != null) {
-        CommonSuccessModel modelData = CommonSuccessModel.fromJson(mapResponse);
+        final CommonSuccessModel modelData = CommonSuccessModel.fromJson(
+          mapResponse,
+        );
         // CustomSnackBar.success(modelData.message.success.first.toString());
         return modelData;
       }
@@ -1429,13 +1451,11 @@ class ApiServices {
   static Future<TopUpInfoModel?> topupInfoApi() async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false).get(
-        ApiEndpoint.topupInfoURL,
-        code: 200,
-        showResult: false,
-      );
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).get(ApiEndpoint.topupInfoURL);
       if (mapResponse != null) {
-        TopUpInfoModel modelData = TopUpInfoModel.fromJson(mapResponse);
+        final TopUpInfoModel modelData = TopUpInfoModel.fromJson(mapResponse);
 
         return modelData;
       }
@@ -1448,14 +1468,18 @@ class ApiServices {
   }
 
   //  money out manual insert  Api method
-  static Future<CommonSuccessModel?> topupConfirmedApi(
-      {required Map<String, dynamic> body}) async {
+  static Future<CommonSuccessModel?> topupConfirmedApi({
+    required Map<String, dynamic> body,
+  }) async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false)
-          .post(ApiEndpoint.topupConfirmedURL, body, code: 200);
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).post(ApiEndpoint.topupConfirmedURL, body, code: 200);
       if (mapResponse != null) {
-        CommonSuccessModel modelData = CommonSuccessModel.fromJson(mapResponse);
+        final CommonSuccessModel modelData = CommonSuccessModel.fromJson(
+          mapResponse,
+        );
         // CustomSnackBar.success(modelData.message.success.first.toString());
         return modelData;
       }
@@ -1471,14 +1495,13 @@ class ApiServices {
   static Future<MyRecipientListModel?> myRecipientAPi() async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false).get(
-        ApiEndpoint.receiverRecipientListURL,
-        code: 200,
-        showResult: false,
-      );
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).get(ApiEndpoint.receiverRecipientListURL);
       if (mapResponse != null) {
-        MyRecipientListModel modelData =
-            MyRecipientListModel.fromJson(mapResponse);
+        final MyRecipientListModel modelData = MyRecipientListModel.fromJson(
+          mapResponse,
+        );
 
         return modelData;
       }
@@ -1493,13 +1516,11 @@ class ApiServices {
   static Future<SaveRecipientInfoModel?> saveRecipientInfoAPi() async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false).get(
-        ApiEndpoint.senderRecipientInfoURL,
-        code: 200,
-        showResult: false,
-      );
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).get(ApiEndpoint.senderRecipientInfoURL);
       if (mapResponse != null) {
-        SaveRecipientInfoModel modelData =
+        final SaveRecipientInfoModel modelData =
             SaveRecipientInfoModel.fromJson(mapResponse);
 
         return modelData;
@@ -1515,34 +1536,37 @@ class ApiServices {
   static Future<RecipientDynamicFieldModel?> recipientDynamicFieldAPi() async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false).get(
-        ApiEndpoint.recipientDynamicInputURL,
-        code: 200,
-        showResult: false,
-      );
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).get(ApiEndpoint.recipientDynamicInputURL);
       if (mapResponse != null) {
-        RecipientDynamicFieldModel modelData =
+        final RecipientDynamicFieldModel modelData =
             RecipientDynamicFieldModel.fromJson(mapResponse);
 
         return modelData;
       }
     } catch (e) {
       log.e(
-          '🐞🐞🐞 err from recipient dynamic field  api service ==> $e 🐞🐞🐞');
+        '🐞🐞🐞 err from recipient dynamic field  api service ==> $e 🐞🐞🐞',
+      );
       CustomSnackBar.error('Something went Wrong! ');
       return null;
     }
     return null;
   }
 
-  static Future<CommonSuccessModel?> myRecipientStoreApi(
-      {required Map<String, dynamic> body}) async {
+  static Future<CommonSuccessModel?> myRecipientStoreApi({
+    required Map<String, dynamic> body,
+  }) async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false)
-          .post(ApiEndpoint.receiverRecipientStoreURL, body, code: 200);
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).post(ApiEndpoint.receiverRecipientStoreURL, body, code: 200);
       if (mapResponse != null) {
-        CommonSuccessModel result = CommonSuccessModel.fromJson(mapResponse);
+        final CommonSuccessModel result = CommonSuccessModel.fromJson(
+          mapResponse,
+        );
 
         return result;
       }
@@ -1554,14 +1578,18 @@ class ApiServices {
     return null;
   }
 
-  static Future<CommonSuccessModel?> myRecipientUpdateApi(
-      {required Map<String, dynamic> body}) async {
+  static Future<CommonSuccessModel?> myRecipientUpdateApi({
+    required Map<String, dynamic> body,
+  }) async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false)
-          .post(ApiEndpoint.receiverRecipientUpdateURL, body, code: 200);
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).post(ApiEndpoint.receiverRecipientUpdateURL, body, code: 200);
       if (mapResponse != null) {
-        CommonSuccessModel modelData = CommonSuccessModel.fromJson(mapResponse);
+        final CommonSuccessModel modelData = CommonSuccessModel.fromJson(
+          mapResponse,
+        );
 
         return modelData;
       }
@@ -1573,14 +1601,18 @@ class ApiServices {
     return null;
   }
 
-  static Future<CommonSuccessModel?> myRecipientDeleteApi(
-      {required Map<String, dynamic> body}) async {
+  static Future<CommonSuccessModel?> myRecipientDeleteApi({
+    required Map<String, dynamic> body,
+  }) async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false)
-          .post(ApiEndpoint.receiverRecipientDeleteURL, body, code: 200);
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).post(ApiEndpoint.receiverRecipientDeleteURL, body, code: 200);
       if (mapResponse != null) {
-        CommonSuccessModel modelData = CommonSuccessModel.fromJson(mapResponse);
+        final CommonSuccessModel modelData = CommonSuccessModel.fromJson(
+          mapResponse,
+        );
         // CustomSnackBar.success(modelData.message.success.first.toString());
         return modelData;
       }
@@ -1592,17 +1624,18 @@ class ApiServices {
     return null;
   }
 
-  static Future<RecipientEditModel?> receiverRecipientEditAPi(
-      {required String id}) async {
+  static Future<RecipientEditModel?> receiverRecipientEditAPi({
+    required String id,
+  }) async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false).get(
-        ApiEndpoint.receiverRecipientEditURL + id,
-        code: 200,
-        showResult: false,
-      );
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).get(ApiEndpoint.receiverRecipientEditURL + id);
       if (mapResponse != null) {
-        RecipientEditModel modelData = RecipientEditModel.fromJson(mapResponse);
+        final RecipientEditModel modelData = RecipientEditModel.fromJson(
+          mapResponse,
+        );
 
         return modelData;
       }
@@ -1618,14 +1651,13 @@ class ApiServices {
   static Future<RemittanceInfoModel?> remittanceInfoAPi() async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false).get(
-        ApiEndpoint.remittanceInfoURL,
-        code: 200,
-        showResult: false,
-      );
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).get(ApiEndpoint.remittanceInfoURL);
       if (mapResponse != null) {
-        RemittanceInfoModel modelData =
-            RemittanceInfoModel.fromJson(mapResponse);
+        final RemittanceInfoModel modelData = RemittanceInfoModel.fromJson(
+          mapResponse,
+        );
 
         return modelData;
       }
@@ -1637,8 +1669,9 @@ class ApiServices {
     return null;
   }
 
-  static Future<CommonSuccessModel?> remittanceConfirmAPi(
-      {required Map<String, dynamic> body}) async {
+  static Future<CommonSuccessModel?> remittanceConfirmAPi({
+    required Map<String, dynamic> body,
+  }) async {
     Map<String, dynamic>? mapResponse;
     try {
       mapResponse = await ApiMethod(isBasic: false).post(
@@ -1648,7 +1681,9 @@ class ApiServices {
         showResult: true,
       );
       if (mapResponse != null) {
-        CommonSuccessModel modelData = CommonSuccessModel.fromJson(mapResponse);
+        final CommonSuccessModel modelData = CommonSuccessModel.fromJson(
+          mapResponse,
+        );
         // CustomSnackBar.success(modelData.message.success.first.toString());
         return modelData;
       }
@@ -1660,14 +1695,16 @@ class ApiServices {
     return null;
   }
 
-  static Future<RemittanceSenderRecipientModel?> remittanceGetRecipientAPi(
-      {required Map<String, dynamic> body}) async {
+  static Future<RemittanceSenderRecipientModel?> remittanceGetRecipientAPi({
+    required Map<String, dynamic> body,
+  }) async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false)
-          .post(ApiEndpoint.remittanceGetRecipientReceiverURL, body, code: 200);
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).post(ApiEndpoint.remittanceGetRecipientReceiverURL, body, code: 200);
       if (mapResponse != null) {
-        RemittanceSenderRecipientModel result =
+        final RemittanceSenderRecipientModel result =
             RemittanceSenderRecipientModel.fromJson(mapResponse);
         // CustomSnackBar.success(result.message.success.first.toString());
         return result;
@@ -1681,14 +1718,16 @@ class ApiServices {
   }
 
   /// Sender Recipient
-  static Future<RemittanceSenderRecipientModel?> remittanceSenderRecipientAPi(
-      {required Map<String, dynamic> body}) async {
+  static Future<RemittanceSenderRecipientModel?> remittanceSenderRecipientAPi({
+    required Map<String, dynamic> body,
+  }) async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false)
-          .post(ApiEndpoint.remittanceGetRecipientSenderURL, body, code: 200);
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).post(ApiEndpoint.remittanceGetRecipientSenderURL, body, code: 200);
       if (mapResponse != null) {
-        RemittanceSenderRecipientModel result =
+        final RemittanceSenderRecipientModel result =
             RemittanceSenderRecipientModel.fromJson(mapResponse);
         // CustomSnackBar.success(modelData.message.success.first.toString());
         return result;
@@ -1702,18 +1741,18 @@ class ApiServices {
   }
 
   /// transaction
-  static Future<TransactionLogModel?> getTransactionLogAPi(
-      {String type = ""}) async {
+  static Future<TransactionLogModel?> getTransactionLogAPi({
+    String type = "",
+  }) async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false).get(
-        ApiEndpoint.transactionLogURL + type,
-        code: 200,
-        showResult: false,
-      );
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).get(ApiEndpoint.transactionLogURL + type);
       if (mapResponse != null) {
-        TransactionLogModel modelData =
-            TransactionLogModel.fromJson(mapResponse);
+        final TransactionLogModel modelData = TransactionLogModel.fromJson(
+          mapResponse,
+        );
 
         return modelData;
       }
@@ -1729,12 +1768,11 @@ class ApiServices {
   static Future<UpdateKycModel?> getUserKYCInfo() async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false).get(
-        ApiEndpoint.userKycURL,
-        code: 200,
-      );
+      mapResponse = await ApiMethod(isBasic: false).get(ApiEndpoint.userKycURL);
       if (mapResponse != null) {
-        UpdateKycModel basicDataModel = UpdateKycModel.fromJson(mapResponse);
+        final UpdateKycModel basicDataModel = UpdateKycModel.fromJson(
+          mapResponse,
+        );
 
         return basicDataModel;
       }
@@ -1751,13 +1789,11 @@ class ApiServices {
   static Future<TwoFaInfoModel?> getTwoFAInfoAPi() async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false).get(
-        ApiEndpoint.twoFAInfoURL,
-        code: 200,
-        showResult: false,
-      );
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).get(ApiEndpoint.twoFAInfoURL);
       if (mapResponse != null) {
-        TwoFaInfoModel modelData = TwoFaInfoModel.fromJson(mapResponse);
+        final TwoFaInfoModel modelData = TwoFaInfoModel.fromJson(mapResponse);
 
         return modelData;
       }
@@ -1769,14 +1805,18 @@ class ApiServices {
     return null;
   }
 
-  static Future<CommonSuccessModel?> twoFAVerifyAPi(
-      {required Map<String, dynamic> body}) async {
+  static Future<CommonSuccessModel?> twoFAVerifyAPi({
+    required Map<String, dynamic> body,
+  }) async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false)
-          .post(ApiEndpoint.twoFAVerifyURL, body, code: 200);
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).post(ApiEndpoint.twoFAVerifyURL, body, code: 200);
       if (mapResponse != null) {
-        CommonSuccessModel modelData = CommonSuccessModel.fromJson(mapResponse);
+        final CommonSuccessModel modelData = CommonSuccessModel.fromJson(
+          mapResponse,
+        );
         CustomSnackBar.success(modelData.message.success.first.toString());
         return modelData;
       }
@@ -1789,23 +1829,25 @@ class ApiServices {
   }
 
   ///* Two fa submit process api
-  static Future<CommonSuccessModel?> twoFaSubmitApiProcess(
-      {required Map<String, dynamic> body}) async {
+  static Future<CommonSuccessModel?> twoFaSubmitApiProcess({
+    required Map<String, dynamic> body,
+  }) async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false).post(
-        ApiEndpoint.twoFaSubmitURL,
-        body,
-        code: 200,
-      );
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).post(ApiEndpoint.twoFaSubmitURL, body, code: 200);
       if (mapResponse != null) {
-        CommonSuccessModel result = CommonSuccessModel.fromJson(mapResponse);
+        final CommonSuccessModel result = CommonSuccessModel.fromJson(
+          mapResponse,
+        );
         return result;
       }
     } catch (e) {
       log.e('🐞🐞🐞 err from Two fa submit process api service ==> $e 🐞🐞🐞');
       CustomSnackBar.error(
-          'Something went Wrong! in Two fa submit process api services');
+        'Something went Wrong! in Two fa submit process api services',
+      );
       return null;
     }
     return null;
@@ -1816,13 +1858,11 @@ class ApiServices {
   static Future<MakePaymentInfoModel?> makePaymentInfoApi() async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false).get(
-        ApiEndpoint.makePaymentInfoURL,
-        code: 200,
-        showResult: false,
-      );
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).get(ApiEndpoint.makePaymentInfoURL);
       if (mapResponse != null) {
-        MakePaymentInfoModel sendMoneyInfoModel =
+        final MakePaymentInfoModel sendMoneyInfoModel =
             MakePaymentInfoModel.fromJson(mapResponse);
 
         return sendMoneyInfoModel;
@@ -1836,19 +1876,18 @@ class ApiServices {
   }
 
   // check user api
-  static Future<CommonSuccessModel?> checkMerchantExistApi(
-      {required Map<String, dynamic> body}) async {
+  static Future<CommonSuccessModel?> checkMerchantExistApi({
+    required Map<String, dynamic> body,
+  }) async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false).post(
-        ApiEndpoint.checkMerchantExistURL,
-        body,
-        code: 200,
-        showResult: false,
-      );
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).post(ApiEndpoint.checkMerchantExistURL, body, code: 200);
       if (mapResponse != null) {
-        CommonSuccessModel cardUnBlockModel =
-            CommonSuccessModel.fromJson(mapResponse);
+        final CommonSuccessModel cardUnBlockModel = CommonSuccessModel.fromJson(
+          mapResponse,
+        );
 
         return cardUnBlockModel;
       }
@@ -1861,25 +1900,24 @@ class ApiServices {
   }
 
   // check user api
-  static Future<CheckMercantWithQrCodeModel?> checkMerchantWithQrCodeApi(
-      {required Map<String, dynamic> body}) async {
+  static Future<CheckMercantWithQrCodeModel?> checkMerchantWithQrCodeApi({
+    required Map<String, dynamic> body,
+  }) async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false).post(
-        ApiEndpoint.checkMerchantWithQeCodeURL,
-        body,
-        code: 200,
-        showResult: false,
-      );
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).post(ApiEndpoint.checkMerchantWithQeCodeURL, body, code: 200);
       if (mapResponse != null) {
-        CheckMercantWithQrCodeModel checkUserWithQrCodeModel =
+        final CheckMercantWithQrCodeModel checkUserWithQrCodeModel =
             CheckMercantWithQrCodeModel.fromJson(mapResponse);
 
         return checkUserWithQrCodeModel;
       }
     } catch (e) {
       log.e(
-          '🐞🐞🐞 err from check user with qr code api service ==> $e 🐞🐞🐞');
+        '🐞🐞🐞 err from check user with qr code api service ==> $e 🐞🐞🐞',
+      );
       CustomSnackBar.error('Something went Wrong! in add money info Api');
       return null;
     }
@@ -1887,19 +1925,18 @@ class ApiServices {
   }
 
   // check user api
-  static Future<CommonSuccessModel?> makePaymentApi(
-      {required Map<String, dynamic> body}) async {
+  static Future<CommonSuccessModel?> makePaymentApi({
+    required Map<String, dynamic> body,
+  }) async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false).post(
-        ApiEndpoint.makePaymentURL,
-        body,
-        code: 200,
-        showResult: false,
-      );
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).post(ApiEndpoint.makePaymentURL, body, code: 200);
       if (mapResponse != null) {
-        CommonSuccessModel sendMoneyModel =
-            CommonSuccessModel.fromJson(mapResponse);
+        final CommonSuccessModel sendMoneyModel = CommonSuccessModel.fromJson(
+          mapResponse,
+        );
         // CustomSnackBar.success(sendMoneyModel.message.success.first);
         return sendMoneyModel;
       }
@@ -1912,18 +1949,18 @@ class ApiServices {
   }
 
   // check user sms verify submit
-  static Future<CommonSuccessModel?> smsVerifyApi(
-      {required Map<String, dynamic> body}) async {
+  static Future<CommonSuccessModel?> smsVerifyApi({
+    required Map<String, dynamic> body,
+  }) async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false).post(
-        ApiEndpoint.smsVerifyURL,
-        body,
-        code: 200,
-        showResult: false,
-      );
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).post(ApiEndpoint.smsVerifyURL, body, code: 200);
       if (mapResponse != null) {
-        CommonSuccessModel modelData = CommonSuccessModel.fromJson(mapResponse);
+        final CommonSuccessModel modelData = CommonSuccessModel.fromJson(
+          mapResponse,
+        );
         // CustomSnackBar.success(modelData.message.success.first);
         return modelData;
       }
@@ -1936,18 +1973,18 @@ class ApiServices {
   }
 
   // delete account
-  static Future<CommonSuccessModel?> deleteAccountApi(
-      {required Map<String, dynamic> body}) async {
+  static Future<CommonSuccessModel?> deleteAccountApi({
+    required Map<String, dynamic> body,
+  }) async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false).post(
-        ApiEndpoint.deleteAccountURL,
-        body,
-        code: 200,
-      );
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).post(ApiEndpoint.deleteAccountURL, body, code: 200);
       if (mapResponse != null) {
-        CommonSuccessModel checkUserModel =
-            CommonSuccessModel.fromJson(mapResponse);
+        final CommonSuccessModel checkUserModel = CommonSuccessModel.fromJson(
+          mapResponse,
+        );
         CustomSnackBar.success(checkUserModel.message.success.first.toString());
         return checkUserModel;
       }
@@ -1960,21 +1997,20 @@ class ApiServices {
   }
 
   //! recipient check
-  static Future<CheckRecipientModel?> checkRecipientApi(
-      {required Map<String, dynamic> body}) async {
+  static Future<CheckRecipientModel?> checkRecipientApi({
+    required Map<String, dynamic> body,
+  }) async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false).post(
-        ApiEndpoint.recipientCheckUserURL,
-        body,
-        code: 200,
-        duration: 25,
-      );
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).post(ApiEndpoint.recipientCheckUserURL, body, code: 200, duration: 25);
       if (mapResponse != null) {
-        CheckRecipientModel checkRegisterModel =
+        final CheckRecipientModel checkRegisterModel =
             CheckRecipientModel.fromJson(mapResponse);
         CustomSnackBar.success(
-            checkRegisterModel.message.success.first.toString());
+          checkRegisterModel.message.success.first.toString(),
+        );
         return checkRegisterModel;
       }
     } catch (e) {
@@ -1986,18 +2022,18 @@ class ApiServices {
   }
 
   // send otp email
-  static Future<CommonSuccessModel?> sendForgotOTPEmailApi(
-      {required Map<String, dynamic> body}) async {
+  static Future<CommonSuccessModel?> sendForgotOTPEmailApi({
+    required Map<String, dynamic> body,
+  }) async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false).post(
-        ApiEndpoint.sendForgotOTPEmailURL,
-        body,
-        code: 200,
-      );
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).post(ApiEndpoint.sendForgotOTPEmailURL, body, code: 200);
       if (mapResponse != null) {
-        CommonSuccessModel checkUserModel =
-            CommonSuccessModel.fromJson(mapResponse);
+        final CommonSuccessModel checkUserModel = CommonSuccessModel.fromJson(
+          mapResponse,
+        );
         CustomSnackBar.success(checkUserModel.message.success.first.toString());
         return checkUserModel;
       }
@@ -2010,20 +2046,20 @@ class ApiServices {
   }
 
   // verify Email User Process
-  static Future<CommonSuccessModel?> verifyForgotEmailApi(
-      {required Map<String, dynamic> body}) async {
+  static Future<CommonSuccessModel?> verifyForgotEmailApi({
+    required Map<String, dynamic> body,
+  }) async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false).post(
-        ApiEndpoint.verifyForgotOTPEmailURL,
-        body,
-        code: 200,
-      );
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).post(ApiEndpoint.verifyForgotOTPEmailURL, body, code: 200);
       if (mapResponse != null) {
-        CommonSuccessModel verifyEmailUserModel =
+        final CommonSuccessModel verifyEmailUserModel =
             CommonSuccessModel.fromJson(mapResponse);
         CustomSnackBar.success(
-            verifyEmailUserModel.message.success.first.toString());
+          verifyEmailUserModel.message.success.first.toString(),
+        );
         return verifyEmailUserModel;
       }
     } catch (e) {
@@ -2034,23 +2070,21 @@ class ApiServices {
     return null;
   }
 
-//
-// ---------------------------------------------------------------------------
-//                              Virtual Card Sudo
-// ---------------------------------------------------------------------------
-//
+  //
+  // ---------------------------------------------------------------------------
+  //                              Virtual Card Sudo
+  // ---------------------------------------------------------------------------
+  //
 
   // card info api
   static Future<VirtualCardSudoInfoModel?> sudoCardInfoApi() async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false).get(
-        ApiEndpoint.sudoCardInfoURL,
-        code: 200,
-        showResult: false,
-      );
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).get(ApiEndpoint.sudoCardInfoURL);
       if (mapResponse != null) {
-        VirtualCardSudoInfoModel cardInfoModel =
+        final VirtualCardSudoInfoModel cardInfoModel =
             VirtualCardSudoInfoModel.fromJson(mapResponse);
 
         return cardInfoModel;
@@ -2064,17 +2098,16 @@ class ApiServices {
   }
 
   // card details api
-  static Future<SudoCardDetailsModel?> sudoCardDetailsApi(
-      {required String id}) async {
+  static Future<SudoCardDetailsModel?> sudoCardDetailsApi({
+    required String id,
+  }) async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false).get(
-        ApiEndpoint.sudoCardDetailsURL + id,
-        code: 200,
-        showResult: false,
-      );
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).get(ApiEndpoint.sudoCardDetailsURL + id);
       if (mapResponse != null) {
-        SudoCardDetailsModel cardDetailsModel =
+        final SudoCardDetailsModel cardDetailsModel =
             SudoCardDetailsModel.fromJson(mapResponse);
 
         return cardDetailsModel;
@@ -2088,19 +2121,18 @@ class ApiServices {
   }
 
   // card block api
-  static Future<CommonSuccessModel?> sudoCardBlockApi(
-      {required Map<String, dynamic> body}) async {
+  static Future<CommonSuccessModel?> sudoCardBlockApi({
+    required Map<String, dynamic> body,
+  }) async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false).post(
-        ApiEndpoint.sudoCardBlockURL,
-        body,
-        code: 200,
-        showResult: false,
-      );
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).post(ApiEndpoint.sudoCardBlockURL, body, code: 200);
       if (mapResponse != null) {
-        CommonSuccessModel cardBlockModel =
-            CommonSuccessModel.fromJson(mapResponse);
+        final CommonSuccessModel cardBlockModel = CommonSuccessModel.fromJson(
+          mapResponse,
+        );
 
         return cardBlockModel;
       }
@@ -2113,19 +2145,18 @@ class ApiServices {
   }
 
   // card block api
-  static Future<CommonSuccessModel?> sudoCardUnBlockApi(
-      {required Map<String, dynamic> body}) async {
+  static Future<CommonSuccessModel?> sudoCardUnBlockApi({
+    required Map<String, dynamic> body,
+  }) async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false).post(
-        ApiEndpoint.sudoCardUnBlockURL,
-        body,
-        code: 200,
-        showResult: false,
-      );
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).post(ApiEndpoint.sudoCardUnBlockURL, body, code: 200);
       if (mapResponse != null) {
-        CommonSuccessModel cardUnBlockModel =
-            CommonSuccessModel.fromJson(mapResponse);
+        final CommonSuccessModel cardUnBlockModel = CommonSuccessModel.fromJson(
+          mapResponse,
+        );
 
         return cardUnBlockModel;
       }
@@ -2138,51 +2169,55 @@ class ApiServices {
   }
 
   // card make or remove default api
-  static Future<CommonSuccessModel?> sudoCardMakeOrRemoveDefaultApi(
-      {required Map<String, dynamic> body}) async {
+  static Future<CommonSuccessModel?> sudoCardMakeOrRemoveDefaultApi({
+    required Map<String, dynamic> body,
+  }) async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false).post(
-        ApiEndpoint.sudoCardMakeOrRemoveDefaultFundURL,
-        body,
-        code: 200,
-        showResult: false,
-      );
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).post(ApiEndpoint.sudoCardMakeOrRemoveDefaultFundURL, body, code: 200);
       if (mapResponse != null) {
-        CommonSuccessModel cardUnBlockModel =
-            CommonSuccessModel.fromJson(mapResponse);
+        final CommonSuccessModel cardUnBlockModel = CommonSuccessModel.fromJson(
+          mapResponse,
+        );
 
         return cardUnBlockModel;
       }
     } catch (e) {
       log.e(
-          '🐞🐞🐞 err from card sudo Card Make Or Remove Default Api api service ==> $e 🐞🐞🐞');
+        '🐞🐞🐞 err from card sudo Card Make Or Remove Default Api api service ==> $e 🐞🐞🐞',
+      );
       CustomSnackBar.error(
-          'Something went Wrong! in sudo Card Make Or Remove Default Api info Api');
+        'Something went Wrong! in sudo Card Make Or Remove Default Api info Api',
+      );
       return null;
     }
     return null;
   }
 
   // card make or remove default api
-  static Future<CommonSuccessModel?> flutterWaveCardMakeOrRemoveDefaultApi(
-      {required Map<String, dynamic> body}) async {
+  static Future<CommonSuccessModel?> flutterWaveCardMakeOrRemoveDefaultApi({
+    required Map<String, dynamic> body,
+  }) async {
     Map<String, dynamic>? mapResponse;
     try {
       mapResponse = await ApiMethod(isBasic: false).post(
         ApiEndpoint.flutterWaveCardMakeOrRemoveDefaultFundURL,
         body,
         code: 200,
-        showResult: false,
       );
       if (mapResponse != null) {
-        CommonSuccessModel result = CommonSuccessModel.fromJson(mapResponse);
+        final CommonSuccessModel result = CommonSuccessModel.fromJson(
+          mapResponse,
+        );
 
         return result;
       }
     } catch (e) {
       log.e(
-          '🐞🐞🐞 err from card flutter wave Card Make Or Remove Default Api api service ==> $e 🐞🐞🐞');
+        '🐞🐞🐞 err from card flutter wave Card Make Or Remove Default Api api service ==> $e 🐞🐞🐞',
+      );
       CustomSnackBar.error('Something went Wrong!');
       return null;
     }
@@ -2190,19 +2225,18 @@ class ApiServices {
   }
 
   // card create api
-  static Future<CommonSuccessModel?> sudoCreateCardApi(
-      {required Map<String, dynamic> body}) async {
+  static Future<CommonSuccessModel?> sudoCreateCardApi({
+    required Map<String, dynamic> body,
+  }) async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false).post(
-        ApiEndpoint.sudoCreateCardURL,
-        body,
-        code: 200,
-        showResult: false,
-      );
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).post(ApiEndpoint.sudoCreateCardURL, body, code: 200);
       if (mapResponse != null) {
-        CommonSuccessModel cardAddFundModel =
-            CommonSuccessModel.fromJson(mapResponse);
+        final CommonSuccessModel cardAddFundModel = CommonSuccessModel.fromJson(
+          mapResponse,
+        );
 
         return cardAddFundModel;
       }
@@ -2230,10 +2264,11 @@ class ApiServices {
         pathList: pathList,
       );
       if (mapResponse != null) {
-        CommonSuccessModel registrationModel =
+        final CommonSuccessModel registrationModel =
             CommonSuccessModel.fromJson(mapResponse);
         CustomSnackBar.success(
-            registrationModel.message.success.first.toString());
+          registrationModel.message.success.first.toString(),
+        );
         return registrationModel;
       }
     } catch (e) {
@@ -2245,22 +2280,21 @@ class ApiServices {
   }
 
   // ---------------------------------------------------------------------------
-//                              Virtual Card Stripe
-// ---------------------------------------------------------------------------
-//
+  //                              Virtual Card Stripe
+  // ---------------------------------------------------------------------------
+  //
 
   //stripe card info api
   static Future<StripeCardInfoModel?> stripeCardInfoApi() async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false).get(
-        ApiEndpoint.stripeCardInfoURL,
-        code: 200,
-        showResult: false,
-      );
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).get(ApiEndpoint.stripeCardInfoURL);
       if (mapResponse != null) {
-        StripeCardInfoModel cardInfoModel =
-            StripeCardInfoModel.fromJson(mapResponse);
+        final StripeCardInfoModel cardInfoModel = StripeCardInfoModel.fromJson(
+          mapResponse,
+        );
 
         return cardInfoModel;
       }
@@ -2276,13 +2310,11 @@ class ApiServices {
   static Future<StripeCardDetailsModel?> stripeCardDetailsApi(String id) async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false).get(
-        ApiEndpoint.stripeCardDetailsURL + id,
-        code: 200,
-        showResult: false,
-      );
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).get(ApiEndpoint.stripeCardDetailsURL + id);
       if (mapResponse != null) {
-        StripeCardDetailsModel cardDetailsModel =
+        final StripeCardDetailsModel cardDetailsModel =
             StripeCardDetailsModel.fromJson(mapResponse);
 
         return cardDetailsModel;
@@ -2290,23 +2322,24 @@ class ApiServices {
     } catch (e) {
       log.e('🐞🐞🐞 err from stripe card details api service ==> $e 🐞🐞🐞');
       CustomSnackBar.error(
-          'Something went Wrong! in stripe card details info Api');
+        'Something went Wrong! in stripe card details info Api',
+      );
       return null;
     }
     return null;
   }
 
-//stripe card transaction method
+  //stripe card transaction method
   static Future<StripeCardTransactionModel?> stripeCardTransactionApi(
-      String cardId) async {
+    String cardId,
+  ) async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false).get(
-        "${ApiEndpoint.stripeCardTransactionURL}$cardId",
-        showResult: true,
-      );
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).get("${ApiEndpoint.stripeCardTransactionURL}$cardId", showResult: true);
       if (mapResponse != null) {
-        StripeCardTransactionModel cardTransactionModel =
+        final StripeCardTransactionModel cardTransactionModel =
             StripeCardTransactionModel.fromJson(mapResponse);
         // CustomSnackBar.error(
         //     cardTransactionModel.message.success.first.toString());
@@ -2314,7 +2347,8 @@ class ApiServices {
       }
     } catch (e) {
       log.e(
-          '🐞🐞🐞 err from my stripe Card Transaction Api service ==> $e 🐞🐞🐞');
+        '🐞🐞🐞 err from my stripe Card Transaction Api service ==> $e 🐞🐞🐞',
+      );
       CustomSnackBar.error('Something went Wrong!');
       return null;
     }
@@ -2322,18 +2356,16 @@ class ApiServices {
   }
 
   // stripe card sensitive api
-  static Future<StripeSensitiveModel?> stripeSensitiveApi(
-      {required Map<String, dynamic> body}) async {
+  static Future<StripeSensitiveModel?> stripeSensitiveApi({
+    required Map<String, dynamic> body,
+  }) async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false).post(
-        ApiEndpoint.stripeSensitiveURl,
-        body,
-        code: 200,
-        showResult: false,
-      );
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).post(ApiEndpoint.stripeSensitiveURl, body, code: 200);
       if (mapResponse != null) {
-        StripeSensitiveModel cardBlockModel =
+        final StripeSensitiveModel cardBlockModel =
             StripeSensitiveModel.fromJson(mapResponse);
 
         return cardBlockModel;
@@ -2347,19 +2379,18 @@ class ApiServices {
   }
 
   //stripe card inactive api
-  static Future<CommonSuccessModel?> stripeInactiveApi(
-      {required Map<String, dynamic> body}) async {
+  static Future<CommonSuccessModel?> stripeInactiveApi({
+    required Map<String, dynamic> body,
+  }) async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false).post(
-        ApiEndpoint.stripeInactiveURl,
-        body,
-        code: 200,
-        showResult: false,
-      );
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).post(ApiEndpoint.stripeInactiveURl, body, code: 200);
       if (mapResponse != null) {
-        CommonSuccessModel cardUnBlockModel =
-            CommonSuccessModel.fromJson(mapResponse);
+        final CommonSuccessModel cardUnBlockModel = CommonSuccessModel.fromJson(
+          mapResponse,
+        );
 
         return cardUnBlockModel;
       }
@@ -2372,44 +2403,44 @@ class ApiServices {
   }
 
   // stripe card active api
-  static Future<CommonSuccessModel?> stripeActiveApi(
-      {required Map<String, dynamic> body}) async {
+  static Future<CommonSuccessModel?> stripeActiveApi({
+    required Map<String, dynamic> body,
+  }) async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false).post(
-        ApiEndpoint.stripeActiveURl,
-        body,
-        code: 200,
-        showResult: false,
-      );
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).post(ApiEndpoint.stripeActiveURl, body, code: 200);
       if (mapResponse != null) {
-        CommonSuccessModel cardUnBlockModel =
-            CommonSuccessModel.fromJson(mapResponse);
+        final CommonSuccessModel cardUnBlockModel = CommonSuccessModel.fromJson(
+          mapResponse,
+        );
 
         return cardUnBlockModel;
       }
     } catch (e) {
       log.e('🐞🐞🐞 err from stripe card active Api api service ==> $e 🐞🐞🐞');
       CustomSnackBar.error(
-          'Something went Wrong! in stripe card active  Api info Api');
+        'Something went Wrong! in stripe card active  Api info Api',
+      );
       return null;
     }
     return null;
   }
 
   //stripe card buy  Api Method
-  static Future<CommonSuccessModel?> stripeBuyCardApi(
-      {required Map<String, dynamic> body}) async {
+  static Future<CommonSuccessModel?> stripeBuyCardApi({
+    required Map<String, dynamic> body,
+  }) async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false).post(
-        ApiEndpoint.stripeBuyCardURl,
-        body,
-        showResult: true,
-      );
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).post(ApiEndpoint.stripeBuyCardURl, body, showResult: true);
       if (mapResponse != null) {
-        CommonSuccessModel cardUnblockModel =
-            CommonSuccessModel.fromJson(mapResponse);
+        final CommonSuccessModel cardUnblockModel = CommonSuccessModel.fromJson(
+          mapResponse,
+        );
         // CustomSnackBar.error(cardUnblockModel.message.success.first.toString());
         return cardUnblockModel;
       }
@@ -2423,8 +2454,9 @@ class ApiServices {
 
   // add money tatum gateway
 
-  static Future<TatumGatewayModel?> tatumInsertApi(
-      {required Map<String, dynamic> body}) async {
+  static Future<TatumGatewayModel?> tatumInsertApi({
+    required Map<String, dynamic> body,
+  }) async {
     Map<String, dynamic>? mapResponse;
     try {
       mapResponse = await ApiMethod(isBasic: false).post(
@@ -2435,7 +2467,9 @@ class ApiServices {
         showResult: true,
       );
       if (mapResponse != null) {
-        TatumGatewayModel result = TatumGatewayModel.fromJson(mapResponse);
+        final TatumGatewayModel result = TatumGatewayModel.fromJson(
+          mapResponse,
+        );
         // CustomSnackBar.success(result.message.success.first.toString());
         return result;
       }
@@ -2449,13 +2483,17 @@ class ApiServices {
 
   /// Tatum confirm process
 
-  static Future<CommonSuccessModel?> tatumConfirmApiProcess(
-      {required Map<String, dynamic> body, required String url}) async {
+  static Future<CommonSuccessModel?> tatumConfirmApiProcess({
+    required Map<String, dynamic> body,
+    required String url,
+  }) async {
     Map<String, dynamic>? mapResponse;
     try {
       mapResponse = await ApiMethod(isBasic: false).post(url, body, code: 200);
       if (mapResponse != null) {
-        CommonSuccessModel result = CommonSuccessModel.fromJson(mapResponse);
+        final CommonSuccessModel result = CommonSuccessModel.fromJson(
+          mapResponse,
+        );
         CustomSnackBar.success(result.message.success.first.toString());
         return result;
       }
@@ -2474,13 +2512,11 @@ class ApiServices {
   static Future<MoneyInInfoModel?> moneyInInfoApi() async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false).get(
-        ApiEndpoint.moneyInInfoURL,
-        code: 200,
-        showResult: false,
-      );
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).get(ApiEndpoint.moneyInInfoURL);
       if (mapResponse != null) {
-        MoneyInInfoModel result = MoneyInInfoModel.fromJson(mapResponse);
+        final MoneyInInfoModel result = MoneyInInfoModel.fromJson(mapResponse);
 
         return result;
       }
@@ -2493,24 +2529,25 @@ class ApiServices {
   }
 
   // check user api
-  static Future<CommonSuccessModel?> checkMoneyInUserExistApi(
-      {required Map<String, dynamic> body}) async {
+  static Future<CommonSuccessModel?> checkMoneyInUserExistApi({
+    required Map<String, dynamic> body,
+  }) async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false).post(
-        ApiEndpoint.checkMoneyInUserExistURL,
-        body,
-        code: 200,
-        showResult: false,
-      );
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).post(ApiEndpoint.checkMoneyInUserExistURL, body, code: 200);
       if (mapResponse != null) {
-        CommonSuccessModel result = CommonSuccessModel.fromJson(mapResponse);
+        final CommonSuccessModel result = CommonSuccessModel.fromJson(
+          mapResponse,
+        );
 
         return result;
       }
     } catch (e) {
       log.e(
-          '🐞🐞🐞 err from check money in user exist api service ==> $e 🐞🐞🐞');
+        '🐞🐞🐞 err from check money in user exist api service ==> $e 🐞🐞🐞',
+      );
       CustomSnackBar.error('Something went Wrong!');
       return null;
     }
@@ -2518,25 +2555,24 @@ class ApiServices {
   }
 
   // check user api
-  static Future<CheckUserWithQrCodeModel?> checkMoneyInUserWithQrCodeApi(
-      {required Map<String, dynamic> body}) async {
+  static Future<CheckUserWithQrCodeModel?> checkMoneyInUserWithQrCodeApi({
+    required Map<String, dynamic> body,
+  }) async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false).post(
-        ApiEndpoint.checkMoneyInUserWithQeCodeURL,
-        body,
-        code: 200,
-        showResult: false,
-      );
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).post(ApiEndpoint.checkMoneyInUserWithQeCodeURL, body, code: 200);
       if (mapResponse != null) {
-        CheckUserWithQrCodeModel result =
+        final CheckUserWithQrCodeModel result =
             CheckUserWithQrCodeModel.fromJson(mapResponse);
 
         return result;
       }
     } catch (e) {
       log.e(
-          '🐞🐞🐞 err from check user with qr code api service ==> $e 🐞🐞🐞');
+        '🐞🐞🐞 err from check user with qr code api service ==> $e 🐞🐞🐞',
+      );
       CustomSnackBar.error('Something went Wrong!');
       return null;
     }
@@ -2544,18 +2580,18 @@ class ApiServices {
   }
 
   // Money in process
-  static Future<CommonSuccessModel?> moneyInProcessApi(
-      {required Map<String, dynamic> body}) async {
+  static Future<CommonSuccessModel?> moneyInProcessApi({
+    required Map<String, dynamic> body,
+  }) async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false).post(
-        ApiEndpoint.moneyInURL,
-        body,
-        code: 200,
-        showResult: false,
-      );
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).post(ApiEndpoint.moneyInURL, body, code: 200);
       if (mapResponse != null) {
-        CommonSuccessModel result = CommonSuccessModel.fromJson(mapResponse);
+        final CommonSuccessModel result = CommonSuccessModel.fromJson(
+          mapResponse,
+        );
 
         return result;
       }
@@ -2573,13 +2609,13 @@ class ApiServices {
   }) async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false).post(
-        ApiEndpoint.topUpAutomaticConfirmedURL,
-        body,
-        code: 200,
-      );
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).post(ApiEndpoint.topUpAutomaticConfirmedURL, body, code: 200);
       if (mapResponse != null) {
-        CommonSuccessModel modelData = CommonSuccessModel.fromJson(mapResponse);
+        final CommonSuccessModel modelData = CommonSuccessModel.fromJson(
+          mapResponse,
+        );
 
         return modelData;
       }
@@ -2600,11 +2636,12 @@ class ApiServices {
     try {
       mapResponse = await ApiMethod(isBasic: false).get(
         "${ApiEndpoint.checkOperatorURL}mobile_code=$mobileCode&mobile_number=$mobileNumber&country_code=$countryCode",
-        code: 200,
         showResult: true,
       );
       if (mapResponse != null) {
-        DetectOperatorModel result = DetectOperatorModel.fromJson(mapResponse);
+        final DetectOperatorModel result = DetectOperatorModel.fromJson(
+          mapResponse,
+        );
 
         return result;
       }
@@ -2620,12 +2657,11 @@ class ApiServices {
   static Future<WalletsModel?> walletsInfoApi() async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false).get(
-        ApiEndpoint.walletsURL,
-        showResult: true,
-      );
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).get(ApiEndpoint.walletsURL, showResult: true);
       if (mapResponse != null) {
-        WalletsModel walletsModel = WalletsModel.fromJson(mapResponse);
+        final WalletsModel walletsModel = WalletsModel.fromJson(mapResponse);
 
         return walletsModel;
       }
@@ -2639,18 +2675,19 @@ class ApiServices {
   // remaing balance api service
 
   static Future<RemainingBalanceModel?> remainingBalanceAPi(
-      String type,
-      String attribute,
-      String senderAmount,
-      String currencyCode,
-      int id) async {
+    String type,
+    String attribute,
+    String senderAmount,
+    String currencyCode,
+    int id,
+  ) async {
     Map<String, dynamic>? mapResponse;
     try {
       mapResponse = await ApiMethod(isBasic: false).get(
         "${ApiEndpoint.remainingBalanceURL}$type&attribute=$attribute&sender_amount=$senderAmount&currency_code=$currencyCode&charge_id=$id",
         showResult: true,
       );
-      RemainingBalanceModel remainingBalanceModel =
+      final RemainingBalanceModel remainingBalanceModel =
           RemainingBalanceModel.fromJson(mapResponse!);
 
       return remainingBalanceModel;
@@ -2660,15 +2697,18 @@ class ApiServices {
       return null;
     }
   }
+
   // Add Money Insert Bkash api
-  static Future<AddMoneyBkashInsertModel?> addMoneyInsertBkashApi(
-      {required Map<String, dynamic> body}) async {
+  static Future<AddMoneyBkashInsertModel?> addMoneyInsertBkashApi({
+    required Map<String, dynamic> body,
+  }) async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false)
-          .post(ApiEndpoint.addMoneyInsertURL, body, code: 200);
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).post(ApiEndpoint.addMoneyInsertURL, body, code: 200);
       if (mapResponse != null) {
-        AddMoneyBkashInsertModel result =
+        final AddMoneyBkashInsertModel result =
             AddMoneyBkashInsertModel.fromJson(mapResponse);
 
         return result;

@@ -29,23 +29,23 @@ class ResetPasswordPhoneController extends GetxController {
     _isLoading.value = true;
     update();
 
-    Map<String, dynamic> inputBody = {
+    final Map<String, dynamic> inputBody = {
       'code': Get.arguments['otp'],
       'mobile': Get.arguments['mobile'],
       'mobile_code': Get.arguments['mobile_code'],
       'password': newPasswordController.text,
       'password_confirmation': confirmPasswordController.text,
     };
-    await ApiServices.resetPasswordPhoneApi(
-      body: inputBody,
-    ).then((value) {
-      _resetPasswordModel = value!;
-      Get.toNamed(Routes.signInScreen);
-      _isLoading.value = false;
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-    });
+    await ApiServices.resetPasswordPhoneApi(body: inputBody)
+        .then((value) {
+          _resetPasswordModel = value!;
+          Get.toNamed(Routes.signInScreen);
+          _isLoading.value = false;
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+        });
 
     _isLoading.value = false;
     update();

@@ -59,13 +59,9 @@ class _PrimaryInputWidgetState extends State<RecipientPhoneNumberInputWidget> {
   @override
   Widget build(BuildContext context) {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        TitleHeading4Widget(
-          text: widget.label,
-          fontWeight: FontWeight.w600,
-        ),
+        TitleHeading4Widget(text: widget.label, fontWeight: FontWeight.w600),
         verticalSpace(7),
         TextFormField(
           keyboardType: widget.keyBoardType,
@@ -81,11 +77,9 @@ class _PrimaryInputWidgetState extends State<RecipientPhoneNumberInputWidget> {
                 },
           controller: widget.controller,
           onTap: () {
-            setState(
-              () {
-                focusNode!.requestFocus();
-              },
-            );
+            setState(() {
+              focusNode!.requestFocus();
+            });
           },
           onFieldSubmitted: (value) {
             setState(() {
@@ -106,22 +100,27 @@ class _PrimaryInputWidgetState extends State<RecipientPhoneNumberInputWidget> {
             hintStyle: GoogleFonts.inter(
               fontSize: Dimensions.headingTextSize3,
               fontWeight: FontWeight.w500,
-              color: CustomColor.primaryTextColor.withValues(alpha:0.2),
+              color: CustomColor.primaryTextColor.withValues(alpha: 0.2),
             ),
             enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(Dimensions.radius * 0.7),
-                borderSide: BorderSide(
-                  color: Theme.of(context).primaryColor.withValues(alpha:0.2),
-                )),
+              borderRadius: BorderRadius.circular(Dimensions.radius * 0.7),
+              borderSide: BorderSide(
+                color: Theme.of(context).primaryColor.withValues(alpha: 0.2),
+              ),
+            ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(Dimensions.radius * 0.7),
-              borderSide:
-                  BorderSide(width: 2, color: Theme.of(context).primaryColor),
+              borderSide: BorderSide(
+                width: 2,
+                color: Theme.of(context).primaryColor,
+              ),
             ),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(Dimensions.radius * 0.7),
-              borderSide:
-                  const BorderSide(width: 2, color: CustomColor.whiteColor),
+              borderSide: const BorderSide(
+                width: 2,
+                color: CustomColor.whiteColor,
+              ),
             ),
             contentPadding: EdgeInsets.symmetric(
               horizontal: Dimensions.widthSize * 1.7,
@@ -132,16 +131,18 @@ class _PrimaryInputWidgetState extends State<RecipientPhoneNumberInputWidget> {
               children: [
                 Padding(
                   padding: EdgeInsets.symmetric(
-                      horizontal: Dimensions.marginSizeHorizontal * 0.5),
+                    horizontal: Dimensions.marginSizeHorizontal * 0.5,
+                  ),
                   child: Obx(
                     () => TitleHeading3Widget(text: widget.countryCode.value),
                   ),
                 ),
                 Container(
-                    width: 1.6,
-                    height: Dimensions.heightSize * 2,
-                    color: CustomColor.primaryTextColor),
-                horizontalSpace(Dimensions.widthSize)
+                  width: 1.6,
+                  height: Dimensions.heightSize * 2,
+                  color: CustomColor.primaryTextColor,
+                ),
+                horizontalSpace(Dimensions.widthSize),
               ],
             ),
           ),

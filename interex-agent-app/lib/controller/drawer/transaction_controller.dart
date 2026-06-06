@@ -33,12 +33,14 @@ class TransactionController extends GetxController {
     _isLoading.value = true;
     update();
 
-    await ApiServices.getTransactionLogAPi().then((value) {
-      _transactioData = value!;
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-    });
+    await ApiServices.getTransactionLogAPi()
+        .then((value) {
+          _transactioData = value!;
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+        });
 
     _isLoading.value = false;
     update();
@@ -51,11 +53,14 @@ class TransactionController extends GetxController {
   CommonSuccessModel get addMoneyConfirm => _addMoneyConfirm;
 
   // Profile TatumConfirm process with image
-  Future<CommonSuccessModel> tatumConfirmProcess(BuildContext context, String url) async {
+  Future<CommonSuccessModel> tatumConfirmProcess(
+    BuildContext context,
+    String url,
+  ) async {
     _isTatumConfirmLoading.value = true;
     update();
 
-    Map<String, String> inputBody = {};
+    final Map<String, String> inputBody = {};
     final data = _transactioData.data.transactions.addMoney[1].dynamicInputs;
 
     for (int i = 0; i < data.length; i += 1) {
@@ -64,22 +69,21 @@ class TransactionController extends GetxController {
       }
     }
 
-    await ApiServices.tatumConfirmApiProcess(
-      body: inputBody,
-      url: url,
-    ).then((value) {
-      _addMoneyConfirm = value!;
-      StatusScreen.show(
-        context: Get.context!,
-        subTitle: Strings.yourMoneyAddedSucces.tr,
-        onPressed: () {
-          Get.offAllNamed(Routes.bottomNavBarScreen);
-        },
-      );
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-    });
+    await ApiServices.tatumConfirmApiProcess(body: inputBody, url: url)
+        .then((value) {
+          _addMoneyConfirm = value!;
+          StatusScreen.show(
+            context: Get.context!,
+            subTitle: Strings.yourMoneyAddedSucces.tr,
+            onPressed: () {
+              Get.offAllNamed(Routes.bottomNavBarScreen);
+            },
+          );
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+        });
 
     _isTatumConfirmLoading.value = false;
     update();

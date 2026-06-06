@@ -61,13 +61,9 @@ class _PrimaryInputWidgetState extends State<MoneyInCopyWithInput> {
   @override
   Widget build(BuildContext context) {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        TitleHeading4Widget(
-          text: widget.label,
-          fontWeight: FontWeight.w600,
-        ),
+        TitleHeading4Widget(text: widget.label, fontWeight: FontWeight.w600),
         verticalSpace(7),
         TextFormField(
           validator: widget.isValidator == false
@@ -88,7 +84,10 @@ class _PrimaryInputWidgetState extends State<MoneyInCopyWithInput> {
           },
           onFieldSubmitted: (value) {
             if (widget
-                .sendMoneyController.copyInputController.text.isNotEmpty) {
+                .sendMoneyController
+                .copyInputController
+                .text
+                .isNotEmpty) {
               widget.sendMoneyController.getCheckMoneyInUserExistDate();
             }
             setState(() {
@@ -98,7 +97,10 @@ class _PrimaryInputWidgetState extends State<MoneyInCopyWithInput> {
           },
           onTapOutside: (value) {
             if (widget
-                .sendMoneyController.copyInputController.text.isNotEmpty) {
+                .sendMoneyController
+                .copyInputController
+                .text
+                .isNotEmpty) {
               widget.sendMoneyController.getCheckMoneyInUserExistDate();
             }
             setState(() {
@@ -118,19 +120,21 @@ class _PrimaryInputWidgetState extends State<MoneyInCopyWithInput> {
               fontSize: Dimensions.headingTextSize3,
               fontWeight: FontWeight.w500,
               color: Get.isDarkMode
-                  ? CustomColor.primaryDarkTextColor.withValues(alpha:0.2)
-                  : CustomColor.primaryTextColor.withValues(alpha:0.2),
+                  ? CustomColor.primaryDarkTextColor.withValues(alpha: 0.2)
+                  : CustomColor.primaryTextColor.withValues(alpha: 0.2),
             ),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(Dimensions.radius * 0.5),
               borderSide: BorderSide(
-                color: Theme.of(context).primaryColor.withValues(alpha:0.2),
+                color: Theme.of(context).primaryColor.withValues(alpha: 0.2),
               ),
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(Dimensions.radius * 0.5),
-              borderSide:
-                  BorderSide(width: 2, color: Theme.of(context).primaryColor),
+              borderSide: BorderSide(
+                width: 2,
+                color: Theme.of(context).primaryColor,
+              ),
             ),
             errorBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(Dimensions.radius * 0.5),

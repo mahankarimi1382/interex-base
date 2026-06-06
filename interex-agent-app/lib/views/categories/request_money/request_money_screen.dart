@@ -40,10 +40,11 @@ class RequestMoneyScreen extends StatelessWidget {
         _inputWidget(context),
         Obx(() {
           return LimitWidget(
-              fee:
-                  '${controller.totalFee.value.toStringAsFixed(4)} ${controller.baseCurrency.value}',
-              limit:
-                  '${controller.limitMin} - ${controller.limitMax} ${controller.baseCurrency.value}');
+            fee:
+                '${controller.totalFee.value.toStringAsFixed(4)} ${controller.baseCurrency.value}',
+            limit:
+                '${controller.limitMin} - ${controller.limitMax} ${controller.baseCurrency.value}',
+          );
         }),
         verticalSpace(Dimensions.heightSize * 0.5),
         PrimaryInputWidget(
@@ -85,7 +86,7 @@ class RequestMoneyScreen extends StatelessWidget {
                         ? CustomColor.greenColor
                         : CustomColor.redColor,
                   );
-                })
+                }),
               ],
             ),
             verticalSpace(Dimensions.heightSize),
@@ -113,10 +114,12 @@ class RequestMoneyScreen extends StatelessWidget {
                 title: Strings.send,
                 onPressed: () {
                   if (formKey.currentState!.validate()) {
-                    Get.find<SetUpPinController>().showPinDialog(context, onSuccess: (){
-                      Get.toNamed(Routes.requestMoneyPreviewScreen);
-                    });
-
+                    Get.find<SetUpPinController>().showPinDialog(
+                      context,
+                      onSuccess: () {
+                        Get.toNamed(Routes.requestMoneyPreviewScreen);
+                      },
+                    );
                   }
                 },
               ),

@@ -2,15 +2,13 @@ class PaymentLinkStoreModel {
   final Message message;
   final Data data;
 
-  PaymentLinkStoreModel({
-    required this.message,
-    required this.data,
-  });
+  PaymentLinkStoreModel({required this.message, required this.data});
 
-  factory PaymentLinkStoreModel.fromJson(Map<String, dynamic> json) => PaymentLinkStoreModel(
-    message: Message.fromJson(json["message"]),
-    data: Data.fromJson(json["data"]),
-  );
+  factory PaymentLinkStoreModel.fromJson(Map<String, dynamic> json) =>
+      PaymentLinkStoreModel(
+        message: Message.fromJson(json["message"]),
+        data: Data.fromJson(json["data"]),
+      );
 
   Map<String, dynamic> toJson() => {
     "message": message.toJson(),
@@ -21,17 +19,12 @@ class PaymentLinkStoreModel {
 class Data {
   final PaymentLink paymentLink;
 
-  Data({
-    required this.paymentLink,
-  });
+  Data({required this.paymentLink});
 
-  factory Data.fromJson(Map<String, dynamic> json) => Data(
-    paymentLink: PaymentLink.fromJson(json["payment_link"]),
-  );
+  factory Data.fromJson(Map<String, dynamic> json) =>
+      Data(paymentLink: PaymentLink.fromJson(json["payment_link"]));
 
-  Map<String, dynamic> toJson() => {
-    "payment_link": paymentLink.toJson(),
-  };
+  Map<String, dynamic> toJson() => {"payment_link": paymentLink.toJson()};
 }
 
 class PaymentLink {
@@ -64,8 +57,8 @@ class PaymentLink {
     required this.title,
     required this.type,
     this.details,
-     this.limit,
-     this.minAmount,
+    this.limit,
+    this.minAmount,
     this.maxAmount,
     required this.token,
     required this.status,
@@ -86,10 +79,10 @@ class PaymentLink {
     currencyName: json["currency_name"],
     title: json["title"],
     type: json["type"],
-    details: json["details"]??'',
-    limit: json["limit"]??'',
-    minAmount: json["min_amount"]??'',
-    maxAmount: json["max_amount"]??'',
+    details: json["details"] ?? '',
+    limit: json["limit"] ?? '',
+    minAmount: json["min_amount"] ?? '',
+    maxAmount: json["max_amount"] ?? '',
     token: json["token"],
     status: json["status"],
     userId: json["user_id"],
@@ -130,32 +123,21 @@ class StringStatus {
   final String stringStatusClass;
   final String value;
 
-  StringStatus({
-    required this.stringStatusClass,
-    required this.value,
-  });
+  StringStatus({required this.stringStatusClass, required this.value});
 
-  factory StringStatus.fromJson(Map<String, dynamic> json) => StringStatus(
-    stringStatusClass: json["class"],
-    value: json["value"],
-  );
+  factory StringStatus.fromJson(Map<String, dynamic> json) =>
+      StringStatus(stringStatusClass: json["class"], value: json["value"]);
 
-  Map<String, dynamic> toJson() => {
-    "class": stringStatusClass,
-    "value": value,
-  };
+  Map<String, dynamic> toJson() => {"class": stringStatusClass, "value": value};
 }
 
 class Message {
   final List<String> success;
 
-  Message({
-    required this.success,
-  });
+  Message({required this.success});
 
-  factory Message.fromJson(Map<String, dynamic> json) => Message(
-    success: List<String>.from(json["success"].map((x) => x)),
-  );
+  factory Message.fromJson(Map<String, dynamic> json) =>
+      Message(success: List<String>.from(json["success"].map((x) => x)));
 
   Map<String, dynamic> toJson() => {
     "success": List<dynamic>.from(success.map((x) => x)),

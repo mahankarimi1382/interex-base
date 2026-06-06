@@ -34,9 +34,11 @@ class AddMySenderRecipientScreen extends StatelessWidget {
     return ResponsiveLayout(
       mobileScaffold: Scaffold(
         appBar: const AppBarWidget(text: Strings.addReceipient),
-        body: Obx(() => controller.isLoading
-            ? const CustomLoadingAPI()
-            : _bodyWidget(context)),
+        body: Obx(
+          () => controller.isLoading
+              ? const CustomLoadingAPI()
+              : _bodyWidget(context),
+        ),
       ),
     );
   }
@@ -47,7 +49,8 @@ class AddMySenderRecipientScreen extends StatelessWidget {
       child: ListView(
         physics: const BouncingScrollPhysics(),
         padding: EdgeInsets.symmetric(
-            horizontal: Dimensions.marginSizeHorizontal * 0.9),
+          horizontal: Dimensions.marginSizeHorizontal * 0.9,
+        ),
         children: [
           _transTypeWidget(),
           _countryWidget(),
@@ -89,7 +92,6 @@ class AddMySenderRecipientScreen extends StatelessWidget {
           controller: controller.emailController,
           hint: Strings.enterEmailAddress.tr,
           label: Strings.emailAddress.tr,
-          maxLines: 1,
           // onFieldSubmitted: (v) {
           //   if (controller.emailController.text.isNotEmpty &&
           //       controller.transactionTypeFieldName.value ==
@@ -216,55 +218,62 @@ class AddMySenderRecipientScreen extends StatelessWidget {
           ],
         ),
         verticalSpace(Dimensions.heightSize),
-        Obx(() => Visibility(
-              visible: controller.transactionTypeSelectedMethod.value ==
-                  controller.transactionTypeList[2].labelName,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  CustomTitleHeadingWidget(
-                      text: Strings.pickUpPoint,
-                      style: CustomStyle.labelTextStyle.copyWith(
-                        color: CustomColor.primaryTextColor,
-                      )),
-                  verticalSpace(Dimensions.heightSize * 0.5),
-                  ReceiverBankDropDown(
-                    selectMethod: controller.pickupPointMethod,
-                    itemsList: controller.pickupPointList,
-                    onChanged: (value) {
-                      controller.pickupPointMethod.value = value!.name;
-                      controller.pickupPoint = value;
-                    },
+        Obx(
+          () => Visibility(
+            visible:
+                controller.transactionTypeSelectedMethod.value ==
+                controller.transactionTypeList[2].labelName,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                CustomTitleHeadingWidget(
+                  text: Strings.pickUpPoint,
+                  style: CustomStyle.labelTextStyle.copyWith(
+                    color: CustomColor.primaryTextColor,
                   ),
-                ],
-              ),
-            )),
-        Obx(() => Visibility(
-              visible: controller.transactionTypeSelectedMethod.value ==
-                  controller.transactionTypeList[0].labelName,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  CustomTitleHeadingWidget(
-                    text: Strings.selectBank,
-                    style: CustomStyle.labelTextStyle.copyWith(
-                      color: Get.isDarkMode
-                          ? CustomColor.primaryDarkTextColor
-                          : CustomColor.primaryTextColor,
-                    ),
+                ),
+                verticalSpace(Dimensions.heightSize * 0.5),
+                ReceiverBankDropDown(
+                  selectMethod: controller.pickupPointMethod,
+                  itemsList: controller.pickupPointList,
+                  onChanged: (value) {
+                    controller.pickupPointMethod.value = value!.name;
+                    controller.pickupPoint = value;
+                  },
+                ),
+              ],
+            ),
+          ),
+        ),
+        Obx(
+          () => Visibility(
+            visible:
+                controller.transactionTypeSelectedMethod.value ==
+                controller.transactionTypeList[0].labelName,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                CustomTitleHeadingWidget(
+                  text: Strings.selectBank,
+                  style: CustomStyle.labelTextStyle.copyWith(
+                    color: Get.isDarkMode
+                        ? CustomColor.primaryDarkTextColor
+                        : CustomColor.primaryTextColor,
                   ),
-                  verticalSpace(Dimensions.heightSize * 0.5),
-                  ReceiverBankDropDown(
-                    selectMethod: controller.receiverBankSelectedMethod,
-                    itemsList: controller.receiverBankList,
-                    onChanged: (value) {
-                      controller.receiverBankSelectedMethod.value = value!.name;
-                      controller.receiverBank = value;
-                    },
-                  ),
-                ],
-              ),
-            )),
+                ),
+                verticalSpace(Dimensions.heightSize * 0.5),
+                ReceiverBankDropDown(
+                  selectMethod: controller.receiverBankSelectedMethod,
+                  itemsList: controller.receiverBankList,
+                  onChanged: (value) {
+                    controller.receiverBankSelectedMethod.value = value!.name;
+                    controller.receiverBank = value;
+                  },
+                ),
+              ],
+            ),
+          ),
+        ),
       ],
     );
   }
@@ -307,13 +316,11 @@ class AddMySenderRecipientScreen extends StatelessWidget {
                 title: Strings.addReceipient,
                 onPressed: () {
                   if (formKey.currentState!.validate()) {
-                    controller.recipientStoreApiProcess(context).then(
-                      (value) {
-                        // ignore: use_build_context_synchronously
-                        Navigator.pop(context);
-                        mySenderRecipientController.getMySenderRecipientData();
-                      },
-                    );
+                    controller.recipientStoreApiProcess(context).then((value) {
+                      // ignore: use_build_context_synchronously
+                      Navigator.pop(context);
+                      mySenderRecipientController.getMySenderRecipientData();
+                    });
                   }
                 },
               ),

@@ -17,13 +17,11 @@ class PaypalWebPaymentScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PopScope(
-      canPop: true,
       onPopInvokedWithResult: (isTrue, value) {
         Get.offAllNamed(Routes.bottomNavBarScreen);
       },
       child: Scaffold(
         appBar: AppBarWidget(
-          homeButtonShow: false,
           text: Strings.paypalPayment,
           onTapLeading: () {
             Get.offAllNamed(Routes.bottomNavBarScreen);

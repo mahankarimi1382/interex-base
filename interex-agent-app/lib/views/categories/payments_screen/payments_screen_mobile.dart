@@ -21,7 +21,6 @@ class PaymentsScreenMobile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PopScope(
-      canPop: true,
       onPopInvokedWithResult: (isTrue, value) {
         Get.offAllNamed(Routes.paymentLogScreen);
       },
@@ -88,7 +87,6 @@ class PaymentsScreenMobile extends StatelessWidget {
         onChanged: (value) {
           controller.typeSelection.value = value!.title;
         },
-        isExpanded: true,
         hint: controller.typeSelection.value,
         padding: EdgeInsets.only(left: Dimensions.paddingHorizontalSize * 0.25),
         titleTextColor: CustomColor.primaryTextColor.withValues(alpha: .15),
@@ -176,7 +174,6 @@ class PaymentsScreenMobile extends StatelessWidget {
         controller.currencySymbol.value = value.currencySymbol;
         controller.currencyCountry.value = value.country;
       },
-      isExpanded: true,
       padding: EdgeInsets.only(left: Dimensions.paddingHorizontalSize * 0.25),
       titleTextColor: CustomColor.primaryLightTextColor.withValues(alpha: .30),
       titleStyle: CustomStyle.darkHeading3TextStyle.copyWith(

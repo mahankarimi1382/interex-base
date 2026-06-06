@@ -19,7 +19,6 @@ class WebScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBarWidget(
-        homeButtonShow: false,
         text: title,
         onTapLeading: () {
           Get.offAllNamed(Routes.bottomNavBarScreen);

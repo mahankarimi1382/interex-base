@@ -7,7 +7,6 @@ import '../../utils/custom_color.dart';
 import '../../utils/custom_style.dart';
 import '../../utils/dimensions.dart';
 
-
 class ProfileCountryCodePickerWidget extends StatelessWidget {
   const ProfileCountryCodePickerWidget({
     super.key,
@@ -28,7 +27,7 @@ class ProfileCountryCodePickerWidget extends StatelessWidget {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(Dimensions.radius * 0.5),
             border: Border.all(
-              color: CustomColor.primaryLightColor.withValues(alpha:0.2),
+              color: CustomColor.primaryLightColor.withValues(alpha: 0.2),
             ),
           ),
           width: double.infinity,
@@ -39,7 +38,6 @@ class ProfileCountryCodePickerWidget extends StatelessWidget {
                   ? CustomColor.primaryDarkTextColor
                   : CustomColor.primaryTextColor,
             ),
-            enabled: true,
             padding: EdgeInsets.zero,
             onChanged: onChanged,
             dialogBackgroundColor: CustomColor.whiteColor,
@@ -56,9 +54,7 @@ class ProfileCountryCodePickerWidget extends StatelessWidget {
             ),
           ),
         ),
-        SizedBox(
-          height: Dimensions.heightSize,
-        ),
+        SizedBox(height: Dimensions.heightSize),
       ],
     );
   }

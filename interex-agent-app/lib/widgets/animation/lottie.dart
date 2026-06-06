@@ -9,9 +9,7 @@ class LottieAnimation extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.all(Dimensions.paddingSize * 2),
-      child: Lottie.asset(
-        'assets/animation/no_history.json',
-      ),
+      child: Lottie.asset('assets/animation/no_history.json'),
     );
   }
 }

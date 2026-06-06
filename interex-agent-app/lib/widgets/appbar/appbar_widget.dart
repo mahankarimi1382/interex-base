@@ -46,15 +46,17 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
         Visibility(
           visible: homeButtonShow,
           child: IconButton(
-              onPressed: onTapAction,
-              icon: Icon(
-                actionIcon ?? Icons.home,
-                color: CustomColor.primaryLightColor,
-              )),
-        )
+            onPressed: onTapAction,
+            icon: Icon(
+              actionIcon ?? Icons.home,
+              color: CustomColor.primaryLightColor,
+            ),
+          ),
+        ),
       ],
       leading: BackButtonWidget(
-        onTap: onTapLeading ??
+        onTap:
+            onTapLeading ??
             () {
               Navigator.pop(context);
             },

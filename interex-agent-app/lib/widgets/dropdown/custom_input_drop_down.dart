@@ -27,10 +27,7 @@ class CustomInputDropDown extends StatelessWidget {
       () => Container(
         height: Dimensions.inputBoxHeight * 0.72,
         decoration: BoxDecoration(
-          border: Border.all(
-            color: CustomColor.primaryLightColor,
-            width: 2,
-          ),
+          border: Border.all(color: CustomColor.primaryLightColor, width: 2),
           borderRadius: BorderRadius.circular(Dimensions.radius * 0.5),
         ),
         child: DropdownButtonHideUnderline(
@@ -42,9 +39,10 @@ class CustomInputDropDown extends StatelessWidget {
                 child: Text(
                   selectMethod.value,
                   style: GoogleFonts.inter(
-                      fontSize: Dimensions.headingTextSize4,
-                      fontWeight: FontWeight.w600,
-                      color: CustomColor.primaryLightColor),
+                    fontSize: Dimensions.headingTextSize4,
+                    fontWeight: FontWeight.w600,
+                    color: CustomColor.primaryLightColor,
+                  ),
                 ),
               ),
               icon: const Padding(

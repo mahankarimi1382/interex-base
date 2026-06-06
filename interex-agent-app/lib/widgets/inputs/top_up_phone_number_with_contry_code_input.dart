@@ -67,7 +67,6 @@ class _PrimaryInputWidgetState extends State<TopUpPhoneNumberInputWidget> {
   @override
   Widget build(BuildContext context) {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         TitleHeading4Widget(text: widget.label, fontWeight: FontWeight.w600),
@@ -199,8 +198,8 @@ class _PrimaryInputWidgetState extends State<TopUpPhoneNumberInputWidget> {
               child: ListView.builder(
                 itemCount: basicController.basicDataModel.data.countries.length,
                 itemBuilder: (BuildContext context, int index) {
-                  var data = basicController.basicDataModel.data.countries;
-                  var code = basicController
+                  final data = basicController.basicDataModel.data.countries;
+                  final code = basicController
                       .basicDataModel
                       .data
                       .countries[index]

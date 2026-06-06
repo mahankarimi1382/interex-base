@@ -26,12 +26,14 @@ class RequestMoneyLogsController extends GetxController
   Future<RequestMoneyLogModel> getRequestMoneyLogData() async {
     _isLoading.value = true;
     update();
-    await getRequestMoneyLogApi().then((value) {
-      _requestMoneyLogModel = value!;
-      update();
-    }).catchError((onError) {
-      //TODOlog.e(onError);
-    });
+    await getRequestMoneyLogApi()
+        .then((value) {
+          _requestMoneyLogModel = value!;
+          update();
+        })
+        .catchError((onError) {
+          //TODOlog.e(onError);
+        });
 
     _isLoading.value = false;
     update();
@@ -43,17 +45,15 @@ class RequestMoneyLogsController extends GetxController
   CommonSuccessModel get logRejectModel => _logRejectModel;
   Future<CommonSuccessModel> logRejectProcessApi() async {
     _isRejectLoading.value = true;
-    Map<String, dynamic> inputBody = {
-      'target': target.value,
-    };
+    final Map<String, dynamic> inputBody = {'target': target.value};
     update();
 
-    await rejectRequestMoneyApi(body: inputBody).then((value) {
-      _logRejectModel = value!;
-      update();
-    }).catchError(
-      (e) {},
-    );
+    await rejectRequestMoneyApi(body: inputBody)
+        .then((value) {
+          _logRejectModel = value!;
+          update();
+        })
+        .catchError((e) {});
 
     _isRejectLoading.value = false;
     update();
@@ -65,17 +65,15 @@ class RequestMoneyLogsController extends GetxController
   CommonSuccessModel get logApproveModel => _logApproveModel;
   Future<CommonSuccessModel> logApproveProcessApi() async {
     _isApproveLoading.value = true;
-    Map<String, dynamic> inputBody = {
-      'target': target.value,
-    };
+    final Map<String, dynamic> inputBody = {'target': target.value};
     update();
 
-    await approveRequestMoneyApi(body: inputBody).then((value) {
-      _logApproveModel = value!;
-      update();
-    }).catchError(
-      (e) {},
-    );
+    await approveRequestMoneyApi(body: inputBody)
+        .then((value) {
+          _logApproveModel = value!;
+          update();
+        })
+        .catchError((e) {});
 
     _isApproveLoading.value = false;
     update();

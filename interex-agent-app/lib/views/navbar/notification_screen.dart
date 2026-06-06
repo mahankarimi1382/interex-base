@@ -18,9 +18,11 @@ class NotificationScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return ResponsiveLayout(
       mobileScaffold: Scaffold(
-        body: Obx(() => controller.isLoading
-            ? const CustomLoadingAPI()
-            : _bodyWidget(context)),
+        body: Obx(
+          () => controller.isLoading
+              ? const CustomLoadingAPI()
+              : _bodyWidget(context),
+        ),
       ),
     );
   }
@@ -30,27 +32,25 @@ class NotificationScreen extends StatelessWidget {
         ? RefreshIndicator(
             color: CustomColor.primaryLightColor,
             onRefresh: () async {
-              controller.getNotificationData();
+              await controller.getNotificationData();
             },
             child: ListView.builder(
-                physics: const BouncingScrollPhysics(),
-                itemCount:
-                    controller.notificationModelData.data.notifications.length,
-                itemBuilder: (context, index) {
-                  var data = controller
-                      .notificationModelData.data.notifications[index];
+              physics: const BouncingScrollPhysics(),
+              itemCount:
+                  controller.notificationModelData.data.notifications.length,
+              itemBuilder: (context, index) {
+                final data =
+                    controller.notificationModelData.data.notifications[index];
 
-                  return NotificationWidget(
-                    subtitle: data.message,
-                    title: data.title,
-                    dateText: DateFormat.d().format(data.createdAt),
-                    monthText: DateFormat.MMMM().format(data.createdAt),
-                  );
-                }),
+                return NotificationWidget(
+                  subtitle: data.message,
+                  title: data.title,
+                  dateText: DateFormat.d().format(data.createdAt),
+                  monthText: DateFormat.MMMM().format(data.createdAt),
+                );
+              },
+            ),
           )
-        : const Align(
-            alignment: Alignment.center,
-            child: LottieAnimation(),
-          );
+        : const Align(child: LottieAnimation());
   }
 }

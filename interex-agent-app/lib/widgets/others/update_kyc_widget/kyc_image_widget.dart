@@ -43,7 +43,9 @@ class _DropFileState extends State<KycImageWidget> {
 
       if (controller.listFieldName.isNotEmpty) {
         if (controller.listFieldName.contains(widget.fieldName)) {
-          int itemIndex = controller.listFieldName.indexOf(widget.fieldName);
+          final int itemIndex = controller.listFieldName.indexOf(
+            widget.fieldName,
+          );
           controller.listFieldName[itemIndex] = widget.fieldName;
           controller.listImagePath[itemIndex] = imageFile!.path;
         } else {
@@ -124,7 +126,6 @@ class _DropFileState extends State<KycImageWidget> {
         return Material(
           type: MaterialType.transparency,
           child: Align(
-            alignment: Alignment.center,
             child: Container(
               height: Dimensions.heightSize * 13,
               width: Dimensions.widthSize * 25,
