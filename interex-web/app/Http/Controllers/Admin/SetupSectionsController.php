@@ -2618,7 +2618,7 @@ public function blogUpdate(Request $request,$slug) {
 public function blogItemStore(Request $request){
     $validator = Validator::make($request->all(),[
         'category_id'      => 'required|integer',
-        'image'         => 'required|image|mimes:png,jpg,jpeg,svg,webp',
+        'image'         => 'required|image:allow_svg|mimes:png,jpg,jpeg,svg,webp',
     ]);
     $name_filed = [
         'name'     => "required|string",
@@ -2689,7 +2689,7 @@ public function blogEdit($id)
 public function blogItemUpdate(Request $request) {
     $validator = Validator::make($request->all(),[
         'category_id'      => 'required|integer',
-        'image'         => 'nullable|image|mimes:png,jpg,jpeg,svg,webp',
+        'image'         => 'nullable|image:allow_svg|mimes:png,jpg,jpeg,svg,webp',
         'target'        => 'required|integer',
     ]);
 
@@ -2954,7 +2954,7 @@ public function blogStatusUpdate(Request $request) {
     public function imageValidate($request,$input_name,$old_image) {
         if($request->hasFile($input_name)) {
             $image_validated = Validator::make($request->only($input_name),[
-                $input_name         => "image|mimes:png,jpg,webp,jpeg,svg",
+                $input_name         => "image:allow_svg|mimes:png,jpg,webp,jpeg,svg",
             ])->validate();
 
             $image = get_files_from_fileholder($request,$input_name);

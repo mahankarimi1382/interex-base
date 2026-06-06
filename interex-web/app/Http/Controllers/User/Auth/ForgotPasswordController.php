@@ -151,7 +151,7 @@ class ForgotPasswordController extends Controller
         if(!$password_reset) return redirect()->route('user.password.forgot')->with(['error' => [__('Password Reset Token Expired')]]);
         $resend_time = 0;
         if(Carbon::now() <= $password_reset->created_at->addMinutes(GlobalConst::USER_PASS_RESEND_TIME_MINUTE)) {
-            $resend_time = Carbon::now()->diffInSeconds($password_reset->created_at->addMinutes(GlobalConst::USER_PASS_RESEND_TIME_MINUTE));
+            $resend_time = (int) Carbon::now()->diffInSeconds($password_reset->created_at->addMinutes(GlobalConst::USER_PASS_RESEND_TIME_MINUTE));
         }
         $user_email = $password_reset->user->email ?? "";
         return view('user.auth.forgot-password.verify',compact('page_title','token','user_email','resend_time'));
@@ -210,7 +210,7 @@ class ForgotPasswordController extends Controller
         if(!$password_reset) return back()->with(['error' => [__('Password Reset Token Expired')]]);
         if(Carbon::now() <= $password_reset->created_at->addMinutes(GlobalConst::USER_PASS_RESEND_TIME_MINUTE)) {
             throw ValidationException::withMessages([
-                'code'      => __('You can resend the verification code after').' '.Carbon::now()->diffInSeconds($password_reset->created_at->addMinutes(GlobalConst::USER_PASS_RESEND_TIME_MINUTE)). ' '. __('seconds'),
+                'code'      => __('You can resend the verification code after').' '.(int) Carbon::now()->diffInSeconds($password_reset->created_at->addMinutes(GlobalConst::USER_PASS_RESEND_TIME_MINUTE)). ' '. __('seconds'),
             ]);
         }
 
@@ -282,7 +282,7 @@ class ForgotPasswordController extends Controller
         if(!$password_reset) return redirect()->route('user.password.forgot')->with(['error' => [__('Password Reset Token Expired')]]);
         $resend_time = 0;
         if(Carbon::now() <= $password_reset->created_at->addMinutes(GlobalConst::USER_PASS_RESEND_TIME_MINUTE)) {
-            $resend_time = Carbon::now()->diffInSeconds($password_reset->created_at->addMinutes(GlobalConst::USER_PASS_RESEND_TIME_MINUTE));
+            $resend_time = (int) Carbon::now()->diffInSeconds($password_reset->created_at->addMinutes(GlobalConst::USER_PASS_RESEND_TIME_MINUTE));
         }
         $user_mobile = $password_reset->user->full_mobile ?? "";
         return view('user.auth.sms-password.verify',compact('page_title','token','user_mobile','resend_time'));
@@ -293,7 +293,7 @@ class ForgotPasswordController extends Controller
         if(!$password_reset) return back()->with(['error' => [__('Password Reset Token Expired')]]);
         if(Carbon::now() <= $password_reset->created_at->addMinutes(GlobalConst::USER_PASS_RESEND_TIME_MINUTE)) {
             throw ValidationException::withMessages([
-                'code'      => __('You can resend the verification code after').' '.Carbon::now()->diffInSeconds($password_reset->created_at->addMinutes(GlobalConst::USER_PASS_RESEND_TIME_MINUTE)). ' '. __('seconds'),
+                'code'      => __('You can resend the verification code after').' '.(int) Carbon::now()->diffInSeconds($password_reset->created_at->addMinutes(GlobalConst::USER_PASS_RESEND_TIME_MINUTE)). ' '. __('seconds'),
 
             ]);
         }

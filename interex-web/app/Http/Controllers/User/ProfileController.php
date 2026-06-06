@@ -49,7 +49,7 @@ class ProfileController extends Controller
             'city'          => "nullable|string|max:50",
             'zip_code'      => "nullable|string",
             'address'       => "nullable|string|max:250",
-            'image'         => "nullable|image|mimes:jpg,png,svg,webp|max:10240",
+            'image'         => "nullable|image:allow_svg|mimes:jpg,png,svg,webp|max:10240",
         ])->validate();
 
         $validated['mobile']                = $user->registered_by == GlobalConst::PHONE ? $user->mobile : remove_special_char($validated['phone']);

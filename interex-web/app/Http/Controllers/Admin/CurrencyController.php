@@ -47,7 +47,7 @@ class CurrencyController extends Controller
             'symbol'    => 'required|string',
             'role'      => 'required|string',
             'option'    => 'required|string',
-            'flag'      => 'nullable|image|mimes:jpg,png,jpeg,svg,webp',
+            'flag'      => 'nullable|image:allow_svg|mimes:jpg,png,jpeg,svg,webp',
             'rate'      => 'required',
         ]);
         if($validator->fails()) {

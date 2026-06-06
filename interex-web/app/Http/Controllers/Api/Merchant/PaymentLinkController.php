@@ -82,7 +82,7 @@ class PaymentLinkController extends Controller
                 'limit'           => 'nullable',
                 'min_amount'      => 'nullable|numeric|min:0.1',
                 'max_amount'      => 'nullable|numeric|gt:min_amount',
-                'image'           => 'nullable|image|mimes:png,jpg,jpeg,svg,webp',
+                'image'           => 'nullable|image:allow_svg|mimes:png,jpg,jpeg,svg,webp',
             ]);
 
             if($validator->fails()){
@@ -235,7 +235,7 @@ class PaymentLinkController extends Controller
                 'limit'           => 'nullable',
                 'min_amount'      => 'nullable|min:0.1',
                 'max_amount'      => 'nullable|gt:min_amount',
-                'image'           => 'nullable|image|mimes:png,jpg,jpeg,svg,webp',
+                'image'           => 'nullable|image:allow_svg|mimes:png,jpg,jpeg,svg,webp',
             ]);
 
             if($validator->fails()){

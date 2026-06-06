@@ -656,8 +656,8 @@ class  StrowalletVirtualCardController extends Controller
             'house_number'      => 'required|string',
             'address'           => 'required|string',
             'zip_code'          => 'required|string',
-            'id_image_font'     => "required|image|mimes:jpg,png,svg,webp",
-            'user_image'        => "required|image|mimes:jpg,png,svg,webp",
+            'id_image_font'     => "required|image:allow_svg|mimes:jpg,png,svg,webp",
+            'user_image'        => "required|image:allow_svg|mimes:jpg,png,svg,webp",
         ], [
             'first_name.regex'  => __('The First Name field should only contain letters and cannot start with a number or special character.'),
             'last_name.regex'   => __('The Last Name field should only contain letters and cannot start with a number or special character.'),
@@ -730,8 +730,8 @@ class  StrowalletVirtualCardController extends Controller
         $validator = Validator::make($request->all(), [
             'first_name'        => ['required', 'string', 'regex:/^[^0-9\W]+$/'], // First name validation
             'last_name'         => ['required', 'string', 'regex:/^[^0-9\W]+$/'],  // Last name validation
-            'id_image_font'     => "nullable|image|mimes:jpg,png,svg,webp",
-            'user_image'        => "nullable|image|mimes:jpg,png,svg,webp",
+            'id_image_font'     => "nullable|image:allow_svg|mimes:jpg,png,svg,webp",
+            'user_image'        => "nullable|image:allow_svg|mimes:jpg,png,svg,webp",
         ], [
             'first_name.regex'  => __('The First Name field should only contain letters and cannot start with a number or special character.'),
             'last_name.regex'   => __('The Last Name field should only contain letters and cannot start with a number or special character.'),

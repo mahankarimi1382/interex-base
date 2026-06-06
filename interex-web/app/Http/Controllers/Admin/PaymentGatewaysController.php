@@ -311,7 +311,7 @@ class PaymentGatewaysController extends Controller
             'name.*'                    => 'string|max:60',
             'value'                     => 'nullable|array',
             'value.*'                   => 'nullable|string|max:255',
-            'image'                     => 'nullable|image|mimes:png,jpg,jpeg,svg,webp',
+            'image'                     => 'nullable|image:allow_svg|mimes:png,jpg,jpeg,svg,webp',
         ]);
 
         $validator->after(function ($validator) use ($gateway_name) {
@@ -489,7 +489,7 @@ class PaymentGatewaysController extends Controller
             'percent_charge'    => 'nullable|numeric',
             'rate'              => 'nullable|numeric',
             'currency_symbol'   => 'nullable|string',
-            'image'             => 'nullable|image|mimes:jpg,jpeg,png,svg,webp',
+            'image'             => 'nullable|image:allow_svg|mimes:jpg,jpeg,png,svg,webp',
         ];
         $input_field_base_name = "gateway_currency";
 
@@ -607,7 +607,7 @@ class PaymentGatewaysController extends Controller
             'file_extensions.*'     => 'nullable|string|max:255',
             'file_max_size'         => 'nullable|array',
             'file_max_size.*'       => 'nullable|numeric',
-            'image'                 => 'nullable|image|mimes:jpg,png,svg,jpeg,webp',
+            'image'                 => 'nullable|image:allow_svg|mimes:jpg,png,svg,jpeg,webp',
             'currency_code'         => 'required|string|max:10',
             'crypto'                => 'required',
         ]);
@@ -731,7 +731,7 @@ class PaymentGatewaysController extends Controller
             'file_extensions.*'     => 'nullable|string|max:255',
             'file_max_size'         => 'nullable|array',
             'file_max_size.*'       => 'nullable|numeric',
-            'image'                 => 'nullable|image|mimes:jpg,png,svg,jpeg,webp',
+            'image'                 => 'nullable|image:allow_svg|mimes:jpg,png,svg,jpeg,webp',
             'currency_code'         => 'required|string|max:10',
             'crypto'                => 'required',
         ]);
@@ -831,7 +831,7 @@ class PaymentGatewaysController extends Controller
             'name.*'                    => 'string|max:60',
             'value'                     => 'nullable|array',
             'value.*'                   => 'nullable|string|max:255',
-            'image'                     => 'nullable|image|mimes:png,jpg,jpeg,svg,webp',
+            'image'                     => 'nullable|image:allow_svg|mimes:png,jpg,jpeg,svg,webp',
         ]);
 
         $validator->after(function ($validator) use ($gateway_name) {
@@ -967,7 +967,7 @@ class PaymentGatewaysController extends Controller
             'percent_charge'    => 'nullable|numeric',
             'rate'              => 'nullable|numeric',
             'currency_symbol'   => 'nullable|string',
-            'image'             => 'nullable|image|mimes:jpg,jpeg,png,svg,webp',
+            'image'             => 'nullable|image:allow_svg|mimes:jpg,jpeg,png,svg,webp',
         ];
         $input_field_base_name = "gateway_currency";
 
@@ -1082,7 +1082,7 @@ class PaymentGatewaysController extends Controller
             'file_extensions.*'     => 'nullable|string|max:255',
             'file_max_size'         => 'nullable|array',
             'file_max_size.*'       => 'nullable|numeric',
-            'image'                 => 'nullable|image|mimes:jpg,png,svg,jpeg,webp',
+            'image'                 => 'nullable|image:allow_svg|mimes:jpg,png,svg,jpeg,webp',
             'currency_code'         => 'required|string|max:10',
             'crypto'                => 'required',
         ]);
@@ -1204,7 +1204,7 @@ class PaymentGatewaysController extends Controller
             'file_extensions.*'     => 'nullable|string|max:255',
             'file_max_size'         => 'nullable|array',
             'file_max_size.*'       => 'nullable|numeric',
-            'image'                 => 'nullable|image|mimes:jpg,png,svg,jpeg,webp',
+            'image'                 => 'nullable|image:allow_svg|mimes:jpg,png,svg,jpeg,webp',
             'currency_code'         => 'required|string|max:10',
         ]);
 
@@ -1321,7 +1321,7 @@ class PaymentGatewaysController extends Controller
             'file_extensions.*'     => 'nullable|string|max:255',
             'file_max_size'         => 'nullable|array',
             'file_max_size.*'       => 'nullable|numeric',
-            'image'                 => 'nullable|image|mimes:jpg,png,svg,jpeg,webp',
+            'image'                 => 'nullable|image:allow_svg|mimes:jpg,png,svg,jpeg,webp',
             'currency_code'         => 'required|string|max:10',
             'crypto'                => 'required',
         ]);
@@ -1433,7 +1433,7 @@ class PaymentGatewaysController extends Controller
             'file_extensions.*'     => 'nullable|string|max:255',
             'file_max_size'         => 'nullable|array',
             'file_max_size.*'       => 'nullable|numeric',
-            'image'                 => 'nullable|image|mimes:jpg,png,svg,jpeg,webp',
+            'image'                 => 'nullable|image:allow_svg|mimes:jpg,png,svg,jpeg,webp',
             'currency_code'         => 'required|string|max:10',
         ]);
 

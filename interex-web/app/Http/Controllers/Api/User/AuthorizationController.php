@@ -38,7 +38,7 @@ class AuthorizationController extends Controller
         $resend = UserAuthorization::where("user_id",$user->id)->first();
         if( $resend){
             if(Carbon::now() <= $resend->created_at->addMinutes(GlobalConst::USER_VERIFY_RESEND_TIME_MINUTE)) {
-                $error = ['error'=>[ __("You can resend the verification code after").' '.Carbon::now()->diffInSeconds($resend->created_at->addMinutes(GlobalConst::USER_VERIFY_RESEND_TIME_MINUTE)). ' '.__('seconds')]];
+                $error = ['error'=>[ __("You can resend the verification code after").' '.(int) Carbon::now()->diffInSeconds($resend->created_at->addMinutes(GlobalConst::USER_VERIFY_RESEND_TIME_MINUTE)). ' '.__('seconds')]];
                 return Helpers::error($error);
             }
         }
@@ -111,7 +111,7 @@ class AuthorizationController extends Controller
         $resend = UserAuthorization::where("user_id",$user->id)->first();
         if( $resend){
             if(Carbon::now() <= $resend->created_at->addMinutes(GlobalConst::USER_VERIFY_RESEND_TIME_MINUTE)) {
-                $error = ['error'=>[ __("You can resend the verification code after").' '.Carbon::now()->diffInSeconds($resend->created_at->addMinutes(GlobalConst::USER_VERIFY_RESEND_TIME_MINUTE)). ' '.__('seconds')]];
+                $error = ['error'=>[ __("You can resend the verification code after").' '.(int) Carbon::now()->diffInSeconds($resend->created_at->addMinutes(GlobalConst::USER_VERIFY_RESEND_TIME_MINUTE)). ' '.__('seconds')]];
                 return Helpers::error($error);
             }
         }
@@ -495,7 +495,7 @@ class AuthorizationController extends Controller
         $resend = UserAuthorization::where("email",$request->email)->first();
         if($resend){
             if(Carbon::now() <= $resend->created_at->addMinutes(GlobalConst::USER_VERIFY_RESEND_TIME_MINUTE)) {
-                $message = ['error'=>[__("You can resend the verification code after").' '.Carbon::now()->diffInSeconds($resend->created_at->addMinutes(GlobalConst::USER_VERIFY_RESEND_TIME_MINUTE)). ' '.__('seconds')]];
+                $message = ['error'=>[__("You can resend the verification code after").' '.(int) Carbon::now()->diffInSeconds($resend->created_at->addMinutes(GlobalConst::USER_VERIFY_RESEND_TIME_MINUTE)). ' '.__('seconds')]];
                 return Helpers::error($message);
             }
         }
@@ -589,7 +589,7 @@ class AuthorizationController extends Controller
         $resend = UserAuthorization::where("phone", $full_mobile)->first();
         if($resend){
             if(Carbon::now() <= $resend->created_at->addMinutes(GlobalConst::USER_VERIFY_RESEND_TIME_MINUTE)) {
-                $message = ['error'=>[__("You can resend the verification code after").' '.Carbon::now()->diffInSeconds($resend->created_at->addMinutes(GlobalConst::USER_VERIFY_RESEND_TIME_MINUTE)). ' '.__('seconds')]];
+                $message = ['error'=>[__("You can resend the verification code after").' '.(int) Carbon::now()->diffInSeconds($resend->created_at->addMinutes(GlobalConst::USER_VERIFY_RESEND_TIME_MINUTE)). ' '.__('seconds')]];
                 return Helpers::error($message);
             }
         }

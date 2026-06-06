@@ -51,7 +51,7 @@ class RemitanceController extends Controller
                 'name'      => 'required|string',
                 'code'      => 'required|string|unique:receiver_counties',
                 'symbol'    => 'required|string',
-                'flag'      => 'nullable|image|mimes: jpg,png,jpeg,svg,webp',
+                'flag'      => 'nullable|image:allow_svg|mimes: jpg,png,jpeg,svg,webp',
                 'rate'      => 'required',
                 'mobile_code'      => 'required',
             ]);

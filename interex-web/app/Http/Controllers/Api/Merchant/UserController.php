@@ -219,7 +219,7 @@ class UserController extends Controller
             'city'          => "nullable|string|max:50",
             'zip_code'      => "nullable|string",
             'address'       => "nullable|string|max:250",
-            'image'         => "nullable|image|mimes:jpg,png,svg,webp|max:10240",
+            'image'         => "nullable|image:allow_svg|mimes:jpg,png,svg,webp|max:10240",
         ]);
         if($validator->fails()){
             $error =  ['error'=>$validator->errors()->all()];

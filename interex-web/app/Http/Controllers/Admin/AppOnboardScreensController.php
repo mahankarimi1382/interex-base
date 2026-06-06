@@ -50,7 +50,7 @@ class AppOnboardScreensController extends Controller
      */
     public function onboardScreenStore(Request $request,$type) {
         $validator = Validator::make($request->all(),[
-            'image'     => 'required|image|mimes:png,jpg,webp,svg,jpeg',
+            'image'     => 'required|image:allow_svg|mimes:png,jpg,webp,svg,jpeg',
             'title'     => 'nullable|string|max:120',
             'sub_title' => 'nullable|string|max:255',
         ]);
@@ -142,7 +142,7 @@ class AppOnboardScreensController extends Controller
             'target'              => 'required|numeric',
             'screen_title'        => 'nullable|string|max:120',
             'screen_sub_title'    => 'nullable|string|max:255',
-            'screen_image'        => 'nullable|image|mimes:jpg,jpeg,png,svg,webp',
+            'screen_image'        => 'nullable|image:allow_svg|mimes:jpg,jpeg,png,svg,webp',
         ]);
 
         if($validator->fails()) {

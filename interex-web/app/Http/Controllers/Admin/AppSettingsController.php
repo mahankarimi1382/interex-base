@@ -29,11 +29,11 @@ class AppSettingsController extends Controller
 
     public function splashScreenUpdate(Request $request) {
         $validator = Validator::make($request->all(),[
-            'image'         => 'nullable|image|mimes:png,jpg,jpeg,webp,svg',
+            'image'         => 'nullable|image:allow_svg|mimes:png,jpg,jpeg,webp,svg',
             'version'       => 'required|string|max:15',
-            'agent_image'         => 'nullable|image|mimes:png,jpg,jpeg,webp,svg',
+            'agent_image'         => 'nullable|image:allow_svg|mimes:png,jpg,jpeg,webp,svg',
             'agent_version'       => 'required|string|max:15',
-            'merchant_image'         => 'nullable|image|mimes:png,jpg,jpeg,webp,svg',
+            'merchant_image'         => 'nullable|image:allow_svg|mimes:png,jpg,jpeg,webp,svg',
             'merchant_version'       => 'required|string|max:15',
         ]);
         $validated = $validator->validate();

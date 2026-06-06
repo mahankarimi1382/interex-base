@@ -179,18 +179,18 @@ class WebSettingsController extends Controller
     public function imageAssetsUpdate(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'site_logo'                     => 'nullable|image|mimes:png,jpeg,jpg,webp,svg',
-            'site_logo_dark'                => 'nullable|image|mimes:png,jpeg,jpg,webp,svg',
-            'site_fav'                      => 'nullable|image|mimes:png,jpeg,jpg,webp,svg',
-            'site_fav_dark'                 => 'nullable|image|mimes:png,jpeg,jpg,webp,svg',
-            'agent_site_logo'               => 'nullable|image|mimes:png,jpeg,jpg,webp,svg',
-            'agent_site_logo_dark'          => 'nullable|image|mimes:png,jpeg,jpg,webp,svg',
-            'agent_site_fav'                => 'nullable|image|mimes:png,jpeg,jpg,webp,svg',
-            'agent_site_fav_dark'           => 'nullable|image|mimes:png,jpeg,jpg,webp,svg',
-            'merchant_site_logo'            => 'nullable|image|mimes:png,jpeg,jpg,webp,svg',
-            'merchant_site_logo_dark'       => 'nullable|image|mimes:png,jpeg,jpg,webp,svg',
-            'merchant_site_fav'             => 'nullable|image|mimes:png,jpeg,jpg,webp,svg',
-            'merchant_site_fav_dark'        => 'nullable|image|mimes:png,jpeg,jpg,webp,svg',
+            'site_logo'                     => 'nullable|image:allow_svg|mimes:png,jpeg,jpg,webp,svg',
+            'site_logo_dark'                => 'nullable|image:allow_svg|mimes:png,jpeg,jpg,webp,svg',
+            'site_fav'                      => 'nullable|image:allow_svg|mimes:png,jpeg,jpg,webp,svg',
+            'site_fav_dark'                 => 'nullable|image:allow_svg|mimes:png,jpeg,jpg,webp,svg',
+            'agent_site_logo'               => 'nullable|image:allow_svg|mimes:png,jpeg,jpg,webp,svg',
+            'agent_site_logo_dark'          => 'nullable|image:allow_svg|mimes:png,jpeg,jpg,webp,svg',
+            'agent_site_fav'                => 'nullable|image:allow_svg|mimes:png,jpeg,jpg,webp,svg',
+            'agent_site_fav_dark'           => 'nullable|image:allow_svg|mimes:png,jpeg,jpg,webp,svg',
+            'merchant_site_logo'            => 'nullable|image:allow_svg|mimes:png,jpeg,jpg,webp,svg',
+            'merchant_site_logo_dark'       => 'nullable|image:allow_svg|mimes:png,jpeg,jpg,webp,svg',
+            'merchant_site_fav'             => 'nullable|image:allow_svg|mimes:png,jpeg,jpg,webp,svg',
+            'merchant_site_fav_dark'        => 'nullable|image:allow_svg|mimes:png,jpeg,jpg,webp,svg',
         ]);
         $validated = $validator->validate();
         $basic_settings = BasicSettingsProvider::get();
@@ -247,7 +247,7 @@ class WebSettingsController extends Controller
     public function setupSeoUpdate(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'image'         => 'nullable|image|mimes:png,jpg,webp,svg,jpeg',
+            'image'         => 'nullable|image:allow_svg|mimes:png,jpg,webp,svg,jpeg',
             'title'         => 'required|string|max:120',
             'desc'          => 'nullable|string|max:1000',
             'tags'          => 'nullable|array',

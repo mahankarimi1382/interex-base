@@ -519,7 +519,7 @@ class FrontendHeaderSectionController extends Controller
     public function imageValidate($request,$input_name,$old_image) {
         if($request->hasFile($input_name)) {
             $image_validated = Validator::make($request->only($input_name),[
-                $input_name         => "image|mimes:png,jpg,webp,jpeg,svg",
+                $input_name         => "image:allow_svg|mimes:png,jpg,webp,jpeg,svg",
             ])->validate();
 
             $image = get_files_from_fileholder($request,$input_name);

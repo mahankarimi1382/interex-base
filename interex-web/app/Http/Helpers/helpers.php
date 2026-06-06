@@ -49,7 +49,6 @@ use App\Models\StrowalletVirtualCard;
 use Illuminate\Support\Facades\Route;
 use Intervention\Image\Facades\Image;
 use App\Constants\PaymentGatewayConst;
-use Buglinjo\LaravelWebp\Facades\Webp;
 use App\Models\Admin\AdminNotification;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Admin\CountryRestriction;
@@ -351,7 +350,7 @@ function upload_files_from_path_dynamic($files_path, $destination_path, $old_fil
                     $temp_path = storage_path('app/temp_' . $store_file_name);
 
                     // Convert to WebP and save locally
-                    $webp = Webp::make($file_instance)->save($temp_path);
+                    $webp = Image::make($file_instance)->encode('webp', 70)->save($temp_path);
 
                     // Upload to S3
                     Storage::disk(Storage::getDefaultDriver())->putFileAs($save_path, new \Illuminate\Http\File($temp_path), $store_file_name, [
@@ -978,7 +977,7 @@ function upload_files_from_path_static($files_path, $destination_path, $old_file
                     $temp_path = storage_path('app/temp_' . $store_file_name);
 
                     // Convert to WebP and save locally
-                    $webp = Webp::make($file_instance)->save($temp_path);
+                    $webp = Image::make($file_instance)->encode('webp', 70)->save($temp_path);
 
                     // Upload to S3
                     Storage::disk(Storage::getDefaultDriver())->putFileAs($save_path, new \Illuminate\Http\File($temp_path), $store_file_name, [
