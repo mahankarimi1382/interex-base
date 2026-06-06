@@ -34,7 +34,7 @@ use net\authorize\api\contract\v1 as AnetAPI;
 use App\Providers\Admin\BasicSettingsProvider;
 use App\Traits\PaymentGateway\SslcommerzTrait;
 use App\Traits\PaymentGateway\FlutterwaveTrait;
-use KingFlamez\Rave\Facades\Rave as Flutterwave;
+use App\Services\FlutterwaveService as Flutterwave;
 use net\authorize\api\controller as AnetController;
 use App\Http\Helpers\PaymentGateway as PaymentGatewayHelper;
 

@@ -27,7 +27,7 @@ use net\authorize\api\contract\v1 as AnetAPI;
 use App\Providers\Admin\BasicSettingsProvider;
 use App\Traits\PayLink\WalletTransactionTrait;
 use App\Traits\PaymentGateway\StripeLinkPayment;
-use KingFlamez\Rave\Facades\Rave as Flutterwave;
+use App\Services\FlutterwaveService as Flutterwave;
 use net\authorize\api\controller as AnetController;
 
 class PaymentLinkController extends Controller

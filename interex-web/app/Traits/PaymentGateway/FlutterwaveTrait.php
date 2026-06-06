@@ -16,7 +16,7 @@ use App\Constants\PaymentGatewayConst;
 use Illuminate\Support\Facades\Config;
 use App\Traits\PayLink\TransactionTrait;
 use App\Http\Helpers\PushNotificationHelper;
-use KingFlamez\Rave\Facades\Rave as Flutterwave;
+use App\Services\FlutterwaveService as Flutterwave;
 
 trait FlutterwaveTrait
 {

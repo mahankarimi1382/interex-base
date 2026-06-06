@@ -27,7 +27,7 @@ use App\Traits\PaymentGateway\Authorize;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Admin\PaymentGatewayCurrency;
 use net\authorize\api\contract\v1 as AnetAPI;
-use KingFlamez\Rave\Facades\Rave as Flutterwave;
+use App\Services\FlutterwaveService as Flutterwave;
 use net\authorize\api\controller as AnetController;
 use App\Http\Helpers\PaymentGateway as PaymentGatewayHelper;
 
