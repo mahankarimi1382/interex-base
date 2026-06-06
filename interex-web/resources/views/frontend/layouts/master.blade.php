@@ -150,5 +150,6 @@
         });
     })(jQuery)
 </script>
+@include('partials.jalali-datepicker')
 </body>
 </html>

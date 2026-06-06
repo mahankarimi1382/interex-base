@@ -197,8 +197,6 @@ return [
         App\Providers\RouteServiceProvider::class,
         App\Providers\StorageServiceProvider::class,
 
-        // Image Intervention
-        Intervention\Image\ImageServiceProvider::class,
 
         // Custom Service Provider
         App\Providers\CustomServiceProvider::class,
@@ -228,7 +226,7 @@ return [
     */
 
     'aliases' => Facade::defaultAliases()->merge([
-        'Image'     => Intervention\Image\Facades\Image::class,
+        'Image'     => App\Support\ImageCompat::class,
         'Response'  => App\Http\Helpers\Response::class,
         'Agent'     => Jenssegers\Agent\Facades\Agent::class,
         'Excel'     => Maatwebsite\Excel\Facades\Excel::class,

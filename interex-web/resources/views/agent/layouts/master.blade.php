@@ -43,6 +43,7 @@
     @include('agent.partials.footer-assets')
     @include('agent.partials.push-notification')
     @stack('script')
+@include('partials.jalali-datepicker')
 </body>
 
 

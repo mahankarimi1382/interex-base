@@ -47,7 +47,7 @@ use App\Constants\SupportTicketConst;
 use App\Models\Admin\ReferralSetting;
 use App\Models\StrowalletVirtualCard;
 use Illuminate\Support\Facades\Route;
-use Intervention\Image\Facades\Image;
+use App\Support\ImageCompat as Image;
 use App\Constants\PaymentGatewayConst;
 use App\Models\Admin\AdminNotification;
 use Illuminate\Support\Facades\Storage;
@@ -2194,6 +2194,9 @@ if (!function_exists('formatNumberInKNotation')) {
 if (!function_exists('dateFormat')) {
     function dateFormat($format, $date)
     {
+        if (function_exists('is_jalali') && is_jalali()) {
+            return jdate($date, $format);
+        }
         return date($format, strtotime($date));
     }
 }

@@ -4,7 +4,9 @@ namespace App\Providers;
 
 use App\Constants\ExtensionConst;
 use App\Providers\Admin\ExtensionProvider;
+use Carbon\Carbon;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
@@ -37,9 +39,30 @@ class AppServiceProvider extends ServiceProvider
             \URL::forceScheme('https');
         }
 
+        //register locale-aware Jalali (Shamsi) date helpers for Blade & Carbon
+        $this->registerJalaliDates();
 
         //laravel extend validation rules
         $this->extendValidationRule();
+    }
+
+    /**
+     * Register locale-aware Jalali date utilities.
+     *
+     * A @jdate(...) Blade directive and a Carbon ->jdate() macro that render
+     * dates in the Jalali calendar when the locale is Persian ("fa") and fall
+     * back to Gregorian otherwise.
+     */
+    public function registerJalaliDates()
+    {
+        Blade::directive('jdate', function ($expression) {
+            return "<?php echo e(jdate($expression)); ?>";
+        });
+
+        Carbon::macro('jdate', function ($format = 'Y-m-d H:i:s', $persianNumbers = false) {
+            /** @var Carbon $this */
+            return jdate($this, $format, $persianNumbers);
+        });
     }
 
     /**

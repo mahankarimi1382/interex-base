@@ -20,5 +20,6 @@
 @include('partials.footer-asset')
 @stack('script')
 
+@include('partials.jalali-datepicker')
 </body>
 </html>
