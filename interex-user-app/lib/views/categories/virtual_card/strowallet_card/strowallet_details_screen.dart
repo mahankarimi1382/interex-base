@@ -12,9 +12,7 @@ class StrowalletCardDetailsScreen extends StatelessWidget {
 
   Null get payload => null;
   @override
-  Widget build(
-    BuildContext context,
-  ) {
+  Widget build(BuildContext context) {
     return ResponsiveLayout(
       mobileScaffold: Scaffold(
         appBar: const AppBarWidget(text: Strings.details),
@@ -27,13 +25,9 @@ class StrowalletCardDetailsScreen extends StatelessWidget {
     );
   }
 
-  Padding _bodyWidget(
-    BuildContext context,
-  ) {
+  Padding _bodyWidget(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(
-        horizontal: Dimensions.paddingSize * 0.9,
-      ),
+      padding: EdgeInsets.symmetric(horizontal: Dimensions.paddingSize * 0.9),
       child: ListView(
         children: [_cardDetailsWidget(context), _billingAddressWidget(context)],
       ),
@@ -51,118 +45,115 @@ class StrowalletCardDetailsScreen extends StatelessWidget {
             : CustomColor.primaryBGLightColor,
         borderRadius: BorderRadius.circular(Dimensions.radius * 1.5),
       ),
-      child: Column(crossAxisAlignment: crossStart, children: [
-        Padding(
-          padding: EdgeInsets.only(
-            top: Dimensions.paddingSize * 0.7,
-            bottom: Dimensions.paddingSize * 0.3,
-            left: Dimensions.paddingSize * 0.7,
-            right: Dimensions.paddingSize * 0.7,
+      child: Column(
+        crossAxisAlignment: crossStart,
+        children: [
+          Padding(
+            padding: EdgeInsets.only(
+              top: Dimensions.paddingSize * 0.7,
+              bottom: Dimensions.paddingSize * 0.3,
+              left: Dimensions.paddingSize * 0.7,
+              right: Dimensions.paddingSize * 0.7,
+            ),
+            child: const TitleHeading3Widget(
+              text: Strings.cardInformation,
+              textAlign: TextAlign.left,
+            ),
           ),
-          child: const TitleHeading3Widget(
-            text: Strings.cardInformation,
-            textAlign: TextAlign.left,
+          const Divider(
+            thickness: 1,
+            color: CustomColor.primaryLightScaffoldBackgroundColor,
           ),
-        ),
-        const Divider(
-          thickness: 1,
-          color: CustomColor.primaryLightScaffoldBackgroundColor,
-        ),
-        Padding(
-          padding: EdgeInsets.only(
-            top: Dimensions.paddingSize * 0.3,
-            bottom: Dimensions.paddingSize * 0.6,
-            left: Dimensions.paddingSize * 0.7,
-            right: Dimensions.paddingSize * 0.7,
-          ),
-          child: Column(
-            // crossAxisAlignment: crossEnd,
-            children: [
-              DetailsRowWidget(
-                variable: Strings.amount,
-                value: myCards.amount.toString(),
-              ),
-              DetailsRowWidget(
-                variable: Strings.cardId,
-                value: myCards.cardId,
-              ),
-              DetailsRowWidget(
-                variable: Strings.customerId,
-                value: myCards.cardUserId,
-              ),
-
-              ///>>>>>>>> card plan
-              Visibility(
-                visible: controller.isShowSensitive.value == false,
-                child: DetailsRowWidget(
-                  variable: Strings.cardType,
-                  value: myCards.cardBrand,
+          Padding(
+            padding: EdgeInsets.only(
+              top: Dimensions.paddingSize * 0.3,
+              bottom: Dimensions.paddingSize * 0.6,
+              left: Dimensions.paddingSize * 0.7,
+              right: Dimensions.paddingSize * 0.7,
+            ),
+            child: Column(
+              // crossAxisAlignment: crossEnd,
+              children: [
+                DetailsRowWidget(
+                  variable: Strings.amount,
+                  value: myCards.amount.toString(),
                 ),
-              ),
-
-              Visibility(
-                visible: controller.isShowSensitive.value == true,
-                child: DetailsRowWidget(
-                  variable: Strings.cardNumber,
-                  value: controller.cardPlan.value,
+                DetailsRowWidget(
+                  variable: Strings.cardId,
+                  value: myCards.cardId,
                 ),
-              ),
+                DetailsRowWidget(
+                  variable: Strings.customerId,
+                  value: myCards.cardUserId,
+                ),
 
-              DetailsRowWidget(
-                variable: Strings.cvc,
-                value: myCards.cvv,
-              ),
-
-              DetailsRowWidget(
-                variable: Strings.expiration,
-                value: myCards.expiry,
-              ),
-              DetailsRowWidget(
-                variable: Strings.city,
-                value: myCards.city,
-              ),
-              DetailsRowWidget(
-                variable: Strings.state,
-                value: myCards.state,
-              ),
-              DetailsRowWidget(
-                variable: Strings.zipCode,
-                value: myCards.zipCode,
-              ),
-              Row(
-                mainAxisAlignment: mainSpaceBet,
-                children: [
-                  CustomTitleHeadingWidget(
-                    text: Strings.freezeCard,
-                    style: CustomStyle.darkHeading4TextStyle.copyWith(
-                      color: CustomColor.primaryLightTextColor.withValues(alpha:0.4),
-                    ),
+                ///>>>>>>>> card plan
+                Visibility(
+                  visible: controller.isShowSensitive.value == false,
+                  child: DetailsRowWidget(
+                    variable: Strings.cardType,
+                    value: myCards.cardBrand,
                   ),
-                  Obx(
-                    () => controller.isCardStatusLoading
-                        ? const CustomSwitchLoading(
-                            color: CustomColor.whiteColor,
-                          )
-                        : Switch(
-                            activeThumbColor: CustomColor.primaryLightTextColor
-                                .withValues(alpha:0.6),
-                            inactiveThumbColor: CustomColor
-                                .primaryLightTextColor
-                                .withValues(alpha:0.6),
-                            value: controller.isSelected.value,
-                            onChanged: ((value) {
-                              controller.isSelected.value =
-                                  !controller.isSelected.value;
-                              controller.cardToggle;
-                            }),
-                          ),
-                  )
-                ],
-              )
-            ],
+                ),
+
+                Visibility(
+                  visible: controller.isShowSensitive.value == true,
+                  child: DetailsRowWidget(
+                    variable: Strings.cardNumber,
+                    value: controller.cardPlan.value,
+                  ),
+                ),
+
+                DetailsRowWidget(variable: Strings.cvc, value: myCards.cvv),
+
+                DetailsRowWidget(
+                  variable: Strings.expiration,
+                  value: myCards.expiry,
+                ),
+                DetailsRowWidget(variable: Strings.city, value: myCards.city),
+                DetailsRowWidget(variable: Strings.state, value: myCards.state),
+                DetailsRowWidget(
+                  variable: Strings.zipCode,
+                  value: myCards.zipCode,
+                ),
+                Row(
+                  mainAxisAlignment: mainSpaceBet,
+                  children: [
+                    CustomTitleHeadingWidget(
+                      text: Strings.freezeCard,
+                      style: CustomStyle.darkHeading4TextStyle.copyWith(
+                        color: CustomColor.primaryLightTextColor.withValues(
+                          alpha: 0.4,
+                        ),
+                      ),
+                    ),
+                    Obx(
+                      () => controller.isCardStatusLoading
+                          ? const CustomSwitchLoading(
+                              color: CustomColor.whiteColor,
+                            )
+                          : Switch(
+                              activeThumbColor: CustomColor
+                                  .primaryLightTextColor
+                                  .withValues(alpha: 0.6),
+                              inactiveThumbColor: CustomColor
+                                  .primaryLightTextColor
+                                  .withValues(alpha: 0.6),
+                              value: controller.isSelected.value,
+                              onChanged: ((value) {
+                                controller.isSelected.value =
+                                    !controller.isSelected.value;
+                                controller.cardToggle;
+                              }),
+                            ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
-        ),
-      ]),
+        ],
+      ),
     );
   }
 
@@ -176,31 +167,31 @@ class StrowalletCardDetailsScreen extends StatelessWidget {
         borderRadius: BorderRadius.circular(Dimensions.radius * 1.5),
       ),
       child: Column(
-          mainAxisSize: mainMin,
-          crossAxisAlignment: crossStart,
-          children: [
-            Padding(
-              padding: EdgeInsets.only(
-                top: Dimensions.paddingSize * 0.7,
-                left: Dimensions.paddingSize * 0.7,
-                right: Dimensions.paddingSize * 0.7,
-              ),
-              child: const TitleHeading3Widget(
-                text: Strings.billingAddress,
-                textAlign: TextAlign.left,
-              ),
+        mainAxisSize: mainMin,
+        crossAxisAlignment: crossStart,
+        children: [
+          Padding(
+            padding: EdgeInsets.only(
+              top: Dimensions.paddingSize * 0.7,
+              left: Dimensions.paddingSize * 0.7,
+              right: Dimensions.paddingSize * 0.7,
             ),
-            const Divider(
-              thickness: 1,
-              color: CustomColor.primaryLightScaffoldBackgroundColor,
+            child: const TitleHeading3Widget(
+              text: Strings.billingAddress,
+              textAlign: TextAlign.left,
             ),
-            Flexible(
-              child: ListView(
-                padding: EdgeInsets.zero,
-                shrinkWrap: true,
-                children: List.generate(
-                    controller.cardDetailsModel.data.businessAddress.length,
-                    (i) {
+          ),
+          const Divider(
+            thickness: 1,
+            color: CustomColor.primaryLightScaffoldBackgroundColor,
+          ),
+          Flexible(
+            child: ListView(
+              padding: EdgeInsets.zero,
+              shrinkWrap: true,
+              children: List.generate(
+                controller.cardDetailsModel.data.businessAddress.length,
+                (i) {
                   var data =
                       controller.cardDetailsModel.data.businessAddress[i];
                   return Padding(
@@ -214,11 +205,13 @@ class StrowalletCardDetailsScreen extends StatelessWidget {
                       value: data.value,
                     ),
                   );
-                }),
+                },
               ),
             ),
-            verticalSpace(Dimensions.heightSize * 0.8),
-          ]),
+          ),
+          verticalSpace(Dimensions.heightSize * 0.8),
+        ],
+      ),
     );
   }
 }

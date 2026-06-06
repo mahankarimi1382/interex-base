@@ -24,12 +24,14 @@ class MobileTopLogUpController extends GetxController {
     _isLoading.value = true;
     update();
 
-    await ApiServices.getTransactionLogAPi(type: "/mobile-topup").then((value) {
-      _transactioData = value!;
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-    });
+    await ApiServices.getTransactionLogAPi(type: "/mobile-topup")
+        .then((value) {
+          _transactioData = value!;
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+        });
 
     _isLoading.value = false;
     update();

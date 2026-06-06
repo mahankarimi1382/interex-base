@@ -33,13 +33,15 @@ class PasswordController extends GetxController {
       'password_confirmation': confirmPasswordController.text,
     };
     // calling login api from api service
-    await ApiServices.passwordUpdateApi(body: inputBody).then((value) {
-      _commonSuccessModel = value!;
-      Get.offAllNamed(Routes.bottomNavBarScreen);
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-    });
+    await ApiServices.passwordUpdateApi(body: inputBody)
+        .then((value) {
+          _commonSuccessModel = value!;
+          Get.offAllNamed(Routes.bottomNavBarScreen);
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+        });
 
     _isLoading.value = false;
     update();

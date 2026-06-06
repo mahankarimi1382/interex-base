@@ -1,6 +1,5 @@
 import 'package:get/get.dart';
 
-
 import '../../../../../backend/model/common/common_success_model.dart';
 import '../../../../../backend/services/api_services.dart';
 import '../model/card_details_model_cardyfie.dart';
@@ -60,7 +59,6 @@ class CardyfieDetailsController extends GetxController {
         .then((value) {
           _cardDetailsModelCardyfie = value!;
 
-         
           update();
         })
         .catchError((onError) {

@@ -25,14 +25,15 @@ class Themes {
       cursorColor: CustomColor.primaryLightColor,
       selectionColor: CustomColor.primaryLightColor,
       selectionHandleColor: CustomColor.primaryLightColor,
-    ), 
-    
+    ),
+
     primaryColor: CustomColor.primaryLightColor,
     scaffoldBackgroundColor: CustomColor.primaryLightScaffoldBackgroundColor,
     brightness: Brightness.light,
     textTheme: ThemeData.dark().textTheme.apply(
-        fontFamily: GoogleFonts.josefinSans().fontFamily,
-        bodyColor: Colors.black),
+      fontFamily: GoogleFonts.josefinSans().fontFamily,
+      bodyColor: Colors.black,
+    ),
   );
   static ThemeData dark = ThemeData.dark().copyWith(
     textSelectionTheme: TextSelectionThemeData(
@@ -44,19 +45,14 @@ class Themes {
     scaffoldBackgroundColor: CustomColor.primaryDarkScaffoldBackgroundColor,
     brightness: Brightness.dark,
     textTheme: ThemeData.dark().textTheme.apply(
-        fontFamily: GoogleFonts.josefinSans().fontFamily,
-        bodyColor: Colors.black),
+      fontFamily: GoogleFonts.josefinSans().fontFamily,
+      bodyColor: Colors.black,
+    ),
   );
 
-  static void init({
-    required ColorMode primary,
-  }) {
-    dark = ThemeData.dark().copyWith(
-      primaryColor: primary.dark,
-    );
-    light = ThemeData.light().copyWith(
-      primaryColor: primary.light,
-    );
+  static void init({required ColorMode primary}) {
+    dark = ThemeData.dark().copyWith(primaryColor: primary.dark);
+    light = ThemeData.light().copyWith(primaryColor: primary.light);
   }
 }
 

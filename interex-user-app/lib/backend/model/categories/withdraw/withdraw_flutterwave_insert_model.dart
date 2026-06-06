@@ -3,21 +3,18 @@ import 'dart:convert';
 import '../../../../widgets/payment_link/custom_drop_down.dart';
 
 WithdrawFlutterWaveInsertModel withdrawFlutterWaveInsertModelFromJson(
-        String str) =>
-    WithdrawFlutterWaveInsertModel.fromJson(json.decode(str));
+  String str,
+) => WithdrawFlutterWaveInsertModel.fromJson(json.decode(str));
 
 String withdrawFlutterWaveInsertModelToJson(
-        WithdrawFlutterWaveInsertModel data) =>
-    json.encode(data.toJson());
+  WithdrawFlutterWaveInsertModel data,
+) => json.encode(data.toJson());
 
 class WithdrawFlutterWaveInsertModel {
   Message message;
   Data data;
 
-  WithdrawFlutterWaveInsertModel({
-    required this.message,
-    required this.data,
-  });
+  WithdrawFlutterWaveInsertModel({required this.message, required this.data});
 
   factory WithdrawFlutterWaveInsertModel.fromJson(Map<String, dynamic> json) =>
       WithdrawFlutterWaveInsertModel(
@@ -26,9 +23,9 @@ class WithdrawFlutterWaveInsertModel {
       );
 
   Map<String, dynamic> toJson() => {
-        "message": message.toJson(),
-        "data": data.toJson(),
-      };
+    "message": message.toJson(),
+    "data": data.toJson(),
+  };
 }
 
 class Data {
@@ -55,30 +52,32 @@ class Data {
   });
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
-        paymentInformation:
-            PaymentInformation.fromJson(json["payment_information"]),
-        gatewayType: json["gateway_type"],
-        gatewayCurrencyName: json["gateway_currency_name"],
-        gatewayCurrencyCode: json["gateway_currency_code"],
-        branchAvailable: json["branch_available"],
-        alias: json["alias"],
-        inputFields: List<InputField>.from(
-            json["input_fields"].map((x) => InputField.fromJson(x))),
-        url: json["url"],
-        method: json["method"],
-      );
+    paymentInformation: PaymentInformation.fromJson(
+      json["payment_information"],
+    ),
+    gatewayType: json["gateway_type"],
+    gatewayCurrencyName: json["gateway_currency_name"],
+    gatewayCurrencyCode: json["gateway_currency_code"],
+    branchAvailable: json["branch_available"],
+    alias: json["alias"],
+    inputFields: List<InputField>.from(
+      json["input_fields"].map((x) => InputField.fromJson(x)),
+    ),
+    url: json["url"],
+    method: json["method"],
+  );
 
   Map<String, dynamic> toJson() => {
-        "payment_information": paymentInformation.toJson(),
-        "gateway_type": gatewayType,
-        "gateway_currency_name": gatewayCurrencyName,
-        "gateway_currency_code": gatewayCurrencyCode,
-        "branch_available": branchAvailable,
-        "alias": alias,
-        "input_fields": List<dynamic>.from(inputFields.map((x) => x.toJson())),
-        "url": url,
-        "method": method,
-      };
+    "payment_information": paymentInformation.toJson(),
+    "gateway_type": gatewayType,
+    "gateway_currency_name": gatewayCurrencyName,
+    "gateway_currency_code": gatewayCurrencyCode,
+    "branch_available": branchAvailable,
+    "alias": alias,
+    "input_fields": List<dynamic>.from(inputFields.map((x) => x.toJson())),
+    "url": url,
+    "method": method,
+  };
 }
 
 class InputField {
@@ -99,23 +98,22 @@ class InputField {
   });
 
   factory InputField.fromJson(Map<String, dynamic> json) => InputField(
-        type: json["type"],
-        name: json["name"],
-        label: json["label"],
-        required: json["required"],
-        placeHolder: json["place_holder"],
-        options:
-            List<Option>.from(json["options"].map((x) => Option.fromJson(x))),
-      );
+    type: json["type"],
+    name: json["name"],
+    label: json["label"],
+    required: json["required"],
+    placeHolder: json["place_holder"],
+    options: List<Option>.from(json["options"].map((x) => Option.fromJson(x))),
+  );
 
   Map<String, dynamic> toJson() => {
-        "type": type,
-        "name": name,
-        "label": label,
-        "required": required,
-        "place_holder": placeHolder,
-        "options": List<dynamic>.from(options.map((x) => x.toJson())),
-      };
+    "type": type,
+    "name": name,
+    "label": label,
+    "required": required,
+    "place_holder": placeHolder,
+    "options": List<dynamic>.from(options.map((x) => x.toJson())),
+  };
 }
 
 class Option implements DropdownModel {
@@ -123,23 +121,12 @@ class Option implements DropdownModel {
   dynamic code;
   String name;
 
-  Option({
-    required this.id,
-    this.code,
-    required this.name,
-  });
+  Option({required this.id, this.code, required this.name});
 
-  factory Option.fromJson(Map<String, dynamic> json) => Option(
-        id: json["id"],
-        code: json["code"] ?? "",
-        name: json["name"],
-      );
+  factory Option.fromJson(Map<String, dynamic> json) =>
+      Option(id: json["id"], code: json["code"] ?? "", name: json["name"]);
 
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "code": code,
-        "name": name,
-      };
+  Map<String, dynamic> toJson() => {"id": id, "code": code, "name": name};
 
   @override
   String get title => name;
@@ -179,29 +166,26 @@ class PaymentInformation {
       );
 
   Map<String, dynamic> toJson() => {
-        "trx": trx,
-        "gateway_currency_name": gatewayCurrencyName,
-        "request_amount": requestAmount,
-        "exchange_rate": exchangeRate,
-        "conversion_amount": conversionAmount,
-        "total_charge": totalCharge,
-        "will_get": willGet,
-        "payable": payable,
-      };
+    "trx": trx,
+    "gateway_currency_name": gatewayCurrencyName,
+    "request_amount": requestAmount,
+    "exchange_rate": exchangeRate,
+    "conversion_amount": conversionAmount,
+    "total_charge": totalCharge,
+    "will_get": willGet,
+    "payable": payable,
+  };
 }
 
 class Message {
   List<String> success;
 
-  Message({
-    required this.success,
-  });
+  Message({required this.success});
 
-  factory Message.fromJson(Map<String, dynamic> json) => Message(
-        success: List<String>.from(json["success"].map((x) => x)),
-      );
+  factory Message.fromJson(Map<String, dynamic> json) =>
+      Message(success: List<String>.from(json["success"].map((x) => x)));
 
   Map<String, dynamic> toJson() => {
-        "success": List<dynamic>.from(success.map((x) => x)),
-      };
+    "success": List<dynamic>.from(success.map((x) => x)),
+  };
 }

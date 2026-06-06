@@ -20,10 +20,11 @@ class DepositPreviewScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ResponsiveLayout(
-        mobileScaffold: Scaffold(
-      appBar: const AppBarWidget(text: Strings.preview),
-      body: _bodyWidget(context),
-    ));
+      mobileScaffold: Scaffold(
+        appBar: const AppBarWidget(text: Strings.preview),
+        body: _bodyWidget(context),
+      ),
+    );
   }
 
   ListView _bodyWidget(BuildContext context) {
@@ -38,6 +39,7 @@ class DepositPreviewScreen extends StatelessWidget {
       ],
     );
   }
+
   Widget _amountWidget(BuildContext context) {
     return previewAmount(amount: controller.enteredAmount);
   }
@@ -47,14 +49,14 @@ class DepositPreviewScreen extends StatelessWidget {
       information: Strings.amountInformation,
       enterAmount: Strings.enterAmount,
       enterAmountRow: controller.enteredAmount,
-      fee: Strings.totalFee,        
+      fee: Strings.totalFee,
       feeRow: controller.transferFeeAmount,
       received: Strings.received,
       receivedRow: controller.youWillGet,
       total: Strings.totalPayable,
       totalRow: controller.payableAmount,
     );
-  } 
+  }
 
   LimitInformationWidget _limitInformation(BuildContext context) {
     int precision = controller.selectMainWallet.value!.currency.type == 'FIAT'
@@ -76,53 +78,49 @@ class DepositPreviewScreen extends StatelessWidget {
           '${controller.remainingController.remainingDailyLimit.value.toStringAsFixed(precision)} ${controller.selectMainWallet.value!.currency.code}',
     );
   }
-       
+
   Container _buttonWidget(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(
-        top: Dimensions.marginSizeVertical * 2,
-      ),
+      margin: EdgeInsets.only(top: Dimensions.marginSizeVertical * 2),
       child: PrimaryButton(
-          title: Strings.confirm,
-          onPressed: () {
-            if (controller.selectedCurrencyType.value.contains("AUTOMATIC")) {
-              if (controller.selectedCurrencyAlias.contains('paypal')) {
-                controller.goToWebPaymentViewScreen();
-              } else if (controller.selectedCurrencyAlias
-                  .contains('flutterwave')) {
-                debugPrint("_______________2.2 flutterwave");
-                controller.goToWebFlutterWavePaymentViewScreen();
-              } else if (controller.selectedCurrencyAlias.contains('stripe')) {
-                controller.goToStripeScreen();
-              } else if (controller.selectedCurrencyAlias        
-                  .contains('razorpay')) {
-                controller.goToRazorPayScreen();
-              } else if (controller.selectedCurrencyAlias
-                  .contains('pagadito')) {
-                controller.goToPagaditoWebPaymentScreen();
-              } else if (controller.selectedCurrencyAlias.contains('ssl')) {
-                controller.goToSslScreen();
-              } else if (controller.selectedCurrencyAlias 
-                  .contains('coingate')) { 
-                controller.goToCoinGateScreen(); 
-              } else if (controller.selectedCurrencyAlias  
-                  .contains('perfect-money')) { 
-                controller.goToPerfectMoneyScreen();
-                  }else if (controller.selectedCurrencyAlias  
-                  .contains('bkash')) { 
-                controller.goToPerfectMoneyScreen();
-              } else if (controller.selectedCurrencyAlias.contains('tatum')) {
-                controller.goToTatumScreen();
-              }
-              else if (controller.selectedCurrencyAlias
-                  .contains('authorize-usd')) {
-                controller.gotoAuthorizeUSDScreen();
-              }
-            } else if (controller.selectedCurrencyType.value
-                .contains("MANUAL")) {
-              controller.goToManualSendMoneyManualScreen();
+        title: Strings.confirm,
+        onPressed: () {
+          if (controller.selectedCurrencyType.value.contains("AUTOMATIC")) {
+            if (controller.selectedCurrencyAlias.contains('paypal')) {
+              controller.goToWebPaymentViewScreen();
+            } else if (controller.selectedCurrencyAlias.contains(
+              'flutterwave',
+            )) {
+              debugPrint("_______________2.2 flutterwave");
+              controller.goToWebFlutterWavePaymentViewScreen();
+            } else if (controller.selectedCurrencyAlias.contains('stripe')) {
+              controller.goToStripeScreen();
+            } else if (controller.selectedCurrencyAlias.contains('razorpay')) {
+              controller.goToRazorPayScreen();
+            } else if (controller.selectedCurrencyAlias.contains('pagadito')) {
+              controller.goToPagaditoWebPaymentScreen();
+            } else if (controller.selectedCurrencyAlias.contains('ssl')) {
+              controller.goToSslScreen();
+            } else if (controller.selectedCurrencyAlias.contains('coingate')) {
+              controller.goToCoinGateScreen();
+            } else if (controller.selectedCurrencyAlias.contains(
+              'perfect-money',
+            )) {
+              controller.goToPerfectMoneyScreen();
+            } else if (controller.selectedCurrencyAlias.contains('bkash')) {
+              controller.goToPerfectMoneyScreen();
+            } else if (controller.selectedCurrencyAlias.contains('tatum')) {
+              controller.goToTatumScreen();
+            } else if (controller.selectedCurrencyAlias.contains(
+              'authorize-usd',
+            )) {
+              controller.gotoAuthorizeUSDScreen();
             }
-          }),
+          } else if (controller.selectedCurrencyType.value.contains("MANUAL")) {
+            controller.goToManualSendMoneyManualScreen();
+          }
+        },
+      ),
     );
   }
 }

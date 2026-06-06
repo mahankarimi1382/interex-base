@@ -6,8 +6,6 @@ import 'package:image_picker/image_picker.dart';
 File? pickedFile;
 ImagePicker imagePicker = ImagePicker();
 
- 
-
 class ProfileImagePicker extends GetxController {
   var isImagePathSet = false.obs;
   var imagePath = "".obs;

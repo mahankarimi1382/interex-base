@@ -4,10 +4,7 @@ class PaymentLinkModel {
   final Message message;
   final Data data;
 
-  PaymentLinkModel({
-    required this.message,
-    required this.data,
-  });
+  PaymentLinkModel({required this.message, required this.data});
 
   factory PaymentLinkModel.fromJson(Map<String, dynamic> json) =>
       PaymentLinkModel(
@@ -16,9 +13,9 @@ class PaymentLinkModel {
       );
 
   Map<String, dynamic> toJson() => {
-        "message": message.toJson(),
-        "data": data.toJson(),
-      };
+    "message": message.toJson(),
+    "data": data.toJson(),
+  };
 }
 
 class Data {
@@ -37,24 +34,24 @@ class Data {
   });
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
-        baseUrl: json["base_url"],
-        defaultImage: json["default_image"],
-        imagePath: json["image_path"],
-        paymentLinks: List<PaymentLink>.from(
-            json["payment_links"].map((x) => PaymentLink.fromJson(x))),
-        currencyData: List<CurrencyDatum>.from(
-            json["currency_data"].map((x) => CurrencyDatum.fromJson(x))),
-      );
+    baseUrl: json["base_url"],
+    defaultImage: json["default_image"],
+    imagePath: json["image_path"],
+    paymentLinks: List<PaymentLink>.from(
+      json["payment_links"].map((x) => PaymentLink.fromJson(x)),
+    ),
+    currencyData: List<CurrencyDatum>.from(
+      json["currency_data"].map((x) => CurrencyDatum.fromJson(x)),
+    ),
+  );
 
   Map<String, dynamic> toJson() => {
-        "base_url": baseUrl,
-        "default_image": defaultImage,
-        "image_path": imagePath,
-        "payment_links":
-            List<dynamic>.from(paymentLinks.map((x) => x.toJson())),
-        "currency_data":
-            List<dynamic>.from(currencyData.map((x) => x.toJson())),
-      };
+    "base_url": baseUrl,
+    "default_image": defaultImage,
+    "image_path": imagePath,
+    "payment_links": List<dynamic>.from(paymentLinks.map((x) => x.toJson())),
+    "currency_data": List<dynamic>.from(currencyData.map((x) => x.toJson())),
+  };
 }
 
 class CurrencyDatum implements DropdownModel {
@@ -71,18 +68,18 @@ class CurrencyDatum implements DropdownModel {
   });
 
   factory CurrencyDatum.fromJson(Map<String, dynamic> json) => CurrencyDatum(
-        currencyName: json["name"] ?? '',
-        currencyCode: json["code"] ?? "",
-        country: json["country"] ?? '',
-        currencySymbol: json["symbol"] ?? "",
-      );
+    currencyName: json["name"] ?? '',
+    currencyCode: json["code"] ?? "",
+    country: json["country"] ?? '',
+    currencySymbol: json["symbol"] ?? "",
+  );
 
   Map<String, dynamic> toJson() => {
-        "name": currencyName,
-        "code": currencyCode,
-        "country": country,
-        "symbol": currencySymbol,
-      };
+    "name": currencyName,
+    "code": currencyCode,
+    "country": country,
+    "symbol": currencySymbol,
+  };
 
   @override
   // ignore: prefer_interpolation_to_compose_strings
@@ -129,58 +126,55 @@ class PaymentLink {
   });
 
   factory PaymentLink.fromJson(Map<String, dynamic> json) => PaymentLink(
-        id: json["id"],
-        currency: json["currency"],
-        currencyName: json["currency_name"],
-        country: json["country"],
-        type: json["type"],
-        token: json["token"],
-        title: json["title"],
-        image: json["image"] ?? '',
-        details: json["details"] ?? '',
-        limit: json["limit"],
-        minAmount: json["min_amount"] ?? '',
-        maxAmount: json["max_amount"] ?? '',
-        price: json["price"],
-        qty: json["qty"] ?? '',
-        status: json["status"],
-        stringStatus: json["string_status"],
-        createdAt: DateTime.parse(json["created_at"]),
-      );
+    id: json["id"],
+    currency: json["currency"],
+    currencyName: json["currency_name"],
+    country: json["country"],
+    type: json["type"],
+    token: json["token"],
+    title: json["title"],
+    image: json["image"] ?? '',
+    details: json["details"] ?? '',
+    limit: json["limit"],
+    minAmount: json["min_amount"] ?? '',
+    maxAmount: json["max_amount"] ?? '',
+    price: json["price"],
+    qty: json["qty"] ?? '',
+    status: json["status"],
+    stringStatus: json["string_status"],
+    createdAt: DateTime.parse(json["created_at"]),
+  );
 
   Map<String, dynamic> toJson() => {
-        "id": id,
-        "currency": currency,
-        "currency_name": currencyName,
-        "country": country,
-        "type": type,
-        "token": token,
-        "title": title,
-        "image": image,
-        "details": details,
-        "limit": limit,
-        "min_amount": minAmount,
-        "max_amount": maxAmount,
-        "price": price,
-        "qty": qty,
-        "status": status,
-        "string_status": stringStatus,
-        "created_at": createdAt.toIso8601String(),
-      };
+    "id": id,
+    "currency": currency,
+    "currency_name": currencyName,
+    "country": country,
+    "type": type,
+    "token": token,
+    "title": title,
+    "image": image,
+    "details": details,
+    "limit": limit,
+    "min_amount": minAmount,
+    "max_amount": maxAmount,
+    "price": price,
+    "qty": qty,
+    "status": status,
+    "string_status": stringStatus,
+    "created_at": createdAt.toIso8601String(),
+  };
 }
 
 class Message {
   final List<String> success;
 
-  Message({
-    required this.success,
-  });
+  Message({required this.success});
 
-  factory Message.fromJson(Map<String, dynamic> json) => Message(
-        success: List<String>.from(json["success"].map((x) => x)),
-      );
+  factory Message.fromJson(Map<String, dynamic> json) =>
+      Message(success: List<String>.from(json["success"].map((x) => x)));
 
   Map<String, dynamic> toJson() => {
-        "success": List<dynamic>.from(success.map((x) => x)),
-      };
+    "success": List<dynamic>.from(success.map((x) => x)),
+  };
 }

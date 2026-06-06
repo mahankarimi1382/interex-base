@@ -1,4 +1,3 @@
-
 import '../../../../backend/model/common/common_success_model.dart';
 import '../../../../backend/services/api_endpoint.dart';
 import '../../../../backend/utils/api_method.dart';
@@ -8,7 +7,6 @@ import '../model/get_offer_model.dart';
 import '../model/offer_buy_confirm_model.dart';
 import '../model/offer_buy_model.dart';
 
-
 final log = logger(OfferApiServices);
 
 class OfferApiServices {
@@ -16,8 +14,9 @@ class OfferApiServices {
   static Future<GetOfferModel?> getOfferApiProcess() async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false)
-          .get(ApiEndpoint.getOfferListURL, code: 200, showResult: true);
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).get(ApiEndpoint.getOfferListURL, code: 200, showResult: true);
       if (mapResponse != null) {
         GetOfferModel result = GetOfferModel.fromJson(mapResponse);
         return result;
@@ -31,15 +30,14 @@ class OfferApiServices {
   }
 
   ///*  Make an offer process api
-  static Future<CommonSuccessModel?> makeAnOfferProcessApi(
-      {required Map<String, dynamic> body}) async {
+  static Future<CommonSuccessModel?> makeAnOfferProcessApi({
+    required Map<String, dynamic> body,
+  }) async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false).post(
-        ApiEndpoint.makeAnOfferURL,
-        body,
-        code: 200,
-      );
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).post(ApiEndpoint.makeAnOfferURL, body, code: 200);
       if (mapResponse != null) {
         CommonSuccessModel result = CommonSuccessModel.fromJson(mapResponse);
         return result;
@@ -53,15 +51,14 @@ class OfferApiServices {
   }
 
   ///*  Counter offer process api
-  static Future<CommonSuccessModel?> counterOfferProcessApi(
-      {required Map<String, dynamic> body}) async {
+  static Future<CommonSuccessModel?> counterOfferProcessApi({
+    required Map<String, dynamic> body,
+  }) async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false).post(
-        ApiEndpoint.counterOfferURL,
-        body,
-        code: 200,
-      );
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).post(ApiEndpoint.counterOfferURL, body, code: 200);
       if (mapResponse != null) {
         CommonSuccessModel result = CommonSuccessModel.fromJson(mapResponse);
         return result;
@@ -75,15 +72,14 @@ class OfferApiServices {
   }
 
   ///* Offer status process api
-  static Future<CommonSuccessModel?> offerStatusProcessApi(
-      {required Map<String, dynamic> body}) async {
+  static Future<CommonSuccessModel?> offerStatusProcessApi({
+    required Map<String, dynamic> body,
+  }) async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false).post(
-        ApiEndpoint.offerStatusURL,
-        body,
-        code: 200,
-      );
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).post(ApiEndpoint.offerStatusURL, body, code: 200);
       if (mapResponse != null) {
         CommonSuccessModel result = CommonSuccessModel.fromJson(mapResponse);
         return result;
@@ -97,15 +93,14 @@ class OfferApiServices {
   }
 
   ///* Offer buy process api
-  static Future<OfferBuyModel?> offerBuyProcessApi(
-      {required Map<String, dynamic> body}) async {
+  static Future<OfferBuyModel?> offerBuyProcessApi({
+    required Map<String, dynamic> body,
+  }) async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false).post(
-        ApiEndpoint.buyOfferURL,
-        body,
-        code: 200,
-      );
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).post(ApiEndpoint.buyOfferURL, body, code: 200);
       if (mapResponse != null) {
         OfferBuyModel result = OfferBuyModel.fromJson(mapResponse);
         return result;
@@ -119,23 +114,24 @@ class OfferApiServices {
   }
 
   ///* Offer buy confirm process api
-  static Future<OfferBuyConfirmModel?> offerConfirmProcessApi(
-      {required Map<String, dynamic> body}) async {
+  static Future<OfferBuyConfirmModel?> offerConfirmProcessApi({
+    required Map<String, dynamic> body,
+  }) async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false).post(
-        ApiEndpoint.offerConfirmURL,
-        body,
-        code: 200,
-      );
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).post(ApiEndpoint.offerConfirmURL, body, code: 200);
       if (mapResponse != null) {
-        OfferBuyConfirmModel result =
-            OfferBuyConfirmModel.fromJson(mapResponse);
+        OfferBuyConfirmModel result = OfferBuyConfirmModel.fromJson(
+          mapResponse,
+        );
         return result;
       }
     } catch (e) {
       log.e(
-          '🐞🐞🐞 err from Offer buy confirm process api service ==> $e 🐞🐞🐞');
+        '🐞🐞🐞 err from Offer buy confirm process api service ==> $e 🐞🐞🐞',
+      );
       CustomSnackBar.error('Something went Wrong!');
       return null;
     }
@@ -163,7 +159,8 @@ class OfferApiServices {
       }
     } catch (e) {
       log.e(
-          '🐞🐞🐞 err from offer evidence submit process api service ==> $e 🐞🐞🐞');
+        '🐞🐞🐞 err from offer evidence submit process api service ==> $e 🐞🐞🐞',
+      );
       CustomSnackBar.error('Something went Wrong!');
       return null;
     }

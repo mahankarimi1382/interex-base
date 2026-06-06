@@ -105,7 +105,7 @@ class MyCard {
     address: json["address"],
     status: json["status"],
     env: json["env"],
-    isDefault: json["is_default"], 
+    isDefault: json["is_default"],
     createdAt: DateTime.parse(json["created_at"]),
     updatedAt: DateTime.parse(json["updated_at"]),
   );

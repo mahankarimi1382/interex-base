@@ -1,4 +1,3 @@
-
 import '../../../../utils/basic_screen_imports.dart';
 
 class SeparateDoubleTextWidget extends StatelessWidget {

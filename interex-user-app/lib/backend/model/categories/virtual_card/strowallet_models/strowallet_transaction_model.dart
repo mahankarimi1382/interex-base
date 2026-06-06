@@ -1,12 +1,8 @@
-
 class StrowalletCardTransactionModel {
   Message message;
   Data data;
 
-  StrowalletCardTransactionModel({
-    required this.message,
-    required this.data,
-  });
+  StrowalletCardTransactionModel({required this.message, required this.data});
 
   factory StrowalletCardTransactionModel.fromJson(Map<String, dynamic> json) =>
       StrowalletCardTransactionModel(
@@ -15,27 +11,27 @@ class StrowalletCardTransactionModel {
       );
 
   Map<String, dynamic> toJson() => {
-        "message": message.toJson(),
-        "data": data.toJson(),
-      };
+    "message": message.toJson(),
+    "data": data.toJson(),
+  };
 }
 
 class Data {
   List<CardTransaction> cardTransactions;
 
-  Data({
-    required this.cardTransactions,
-  });
+  Data({required this.cardTransactions});
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
-        cardTransactions: List<CardTransaction>.from(
-            json["card_transactions"].map((x) => CardTransaction.fromJson(x))),
-      );
+    cardTransactions: List<CardTransaction>.from(
+      json["card_transactions"].map((x) => CardTransaction.fromJson(x)),
+    ),
+  );
 
   Map<String, dynamic> toJson() => {
-        "card_transactions":
-            List<dynamic>.from(cardTransactions.map((x) => x.toJson())),
-      };
+    "card_transactions": List<dynamic>.from(
+      cardTransactions.map((x) => x.toJson()),
+    ),
+  };
 }
 
 class CardTransaction {
@@ -84,33 +80,30 @@ class CardTransaction {
       );
 
   Map<String, dynamic> toJson() => {
-        "id": id,
-        "createdAt": createdAt.toIso8601String(),
-        "updatedAt": updatedAt.toIso8601String(),
-        "amount": amount,
-        "centAmount": centAmount,
-        "type": type,
-        "method": method,
-        "narrative": narrative,
-        "status": status,
-        "currency": currency,
-        "reference": reference,
-        "cardId": cardId,
-      };
+    "id": id,
+    "createdAt": createdAt.toIso8601String(),
+    "updatedAt": updatedAt.toIso8601String(),
+    "amount": amount,
+    "centAmount": centAmount,
+    "type": type,
+    "method": method,
+    "narrative": narrative,
+    "status": status,
+    "currency": currency,
+    "reference": reference,
+    "cardId": cardId,
+  };
 }
 
 class Message {
   List<String> success;
 
-  Message({
-    required this.success,
-  });
+  Message({required this.success});
 
-  factory Message.fromJson(Map<String, dynamic> json) => Message(
-        success: List<String>.from(json["success"].map((x) => x)),
-      );
+  factory Message.fromJson(Map<String, dynamic> json) =>
+      Message(success: List<String>.from(json["success"].map((x) => x)));
 
   Map<String, dynamic> toJson() => {
-        "success": List<dynamic>.from(success.map((x) => x)),
-      };
+    "success": List<dynamic>.from(success.map((x) => x)),
+  };
 }

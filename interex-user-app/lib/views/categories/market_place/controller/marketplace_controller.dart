@@ -19,7 +19,8 @@ class MarketplaceController extends GetxController {
   // controller: controller.scrollController, ///=> Call It On ListView controller
   late ScrollController scrollController;
   void scrollListener() {
-    if (scrollController.position.pixels == scrollController.position.maxScrollExtent) {
+    if (scrollController.position.pixels ==
+        scrollController.position.maxScrollExtent) {
       debugPrint('Scrolled to the bottom');
       marketplaceInfoMoreApi();
     }
@@ -37,14 +38,12 @@ class MarketplaceController extends GetxController {
   bool get isLoading => _isLoading.value;
   MarketplaceInfoModel get marketplaceInfoModel => _marketplaceInfoModel;
 
-
   final _isMoreLoading = false.obs;
   bool get isMoreLoading => _isMoreLoading.value;
 
   int page = 1;
   RxBool hasNextPage = true.obs;
   RxList<Datum> userList = <Datum>[].obs;
-
 
   Future<MarketplaceInfoModel> marketplaceInfoGetProcessApi() async {
     userList.clear();
@@ -54,31 +53,33 @@ class MarketplaceController extends GetxController {
     _isLoading.value = true;
     update();
     await MarketplaceApiServices.getMarketplaceProcessApi(
-      amount.toString(),
-      rate.toString(),
-      "",
-      isFilter: isFilter.value,
-      page: page.toString()
-    ).then((value) {
-      _marketplaceInfoModel = value!;
+          amount.toString(),
+          rate.toString(),
+          "",
+          isFilter: isFilter.value,
+          page: page.toString(),
+        )
+        .then((value) {
+          _marketplaceInfoModel = value!;
 
-      if (_marketplaceInfoModel.data.trads.lastPage > 1) {
-        hasNextPage.value = true;
-      } else {
-        hasNextPage.value = false;
-      }
+          if (_marketplaceInfoModel.data.trads.lastPage > 1) {
+            hasNextPage.value = true;
+          } else {
+            hasNextPage.value = false;
+          }
 
-      userList.addAll(_marketplaceInfoModel.data.trads.data);
+          userList.addAll(_marketplaceInfoModel.data.trads.data);
 
-      // if (LocalStorage.getDeepLink()) {
-      //   onResetFilterValue();
-      //   Routes.filterItemsScreen.offAllNamed;
-      // }
-      onResetFilterValue();
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-    });
+          // if (LocalStorage.getDeepLink()) {
+          //   onResetFilterValue();
+          //   Routes.filterItemsScreen.offAllNamed;
+          // }
+          onResetFilterValue();
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+        });
 
     _isLoading.value = false;
     update();
@@ -93,38 +94,39 @@ class MarketplaceController extends GetxController {
       update();
 
       await MarketplaceApiServices.getMarketplaceProcessApi(
-        amount.toString(),
-        rate.toString(),
-        "",
-        isFilter: isFilter.value,
-          page: page.toString()
-      ).then((value) {
-        _marketplaceInfoModel = value!;
-        // if (LocalStorage.getDeepLink()) {
-        //   onResetFilterValue();
-        //   Routes.filterItemsScreen.offAllNamed;
-        // }
+            amount.toString(),
+            rate.toString(),
+            "",
+            isFilter: isFilter.value,
+            page: page.toString(),
+          )
+          .then((value) {
+            _marketplaceInfoModel = value!;
+            // if (LocalStorage.getDeepLink()) {
+            //   onResetFilterValue();
+            //   Routes.filterItemsScreen.offAllNamed;
+            // }
 
-        var data = _marketplaceInfoModel.data.trads.lastPage;
-        userList.addAll(_marketplaceInfoModel.data.trads.data);
+            var data = _marketplaceInfoModel.data.trads.lastPage;
+            userList.addAll(_marketplaceInfoModel.data.trads.data);
 
-        if(page >= data){
-          hasNextPage.value = false;
-        }
+            if (page >= data) {
+              hasNextPage.value = false;
+            }
 
-        _isMoreLoading.value = false;
+            _isMoreLoading.value = false;
 
-        onResetFilterValue();
-        update();
-      }).catchError((onError) {
-        log.e(onError);
-      });
+            onResetFilterValue();
+            update();
+          })
+          .catchError((onError) {
+            log.e(onError);
+          });
     }
     _isMoreLoading.value = false;
     update();
     return _marketplaceInfoModel;
   }
-
 
   /// -----------------------------------
 
@@ -133,7 +135,8 @@ class MarketplaceController extends GetxController {
     amount.value = 0.0;
     isFilter.value = false;
     debugPrint(
-        '<<<<<<<<<<<<<< clear rate amount or deep link value >>>>>>>>>>>>>');
+      '<<<<<<<<<<<<<< clear rate amount or deep link value >>>>>>>>>>>>>',
+    );
     update();
   }
 }

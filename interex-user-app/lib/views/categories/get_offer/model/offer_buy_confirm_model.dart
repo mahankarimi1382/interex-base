@@ -2,10 +2,7 @@ class OfferBuyConfirmModel {
   Message message;
   Data data;
 
-  OfferBuyConfirmModel({
-    required this.message,
-    required this.data,
-  });
+  OfferBuyConfirmModel({required this.message, required this.data});
 
   factory OfferBuyConfirmModel.fromJson(Map<String, dynamic> json) =>
       OfferBuyConfirmModel(
@@ -18,16 +15,14 @@ class Data {
   String trxId;
   List<PaymentField> paymentFields;
 
-  Data({
-    required this.trxId,
-    required this.paymentFields,
-  });
+  Data({required this.trxId, required this.paymentFields});
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
-        trxId: json["trx_id"],
-        paymentFields: List<PaymentField>.from(
-            json["payment_fields"].map((x) => PaymentField.fromJson(x))),
-      );
+    trxId: json["trx_id"],
+    paymentFields: List<PaymentField>.from(
+      json["payment_fields"].map((x) => PaymentField.fromJson(x)),
+    ),
+  );
 }
 
 class PaymentField {
@@ -46,12 +41,12 @@ class PaymentField {
   });
 
   factory PaymentField.fromJson(Map<String, dynamic> json) => PaymentField(
-        type: json["type"],
-        label: json["label"],
-        name: json["name"],
-        required: json["required"],
-        validation: Validation.fromJson(json["validation"]),
-      );
+    type: json["type"],
+    label: json["label"],
+    name: json["name"],
+    required: json["required"],
+    validation: Validation.fromJson(json["validation"]),
+  );
 }
 
 class Validation {
@@ -70,22 +65,19 @@ class Validation {
   });
 
   factory Validation.fromJson(Map<String, dynamic> json) => Validation(
-        max: json["max"],
-        mimes: List<String>.from(json["mimes"].map((x) => x)),
-        min: json["min"],
-        options: List<dynamic>.from(json["options"].map((x) => x)),
-        required: json["required"],
-      );
+    max: json["max"],
+    mimes: List<String>.from(json["mimes"].map((x) => x)),
+    min: json["min"],
+    options: List<dynamic>.from(json["options"].map((x) => x)),
+    required: json["required"],
+  );
 }
 
 class Message {
   List<String> success;
 
-  Message({
-    required this.success,
-  });
+  Message({required this.success});
 
-  factory Message.fromJson(Map<String, dynamic> json) => Message(
-        success: List<String>.from(json["success"].map((x) => x)),
-      );
+  factory Message.fromJson(Map<String, dynamic> json) =>
+      Message(success: List<String>.from(json["success"].map((x) => x)));
 }

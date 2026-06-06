@@ -21,10 +21,11 @@ class WithdrawPreviewScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ResponsiveLayout(
-        mobileScaffold: Scaffold(
-      appBar: const AppBarWidget(text: Strings.preview),
-      body: _bodyWidget(context),
-    ));
+      mobileScaffold: Scaffold(
+        appBar: const AppBarWidget(text: Strings.preview),
+        body: _bodyWidget(context),
+      ),
+    );
   }
 
   ListView _bodyWidget(BuildContext context) {
@@ -81,21 +82,21 @@ class WithdrawPreviewScreen extends StatelessWidget {
 
   Container _buttonWidget(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(
-        top: Dimensions.marginSizeVertical * 2,
-      ),
+      margin: EdgeInsets.only(top: Dimensions.marginSizeVertical * 2),
       child: PrimaryButton(
-          title: Strings.confirm,
-          onPressed: () {
-            if (controller.selectedCurrencyType.value.contains("AUTOMATIC")) {
-              if (controller.selectedCurrencyAlias.value 
-                  .contains('flutterwave')) {
-                Get.toNamed(Routes.withdrawFlutterwaveScreen);
-              }
-            } else {
-              Get.toNamed(Routes.withdrawManualPaymentScreen);
+        title: Strings.confirm,
+        onPressed: () {
+          if (controller.selectedCurrencyType.value.contains("AUTOMATIC")) {
+            if (controller.selectedCurrencyAlias.value.contains(
+              'flutterwave',
+            )) {
+              Get.toNamed(Routes.withdrawFlutterwaveScreen);
             }
-          }),
+          } else {
+            Get.toNamed(Routes.withdrawManualPaymentScreen);
+          }
+        },
+      ),
     );
   }
 }

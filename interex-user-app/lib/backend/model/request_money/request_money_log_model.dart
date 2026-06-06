@@ -10,10 +10,7 @@ class RequestMoneyLogModel {
   Message message;
   Data data;
 
-  RequestMoneyLogModel({
-    required this.message,
-    required this.data,
-  });
+  RequestMoneyLogModel({required this.message, required this.data});
 
   factory RequestMoneyLogModel.fromJson(Map<String, dynamic> json) =>
       RequestMoneyLogModel(
@@ -22,26 +19,25 @@ class RequestMoneyLogModel {
       );
 
   Map<String, dynamic> toJson() => {
-        "message": message.toJson(),
-        "data": data.toJson(),
-      };
+    "message": message.toJson(),
+    "data": data.toJson(),
+  };
 }
 
 class Data {
   List<Transaction> transactions;
 
-  Data({
-    required this.transactions,
-  });
+  Data({required this.transactions});
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
-        transactions: List<Transaction>.from(
-            json["transactions"].map((x) => Transaction.fromJson(x))),
-      );
+    transactions: List<Transaction>.from(
+      json["transactions"].map((x) => Transaction.fromJson(x)),
+    ),
+  );
 
   Map<String, dynamic> toJson() => {
-        "transactions": List<dynamic>.from(transactions.map((x) => x.toJson())),
-      };
+    "transactions": List<dynamic>.from(transactions.map((x) => x.toJson())),
+  };
 }
 
 class Transaction {
@@ -72,48 +68,47 @@ class Transaction {
   });
 
   factory Transaction.fromJson(Map<String, dynamic> json) => Transaction(
-        id: json["id"],
-        trx: json["trx"],
-        requestType: json["request_type"],
-        title: json["title"],
-        requestAmount: json["request_amount"],
-        charge: json["charge"],
-        payable: json["payable"],
-        status: json["status"],
-        statusInfo: Map.from(json["status_info"])
-            .map((k, v) => MapEntry<String, String>(k, v)),
-        action: json["action"],
-        createdAt: DateTime.parse(json["created_at"]),
-      );
+    id: json["id"],
+    trx: json["trx"],
+    requestType: json["request_type"],
+    title: json["title"],
+    requestAmount: json["request_amount"],
+    charge: json["charge"],
+    payable: json["payable"],
+    status: json["status"],
+    statusInfo: Map.from(
+      json["status_info"],
+    ).map((k, v) => MapEntry<String, String>(k, v)),
+    action: json["action"],
+    createdAt: DateTime.parse(json["created_at"]),
+  );
 
   Map<String, dynamic> toJson() => {
-        "id": id,
-        "trx": trx,
-        "request_type": requestType,
-        "title": title,
-        "request_amount": requestAmount,
-        "charge": charge,
-        "payable": payable,
-        "status": status,
-        "status_info":
-            Map.from(statusInfo).map((k, v) => MapEntry<String, dynamic>(k, v)),
-        "action": action,
-        "created_at": createdAt.toIso8601String(),
-      };
+    "id": id,
+    "trx": trx,
+    "request_type": requestType,
+    "title": title,
+    "request_amount": requestAmount,
+    "charge": charge,
+    "payable": payable,
+    "status": status,
+    "status_info": Map.from(
+      statusInfo,
+    ).map((k, v) => MapEntry<String, dynamic>(k, v)),
+    "action": action,
+    "created_at": createdAt.toIso8601String(),
+  };
 }
 
 class Message {
   List<String> success;
 
-  Message({
-    required this.success,
-  });
+  Message({required this.success});
 
-  factory Message.fromJson(Map<String, dynamic> json) => Message(
-        success: List<String>.from(json["success"].map((x) => x)),
-      );
+  factory Message.fromJson(Map<String, dynamic> json) =>
+      Message(success: List<String>.from(json["success"].map((x) => x)));
 
   Map<String, dynamic> toJson() => {
-        "success": List<dynamic>.from(success.map((x) => x)),
-      };
+    "success": List<dynamic>.from(success.map((x) => x)),
+  };
 }

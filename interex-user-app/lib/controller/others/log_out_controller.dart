@@ -17,15 +17,17 @@ class LogOutController extends GetxController {
     _isLoading.value = true;
     update();
 
-    await ApiServices.logOut().then((value) {
-      _logOutModel = value!;
-      LocalStorages.logout();
-      Get.offNamedUntil(Routes.signInScreen, (route) => false);
-      _isLoading.value = false;
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-    });
+    await ApiServices.logOut()
+        .then((value) {
+          _logOutModel = value!;
+          LocalStorages.logout();
+          Get.offNamedUntil(Routes.signInScreen, (route) => false);
+          _isLoading.value = false;
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+        });
     update();
     return _logOutModel;
   }

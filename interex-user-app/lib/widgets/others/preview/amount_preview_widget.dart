@@ -1,9 +1,7 @@
 import 'package:qrpaypro/utils/basic_screen_imports.dart';
 
 extension PreviewAmount on Widget {
-  Widget previewAmount({
-    required String amount,
-  }) {
+  Widget previewAmount({required String amount}) {
     return Container(
       height: 150,
       decoration: BoxDecoration(
@@ -12,8 +10,9 @@ extension PreviewAmount on Widget {
             : CustomColor.primaryBGLightColor,
         borderRadius: BorderRadius.circular(Dimensions.radius * 1.5),
       ),
-      margin:
-          EdgeInsets.symmetric(vertical: Dimensions.marginSizeVertical * 0.2),
+      margin: EdgeInsets.symmetric(
+        vertical: Dimensions.marginSizeVertical * 0.2,
+      ),
       child: Column(
         mainAxisAlignment: mainCenter,
         children: [

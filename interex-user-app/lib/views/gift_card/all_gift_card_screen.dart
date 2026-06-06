@@ -14,9 +14,7 @@ class AllGiftCardScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBarWidget(
-        text: Strings.giftCards.tr,
-      ),
+      appBar: AppBarWidget(text: Strings.giftCards.tr),
       body: _bodyWidget(context),
     );
   }
@@ -31,7 +29,7 @@ class AllGiftCardScreen extends StatelessWidget {
           children: [
             _selectCountryWidget(context),
             if (controller.isLoading) ...[
-              const CustomLoadingAPI()
+              const CustomLoadingAPI(),
             ] else ...[
               Flexible(
                 child: GridView(

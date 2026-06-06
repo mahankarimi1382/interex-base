@@ -35,20 +35,21 @@ class StripeTransactionHistoryScreen extends StatelessWidget {
               controller.getCardTransactionHistory();
             },
             child: ListView.builder(
-                padding: EdgeInsets.symmetric(
-                  horizontal: Dimensions.marginSizeHorizontal * 0.9,
-                ),
-                itemCount: data.length,
-                itemBuilder: (context, index) {
-                  return TransactionWidget(
-                    payableAmount: data[index].payable,
-                    amount: data[index].amount,
-                    title: '${'Trx'} ${data[index].trx}',
-                    dateText: DateFormat.M().format(data[index].date),
-                    transaction: data[index].status,
-                    monthText: DateFormat.MMM().format(data[index].date),
-                  );
-                }),
+              padding: EdgeInsets.symmetric(
+                horizontal: Dimensions.marginSizeHorizontal * 0.9,
+              ),
+              itemCount: data.length,
+              itemBuilder: (context, index) {
+                return TransactionWidget(
+                  payableAmount: data[index].payable,
+                  amount: data[index].amount,
+                  title: '${'Trx'} ${data[index].trx}',
+                  dateText: DateFormat.M().format(data[index].date),
+                  transaction: data[index].status,
+                  monthText: DateFormat.MMM().format(data[index].date),
+                );
+              },
+            ),
           )
         : Center(
             child: TitleHeading1Widget(

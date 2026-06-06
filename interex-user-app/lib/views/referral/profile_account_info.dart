@@ -16,8 +16,9 @@ class ProfileAccountInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var basic = controller.referInfoModel.data.basic;
-    var level = controller.referInfoModel.data.accountLevels
-        .where((v) => v.active == true);
+    var level = controller.referInfoModel.data.accountLevels.where(
+      (v) => v.active == true,
+    );
     var data = updateProfileController.profileModel.data;
     final image =
         '${Get.find<AppSettingsController>().baseUrl.value}/${data.imagePath}/${data.user.image}';
@@ -58,11 +59,13 @@ class ProfileAccountInfo extends StatelessWidget {
                   ),
                   InkWell(
                     onTap: () {
-                      Clipboard.setData(ClipboardData(text: basic.referCode))
-                          .then(
+                      Clipboard.setData(
+                        ClipboardData(text: basic.referCode),
+                      ).then(
                         (v) => CustomSnackBar.success(
-                          Get.find<LanguageController>()
-                              .getTranslation(Strings.referCodeCopy),
+                          Get.find<LanguageController>().getTranslation(
+                            Strings.referCodeCopy,
+                          ),
                         ),
                       );
                     },
@@ -94,11 +97,7 @@ class InfoRow extends StatelessWidget {
   final String label;
   final String value;
 
-  const InfoRow({
-    super.key,
-    required this.label,
-    required this.value,
-  });
+  const InfoRow({super.key, required this.label, required this.value});
 
   @override
   Widget build(BuildContext context) {
@@ -107,19 +106,12 @@ class InfoRow extends StatelessWidget {
       children: [
         Row(
           children: [
-            TitleHeading5Widget(
-              text: label,
-            ),
-            TitleHeading5Widget(
-              text: ':',
-            ),
+            TitleHeading5Widget(text: label),
+            TitleHeading5Widget(text: ':'),
           ],
         ),
         horizontalSpace(Dimensions.widthSize * 0.25),
-        TitleHeading5Widget(
-          text: value,
-          fontWeight: FontWeight.bold,
-        ),
+        TitleHeading5Widget(text: value, fontWeight: FontWeight.bold),
       ],
     );
   }

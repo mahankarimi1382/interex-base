@@ -21,18 +21,21 @@ class WalletsController extends GetxController {
     _isLoading.value = true;
     update();
 
-    await ApiServices.walletsInfoApi().then((value) {
-      _walletsInfoModel = value!;
-      double currencyRate =
-          double.parse(_walletsInfoModel.data.userWallets.first.currency.rate);
-      exchangeRate.value = (currencyRate * currencyRate);
+    await ApiServices.walletsInfoApi()
+        .then((value) {
+          _walletsInfoModel = value!;
+          double currencyRate = double.parse(
+            _walletsInfoModel.data.userWallets.first.currency.rate,
+          );
+          exchangeRate.value = (currencyRate * currencyRate);
 
-      _isLoading.value = false;
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-      _isLoading.value = false;
-    });
+          _isLoading.value = false;
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+          _isLoading.value = false;
+        });
     _isLoading.value = false;
     update();
     return _walletsInfoModel;

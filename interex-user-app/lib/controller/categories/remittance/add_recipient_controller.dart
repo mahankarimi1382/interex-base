@@ -64,15 +64,17 @@ class AddRecipientController extends GetxController {
     _isLoading.value = true;
     update();
 
-    await ApiServices.saveRecipientInfoAPi().then((value) {
-      _recipientInfoData = value!;
+    await ApiServices.saveRecipientInfoAPi()
+        .then((value) {
+          _recipientInfoData = value!;
 
-      setValues(_recipientInfoData);
+          setValues(_recipientInfoData);
 
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-    });
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+        });
 
     _isLoading.value = false;
     update();
@@ -133,7 +135,9 @@ class AddRecipientController extends GetxController {
   final basicController = Get.put(BasicDataController());
 
   // Login process function
-  Future<CommonSuccessModel> recipientStoreApiProcess(BuildContext context) async {
+  Future<CommonSuccessModel> recipientStoreApiProcess(
+    BuildContext context,
+  ) async {
     _isLoading.value = true;
     update();
 
@@ -151,16 +155,18 @@ class AddRecipientController extends GetxController {
       'state': stateController.text,
       'bank': receiverBank.alias,
       'cash_pickup': pickupPoint.alias,
-      'account_number': accountNumberController.text
+      'account_number': accountNumberController.text,
     };
     // calling login api from api service
-    await ApiServices.recipientStoreApi(body: inputBody).then((value) {
-      _successDatya = value!;
-      _isLoading.value = false;
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-    });
+    await ApiServices.recipientStoreApi(body: inputBody)
+        .then((value) {
+          _successDatya = value!;
+          _isLoading.value = false;
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+        });
 
     _isLoading.value = false;
     update();
@@ -184,26 +190,28 @@ class AddRecipientController extends GetxController {
       'country_name': receiverCountry.country,
     };
 
-    await ApiServices.checkRecipientApi(body: inputBody).then((value) {
-      _checkRecipientModel = value!;
+    await ApiServices.checkRecipientApi(body: inputBody)
+        .then((value) {
+          _checkRecipientModel = value!;
 
-      checkUserMessage.value = _checkRecipientModel.message.success.first;
+          checkUserMessage.value = _checkRecipientModel.message.success.first;
 
-      final data = _checkRecipientModel;
-      firstNameController.text = data.data.user.firstname;
-      lastNameController.text = data.data.user.lastname;
-      numberController.text = data.data.user.mobile;
-      cityController.text = data.data.user.address.city;
-      addressController.text = data.data.user.address.city;
-      zipController.text = data.data.user.address.zip;
-      stateController.text = data.data.user.address.state;
+          final data = _checkRecipientModel;
+          firstNameController.text = data.data.user.firstname;
+          lastNameController.text = data.data.user.lastname;
+          numberController.text = data.data.user.mobile;
+          cityController.text = data.data.user.address.city;
+          addressController.text = data.data.user.address.city;
+          zipController.text = data.data.user.address.zip;
+          stateController.text = data.data.user.address.state;
 
-      isValidUser.value = true;
-      _isCheckLoading.value = false;
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-    });
+          isValidUser.value = true;
+          _isCheckLoading.value = false;
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+        });
 
     _isCheckLoading.value = false;
     update();

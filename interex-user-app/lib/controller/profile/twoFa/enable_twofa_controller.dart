@@ -37,16 +37,16 @@ class TwoFaController extends GetxController {
     update();
 
     // calling  from api service
-    await ApiServices.getTwoFAInfoAPi().then((value) {
-      _twoFaInfoModelData = value!;
-      _setData(_twoFaInfoModelData);
-      _isLoading.value = false;
-      update();
-    }).catchError(
-      (onError) {
-        log.e(onError);
-      },
-    );
+    await ApiServices.getTwoFAInfoAPi()
+        .then((value) {
+          _twoFaInfoModelData = value!;
+          _setData(_twoFaInfoModelData);
+          _isLoading.value = false;
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+        });
     update();
     return _twoFaInfoModelData;
   }
@@ -68,19 +68,17 @@ class TwoFaController extends GetxController {
     _isSubmitLoading.value = true;
     update();
 
-    Map<String, String> inputBody = {
-      'status': status.value == 0 ? '1' : '0',
-    };
+    Map<String, String> inputBody = {'status': status.value == 0 ? '1' : '0'};
 
-    await ApiServices.twoFaSubmitApiProcess(
-      body: inputBody,
-    ).then((value) {
-      _twoFaSubmitModel = value!;
-      Get.offAllNamed(Routes.bottomNavBarScreen);
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-    });
+    await ApiServices.twoFaSubmitApiProcess(body: inputBody)
+        .then((value) {
+          _twoFaSubmitModel = value!;
+          Get.offAllNamed(Routes.bottomNavBarScreen);
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+        });
 
     _isSubmitLoading.value = false;
     update();

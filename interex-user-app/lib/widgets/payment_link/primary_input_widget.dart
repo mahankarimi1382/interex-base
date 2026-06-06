@@ -10,14 +10,10 @@ enum BSS {
   disableBorder,
   focusedBorder,
   errorBorder,
-  focusedErrorBorder
+  focusedErrorBorder,
 }
 
-enum BorderStyles {
-  outline,
-  underline,
-  none,
-}
+enum BorderStyles { outline, underline, none }
 
 class PrimaryInputField extends StatefulWidget {
   final String hintText, label, phoneCode;
@@ -113,7 +109,7 @@ class _PrimaryInputFieldState extends State<PrimaryInputField> {
       hintStyle: CustomStyle.lightHeading3TextStyle.copyWith(
         fontSize: Dimensions.headingTextSize3,
         fontWeight: FontWeight.w600,
-        color: CustomColor.primaryLightTextColor.withValues(alpha:0.20),
+        color: CustomColor.primaryLightTextColor.withValues(alpha: 0.20),
       ),
       border: _setBorderStyle(BSS.b),
       enabledBorder: _setBorderStyle(BSS.enabledBorder),
@@ -205,7 +201,7 @@ class _PrimaryInputFieldState extends State<PrimaryInputField> {
               style: CustomStyle.lightHeading4TextStyle.copyWith(
                 fontWeight: FontWeight.w600,
                 fontSize: Dimensions.headingTextSize4,
-                color: CustomColor.primaryLightColor.withValues(alpha:.8),
+                color: CustomColor.primaryLightColor.withValues(alpha: .8),
               ),
             ),
           ],
@@ -220,17 +216,17 @@ class _PrimaryInputFieldState extends State<PrimaryInputField> {
       case BSS.enabledBorder:
         return BorderSide(
           width: widget.borderWidth,
-          color: CustomColor.primaryLightTextColor.withValues(alpha:0.2),
+          color: CustomColor.primaryLightTextColor.withValues(alpha: 0.2),
         );
       case BSS.b:
         return BorderSide(
           width: widget.borderWidth,
-          color: CustomColor.primaryLightTextColor.withValues(alpha:0.2),
+          color: CustomColor.primaryLightTextColor.withValues(alpha: 0.2),
         );
       case BSS.disableBorder:
         return BorderSide(
           width: widget.borderWidth,
-          color: CustomColor.primaryLightTextColor.withValues(alpha:0.2),
+          color: CustomColor.primaryLightTextColor.withValues(alpha: 0.2),
         );
       case BSS.focusedBorder:
         return BorderSide(
@@ -238,16 +234,10 @@ class _PrimaryInputFieldState extends State<PrimaryInputField> {
           color: CustomColor.primaryLightColor,
         );
       case BSS.errorBorder:
-        return BorderSide(
-          width: widget.borderWidth,
-          color: Colors.red,
-        );
+        return BorderSide(width: widget.borderWidth, color: Colors.red);
       case BSS.focusedErrorBorder:
-        return BorderSide(
-          width: widget.borderWidth,
-          color: Colors.transparent,
-        );
-      }
+        return BorderSide(width: widget.borderWidth, color: Colors.transparent);
+    }
   }
 
   InputBorder _setBorderStyle(BSS borderSideStyle) {
@@ -314,7 +304,8 @@ class _PrimaryInputFieldState extends State<PrimaryInputField> {
         (widget.prefixIconPath != ''
             ? Padding(
                 padding: EdgeInsets.symmetric(
-                    horizontal: Dimensions.paddingHorizontalSize * 0.4),
+                  horizontal: Dimensions.paddingHorizontalSize * 0.4,
+                ),
                 child: Row(
                   mainAxisSize: mainMin,
                   children: [
@@ -323,10 +314,12 @@ class _PrimaryInputFieldState extends State<PrimaryInputField> {
                       color: focusNode!.hasFocus
                           ? CustomColor.primaryLightColor
                           : Get.isDarkMode
-                              ? CustomColor.primaryDarkTextColor
-                                  .withValues(alpha:0.50)
-                              : CustomColor.primaryLightTextColor
-                                  .withValues(alpha:0.50),
+                          ? CustomColor.primaryDarkTextColor.withValues(
+                              alpha: 0.50,
+                            )
+                          : CustomColor.primaryLightTextColor.withValues(
+                              alpha: 0.50,
+                            ),
                     ),
                     Visibility(
                       visible: widget.phoneCode != '',
@@ -340,7 +333,7 @@ class _PrimaryInputFieldState extends State<PrimaryInputField> {
                               color: focusNode!.hasFocus
                                   ? CustomColor.primaryLightColor
                                   : CustomColor.primaryLightTextColor
-                                      .withValues(alpha:0.2),
+                                        .withValues(alpha: 0.2),
                             ),
                           ).marginOnly(
                             left: Dimensions.marginSizeHorizontal * 0.3,
@@ -353,12 +346,13 @@ class _PrimaryInputFieldState extends State<PrimaryInputField> {
                             width: 1,
                             color: focusNode!.hasFocus
                                 ? CustomColor.primaryLightColor
-                                : CustomColor.primaryLightTextColor
-                                    .withValues(alpha:0.2),
+                                : CustomColor.primaryLightTextColor.withValues(
+                                    alpha: 0.2,
+                                  ),
                           ),
                         ],
                       ),
-                    )
+                    ),
                   ],
                 ),
               )
@@ -373,8 +367,8 @@ class _PrimaryInputFieldState extends State<PrimaryInputField> {
               color: focusNode!.hasFocus
                   ? CustomColor.primaryLightColor
                   : Get.isDarkMode
-                      ? CustomColor.primaryDarkTextColor.withValues(alpha:0.50)
-                      : CustomColor.primaryLightTextColor.withValues(alpha:0.50),
+                  ? CustomColor.primaryDarkTextColor.withValues(alpha: 0.50)
+                  : CustomColor.primaryLightTextColor.withValues(alpha: 0.50),
               size: Dimensions.iconSizeDefault,
             ),
             onPressed: () {

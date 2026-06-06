@@ -22,8 +22,8 @@ class StatusDataWidget extends StatelessWidget {
               Icon(
                 icon,
                 color: Get.isDarkMode
-                    ? CustomColor.whiteColor.withValues(alpha:0.4)
-                    : CustomColor.blackColor.withValues(alpha:0.4),
+                    ? CustomColor.whiteColor.withValues(alpha: 0.4)
+                    : CustomColor.blackColor.withValues(alpha: 0.4),
                 size: Dimensions.iconSizeLarge * 1.5,
               ),
               verticalSpace(Dimensions.paddingSize * 0.3),
@@ -32,7 +32,7 @@ class StatusDataWidget extends StatelessWidget {
                 textAlign: TextAlign.center,
                 fontSize: Dimensions.headingTextSize3,
                 opacity: 0.4,
-              )
+              ),
             ],
           ),
         ),

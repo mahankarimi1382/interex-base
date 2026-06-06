@@ -102,7 +102,7 @@ class StripeCreateCardScreen extends StatelessWidget {
             ],
           ),
           verticalSpace(Dimensions.heightSize * 0.3),
-          _chargeWidget(context)
+          _chargeWidget(context),
         ],
       ),
     );
@@ -163,10 +163,12 @@ class StripeCreateCardScreen extends StatelessWidget {
                   // if (controller.limitMin >= amount &&
                   //     controller.limitMax >= amount) {
 
-                  Get.find<SetUpPinController>().showPinDialog(context,
-                      onSuccess: () {
-                    controller.buyCardProcess(context);
-                  });
+                  Get.find<SetUpPinController>().showPinDialog(
+                    context,
+                    onSuccess: () {
+                      controller.buyCardProcess(context);
+                    },
+                  );
                   // } else {
                   //   CustomSnackBar.error(Strings.pleaseFollowTheLimit);
                   // }

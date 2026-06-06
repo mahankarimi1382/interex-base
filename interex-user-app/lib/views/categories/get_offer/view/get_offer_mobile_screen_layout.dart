@@ -1,4 +1,3 @@
-
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:qrpaypro/backend/utils/no_data_widget.dart';
 import 'package:qrpaypro/widgets/appbar/appbar_widget.dart';
@@ -10,10 +9,7 @@ import '../controller/get_offer_controller.dart';
 import '../widget/get_offer_widget.dart';
 
 class GetOfferMobileScreenLayout extends StatelessWidget {
-  const GetOfferMobileScreenLayout({
-    super.key,
-    required this.controller,
-  });
+  const GetOfferMobileScreenLayout({super.key, required this.controller});
 
   final GetOfferController controller;
 
@@ -48,9 +44,11 @@ class GetOfferMobileScreenLayout extends StatelessWidget {
                     index: index,
                     child: GetOfferWidget(
                       index: index,
-                      getOffer: controller.getOfferModel.data!.getoffers![index]!,
+                      getOffer:
+                          controller.getOfferModel.data!.getoffers![index]!,
                       imagePath: controller.getOfferModel.data!.imagepath!,
-                      defaultImage: controller.getOfferModel.data!.defaultimage!,
+                      defaultImage:
+                          controller.getOfferModel.data!.defaultimage!,
                       controller: controller,
                     ),
                   ),

@@ -1,4 +1,3 @@
-
 import 'package:flutter/services.dart';
 
 import '../../../../backend/model/common/common_success_model.dart';
@@ -9,6 +8,7 @@ import '../model/offer_buy_confirm_model.dart';
 import '../model/offer_buy_model.dart';
 import '../service/get_offer_api_services.dart';
 import '../widget/offer_evidance_image_picker.dart';
+
 class OfferBuyPreviewController extends GetxController {
   /// >>> Rate
   RxDouble sellAmount = 0.0.obs;
@@ -69,16 +69,16 @@ class OfferBuyPreviewController extends GetxController {
   Future<OfferBuyModel> offerBuyProcessApi(String targetId) async {
     _isBuyLoading.value = true;
     update();
-    Map<String, dynamic> inputBody = {
-      'target': targetId,
-    };
-    await OfferApiServices.offerBuyProcessApi(body: inputBody).then((value) {
-      _offerBuyModel = value!;
-      _setDataForPreviewScreen();
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-    });
+    Map<String, dynamic> inputBody = {'target': targetId};
+    await OfferApiServices.offerBuyProcessApi(body: inputBody)
+        .then((value) {
+          _offerBuyModel = value!;
+          _setDataForPreviewScreen();
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+        });
 
     _isBuyLoading.value = false;
     update();
@@ -99,16 +99,17 @@ class OfferBuyPreviewController extends GetxController {
     };
     await OfferApiServices.offerConfirmProcessApi(body: inputBody)
         .then((value) {
-      _offerBuyConfirmModel = value!;
-      trxID.value = _offerBuyConfirmModel.data.trxId;
-      _getDynamicInputFields(_offerBuyConfirmModel.data.paymentFields);
+          _offerBuyConfirmModel = value!;
+          trxID.value = _offerBuyConfirmModel.data.trxId;
+          _getDynamicInputFields(_offerBuyConfirmModel.data.paymentFields);
 
-      Get.toNamed(Routes.offerEvidenceSubmitScreen);
+          Get.toNamed(Routes.offerEvidenceSubmitScreen);
 
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-    });
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+        });
 
     _isBuyConfirmLoading.value = false;
     update();
@@ -119,9 +120,7 @@ class OfferBuyPreviewController extends GetxController {
   Future<CommonSuccessModel> offerEvidenceProcessApi() async {
     _isSubmitLoading.value = true;
     update();
-    Map<String, String> inputBody = {
-      'trx_id': trxID.value,
-    };
+    Map<String, String> inputBody = {'trx_id': trxID.value};
     final data = _offerBuyConfirmModel.data.paymentFields;
 
     for (int i = 0; i < data.length; i += 1) {
@@ -131,22 +130,24 @@ class OfferBuyPreviewController extends GetxController {
     }
 
     await OfferApiServices.offerEvidenceSubmitProcessApi(
-      body: inputBody,
-      fieldList: listFieldName,
-      pathList: listImagePath,
-    ).then((value) {
-      _offerEvidenceModel = value!;
-      Get.to(
-        () => CongratulationScreen(
-          route: Routes.bottomNavBarScreen,
-          subTitle: _offerEvidenceModel.message.success.first,
-          title: Strings.congratulations,
-        ),
-      );
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-    });
+          body: inputBody,
+          fieldList: listFieldName,
+          pathList: listImagePath,
+        )
+        .then((value) {
+          _offerEvidenceModel = value!;
+          Get.to(
+            () => CongratulationScreen(
+              route: Routes.bottomNavBarScreen,
+              subTitle: _offerEvidenceModel.message.success.first,
+              title: Strings.congratulations,
+            ),
+          );
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+        });
 
     _isSubmitLoading.value = false;
     update();
@@ -159,8 +160,8 @@ class OfferBuyPreviewController extends GetxController {
     double rate = double.parse(tradeData.rate);
     selectPaymentGateway.value =
         _offerBuyModel.data.paymentGatewaies.first.name;
-    selectPaymentGatewayId.value =
-        _offerBuyModel.data.paymentGatewaies.first.id.toString();
+    selectPaymentGatewayId.value = _offerBuyModel.data.paymentGatewaies.first.id
+        .toString();
 
     sellAmount.value = double.parse(tradeData.amount);
     sellCurrency.value = tradeData.saleCurrency.code;
@@ -199,9 +200,7 @@ class OfferBuyPreviewController extends GetxController {
                 label: data[item].label,
                 inputFormatters: [
                   LengthLimitingTextInputFormatter(
-                    int.parse(
-                      data[item].validation.max.toString(),
-                    ),
+                    int.parse(data[item].validation.max.toString()),
                   ),
                 ],
               ).paddingOnly(bottom: Dimensions.marginSizeVertical * 0.75),

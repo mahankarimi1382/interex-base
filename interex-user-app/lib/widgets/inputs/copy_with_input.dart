@@ -64,18 +64,16 @@ class _PrimaryInputWidgetState extends State<CopyInputWidget> {
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        TitleHeading4Widget(
-          text: widget.label,
-          fontWeight: FontWeight.w600,
-        ),
+        TitleHeading4Widget(text: widget.label, fontWeight: FontWeight.w600),
         verticalSpace(7),
         TextFormField(
           validator: widget.isValidator == false
               ? null
               : (String? value) {
                   if (value!.isEmpty) {
-                    return widget.languageController
-                        .getTranslation(Strings.pleaseFillOutTheField);
+                    return widget.languageController.getTranslation(
+                      Strings.pleaseFillOutTheField,
+                    );
                   } else {
                     return null;
                   }
@@ -89,7 +87,10 @@ class _PrimaryInputWidgetState extends State<CopyInputWidget> {
           },
           onFieldSubmitted: (value) {
             if (widget
-                .sendMoneyController.copyInputController.text.isNotEmpty) {
+                .sendMoneyController
+                .copyInputController
+                .text
+                .isNotEmpty) {
               widget.sendMoneyController.getCheckUserExistDate();
             }
             setState(() {
@@ -98,7 +99,10 @@ class _PrimaryInputWidgetState extends State<CopyInputWidget> {
           },
           onTapOutside: (value) {
             if (widget
-                .sendMoneyController.copyInputController.text.isNotEmpty) {
+                .sendMoneyController
+                .copyInputController
+                .text
+                .isNotEmpty) {
               widget.sendMoneyController.getCheckUserExistDate();
             }
             setState(() {
@@ -129,8 +133,10 @@ class _PrimaryInputWidgetState extends State<CopyInputWidget> {
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(Dimensions.radius * 0.5),
-              borderSide:
-                  BorderSide(width: 2, color: CustomColor.primaryLightColor),
+              borderSide: BorderSide(
+                width: 2,
+                color: CustomColor.primaryLightColor,
+              ),
             ),
             errorBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(Dimensions.radius * 0.5),
@@ -150,8 +156,10 @@ class _PrimaryInputWidgetState extends State<CopyInputWidget> {
                 padding: const EdgeInsets.all(8.0),
                 child: CircleAvatar(
                   backgroundColor: CustomColor.primaryLightColor,
-                  child: SvgPicture.asset(widget.suffixIcon,
-                      color: widget.suffixColor),
+                  child: SvgPicture.asset(
+                    widget.suffixIcon,
+                    color: widget.suffixColor,
+                  ),
                 ),
               ),
             ),

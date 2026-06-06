@@ -9,26 +9,23 @@ class TopUpInfoModel {
   Message message;
   Data data;
 
-  TopUpInfoModel({
-    required this.message,
-    required this.data,
-  });
+  TopUpInfoModel({required this.message, required this.data});
 
   factory TopUpInfoModel.fromJson(Map<String, dynamic> json) => TopUpInfoModel(
-        message: Message.fromJson(json["message"]),
-        data: Data.fromJson(json["data"]),
-      );
+    message: Message.fromJson(json["message"]),
+    data: Data.fromJson(json["data"]),
+  );
 
   Map<String, dynamic> toJson() => {
-        "message": message.toJson(),
-        "data": data.toJson(),
-      };
+    "message": message.toJson(),
+    "data": data.toJson(),
+  };
 }
 
 class Data {
   String baseCurr;
   dynamic baseCurrRate;
-    GetRemainingFields getRemainingFields;
+  GetRemainingFields getRemainingFields;
   TopupCharge topupCharge;
   List<TopupType> topupTypes;
   List<Transaction> transactions;
@@ -45,36 +42,36 @@ class Data {
   });
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
-        baseCurr: json["base_curr"],
-        baseCurrRate: double.parse(json["base_curr_rate"] ?? "0.0"),
-         getRemainingFields:
-            GetRemainingFields.fromJson(json["get_remaining_fields"]),
-        topupCharge: TopupCharge.fromJson(json["topupCharge"]),
-        topupTypes: List<TopupType>.from(
-            json["topupTypes"].map((x) => TopupType.fromJson(x))),
-        transactions: List<Transaction>.from(
-            json["transactions"].map((x) => Transaction.fromJson(x))),
-      );
+    baseCurr: json["base_curr"],
+    baseCurrRate: double.parse(json["base_curr_rate"] ?? "0.0"),
+    getRemainingFields: GetRemainingFields.fromJson(
+      json["get_remaining_fields"],
+    ),
+    topupCharge: TopupCharge.fromJson(json["topupCharge"]),
+    topupTypes: List<TopupType>.from(
+      json["topupTypes"].map((x) => TopupType.fromJson(x)),
+    ),
+    transactions: List<Transaction>.from(
+      json["transactions"].map((x) => Transaction.fromJson(x)),
+    ),
+  );
 
   Map<String, dynamic> toJson() => {
-        "base_curr": baseCurr,
-        "base_curr_rate": baseCurrRate,
-        "get_remaining_fields": getRemainingFields.toJson(),
+    "base_curr": baseCurr,
+    "base_curr_rate": baseCurrRate,
+    "get_remaining_fields": getRemainingFields.toJson(),
 
-        "topupCharge": topupCharge.toJson(),
-        "topupTypes": List<dynamic>.from(topupTypes.map((x) => x.toJson())),
-        "transactions": List<dynamic>.from(transactions.map((x) => x.toJson())),
-      };
+    "topupCharge": topupCharge.toJson(),
+    "topupTypes": List<dynamic>.from(topupTypes.map((x) => x.toJson())),
+    "transactions": List<dynamic>.from(transactions.map((x) => x.toJson())),
+  };
 }
 
 class GetRemainingFields {
   String transactionType;
   String attribute;
 
-  GetRemainingFields({
-    required this.transactionType,
-    required this.attribute,
-  });
+  GetRemainingFields({required this.transactionType, required this.attribute});
 
   factory GetRemainingFields.fromJson(Map<String, dynamic> json) =>
       GetRemainingFields(
@@ -83,10 +80,11 @@ class GetRemainingFields {
       );
 
   Map<String, dynamic> toJson() => {
-        "transaction_type": transactionType,
-        "attribute": attribute,
-      };
+    "transaction_type": transactionType,
+    "attribute": attribute,
+  };
 }
+
 class TopupCharge {
   int id;
   String slug;
@@ -111,28 +109,28 @@ class TopupCharge {
   });
 
   factory TopupCharge.fromJson(Map<String, dynamic> json) => TopupCharge(
-        id: json["id"],
-        slug: json["slug"],
-        title: json["title"],
-        fixedCharge: double.parse(json["fixed_charge"] ?? "0.0"),
-        percentCharge: double.parse(json["percent_charge"] ?? "0.0"),
-        minLimit: double.parse(json["min_limit"] ?? "0.0"),
-        maxLimit: double.parse(json["max_limit"] ?? "0.0"),
-        monthlyLimit: double.parse(json["monthly_limit"] ?? "0.0"),
-        dailyLimit: double.parse(json["daily_limit"] ?? "0.0"),
-      );
+    id: json["id"],
+    slug: json["slug"],
+    title: json["title"],
+    fixedCharge: double.parse(json["fixed_charge"] ?? "0.0"),
+    percentCharge: double.parse(json["percent_charge"] ?? "0.0"),
+    minLimit: double.parse(json["min_limit"] ?? "0.0"),
+    maxLimit: double.parse(json["max_limit"] ?? "0.0"),
+    monthlyLimit: double.parse(json["monthly_limit"] ?? "0.0"),
+    dailyLimit: double.parse(json["daily_limit"] ?? "0.0"),
+  );
 
   Map<String, dynamic> toJson() => {
-        "id": id,
-        "slug": slug,
-        "title": title,
-        "fixed_charge": fixedCharge,
-        "percent_charge": percentCharge,
-        "min_limit": minLimit,
-        "max_limit": maxLimit,
-        "monthly_limit": monthlyLimit,
-        "daily_limit": dailyLimit,
-      };
+    "id": id,
+    "slug": slug,
+    "title": title,
+    "fixed_charge": fixedCharge,
+    "percent_charge": percentCharge,
+    "min_limit": minLimit,
+    "max_limit": maxLimit,
+    "monthly_limit": monthlyLimit,
+    "daily_limit": dailyLimit,
+  };
 }
 
 class TopupType {
@@ -157,26 +155,26 @@ class TopupType {
   });
 
   factory TopupType.fromJson(Map<String, dynamic> json) => TopupType(
-        id: json["id"],
-        adminId: json["admin_id"],
-        name: json["name"],
-        slug: json["slug"],
-        status: json["status"],
-        createdAt: DateTime.parse(json["created_at"]),
-        updatedAt: json["updated_at"] ?? '',
-        editData: json["editData"],
-      );
+    id: json["id"],
+    adminId: json["admin_id"],
+    name: json["name"],
+    slug: json["slug"],
+    status: json["status"],
+    createdAt: DateTime.parse(json["created_at"]),
+    updatedAt: json["updated_at"] ?? '',
+    editData: json["editData"],
+  );
 
   Map<String, dynamic> toJson() => {
-        "id": id,
-        "admin_id": adminId,
-        "name": name,
-        "slug": slug,
-        "status": status,
-        "created_at": createdAt.toIso8601String(),
-        "updated_at": updatedAt,
-        "editData": editData,
-      };
+    "id": id,
+    "admin_id": adminId,
+    "name": name,
+    "slug": slug,
+    "status": status,
+    "created_at": createdAt.toIso8601String(),
+    "updated_at": updatedAt,
+    "editData": editData,
+  };
 }
 
 class Transaction {
@@ -211,36 +209,36 @@ class Transaction {
   });
 
   factory Transaction.fromJson(Map<String, dynamic> json) => Transaction(
-        id: json["id"],
-        trx: json["trx"],
-        transactionType: json["transaction_type"],
-        requestAmount: json["request_amount"],
-        payable: json["payable"],
-        topupType: json["topup_type"],
-        mobileNumber: json["mobile_number"],
-        totalCharge: json["total_charge"],
-        currentBalance: json["current_balance"],
-        status: json["status"],
-        dateTime: DateTime.parse(json["date_time"]),
-        statusInfo: StatusInfo.fromJson(json["status_info"]),
-        rejectionReason: json["rejection_reason"],
-      );
+    id: json["id"],
+    trx: json["trx"],
+    transactionType: json["transaction_type"],
+    requestAmount: json["request_amount"],
+    payable: json["payable"],
+    topupType: json["topup_type"],
+    mobileNumber: json["mobile_number"],
+    totalCharge: json["total_charge"],
+    currentBalance: json["current_balance"],
+    status: json["status"],
+    dateTime: DateTime.parse(json["date_time"]),
+    statusInfo: StatusInfo.fromJson(json["status_info"]),
+    rejectionReason: json["rejection_reason"],
+  );
 
   Map<String, dynamic> toJson() => {
-        "id": id,
-        "trx": trx,
-        "transaction_type": transactionType,
-        "request_amount": requestAmount,
-        "payable": payable,
-        "topup_type": topupType,
-        "mobile_number": mobileNumber,
-        "total_charge": totalCharge,
-        "current_balance": currentBalance,
-        "status": status,
-        "date_time": dateTime.toIso8601String(),
-        "status_info": statusInfo.toJson(),
-        "rejection_reason": rejectionReason,
-      };
+    "id": id,
+    "trx": trx,
+    "transaction_type": transactionType,
+    "request_amount": requestAmount,
+    "payable": payable,
+    "topup_type": topupType,
+    "mobile_number": mobileNumber,
+    "total_charge": totalCharge,
+    "current_balance": currentBalance,
+    "status": status,
+    "date_time": dateTime.toIso8601String(),
+    "status_info": statusInfo.toJson(),
+    "rejection_reason": rejectionReason,
+  };
 }
 
 class StatusInfo {
@@ -255,30 +253,27 @@ class StatusInfo {
   });
 
   factory StatusInfo.fromJson(Map<String, dynamic> json) => StatusInfo(
-        success: json["success"],
-        pending: json["pending"],
-        rejected: json["rejected"],
-      );
+    success: json["success"],
+    pending: json["pending"],
+    rejected: json["rejected"],
+  );
 
   Map<String, dynamic> toJson() => {
-        "success": success,
-        "pending": pending,
-        "rejected": rejected,
-      };
+    "success": success,
+    "pending": pending,
+    "rejected": rejected,
+  };
 }
 
 class Message {
   List<String> success;
 
-  Message({
-    required this.success,
-  });
+  Message({required this.success});
 
-  factory Message.fromJson(Map<String, dynamic> json) => Message(
-        success: List<String>.from(json["success"].map((x) => x)),
-      );
+  factory Message.fromJson(Map<String, dynamic> json) =>
+      Message(success: List<String>.from(json["success"].map((x) => x)));
 
   Map<String, dynamic> toJson() => {
-        "success": List<dynamic>.from(success.map((x) => x)),
-      };
+    "success": List<dynamic>.from(success.map((x) => x)),
+  };
 }

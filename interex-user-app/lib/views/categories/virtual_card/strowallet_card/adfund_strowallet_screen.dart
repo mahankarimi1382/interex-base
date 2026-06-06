@@ -19,11 +19,7 @@ class StrowalletAddFundScreen extends StatelessWidget {
   ListView _bodyWidget(BuildContext context) {
     return ListView(
       physics: const BouncingScrollPhysics(),
-      children: [
-        StrowalletAddFundWidget(
-          buttonText: Strings.proceed,
-        ),
-      ],
+      children: [StrowalletAddFundWidget(buttonText: Strings.proceed)],
     );
   }
 }

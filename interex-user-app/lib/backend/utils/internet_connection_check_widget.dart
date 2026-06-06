@@ -5,8 +5,11 @@ class CheckInternetConnectionWidget extends StatelessWidget {
   final AsyncSnapshot<ConnectivityResult> snapshot;
   final Widget widget;
 
-  const CheckInternetConnectionWidget(
-      {super.key, required this.snapshot, required this.widget});
+  const CheckInternetConnectionWidget({
+    super.key,
+    required this.snapshot,
+    required this.widget,
+  });
 
   @override
   Widget build(BuildContext context) {

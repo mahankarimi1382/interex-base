@@ -96,12 +96,11 @@ class VirtualCardyfieCardController extends GetxController {
 
   @override
   void onInit() {
-      if (LocalStorages.getCardType() == 'cardyfie') {
+    if (LocalStorages.getCardType() == 'cardyfie') {
       cardyfieCardCreatePageInfo();
       getCardyfieCardData();
     }
 
- 
     super.onInit();
   }
 

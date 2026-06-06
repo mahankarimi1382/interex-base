@@ -21,7 +21,7 @@ class CardyfieWithdrawFundController extends GetxController {
   RxDouble depositCharge = 0.00.obs;
   RxDouble fromAmount = 0.00.obs;
 
-    @override
+  @override
   void onInit() {
     super.onInit();
     fromCurrencyRate.value = double.parse(

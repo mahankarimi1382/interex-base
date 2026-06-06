@@ -47,18 +47,20 @@ class AddFundController extends GetxController {
       'card_id': virtualCardController.cardInfoModel.data.myCard.first.cardId,
       'currency': virtualCardController.selectedSupportedCurrency.value!.code,
       'from_currency':
-          virtualCardController.selectMainWallet.value!.currency.code
+          virtualCardController.selectMainWallet.value!.currency.code,
     };
 
     update();
 
-    await ApiServices.carAddFundApi(body: inputBody).then((value) {
-      _carAddFundModel = value!;
+    await ApiServices.carAddFundApi(body: inputBody)
+        .then((value) {
+          _carAddFundModel = value!;
 
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-    });
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+        });
 
     _isLoading.value = false;
     update();
@@ -77,21 +79,23 @@ class AddFundController extends GetxController {
       'card_amount': virtualCardController.fundAmountController.text,
       'currency': virtualCardController.selectedSupportedCurrency.value!.code,
       'from_currency':
-          virtualCardController.selectMainWallet.value!.currency.code
+          virtualCardController.selectMainWallet.value!.currency.code,
     };
 
     update();
 
-    await ApiServices.createCardApi(body: inputBody).then((value) {
-      _cardCreateData = value!;
+    await ApiServices.createCardApi(body: inputBody)
+        .then((value) {
+          _cardCreateData = value!;
 
-      CustomSnackBar.success(_cardCreateData.message.success.first);
-      Get.offAllNamed(Routes.bottomNavBarScreen);
+          CustomSnackBar.success(_cardCreateData.message.success.first);
+          Get.offAllNamed(Routes.bottomNavBarScreen);
 
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-    });
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+        });
 
     _isLoading.value = false;
     update();

@@ -34,10 +34,12 @@ class SudoAddFundScreen extends StatelessWidget {
             debugPrint(appBarTitle);
             if (appBarTitle == Strings.addFund) {
             } else {
-              Get.find<SetUpPinController>().showPinDialog(context,
-                  onSuccess: () {
-                controller.cardCreateProcess();
-              });
+              Get.find<SetUpPinController>().showPinDialog(
+                context,
+                onSuccess: () {
+                  controller.cardCreateProcess();
+                },
+              );
             }
           },
         ),

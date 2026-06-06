@@ -20,12 +20,14 @@ class GiftCardController extends GetxController {
   Future<MyGiftCardModel> getMyCardInfoApi() async {
     _isLoading.value = true;
     update();
-    await GiftCardApiServices.myGiftCardInfoProcess().then((value) {
-      _myGiftCardModel = value!;
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-    });
+    await GiftCardApiServices.myGiftCardInfoProcess()
+        .then((value) {
+          _myGiftCardModel = value!;
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+        });
     _isLoading.value = false;
     update();
 

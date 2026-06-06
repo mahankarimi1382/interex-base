@@ -1,4 +1,3 @@
-
 import 'package:qrpaypro/backend/utils/custom_loading_api.dart';
 import 'package:qrpaypro/widgets/appbar/appbar_widget.dart';
 
@@ -33,7 +32,7 @@ class OfferEvidenceMobileScreenLayout extends StatelessWidget {
             ...controller.inputFields.map((element) {
               return element;
             }),
-            _buttonWidget(context)
+            _buttonWidget(context),
           ],
         ),
       ),
@@ -44,14 +43,16 @@ class OfferEvidenceMobileScreenLayout extends StatelessWidget {
     return Container(
       margin: EdgeInsets.symmetric(vertical: Dimensions.marginSizeVertical),
       child: Obx(
-        () => controller.isSubmitLoading ? CustomLoadingAPI(): PrimaryButton(
-          title: Strings.submit,
-          onPressed: () {
-            if (formKey.currentState!.validate()) {
-              controller.onSubmit;
-            }
-          },
-        ),
+        () => controller.isSubmitLoading
+            ? CustomLoadingAPI()
+            : PrimaryButton(
+                title: Strings.submit,
+                onPressed: () {
+                  if (formKey.currentState!.validate()) {
+                    controller.onSubmit;
+                  }
+                },
+              ),
       ),
     );
   }

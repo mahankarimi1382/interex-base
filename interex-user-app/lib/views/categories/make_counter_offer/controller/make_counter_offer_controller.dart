@@ -1,5 +1,3 @@
-
-
 import '../../../../backend/model/common/common_success_model.dart';
 import '../../../../routes/routes.dart';
 import '../../../../utils/basic_screen_imports.dart';
@@ -70,12 +68,13 @@ class MakeCounterOfferController extends GetxController {
     };
     await OfferApiServices.counterOfferProcessApi(body: inputBody)
         .then((value) {
-      _counterOfferModel = value!;
+          _counterOfferModel = value!;
 
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-    });
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+        });
 
     _isLoading.value = false;
     update();
@@ -96,17 +95,16 @@ class MakeCounterOfferController extends GetxController {
   Future<CommonSuccessModel> offerStatusProcessApi(String type) async {
     _isStatusLoading.value = true;
     update();
-    Map<String, dynamic> inputBody = {
-      'target': targetId.value,
-      'type': type,
-    };
-    await OfferApiServices.offerStatusProcessApi(body: inputBody).then((value) {
-      _offerStatusModel = value!;
-      controller.getOffersProcessApi();
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-    });
+    Map<String, dynamic> inputBody = {'target': targetId.value, 'type': type};
+    await OfferApiServices.offerStatusProcessApi(body: inputBody)
+        .then((value) {
+          _offerStatusModel = value!;
+          controller.getOffersProcessApi();
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+        });
 
     _isStatusLoading.value = false;
     update();

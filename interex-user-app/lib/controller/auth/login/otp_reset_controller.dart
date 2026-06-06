@@ -1,14 +1,13 @@
 import 'dart:async';
 import 'dart:math';
 
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:pin_code_fields/pin_code_fields.dart';
 
 import '../../../routes/routes.dart';
 
 class ResetOtpController extends GetxController {
-  final otpController = TextEditingController();
-
+  final otpController = PinInputController();
 
   // bool hasError = false;
   RxString currentText = "".obs;
@@ -33,17 +32,13 @@ class ResetOtpController extends GetxController {
 
   void timerInit() {
     timer = Timer.periodic(const Duration(seconds: 1), (_) {
-
-      if ( secondsRemaining.value != 0) {
+      if (secondsRemaining.value != 0) {
         secondsRemaining.value--;
       } else {
         enableResend.value = true;
       }
-
     });
   }
-
-
 
   RxInt secondsRemaining = 59.obs;
   RxInt minuteRemaining = 00.obs;
@@ -56,9 +51,8 @@ class ResetOtpController extends GetxController {
   }
 
   void onPressedSigninOtpSubmit() {
-    Get.toNamed(Routes.resetPasswordScreen);              
+    Get.toNamed(Routes.resetPasswordScreen);
   }
-
 
   final emailMaskRegExp = RegExp('^(.)(.*?)([^@]?)(?=@[^@]+\$)');
 

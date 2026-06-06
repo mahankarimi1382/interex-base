@@ -6,7 +6,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Afghan afghani",
     "currency_code": "AFN",
     "iso2": "AF",
-    "flag": "🇦🇫"
+    "flag": "🇦🇫",
   },
   {
     "id": 2,
@@ -15,7 +15,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Euro",
     "currency_code": "EUR",
     "iso2": "AX",
-    "flag": "🇦🇽"
+    "flag": "🇦🇽",
   },
   {
     "id": 3,
@@ -24,7 +24,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Albanian lek",
     "currency_code": "ALL",
     "iso2": "AL",
-    "flag": "🇦🇱"
+    "flag": "🇦🇱",
   },
   {
     "id": 4,
@@ -33,7 +33,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Algerian dinar",
     "currency_code": "DZD",
     "iso2": "DZ",
-    "flag": "🇩🇿"
+    "flag": "🇩🇿",
   },
   {
     "id": 5,
@@ -42,7 +42,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "US Dollar",
     "currency_code": "USD",
     "iso2": "AS",
-    "flag": "🇦🇸"
+    "flag": "🇦🇸",
   },
   {
     "id": 6,
@@ -51,7 +51,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Euro",
     "currency_code": "EUR",
     "iso2": "AD",
-    "flag": "🇦🇩"
+    "flag": "🇦🇩",
   },
   {
     "id": 7,
@@ -60,7 +60,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Angolan kwanza",
     "currency_code": "AOA",
     "iso2": "AO",
-    "flag": "🇦🇴"
+    "flag": "🇦🇴",
   },
   {
     "id": 8,
@@ -69,7 +69,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "East Caribbean dollar",
     "currency_code": "XCD",
     "iso2": "AI",
-    "flag": "🇦🇮"
+    "flag": "🇦🇮",
   },
   {
     "id": 9,
@@ -78,7 +78,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Antarctican dollar",
     "currency_code": "AAD",
     "iso2": "AQ",
-    "flag": "🇦🇶"
+    "flag": "🇦🇶",
   },
   {
     "id": 10,
@@ -87,7 +87,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Eastern Caribbean dollar",
     "currency_code": "XCD",
     "iso2": "AG",
-    "flag": "🇦🇬"
+    "flag": "🇦🇬",
   },
   {
     "id": 11,
@@ -96,7 +96,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Argentine peso",
     "currency_code": "ARS",
     "iso2": "AR",
-    "flag": "🇦🇷"
+    "flag": "🇦🇷",
   },
   {
     "id": 12,
@@ -105,7 +105,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Armenian dram",
     "currency_code": "AMD",
     "iso2": "AM",
-    "flag": "🇦🇲"
+    "flag": "🇦🇲",
   },
   {
     "id": 13,
@@ -114,7 +114,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Aruban florin",
     "currency_code": "AWG",
     "iso2": "AW",
-    "flag": "🇦🇼"
+    "flag": "🇦🇼",
   },
   {
     "id": 14,
@@ -123,7 +123,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Australian dollar",
     "currency_code": "AUD",
     "iso2": "AU",
-    "flag": "🇦🇺"
+    "flag": "🇦🇺",
   },
   {
     "id": 15,
@@ -132,7 +132,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Euro",
     "currency_code": "EUR",
     "iso2": "AT",
-    "flag": "🇦🇹"
+    "flag": "🇦🇹",
   },
   {
     "id": 16,
@@ -141,7 +141,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Azerbaijani manat",
     "currency_code": "AZN",
     "iso2": "AZ",
-    "flag": "🇦🇿"
+    "flag": "🇦🇿",
   },
   {
     "id": 17,
@@ -150,7 +150,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Bahamian dollar",
     "currency_code": "BSD",
     "iso2": "BS",
-    "flag": "🇧🇸"
+    "flag": "🇧🇸",
   },
   {
     "id": 18,
@@ -159,7 +159,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Bahraini dinar",
     "currency_code": "BHD",
     "iso2": "BH",
-    "flag": "🇧🇭"
+    "flag": "🇧🇭",
   },
   {
     "id": 19,
@@ -168,7 +168,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Bangladeshi taka",
     "currency_code": "BDT",
     "iso2": "BD",
-    "flag": "🇧🇩"
+    "flag": "🇧🇩",
   },
   {
     "id": 20,
@@ -177,7 +177,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Barbadian dollar",
     "currency_code": "BBD",
     "iso2": "BB",
-    "flag": "🇧🇧"
+    "flag": "🇧🇧",
   },
   {
     "id": 21,
@@ -186,7 +186,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Belarusian ruble",
     "currency_code": "BYN",
     "iso2": "BY",
-    "flag": "🇧🇾"
+    "flag": "🇧🇾",
   },
   {
     "id": 22,
@@ -195,7 +195,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Euro",
     "currency_code": "EUR",
     "iso2": "BE",
-    "flag": "🇧🇪"
+    "flag": "🇧🇪",
   },
   {
     "id": 23,
@@ -204,7 +204,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Belize dollar",
     "currency_code": "BZD",
     "iso2": "BZ",
-    "flag": "🇧🇿"
+    "flag": "🇧🇿",
   },
   {
     "id": 24,
@@ -213,7 +213,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "West African CFA franc",
     "currency_code": "XOF",
     "iso2": "BJ",
-    "flag": "🇧🇯"
+    "flag": "🇧🇯",
   },
   {
     "id": 25,
@@ -222,7 +222,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Bermudian dollar",
     "currency_code": "BMD",
     "iso2": "BM",
-    "flag": "🇧🇲"
+    "flag": "🇧🇲",
   },
   {
     "id": 26,
@@ -231,7 +231,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Bhutanese ngultrum",
     "currency_code": "BTN",
     "iso2": "BT",
-    "flag": "🇧🇹"
+    "flag": "🇧🇹",
   },
   {
     "id": 27,
@@ -240,7 +240,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Bolivian boliviano",
     "currency_code": "BOB",
     "iso2": "BO",
-    "flag": "🇧🇴"
+    "flag": "🇧🇴",
   },
   {
     "id": 28,
@@ -249,7 +249,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Bosnia and Herzegovina convertible mark",
     "currency_code": "BAM",
     "iso2": "BA",
-    "flag": "🇧🇦"
+    "flag": "🇧🇦",
   },
   {
     "id": 29,
@@ -258,7 +258,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Botswana pula",
     "currency_code": "BWP",
     "iso2": "BW",
-    "flag": "🇧🇼"
+    "flag": "🇧🇼",
   },
   {
     "id": 30,
@@ -267,7 +267,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Norwegian Krone",
     "currency_code": "NOK",
     "iso2": "BV",
-    "flag": "🇧🇻"
+    "flag": "🇧🇻",
   },
   {
     "id": 31,
@@ -276,7 +276,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Brazilian real",
     "currency_code": "BRL",
     "iso2": "BR",
-    "flag": "🇧🇷"
+    "flag": "🇧🇷",
   },
   {
     "id": 32,
@@ -285,7 +285,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "United States dollar",
     "currency_code": "USD",
     "iso2": "IO",
-    "flag": "🇮🇴"
+    "flag": "🇮🇴",
   },
   {
     "id": 33,
@@ -294,7 +294,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Brunei dollar",
     "currency_code": "BND",
     "iso2": "BN",
-    "flag": "🇧🇳"
+    "flag": "🇧🇳",
   },
   {
     "id": 34,
@@ -303,7 +303,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Bulgarian lev",
     "currency_code": "BGN",
     "iso2": "BG",
-    "flag": "🇧🇬"
+    "flag": "🇧🇬",
   },
   {
     "id": 35,
@@ -312,7 +312,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "West African CFA franc",
     "currency_code": "XOF",
     "iso2": "BF",
-    "flag": "🇧🇫"
+    "flag": "🇧🇫",
   },
   {
     "id": 36,
@@ -321,7 +321,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Burundian franc",
     "currency_code": "BIF",
     "iso2": "BI",
-    "flag": "🇧🇮"
+    "flag": "🇧🇮",
   },
   {
     "id": 37,
@@ -330,7 +330,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Cambodian riel",
     "currency_code": "KHR",
     "iso2": "KH",
-    "flag": "🇰🇭"
+    "flag": "🇰🇭",
   },
   {
     "id": 38,
@@ -339,7 +339,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Central African CFA franc",
     "currency_code": "XAF",
     "iso2": "CM",
-    "flag": "🇨🇲"
+    "flag": "🇨🇲",
   },
   {
     "id": 39,
@@ -348,7 +348,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Canadian dollar",
     "currency_code": "CAD",
     "iso2": "CA",
-    "flag": "🇨🇦"
+    "flag": "🇨🇦",
   },
   {
     "id": 40,
@@ -357,7 +357,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Cape Verdean escudo",
     "currency_code": "CVE",
     "iso2": "CV",
-    "flag": "🇨🇻"
+    "flag": "🇨🇻",
   },
   {
     "id": 41,
@@ -366,7 +366,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Cayman Islands dollar",
     "currency_code": "KYD",
     "iso2": "KY",
-    "flag": "🇰🇾"
+    "flag": "🇰🇾",
   },
   {
     "id": 42,
@@ -375,7 +375,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Central African CFA franc",
     "currency_code": "XAF",
     "iso2": "CF",
-    "flag": "🇨🇫"
+    "flag": "🇨🇫",
   },
   {
     "id": 43,
@@ -384,7 +384,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Central African CFA franc",
     "currency_code": "XAF",
     "iso2": "TD",
-    "flag": "🇹🇩"
+    "flag": "🇹🇩",
   },
   {
     "id": 44,
@@ -393,7 +393,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Chilean peso",
     "currency_code": "CLP",
     "iso2": "CL",
-    "flag": "🇨🇱"
+    "flag": "🇨🇱",
   },
   {
     "id": 45,
@@ -402,7 +402,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Chinese yuan",
     "currency_code": "CNY",
     "iso2": "CN",
-    "flag": "🇨🇳"
+    "flag": "🇨🇳",
   },
   {
     "id": 46,
@@ -411,7 +411,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Australian dollar",
     "currency_code": "AUD",
     "iso2": "CX",
-    "flag": "🇨🇽"
+    "flag": "🇨🇽",
   },
   {
     "id": 47,
@@ -420,7 +420,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Australian dollar",
     "currency_code": "AUD",
     "iso2": "CC",
-    "flag": "🇨🇨"
+    "flag": "🇨🇨",
   },
   {
     "id": 48,
@@ -429,7 +429,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Colombian peso",
     "currency_code": "COP",
     "iso2": "CO",
-    "flag": "🇨🇴"
+    "flag": "🇨🇴",
   },
   {
     "id": 49,
@@ -438,7 +438,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Comorian franc",
     "currency_code": "KMF",
     "iso2": "KM",
-    "flag": "🇰🇲"
+    "flag": "🇰🇲",
   },
   {
     "id": 50,
@@ -447,7 +447,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Central African CFA franc",
     "currency_code": "XAF",
     "iso2": "CG",
-    "flag": "🇨🇬"
+    "flag": "🇨🇬",
   },
   {
     "id": 51,
@@ -456,7 +456,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Congolese Franc",
     "currency_code": "CDF",
     "iso2": "CD",
-    "flag": "🇨🇩"
+    "flag": "🇨🇩",
   },
   {
     "id": 52,
@@ -465,7 +465,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Cook Islands dollar",
     "currency_code": "NZD",
     "iso2": "CK",
-    "flag": "🇨🇰"
+    "flag": "🇨🇰",
   },
   {
     "id": 53,
@@ -474,7 +474,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Costa Rican colón",
     "currency_code": "CRC",
     "iso2": "CR",
-    "flag": "🇨🇷"
+    "flag": "🇨🇷",
   },
   {
     "id": 54,
@@ -483,7 +483,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "West African CFA franc",
     "currency_code": "XOF",
     "iso2": "CI",
-    "flag": "🇨🇮"
+    "flag": "🇨🇮",
   },
   {
     "id": 55,
@@ -492,7 +492,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Croatian kuna",
     "currency_code": "HRK",
     "iso2": "HR",
-    "flag": "🇭🇷"
+    "flag": "🇭🇷",
   },
   {
     "id": 56,
@@ -501,7 +501,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Cuban peso",
     "currency_code": "CUP",
     "iso2": "CU",
-    "flag": "🇨🇺"
+    "flag": "🇨🇺",
   },
   {
     "id": 57,
@@ -510,7 +510,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Euro",
     "currency_code": "EUR",
     "iso2": "CY",
-    "flag": "🇨🇾"
+    "flag": "🇨🇾",
   },
   {
     "id": 58,
@@ -519,7 +519,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Czech koruna",
     "currency_code": "CZK",
     "iso2": "CZ",
-    "flag": "🇨🇿"
+    "flag": "🇨🇿",
   },
   {
     "id": 59,
@@ -528,7 +528,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Danish krone",
     "currency_code": "DKK",
     "iso2": "DK",
-    "flag": "🇩🇰"
+    "flag": "🇩🇰",
   },
   {
     "id": 60,
@@ -537,7 +537,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Djiboutian franc",
     "currency_code": "DJF",
     "iso2": "DJ",
-    "flag": "🇩🇯"
+    "flag": "🇩🇯",
   },
   {
     "id": 61,
@@ -546,7 +546,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Eastern Caribbean dollar",
     "currency_code": "XCD",
     "iso2": "DM",
-    "flag": "🇩🇲"
+    "flag": "🇩🇲",
   },
   {
     "id": 62,
@@ -555,7 +555,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Dominican peso",
     "currency_code": "DOP",
     "iso2": "DO",
-    "flag": "🇩🇴"
+    "flag": "🇩🇴",
   },
   {
     "id": 63,
@@ -564,7 +564,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "United States dollar",
     "currency_code": "USD",
     "iso2": "TL",
-    "flag": "🇹🇱"
+    "flag": "🇹🇱",
   },
   {
     "id": 64,
@@ -573,7 +573,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "United States dollar",
     "currency_code": "USD",
     "iso2": "EC",
-    "flag": "🇪🇨"
+    "flag": "🇪🇨",
   },
   {
     "id": 65,
@@ -582,7 +582,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Egyptian pound",
     "currency_code": "EGP",
     "iso2": "EG",
-    "flag": "🇪🇬"
+    "flag": "🇪🇬",
   },
   {
     "id": 66,
@@ -591,7 +591,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "United States dollar",
     "currency_code": "USD",
     "iso2": "SV",
-    "flag": "🇸🇻"
+    "flag": "🇸🇻",
   },
   {
     "id": 67,
@@ -600,7 +600,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Central African CFA franc",
     "currency_code": "XAF",
     "iso2": "GQ",
-    "flag": "🇬🇶"
+    "flag": "🇬🇶",
   },
   {
     "id": 68,
@@ -609,7 +609,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Eritrean nakfa",
     "currency_code": "ERN",
     "iso2": "ER",
-    "flag": "🇪🇷"
+    "flag": "🇪🇷",
   },
   {
     "id": 69,
@@ -618,7 +618,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Euro",
     "currency_code": "EUR",
     "iso2": "EE",
-    "flag": "🇪🇪"
+    "flag": "🇪🇪",
   },
   {
     "id": 70,
@@ -627,7 +627,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Ethiopian birr",
     "currency_code": "ETB",
     "iso2": "ET",
-    "flag": "🇪🇹"
+    "flag": "🇪🇹",
   },
   {
     "id": 71,
@@ -636,7 +636,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Falkland Islands pound",
     "currency_code": "FKP",
     "iso2": "FK",
-    "flag": "🇫🇰"
+    "flag": "🇫🇰",
   },
   {
     "id": 72,
@@ -645,7 +645,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Danish krone",
     "currency_code": "DKK",
     "iso2": "FO",
-    "flag": "🇫🇴"
+    "flag": "🇫🇴",
   },
   {
     "id": 73,
@@ -654,7 +654,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Fijian dollar",
     "currency_code": "FJD",
     "iso2": "FJ",
-    "flag": "🇫🇯"
+    "flag": "🇫🇯",
   },
   {
     "id": 74,
@@ -663,7 +663,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Euro",
     "currency_code": "EUR",
     "iso2": "FI",
-    "flag": "🇫🇮"
+    "flag": "🇫🇮",
   },
   {
     "id": 75,
@@ -672,7 +672,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Euro",
     "currency_code": "EUR",
     "iso2": "FR",
-    "flag": "🇫🇷"
+    "flag": "🇫🇷",
   },
   {
     "id": 76,
@@ -681,7 +681,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Euro",
     "currency_code": "EUR",
     "iso2": "GF",
-    "flag": "🇬🇫"
+    "flag": "🇬🇫",
   },
   {
     "id": 77,
@@ -690,7 +690,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "CFP franc",
     "currency_code": "XPF",
     "iso2": "PF",
-    "flag": "🇵🇫"
+    "flag": "🇵🇫",
   },
   {
     "id": 78,
@@ -699,7 +699,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Euro",
     "currency_code": "EUR",
     "iso2": "TF",
-    "flag": "🇹🇫"
+    "flag": "🇹🇫",
   },
   {
     "id": 79,
@@ -708,7 +708,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Central African CFA franc",
     "currency_code": "XAF",
     "iso2": "GA",
-    "flag": "🇬🇦"
+    "flag": "🇬🇦",
   },
   {
     "id": 80,
@@ -717,7 +717,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Gambian dalasi",
     "currency_code": "GMD",
     "iso2": "GM",
-    "flag": "🇬🇲"
+    "flag": "🇬🇲",
   },
   {
     "id": 81,
@@ -726,7 +726,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Georgian lari",
     "currency_code": "GEL",
     "iso2": "GE",
-    "flag": "🇬🇪"
+    "flag": "🇬🇪",
   },
   {
     "id": 82,
@@ -735,7 +735,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Euro",
     "currency_code": "EUR",
     "iso2": "DE",
-    "flag": "🇩🇪"
+    "flag": "🇩🇪",
   },
   {
     "id": 83,
@@ -744,7 +744,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Ghanaian cedi",
     "currency_code": "GHS",
     "iso2": "GH",
-    "flag": "🇬🇭"
+    "flag": "🇬🇭",
   },
   {
     "id": 84,
@@ -753,7 +753,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Gibraltar pound",
     "currency_code": "GIP",
     "iso2": "GI",
-    "flag": "🇬🇮"
+    "flag": "🇬🇮",
   },
   {
     "id": 85,
@@ -762,7 +762,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Euro",
     "currency_code": "EUR",
     "iso2": "GR",
-    "flag": "🇬🇷"
+    "flag": "🇬🇷",
   },
   {
     "id": 86,
@@ -771,7 +771,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Danish krone",
     "currency_code": "DKK",
     "iso2": "GL",
-    "flag": "🇬🇱"
+    "flag": "🇬🇱",
   },
   {
     "id": 87,
@@ -780,7 +780,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Eastern Caribbean dollar",
     "currency_code": "XCD",
     "iso2": "GD",
-    "flag": "🇬🇩"
+    "flag": "🇬🇩",
   },
   {
     "id": 88,
@@ -789,7 +789,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Euro",
     "currency_code": "EUR",
     "iso2": "GP",
-    "flag": "🇬🇵"
+    "flag": "🇬🇵",
   },
   {
     "id": 89,
@@ -798,7 +798,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "US Dollar",
     "currency_code": "USD",
     "iso2": "GU",
-    "flag": "🇬🇺"
+    "flag": "🇬🇺",
   },
   {
     "id": 90,
@@ -807,7 +807,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Guatemalan quetzal",
     "currency_code": "GTQ",
     "iso2": "GT",
-    "flag": "🇬🇹"
+    "flag": "🇬🇹",
   },
   {
     "id": 91,
@@ -816,7 +816,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "British pound",
     "currency_code": "GBP",
     "iso2": "GG",
-    "flag": "🇬🇬"
+    "flag": "🇬🇬",
   },
   {
     "id": 92,
@@ -825,7 +825,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Guinean franc",
     "currency_code": "GNF",
     "iso2": "GN",
-    "flag": "🇬🇳"
+    "flag": "🇬🇳",
   },
   {
     "id": 93,
@@ -834,7 +834,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "West African CFA franc",
     "currency_code": "XOF",
     "iso2": "GW",
-    "flag": "🇬🇼"
+    "flag": "🇬🇼",
   },
   {
     "id": 94,
@@ -843,7 +843,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Guyanese dollar",
     "currency_code": "GYD",
     "iso2": "GY",
-    "flag": "🇬🇾"
+    "flag": "🇬🇾",
   },
   {
     "id": 95,
@@ -852,7 +852,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Haitian gourde",
     "currency_code": "HTG",
     "iso2": "HT",
-    "flag": "🇭🇹"
+    "flag": "🇭🇹",
   },
   {
     "id": 96,
@@ -861,7 +861,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Australian dollar",
     "currency_code": "AUD",
     "iso2": "HM",
-    "flag": "🇭🇲"
+    "flag": "🇭🇲",
   },
   {
     "id": 97,
@@ -870,7 +870,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Honduran lempira",
     "currency_code": "HNL",
     "iso2": "HN",
-    "flag": "🇭🇳"
+    "flag": "🇭🇳",
   },
   {
     "id": 98,
@@ -879,7 +879,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Hong Kong dollar",
     "currency_code": "HKD",
     "iso2": "HK",
-    "flag": "🇭🇰"
+    "flag": "🇭🇰",
   },
   {
     "id": 99,
@@ -888,7 +888,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Hungarian forint",
     "currency_code": "HUF",
     "iso2": "HU",
-    "flag": "🇭🇺"
+    "flag": "🇭🇺",
   },
   {
     "id": 100,
@@ -897,7 +897,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Icelandic króna",
     "currency_code": "ISK",
     "iso2": "IS",
-    "flag": "🇮🇸"
+    "flag": "🇮🇸",
   },
   {
     "id": 101,
@@ -906,7 +906,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Indian rupee",
     "currency_code": "INR",
     "iso2": "IN",
-    "flag": "🇮🇳"
+    "flag": "🇮🇳",
   },
   {
     "id": 102,
@@ -915,7 +915,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Indonesian rupiah",
     "currency_code": "IDR",
     "iso2": "ID",
-    "flag": "🇮🇩"
+    "flag": "🇮🇩",
   },
   {
     "id": 103,
@@ -924,7 +924,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Iranian rial",
     "currency_code": "IRR",
     "iso2": "IR",
-    "flag": "🇮🇷"
+    "flag": "🇮🇷",
   },
   {
     "id": 104,
@@ -933,16 +933,16 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Iraqi dinar",
     "currency_code": "IQD",
     "iso2": "IQ",
-    "flag": "🇮🇶"
+    "flag": "🇮🇶",
   },
-    {
+  {
     "id": 105,
     "name": "Ireland",
     "mobile_code": "353",
     "currency_name": "Euro",
     "currency_code": "EUR",
     "iso2": "IE",
-    "flag": "🇮🇪"
+    "flag": "🇮🇪",
   },
   {
     "id": 106,
@@ -951,7 +951,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Israeli new shekel",
     "currency_code": "ILS",
     "iso2": "IL",
-    "flag": "🇮🇱"
+    "flag": "🇮🇱",
   },
   {
     "id": 107,
@@ -960,7 +960,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Euro",
     "currency_code": "EUR",
     "iso2": "IT",
-    "flag": "🇮🇹"
+    "flag": "🇮🇹",
   },
   {
     "id": 108,
@@ -969,7 +969,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Jamaican dollar",
     "currency_code": "JMD",
     "iso2": "JM",
-    "flag": "🇯🇲"
+    "flag": "🇯🇲",
   },
   {
     "id": 109,
@@ -978,7 +978,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Japanese yen",
     "currency_code": "JPY",
     "iso2": "JP",
-    "flag": "🇯🇵"
+    "flag": "🇯🇵",
   },
   {
     "id": 110,
@@ -987,7 +987,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "British pound",
     "currency_code": "GBP",
     "iso2": "JE",
-    "flag": "🇯🇪"
+    "flag": "🇯🇪",
   },
   {
     "id": 111,
@@ -996,7 +996,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Jordanian dinar",
     "currency_code": "JOD",
     "iso2": "JO",
-    "flag": "🇯🇴"
+    "flag": "🇯🇴",
   },
   {
     "id": 112,
@@ -1005,7 +1005,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Kazakhstani tenge",
     "currency_code": "KZT",
     "iso2": "KZ",
-    "flag": "🇰🇿"
+    "flag": "🇰🇿",
   },
   {
     "id": 113,
@@ -1014,7 +1014,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Kenyan shilling",
     "currency_code": "KES",
     "iso2": "KE",
-    "flag": "🇰🇪"
+    "flag": "🇰🇪",
   },
   {
     "id": 114,
@@ -1023,7 +1023,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Australian dollar",
     "currency_code": "AUD",
     "iso2": "KI",
-    "flag": "🇰🇮"
+    "flag": "🇰🇮",
   },
   {
     "id": 115,
@@ -1032,7 +1032,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "North Korean Won",
     "currency_code": "KPW",
     "iso2": "KP",
-    "flag": "🇰🇵"
+    "flag": "🇰🇵",
   },
   {
     "id": 116,
@@ -1041,7 +1041,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Won",
     "currency_code": "KRW",
     "iso2": "KR",
-    "flag": "🇰🇷"
+    "flag": "🇰🇷",
   },
   {
     "id": 117,
@@ -1050,7 +1050,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Kuwaiti dinar",
     "currency_code": "KWD",
     "iso2": "KW",
-    "flag": "🇰🇼"
+    "flag": "🇰🇼",
   },
   {
     "id": 118,
@@ -1059,7 +1059,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Kyrgyzstani som",
     "currency_code": "KGS",
     "iso2": "KG",
-    "flag": "🇰🇬"
+    "flag": "🇰🇬",
   },
   {
     "id": 119,
@@ -1068,7 +1068,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Lao kip",
     "currency_code": "LAK",
     "iso2": "LA",
-    "flag": "🇱🇦"
+    "flag": "🇱🇦",
   },
   {
     "id": 120,
@@ -1077,7 +1077,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Euro",
     "currency_code": "EUR",
     "iso2": "LV",
-    "flag": "🇱🇻"
+    "flag": "🇱🇻",
   },
   {
     "id": 121,
@@ -1086,7 +1086,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Lebanese pound",
     "currency_code": "LBP",
     "iso2": "LB",
-    "flag": "🇱🇧"
+    "flag": "🇱🇧",
   },
   {
     "id": 122,
@@ -1095,7 +1095,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Lesotho loti",
     "currency_code": "LSL",
     "iso2": "LS",
-    "flag": "🇱🇸"
+    "flag": "🇱🇸",
   },
   {
     "id": 123,
@@ -1104,7 +1104,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Liberian dollar",
     "currency_code": "LRD",
     "iso2": "LR",
-    "flag": "🇱🇷"
+    "flag": "🇱🇷",
   },
   {
     "id": 124,
@@ -1113,7 +1113,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Libyan dinar",
     "currency_code": "LYD",
     "iso2": "LY",
-    "flag": "🇱🇾"
+    "flag": "🇱🇾",
   },
   {
     "id": 125,
@@ -1122,7 +1122,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Swiss franc",
     "currency_code": "CHF",
     "iso2": "LI",
-    "flag": "🇱🇮"
+    "flag": "🇱🇮",
   },
   {
     "id": 126,
@@ -1131,7 +1131,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Euro",
     "currency_code": "EUR",
     "iso2": "LT",
-    "flag": "🇱🇹"
+    "flag": "🇱🇹",
   },
   {
     "id": 127,
@@ -1140,7 +1140,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Euro",
     "currency_code": "EUR",
     "iso2": "LU",
-    "flag": "🇱🇺"
+    "flag": "🇱🇺",
   },
   {
     "id": 128,
@@ -1149,7 +1149,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Macanese pataca",
     "currency_code": "MOP",
     "iso2": "MO",
-    "flag": "🇲🇴"
+    "flag": "🇲🇴",
   },
   {
     "id": 129,
@@ -1158,7 +1158,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Denar",
     "currency_code": "MKD",
     "iso2": "MK",
-    "flag": "🇲🇰"
+    "flag": "🇲🇰",
   },
   {
     "id": 130,
@@ -1167,7 +1167,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Malagasy ariary",
     "currency_code": "MGA",
     "iso2": "MG",
-    "flag": "🇲🇬"
+    "flag": "🇲🇬",
   },
   {
     "id": 131,
@@ -1176,7 +1176,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Malawian kwacha",
     "currency_code": "MWK",
     "iso2": "MW",
-    "flag": "🇲🇼"
+    "flag": "🇲🇼",
   },
   {
     "id": 132,
@@ -1185,7 +1185,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Malaysian ringgit",
     "currency_code": "MYR",
     "iso2": "MY",
-    "flag": "🇲🇾"
+    "flag": "🇲🇾",
   },
   {
     "id": 133,
@@ -1194,7 +1194,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Maldivian rufiyaa",
     "currency_code": "MVR",
     "iso2": "MV",
-    "flag": "🇲🇻"
+    "flag": "🇲🇻",
   },
   {
     "id": 134,
@@ -1203,7 +1203,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "West African CFA franc",
     "currency_code": "XOF",
     "iso2": "ML",
-    "flag": "🇲🇱"
+    "flag": "🇲🇱",
   },
   {
     "id": 135,
@@ -1212,7 +1212,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Euro",
     "currency_code": "EUR",
     "iso2": "MT",
-    "flag": "🇲🇹"
+    "flag": "🇲🇹",
   },
   {
     "id": 136,
@@ -1221,7 +1221,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "British pound",
     "currency_code": "GBP",
     "iso2": "IM",
-    "flag": "🇮🇲"
+    "flag": "🇮🇲",
   },
   {
     "id": 137,
@@ -1230,7 +1230,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "United States dollar",
     "currency_code": "USD",
     "iso2": "MH",
-    "flag": "🇲🇭"
+    "flag": "🇲🇭",
   },
   {
     "id": 138,
@@ -1239,7 +1239,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Euro",
     "currency_code": "EUR",
     "iso2": "MQ",
-    "flag": "🇲🇶"
+    "flag": "🇲🇶",
   },
   {
     "id": 139,
@@ -1248,7 +1248,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Mauritanian ouguiya",
     "currency_code": "MRO",
     "iso2": "MR",
-    "flag": "🇲🇷"
+    "flag": "🇲🇷",
   },
   {
     "id": 140,
@@ -1257,7 +1257,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Mauritian rupee",
     "currency_code": "MUR",
     "iso2": "MU",
-    "flag": "🇲🇺"
+    "flag": "🇲🇺",
   },
   {
     "id": 141,
@@ -1266,7 +1266,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Euro",
     "currency_code": "EUR",
     "iso2": "YT",
-    "flag": "🇾🇹"
+    "flag": "🇾🇹",
   },
   {
     "id": 142,
@@ -1275,7 +1275,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Mexican peso",
     "currency_code": "MXN",
     "iso2": "MX",
-    "flag": "🇲🇽"
+    "flag": "🇲🇽",
   },
   {
     "id": 143,
@@ -1284,7 +1284,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "United States dollar",
     "currency_code": "USD",
     "iso2": "FM",
-    "flag": "🇫🇲"
+    "flag": "🇫🇲",
   },
   {
     "id": 144,
@@ -1293,7 +1293,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Moldovan leu",
     "currency_code": "MDL",
     "iso2": "MD",
-    "flag": "🇲🇩"
+    "flag": "🇲🇩",
   },
   {
     "id": 145,
@@ -1302,7 +1302,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Euro",
     "currency_code": "EUR",
     "iso2": "MC",
-    "flag": "🇲🇨"
+    "flag": "🇲🇨",
   },
   {
     "id": 146,
@@ -1311,7 +1311,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Mongolian tögrög",
     "currency_code": "MNT",
     "iso2": "MN",
-    "flag": "🇲🇳"
+    "flag": "🇲🇳",
   },
   {
     "id": 147,
@@ -1320,7 +1320,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Euro",
     "currency_code": "EUR",
     "iso2": "ME",
-    "flag": "🇲🇪"
+    "flag": "🇲🇪",
   },
   {
     "id": 148,
@@ -1329,7 +1329,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Eastern Caribbean dollar",
     "currency_code": "XCD",
     "iso2": "MS",
-    "flag": "🇲🇸"
+    "flag": "🇲🇸",
   },
   {
     "id": 149,
@@ -1338,7 +1338,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Moroccan dirham",
     "currency_code": "MAD",
     "iso2": "MA",
-    "flag": "🇲🇦"
+    "flag": "🇲🇦",
   },
   {
     "id": 150,
@@ -1347,7 +1347,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Mozambican metical",
     "currency_code": "MZN",
     "iso2": "MZ",
-    "flag": "🇲🇿"
+    "flag": "🇲🇿",
   },
   {
     "id": 151,
@@ -1356,7 +1356,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Burmese kyat",
     "currency_code": "MMK",
     "iso2": "MM",
-    "flag": "🇲🇲"
+    "flag": "🇲🇲",
   },
   {
     "id": 152,
@@ -1365,7 +1365,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Namibian dollar",
     "currency_code": "NAD",
     "iso2": "NA",
-    "flag": "🇳🇦"
+    "flag": "🇳🇦",
   },
   {
     "id": 153,
@@ -1374,7 +1374,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Australian dollar",
     "currency_code": "AUD",
     "iso2": "NR",
-    "flag": "🇳🇷"
+    "flag": "🇳🇷",
   },
   {
     "id": 154,
@@ -1383,7 +1383,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Nepalese rupee",
     "currency_code": "NPR",
     "iso2": "NP",
-    "flag": "🇳🇵"
+    "flag": "🇳🇵",
   },
   {
     "id": 155,
@@ -1392,7 +1392,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "United States dollar",
     "currency_code": "USD",
     "iso2": "BQ",
-    "flag": "🇧🇶"
+    "flag": "🇧🇶",
   },
   {
     "id": 156,
@@ -1401,7 +1401,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Euro",
     "currency_code": "EUR",
     "iso2": "NL",
-    "flag": "🇳🇱"
+    "flag": "🇳🇱",
   },
   {
     "id": 157,
@@ -1410,7 +1410,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "CFP franc",
     "currency_code": "XPF",
     "iso2": "NC",
-    "flag": "🇳🇨"
+    "flag": "🇳🇨",
   },
   {
     "id": 158,
@@ -1419,7 +1419,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "New Zealand dollar",
     "currency_code": "NZD",
     "iso2": "NZ",
-    "flag": "🇳🇿"
+    "flag": "🇳🇿",
   },
   {
     "id": 159,
@@ -1428,7 +1428,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Nicaraguan córdoba",
     "currency_code": "NIO",
     "iso2": "NI",
-    "flag": "🇳🇮"
+    "flag": "🇳🇮",
   },
   {
     "id": 160,
@@ -1437,7 +1437,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "West African CFA franc",
     "currency_code": "XOF",
     "iso2": "NE",
-    "flag": "🇳🇪"
+    "flag": "🇳🇪",
   },
   {
     "id": 161,
@@ -1446,7 +1446,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Nigerian naira",
     "currency_code": "NGN",
     "iso2": "NG",
-    "flag": "🇳🇬"
+    "flag": "🇳🇬",
   },
   {
     "id": 162,
@@ -1455,7 +1455,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "New Zealand dollar",
     "currency_code": "NZD",
     "iso2": "NU",
-    "flag": "🇳🇺"
+    "flag": "🇳🇺",
   },
   {
     "id": 163,
@@ -1464,7 +1464,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Australian dollar",
     "currency_code": "AUD",
     "iso2": "NF",
-    "flag": "🇳🇫"
+    "flag": "🇳🇫",
   },
   {
     "id": 164,
@@ -1473,7 +1473,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "United States dollar",
     "currency_code": "USD",
     "iso2": "MP",
-    "flag": "🇲🇵"
+    "flag": "🇲🇵",
   },
   {
     "id": 165,
@@ -1482,7 +1482,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Norwegian krone",
     "currency_code": "NOK",
     "iso2": "NO",
-    "flag": "🇳🇴"
+    "flag": "🇳🇴",
   },
   {
     "id": 166,
@@ -1491,7 +1491,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Omani rial",
     "currency_code": "OMR",
     "iso2": "OM",
-    "flag": "🇴🇲"
+    "flag": "🇴🇲",
   },
   {
     "id": 167,
@@ -1500,7 +1500,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Pakistani rupee",
     "currency_code": "PKR",
     "iso2": "PK",
-    "flag": "🇵🇰"
+    "flag": "🇵🇰",
   },
   {
     "id": 168,
@@ -1509,7 +1509,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "United States dollar",
     "currency_code": "USD",
     "iso2": "PW",
-    "flag": "🇵🇼"
+    "flag": "🇵🇼",
   },
   {
     "id": 169,
@@ -1518,7 +1518,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Israeli new shekel",
     "currency_code": "ILS",
     "iso2": "PS",
-    "flag": "🇵🇸"
+    "flag": "🇵🇸",
   },
   {
     "id": 170,
@@ -1527,7 +1527,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Panamanian balboa",
     "currency_code": "PAB",
     "iso2": "PA",
-    "flag": "🇵🇦"
+    "flag": "🇵🇦",
   },
   {
     "id": 171,
@@ -1536,7 +1536,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Papua New Guinean kina",
     "currency_code": "PGK",
     "iso2": "PG",
-    "flag": "🇵🇬"
+    "flag": "🇵🇬",
   },
   {
     "id": 172,
@@ -1545,7 +1545,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Paraguayan guarani",
     "currency_code": "PYG",
     "iso2": "PY",
-    "flag": "🇵🇾"
+    "flag": "🇵🇾",
   },
   {
     "id": 173,
@@ -1554,7 +1554,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Peruvian sol",
     "currency_code": "PEN",
     "iso2": "PE",
-    "flag": "🇵🇪"
+    "flag": "🇵🇪",
   },
   {
     "id": 174,
@@ -1563,7 +1563,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Philippine peso",
     "currency_code": "PHP",
     "iso2": "PH",
-    "flag": "🇵🇭"
+    "flag": "🇵🇭",
   },
   {
     "id": 175,
@@ -1572,7 +1572,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "New Zealand dollar",
     "currency_code": "NZD",
     "iso2": "PN",
-    "flag": "🇵🇳"
+    "flag": "🇵🇳",
   },
   {
     "id": 176,
@@ -1581,7 +1581,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Polish złoty",
     "currency_code": "PLN",
     "iso2": "PL",
-    "flag": "🇵🇱"
+    "flag": "🇵🇱",
   },
   {
     "id": 177,
@@ -1590,7 +1590,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Euro",
     "currency_code": "EUR",
     "iso2": "PT",
-    "flag": "🇵🇹"
+    "flag": "🇵🇹",
   },
   {
     "id": 178,
@@ -1599,7 +1599,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "United States dollar",
     "currency_code": "USD",
     "iso2": "PR",
-    "flag": "🇵🇷"
+    "flag": "🇵🇷",
   },
   {
     "id": 179,
@@ -1608,7 +1608,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Qatari riyal",
     "currency_code": "QAR",
     "iso2": "QA",
-    "flag": "🇶🇦"
+    "flag": "🇶🇦",
   },
   {
     "id": 180,
@@ -1617,7 +1617,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Euro",
     "currency_code": "EUR",
     "iso2": "RE",
-    "flag": "🇷🇪"
+    "flag": "🇷🇪",
   },
   {
     "id": 181,
@@ -1626,7 +1626,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Romanian leu",
     "currency_code": "RON",
     "iso2": "RO",
-    "flag": "🇷🇴"
+    "flag": "🇷🇴",
   },
   {
     "id": 182,
@@ -1635,7 +1635,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Russian ruble",
     "currency_code": "RUB",
     "iso2": "RU",
-    "flag": "🇷🇺"
+    "flag": "🇷🇺",
   },
   {
     "id": 183,
@@ -1644,7 +1644,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Rwandan franc",
     "currency_code": "RWF",
     "iso2": "RW",
-    "flag": "🇷🇼"
+    "flag": "🇷🇼",
   },
   {
     "id": 184,
@@ -1653,7 +1653,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Saint Helena pound",
     "currency_code": "SHP",
     "iso2": "SH",
-    "flag": "🇸🇭"
+    "flag": "🇸🇭",
   },
   {
     "id": 185,
@@ -1662,7 +1662,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Eastern Caribbean dollar",
     "currency_code": "XCD",
     "iso2": "KN",
-    "flag": "🇰🇳"
+    "flag": "🇰🇳",
   },
   {
     "id": 186,
@@ -1671,7 +1671,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Eastern Caribbean dollar",
     "currency_code": "XCD",
     "iso2": "LC",
-    "flag": "🇱🇨"
+    "flag": "🇱🇨",
   },
   {
     "id": 187,
@@ -1680,7 +1680,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Euro",
     "currency_code": "EUR",
     "iso2": "PM",
-    "flag": "🇵🇲"
+    "flag": "🇵🇲",
   },
   {
     "id": 188,
@@ -1689,7 +1689,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Eastern Caribbean dollar",
     "currency_code": "XCD",
     "iso2": "VC",
-    "flag": "🇻🇨"
+    "flag": "🇻🇨",
   },
   {
     "id": 189,
@@ -1698,7 +1698,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Euro",
     "currency_code": "EUR",
     "iso2": "BL",
-    "flag": "🇧🇱"
+    "flag": "🇧🇱",
   },
   {
     "id": 190,
@@ -1707,7 +1707,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Euro",
     "currency_code": "EUR",
     "iso2": "MF",
-    "flag": "🇲🇫"
+    "flag": "🇲🇫",
   },
   {
     "id": 191,
@@ -1716,7 +1716,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Samoan tālā",
     "currency_code": "WST",
     "iso2": "WS",
-    "flag": "🇼🇸"
+    "flag": "🇼🇸",
   },
   {
     "id": 192,
@@ -1725,7 +1725,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Euro",
     "currency_code": "EUR",
     "iso2": "SM",
-    "flag": "🇸🇲"
+    "flag": "🇸🇲",
   },
   {
     "id": 193,
@@ -1734,7 +1734,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Dobra",
     "currency_code": "STD",
     "iso2": "ST",
-    "flag": "🇸🇹"
+    "flag": "🇸🇹",
   },
   {
     "id": 194,
@@ -1743,7 +1743,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Saudi riyal",
     "currency_code": "SAR",
     "iso2": "SA",
-    "flag": "🇸🇦"
+    "flag": "🇸🇦",
   },
   {
     "id": 195,
@@ -1752,7 +1752,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "West African CFA franc",
     "currency_code": "XOF",
     "iso2": "SN",
-    "flag": "🇸🇳"
+    "flag": "🇸🇳",
   },
   {
     "id": 196,
@@ -1761,7 +1761,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Serbian dinar",
     "currency_code": "RSD",
     "iso2": "RS",
-    "flag": "🇷🇸"
+    "flag": "🇷🇸",
   },
   {
     "id": 197,
@@ -1770,7 +1770,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Seychellois rupee",
     "currency_code": "SCR",
     "iso2": "SC",
-    "flag": "🇸🇨"
+    "flag": "🇸🇨",
   },
   {
     "id": 198,
@@ -1779,7 +1779,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Sierra Leonean leone",
     "currency_code": "SLL",
     "iso2": "SL",
-    "flag": "🇸🇱"
+    "flag": "🇸🇱",
   },
   {
     "id": 199,
@@ -1788,7 +1788,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Singapore dollar",
     "currency_code": "SGD",
     "iso2": "SG",
-    "flag": "🇸🇬"
+    "flag": "🇸🇬",
   },
   {
     "id": 200,
@@ -1797,7 +1797,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Euro",
     "currency_code": "EUR",
     "iso2": "SK",
-    "flag": "🇸🇰"
+    "flag": "🇸🇰",
   },
   {
     "id": 201,
@@ -1806,7 +1806,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Euro",
     "currency_code": "EUR",
     "iso2": "SI",
-    "flag": "🇸🇮"
+    "flag": "🇸🇮",
   },
   {
     "id": 202,
@@ -1815,7 +1815,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Solomon Islands dollar",
     "currency_code": "SBD",
     "iso2": "SB",
-    "flag": "🇸🇧"
+    "flag": "🇸🇧",
   },
   {
     "id": 203,
@@ -1824,7 +1824,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Somali shilling",
     "currency_code": "SOS",
     "iso2": "SO",
-    "flag": "🇸🇴"
+    "flag": "🇸🇴",
   },
   {
     "id": 204,
@@ -1833,7 +1833,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "South African rand",
     "currency_code": "ZAR",
     "iso2": "ZA",
-    "flag": "🇿🇦"
+    "flag": "🇿🇦",
   },
   {
     "id": 205,
@@ -1842,7 +1842,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "British pound",
     "currency_code": "GBP",
     "iso2": "GS",
-    "flag": "🇬🇸"
+    "flag": "🇬🇸",
   },
   {
     "id": 206,
@@ -1851,7 +1851,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "South Sudanese pound",
     "currency_code": "SSP",
     "iso2": "SS",
-    "flag": "🇸🇸"
+    "flag": "🇸🇸",
   },
   {
     "id": 207,
@@ -1860,7 +1860,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Euro",
     "currency_code": "EUR",
     "iso2": "ES",
-    "flag": "🇪🇸"
+    "flag": "🇪🇸",
   },
   {
     "id": 208,
@@ -1868,8 +1868,8 @@ const List<Map<String, dynamic>> countryList = [
     "mobile_code": "94",
     "currency_name": "Sri Lankan rupee",
     "currency_code": "LKR",
-        "iso2": "LK",
-    "flag": "🇱🇰"
+    "iso2": "LK",
+    "flag": "🇱🇰",
   },
   {
     "id": 209,
@@ -1878,7 +1878,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Sudanese pound",
     "currency_code": "SDG",
     "iso2": "SD",
-    "flag": "🇸🇩"
+    "flag": "🇸🇩",
   },
   {
     "id": 210,
@@ -1887,7 +1887,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Surinamese dollar",
     "currency_code": "SRD",
     "iso2": "SR",
-    "flag": "🇸🇷"
+    "flag": "🇸🇷",
   },
   {
     "id": 211,
@@ -1896,7 +1896,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Norwegian Krone",
     "currency_code": "NOK",
     "iso2": "SJ",
-    "flag": "🇸🇯"
+    "flag": "🇸🇯",
   },
   {
     "id": 212,
@@ -1905,7 +1905,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Lilangeni",
     "currency_code": "SZL",
     "iso2": "SZ",
-    "flag": "🇸🇿"
+    "flag": "🇸🇿",
   },
   {
     "id": 213,
@@ -1914,7 +1914,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Swedish krona",
     "currency_code": "SEK",
     "iso2": "SE",
-    "flag": "🇸🇪"
+    "flag": "🇸🇪",
   },
   {
     "id": 214,
@@ -1923,7 +1923,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Swiss franc",
     "currency_code": "CHF",
     "iso2": "🇨🇭",
-    "flag": "🇨🇭"
+    "flag": "🇨🇭",
   },
   {
     "id": 215,
@@ -1932,7 +1932,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Syrian pound",
     "currency_code": "SYP",
     "iso2": "SY",
-    "flag": "🇸🇾"
+    "flag": "🇸🇾",
   },
   {
     "id": 216,
@@ -1941,7 +1941,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "New Taiwan dollar",
     "currency_code": "TWD",
     "iso2": "TW",
-    "flag": "🇹🇼"
+    "flag": "🇹🇼",
   },
   {
     "id": 217,
@@ -1950,7 +1950,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Tajikistani somoni",
     "currency_code": "TJS",
     "iso2": "TJ",
-    "flag": "🇹🇯"
+    "flag": "🇹🇯",
   },
   {
     "id": 218,
@@ -1959,7 +1959,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Tanzanian shilling",
     "currency_code": "TZS",
     "iso2": "TZ",
-    "flag": "🇹🇿"
+    "flag": "🇹🇿",
   },
   {
     "id": 219,
@@ -1968,7 +1968,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Thai baht",
     "currency_code": "THB",
     "iso2": "TH",
-    "flag": "🇹🇭"
+    "flag": "🇹🇭",
   },
   {
     "id": 220,
@@ -1977,7 +1977,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "West African CFA franc",
     "currency_code": "XOF",
     "iso2": "TG",
-    "flag": "🇹🇬"
+    "flag": "🇹🇬",
   },
   {
     "id": 221,
@@ -1986,7 +1986,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "New Zealand dollar",
     "currency_code": "NZD",
     "iso2": "TK",
-    "flag": "🇹🇰"
+    "flag": "🇹🇰",
   },
   {
     "id": 222,
@@ -1995,7 +1995,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Tongan paʻanga",
     "currency_code": "TOP",
     "iso2": "TO",
-    "flag": "🇹🇴"
+    "flag": "🇹🇴",
   },
   {
     "id": 223,
@@ -2004,7 +2004,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Trinidad and Tobago dollar",
     "currency_code": "TTD",
     "iso2": "TT",
-    "flag": "🇹🇹"
+    "flag": "🇹🇹",
   },
   {
     "id": 224,
@@ -2013,7 +2013,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Tunisian dinar",
     "currency_code": "TND",
     "iso2": "TN",
-    "flag": "🇹🇳"
+    "flag": "🇹🇳",
   },
   {
     "id": 225,
@@ -2022,7 +2022,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Turkish lira",
     "currency_code": "TRY",
     "iso2": "TR",
-    "flag": "🇹🇷"
+    "flag": "🇹🇷",
   },
   {
     "id": 226,
@@ -2031,7 +2031,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Turkmenistan manat",
     "currency_code": "TMT",
     "iso2": "TM",
-    "flag": "🇹🇲"
+    "flag": "🇹🇲",
   },
   {
     "id": 227,
@@ -2040,7 +2040,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "United States dollar",
     "currency_code": "USD",
     "iso2": "TC",
-    "flag": "🇹🇨"
+    "flag": "🇹🇨",
   },
   {
     "id": 228,
@@ -2049,7 +2049,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Australian dollar",
     "currency_code": "AUD",
     "iso2": "TV",
-    "flag": "🇹🇻"
+    "flag": "🇹🇻",
   },
   {
     "id": 229,
@@ -2058,7 +2058,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Ugandan shilling",
     "currency_code": "UGX",
     "iso2": "UG",
-    "flag": "🇺🇬"
+    "flag": "🇺🇬",
   },
   {
     "id": 230,
@@ -2067,7 +2067,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Ukrainian hryvnia",
     "currency_code": "UAH",
     "iso2": "UA",
-    "flag": "🇺🇦"
+    "flag": "🇺🇦",
   },
   {
     "id": 231,
@@ -2076,7 +2076,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "United Arab Emirates dirham",
     "currency_code": "AED",
     "iso2": "AE",
-    "flag": "🇦🇪"
+    "flag": "🇦🇪",
   },
   {
     "id": 232,
@@ -2085,7 +2085,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "British pound",
     "currency_code": "GBP",
     "iso2": "GB",
-    "flag": "🇬🇧"
+    "flag": "🇬🇧",
   },
   {
     "id": 233,
@@ -2094,7 +2094,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "United States dollar",
     "currency_code": "USD",
     "iso2": "US",
-    "flag": "🇺🇸"
+    "flag": "🇺🇸",
   },
   {
     "id": 234,
@@ -2103,7 +2103,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "United States dollar",
     "currency_code": "USD",
     "iso2": "UM",
-    "flag": "🇺🇲"
+    "flag": "🇺🇲",
   },
   {
     "id": 235,
@@ -2112,7 +2112,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Uruguayan peso",
     "currency_code": "UYU",
     "iso2": "UY",
-    "flag": "🇺🇾"
+    "flag": "🇺🇾",
   },
   {
     "id": 236,
@@ -2121,7 +2121,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Uzbekistani soʻm",
     "currency_code": "UZS",
     "iso2": "UZ",
-    "flag": "🇺🇿"
+    "flag": "🇺🇿",
   },
   {
     "id": 237,
@@ -2130,7 +2130,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Vanuatu vatu",
     "currency_code": "VUV",
     "iso2": "VU",
-    "flag": "🇻🇺"
+    "flag": "🇻🇺",
   },
   {
     "id": 238,
@@ -2139,7 +2139,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Euro",
     "currency_code": "EUR",
     "iso2": "VA",
-    "flag": "🇻🇦"
+    "flag": "🇻🇦",
   },
   {
     "id": 239,
@@ -2148,7 +2148,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Bolívar",
     "currency_code": "VEF",
     "iso2": "VE",
-    "flag": "🇻🇪"
+    "flag": "🇻🇪",
   },
   {
     "id": 240,
@@ -2157,7 +2157,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Vietnamese đồng",
     "currency_code": "VND",
     "iso2": "VN",
-    "flag": "🇻🇳"
+    "flag": "🇻🇳",
   },
   {
     "id": 241,
@@ -2166,7 +2166,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "United States dollar",
     "currency_code": "USD",
     "iso2": "VG",
-    "flag": "🇻🇬"
+    "flag": "🇻🇬",
   },
   {
     "id": 242,
@@ -2175,7 +2175,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "United States dollar",
     "currency_code": "USD",
     "iso2": "VI",
-    "flag": "🇻🇮"
+    "flag": "🇻🇮",
   },
   {
     "id": 243,
@@ -2184,7 +2184,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "CFP franc",
     "currency_code": "XPF",
     "iso2": "WF",
-    "flag": "🇼🇫"
+    "flag": "🇼🇫",
   },
   {
     "id": 244,
@@ -2193,7 +2193,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Moroccan Dirham",
     "currency_code": "MAD",
     "iso2": "EH",
-    "flag": "🇪🇭"
+    "flag": "🇪🇭",
   },
   {
     "id": 245,
@@ -2202,7 +2202,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Yemeni rial",
     "currency_code": "YER",
     "iso2": "YE",
-    "flag": "🇾🇪"
+    "flag": "🇾🇪",
   },
   {
     "id": 246,
@@ -2211,7 +2211,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Zambian kwacha",
     "currency_code": "ZMW",
     "iso2": "ZM",
-    "flag": "🇿🇲"
+    "flag": "🇿🇲",
   },
   {
     "id": 247,
@@ -2220,7 +2220,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Zimbabwe Dollar",
     "currency_code": "ZWL",
     "iso2": "ZW",
-    "flag": "🇿🇼"
+    "flag": "🇿🇼",
   },
   {
     "id": 248,
@@ -2229,7 +2229,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Euro",
     "currency_code": "EUR",
     "iso2": "XK",
-    "flag": "🇽🇰"
+    "flag": "🇽🇰",
   },
   {
     "id": 249,
@@ -2238,7 +2238,7 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Netherlands Antillean guilder",
     "currency_code": "ANG",
     "iso2": "CW",
-    "flag": "🇨🇼"
+    "flag": "🇨🇼",
   },
   {
     "id": 250,
@@ -2247,9 +2247,6 @@ const List<Map<String, dynamic>> countryList = [
     "currency_name": "Netherlands Antillean guilder",
     "currency_code": "ANG",
     "iso2": "SX",
-    "flag": "🇸🇽"
-  }
+    "flag": "🇸🇽",
+  },
 ];
-
-    
-

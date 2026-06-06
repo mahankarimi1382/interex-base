@@ -49,7 +49,10 @@ class CardPreviewWidget extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16),
         gradient: LinearGradient(
-          colors: [CustomColor.secondaryDarkColor, CustomColor.primaryLightColor],
+          colors: [
+            CustomColor.secondaryDarkColor,
+            CustomColor.primaryLightColor,
+          ],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
@@ -59,9 +62,10 @@ class CardPreviewWidget extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-           TitleHeading3Widget(
+          TitleHeading3Widget(
             text: Strings.cardNumber,
-          color: Colors.white70, fontSize: 12
+            color: Colors.white70,
+            fontSize: 12,
           ),
           Text(
             cardNumber.isEmpty ? "0000 0000 0000 0000" : cardNumber,
@@ -79,9 +83,9 @@ class CardPreviewWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   TitleHeading3Widget(
-                      text: Strings.expiry,
-                      color: Colors.white70,
-                      fontSize: 12
+                    text: Strings.expiry,
+                    color: Colors.white70,
+                    fontSize: 12,
                   ),
                   Text(
                     expiryDate.isEmpty ? "YY/MM" : expiryDate,
@@ -117,7 +121,10 @@ class CardPreviewWidget extends StatelessWidget {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(16),
             gradient: LinearGradient(
-              colors: [CustomColor.secondaryLightColor, CustomColor.primaryLightColor],
+              colors: [
+                CustomColor.secondaryLightColor,
+                CustomColor.primaryLightColor,
+              ],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),

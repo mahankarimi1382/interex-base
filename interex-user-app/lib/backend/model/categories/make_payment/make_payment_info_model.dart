@@ -10,10 +10,7 @@ class MakePaymentInfoModel {
   Message message;
   Data data;
 
-  MakePaymentInfoModel({
-    required this.message,
-    required this.data,
-  });
+  MakePaymentInfoModel({required this.message, required this.data});
 
   factory MakePaymentInfoModel.fromJson(Map<String, dynamic> json) =>
       MakePaymentInfoModel(
@@ -22,15 +19,15 @@ class MakePaymentInfoModel {
       );
 
   Map<String, dynamic> toJson() => {
-        "message": message.toJson(),
-        "data": data.toJson(),
-      };
+    "message": message.toJson(),
+    "data": data.toJson(),
+  };
 }
 
 class Data {
   String baseCurr;
   dynamic baseCurrRate;
-    GetRemainingFields getRemainingFields;
+  GetRemainingFields getRemainingFields;
   MakePaymentcharge makePaymentcharge;
   List<dynamic> transactions;
 
@@ -43,42 +40,42 @@ class Data {
   });
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
-        baseCurr: json["base_curr"],
-        baseCurrRate: double.parse(json["base_curr_rate"] ?? "0.0"),
-            getRemainingFields: GetRemainingFields.fromJson(json["get_remaining_fields"]),
-        makePaymentcharge:
-            MakePaymentcharge.fromJson(json["makePaymentCharge"]),
-        transactions: List<dynamic>.from(json["transactions"].map((x) => x)),
-      );
+    baseCurr: json["base_curr"],
+    baseCurrRate: double.parse(json["base_curr_rate"] ?? "0.0"),
+    getRemainingFields: GetRemainingFields.fromJson(
+      json["get_remaining_fields"],
+    ),
+    makePaymentcharge: MakePaymentcharge.fromJson(json["makePaymentCharge"]),
+    transactions: List<dynamic>.from(json["transactions"].map((x) => x)),
+  );
 
   Map<String, dynamic> toJson() => {
-        "base_curr": baseCurr,
-        "base_curr_rate": baseCurrRate,
-        "get_remaining_fields": getRemainingFields.toJson(),
-        "makePaymentCharge": makePaymentcharge.toJson(),
-        "transactions": List<dynamic>.from(transactions.map((x) => x)),
-      };
+    "base_curr": baseCurr,
+    "base_curr_rate": baseCurrRate,
+    "get_remaining_fields": getRemainingFields.toJson(),
+    "makePaymentCharge": makePaymentcharge.toJson(),
+    "transactions": List<dynamic>.from(transactions.map((x) => x)),
+  };
 }
 
 class GetRemainingFields {
-    String transactionType;
-    String attribute;
+  String transactionType;
+  String attribute;
 
-    GetRemainingFields({
-        required this.transactionType,
-        required this.attribute,
-    });
+  GetRemainingFields({required this.transactionType, required this.attribute});
 
-    factory GetRemainingFields.fromJson(Map<String, dynamic> json) => GetRemainingFields(
+  factory GetRemainingFields.fromJson(Map<String, dynamic> json) =>
+      GetRemainingFields(
         transactionType: json["transaction_type"],
         attribute: json["attribute"],
-    );
+      );
 
-    Map<String, dynamic> toJson() => {
-        "transaction_type": transactionType,
-        "attribute": attribute,
-    };
+  Map<String, dynamic> toJson() => {
+    "transaction_type": transactionType,
+    "attribute": attribute,
+  };
 }
+
 class MakePaymentcharge {
   dynamic id;
   String slug;
@@ -116,50 +113,39 @@ class MakePaymentcharge {
       );
 
   Map<String, dynamic> toJson() => {
-        "id": id,
-        "slug": slug,
-        "title": title,
-        "fixed_charge": fixedCharge,
-        "percent_charge": percentCharge,
-        "min_limit": minLimit,
-        "max_limit": maxLimit,
-        "daily_limit": dailyLimit,
-        "monthly_limit": monthlyLimit,
-      };
+    "id": id,
+    "slug": slug,
+    "title": title,
+    "fixed_charge": fixedCharge,
+    "percent_charge": percentCharge,
+    "min_limit": minLimit,
+    "max_limit": maxLimit,
+    "daily_limit": dailyLimit,
+    "monthly_limit": monthlyLimit,
+  };
 }
 
 class UserWallet {
   dynamic balance;
   String currency;
 
-  UserWallet({
-    required this.balance,
-    required this.currency,
-  });
+  UserWallet({required this.balance, required this.currency});
 
-  factory UserWallet.fromJson(Map<String, dynamic> json) => UserWallet(
-        balance: json["balance"],
-        currency: json["currency"],
-      );
+  factory UserWallet.fromJson(Map<String, dynamic> json) =>
+      UserWallet(balance: json["balance"], currency: json["currency"]);
 
-  Map<String, dynamic> toJson() => {
-        "balance": balance,
-        "currency": currency,
-      };
+  Map<String, dynamic> toJson() => {"balance": balance, "currency": currency};
 }
 
 class Message {
   List<String> success;
 
-  Message({
-    required this.success,
-  });
+  Message({required this.success});
 
-  factory Message.fromJson(Map<String, dynamic> json) => Message(
-        success: List<String>.from(json["success"].map((x) => x)),
-      );
+  factory Message.fromJson(Map<String, dynamic> json) =>
+      Message(success: List<String>.from(json["success"].map((x) => x)));
 
   Map<String, dynamic> toJson() => {
-        "success": List<dynamic>.from(success.map((x) => x)),
-      };
+    "success": List<dynamic>.from(success.map((x) => x)),
+  };
 }

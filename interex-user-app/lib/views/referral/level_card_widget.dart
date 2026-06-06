@@ -29,9 +29,7 @@ class LevelCard extends StatelessWidget {
             : CustomColor.whiteColor,
         borderRadius: BorderRadius.circular(Dimensions.radius * 1.2),
         border: active
-            ? RDottedLineBorder.all(
-                color: CustomColor.primaryLightColor,
-              )
+            ? RDottedLineBorder.all(color: CustomColor.primaryLightColor)
             : null,
         boxShadow: active
             ? [

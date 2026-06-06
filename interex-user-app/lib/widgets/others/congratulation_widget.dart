@@ -63,7 +63,7 @@ class StatusScreen {
                     onPressed: onPressed,
                     borderColor: CustomColor.primaryLightColor,
                     buttonColor: CustomColor.primaryLightColor,
-                  )
+                  ),
                 ],
               ),
             ),

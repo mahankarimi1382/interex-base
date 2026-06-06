@@ -12,19 +12,20 @@ mixin MoneyExchangeApiServices {
   Future<MoneyExchangeInfoModel?> getMoneyExchangeInfoProcessApi() async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false).get(
-        ApiEndpoint.moneyExchangeInfoURL,
-        code: 200,
-      );
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).get(ApiEndpoint.moneyExchangeInfoURL, code: 200);
       if (mapResponse != null) {
-        MoneyExchangeInfoModel result =
-            MoneyExchangeInfoModel.fromJson(mapResponse);
+        MoneyExchangeInfoModel result = MoneyExchangeInfoModel.fromJson(
+          mapResponse,
+        );
 
         return result;
       }
     } catch (e) {
       log.e(
-          '🐞🐞🐞 err from  Get money exchange info process api service ==> $e 🐞🐞🐞');
+        '🐞🐞🐞 err from  Get money exchange info process api service ==> $e 🐞🐞🐞',
+      );
       CustomSnackBar.error('Something went Wrong!');
       return null;
     }
@@ -32,15 +33,14 @@ mixin MoneyExchangeApiServices {
   }
 
   /// money exchange submit  process api
-  Future<CommonSuccessModel?> moneyExchangeSubmitProcess(
-      {required Map<String, dynamic> body}) async {
+  Future<CommonSuccessModel?> moneyExchangeSubmitProcess({
+    required Map<String, dynamic> body,
+  }) async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false).post(
-        ApiEndpoint.moneyExchangeSubmitURL,
-        body,
-        code: 200,
-      );
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).post(ApiEndpoint.moneyExchangeSubmitURL, body, code: 200);
       if (mapResponse != null) {
         CommonSuccessModel result = CommonSuccessModel.fromJson(mapResponse);
         CustomSnackBar.success(result.message.success.first.toString());

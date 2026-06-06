@@ -9,20 +9,17 @@ class UpdateKycModel {
   Message message;
   Data data;
 
-  UpdateKycModel({
-    required this.message,
-    required this.data,
-  });
+  UpdateKycModel({required this.message, required this.data});
 
   factory UpdateKycModel.fromJson(Map<String, dynamic> json) => UpdateKycModel(
-        message: Message.fromJson(json["message"]),
-        data: Data.fromJson(json["data"]),
-      );
+    message: Message.fromJson(json["message"]),
+    data: Data.fromJson(json["data"]),
+  );
 
   Map<String, dynamic> toJson() => {
-        "message": message.toJson(),
-        "data": data.toJson(),
-      };
+    "message": message.toJson(),
+    "data": data.toJson(),
+  };
 }
 
 class Data {
@@ -37,17 +34,18 @@ class Data {
   });
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
-        statusInfo: json["status_info"],
-        kycStatus: json["kyc_status"],
-        userKyc:
-            List<UserKyc>.from(json["userKyc"].map((x) => UserKyc.fromJson(x))),
-      );
+    statusInfo: json["status_info"],
+    kycStatus: json["kyc_status"],
+    userKyc: List<UserKyc>.from(
+      json["userKyc"].map((x) => UserKyc.fromJson(x)),
+    ),
+  );
 
   Map<String, dynamic> toJson() => {
-        "status_info": statusInfo,
-        "kyc_status": kycStatus,
-        "userKyc": List<dynamic>.from(userKyc.map((x) => x.toJson())),
-      };
+    "status_info": statusInfo,
+    "kyc_status": kycStatus,
+    "userKyc": List<dynamic>.from(userKyc.map((x) => x.toJson())),
+  };
 }
 
 class UserKyc {
@@ -66,20 +64,20 @@ class UserKyc {
   });
 
   factory UserKyc.fromJson(Map<String, dynamic> json) => UserKyc(
-        type: json["type"],
-        label: json["label"],
-        name: json["name"],
-        required: json["required"],
-        validation: Validation.fromJson(json["validation"]),
-      );
+    type: json["type"],
+    label: json["label"],
+    name: json["name"],
+    required: json["required"],
+    validation: Validation.fromJson(json["validation"]),
+  );
 
   Map<String, dynamic> toJson() => {
-        "type": type,
-        "label": label,
-        "name": name,
-        "required": required,
-        "validation": validation.toJson(),
-      };
+    "type": type,
+    "label": label,
+    "name": name,
+    "required": required,
+    "validation": validation.toJson(),
+  };
 }
 
 class Validation {
@@ -98,34 +96,31 @@ class Validation {
   });
 
   factory Validation.fromJson(Map<String, dynamic> json) => Validation(
-        max: json["max"],
-        mimes: List<String>.from(json["mimes"].map((x) => x)),
-        min: json["min"],
-        options: List<dynamic>.from(json["options"].map((x) => x)),
-        required: json["required"],
-      );
+    max: json["max"],
+    mimes: List<String>.from(json["mimes"].map((x) => x)),
+    min: json["min"],
+    options: List<dynamic>.from(json["options"].map((x) => x)),
+    required: json["required"],
+  );
 
   Map<String, dynamic> toJson() => {
-        "max": max,
-        "mimes": List<dynamic>.from(mimes.map((x) => x)),
-        "min": min,
-        "options": List<dynamic>.from(options.map((x) => x)),
-        "required": required,
-      };
+    "max": max,
+    "mimes": List<dynamic>.from(mimes.map((x) => x)),
+    "min": min,
+    "options": List<dynamic>.from(options.map((x) => x)),
+    "required": required,
+  };
 }
 
 class Message {
   List<String> success;
 
-  Message({
-    required this.success,
-  });
+  Message({required this.success});
 
-  factory Message.fromJson(Map<String, dynamic> json) => Message(
-        success: List<String>.from(json["success"].map((x) => x)),
-      );
+  factory Message.fromJson(Map<String, dynamic> json) =>
+      Message(success: List<String>.from(json["success"].map((x) => x)));
 
   Map<String, dynamic> toJson() => {
-        "success": List<dynamic>.from(success.map((x) => x)),
-      };
+    "success": List<dynamic>.from(success.map((x) => x)),
+  };
 }

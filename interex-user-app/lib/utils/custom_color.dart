@@ -7,7 +7,7 @@ class CustomColor {
   static const Color primaryDarkScaffoldBackgroundColor = Color(0xFF0D102F);
   static const Color primaryDarkTextColor = Color(0xFFF4F6FC);
   static const Color secondaryDarkTextColor = Color(0xFF2B2A29);
-  
+
   static Color primaryLightColor = const Color(0xFF0C56DB);
   static const Color secondaryLightColor = Color(0xFF1B2C3E);
   static const Color primaryBGLightColor = Color(0xFFF4F6FC);

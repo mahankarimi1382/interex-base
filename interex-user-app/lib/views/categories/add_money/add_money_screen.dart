@@ -33,43 +33,59 @@ class DepositScreen extends StatelessWidget {
       buttonText: Strings.addMoney,
       onTap: () {
         debugPrint(controller.selectedCurrencyAlias.value);
-        Get.find<SetUpPinController>().showPinDialog(context, onSuccess: () {
-          if (controller.selectedCurrencyType.value.contains("AUTOMATIC")) {
-            if (controller.selectedCurrencyAlias.contains('paypal')) {
-              controller.addMoneyPaypalInsertProcess();
-            } else if (controller.selectedCurrencyAlias
-                .contains('flutterwave')) {
-              controller.addMoneyFlutterWaveInsertProcess();
-            } else if (controller.selectedCurrencyAlias.contains('stripe')) {
-              debugPrint("Stripe is working");
-              controller.addMoneyStripeInsertProcess();
-            } else if (controller.selectedCurrencyAlias.contains('razorpay')) {
-              controller.addMoneyRazorPayInsertProcess();
-            } else if (controller.selectedCurrencyAlias.contains('pagadito')) {
-              controller.addMoneyPagaditoInsertProcess();
-            } else if (controller.selectedCurrencyAlias.contains('ssl')) {
-              controller.addMoneySslInsertProcess();
-            } else if (controller.selectedCurrencyAlias.contains('coingate')) {
-              controller.addMoneyCoinGateInsertProcess();
-            } else if (controller.selectedCurrencyAlias
-                .contains('perfect-money')) {
-              controller.addMoneyPerfectMoneyInsertProcess();
-            } else if (controller.selectedCurrencyAlias.contains('bkash')) {
-              controller.addMoneyBikashInsertProcess();
-            } else if (controller.selectedCurrencyAlias.contains('tatum')) {
-              controller.tatumProcess();
-            } else if (controller.selectedCurrencyAlias.contains('paystack')) {
-              debugPrint("==============> this is working ");
-              controller.addMoneyPayStackInsertProcess();
+        Get.find<SetUpPinController>().showPinDialog(
+          context,
+          onSuccess: () {
+            if (controller.selectedCurrencyType.value.contains("AUTOMATIC")) {
+              if (controller.selectedCurrencyAlias.contains('paypal')) {
+                controller.addMoneyPaypalInsertProcess();
+              } else if (controller.selectedCurrencyAlias.contains(
+                'flutterwave',
+              )) {
+                controller.addMoneyFlutterWaveInsertProcess();
+              } else if (controller.selectedCurrencyAlias.contains('stripe')) {
+                debugPrint("Stripe is working");
+                controller.addMoneyStripeInsertProcess();
+              } else if (controller.selectedCurrencyAlias.contains(
+                'razorpay',
+              )) {
+                controller.addMoneyRazorPayInsertProcess();
+              } else if (controller.selectedCurrencyAlias.contains(
+                'pagadito',
+              )) {
+                controller.addMoneyPagaditoInsertProcess();
+              } else if (controller.selectedCurrencyAlias.contains('ssl')) {
+                controller.addMoneySslInsertProcess();
+              } else if (controller.selectedCurrencyAlias.contains(
+                'coingate',
+              )) {
+                controller.addMoneyCoinGateInsertProcess();
+              } else if (controller.selectedCurrencyAlias.contains(
+                'perfect-money',
+              )) {
+                controller.addMoneyPerfectMoneyInsertProcess();
+              } else if (controller.selectedCurrencyAlias.contains('bkash')) {
+                controller.addMoneyBikashInsertProcess();
+              } else if (controller.selectedCurrencyAlias.contains('tatum')) {
+                controller.tatumProcess();
+              } else if (controller.selectedCurrencyAlias.contains(
+                'paystack',
+              )) {
+                debugPrint("==============> this is working ");
+                controller.addMoneyPayStackInsertProcess();
+              } else if (controller.selectedCurrencyAlias.contains(
+                'authorize-usd',
+              )) {
+                debugPrint("==============> this is working ");
+                controller.addMoneyAuthorizeInsertProcess();
+              }
+            } else if (controller.selectedCurrencyType.value.contains(
+              'MANUAL',
+            )) {
+              controller.manualPaymentGetGatewaysProcess();
             }
-            else if (controller.selectedCurrencyAlias.contains('authorize-usd')) {
-              debugPrint("==============> this is working ");
-              controller.addMoneyAuthorizeInsertProcess();
-            }
-          } else if (controller.selectedCurrencyType.value.contains('MANUAL')) {
-            controller.manualPaymentGetGatewaysProcess();
-          }
-        });
+          },
+        );
       },
     );
   }

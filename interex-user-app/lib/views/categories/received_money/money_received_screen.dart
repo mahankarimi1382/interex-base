@@ -22,9 +22,11 @@ class MoneyReceiveScreen extends StatelessWidget {
     return ResponsiveLayout(
       mobileScaffold: Scaffold(
         appBar: const AppBarWidget(text: Strings.moneyReceive),
-        body: Obx(() => controller.isLoading
-            ? const CustomLoadingAPI()
-            : _bodyWidget(context)),
+        body: Obx(
+          () => controller.isLoading
+              ? const CustomLoadingAPI()
+              : _bodyWidget(context),
+        ),
       ),
     );
   }
@@ -32,7 +34,8 @@ class MoneyReceiveScreen extends StatelessWidget {
   ListView _bodyWidget(BuildContext context) {
     return ListView(
       padding: EdgeInsets.symmetric(
-          horizontal: Dimensions.marginSizeHorizontal * 0.9),
+        horizontal: Dimensions.marginSizeHorizontal * 0.9,
+      ),
       physics: const BouncingScrollPhysics(),
       children: [
         _imgWidget(context),
@@ -41,7 +44,6 @@ class MoneyReceiveScreen extends StatelessWidget {
       ],
     );
   }
- 
 
   Container _imgWidget(BuildContext context) {
     return Container(
@@ -49,9 +51,10 @@ class MoneyReceiveScreen extends StatelessWidget {
         horizontal: Dimensions.paddingSize,
         vertical: Dimensions.paddingSize * 1,
       ),
-      decoration: BoxDecoration( 
-          color: CustomColor.whiteColor,
-          borderRadius: BorderRadius.circular(Dimensions.radius * 1.5)),
+      decoration: BoxDecoration(
+        color: CustomColor.whiteColor,
+        borderRadius: BorderRadius.circular(Dimensions.radius * 1.5),
+      ),
       alignment: Alignment.center,
       height: MediaQuery.of(context).size.height * 0.3,
       margin: EdgeInsets.symmetric(
@@ -75,30 +78,29 @@ class MoneyReceiveScreen extends StatelessWidget {
         IgnorePointer(
           ignoring: true,
           child: CopyInputWidget(
-              suffixIcon: Assets.icon.copy,
-              onTap: () {
-                Clipboard.setData(
-                  ClipboardData(text: controller.inputController.text),
-                ).then(
-                  (_) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text("Qr Address copied to clipboard"),
-                      ),
-                    );
-                  },
+            suffixIcon: Assets.icon.copy,
+            onTap: () {
+              Clipboard.setData(
+                ClipboardData(text: controller.inputController.text),
+              ).then((_) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text("Qr Address copied to clipboard"),
+                  ),
                 );
-              },
-              controller: controller.inputController,
-              hint: Strings.qrCode,
-              label: Strings.qrAddress),
+              });
+            },
+            controller: controller.inputController,
+            hint: Strings.qrCode,
+            label: Strings.qrAddress,
+          ),
         ),
         verticalSpace(Dimensions.heightSize),
         TitleHeading5Widget(
           text:
               '${Get.find<LanguageController>().getTranslation(Strings.use)} ${Strings.appName} ${Get.find<LanguageController>().getTranslation(Strings.useAppForInstant)}',
           textAlign: TextAlign.justify,
-        )
+        ),
       ],
     );
   }
@@ -110,11 +112,12 @@ class MoneyReceiveScreen extends StatelessWidget {
         bottom: Dimensions.marginSizeVertical * 0.4,
       ),
       child: PrimaryButton(
-          title: Strings.share,
-          onPressed: () {
-            // ignore: deprecated_member_use
-            Share.share(controller.receiveMoneyModel.data.qrCode);
-          }),
+        title: Strings.share,
+        onPressed: () {
+          // ignore: deprecated_member_use
+          Share.share(controller.receiveMoneyModel.data.qrCode);
+        },
+      ),
     );
   }
 }

@@ -83,51 +83,54 @@ class MobileTopupController extends GetxController {
     _isLoading.value = true;
     update();
 
-    await ApiServices.topupInfoApi().then((value) {
-      _topUpInfoData = value!;
-      getBasicData();
+    await ApiServices.topupInfoApi()
+        .then((value) {
+          _topUpInfoData = value!;
+          getBasicData();
 
-      // Get wallet information
-      selectMainWallet.value =
-          walletsController.walletsInfoModel.data.userWallets.first;
-      for (var element in walletsController.walletsInfoModel.data.userWallets) {
-        walletsList.add(
-          MainUserWallet(
-            balance: element.balance,
-            currency: element.currency,
-            status: element.status,
-          ),
-        );
-      }
-      baseCurrency.value = _topUpInfoData.data.baseCurr;
-      limitMin.value = _topUpInfoData.data.topupCharge.minLimit;
-      limitMax.value = _topUpInfoData.data.topupCharge.maxLimit;
-      dailyLimit.value = _topUpInfoData.data.topupCharge.dailyLimit;
-      monthlyLimit.value = _topUpInfoData.data.topupCharge.monthlyLimit;
-      percentCharge.value = _topUpInfoData.data.topupCharge.percentCharge;
-      fixedCharge.value = _topUpInfoData.data.topupCharge.fixedCharge;
-      rate.value = _topUpInfoData.data.baseCurrRate;
+          // Get wallet information
+          selectMainWallet.value =
+              walletsController.walletsInfoModel.data.userWallets.first;
+          for (var element
+              in walletsController.walletsInfoModel.data.userWallets) {
+            walletsList.add(
+              MainUserWallet(
+                balance: element.balance,
+                currency: element.currency,
+                status: element.status,
+              ),
+            );
+          }
+          baseCurrency.value = _topUpInfoData.data.baseCurr;
+          limitMin.value = _topUpInfoData.data.topupCharge.minLimit;
+          limitMax.value = _topUpInfoData.data.topupCharge.maxLimit;
+          dailyLimit.value = _topUpInfoData.data.topupCharge.dailyLimit;
+          monthlyLimit.value = _topUpInfoData.data.topupCharge.monthlyLimit;
+          percentCharge.value = _topUpInfoData.data.topupCharge.percentCharge;
+          fixedCharge.value = _topUpInfoData.data.topupCharge.fixedCharge;
+          rate.value = _topUpInfoData.data.baseCurrRate;
 
-      billMethodselected.value = _topUpInfoData.data.topupTypes.first.name;
-      for (var element in _topUpInfoData.data.topupTypes) {
-        billList.add(element.name);
-      }
+          billMethodselected.value = _topUpInfoData.data.topupTypes.first.name;
+          for (var element in _topUpInfoData.data.topupTypes) {
+            billList.add(element.name);
+          }
 
-      //start remaing get
-      remainingController.transactionType.value =
-          _topUpInfoData.data.getRemainingFields.transactionType;
-      remainingController.attribute.value =
-          _topUpInfoData.data.getRemainingFields.attribute;
-      remainingController.cardId.value = _topUpInfoData.data.topupCharge.id;
-      remainingController.senderAmount.value = amountController.text;
-      remainingController.senderCurrency.value =
-          selectMainWallet.value!.currency.code;
+          //start remaing get
+          remainingController.transactionType.value =
+              _topUpInfoData.data.getRemainingFields.transactionType;
+          remainingController.attribute.value =
+              _topUpInfoData.data.getRemainingFields.attribute;
+          remainingController.cardId.value = _topUpInfoData.data.topupCharge.id;
+          remainingController.senderAmount.value = amountController.text;
+          remainingController.senderCurrency.value =
+              selectMainWallet.value!.currency.code;
 
-      remainingController.getRemainingBalanceProcess();
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-    });
+          remainingController.getRemainingBalanceProcess();
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+        });
 
     // _isLoading.value = false;
     update();
@@ -142,18 +145,18 @@ class MobileTopupController extends GetxController {
     update();
 
     // calling  from api service
-    await ApiServices.basicData().then((value) {
-      _basicDataModel = value!;
-      countryCode.value =
-          _basicDataModel.data.countries.first.mobileCode.toString();
-      isoCode.value = _basicDataModel.data.countries.first.iso2.toString();
-      _isLoading.value = false;
-      update();
-    }).catchError(
-      (onError) {
-        log.e(onError);
-      },
-    );
+    await ApiServices.basicData()
+        .then((value) {
+          _basicDataModel = value!;
+          countryCode.value = _basicDataModel.data.countries.first.mobileCode
+              .toString();
+          isoCode.value = _basicDataModel.data.countries.first.iso2.toString();
+          _isLoading.value = false;
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+        });
     update();
     return _basicDataModel;
   }
@@ -182,15 +185,17 @@ class MobileTopupController extends GetxController {
       'mobile_code': countryCode.value,
     };
     // calling login api from api service
-    await ApiServices.topupConfirmedApi(body: inputBody).then((value) {
-      _successDatya = value!;
-      _isInsertLoading.value = false;
-      update();
+    await ApiServices.topupConfirmedApi(body: inputBody)
+        .then((value) {
+          _successDatya = value!;
+          _isInsertLoading.value = false;
+          update();
 
-      // Get.offAllNamed(Routes.bottomNavBarScreen);
-    }).catchError((onError) {
-      log.e(onError);
-    });
+          // Get.offAllNamed(Routes.bottomNavBarScreen);
+        })
+        .catchError((onError) {
+          log.e(onError);
+        });
 
     _isInsertLoading.value = false;
     update();
@@ -210,13 +215,15 @@ class MobileTopupController extends GetxController {
       'currency': selectMainWallet.value!.currency.code,
     };
 
-    await ApiServices.topUpAutomaticConfirmedApi(body: inputBody).then((value) {
-      _successDatya = value!;
-      _isInsertLoading.value = false;
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-    });
+    await ApiServices.topUpAutomaticConfirmedApi(body: inputBody)
+        .then((value) {
+          _successDatya = value!;
+          _isInsertLoading.value = false;
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+        });
 
     _isInsertLoading.value = false;
     update();
@@ -241,9 +248,11 @@ class MobileTopupController extends GetxController {
 
   RxDouble getFee({required double rate}) {
     double value = fixedCharge.value * rate;
-    value = value +
+    value =
+        value +
         (double.parse(
-                amountController.text.isEmpty ? '0.0' : amountController.text) *
+              amountController.text.isEmpty ? '0.0' : amountController.text,
+            ) *
             (percentCharge.value / 100));
 
     if (amountController.text.isEmpty) {
@@ -260,9 +269,11 @@ class MobileTopupController extends GetxController {
     feesAndCharge.value = fixedCharge.value * rate;
 
     double value = fixedCharge.value * rate;
-    value = value +
+    value =
+        value +
         (double.parse(
-                amountController.text.isEmpty ? '0.0' : amountController.text) *
+              amountController.text.isEmpty ? '0.0' : amountController.text,
+            ) *
             (operatorPercentCharge.value / 100));
 
     if (amountController.text.isEmpty) {
@@ -290,47 +301,49 @@ class MobileTopupController extends GetxController {
     update();
 
     await ApiServices.getDetectOperator(
-      mobileNumber: mobileNumberController.text,
-      countryCode: isoCode.value,
-      mobileCode: countryCode.value,
-    ).then((value) {
-      _detectOperatorModel = value!;
-      var data = _detectOperatorModel.data.data;
+          mobileNumber: mobileNumberController.text,
+          countryCode: isoCode.value,
+          mobileCode: countryCode.value,
+        )
+        .then((value) {
+          _detectOperatorModel = value!;
+          var data = _detectOperatorModel.data.data;
 
-      if (_detectOperatorModel.data.status == false) {
-        CustomSnackBar.error(_detectOperatorModel.data.message);
-        isGettingOperator.value = false;
-      } else {
-        operatorCurrency.value = data!.receiverCurrencyCode!;
-        operatorLimitMin.value = data.minAmount;
-        operatorLimitMax.value = data.maxAmount;
-        operatorLocalLimitMin.value = data.localMinAmount;
+          if (_detectOperatorModel.data.status == false) {
+            CustomSnackBar.error(_detectOperatorModel.data.message);
+            isGettingOperator.value = false;
+          } else {
+            operatorCurrency.value = data!.receiverCurrencyCode!;
+            operatorLimitMin.value = data.minAmount;
+            operatorLimitMax.value = data.maxAmount;
+            operatorLocalLimitMin.value = data.localMinAmount;
 
-        operatorLocalLimitMax.value = data.localMaxAmount;
-        operatorPercentCharge.value = data.fees!.internationalPercentage!;
-        operatorFixedCharge.value = data.fees!.international!;
-        operatorRate.value = data.receiverCurrencyRate!;
-        feesAndCharge.value = (operatorRate.value * fixedCharge.value);
-        operatorLimitFxMin.value = (data.minAmount * data.fx!.rate);
-        operatorLimitFxMax.value = (data.maxAmount * data.fx!.rate);
-        remainingController.senderCurrency.value = operatorCurrency.value;
+            operatorLocalLimitMax.value = data.localMaxAmount;
+            operatorPercentCharge.value = data.fees!.internationalPercentage!;
+            operatorFixedCharge.value = data.fees!.international!;
+            operatorRate.value = data.receiverCurrencyRate!;
+            feesAndCharge.value = (operatorRate.value * fixedCharge.value);
+            operatorLimitFxMin.value = (data.minAmount * data.fx!.rate);
+            operatorLimitFxMax.value = (data.maxAmount * data.fx!.rate);
+            remainingController.senderCurrency.value = operatorCurrency.value;
 
-        remainingController.getRemainingBalanceProcess();
-        dailyLimit.value =
-            topUpInfoData.data.topupCharge.dailyLimit * operatorRate.value;
-        monthlyLimit.value =
-            topUpInfoData.data.topupCharge.dailyLimit * operatorRate.value;
+            remainingController.getRemainingBalanceProcess();
+            dailyLimit.value =
+                topUpInfoData.data.topupCharge.dailyLimit * operatorRate.value;
+            monthlyLimit.value =
+                topUpInfoData.data.topupCharge.dailyLimit * operatorRate.value;
 
-        operatorId.value = data.operatorId.toString();
-        isGettingOperator.value = true;
-      }
-      _isDetectLoading.value = false;
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-      isGettingOperator.value = false;
-      _isDetectLoading.value = false;
-    });
+            operatorId.value = data.operatorId.toString();
+            isGettingOperator.value = true;
+          }
+          _isDetectLoading.value = false;
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+          isGettingOperator.value = false;
+          _isDetectLoading.value = false;
+        });
 
     update();
     return _detectOperatorModel;

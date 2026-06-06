@@ -45,51 +45,54 @@ class CreateGiftCardController extends GetxController {
     _isLoading.value = true;
     update();
     await GiftCardApiServices.getGiftCardDetailsApi(
-            LocalStorages.getProductId())
+          LocalStorages.getProductId(),
+        )
         .then((value) {
-      _giftCardDetailsModel = value!;
-      selectedCountry.value =
-          _giftCardDetailsModel.data.countries.first.currencyName;
-      selectedCountryCode.value =
-          _giftCardDetailsModel.data.countries.first.iso2;
-      mobileCode.value = _giftCardDetailsModel.data.countries.first.mobileCode;
+          _giftCardDetailsModel = value!;
+          selectedCountry.value =
+              _giftCardDetailsModel.data.countries.first.currencyName;
+          selectedCountryCode.value =
+              _giftCardDetailsModel.data.countries.first.iso2;
+          mobileCode.value =
+              _giftCardDetailsModel.data.countries.first.mobileCode;
 
-      for (var element in _giftCardDetailsModel.data.countries) {
-        countryList.add(
-          CountryElement(
-            name: element.name,
-            mobileCode: element.mobileCode,
-            currencyName: element.currencyName,
-            currencyCode: element.currencyCode,
-            currencySymbol: element.currencySymbol,
-            iso2: element.iso2,
-          ),
-        );
-      }
+          for (var element in _giftCardDetailsModel.data.countries) {
+            countryList.add(
+              CountryElement(
+                name: element.name,
+                mobileCode: element.mobileCode,
+                currencyName: element.currencyName,
+                currencyCode: element.currencyCode,
+                currencySymbol: element.currencySymbol,
+                iso2: element.iso2,
+              ),
+            );
+          }
 
-      /// User Wallet
-      selectedWalletName.value =
-          _giftCardDetailsModel.data.userWallet.first.name;
-      selectedWalletCurrency.value =
-          _giftCardDetailsModel.data.userWallet.first.currencyCode;
-      for (var element in _giftCardDetailsModel.data.userWallet) {
-        userWalletList.add(
-          UserWallet(
-            name: element.name,
-            balance: element.balance,
-            currencyCode: element.currencyCode,
-            currencySymbol: element.currencySymbol,
-            currencyType: element.currencyType,
-            flag: element.flag,
-            imagePath: element.imagePath,
-            rate: element.rate,
-          ),
-        );
-      }
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-    });
+          /// User Wallet
+          selectedWalletName.value =
+              _giftCardDetailsModel.data.userWallet.first.name;
+          selectedWalletCurrency.value =
+              _giftCardDetailsModel.data.userWallet.first.currencyCode;
+          for (var element in _giftCardDetailsModel.data.userWallet) {
+            userWalletList.add(
+              UserWallet(
+                name: element.name,
+                balance: element.balance,
+                currencyCode: element.currencyCode,
+                currencySymbol: element.currencySymbol,
+                currencyType: element.currencyType,
+                flag: element.flag,
+                imagePath: element.imagePath,
+                rate: element.rate,
+              ),
+            );
+          }
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+        });
     _isLoading.value = false;
     update();
     return _giftCardDetailsModel;
@@ -105,7 +108,9 @@ class CreateGiftCardController extends GetxController {
     Map<String, dynamic> inputBody = {
       'product_id': LocalStorages.getProductId(),
       'amount': giftCardDetailsModel
-          .data.product.fixedRecipientDenominations[selectedIndex.value],
+          .data
+          .product
+          .fixedRecipientDenominations[selectedIndex.value],
       'receiver_email': receiverEmailController.text,
       'receiver_country': selectedCountryCode.value,
       'receiver_phone_code': mobileCode.value,
@@ -115,14 +120,16 @@ class CreateGiftCardController extends GetxController {
       'wallet_currency': selectedWalletCurrency.value,
     };
 
-    await GiftCardApiServices.createGiftCardApi(body: inputBody).then((value) {
-      _successModel = value!;
-      controller.getMyCardInfoApi();
-      Get.toNamed(Routes.giftCardScreen);
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-    });
+    await GiftCardApiServices.createGiftCardApi(body: inputBody)
+        .then((value) {
+          _successModel = value!;
+          controller.getMyCardInfoApi();
+          Get.toNamed(Routes.giftCardScreen);
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+        });
 
     _isLoading.value = false;
     update();

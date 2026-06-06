@@ -33,20 +33,21 @@ class StripeCardDetailsController extends GetxController {
 
     await ApiServices.stripeCardDetailsApi(stripeController.cardId.value)
         .then((value) {
-      _stripeCardDetailsModel = value!;
+          _stripeCardDetailsModel = value!;
 
-      if (_stripeCardDetailsModel.data.cardDetails.status == true) {
-        isSelected.value = true;
-      } else {
-        isSelected.value = false;
-      }
+          if (_stripeCardDetailsModel.data.cardDetails.status == true) {
+            isSelected.value = true;
+          } else {
+            isSelected.value = false;
+          }
 
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-      _isLoading.value = false;
-      update();
-    });
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+          _isLoading.value = false;
+          update();
+        });
 
     _isLoading.value = false;
     update();
@@ -60,19 +61,19 @@ class StripeCardDetailsController extends GetxController {
   Future<CommonSuccessModel> cardActiveApi() async {
     _isCardStatusLoading.value = true;
     update();
-    Map<String, dynamic> inputBody = {
-      'card_id': stripeController.cardId.value,
-    };
-    await ApiServices.stripeActiveApi(body: inputBody).then((value) {
-      _cardActiveModel = value!;
-      update();
-      debugPrint('Card Active');
-      getCardDetailsData();
-    }).catchError((onError) {
-      log.e(onError);
-      _isCardStatusLoading.value = false;
-      update();
-    });
+    Map<String, dynamic> inputBody = {'card_id': stripeController.cardId.value};
+    await ApiServices.stripeActiveApi(body: inputBody)
+        .then((value) {
+          _cardActiveModel = value!;
+          update();
+          debugPrint('Card Active');
+          getCardDetailsData();
+        })
+        .catchError((onError) {
+          log.e(onError);
+          _isCardStatusLoading.value = false;
+          update();
+        });
 
     _isCardStatusLoading.value = false;
     update();
@@ -86,19 +87,19 @@ class StripeCardDetailsController extends GetxController {
   Future<CommonSuccessModel> cardInactiveApi() async {
     _isCardStatusLoading.value = true;
     update();
-    Map<String, dynamic> inputBody = {
-      'card_id': stripeController.cardId.value,
-    };
-    await ApiServices.stripeInactiveApi(body: inputBody).then((value) {
-      _cardInactiveModel = value!;
-      update();
-      debugPrint('Card Inactive');
-      getCardDetailsData();
-    }).catchError((onError) {
-      log.e(onError);
-      _isCardStatusLoading.value = false;
-      update();
-    });
+    Map<String, dynamic> inputBody = {'card_id': stripeController.cardId.value};
+    await ApiServices.stripeInactiveApi(body: inputBody)
+        .then((value) {
+          _cardInactiveModel = value!;
+          update();
+          debugPrint('Card Inactive');
+          getCardDetailsData();
+        })
+        .catchError((onError) {
+          log.e(onError);
+          _isCardStatusLoading.value = false;
+          update();
+        });
 
     _isCardStatusLoading.value = false;
     update();
@@ -125,20 +126,20 @@ class StripeCardDetailsController extends GetxController {
   Future<StripeSensitiveModel> revealShowProcess() async {
     _isSensitiveLoading.value = true;
     update();
-    Map<String, dynamic> inputBody = {
-      'card_id': stripeController.cardId.value,
-    };
-    await ApiServices.stripeSensitiveApi(body: inputBody).then((value) {
-      _revealShowModel = value!;
-      update();
+    Map<String, dynamic> inputBody = {'card_id': stripeController.cardId.value};
+    await ApiServices.stripeSensitiveApi(body: inputBody)
+        .then((value) {
+          _revealShowModel = value!;
+          update();
 
-      cardPlan.value = revealShowModel.data.sensitiveData.number;
-      cardCVC.value = revealShowModel.data.sensitiveData.cvc;
-    }).catchError((onError) {
-      log.e(onError);
-      _isSensitiveLoading.value = false;
-      update();
-    });
+          cardPlan.value = revealShowModel.data.sensitiveData.number;
+          cardCVC.value = revealShowModel.data.sensitiveData.cvc;
+        })
+        .catchError((onError) {
+          log.e(onError);
+          _isSensitiveLoading.value = false;
+          update();
+        });
 
     _isSensitiveLoading.value = false;
     update();

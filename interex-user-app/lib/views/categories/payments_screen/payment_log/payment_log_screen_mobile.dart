@@ -87,19 +87,23 @@ class PaymentLogScreenMobile extends StatelessWidget {
                             title: data[index].title,
                             dateText: data[index].createdAt.day.toString(),
                             status: data[index].stringStatus,
-                            monthText: DateFormat("MMMM")
-                                .format(data[index].createdAt),
-                            amount: data[index].type == "pay" &&
+                            monthText: DateFormat(
+                              "MMMM",
+                            ).format(data[index].createdAt),
+                            amount:
+                                data[index].type == "pay" &&
                                     data[index].limit == 2
                                 ? Strings.unlimited.tr
                                 : data[index].limit == 1
-                                    ? "${data[index].minAmount} - ${data[index].maxAmount} ${data[index].currency}"
-                                    : data[index].type == "sub"
-                                        ? "${data[index].price}(${data[index].qty}) ${data[index].currency}"
-                                        : "${data[index].price} ${data[index].currency}",
+                                ? "${data[index].minAmount} - ${data[index].maxAmount} ${data[index].currency}"
+                                : data[index].type == "sub"
+                                ? "${data[index].price}(${data[index].qty}) ${data[index].currency}"
+                                : "${data[index].price} ${data[index].currency}",
                             onEditTap: () {
-                              Get.toNamed(Routes.paymentsEditScreen,
-                                  arguments: data[index].id);
+                              Get.toNamed(
+                                Routes.paymentsEditScreen,
+                                arguments: data[index].id,
+                              );
                             },
                             onCopyTap: () {
                               controller.copyLinkController.text =
@@ -110,17 +114,17 @@ class PaymentLogScreenMobile extends StatelessWidget {
                             onActiveTap: () {
                               Get.close(1);
                               controller.updateStatusProcess(
-                                  id: data[index].id);
+                                id: data[index].id,
+                              );
                             },
                             onCloseTap: () {
                               Get.close(1);
 
                               controller.updateStatusProcess(
-                                  id: data[index].id);
+                                id: data[index].id,
+                              );
                             },
-                          ).paddingSymmetric(
-                            horizontal: Dimensions.paddingHorizontalSize * .6,
-                          ),
+                          ).paddingSymmetric(horizontal: Dimensions.paddingHorizontalSize * .6),
                         );
                       },
                     ),

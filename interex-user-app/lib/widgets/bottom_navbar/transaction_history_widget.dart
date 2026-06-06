@@ -35,7 +35,7 @@ class TransactionWidget extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(Dimensions.radius),
           color: Get.isDarkMode
-              ? CustomColor.whiteColor.withValues(alpha:0.06)
+              ? CustomColor.whiteColor.withValues(alpha: 0.06)
               : CustomColor.whiteColor,
         ),
         padding: EdgeInsets.only(right: Dimensions.paddingSize * 0.2),
@@ -51,7 +51,7 @@ class TransactionWidget extends StatelessWidget {
                 ),
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
-                  color: CustomColor.primaryLightColor.withValues(alpha:0.04),
+                  color: CustomColor.primaryLightColor.withValues(alpha: 0.04),
                   borderRadius: BorderRadius.circular(Dimensions.radius * 0.6),
                 ),
                 child: Column(
@@ -100,10 +100,10 @@ class TransactionWidget extends StatelessWidget {
                       ),
                       decoration: BoxDecoration(
                         color: status == 'Pending'
-                            ? CustomColor.yellowColor.withValues(alpha:0.8)
+                            ? CustomColor.yellowColor.withValues(alpha: 0.8)
                             : status == 'success'
-                                ? CustomColor.greenColor.withValues(alpha:0.8)
-                                : CustomColor.redColor.withValues(alpha:0.8),
+                            ? CustomColor.greenColor.withValues(alpha: 0.8)
+                            : CustomColor.redColor.withValues(alpha: 0.8),
                         borderRadius: BorderRadius.circular(Dimensions.radius),
                       ),
                       child: TitleHeading5Widget(
@@ -122,20 +122,20 @@ class TransactionWidget extends StatelessWidget {
                       ),
                       decoration: BoxDecoration(
                         color: status == '2' || status == '0'
-                            ? CustomColor.yellowColor.withValues(alpha:0.8)
+                            ? CustomColor.yellowColor.withValues(alpha: 0.8)
                             : status == '1'
-                                ? CustomColor.greenColor.withValues(alpha:0.8)
-                                : CustomColor.redColor.withValues(alpha:0.8),
+                            ? CustomColor.greenColor.withValues(alpha: 0.8)
+                            : CustomColor.redColor.withValues(alpha: 0.8),
                         borderRadius: BorderRadius.circular(Dimensions.radius),
                       ),
                       child: TitleHeading5Widget(
                         text: status == '4'
                             ? 'Rejected'
                             : status == '2'
-                                ? 'Pending'
-                                : status == '1'
-                                    ? 'Success'
-                                    : 'Default',
+                            ? 'Pending'
+                            : status == '1'
+                            ? 'Success'
+                            : 'Default',
                         fontSize: Dimensions.headingTextSize5,
                         color: Colors.white,
                       ),
@@ -169,11 +169,13 @@ class TransactionWidget extends StatelessWidget {
 
   String snakeCaseToCamelCase(String input) {
     List<String> parts = input.split('-');
-    String camelCase = parts.first.toLowerCase() +
+    String camelCase =
+        parts.first.toLowerCase() +
         parts
             .sublist(1)
-            .map((part) =>
-                part[0].toUpperCase() + part.substring(1).toLowerCase())
+            .map(
+              (part) => part[0].toUpperCase() + part.substring(1).toLowerCase(),
+            )
             .join();
     return camelCase;
   }

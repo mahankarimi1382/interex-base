@@ -32,18 +32,22 @@ class LimitInformationWidget extends StatelessWidget {
         verticalSpace(10),
         Container(
           padding: EdgeInsets.all(Dimensions.paddingSize * 0.4),
-          margin:
-              EdgeInsets.symmetric(vertical: Dimensions.marginSizeVertical * 0.4),
+          margin: EdgeInsets.symmetric(
+            vertical: Dimensions.marginSizeVertical * 0.4,
+          ),
           decoration: BoxDecoration(
-            color: Get.isDarkMode ? CustomColor.whiteColor.withValues(alpha: .05): CustomColor.primaryBGLightColor,
+            color: Get.isDarkMode
+                ? CustomColor.whiteColor.withValues(alpha: .05)
+                : CustomColor.primaryBGLightColor,
             borderRadius: BorderRadius.circular(Dimensions.radius),
           ),
           child: Column(
             crossAxisAlignment: crossStart,
             children: [
               TitleHeading3Widget(
-                  text: Strings.limitInformation,
-                  color: CustomColor.primaryLightColor),
+                text: Strings.limitInformation,
+                color: CustomColor.primaryLightColor,
+              ),
               verticalSpace(Dimensions.heightSize * 0.6),
 
               // Daily Limit section (only if showDailyLimit is true and dailyLimit is not "0.00")
@@ -58,13 +62,15 @@ class LimitInformationWidget extends StatelessWidget {
                             crossAxisAlignment: crossStart,
                             children: [
                               TitleHeading5Widget(
-                                  text: Strings.dailyLimit,
-                                  color: CustomColor.primaryLightColor),
+                                text: Strings.dailyLimit,
+                                color: CustomColor.primaryLightColor,
+                              ),
                               TitleHeading3Widget(
                                 text: dailyLimit,
                                 fontSize: Dimensions.headingTextSize4 - 1,
-                                color:
-                                    CustomColor.primaryLightColor.withValues(alpha:0.5),
+                                color: CustomColor.primaryLightColor.withValues(
+                                  alpha: 0.5,
+                                ),
                               ),
                             ],
                           ),
@@ -74,8 +80,9 @@ class LimitInformationWidget extends StatelessWidget {
                             crossAxisAlignment: crossEnd,
                             children: [
                               TitleHeading5Widget(
-                                  text: Strings.remainingDailyLimit,
-                                  color: CustomColor.primaryLightColor),
+                                text: Strings.remainingDailyLimit,
+                                color: CustomColor.primaryLightColor,
+                              ),
                               Obx(
                                 () => controller.isLoading
                                     ? Shimmer.fromColors(
@@ -88,16 +95,21 @@ class LimitInformationWidget extends StatelessWidget {
                                             Container(
                                               width: double.infinity,
                                               height: 16.0,
-                                              color: Get.isDarkMode ? Colors.white.withValues(alpha: .05 ): Colors.white,
+                                              color: Get.isDarkMode
+                                                  ? Colors.white.withValues(
+                                                      alpha: .05,
+                                                    )
+                                                  : Colors.white,
                                             ),
                                           ],
                                         ),
                                       )
                                     : TitleHeading3Widget(
-                                        fontSize: Dimensions.headingTextSize4 - 1,
+                                        fontSize:
+                                            Dimensions.headingTextSize4 - 1,
                                         text: remainingDailyLimit,
                                         color: CustomColor.primaryLightColor
-                                            .withValues(alpha:0.5),
+                                            .withValues(alpha: 0.5),
                                       ),
                               ),
                             ],
@@ -119,12 +131,15 @@ class LimitInformationWidget extends StatelessWidget {
                         crossAxisAlignment: crossStart,
                         children: [
                           TitleHeading5Widget(
-                              text: Strings.monthlyLimit,
-                              color: CustomColor.primaryLightColor),
+                            text: Strings.monthlyLimit,
+                            color: CustomColor.primaryLightColor,
+                          ),
                           TitleHeading3Widget(
                             fontSize: Dimensions.headingTextSize4 - 1,
                             text: monthlyLimit,
-                            color: CustomColor.primaryLightColor.withValues(alpha:0.5),
+                            color: CustomColor.primaryLightColor.withValues(
+                              alpha: 0.5,
+                            ),
                           ),
                         ],
                       ),
@@ -134,21 +149,27 @@ class LimitInformationWidget extends StatelessWidget {
                         crossAxisAlignment: crossEnd,
                         children: [
                           TitleHeading5Widget(
-                              text: Strings.remainingMonthlyLimit,
-                              fontSize: Dimensions.headingTextSize5 - 1,
-                              color: CustomColor.primaryLightColor),
+                            text: Strings.remainingMonthlyLimit,
+                            fontSize: Dimensions.headingTextSize5 - 1,
+                            color: CustomColor.primaryLightColor,
+                          ),
                           Obx(
                             () => controller.isLoading
                                 ? Shimmer.fromColors(
                                     baseColor: Colors.grey[300]!,
                                     highlightColor: Colors.grey[100]!,
                                     child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         Container(
                                           width: double.infinity,
                                           height: Dimensions.heightSize * 1.4,
-                                          color: Get.isDarkMode ? Colors.white.withValues(alpha: .05 ): Colors.white,
+                                          color: Get.isDarkMode
+                                              ? Colors.white.withValues(
+                                                  alpha: .05,
+                                                )
+                                              : Colors.white,
                                         ),
                                       ],
                                     ),
@@ -157,7 +178,7 @@ class LimitInformationWidget extends StatelessWidget {
                                     fontSize: Dimensions.headingTextSize4 - 1,
                                     text: remainingMonthLimit,
                                     color: CustomColor.primaryLightColor
-                                        .withValues(alpha:0.5),
+                                        .withValues(alpha: 0.5),
                                   ),
                           ),
                         ],
@@ -173,12 +194,13 @@ class LimitInformationWidget extends StatelessWidget {
                 crossAxisAlignment: crossStart,
                 children: [
                   TitleHeading5Widget(
-                      text: Strings.transactionLimit,
-                      color: CustomColor.primaryLightColor),
+                    text: Strings.transactionLimit,
+                    color: CustomColor.primaryLightColor,
+                  ),
                   TitleHeading3Widget(
                     fontSize: Dimensions.headingTextSize4 - 1,
                     text: transactionLimit,
-                    color: CustomColor.primaryLightColor.withValues(alpha:0.5),
+                    color: CustomColor.primaryLightColor.withValues(alpha: 0.5),
                   ),
                 ],
               ),

@@ -30,7 +30,6 @@ class Data {
       });
     }
   }
-
 }
 
 class GetOffer {
@@ -59,7 +58,32 @@ class GetOffer {
   String? pay;
   String? statusString;
 
-  GetOffer({this.id, this.type, this.amount, this.salecurrencycode, this.rate, this.ratecurrencycode, this.creatorid, this.tradeuserid, this.receiverid, this.tradeid, this.status, this.offercreated, this.creatorimage, this.emailverified, this.kycverified, this.creatorname, this.tradeamount, this.traderate, this.tradestatus, this.acceptStatus, this.rejectStatus, this.counterStatus, this.pay, this.statusString});
+  GetOffer({
+    this.id,
+    this.type,
+    this.amount,
+    this.salecurrencycode,
+    this.rate,
+    this.ratecurrencycode,
+    this.creatorid,
+    this.tradeuserid,
+    this.receiverid,
+    this.tradeid,
+    this.status,
+    this.offercreated,
+    this.creatorimage,
+    this.emailverified,
+    this.kycverified,
+    this.creatorname,
+    this.tradeamount,
+    this.traderate,
+    this.tradestatus,
+    this.acceptStatus,
+    this.rejectStatus,
+    this.counterStatus,
+    this.pay,
+    this.statusString,
+  });
 
   GetOffer.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -87,8 +111,6 @@ class GetOffer {
     pay = json['pay'];
     statusString = json['statusString'];
   }
-
-
 }
 
 class GetOfferModel {
@@ -99,5 +121,4 @@ class GetOfferModel {
   GetOfferModel.fromJson(Map<String, dynamic> json) {
     data = json['data'] != null ? Data?.fromJson(json['data']) : null;
   }
-
 }

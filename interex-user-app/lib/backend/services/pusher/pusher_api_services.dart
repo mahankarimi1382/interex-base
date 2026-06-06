@@ -9,10 +9,9 @@ class PusherApiServices {
   static Future<PusherBeamsModel?> getPusherBeamsAuth(String userId) async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false).get(
-        "${ApiEndpoint.pusherBeamsAuthURL}$userId",
-        code: 200,
-      );
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).get("${ApiEndpoint.pusherBeamsAuthURL}$userId", code: 200);
       if (mapResponse != null) {
         PusherBeamsModel result = PusherBeamsModel.fromJson(mapResponse);
 

@@ -32,9 +32,7 @@ class StrowalletCardScreen extends StatelessWidget {
             Container(
               width: width,
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(
-                  Dimensions.radius * 2,
-                ),
+                borderRadius: BorderRadius.circular(Dimensions.radius * 2),
                 color: CustomColor.whiteColor,
               ),
               margin: EdgeInsets.symmetric(
@@ -54,105 +52,116 @@ class StrowalletCardScreen extends StatelessWidget {
                     visible:
                         controller.strowalletCardModel.data.myCards.isNotEmpty,
                     child: GridView.count(
-                        physics: const NeverScrollableScrollPhysics(),
-                        scrollDirection: Axis.vertical,
-                        crossAxisCount:
-                            controller.strowalletCardModel.data.cardCreateAction
-                                ? 5
-                                : 4,
-                        mainAxisSpacing: 10,
-                        childAspectRatio: 0.5,
-                        shrinkWrap: true,
-                        children: [
+                      physics: const NeverScrollableScrollPhysics(),
+                      scrollDirection: Axis.vertical,
+                      crossAxisCount:
+                          controller.strowalletCardModel.data.cardCreateAction
+                          ? 5
+                          : 4,
+                      mainAxisSpacing: 10,
+                      childAspectRatio: 0.5,
+                      shrinkWrap: true,
+                      children: [
+                        CategoriesWidget(
+                          icon: Assets.icon.details,
+                          text: Strings.details,
+                          onTap: () {
+                            controller.getStrowalletCardData();
+                            if (controller
+                                .strowalletCardModel
+                                .data
+                                .myCards
+                                .isNotEmpty) {
+                              Get.toNamed(Routes.strowalletCardDetailsScreen);
+                            } else {
+                              CustomSnackBar.error(Strings.youDonNotBuyCard);
+                            }
+                          },
+                        ),
+                        CategoriesWidget(
+                          icon: Assets.icon.fund,
+                          text: Strings.fund,
+                          onTap: () {
+                            controller.getStrowalletCardData();
+                            if (controller
+                                .strowalletCardModel
+                                .data
+                                .myCards
+                                .isNotEmpty) {
+                              Get.toNamed(Routes.strowalletAddFundScreen);
+                            } else {
+                              CustomSnackBar.error(Strings.youDonNotBuyCard);
+                            }
+                          },
+                        ),
+                        Obx(
+                          () => controller.isMakeDefaultLoading
+                              ? const CustomLoadingAPI()
+                              : CategoriesWidget(
+                                  icon: Assets.icon.torch,
+                                  text:
+                                      controller
+                                          .strowalletCardModel
+                                          .data
+                                          .myCards[controller
+                                              .dashboardController
+                                              .current
+                                              .value]
+                                          .isDefault
+                                      ? Strings.removeDefault
+                                      : Strings.makeDefault,
+                                  onTap: () {
+                                    controller.makeCardDefaultProcess(
+                                      controller
+                                          .strowalletCardModel
+                                          .data
+                                          .myCards[controller
+                                              .dashboardController
+                                              .current
+                                              .value]
+                                          .cardId,
+                                    );
+                                  },
+                                ),
+                        ),
+                        CategoriesWidget(
+                          icon: Assets.icon.transaction,
+                          text: Strings.transaction,
+                          onTap: () {
+                            controller.getStrowalletCardData();
+                            if (controller
+                                .strowalletCardModel
+                                .data
+                                .myCards
+                                .isNotEmpty) {
+                              Get.toNamed(
+                                Routes.strowalletTransactionHistoryScreen,
+                              );
+                            } else {
+                              CustomSnackBar.error(Strings.youDonNotBuyCard);
+                            }
+                          },
+                        ),
+                        if (controller
+                            .strowalletCardModel
+                            .data
+                            .cardCreateAction) ...[
                           CategoriesWidget(
-                            icon: Assets.icon.details,
-                            text: Strings.details,
+                            icon: Assets.icon.buyGift,
+                            text: Strings.createCard,
                             onTap: () {
-                              controller.getStrowalletCardData();
-                              if (controller.strowalletCardModel.data.myCards
-                                  .isNotEmpty) {
-                                Get.toNamed(Routes.strowalletCardDetailsScreen);
-                              } else {
-                                CustomSnackBar.error(Strings.youDonNotBuyCard);
-                              }
+                              Get.toNamed(Routes.crateStrowalletScreen);
                             },
                           ),
-                          CategoriesWidget(
-                              icon: Assets.icon.fund,
-                              text: Strings.fund,
-                              onTap: () {
-                                controller.getStrowalletCardData();
-                                if (controller.strowalletCardModel.data.myCards
-                                    .isNotEmpty) {
-                                  Get.toNamed(Routes.strowalletAddFundScreen);
-                                } else {
-                                  CustomSnackBar.error(
-                                    Strings.youDonNotBuyCard,
-                                  );
-                                }
-                              }),
-                          Obx(
-                            () => controller.isMakeDefaultLoading
-                                ? const CustomLoadingAPI()
-                                : CategoriesWidget(
-                                    icon: Assets.icon.torch,
-                                    text: controller
-                                            .strowalletCardModel
-                                            .data
-                                            .myCards[controller
-                                                .dashboardController
-                                                .current
-                                                .value]
-                                            .isDefault
-                                        ? Strings.removeDefault
-                                        : Strings.makeDefault,
-                                    onTap: () {
-                                      controller.makeCardDefaultProcess(
-                                        controller
-                                            .strowalletCardModel
-                                            .data
-                                            .myCards[controller
-                                                .dashboardController
-                                                .current
-                                                .value]
-                                            .cardId,
-                                      );
-                                    },
-                                  ),
-                          ),
-                          CategoriesWidget(
-                            icon: Assets.icon.transaction,
-                            text: Strings.transaction,
-                            onTap: () {
-                              controller.getStrowalletCardData();
-                              if (controller.strowalletCardModel.data.myCards
-                                  .isNotEmpty) {
-                                Get.toNamed(
-                                    Routes.strowalletTransactionHistoryScreen);
-                              } else {
-                                CustomSnackBar.error(
-                                  Strings.youDonNotBuyCard,
-                                );
-                              }
-                            },
-                          ),
-                          if (controller
-                              .strowalletCardModel.data.cardCreateAction) ...[
-                            CategoriesWidget(
-                              icon: Assets.icon.buyGift,
-                              text: Strings.createCard,
-                              onTap: () {
-                                Get.toNamed(Routes.crateStrowalletScreen);
-                              },
-                            ),
-                          ],
-                        ]),
+                        ],
+                      ],
+                    ),
                   ),
                 ],
               ),
             ),
             if (controller.strowalletCardModel.data.myCards.isEmpty) ...[
-              _createCardWidget(context)
+              _createCardWidget(context),
             ],
           ],
         ),
@@ -176,7 +185,10 @@ class StrowalletCardScreen extends StatelessWidget {
     );
   }
 
-  Padding _recentTransWidget(BuildContext context, ScrollController scrollController) {
+  Padding _recentTransWidget(
+    BuildContext context,
+    ScrollController scrollController,
+  ) {
     final data = controller.strowalletCardModel.data.transactions;
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: Dimensions.paddingSize * 0.8),
@@ -208,15 +220,17 @@ class StrowalletCardScreen extends StatelessWidget {
                         payableAmount: data[index].payable,
                         amount: data[index].requestAmount,
                         title: data[index].transactionType,
-                        dateText:
-                            controller.getDay(data[index].dateTime.toString()),
+                        dateText: controller.getDay(
+                          data[index].dateTime.toString(),
+                        ),
                         transaction: data[index].trx,
-                        monthText: controller
-                            .getMonth(data[index].dateTime.toString()),
+                        monthText: controller.getMonth(
+                          data[index].dateTime.toString(),
+                        ),
                       );
                     },
                   ),
-                )
+                ),
               ],
             ).customGlassWidget()
           : Container(),
@@ -232,8 +246,9 @@ class StrowalletCardScreen extends StatelessWidget {
               horizontal: Dimensions.marginSizeHorizontal,
               vertical: Dimensions.paddingSize * 3,
             ),
-            padding:
-                EdgeInsets.symmetric(vertical: Dimensions.paddingSize * .5),
+            padding: EdgeInsets.symmetric(
+              vertical: Dimensions.paddingSize * .5,
+            ),
             child: PrimaryButton(
               title: Strings.createCard.tr,
               onPressed: () {

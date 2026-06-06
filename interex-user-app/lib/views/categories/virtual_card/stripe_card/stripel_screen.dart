@@ -51,7 +51,7 @@ class StripeCardScreen extends StatelessWidget {
             data.isEmpty
                 ? _createCardWidget(context)
                 : _cardCategoriesWidget(context),
-            const SizedBox()
+            const SizedBox(),
           ],
         ),
         _draggableSheet(context),
@@ -70,8 +70,12 @@ class StripeCardScreen extends StatelessWidget {
     );
   }
 
-  Container cardFontWidget(BuildContext context, List<MyCard> data, int index,
-      CardBasicInfo cardData) {
+  Container cardFontWidget(
+    BuildContext context,
+    List<MyCard> data,
+    int index,
+    CardBasicInfo cardData,
+  ) {
     bool isTablet() {
       return MediaQuery.of(context).size.shortestSide >= 600;
     }
@@ -86,11 +90,14 @@ class StripeCardScreen extends StatelessWidget {
       height: MediaQuery.of(context).size.height * 0.30,
       width: MediaQuery.of(context).size.width * 0.9,
       decoration: BoxDecoration(
-          image: DecorationImage(
-            image: NetworkImage(controller.stripeCardModel.data.cardBasicInfo.cardBg),
-            fit: BoxFit.cover,
+        image: DecorationImage(
+          image: NetworkImage(
+            controller.stripeCardModel.data.cardBasicInfo.cardBg,
           ),
-          borderRadius: BorderRadius.circular(Dimensions.radius * 1.5)),
+          fit: BoxFit.cover,
+        ),
+        borderRadius: BorderRadius.circular(Dimensions.radius * 1.5),
+      ),
       child: Stack(
         children: [
           Positioned(
@@ -115,15 +122,17 @@ class StripeCardScreen extends StatelessWidget {
                   fontWeight: FontWeight.w800,
                 ),
               ),
-              verticalSpace(isTablet()
-                  ? Dimensions.heightSize * 2
-                  : Dimensions.heightSize * 5),
+              verticalSpace(
+                isTablet()
+                    ? Dimensions.heightSize * 2
+                    : Dimensions.heightSize * 5,
+              ),
               Center(
                 child: Text(
                   data[index].cardPan.formatCardNumber(),
                   style: CustomStyle.lightHeading4TextStyle.copyWith(
                     fontWeight: FontWeight.w700,
-                    color: CustomColor.whiteColor.withValues(alpha:0.6),
+                    color: CustomColor.whiteColor.withValues(alpha: 0.6),
                     fontSize: 22.sp,
                   ),
                 ),
@@ -140,21 +149,25 @@ class StripeCardScreen extends StatelessWidget {
                         CustomTitleHeadingWidget(
                           text:
                               '${data[index].expiryYear}/${data[index].expiryYear} ',
-                          style: CustomStyle.f20w600pri
-                              .copyWith(color: CustomColor.whiteColor),
+                          style: CustomStyle.f20w600pri.copyWith(
+                            color: CustomColor.whiteColor,
+                          ),
                         ),
                         CustomTitleHeadingWidget(
                           text: Strings.expiryDate,
                           style: CustomStyle.f20w600pri.copyWith(
-                              color: CustomColor.whiteColor.withValues(alpha:0.6),
-                              fontWeight: FontWeight.w500,
-                              fontSize: Dimensions.headingTextSize5),
+                            color: CustomColor.whiteColor.withValues(
+                              alpha: 0.6,
+                            ),
+                            fontWeight: FontWeight.w500,
+                            fontSize: Dimensions.headingTextSize5,
+                          ),
                         ),
                       ],
                     ),
                   ],
                 ),
-              )
+              ),
             ],
           ),
         ],
@@ -162,22 +175,30 @@ class StripeCardScreen extends StatelessWidget {
     );
   }
 
-  Container cardBackWidget(BuildContext context, List<MyCard> data, int index,
-      CardBasicInfo cardData) {
+  Container cardBackWidget(
+    BuildContext context,
+    List<MyCard> data,
+    int index,
+    CardBasicInfo cardData,
+  ) {
     return Container(
       alignment: Alignment.topRight,
       padding: EdgeInsets.only(
-          left: Dimensions.paddingSize * 0.5,
-          bottom: Dimensions.marginSizeVertical * 0.5,
-          right: Dimensions.paddingSize * 0.5),
+        left: Dimensions.paddingSize * 0.5,
+        bottom: Dimensions.marginSizeVertical * 0.5,
+        right: Dimensions.paddingSize * 0.5,
+      ),
       height: MediaQuery.of(context).size.height * 0.30,
       width: MediaQuery.of(context).size.width * 0.9,
       decoration: BoxDecoration(
-          image: DecorationImage(
-            image: NetworkImage(controller.stripeCardModel.data.cardBasicInfo.cardBg),
-            fit: BoxFit.cover,
+        image: DecorationImage(
+          image: NetworkImage(
+            controller.stripeCardModel.data.cardBasicInfo.cardBg,
           ),
-          borderRadius: BorderRadius.circular(Dimensions.radius * 1.5)),
+          fit: BoxFit.cover,
+        ),
+        borderRadius: BorderRadius.circular(Dimensions.radius * 1.5),
+      ),
       child: Column(
         crossAxisAlignment: crossEnd,
         mainAxisAlignment: mainEnd,
@@ -193,15 +214,17 @@ class StripeCardScreen extends StatelessWidget {
                 children: [
                   CustomTitleHeadingWidget(
                     text: data[index].cvv,
-                    style: CustomStyle.f20w600pri
-                        .copyWith(color: CustomColor.whiteColor),
+                    style: CustomStyle.f20w600pri.copyWith(
+                      color: CustomColor.whiteColor,
+                    ),
                   ),
                   CustomTitleHeadingWidget(
                     text: Strings.cvc,
                     style: CustomStyle.f20w600pri.copyWith(
-                        color: CustomColor.whiteColor.withValues(alpha:0.6),
-                        fontWeight: FontWeight.w500,
-                        fontSize: Dimensions.headingTextSize5),
+                      color: CustomColor.whiteColor.withValues(alpha: 0.6),
+                      fontWeight: FontWeight.w500,
+                      fontSize: Dimensions.headingTextSize5,
+                    ),
                   ),
                 ],
               ),
@@ -209,10 +232,8 @@ class StripeCardScreen extends StatelessWidget {
           ),
           SizedBox(
             height: Dimensions.heightSize * 6,
-            child: Html(
-              data: cardData.cardBackDetails,
-            ),
-          )
+            child: Html(data: cardData.cardBackDetails),
+          ),
         ],
       ),
     );
@@ -236,11 +257,14 @@ class StripeCardScreen extends StatelessWidget {
       height: MediaQuery.of(context).size.height * 0.30,
       width: MediaQuery.of(context).size.width * 0.9,
       decoration: BoxDecoration(
-          image: DecorationImage(
-            image: NetworkImage(controller.stripeCardModel.data.cardBasicInfo.cardBg),
-            fit: BoxFit.cover,
+        image: DecorationImage(
+          image: NetworkImage(
+            controller.stripeCardModel.data.cardBasicInfo.cardBg,
           ),
-          borderRadius: BorderRadius.circular(Dimensions.radius * 1.5)),
+          fit: BoxFit.cover,
+        ),
+        borderRadius: BorderRadius.circular(Dimensions.radius * 1.5),
+      ),
       child: Stack(
         children: [
           Positioned(
@@ -273,7 +297,7 @@ class StripeCardScreen extends StatelessWidget {
                     fontFamily: "AgencyFB",
                     fontSize: Dimensions.headingTextSize3,
                     fontWeight: FontWeight.w700,
-                    color: CustomColor.whiteColor.withValues(alpha:0.6),
+                    color: CustomColor.whiteColor.withValues(alpha: 0.6),
                   ),
                 ),
               ),
@@ -296,7 +320,9 @@ class StripeCardScreen extends StatelessWidget {
                         CustomTitleHeadingWidget(
                           text: Strings.expiryDate,
                           style: CustomStyle.f20w600pri.copyWith(
-                            color: CustomColor.whiteColor.withValues(alpha:0.6),
+                            color: CustomColor.whiteColor.withValues(
+                              alpha: 0.6,
+                            ),
                             fontWeight: FontWeight.w500,
                             fontSize: Dimensions.headingTextSize5,
                           ),
@@ -305,7 +331,7 @@ class StripeCardScreen extends StatelessWidget {
                     ),
                   ],
                 ),
-              )
+              ),
             ],
           ),
         ],
@@ -317,17 +343,21 @@ class StripeCardScreen extends StatelessWidget {
     return Container(
       alignment: Alignment.topRight,
       padding: EdgeInsets.only(
-          bottom: Dimensions.marginSizeVertical * 1.5,
-          left: Dimensions.paddingSize * 0.5,
-          right: Dimensions.paddingSize * 0.5),
+        bottom: Dimensions.marginSizeVertical * 1.5,
+        left: Dimensions.paddingSize * 0.5,
+        right: Dimensions.paddingSize * 0.5,
+      ),
       height: MediaQuery.of(context).size.height * 0.30,
       width: MediaQuery.of(context).size.width * 0.9,
       decoration: BoxDecoration(
-          image: DecorationImage(
-            image: NetworkImage(controller.stripeCardModel.data.cardBasicInfo.cardBg),
-            fit: BoxFit.cover,
+        image: DecorationImage(
+          image: NetworkImage(
+            controller.stripeCardModel.data.cardBasicInfo.cardBg,
           ),
-          borderRadius: BorderRadius.circular(Dimensions.radius * 1.5)),
+          fit: BoxFit.cover,
+        ),
+        borderRadius: BorderRadius.circular(Dimensions.radius * 1.5),
+      ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: crossStart,
@@ -339,15 +369,17 @@ class StripeCardScreen extends StatelessWidget {
             children: [
               CustomTitleHeadingWidget(
                 text: "000",
-                style: CustomStyle.f20w600pri
-                    .copyWith(color: CustomColor.whiteColor),
+                style: CustomStyle.f20w600pri.copyWith(
+                  color: CustomColor.whiteColor,
+                ),
               ),
               CustomTitleHeadingWidget(
                 text: Strings.cvc,
                 style: CustomStyle.f20w600pri.copyWith(
-                    color: CustomColor.whiteColor.withValues(alpha:0.6),
-                    fontWeight: FontWeight.w500,
-                    fontSize: Dimensions.headingTextSize5),
+                  color: CustomColor.whiteColor.withValues(alpha: 0.6),
+                  fontWeight: FontWeight.w500,
+                  fontSize: Dimensions.headingTextSize5,
+                ),
               ),
             ],
           ),
@@ -360,21 +392,23 @@ class StripeCardScreen extends StatelessWidget {
     final data = controller.stripeCardModel.data.myCard;
     return Container(
       margin: EdgeInsets.only(
-          bottom: Dimensions.marginSizeVertical,
-          top: Dimensions.marginSizeVertical * 0.2),
+        bottom: Dimensions.marginSizeVertical,
+        top: Dimensions.marginSizeVertical * 0.2,
+      ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           CategoriesWidget(
-              icon: Assets.icon.details,
-              text: Strings.details,
-              onTap: () {
-                // controller.getCardDetailsData(data.cardId);
-                // controller.getCardDetailsData(
-                //   data[controller.activeIndicatorIndex.value].cardId,
-                // );
-                Get.to(StripeCardDetailsScreen());
-              }),
+            icon: Assets.icon.details,
+            text: Strings.details,
+            onTap: () {
+              // controller.getCardDetailsData(data.cardId);
+              // controller.getCardDetailsData(
+              //   data[controller.activeIndicatorIndex.value].cardId,
+              // );
+              Get.to(StripeCardDetailsScreen());
+            },
+          ),
           // CategoriesWidget(
           //     icon: Assets.icon.myGift,
           //     text: Strings.fund,
@@ -395,23 +429,29 @@ class StripeCardScreen extends StatelessWidget {
                         : Strings.makeDefault,
                     onTap: () {
                       controller.makeCardDefaultProcess(
-                          data[controller.activeIndicatorIndex.value].cardId);
-                    }),
+                        data[controller.activeIndicatorIndex.value].cardId,
+                      );
+                    },
+                  ),
           ),
           CategoriesWidget(
-              icon: Assets.icon.transaction,
-              text: Strings.transaction,
-              onTap: () {
-                Get.to(StripeTransactionHistoryScreen());
-                // controller.getCardTransactionData(
-                //     controller.stripeCardModel.data.myCard.first.cardId);
-              }),
+            icon: Assets.icon.transaction,
+            text: Strings.transaction,
+            onTap: () {
+              Get.to(StripeTransactionHistoryScreen());
+              // controller.getCardTransactionData(
+              //     controller.stripeCardModel.data.myCard.first.cardId);
+            },
+          ),
         ],
       ),
     );
   }
 
-  Padding _recentTransWidget(BuildContext context, ScrollController scrollController) {
+  Padding _recentTransWidget(
+    BuildContext context,
+    ScrollController scrollController,
+  ) {
     final data = controller.stripeCardModel.data.transactions;
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: Dimensions.paddingSize * 0.8),
@@ -435,22 +475,25 @@ class StripeCardScreen extends StatelessWidget {
                 SizedBox(
                   height: MediaQuery.of(context).size.height,
                   child: ListView.builder(
-                      controller: scrollController,
-                      physics: const BouncingScrollPhysics(),
-                      itemCount: data.length,
-                      itemBuilder: (context, index) {
-                        return TransactionWidget(
-                          payableAmount: data[index].payable,
-                          amount: data[index].requestAmount,
-                          title: data[index].transactionType,
-                          dateText: controller
-                              .getDay(data[index].dateTime.toString()),
-                          transaction: data[index].trx,
-                          monthText: controller
-                              .getMonth(data[index].dateTime.toString()),
-                        );
-                      }),
-                )
+                    controller: scrollController,
+                    physics: const BouncingScrollPhysics(),
+                    itemCount: data.length,
+                    itemBuilder: (context, index) {
+                      return TransactionWidget(
+                        payableAmount: data[index].payable,
+                        amount: data[index].requestAmount,
+                        title: data[index].transactionType,
+                        dateText: controller.getDay(
+                          data[index].dateTime.toString(),
+                        ),
+                        transaction: data[index].trx,
+                        monthText: controller.getMonth(
+                          data[index].dateTime.toString(),
+                        ),
+                      );
+                    },
+                  ),
+                ),
               ],
             ).customGlassWidget()
           : Container(),
@@ -467,9 +510,7 @@ class StripeCardScreen extends StatelessWidget {
       child: PrimaryButton(
         title: Strings.createCard.tr,
         onPressed: () {
-          Get.to(StripeCreateCardScreen(
-            controller: controller,
-          ));
+          Get.to(StripeCreateCardScreen(controller: controller));
         },
         borderColor: CustomColor.primaryLightColor,
         buttonColor: CustomColor.primaryLightColor,
@@ -493,10 +534,9 @@ class StripeCardScreen extends StatelessWidget {
                       itemCount: data.length,
                       itemBuilder: (context, index, realIndex) {
                         return FlipCard(
-                            front:
-                                cardFontWidget(context, data, index, cardData),
-                            back:
-                                cardBackWidget(context, data, index, cardData));
+                          front: cardFontWidget(context, data, index, cardData),
+                          back: cardBackWidget(context, data, index, cardData),
+                        );
                       },
                       options: CarouselOptions(
                         // enlargeCenterPage: true,
@@ -507,9 +547,7 @@ class StripeCardScreen extends StatelessWidget {
                         },
                       ),
                     ),
-                    SizedBox(
-                      height: Dimensions.heightSize,
-                    ),
+                    SizedBox(height: Dimensions.heightSize),
                     _buildIndicator(context),
                   ],
                 ),
@@ -528,7 +566,7 @@ class StripeCardScreen extends StatelessWidget {
         dotHeight: 8,
         dotWidth: 8,
         activeDotColor: CustomColor.primaryLightColor,
-        dotColor: Colors.grey.withValues(alpha:0.5),
+        dotColor: Colors.grey.withValues(alpha: 0.5),
       ),
     );
   }

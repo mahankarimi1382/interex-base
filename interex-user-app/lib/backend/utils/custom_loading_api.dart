@@ -4,10 +4,7 @@ import 'package:qrpaypro/utils/custom_color.dart';
 import 'package:qrpaypro/utils/dimensions.dart';
 
 class CustomLoadingAPI extends StatelessWidget {
-  const CustomLoadingAPI({
-    super.key,
-    this.colors,
-  });
+  const CustomLoadingAPI({super.key, this.colors});
   final Color? colors;
 
   @override

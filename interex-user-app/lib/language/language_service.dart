@@ -12,8 +12,9 @@ class LanguageService {
     if (response.statusCode == 200) {
       final Map<String, dynamic> data = json.decode(response.body);
       final List<dynamic> languageDataList = data["data"]["languages"];
-      final List<Language> languages =
-          languageDataList.map((json) => Language.fromJson(json)).toList();
+      final List<Language> languages = languageDataList
+          .map((json) => Language.fromJson(json))
+          .toList();
       return languages;
     } else {
       // if (response.statusCode == 503) {

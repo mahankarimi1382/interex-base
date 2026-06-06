@@ -156,7 +156,7 @@ class UpdateProfileController extends GetxController {
 
     Map<String, String> inputBody = {
       'firstname': firstNameController.text,
-      'email' : emailController.text,
+      'email': emailController.text,
       'lastname': lastNameController.text,
       'country': countryName.value.toString(),
       'phone_code': phoneCode.value.toString(),
@@ -187,10 +187,12 @@ class UpdateProfileController extends GetxController {
 
     return _profileUpdateModel;
   }
-  final List<Country> countries = countryList.map((item) => Country.fromMap(item)).toList();
 
-// Now you can get the first country for the initial hint and flag
+  final List<Country> countries = countryList
+      .map((item) => Country.fromMap(item))
+      .toList();
 
+  // Now you can get the first country for the initial hint and flag
 
   String getIso2ByMobileCode(String mobileCode) {
     // normalize input (remove +)

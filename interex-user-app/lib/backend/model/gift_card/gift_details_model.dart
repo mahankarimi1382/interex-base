@@ -14,10 +14,7 @@ class GiftCardDetailsModel {
   final Message message;
   final Data data;
 
-  GiftCardDetailsModel({
-    required this.message,
-    required this.data,
-  });
+  GiftCardDetailsModel({required this.message, required this.data});
 
   factory GiftCardDetailsModel.fromJson(Map<String, dynamic> json) =>
       GiftCardDetailsModel(
@@ -26,9 +23,9 @@ class GiftCardDetailsModel {
       );
 
   Map<String, dynamic> toJson() => {
-        "message": message.toJson(),
-        "data": data.toJson(),
-      };
+    "message": message.toJson(),
+    "data": data.toJson(),
+  };
 }
 
 class Data {
@@ -47,24 +44,28 @@ class Data {
   });
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
-        product: Product.fromJson(json["product"]),
-        productCurrency: List<ProductCurrency>.from(
-            json["productCurrency"].map((x) => ProductCurrency.fromJson(x))),
-        userWallet: List<UserWallet>.from(
-            json["userWallet"].map((x) => UserWallet.fromJson(x))),
-        cardCharge: CardCharge.fromJson(json["cardCharge"]),
-        countries: List<CountryElement>.from(
-            json["countries"].map((x) => CountryElement.fromJson(x))),
-      );
+    product: Product.fromJson(json["product"]),
+    productCurrency: List<ProductCurrency>.from(
+      json["productCurrency"].map((x) => ProductCurrency.fromJson(x)),
+    ),
+    userWallet: List<UserWallet>.from(
+      json["userWallet"].map((x) => UserWallet.fromJson(x)),
+    ),
+    cardCharge: CardCharge.fromJson(json["cardCharge"]),
+    countries: List<CountryElement>.from(
+      json["countries"].map((x) => CountryElement.fromJson(x)),
+    ),
+  );
 
   Map<String, dynamic> toJson() => {
-        "product": product.toJson(),
-        "productCurrency":
-            List<dynamic>.from(productCurrency.map((x) => x.toJson())),
-        "userWallet": List<dynamic>.from(userWallet.map((x) => x.toJson())),
-        "cardCharge": cardCharge.toJson(),
-        "countries": List<dynamic>.from(countries.map((x) => x.toJson())),
-      };
+    "product": product.toJson(),
+    "productCurrency": List<dynamic>.from(
+      productCurrency.map((x) => x.toJson()),
+    ),
+    "userWallet": List<dynamic>.from(userWallet.map((x) => x.toJson())),
+    "cardCharge": cardCharge.toJson(),
+    "countries": List<dynamic>.from(countries.map((x) => x.toJson())),
+  };
 }
 
 class CardCharge {
@@ -87,24 +88,24 @@ class CardCharge {
   });
 
   factory CardCharge.fromJson(Map<String, dynamic> json) => CardCharge(
-        id: json["id"],
-        slug: json["slug"],
-        title: json["title"],
-        fixedCharge: json["fixed_charge"],
-        percentCharge: json["percent_charge"],
-        minLimit: json["min_limit"],
-        maxLimit: json["max_limit"],
-      );
+    id: json["id"],
+    slug: json["slug"],
+    title: json["title"],
+    fixedCharge: json["fixed_charge"],
+    percentCharge: json["percent_charge"],
+    minLimit: json["min_limit"],
+    maxLimit: json["max_limit"],
+  );
 
   Map<String, dynamic> toJson() => {
-        "id": id,
-        "slug": slug,
-        "title": title,
-        "fixed_charge": fixedCharge,
-        "percent_charge": percentCharge,
-        "min_limit": minLimit,
-        "max_limit": maxLimit,
-      };
+    "id": id,
+    "slug": slug,
+    "title": title,
+    "fixed_charge": fixedCharge,
+    "percent_charge": percentCharge,
+    "min_limit": minLimit,
+    "max_limit": maxLimit,
+  };
 }
 
 class CountryElement implements DropdownModel {
@@ -127,22 +128,22 @@ class CountryElement implements DropdownModel {
   });
 
   factory CountryElement.fromJson(Map<String, dynamic> json) => CountryElement(
-        name: json["name"],
-        mobileCode: json["mobile_code"],
-        currencyName: json["currency_name"],
-        currencyCode: json["currency_code"],
-        currencySymbol: json["currency_symbol"],
-        iso2: json["iso2"],
-      );
+    name: json["name"],
+    mobileCode: json["mobile_code"],
+    currencyName: json["currency_name"],
+    currencyCode: json["currency_code"],
+    currencySymbol: json["currency_symbol"],
+    iso2: json["iso2"],
+  );
 
   Map<String, dynamic> toJson() => {
-        "name": name,
-        "mobile_code": mobileCode,
-        "currency_name": currencyName,
-        "currency_code": currencyCode,
-        "currency_symbol": currencySymbol,
-        "iso2": iso2,
-      };
+    "name": name,
+    "mobile_code": mobileCode,
+    "currency_name": currencyName,
+    "currency_code": currencyCode,
+    "currency_symbol": currencySymbol,
+    "iso2": iso2,
+  };
 
   @override
   double get fCharge => 0.0;
@@ -195,28 +196,32 @@ class Product {
   });
 
   factory Product.fromJson(Map<String, dynamic> json) => Product(
-        productId: json["productId"],
-        productName: json["productName"],
-        denominationType: json["denominationType"],
-        fixedRecipientDenominations: List<dynamic>.from(
-            json["fixedRecipientDenominations"].map((x) => x)),
-        fixedSenderDenominations: List<dynamic>.from(
-            json["fixedSenderDenominations"].map((x) => x?.toDouble())),
-        logoUrls: List<String>.from(json["logoUrls"].map((x) => x)),
-        country: ProductCountry.fromJson(json["country"]),
-      );
+    productId: json["productId"],
+    productName: json["productName"],
+    denominationType: json["denominationType"],
+    fixedRecipientDenominations: List<dynamic>.from(
+      json["fixedRecipientDenominations"].map((x) => x),
+    ),
+    fixedSenderDenominations: List<dynamic>.from(
+      json["fixedSenderDenominations"].map((x) => x?.toDouble()),
+    ),
+    logoUrls: List<String>.from(json["logoUrls"].map((x) => x)),
+    country: ProductCountry.fromJson(json["country"]),
+  );
 
   Map<String, dynamic> toJson() => {
-        "productId": productId,
-        "productName": productName,
-        "denominationType": denominationType,
-        "fixedRecipientDenominations":
-            List<dynamic>.from(fixedRecipientDenominations.map((x) => x)),
-        "fixedSenderDenominations":
-            List<dynamic>.from(fixedSenderDenominations.map((x) => x)),
-        "logoUrls": List<dynamic>.from(logoUrls.map((x) => x)),
-        "country": country.toJson(),
-      };
+    "productId": productId,
+    "productName": productName,
+    "denominationType": denominationType,
+    "fixedRecipientDenominations": List<dynamic>.from(
+      fixedRecipientDenominations.map((x) => x),
+    ),
+    "fixedSenderDenominations": List<dynamic>.from(
+      fixedSenderDenominations.map((x) => x),
+    ),
+    "logoUrls": List<dynamic>.from(logoUrls.map((x) => x)),
+    "country": country.toJson(),
+  };
 }
 
 class ProductCountry {
@@ -231,16 +236,16 @@ class ProductCountry {
   });
 
   factory ProductCountry.fromJson(Map<String, dynamic> json) => ProductCountry(
-        isoName: json["isoName"],
-        name: json["name"],
-        flagUrl: json["flagUrl"],
-      );
+    isoName: json["isoName"],
+    name: json["name"],
+    flagUrl: json["flagUrl"],
+  );
 
   Map<String, dynamic> toJson() => {
-        "isoName": isoName,
-        "name": name,
-        "flagUrl": flagUrl,
-      };
+    "isoName": isoName,
+    "name": name,
+    "flagUrl": flagUrl,
+  };
 }
 
 class ProductCurrency {
@@ -262,10 +267,10 @@ class ProductCurrency {
       );
 
   Map<String, dynamic> toJson() => {
-        "name": name,
-        "currency_code": currencyCode,
-        "rate": rate,
-      };
+    "name": name,
+    "currency_code": currencyCode,
+    "rate": rate,
+  };
 }
 
 class UserWallet implements DropdownModel {
@@ -293,26 +298,26 @@ class UserWallet implements DropdownModel {
   });
 
   factory UserWallet.fromJson(Map<String, dynamic> json) => UserWallet(
-        name: json["name"],
-        balance: double.parse(json["balance"] ?? "0.0"),
-        currencyCode: json["currency_code"],
-        currencySymbol: json["currency_symbol"],
-        currencyType: json["currency_type"],
-        rate: double.parse(json["rate"] ?? "0.0"),
-        flag: json["flag"] ?? "",
-        imagePath: json["image_path"],
-      );
+    name: json["name"],
+    balance: double.parse(json["balance"] ?? "0.0"),
+    currencyCode: json["currency_code"],
+    currencySymbol: json["currency_symbol"],
+    currencyType: json["currency_type"],
+    rate: double.parse(json["rate"] ?? "0.0"),
+    flag: json["flag"] ?? "",
+    imagePath: json["image_path"],
+  );
 
   Map<String, dynamic> toJson() => {
-        "name": name,
-        "balance": balance,
-        "currency_code": currencyCode,
-        "currency_symbol": currencySymbol,
-        "currency_type": currencyType,
-        "rate": rate,
-        "flag": flag,
-        "image_path": imagePath,
-      };
+    "name": name,
+    "balance": balance,
+    "currency_code": currencyCode,
+    "currency_symbol": currencySymbol,
+    "currency_type": currencyType,
+    "rate": rate,
+    "flag": flag,
+    "image_path": imagePath,
+  };
 
   @override
   double get fCharge => 0.0;
@@ -345,15 +350,12 @@ class UserWallet implements DropdownModel {
 class Message {
   final List<String> success;
 
-  Message({
-    required this.success,
-  });
+  Message({required this.success});
 
-  factory Message.fromJson(Map<String, dynamic> json) => Message(
-        success: List<String>.from(json["success"].map((x) => x)),
-      );
+  factory Message.fromJson(Map<String, dynamic> json) =>
+      Message(success: List<String>.from(json["success"].map((x) => x)));
 
   Map<String, dynamic> toJson() => {
-        "success": List<dynamic>.from(success.map((x) => x)),
-      };
+    "success": List<dynamic>.from(success.map((x) => x)),
+  };
 }

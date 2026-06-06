@@ -24,9 +24,7 @@ class MyWalletScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return ResponsiveLayout(
       mobileScaffold: Scaffold(
-        appBar: const AppBarWidget(
-          text: Strings.myWallets,
-        ),
+        appBar: const AppBarWidget(text: Strings.myWallets),
         body: _bodyWidget(context),
       ),
     );
@@ -39,7 +37,7 @@ class MyWalletScreen extends StatelessWidget {
           children: [
             _amountWidget(context),
             _buttonWidget(context),
-            const SizedBox()
+            const SizedBox(),
           ],
         ),
         _draggableSheet(context),
@@ -63,8 +61,9 @@ class MyWalletScreen extends StatelessWidget {
       margin: EdgeInsets.symmetric(horizontal: Dimensions.paddingSize * 0.8),
       height: MediaQuery.of(context).size.height * 0.25,
       decoration: BoxDecoration(
-          color: CustomColor.primaryLightColor,
-          borderRadius: BorderRadius.circular(Dimensions.radius * 1.5)),
+        color: CustomColor.primaryLightColor,
+        borderRadius: BorderRadius.circular(Dimensions.radius * 1.5),
+      ),
       child: Column(
         mainAxisAlignment: mainCenter,
         children: [
@@ -81,16 +80,15 @@ class MyWalletScreen extends StatelessWidget {
             text: Strings.currentBalance,
             textAlign: TextAlign.center,
             style: CustomStyle.darkHeading4TextStyle.copyWith(
-                fontSize: Dimensions.headingTextSize3,
-                fontWeight: FontWeight.w500,
-                color: CustomColor.whiteColor.withValues(alpha:0.6)),
+              fontSize: Dimensions.headingTextSize3,
+              fontWeight: FontWeight.w500,
+              color: CustomColor.whiteColor.withValues(alpha: 0.6),
+            ),
           ),
           verticalSpace(Dimensions.heightSize),
           //receive and send
           Padding(
-            padding: EdgeInsets.only(
-              top: Dimensions.marginSizeVertical,
-            ),
+            padding: EdgeInsets.only(top: Dimensions.marginSizeVertical),
             child: Row(
               mainAxisAlignment: mainCenter,
               children: [
@@ -103,12 +101,12 @@ class MyWalletScreen extends StatelessWidget {
                     TitleHeading2Widget(
                       text: Strings.uSD541,
                       textAlign: TextAlign.center,
-                      color: CustomColor.whiteColor.withValues(alpha:0.6),
+                      color: CustomColor.whiteColor.withValues(alpha: 0.6),
                     ),
                     TitleHeading4Widget(
                       text: Strings.totalReceive,
                       textAlign: TextAlign.center,
-                      color: CustomColor.whiteColor.withValues(alpha:0.4),
+                      color: CustomColor.whiteColor.withValues(alpha: 0.4),
                     ),
                   ],
                 ),
@@ -120,18 +118,18 @@ class MyWalletScreen extends StatelessWidget {
                     TitleHeading2Widget(
                       text: Strings.uSD541,
                       textAlign: TextAlign.center,
-                      color: CustomColor.whiteColor.withValues(alpha:0.6),
+                      color: CustomColor.whiteColor.withValues(alpha: 0.6),
                     ),
                     TitleHeading4Widget(
                       text: Strings.totalSend,
                       textAlign: TextAlign.center,
-                      color: CustomColor.whiteColor.withValues(alpha:0.4),
+                      color: CustomColor.whiteColor.withValues(alpha: 0.4),
                     ),
                   ],
-                )
+                ),
               ],
             ),
-          )
+          ),
         ],
       ),
     );
@@ -156,11 +154,11 @@ class MyWalletScreen extends StatelessWidget {
               height: Dimensions.heightSize * 4,
               width: MediaQuery.of(context).size.width * 0.43,
               decoration: BoxDecoration(
-                border:
-                    Border.all(width: 3, color: CustomColor.primaryLightColor),
-                borderRadius: BorderRadius.circular(
-                  Dimensions.radius * 2.8,
+                border: Border.all(
+                  width: 3,
+                  color: CustomColor.primaryLightColor,
                 ),
+                borderRadius: BorderRadius.circular(Dimensions.radius * 2.8),
               ),
               child: const TitleHeading3Widget(text: Strings.withdraw),
             ),
@@ -177,9 +175,7 @@ class MyWalletScreen extends StatelessWidget {
               width: MediaQuery.of(context).size.width * 0.43,
               decoration: BoxDecoration(
                 color: CustomColor.primaryLightColor,
-                borderRadius: BorderRadius.circular(
-                  Dimensions.radius * 2.8,
-                ),
+                borderRadius: BorderRadius.circular(Dimensions.radius * 2.8),
               ),
               child: const TitleHeading3Widget(
                 text: Strings.deposit,
@@ -192,7 +188,10 @@ class MyWalletScreen extends StatelessWidget {
     );
   }
 
-  ClipRRect _transactionWidget(BuildContext context, ScrollController scrollController) {
+  ClipRRect _transactionWidget(
+    BuildContext context,
+    ScrollController scrollController,
+  ) {
     return ListView(
       padding: EdgeInsets.symmetric(horizontal: Dimensions.paddingSize * 0.8),
       physics: const NeverScrollableScrollPhysics(),
@@ -213,19 +212,20 @@ class MyWalletScreen extends StatelessWidget {
         SizedBox(
           height: MediaQuery.of(context).size.height,
           child: ListView.builder(
-              controller: scrollController,
-              physics: const BouncingScrollPhysics(),
-              itemCount: recentTransactionData.length,
-              itemBuilder: (context, index) {
-                return TransactionWidget(
-                  amount: recentTransactionData[index].amount,
-                  title: recentTransactionData[index].title,
-                  dateText: recentTransactionData[index].dateText,
-                  transaction: recentTransactionData[index].transaction,
-                  monthText: recentTransactionData[index].monthText,
-                );
-              }),
-        )
+            controller: scrollController,
+            physics: const BouncingScrollPhysics(),
+            itemCount: recentTransactionData.length,
+            itemBuilder: (context, index) {
+              return TransactionWidget(
+                amount: recentTransactionData[index].amount,
+                title: recentTransactionData[index].title,
+                dateText: recentTransactionData[index].dateText,
+                transaction: recentTransactionData[index].transaction,
+                monthText: recentTransactionData[index].monthText,
+              );
+            },
+          ),
+        ),
       ],
     ).customGlassWidget();
   }

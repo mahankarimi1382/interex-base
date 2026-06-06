@@ -24,51 +24,59 @@ class TradesList extends StatelessWidget {
         crossAxisAlignment: crossStart,
         children: [
           TitleHeading3Widget(text: Strings.trade),
-          verticalSpace(
-            Dimensions.paddingVerticalSize * .3,
-          ),
+          verticalSpace(Dimensions.paddingVerticalSize * .3),
           Expanded(
-              child: AnimationLimiter(
-            child: controller.myTradeModel.data.trade.isEmpty
-                ? NoDataWidget()
-                : ListView.separated(
-                    shrinkWrap: true,
-                    itemBuilder: (context, index) {
-                      Trade data = controller.myTradeModel.data.trade[index];
+            child: AnimationLimiter(
+              child: controller.myTradeModel.data.trade.isEmpty
+                  ? NoDataWidget()
+                  : ListView.separated(
+                      shrinkWrap: true,
+                      itemBuilder: (context, index) {
+                        Trade data = controller.myTradeModel.data.trade[index];
 
-                      return Obx(() => CustomListViewAnimation(
-                        index: index,
-                        child: Stack(
+                        return Obx(
+                          () => CustomListViewAnimation(
+                            index: index,
+                            child: Stack(
                               children: [
                                 Container(
                                   width: double.infinity,
-                                  padding: EdgeInsets.all(Dimensions.paddingSize),
+                                  padding: EdgeInsets.all(
+                                    Dimensions.paddingSize,
+                                  ),
                                   decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(
-                                          Dimensions.radius * 1.2),
-                                      color: Get.isDarkMode
-                                          ? CustomColor.whiteColor
-                                              .withValues(alpha: .05)
-                                          : CustomColor.whiteColor),
-                                  child: (controller.isCloseLoading &&
+                                    borderRadius: BorderRadius.circular(
+                                      Dimensions.radius * 1.2,
+                                    ),
+                                    color: Get.isDarkMode
+                                        ? CustomColor.whiteColor.withValues(
+                                            alpha: .05,
+                                          )
+                                        : CustomColor.whiteColor,
+                                  ),
+                                  child:
+                                      (controller.isCloseLoading &&
                                           (controller.selectedIndex.value ==
                                               index))
                                       ? CustomLoadingAPI()
                                       : _tileInfoWidget(data),
                                 ),
                                 (controller.isCloseLoading &&
-                                        (controller.selectedIndex.value == index))
+                                        (controller.selectedIndex.value ==
+                                            index))
                                     ? SizedBox.shrink()
-                                    : _popUpMenuButton(context, data, index)
+                                    : _popUpMenuButton(context, data, index),
                               ],
                             ),
-                      ));
-                    },
-                    separatorBuilder: (_, i) => verticalSpace(
-                          Dimensions.paddingVerticalSize * .3,
-                        ),
-                    itemCount: controller.myTradeModel.data.trade.length),
-          ))
+                          ),
+                        );
+                      },
+                      separatorBuilder: (_, i) =>
+                          verticalSpace(Dimensions.paddingVerticalSize * .3),
+                      itemCount: controller.myTradeModel.data.trade.length,
+                    ),
+            ),
+          ),
         ],
       ),
     );
@@ -95,22 +103,25 @@ class TradesList extends StatelessWidget {
                     crossAxisAlignment: crossStart,
                     children: [
                       TitleHeading5Widget(
-                          text: Strings.trxId,
-                          fontSize: Dimensions.headingTextSize6,
-                          fontWeight: FontWeight.w600),
+                        text: Strings.trxId,
+                        fontSize: Dimensions.headingTextSize6,
+                        fontWeight: FontWeight.w600,
+                      ),
                       verticalSpace(Dimensions.paddingVerticalSize * .1),
                       TitleHeading5Widget(text: data.trx),
                     ],
                   ),
                   Padding(
                     padding: EdgeInsets.symmetric(
-                        horizontal: Dimensions.paddingHorizontalSize * .3),
+                      horizontal: Dimensions.paddingHorizontalSize * .3,
+                    ),
                     child: Column(
                       crossAxisAlignment: crossEnd,
                       children: [
                         TitleHeading5Widget(
-                          text: DateFormat('hh:mm a, dd MMMM, yyyy')
-                              .format(data.createdAt),
+                          text: DateFormat(
+                            'hh:mm a, dd MMMM, yyyy',
+                          ).format(data.createdAt),
                           fontSize: Dimensions.headingTextSize6,
                         ),
                         verticalSpace(Dimensions.paddingVerticalSize * .1),
@@ -119,8 +130,8 @@ class TradesList extends StatelessWidget {
                           color: (data.statusId == 1 || data.statusId == 6)
                               ? CustomColor.greenColor
                               : (data.statusId == 2 || data.statusId == 5)
-                                  ? Colors.orange
-                                  : Colors.red,
+                              ? Colors.orange
+                              : Colors.red,
                           fontWeight: FontWeight.bold,
                         ),
                       ],
@@ -130,8 +141,9 @@ class TradesList extends StatelessWidget {
                 ],
               ),
             ),
-            horizontalSpace(Dimensions.paddingHorizontalSize *
-                (data.statusId == 1 ? .5 : 0)),
+            horizontalSpace(
+              Dimensions.paddingHorizontalSize * (data.statusId == 1 ? .5 : 0),
+            ),
           ],
         ),
         verticalSpace(Dimensions.paddingVerticalSize * .6),
@@ -142,11 +154,13 @@ class TradesList extends StatelessWidget {
               crossAxisAlignment: crossStart,
               children: [
                 TitleHeading5Widget(
-                    text: Strings.sellingAmount,
-                    fontSize: Dimensions.headingTextSize6,
-                    fontWeight: FontWeight.w600),
+                  text: Strings.sellingAmount,
+                  fontSize: Dimensions.headingTextSize6,
+                  fontWeight: FontWeight.w600,
+                ),
                 TitleHeading4Widget(
-                    text: "${data.requestAmount} ${data.saleCurrency}"),
+                  text: "${data.requestAmount} ${data.saleCurrency}",
+                ),
               ],
             ),
             horizontalSpace(Dimensions.paddingSize * .4),
@@ -154,11 +168,13 @@ class TradesList extends StatelessWidget {
               crossAxisAlignment: crossEnd,
               children: [
                 TitleHeading5Widget(
-                    text: Strings.askingAmount,
-                    fontSize: Dimensions.headingTextSize6,
-                    fontWeight: FontWeight.w600),
+                  text: Strings.askingAmount,
+                  fontSize: Dimensions.headingTextSize6,
+                  fontWeight: FontWeight.w600,
+                ),
                 TitleHeading4Widget(
-                    text: "${data.buyerWillPay} ${data.rateCurrency}"),
+                  text: "${data.buyerWillPay} ${data.rateCurrency}",
+                ),
               ],
             ),
           ],
@@ -168,11 +184,14 @@ class TradesList extends StatelessWidget {
           crossAxisAlignment: crossStart,
           children: [
             TitleHeading5Widget(
-                text: Strings.exchangeRate, fontWeight: FontWeight.w600),
+              text: Strings.exchangeRate,
+              fontWeight: FontWeight.w600,
+            ),
             TitleHeading4Widget(
-                text:
-                    "1 ${data.saleCurrency} = ${(double.parse(data.buyerWillPay) / double.parse(data.buyerWillGet)).toStringAsFixed(4)} ${data.rateCurrency}",
-                fontSize: Dimensions.headingTextSize3),
+              text:
+                  "1 ${data.saleCurrency} = ${(double.parse(data.buyerWillPay) / double.parse(data.buyerWillGet)).toStringAsFixed(4)} ${data.rateCurrency}",
+              fontSize: Dimensions.headingTextSize3,
+            ),
           ],
         ),
       ],
@@ -201,12 +220,14 @@ class TradesList extends StatelessWidget {
             PopupMenuItem<String>(
               value: 'Close',
               child: Text(
-                  Get.find<LanguageController>().getTranslation(Strings.close)),
+                Get.find<LanguageController>().getTranslation(Strings.close),
+              ),
             ),
             PopupMenuItem<String>(
               value: 'Edit',
               child: Text(
-                  Get.find<LanguageController>().getTranslation(Strings.edit)),
+                Get.find<LanguageController>().getTranslation(Strings.edit),
+              ),
             ),
           ],
         ),

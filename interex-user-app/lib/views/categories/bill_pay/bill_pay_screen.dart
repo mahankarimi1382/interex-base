@@ -41,9 +41,11 @@ class BillPayScreen extends StatelessWidget {
     return ResponsiveLayout(
       mobileScaffold: Scaffold(
         appBar: const AppBarWidget(text: Strings.billPay),
-        body: Obx(() => controller.isLoading
-            ? const CustomLoadingAPI()
-            : _bodyWidget(context)),
+        body: Obx(
+          () => controller.isLoading
+              ? const CustomLoadingAPI()
+              : _bodyWidget(context),
+        ),
       ),
     );
   }
@@ -57,10 +59,7 @@ class BillPayScreen extends StatelessWidget {
         padding: EdgeInsets.symmetric(
           horizontal: Dimensions.marginSizeHorizontal,
         ),
-        children: [
-          _inputWidget(context),
-          _buttonWidget(context),
-        ],
+        children: [_inputWidget(context), _buttonWidget(context)],
       ),
     );
   }
@@ -159,21 +158,20 @@ class BillPayScreen extends StatelessWidget {
                   dropdownColor: CustomColor.primaryLightColor,
                   underline: Container(),
                   items: controller.walletsList
-                      .map<DropdownMenuItem<MainUserWallet>>(
-                    (value) {
-                      return DropdownMenuItem<MainUserWallet>(
-                        value: value,
-                        child: Text(
-                          value.currency.code,
-                          style: GoogleFonts.inter(
-                            color: CustomColor.whiteColor,
-                            fontSize: Dimensions.headingTextSize3,
-                            fontWeight: FontWeight.w500,
+                      .map<DropdownMenuItem<MainUserWallet>>((value) {
+                        return DropdownMenuItem<MainUserWallet>(
+                          value: value,
+                          child: Text(
+                            value.currency.code,
+                            style: GoogleFonts.inter(
+                              color: CustomColor.whiteColor,
+                              fontSize: Dimensions.headingTextSize3,
+                              fontWeight: FontWeight.w500,
+                            ),
                           ),
-                        ),
-                      );
-                    },
-                  ).toList(),
+                        );
+                      })
+                      .toList(),
                   onChanged: (MainUserWallet? value) {
                     controller.selectMainWallet.value = value!;
 
@@ -185,11 +183,19 @@ class BillPayScreen extends StatelessWidget {
                     controller.getFee(rate: double.parse(value.currency.rate));
                     controller.exchangeRateUpdate();
                     controller.getAutomaticFee();
-                    controller.dailyLimit.value = controller
-                            .billPayInfoData.data.billPayCharge.dailyLimit *
+                    controller.dailyLimit.value =
+                        controller
+                            .billPayInfoData
+                            .data
+                            .billPayCharge
+                            .dailyLimit *
                         double.parse(value.currency.rate);
-                    controller.monthlyLimit.value = controller
-                            .billPayInfoData.data.billPayCharge.monthlyLimit *
+                    controller.monthlyLimit.value =
+                        controller
+                            .billPayInfoData
+                            .data
+                            .billPayCharge
+                            .monthlyLimit *
                         double.parse(value.currency.rate);
                   },
                 ),
@@ -197,27 +203,27 @@ class BillPayScreen extends StatelessWidget {
             ),
           ),
 
-          Obx(
-            () {
-              return controller.isAutomatic.value
-                  ? LimitWidget(
-                      fee:
-                          '${controller.automaticTotalFee.value.toStringAsFixed(precision)} ${controller.selectMainWallet.value!.currency.code}',
-                      limit:
-                          '${controller.automaticLimitMin.value.toStringAsFixed(precision)} - ${controller.automaticLimitMax.value.toStringAsFixed(precision)} ${controller.selectMainWallet.value!.currency.code}')
-                  : LimitWidget(
-                      fee:
-                          '${controller.totalFee.value.toStringAsFixed(precision)} ${controller.selectMainWallet.value!.currency.code}',
-                      limit:
-                          '${controller.manualLimitMin.value.toStringAsFixed(precision)} - ${controller.manualLimitMax.value.toStringAsFixed(precision)} ${controller.selectMainWallet.value!.currency.code}',
-                    );
-            },
-          ),
+          Obx(() {
+            return controller.isAutomatic.value
+                ? LimitWidget(
+                    fee:
+                        '${controller.automaticTotalFee.value.toStringAsFixed(precision)} ${controller.selectMainWallet.value!.currency.code}',
+                    limit:
+                        '${controller.automaticLimitMin.value.toStringAsFixed(precision)} - ${controller.automaticLimitMax.value.toStringAsFixed(precision)} ${controller.selectMainWallet.value!.currency.code}',
+                  )
+                : LimitWidget(
+                    fee:
+                        '${controller.totalFee.value.toStringAsFixed(precision)} ${controller.selectMainWallet.value!.currency.code}',
+                    limit:
+                        '${controller.manualLimitMin.value.toStringAsFixed(precision)} - ${controller.manualLimitMax.value.toStringAsFixed(precision)} ${controller.selectMainWallet.value!.currency.code}',
+                  );
+          }),
 
           LimitInformationWidget(
             showDailyLimit: controller.dailyLimit.value == 0.0 ? false : true,
-            showMonthlyLimit:
-                controller.monthlyLimit.value == 0.0 ? false : true,
+            showMonthlyLimit: controller.monthlyLimit.value == 0.0
+                ? false
+                : true,
             transactionLimit:
                 '${controller.limitMin.value.toStringAsFixed(precision)} - ${controller.limitMax.value.toStringAsFixed(precision)} ${controller.selectMainWallet.value!.currency.code}',
             dailyLimit:
@@ -236,34 +242,36 @@ class BillPayScreen extends StatelessWidget {
 
   Container _buttonWidget(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(
-        vertical: Dimensions.marginSizeVertical * 2,
-      ),
+      margin: EdgeInsets.symmetric(vertical: Dimensions.marginSizeVertical * 2),
       child: controller.isInsertLoading
           ? const CustomLoadingAPI()
           : PrimaryButton(
               title: Strings.payBill.tr,
               onPressed: () async {
                 if (dashboardController.kycStatus.value == 1) {
-                  Get.find<SetUpPinController>().showPinDialog(context,
-                      onSuccess: () {
-                    controller.type.value = controller
-                        .getType(controller.billMethodselected.value)!;
-                    controller
-                        .billPayApiProcess(
+                  Get.find<SetUpPinController>().showPinDialog(
+                    context,
+                    onSuccess: () {
+                      controller.type.value = controller.getType(
+                        controller.billMethodselected.value,
+                      )!;
+                      controller
+                          .billPayApiProcess(
                             amount: controller.amountController.text,
                             billNumber: controller.billNumberController.text,
-                            type: controller.type.value)
-                        .then(
-                          (value) => StatusScreen.show(
-                            context: context,
-                            subTitle: Strings.yourBillPaySuccess.tr,
-                            onPressed: () {
-                              Get.offAllNamed(Routes.bottomNavBarScreen);
-                            },
-                          ),
-                        );
-                  });
+                            type: controller.type.value,
+                          )
+                          .then(
+                            (value) => StatusScreen.show(
+                              context: context,
+                              subTitle: Strings.yourBillPaySuccess.tr,
+                              onPressed: () {
+                                Get.offAllNamed(Routes.bottomNavBarScreen);
+                              },
+                            ),
+                          );
+                    },
+                  );
                 } else {
                   CustomSnackBar.error(Strings.pleaseSubmitYourInformation);
                   Future.delayed(const Duration(seconds: 2), () {

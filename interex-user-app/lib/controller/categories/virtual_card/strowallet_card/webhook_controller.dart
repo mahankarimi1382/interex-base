@@ -16,21 +16,22 @@ class StrowalletWebhookController extends GetxController {
   bool get isLoading => _isLoading.value;
 
   late WebhookLogModel _webhookLogModel;
-  WebhookLogModel get webhookLogModel =>
-      _webhookLogModel;
+  WebhookLogModel get webhookLogModel => _webhookLogModel;
 
   Future<WebhookLogModel> getCardTransactionHistory() async {
     _isLoading.value = true;
     update();
 
     await StrowalletApiServices.strowalletWebhookLogsApi(
-            controller.strowalletCardId.value)
+          controller.strowalletCardId.value,
+        )
         .then((value) {
-      _webhookLogModel = value!;
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-    });
+          _webhookLogModel = value!;
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+        });
 
     _isLoading.value = false;
     update();

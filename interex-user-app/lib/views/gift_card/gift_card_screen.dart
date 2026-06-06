@@ -15,9 +15,7 @@ class GiftCardScreen extends StatelessWidget {
     return ResponsiveLayout(
       mobileScaffold: SafeArea(
         child: Scaffold(
-          appBar: AppBarWidget(
-            text: Strings.giftCard.tr,
-          ),
+          appBar: AppBarWidget(text: Strings.giftCard.tr),
           floatingActionButton: _giftCardAddButton(context),
           body: Obx(
             () => controller.isLoading
@@ -54,10 +52,7 @@ class GiftCardScreen extends StatelessWidget {
         Get.toNamed(Routes.allGiftCardScreen);
       },
       backgroundColor: CustomColor.primaryLightColor,
-      child: const Icon(
-        Icons.add_rounded,
-        color: Colors.white,
-      ),
+      child: const Icon(Icons.add_rounded, color: Colors.white),
     );
   }
 }

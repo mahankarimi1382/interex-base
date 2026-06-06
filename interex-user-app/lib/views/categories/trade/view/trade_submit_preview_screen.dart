@@ -9,7 +9,6 @@ import '../../../../backend/local_storage/local_storage.dart';
 import '../../../../utils/basic_screen_imports.dart';
 import '../controller/trade_controller.dart';
 
-
 class TradeSubmitPreviewScreen extends StatelessWidget {
   TradeSubmitPreviewScreen({super.key});
 
@@ -43,10 +42,10 @@ class TradeSubmitPreviewScreen extends StatelessWidget {
         ? LocalStorages.getFiatPrecision()
         : LocalStorages.getCryptoPrecision();
 
-
     return previewAmount(
-        amount:
-            '${double.parse(controller.sellingAmountController.text).toStringAsFixed(precision)} ${controller.selectedSaleCurrency.value.code}');
+      amount:
+          '${double.parse(controller.sellingAmountController.text).toStringAsFixed(precision)} ${controller.selectedSaleCurrency.value.code}',
+    );
   }
 
   Column _amountInformationWidget(BuildContext context) {
@@ -62,19 +61,23 @@ class TradeSubmitPreviewScreen extends StatelessWidget {
       children: [
         _rowWidget(
           title: Strings.sellingAmount,
-          subTitle: "${double.parse(controller.sellingAmountController.text).toStringAsFixed(precision)} ${controller.selectedSaleCurrency.value.code}",
+          subTitle:
+              "${double.parse(controller.sellingAmountController.text).toStringAsFixed(precision)} ${controller.selectedSaleCurrency.value.code}",
         ),
         _rowWidget(
           title: Strings.feeAndCharge,
-          subTitle: "${controller.totalCharge.toStringAsFixed(precision)} ${controller.selectedSaleCurrency.value.code}",
+          subTitle:
+              "${controller.totalCharge.toStringAsFixed(precision)} ${controller.selectedSaleCurrency.value.code}",
         ),
         _rowWidget(
           title: Strings.buyerWillPay,
-          subTitle: "${double.parse(controller.askingRateController.text).toStringAsFixed(prec)} ${controller.selectedRateCurrency.value.code}",
+          subTitle:
+              "${double.parse(controller.askingRateController.text).toStringAsFixed(prec)} ${controller.selectedRateCurrency.value.code}",
         ),
         _rowWidget(
           title: Strings.youWillPay,
-          subTitle: "${controller.totalPay.value.toStringAsFixed(precision)} ${controller.selectedSaleCurrency.value.code}",
+          subTitle:
+              "${controller.totalPay.value.toStringAsFixed(precision)} ${controller.selectedSaleCurrency.value.code}",
         ),
       ],
     );
@@ -82,9 +85,7 @@ class TradeSubmitPreviewScreen extends StatelessWidget {
 
   Container _buttonWidget(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(
-        top: Dimensions.marginSizeVertical * 2,
-      ),
+      margin: EdgeInsets.only(top: Dimensions.marginSizeVertical * 2),
       child: Obx(
         () => controller.isSubmitLoading
             ? const CustomLoadingAPI()
@@ -96,8 +97,8 @@ class TradeSubmitPreviewScreen extends StatelessWidget {
               ),
       ),
     );
-  }         
-                                                                                                                                     
+  }
+
   Column _rowWidget({required String title, required String subTitle}) {
     return Column(
       children: [
@@ -107,18 +108,14 @@ class TradeSubmitPreviewScreen extends StatelessWidget {
             TitleHeading4Widget(
               text: title,
               color: Get.isDarkMode
-                  ? CustomColor.primaryDarkTextColor.withValues(alpha:0.6)
-                  : CustomColor.primaryLightColor.withValues(alpha:
-                      0.4,
-                    ),
+                  ? CustomColor.primaryDarkTextColor.withValues(alpha: 0.6)
+                  : CustomColor.primaryLightColor.withValues(alpha: 0.4),
             ),
             TitleHeading3Widget(
               text: subTitle,
               color: Get.isDarkMode
-                  ? CustomColor.primaryDarkTextColor.withValues(alpha:0.6)
-                  : CustomColor.primaryLightColor.withValues(alpha:
-                      0.6,
-                    ),
+                  ? CustomColor.primaryDarkTextColor.withValues(alpha: 0.6)
+                  : CustomColor.primaryLightColor.withValues(alpha: 0.6),
               fontWeight: FontWeight.w600,
             ),
           ],

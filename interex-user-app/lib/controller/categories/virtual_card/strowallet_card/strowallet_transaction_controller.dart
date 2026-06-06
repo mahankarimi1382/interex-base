@@ -24,13 +24,15 @@ class StrowalletTransactionController extends GetxController {
     update();
 
     await StrowalletApiServices.strowalletCardTransactionApi(
-            controller.strowalletCardId.value)
+          controller.strowalletCardId.value,
+        )
         .then((value) {
-      _strowalletCardTransactionsModel = value!;
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-    });
+          _strowalletCardTransactionsModel = value!;
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+        });
 
     _isLoading.value = false;
     update();

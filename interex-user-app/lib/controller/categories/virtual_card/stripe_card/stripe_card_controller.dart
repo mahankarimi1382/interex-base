@@ -51,47 +51,50 @@ class StripeCardController extends GetxController {
     _isLoading.value = true;
     update();
 
-    await ApiServices.stripeCardInfoApi().then((value) {
-      _stripeCardModel = value!;
-      if (_stripeCardModel.data.myCard.isNotEmpty) {
-        cardId.value = _stripeCardModel.data.myCard.first.cardId;
-      }
-      selectedSupportedCurrency.value =
-          _stripeCardModel.data.supportedCurrency.first;
+    await ApiServices.stripeCardInfoApi()
+        .then((value) {
+          _stripeCardModel = value!;
+          if (_stripeCardModel.data.myCard.isNotEmpty) {
+            cardId.value = _stripeCardModel.data.myCard.first.cardId;
+          }
+          selectedSupportedCurrency.value =
+              _stripeCardModel.data.supportedCurrency.first;
 
-      for (var v in _stripeCardModel.data.supportedCurrency) {
-        supportedCurrencyList.add(
-          SupportedCurrency(
-            id: v.id,
-            country: v.country,
-            name: v.name,
-            code: v.code,
-            type: v.type,
-            rate: v.rate,
-            status: v.status,
-            currencyImage: v.currencyImage,
-          ),
-        );
-      }
-      limitMin.value = _stripeCardModel.data.cardCharge.minLimit;
-      limitMax.value = _stripeCardModel.data.cardCharge.maxLimit;
-      selectMainWallet.value =
-          walletsController.walletsInfoModel.data.userWallets.first;
-      for (var element in walletsController.walletsInfoModel.data.userWallets) {
-        walletsList.add(
-          MainUserWallet(
-            balance: element.balance,
-            currency: element.currency,
-            status: element.status,
-          ),
-        );
-      }
-      calculation();
+          for (var v in _stripeCardModel.data.supportedCurrency) {
+            supportedCurrencyList.add(
+              SupportedCurrency(
+                id: v.id,
+                country: v.country,
+                name: v.name,
+                code: v.code,
+                type: v.type,
+                rate: v.rate,
+                status: v.status,
+                currencyImage: v.currencyImage,
+              ),
+            );
+          }
+          limitMin.value = _stripeCardModel.data.cardCharge.minLimit;
+          limitMax.value = _stripeCardModel.data.cardCharge.maxLimit;
+          selectMainWallet.value =
+              walletsController.walletsInfoModel.data.userWallets.first;
+          for (var element
+              in walletsController.walletsInfoModel.data.userWallets) {
+            walletsList.add(
+              MainUserWallet(
+                balance: element.balance,
+                currency: element.currency,
+                status: element.status,
+              ),
+            );
+          }
+          calculation();
 
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-    });
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+        });
 
     _isLoading.value = false;
     update();
@@ -100,17 +103,19 @@ class StripeCardController extends GetxController {
 
   Future<StripeCardInfoModel> getStripeCardInfo() async {
     update();
-    await ApiServices.stripeCardInfoApi().then((value) {
-      _stripeCardModel = value!;
-      if (_stripeCardModel.data.myCard.isNotEmpty) {
-        cardId.value = _stripeCardModel.data.myCard.first.cardId;
-      }
-      calculation();
+    await ApiServices.stripeCardInfoApi()
+        .then((value) {
+          _stripeCardModel = value!;
+          if (_stripeCardModel.data.myCard.isNotEmpty) {
+            cardId.value = _stripeCardModel.data.myCard.first.cardId;
+          }
+          calculation();
 
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-    });
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+        });
     update();
     return _stripeCardModel;
   }
@@ -129,22 +134,24 @@ class StripeCardController extends GetxController {
       "currency": selectMainWallet.value!.currency.code,
       "from_currency": selectedSupportedCurrency.value!.code,
     };
-    await ApiServices.stripeBuyCardApi(body: inputBody).then((value) {
-      _buyCardModel = value!;
-      update();
+    await ApiServices.stripeBuyCardApi(body: inputBody)
+        .then((value) {
+          _buyCardModel = value!;
+          update();
 
-      StatusScreen.show(
-        context: Get.context!,
-        subTitle: '',
-        onPressed: () {
-          Get.offAllNamed(Routes.bottomNavBarScreen);
-        },
-      );
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-      update();
-    });
+          StatusScreen.show(
+            context: Get.context!,
+            subTitle: '',
+            onPressed: () {
+              Get.offAllNamed(Routes.bottomNavBarScreen);
+            },
+          );
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+          update();
+        });
 
     _isBuyCardLoading.value = false;
     update();
@@ -164,7 +171,8 @@ class StripeCardController extends GetxController {
     }
 
     percentCharge.value = ((amount / 100) * data.percentCharge);
-    totalCharge.value = (double.parse(data.fixedCharge.toString()) *
+    totalCharge.value =
+        (double.parse(data.fixedCharge.toString()) *
             selectedSupportedCurrency.value!.rate) +
         percentCharge.value;
 
@@ -178,8 +186,6 @@ class StripeCardController extends GetxController {
     limitMin.value = limit.minLimit * selectMainWallet.value!.currency.rate;
   }
 
-
-
   String getDay(String value) {
     DateTime startDate = DateTime.parse(value);
     var date = DateFormat('dd').format(startDate);
@@ -192,10 +198,6 @@ class StripeCardController extends GetxController {
     return date.toString();
   }
 
-
-
-
-
   ///  >>>>>> Start buyCard process
   final _isMakeDefaultLoading = false.obs;
   bool get isMakeDefaultLoading => _isMakeDefaultLoading.value;
@@ -205,18 +207,18 @@ class StripeCardController extends GetxController {
   Future<CommonSuccessModel> makeCardDefaultProcess(String id) async {
     _isMakeDefaultLoading.value = true;
     update();
-    Map<String, dynamic> inputBody = {
-      "card_id": id
-    };
-    await ApiServices.stripeMakeRemoveDefaultApi(body: inputBody).then((value) {
-      _makeDefaultModel = value!;
-      update();
+    Map<String, dynamic> inputBody = {"card_id": id};
+    await ApiServices.stripeMakeRemoveDefaultApi(body: inputBody)
+        .then((value) {
+          _makeDefaultModel = value!;
+          update();
 
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-      update();
-    });
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+          update();
+        });
 
     _isMakeDefaultLoading.value = false;
     update();

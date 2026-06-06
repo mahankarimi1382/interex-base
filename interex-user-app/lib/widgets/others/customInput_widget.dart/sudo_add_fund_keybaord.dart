@@ -36,7 +36,7 @@ class SudoAddFundCustomAmountWidget extends StatelessWidget {
         children: [
           _inputFields(context),
           _chargeAndFee(context),
-          _buttonWidget(context)
+          _buttonWidget(context),
         ],
       ),
     );
@@ -68,7 +68,10 @@ class SudoAddFundCustomAmountWidget extends StatelessWidget {
         ),
         verticalSpace(Dimensions.marginBetweenInputBox),
         if (buttonText == Strings.createCard) ...[
-          !controller.virtualCardController.cardInfoModel.data
+          !controller
+                  .virtualCardController
+                  .cardInfoModel
+                  .data
                   .cardExtraFieldsStatus
               ? SizedBox.shrink()
               : Column(
@@ -166,9 +169,7 @@ class SudoAddFundCustomAmountWidget extends StatelessWidget {
 
   Padding _datePicker(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(
-        vertical: Dimensions.heightSize * 0.5,
-      ),
+      padding: EdgeInsets.symmetric(vertical: Dimensions.heightSize * 0.5),
       child: GestureDetector(
         onTap: () async {
           DateTime? pickedDate = await showDatePicker(

@@ -11,9 +11,7 @@ class UpdateCustomerKycScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const AppBarWidget(
-        text: Strings.updateCustomerKyc,
-      ),
+      appBar: const AppBarWidget(text: Strings.updateCustomerKyc),
       body: Obx(
         () => controller.isCreateCardInfoLoading
             ? const CustomLoadingAPI()
@@ -48,15 +46,22 @@ class UpdateCustomerKycScreen extends StatelessWidget {
             ),
             verticalSpace(Dimensions.marginSizeVertical * 0.5),
             ImageWidget(
-                labelName: controller.strowalletCardCreateInfo.data
-                    .customerCreateFields[10].labelName,
-                fieldName: 'user_image',
-                optionalLabel:
-                    "(${controller.strowalletCardCreateInfo.data.customerCreateFields[10].siteLabel})"),
+              labelName: controller
+                  .strowalletCardCreateInfo
+                  .data
+                  .customerCreateFields[10]
+                  .labelName,
+              fieldName: 'user_image',
+              optionalLabel:
+                  "(${controller.strowalletCardCreateInfo.data.customerCreateFields[10].siteLabel})",
+            ),
             verticalSpace(Dimensions.marginSizeVertical * 0.5),
             ImageWidget(
-              labelName: controller.strowalletCardCreateInfo.data
-                  .customerCreateFields[9].labelName,
+              labelName: controller
+                  .strowalletCardCreateInfo
+                  .data
+                  .customerCreateFields[9]
+                  .labelName,
               fieldName: 'id_image_font',
               optionalLabel:
                   "(${controller.strowalletCardCreateInfo.data.customerCreateFields[9].siteLabel})",
@@ -69,8 +74,11 @@ class UpdateCustomerKycScreen extends StatelessWidget {
                     crossAxisAlignment: crossStart,
                     children: [
                       TitleHeading4Widget(
-                        text: controller.strowalletCardCreateInfo.data
-                            .customerCreateFields[9].labelName,
+                        text: controller
+                            .strowalletCardCreateInfo
+                            .data
+                            .customerCreateFields[9]
+                            .labelName,
                       ),
                       verticalSpace(Dimensions.marginBetweenInputTitleAndBox),
                       ClipRRect(
@@ -89,8 +97,11 @@ class UpdateCustomerKycScreen extends StatelessWidget {
                     crossAxisAlignment: crossStart,
                     children: [
                       TitleHeading4Widget(
-                        text: controller.strowalletCardCreateInfo.data
-                            .customerCreateFields[10].labelName,
+                        text: controller
+                            .strowalletCardCreateInfo
+                            .data
+                            .customerCreateFields[10]
+                            .labelName,
                       ),
                       verticalSpace(Dimensions.marginBetweenInputTitleAndBox),
                       ClipRRect(
@@ -112,11 +123,9 @@ class UpdateCustomerKycScreen extends StatelessWidget {
                   : PrimaryButton(
                       title: Strings.submit,
                       onPressed: () {
-                        controller.updateCustomerKyc().then(
-                          (v) {
-                            Get.close(1);
-                          },
-                        );
+                        controller.updateCustomerKyc().then((v) {
+                          Get.close(1);
+                        });
                       },
                     ),
             ),

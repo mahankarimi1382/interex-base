@@ -1,5 +1,3 @@
-
-
 import '../../../../utils/basic_screen_imports.dart';
 import '../../market_place/controller/marketplace_buying_preview_controller.dart';
 import '../model/get_offer_model.dart';
@@ -29,13 +27,15 @@ class GetOfferController extends GetxController {
     _isLoading.value = true;
     update();
 
-    await OfferApiServices.getOfferApiProcess().then((value) {
-      _getOfferModel = value!;
+    await OfferApiServices.getOfferApiProcess()
+        .then((value) {
+          _getOfferModel = value!;
 
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-    });
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+        });
 
     _isLoading.value = false;
     update();

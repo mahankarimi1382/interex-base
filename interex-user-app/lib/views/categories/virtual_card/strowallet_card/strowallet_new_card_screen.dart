@@ -21,7 +21,8 @@ class CrateStrowalletScreen extends StatelessWidget {
     return Obx(
       () => Scaffold(
         appBar: AppBarWidget(text: controller.appBarTitle.value),
-        body: controller.isLoading ||
+        body:
+            controller.isLoading ||
                 controller.isBuyCardLoading ||
                 controller.isCreateCardInfoLoading
             ? const CustomLoadingAPI()
@@ -46,7 +47,7 @@ class CrateStrowalletScreen extends StatelessWidget {
           _fromWallet(context),
           _chargeWidget(context),
           _buttonWidget(context),
-        ]
+        ],
       ],
     );
   }
@@ -65,7 +66,7 @@ class CrateStrowalletScreen extends StatelessWidget {
             ...controller.inputFields.map((element) {
               return element;
             }),
-            _customerCreateButtonWidget(context)
+            _customerCreateButtonWidget(context),
           ],
         ),
       ),
@@ -233,8 +234,9 @@ class CrateStrowalletScreen extends StatelessWidget {
     // var data = controller.strowalletCardModel.data.cardCharge;
     return Container(
       margin: EdgeInsets.only(
-          top: Dimensions.paddingSize * 1.4,
-          bottom: Dimensions.paddingSize * 4.8),
+        top: Dimensions.paddingSize * 1.4,
+        bottom: Dimensions.paddingSize * 4.8,
+      ),
       child: Obx(
         () => controller.isBuyCardLoading
             ? const CustomLoadingAPI()
@@ -244,10 +246,12 @@ class CrateStrowalletScreen extends StatelessWidget {
                   // double amount =
                   //     double.parse(controller.fundAmountController.text);
                   // if (data.minLimit <= amount && data.maxLimit >= amount) {
-                  Get.find<SetUpPinController>().showPinDialog(context,
-                      onSuccess: () {
-                    controller.buyCardProcess(context);
-                  });
+                  Get.find<SetUpPinController>().showPinDialog(
+                    context,
+                    onSuccess: () {
+                      controller.buyCardProcess(context);
+                    },
+                  );
                   // } else {
                   //   CustomSnackBar.error(Strings.pleaseFollowTheLimit);
                   // }

@@ -57,7 +57,7 @@ class StrowalletAddFundController extends GetxController {
     '9',
     '.',
     '0',
-    '<'
+    '<',
   ];
   List currencyList = ['USD', 'BDT'];
   List gatewayList = ['Paypal', 'Stripe'];
@@ -129,27 +129,28 @@ class StrowalletAddFundController extends GetxController {
     };
     await StrowalletApiServices.strowalletCardFundApi(body: inputBody)
         .then((value) {
-      _addFundModel = value!;
+          _addFundModel = value!;
 
-      update();
-      StatusScreen.show(
-        context: Get.context!,
-        subTitle: Strings.addMoneySuccessfully.tr,
-        onPressed: () {
-          Get.offAllNamed(Routes.bottomNavBarScreen);
-        },
-      );
-    }).catchError((onError) {
-      log.e(onError);
-      _isLoading.value = false;
-    });
+          update();
+          StatusScreen.show(
+            context: Get.context!,
+            subTitle: Strings.addMoneySuccessfully.tr,
+            onPressed: () {
+              Get.offAllNamed(Routes.bottomNavBarScreen);
+            },
+          );
+        })
+        .catchError((onError) {
+          log.e(onError);
+          _isLoading.value = false;
+        });
 
     _isLoading.value = false;
     update();
     return _addFundModel;
   }
 
-//
+  //
   final _isLoadingCharge = false.obs;
   bool get isLoadingCharge => _isLoadingCharge.value;
 
@@ -161,16 +162,18 @@ class StrowalletAddFundController extends GetxController {
     _isLoadingCharge.value = true;
     update();
 
-    await StrowalletApiServices.strollerCardChargesApi().then((value) {
-      _cardChargesModel = value!;
-      baseCurrency.value = _cardChargesModel.data.baseCurr;
+    await StrowalletApiServices.strollerCardChargesApi()
+        .then((value) {
+          _cardChargesModel = value!;
+          baseCurrency.value = _cardChargesModel.data.baseCurr;
 
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-      _isLoadingCharge.value = false;
-      update();
-    });
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+          _isLoadingCharge.value = false;
+          update();
+        });
 
     _isLoadingCharge.value = false;
     update();

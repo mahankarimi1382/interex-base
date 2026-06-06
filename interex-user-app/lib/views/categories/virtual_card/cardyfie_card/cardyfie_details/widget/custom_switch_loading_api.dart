@@ -3,10 +3,8 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import '../../../../../../utils/basic_screen_imports.dart';
 
 class CustomSwitchLoading extends StatelessWidget {
-  const CustomSwitchLoading({
-    Key? key,
-    this.color = Colors.white,
-  }) : super(key: key);
+  const CustomSwitchLoading({Key? key, this.color = Colors.white})
+    : super(key: key);
   final Color color;
 
   @override

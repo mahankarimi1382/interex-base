@@ -1,6 +1,3 @@
-
-
-
 import '../../../../utils/basic_screen_imports.dart';
 import '../../../../utils/responsive_layout.dart';
 import '../../get_offer/controller/offer_buy_preview_controller.dart';
@@ -13,9 +10,7 @@ class OfferEvidenceSubmitScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ResponsiveLayout(
-      mobileScaffold: OfferEvidenceMobileScreenLayout(
-        controller: controller,
-      ),
+      mobileScaffold: OfferEvidenceMobileScreenLayout(controller: controller),
     );
   }
 }

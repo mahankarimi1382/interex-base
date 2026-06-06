@@ -27,7 +27,7 @@ final phoneNumberFormKey = GlobalKey<FormState>();
 class RegistrationScreen extends StatelessWidget {
   RegistrationScreen({super.key});
 
-   final basicDataController = Get.put(BasicDataController());
+  final basicDataController = Get.put(BasicDataController());
 
   final _signUpFormKey = GlobalKey<FormState>();
   final controller = Get.put(RegistrationController());
@@ -53,9 +53,7 @@ class RegistrationScreen extends StatelessWidget {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
     return SingleChildScrollView(
-      padding: EdgeInsets.symmetric(
-        horizontal: Dimensions.paddingSize * 0.05,
-      ),
+      padding: EdgeInsets.symmetric(horizontal: Dimensions.paddingSize * 0.05),
       physics: const BouncingScrollPhysics(),
       child: SizedBox(
         height: height,
@@ -63,10 +61,7 @@ class RegistrationScreen extends StatelessWidget {
         child: ListView(
           physics: const BouncingScrollPhysics(),
           children: [
-            _logoWidget(
-              context,
-              logoHeight: height * 0.27,
-            ),
+            _logoWidget(context, logoHeight: height * 0.27),
             _bottomContainerWidget(
               context,
               child: Column(
@@ -97,7 +92,10 @@ class RegistrationScreen extends StatelessWidget {
     );
   }
 
-  Container _bottomContainerWidget(BuildContext context, {required Widget child}) {
+  Container _bottomContainerWidget(
+    BuildContext context, {
+    required Widget child,
+  }) {
     Radius borderRadius = const Radius.circular(20);
     return Container(
       margin: EdgeInsets.symmetric(
@@ -107,11 +105,13 @@ class RegistrationScreen extends StatelessWidget {
         color: Get.isDarkMode
             ? CustomColor.primaryBGDarkColor
             : CustomColor.primaryBGLightColor,
-        borderRadius:
-            BorderRadius.only(topLeft: borderRadius, topRight: borderRadius),
+        borderRadius: BorderRadius.only(
+          topLeft: borderRadius,
+          topRight: borderRadius,
+        ),
         boxShadow: [
           BoxShadow(
-            color: CustomColor.primaryLightColor.withValues(alpha:0.015),
+            color: CustomColor.primaryLightColor.withValues(alpha: 0.015),
             spreadRadius: 7,
             blurRadius: 5,
             offset: const Offset(0, 0),
@@ -132,12 +132,8 @@ class RegistrationScreen extends StatelessWidget {
         crossAxisAlignment: crossStart,
         children: [
           TitleHeading2Widget(text: Strings.signUpInformation.tr),
-          verticalSpace(
-            Dimensions.heightSize * 0.5,
-          ),
-          TitleHeading4Widget(
-            text: Strings.signUpDetails.tr,
-          ),
+          verticalSpace(Dimensions.heightSize * 0.5),
+          TitleHeading4Widget(text: Strings.signUpDetails.tr),
         ],
       ),
     );
@@ -146,9 +142,7 @@ class RegistrationScreen extends StatelessWidget {
   Obx _inputAndForgotWidget(BuildContext context) {
     return Obx(
       () => Container(
-        margin: EdgeInsets.only(
-          top: Dimensions.marginSizeVertical * 0.8,
-        ),
+        margin: EdgeInsets.only(top: Dimensions.marginSizeVertical * 0.8),
         child: Form(
           key: _signUpFormKey,
           child: Column(
@@ -167,15 +161,12 @@ class RegistrationScreen extends StatelessWidget {
                 onChanged: (v) {
                   controller.selectedRegID.value = v == 'Email' ? 0 : 1;
 
-                     controller.selectedPhoneCode.value =
-                              basicDataController
-                                  .basicDataModel
-                                  .data
-                                  .countries
-                                  .first
-                                  .mobileCode;
-
-
+                  controller.selectedPhoneCode.value = basicDataController
+                      .basicDataModel
+                      .data
+                      .countries
+                      .first
+                      .mobileCode;
                 },
               ),
               verticalSpace(Dimensions.heightSize * 0.7),
@@ -213,13 +204,14 @@ class RegistrationScreen extends StatelessWidget {
           verticalSpace(Dimensions.heightSize * 2.5),
           RichText(
             text: TextSpan(
-              text: languageController
-                  .getTranslation(Strings.alreadyHaveAnAccount),
+              text: languageController.getTranslation(
+                Strings.alreadyHaveAnAccount,
+              ),
               style: GoogleFonts.inter(
                 fontSize: Dimensions.headingTextSize5,
                 color: Get.isDarkMode
-                    ? CustomColor.primaryDarkTextColor.withValues(alpha:0.8)
-                    : CustomColor.primaryTextColor.withValues(alpha:0.8),
+                    ? CustomColor.primaryDarkTextColor.withValues(alpha: 0.8)
+                    : CustomColor.primaryTextColor.withValues(alpha: 0.8),
                 fontWeight: FontWeight.w500,
               ),
               children: [
@@ -232,8 +224,9 @@ class RegistrationScreen extends StatelessWidget {
                       onPressed: () {
                         controller.onPressedSignIn();
                       },
-                      text:
-                          languageController.getTranslation(Strings.richSignIn),
+                      text: languageController.getTranslation(
+                        Strings.richSignIn,
+                      ),
                     ),
                   ),
                 ),
@@ -266,7 +259,7 @@ class RegistrationScreen extends StatelessWidget {
               ),
               verticalSpace(Dimensions.heightSize * 0.7),
 
-               CustomCountryDropDown<Country>(
+              CustomCountryDropDown<Country>(
                 hintTitle: basicDataController
                     .basicDataModel
                     .data

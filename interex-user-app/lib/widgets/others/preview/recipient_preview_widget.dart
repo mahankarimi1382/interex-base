@@ -26,13 +26,14 @@ extension PreviewRecipient on Widget {
               right: Dimensions.paddingSize * 0.7,
             ),
             child: CustomTitleHeadingWidget(
-                text: recipient,
-                textAlign: TextAlign.left,
-                style: CustomStyle.f20w600pri),
+              text: recipient,
+              textAlign: TextAlign.left,
+              style: CustomStyle.f20w600pri,
+            ),
           ),
           Divider(
             thickness: 1,
-            color: CustomColor.primaryLightColor.withValues(alpha:0.2),
+            color: CustomColor.primaryLightColor.withValues(alpha: 0.2),
           ),
           Padding(
             padding: EdgeInsets.only(
@@ -49,12 +50,16 @@ extension PreviewRecipient on Widget {
                     TitleHeading3Widget(
                       text: name,
                       fontWeight: FontWeight.w600,
-                      color: CustomColor.primaryLightColor.withValues(alpha:0.6),
+                      color: CustomColor.primaryLightColor.withValues(
+                        alpha: 0.6,
+                      ),
                     ),
                     TitleHeading3Widget(
                       text: nameRow,
                       fontWeight: FontWeight.w600,
-                      color: CustomColor.primaryLightColor.withValues(alpha:0.6),
+                      color: CustomColor.primaryLightColor.withValues(
+                        alpha: 0.6,
+                      ),
                     ),
                   ],
                 ),
@@ -67,19 +72,23 @@ extension PreviewRecipient on Widget {
                       TitleHeading4Widget(
                         text: subTitle,
                         fontWeight: FontWeight.w400,
-                        color: CustomColor.primaryLightColor.withValues(alpha:0.4),
+                        color: CustomColor.primaryLightColor.withValues(
+                          alpha: 0.4,
+                        ),
                       ),
                       TitleHeading4Widget(
                         text: subTitleRow,
                         fontWeight: FontWeight.w400,
-                        color: CustomColor.primaryLightColor.withValues(alpha:0.4),
+                        color: CustomColor.primaryLightColor.withValues(
+                          alpha: 0.4,
+                        ),
                       ),
                     ],
                   ),
                 ),
               ],
             ),
-          )
+          ),
         ],
       ),
     );

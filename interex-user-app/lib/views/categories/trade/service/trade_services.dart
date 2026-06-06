@@ -14,10 +14,9 @@ mixin TradeApiServices {
   Future<MyTradeModel?> getTradeListInfoApi() async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false).get(
-        ApiEndpoint.tradeListURL,
-        code: 200,
-      );
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).get(ApiEndpoint.tradeListURL, code: 200);
       if (mapResponse != null) {
         MyTradeModel result = MyTradeModel.fromJson(mapResponse);
 
@@ -32,13 +31,14 @@ mixin TradeApiServices {
   }
 
   ///*
-  Future<TradeSubmitModel?> tradeSubmitProcessApi(
-      {required Map<String, dynamic> body})
-  async {
+  Future<TradeSubmitModel?> tradeSubmitProcessApi({
+    required Map<String, dynamic> body,
+  }) async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false)
-          .post(ApiEndpoint.tradeSubmitURL, body, code: 200, showError: false);
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).post(ApiEndpoint.tradeSubmitURL, body, code: 200, showError: false);
       if (mapResponse != null) {
         TradeSubmitModel result = TradeSubmitModel.fromJson(mapResponse);
         // CustomSnackBar.success(result.message.success.first.toString());
@@ -53,13 +53,14 @@ mixin TradeApiServices {
   }
 
   ///*
-  Future<TradeEditInfoModel?> tradeEditInfoProcessApi(
-      {required Map<String, dynamic> body})
-  async {
+  Future<TradeEditInfoModel?> tradeEditInfoProcessApi({
+    required Map<String, dynamic> body,
+  }) async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false)
-          .post(ApiEndpoint.tradeEditURL, body, code: 200, showError: false);
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).post(ApiEndpoint.tradeEditURL, body, code: 200, showError: false);
       if (mapResponse != null) {
         TradeEditInfoModel result = TradeEditInfoModel.fromJson(mapResponse);
         // CustomSnackBar.success(result.message.success.first.toString());
@@ -74,13 +75,14 @@ mixin TradeApiServices {
   }
 
   ///*
-  Future<CommonSuccessModel?> tradeCloseProcessApi(
-      {required Map<String, dynamic> body})
-  async {
+  Future<CommonSuccessModel?> tradeCloseProcessApi({
+    required Map<String, dynamic> body,
+  }) async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false)
-          .post(ApiEndpoint.tradeCloseURL, body, code: 200, showError: false);
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).post(ApiEndpoint.tradeCloseURL, body, code: 200, showError: false);
       if (mapResponse != null) {
         CommonSuccessModel result = CommonSuccessModel.fromJson(mapResponse);
         // CustomSnackBar.success(result.message.success.first.toString());
@@ -95,13 +97,14 @@ mixin TradeApiServices {
   }
 
   ///*
-  Future<CommonSuccessModel?> tradeUpdateProcessApi(
-      {required Map<String, dynamic> body})
-  async {
+  Future<CommonSuccessModel?> tradeUpdateProcessApi({
+    required Map<String, dynamic> body,
+  }) async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false)
-          .post(ApiEndpoint.tradeUpdateURL, body, code: 200, showError: false);
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).post(ApiEndpoint.tradeUpdateURL, body, code: 200, showError: false);
       if (mapResponse != null) {
         CommonSuccessModel result = CommonSuccessModel.fromJson(mapResponse);
         // CustomSnackBar.success(result.message.success.first.toString());
@@ -114,7 +117,4 @@ mixin TradeApiServices {
     }
     return null;
   }
-
-
-
 }

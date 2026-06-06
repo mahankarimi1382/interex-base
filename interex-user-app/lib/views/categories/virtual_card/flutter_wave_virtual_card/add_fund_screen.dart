@@ -37,19 +37,20 @@ class AddFundScreen extends StatelessWidget {
           onTap: () {
             if (appBarTitle == Strings.addFund) {
               debugPrint(appBarTitle);
-              Get.find<SetUpPinController>().showPinDialog(context,
-                  onSuccess: () {
-                controller.carAddFundProcess().then(
-                      (value) => StatusScreen.show(
-                          context: context,
-                          subTitle: Strings.addMoneySuccessfully.tr,
-                          onPressed: () {
-                            Get.offAllNamed(
-                              Routes.bottomNavBarScreen,
-                            );
-                          }),
-                    );
-              });
+              Get.find<SetUpPinController>().showPinDialog(
+                context,
+                onSuccess: () {
+                  controller.carAddFundProcess().then(
+                    (value) => StatusScreen.show(
+                      context: context,
+                      subTitle: Strings.addMoneySuccessfully.tr,
+                      onPressed: () {
+                        Get.offAllNamed(Routes.bottomNavBarScreen);
+                      },
+                    ),
+                  );
+                },
+              );
               debugPrint("appbar two $appBarTitle");
             } else {
               controller.cardCreateProcess();

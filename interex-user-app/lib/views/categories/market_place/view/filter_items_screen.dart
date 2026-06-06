@@ -1,4 +1,3 @@
-
 import '../../../../backend/utils/custom_loading_api.dart';
 import '../../../../routes/routes.dart';
 import '../../../../utils/basic_screen_imports.dart';
@@ -7,9 +6,7 @@ import '../controller/marketplace_buying_preview_controller.dart';
 import '../controller/marketplace_controller.dart';
 
 class FilterItemsScreen extends StatelessWidget {
-  FilterItemsScreen({
-    super.key,
-  });
+  FilterItemsScreen({super.key});
 
   final MarketplaceController controller = Get.put(MarketplaceController());
   final buyAndOfferController = Get.put(MarketplaceBuyingPreviewController());
@@ -61,9 +58,7 @@ class FilterItemsScreen extends StatelessWidget {
                 child: CircleAvatar(
                   radius: Dimensions.radius * 1.5,
                   backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-                  backgroundImage: NetworkImage(
-                    userImage,
-                  ),
+                  backgroundImage: NetworkImage(userImage),
                 ),
               ),
               horizontalSpace(Dimensions.widthSize * 0.8),
@@ -78,12 +73,14 @@ class FilterItemsScreen extends StatelessWidget {
                       fontSize: Dimensions.headingTextSize4 * 1.3,
                     ),
                     TitleHeading4Widget(
-                      text: data.user.emailVerified == 1 &&
+                      text:
+                          data.user.emailVerified == 1 &&
                               data.user.kycVerified == 1
                           ? Strings.verified
                           : Strings.unVerified,
                       fontSize: Dimensions.headingTextSize6,
-                      color: data.user.emailVerified == 1 &&
+                      color:
+                          data.user.emailVerified == 1 &&
                               data.user.kycVerified == 1
                           ? Theme.of(context).primaryColor
                           : CustomColor.redColor,
@@ -107,7 +104,7 @@ class FilterItemsScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-              )
+              ),
             ],
           ),
         ),
@@ -117,28 +114,28 @@ class FilterItemsScreen extends StatelessWidget {
 
   Widget _buttonWidget(BuildContext context) {
     return Column(
-      children: [
-        Obx(
-          () => buyAndOfferController.isBuyLoading
-              ? const CustomLoadingAPI()
-              : PrimaryButton(
-                  title: Strings.buyNow,
-                  onPressed: () {
-                    _onBuyProcessMethod();
-                  },
-                ),
-        ),
-        verticalSpace(Dimensions.heightSize * 1.4),
-        PrimaryButton(
-          title: Strings.makeAnOffer,
-          onPressed: () {
-            _onMakeAnOfferProcessMethod();
-          },
-          borderColor: Colors.orange,
-          buttonColor: Colors.orange,
-        ),
-      ],
-    )
+          children: [
+            Obx(
+              () => buyAndOfferController.isBuyLoading
+                  ? const CustomLoadingAPI()
+                  : PrimaryButton(
+                      title: Strings.buyNow,
+                      onPressed: () {
+                        _onBuyProcessMethod();
+                      },
+                    ),
+            ),
+            verticalSpace(Dimensions.heightSize * 1.4),
+            PrimaryButton(
+              title: Strings.makeAnOffer,
+              onPressed: () {
+                _onMakeAnOfferProcessMethod();
+              },
+              borderColor: Colors.orange,
+              buttonColor: Colors.orange,
+            ),
+          ],
+        )
         .paddingSymmetric(horizontal: Dimensions.paddingSize * 0.6)
         .paddingOnly(top: Dimensions.paddingSize * 1.5);
   }
@@ -148,7 +145,8 @@ class FilterItemsScreen extends StatelessWidget {
 
     return Container(
       margin: EdgeInsets.symmetric(
-          horizontal: Dimensions.marginSizeHorizontal * 0.6),
+        horizontal: Dimensions.marginSizeHorizontal * 0.6,
+      ),
       decoration: ShapeDecoration(
         color: Theme.of(context).colorScheme.surface,
         shape: RoundedRectangleBorder(
@@ -180,12 +178,20 @@ class FilterItemsScreen extends StatelessWidget {
             ),
           ),
           verticalSpace(Dimensions.heightSize * 1.3),
-          _amountWidget(context, data.amount.toStringAsFixed(2), data.saleCurrency.code),
-          Icon(Icons.sort).paddingSymmetric(
-            horizontal: Dimensions.marginSizeHorizontal * 0.2,
+          _amountWidget(
+            context,
+            data.amount.toStringAsFixed(2),
+            data.saleCurrency.code,
           ),
+          Icon(
+            Icons.sort,
+          ).paddingSymmetric(horizontal: Dimensions.marginSizeHorizontal * 0.2),
           verticalSpace(Dimensions.heightSize * 1.3),
-          _amountWidget(context, data.rate.toStringAsFixed(2), data.rateCurrency.code),
+          _amountWidget(
+            context,
+            data.rate.toStringAsFixed(2),
+            data.rateCurrency.code,
+          ),
           verticalSpace(Dimensions.heightSize * 1.3),
         ],
       ),
@@ -232,8 +238,8 @@ class FilterItemsScreen extends StatelessWidget {
     buyAndOfferController.sellerName.value = data.user.name;
     buyAndOfferController.isVerified.value =
         data.user.emailVerified == 1 && data.user.kycVerified == 1
-            ? true
-            : false;
+        ? true
+        : false;
     debugPrint(buyAndOfferController.loadingIndex.value.toString());
     buyAndOfferController.marketplaceBuyProcessApi(data.id);
   }
@@ -247,13 +253,13 @@ class FilterItemsScreen extends StatelessWidget {
     makeAnOffer.sellerName.value = data.user.name;
     makeAnOffer.isVerified.value =
         (data.user.emailVerified == 1 && data.user.kycVerified == 1)
-            ? true
-            : false;
+        ? true
+        : false;
 
     /// >>> get rate amount and currency from marketplace list
     makeAnOffer.rateCurrency.value = data.rateCurrency.code;
     makeAnOffer.rateAmount.value = data.rate;
-    makeAnOffer.rateController.text = data.rate.toStringAsFixed(2); 
+    makeAnOffer.rateController.text = data.rate.toStringAsFixed(2);
 
     /// >>> get sell amount and currency from marketplace list
     makeAnOffer.sellAmount.value = data.amount;

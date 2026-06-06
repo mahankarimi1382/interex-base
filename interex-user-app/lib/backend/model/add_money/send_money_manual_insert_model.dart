@@ -7,10 +7,7 @@ String addMoneyManualInsertModelToJson(AddMoneyManualInsertModel data) =>
     json.encode(data.toJson());
 
 class AddMoneyManualInsertModel {
-  AddMoneyManualInsertModel({
-    required this.message,
-    required this.data,
-  });
+  AddMoneyManualInsertModel({required this.message, required this.data});
 
   final Message message;
   final Data data;
@@ -22,9 +19,9 @@ class AddMoneyManualInsertModel {
       );
 
   Map<String, dynamic> toJson() => {
-        "message": message.toJson(),
-        "data": data.toJson(),
-      };
+    "message": message.toJson(),
+    "data": data.toJson(),
+  };
 }
 
 class Data {
@@ -51,30 +48,32 @@ class Data {
   final String method;
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
-        gatewayType: json["gateway_type"],
-        gatewayCurrencyName: json["gateway_currency_name"],
-        alias: json["alias"],
-        identify: json["identify"],
-        details: json["details"],
-        inputFields: List<InputField>.from(
-            json["input_fields"].map((x) => InputField.fromJson(x))),
-        paymentInformation:
-            PaymentInformation.fromJson(json["payment_information"]),
-        url: json["url"],
-        method: json["method"],
-      );
+    gatewayType: json["gateway_type"],
+    gatewayCurrencyName: json["gateway_currency_name"],
+    alias: json["alias"],
+    identify: json["identify"],
+    details: json["details"],
+    inputFields: List<InputField>.from(
+      json["input_fields"].map((x) => InputField.fromJson(x)),
+    ),
+    paymentInformation: PaymentInformation.fromJson(
+      json["payment_information"],
+    ),
+    url: json["url"],
+    method: json["method"],
+  );
 
   Map<String, dynamic> toJson() => {
-        "gateway_type": gatewayType,
-        "gateway_currency_name": gatewayCurrencyName,
-        "alias": alias,
-        "identify": identify,
-        "details": details,
-        "input_fields": List<dynamic>.from(inputFields.map((x) => x.toJson())),
-        "payment_information": paymentInformation.toJson(),
-        "url": url,
-        "method": method,
-      };
+    "gateway_type": gatewayType,
+    "gateway_currency_name": gatewayCurrencyName,
+    "alias": alias,
+    "identify": identify,
+    "details": details,
+    "input_fields": List<dynamic>.from(inputFields.map((x) => x.toJson())),
+    "payment_information": paymentInformation.toJson(),
+    "url": url,
+    "method": method,
+  };
 }
 
 class InputField {
@@ -93,20 +92,20 @@ class InputField {
   final Validation validation;
 
   factory InputField.fromJson(Map<String, dynamic> json) => InputField(
-        type: json["type"],
-        label: json["label"],
-        name: json["name"],
-        required: json["required"],
-        validation: Validation.fromJson(json["validation"]),
-      );
+    type: json["type"],
+    label: json["label"],
+    name: json["name"],
+    required: json["required"],
+    validation: Validation.fromJson(json["validation"]),
+  );
 
   Map<String, dynamic> toJson() => {
-        "type": type,
-        "label": label,
-        "name": name,
-        "required": required,
-        "validation": validation.toJson(),
-      };
+    "type": type,
+    "label": label,
+    "name": name,
+    "required": required,
+    "validation": validation.toJson(),
+  };
 }
 
 class Validation {
@@ -125,20 +124,20 @@ class Validation {
   final bool required;
 
   factory Validation.fromJson(Map<String, dynamic> json) => Validation(
-        max: json["max"] ?? "",
-        mimes: List<dynamic>.from(json["mimes"].map((x) => x)),
-        min: json["min"] ?? "",
-        options: List<dynamic>.from(json["options"].map((x) => x)),
-        required: json["required"],
-      );
+    max: json["max"] ?? "",
+    mimes: List<dynamic>.from(json["mimes"].map((x) => x)),
+    min: json["min"] ?? "",
+    options: List<dynamic>.from(json["options"].map((x) => x)),
+    required: json["required"],
+  );
 
   Map<String, dynamic> toJson() => {
-        "max": max,
-        "mimes": List<dynamic>.from(mimes.map((x) => x)),
-        "min": min,
-        "options": List<dynamic>.from(options.map((x) => x)),
-        "required": required,
-      };
+    "max": max,
+    "mimes": List<dynamic>.from(mimes.map((x) => x)),
+    "min": min,
+    "options": List<dynamic>.from(options.map((x) => x)),
+    "required": required,
+  };
 }
 
 class PaymentInformation {
@@ -172,28 +171,25 @@ class PaymentInformation {
       );
 
   Map<String, dynamic> toJson() => {
-        "trx": trx,
-        "gateway_currency_name": gatewayCurrencyName,
-        "request_amount": requestAmount,
-        "exchange_rate": exchangeRate,
-        "total_charge": totalCharge,
-        "will_get": willGet,
-        "payable_amount": payableAmount,
-      };
+    "trx": trx,
+    "gateway_currency_name": gatewayCurrencyName,
+    "request_amount": requestAmount,
+    "exchange_rate": exchangeRate,
+    "total_charge": totalCharge,
+    "will_get": willGet,
+    "payable_amount": payableAmount,
+  };
 }
 
 class Message {
-  Message({
-    required this.success,
-  });
+  Message({required this.success});
 
   final List<String> success;
 
-  factory Message.fromJson(Map<String, dynamic> json) => Message(
-        success: List<String>.from(json["success"].map((x) => x)),
-      );
+  factory Message.fromJson(Map<String, dynamic> json) =>
+      Message(success: List<String>.from(json["success"].map((x) => x)));
 
   Map<String, dynamic> toJson() => {
-        "success": List<dynamic>.from(success.map((x) => x)),
-      };
+    "success": List<dynamic>.from(success.map((x) => x)),
+  };
 }

@@ -1,4 +1,3 @@
-
 import 'package:flutter/services.dart';
 
 import '../../../../backend/model/common/common_success_model.dart';
@@ -9,8 +8,6 @@ import '../model/marketplace_buy_confirm.model.dart';
 import '../model/marketplace_buy_model.dart';
 import '../service/marketplace_api_services.dart';
 import '../widget/evidance_offer_image_widget.dart';
-
-
 
 class MarketplaceBuyingPreviewController extends GetxController {
   /// >>> Rate
@@ -49,7 +46,8 @@ class MarketplaceBuyingPreviewController extends GetxController {
   RxBool hasFile = false.obs;
 
   /// >>>  on confirm
-  Future<MarketplaceBuyConfirmModel> get onConfirm => marketplaceBuyConfirmProcessApi();
+  Future<MarketplaceBuyConfirmModel> get onConfirm =>
+      marketplaceBuyConfirmProcessApi();
   Future<CommonSuccessModel> get onSubmit => marketplaceEvidenceProcessApi();
 
   /// >> set loading process & Model
@@ -76,13 +74,14 @@ class MarketplaceBuyingPreviewController extends GetxController {
     Map<String, String> inputBody = {'target': id.toString()};
     await MarketplaceApiServices.marketplaceBuyProcessApi(body: inputBody)
         .then((value) {
-      _marketplaceBuyModel = value!;
+          _marketplaceBuyModel = value!;
 
-      _setDataForPreviewScreen();
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-    });
+          _setDataForPreviewScreen();
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+        });
 
     _isBuyLoading.value = false;
     update();
@@ -102,18 +101,22 @@ class MarketplaceBuyingPreviewController extends GetxController {
       'gateway_id': selectPaymentGatewayId.value,
     };
     await MarketplaceApiServices.marketplaceBuyConfirmProcessApi(
-            body: inputBody)
+          body: inputBody,
+        )
         .then((value) {
-      _marketplaceBuyConfirmModel = value!;
-      trxID.value = _marketplaceBuyConfirmModel.data.trxId;
-      _getDynamicInputFields(_marketplaceBuyConfirmModel.data.paymentFields);
+          _marketplaceBuyConfirmModel = value!;
+          trxID.value = _marketplaceBuyConfirmModel.data.trxId;
+          _getDynamicInputFields(
+            _marketplaceBuyConfirmModel.data.paymentFields,
+          );
 
-      Get.toNamed(Routes.marketplaceEvidenceSubmitScreen);
+          Get.toNamed(Routes.marketplaceEvidenceSubmitScreen);
 
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-    });
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+        });
 
     _isConfirmLoading.value = false;
     update();
@@ -124,9 +127,7 @@ class MarketplaceBuyingPreviewController extends GetxController {
   Future<CommonSuccessModel> marketplaceEvidenceProcessApi() async {
     _isSubmitLoading.value = true;
     update();
-    Map<String, String> inputBody = {
-      'trx_id': trxID.value,
-    };
+    Map<String, String> inputBody = {'trx_id': trxID.value};
 
     final data = _marketplaceBuyConfirmModel.data.paymentFields;
 
@@ -137,22 +138,24 @@ class MarketplaceBuyingPreviewController extends GetxController {
     }
 
     await MarketplaceApiServices.marketplaceEvidenceSubmitProcessApi(
-      body: inputBody,
-      fieldList: listFieldName,
-      pathList: listImagePath,
-    ).then((value) {
-      _evidenceSubmitModel = value!;
-      Get.to(
-        () => CongratulationScreen(
-          route: Routes.bottomNavBarScreen,
-          subTitle: _evidenceSubmitModel.message.success.first,
-          title: Strings.congratulations,
-        ),
-      );
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-    });
+          body: inputBody,
+          fieldList: listFieldName,
+          pathList: listImagePath,
+        )
+        .then((value) {
+          _evidenceSubmitModel = value!;
+          Get.to(
+            () => CongratulationScreen(
+              route: Routes.bottomNavBarScreen,
+              subTitle: _evidenceSubmitModel.message.success.first,
+              title: Strings.congratulations,
+            ),
+          );
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+        });
 
     _isSubmitLoading.value = false;
     update();
@@ -165,8 +168,12 @@ class MarketplaceBuyingPreviewController extends GetxController {
     double rate = double.parse(tradeData.subTotal);
     selectPaymentGateway.value =
         _marketplaceBuyModel.data.paymentGatewaies.first.name;
-    selectPaymentGatewayId.value =
-        _marketplaceBuyModel.data.paymentGatewaies.first.id.toString();
+    selectPaymentGatewayId.value = _marketplaceBuyModel
+        .data
+        .paymentGatewaies
+        .first
+        .id
+        .toString();
 
     sellAmount.value = double.parse(tradeData.seller);
     sellCurrency.value = tradeData.saleCurrency.code;
@@ -206,9 +213,7 @@ class MarketplaceBuyingPreviewController extends GetxController {
                 // fillColor: Theme.of(Get.context!).colorScheme.surface,
                 inputFormatters: [
                   LengthLimitingTextInputFormatter(
-                    int.parse(
-                      data[item].validation.max.toString(),
-                    ),
+                    int.parse(data[item].validation.max.toString()),
                   ),
                 ],
               ).paddingOnly(bottom: Dimensions.marginSizeVertical * 0.75),

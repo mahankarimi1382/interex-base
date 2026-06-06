@@ -17,11 +17,9 @@ class AgentMoneyOutController extends GetxController {
   final receiverAmountController = TextEditingController();
   final walletsController = Get.put(WalletsController());
   final remarkController = TextEditingController();
-   
 
   //get remaining
   final remainingController = Get.put(RemaingBalanceController());
-
 
   RxDouble fee = 0.0.obs;
   RxDouble min = 0.0.obs;
@@ -75,58 +73,62 @@ class AgentMoneyOutController extends GetxController {
     _isLoading.value = true;
     update();
 
-    await ApiServices.agentMoneyOutInfoApi().then((value) {
-      _agentMoneyOutInfoModel = value!;
-      // Get wallet information
-      selectReceiverWallet.value =
-          walletsController.walletsInfoModel.data.userWallets.first;
-      selectSenderWallet.value =
-          walletsController.walletsInfoModel.data.userWallets.first;
-      receiverExchangeRate.value = walletsController.exchangeRate.value;
-      senderExchangeRate.value = walletsController.exchangeRate.value;
+    await ApiServices.agentMoneyOutInfoApi()
+        .then((value) {
+          _agentMoneyOutInfoModel = value!;
+          // Get wallet information
+          selectReceiverWallet.value =
+              walletsController.walletsInfoModel.data.userWallets.first;
+          selectSenderWallet.value =
+              walletsController.walletsInfoModel.data.userWallets.first;
+          receiverExchangeRate.value = walletsController.exchangeRate.value;
+          senderExchangeRate.value = walletsController.exchangeRate.value;
 
-      for (var element in walletsController.walletsInfoModel.data.userWallets) {
-        walletsList.add(
-          MainUserWallet(
-            balance: element.balance,
-            currency: element.currency,
-            status: element.status,
-          ),
-        );
-      }
+          for (var element
+              in walletsController.walletsInfoModel.data.userWallets) {
+            walletsList.add(
+              MainUserWallet(
+                balance: element.balance,
+                currency: element.currency,
+                status: element.status,
+              ),
+            );
+          }
 
-      limitMin.value = _agentMoneyOutInfoModel.data.moneyOutCharge.minLimit;
-      limitMax.value = _agentMoneyOutInfoModel.data.moneyOutCharge.maxLimit;
-      dailyLimit.value = _agentMoneyOutInfoModel.data.moneyOutCharge.dailyLimit;
-      monthlyLimit.value =
-          _agentMoneyOutInfoModel.data.moneyOutCharge.monthlyLimit;
+          limitMin.value = _agentMoneyOutInfoModel.data.moneyOutCharge.minLimit;
+          limitMax.value = _agentMoneyOutInfoModel.data.moneyOutCharge.maxLimit;
+          dailyLimit.value =
+              _agentMoneyOutInfoModel.data.moneyOutCharge.dailyLimit;
+          monthlyLimit.value =
+              _agentMoneyOutInfoModel.data.moneyOutCharge.monthlyLimit;
 
-      min.value = _agentMoneyOutInfoModel.data.moneyOutCharge.minLimit;
-      max.value = _agentMoneyOutInfoModel.data.moneyOutCharge.maxLimit;
+          min.value = _agentMoneyOutInfoModel.data.moneyOutCharge.minLimit;
+          max.value = _agentMoneyOutInfoModel.data.moneyOutCharge.maxLimit;
 
-      percentCharge.value =
-          _agentMoneyOutInfoModel.data.moneyOutCharge.percentCharge;
-      fixedCharge.value =
-          _agentMoneyOutInfoModel.data.moneyOutCharge.fixedCharge;
-      rate.value = _agentMoneyOutInfoModel.data.baseCurrRate;
+          percentCharge.value =
+              _agentMoneyOutInfoModel.data.moneyOutCharge.percentCharge;
+          fixedCharge.value =
+              _agentMoneyOutInfoModel.data.moneyOutCharge.fixedCharge;
+          rate.value = _agentMoneyOutInfoModel.data.baseCurrRate;
 
-      //start remaing get
-      remainingController.transactionType.value =
-          _agentMoneyOutInfoModel.data.getRemainingFields.transactionType;
-      remainingController.attribute.value =
-          _agentMoneyOutInfoModel.data.getRemainingFields.attribute;
-      remainingController.cardId.value =
-          _agentMoneyOutInfoModel.data.moneyOutCharge.id;
-      remainingController.senderAmount.value = senderAmountController.text;
-      remainingController.senderCurrency.value =
-          selectSenderWallet.value!.currency.code;
+          //start remaing get
+          remainingController.transactionType.value =
+              _agentMoneyOutInfoModel.data.getRemainingFields.transactionType;
+          remainingController.attribute.value =
+              _agentMoneyOutInfoModel.data.getRemainingFields.attribute;
+          remainingController.cardId.value =
+              _agentMoneyOutInfoModel.data.moneyOutCharge.id;
+          remainingController.senderAmount.value = senderAmountController.text;
+          remainingController.senderCurrency.value =
+              selectSenderWallet.value!.currency.code;
 
-      remainingController.getRemainingBalanceProcess();
+          remainingController.getRemainingBalanceProcess();
 
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-    });
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+        });
 
     _isLoading.value = false;
     update();
@@ -146,16 +148,18 @@ class AgentMoneyOutController extends GetxController {
     Map<String, dynamic> inputBody = {'credentials': copyInputController.text};
     update();
 
-    await ApiServices.checkAgentExistApi(body: inputBody).then((value) {
-      _checkAgentExistModel = value!;
-      checkUserMessage.value = _checkAgentExistModel.message.success.first;
-      isValidUser.value = true;
-      update();
-    }).catchError((onError) {
-      checkUserMessage.value = Strings.notValidUser;
-      isValidUser.value = false;
-      log.e(onError);
-    });
+    await ApiServices.checkAgentExistApi(body: inputBody)
+        .then((value) {
+          _checkAgentExistModel = value!;
+          checkUserMessage.value = _checkAgentExistModel.message.success.first;
+          isValidUser.value = true;
+          update();
+        })
+        .catchError((onError) {
+          checkUserMessage.value = Strings.notValidUser;
+          isValidUser.value = false;
+          log.e(onError);
+        });
 
     _isCheckAgentLoading.value = false;
     update();
@@ -170,22 +174,25 @@ class AgentMoneyOutController extends GetxController {
   CheckAgentWithQrCodeModel get checkUserWithQrCodeModel =>
       _checkAgentWithQrCodeModel;
   Future<CheckAgentWithQrCodeModel> getCheckUserWithQrCodeData(
-      String qrcode) async {
+    String qrcode,
+  ) async {
     _isCheckAgentLoading.value = true;
 
     Map<String, dynamic> inputBody = {'qr_code': qrcode};
     update();
 
-    await ApiServices.checkAgentWithQrCodeApi(body: inputBody).then((value) {
-      _checkAgentWithQrCodeModel = value!;
-      copyInputController.clear();
-      copyInputController.text = _checkAgentWithQrCodeModel.data.agentEmail;
-      isValidUser.value = true;
-      update();
-    }).catchError((onError) {
-      isValidUser.value = false;
-      log.e(onError);
-    });
+    await ApiServices.checkAgentWithQrCodeApi(body: inputBody)
+        .then((value) {
+          _checkAgentWithQrCodeModel = value!;
+          copyInputController.clear();
+          copyInputController.text = _checkAgentWithQrCodeModel.data.agentEmail;
+          isValidUser.value = true;
+          update();
+        })
+        .catchError((onError) {
+          isValidUser.value = false;
+          log.e(onError);
+        });
 
     _isCheckAgentLoading.value = false;
     update();
@@ -215,13 +222,15 @@ class AgentMoneyOutController extends GetxController {
     };
     update();
 
-    await ApiServices.agentMoneyOutConfirmApi(body: inputBody).then((value) {
-      _agentMoneyModel = value!;
-      update();
-    }).catchError((onError) {
-      isValidUser.value = false;
-      log.e(onError);
-    });
+    await ApiServices.agentMoneyOutConfirmApi(body: inputBody)
+        .then((value) {
+          _agentMoneyModel = value!;
+          update();
+        })
+        .catchError((onError) {
+          isValidUser.value = false;
+          log.e(onError);
+        });
 
     _isSendMoneyLoading.value = false;
     update();
@@ -230,10 +239,13 @@ class AgentMoneyOutController extends GetxController {
 
   RxDouble getFee({required double rate}) {
     double value = fixedCharge.value * rate;
-    value = value +
-        (double.parse(senderAmountController.text.isEmpty
-                ? '0.0'
-                : senderAmountController.text) *
+    value =
+        value +
+        (double.parse(
+              senderAmountController.text.isEmpty
+                  ? '0.0'
+                  : senderAmountController.text,
+            ) *
             (percentCharge.value / 100));
 
     if (senderAmountController.text.isEmpty) {
@@ -249,11 +261,11 @@ class AgentMoneyOutController extends GetxController {
   void updateExchangeRate() {
     receiverExchangeRate.value =
         double.parse(selectReceiverWallet.value!.currency.rate) /
-            double.parse(selectSenderWallet.value!.currency.rate);
+        double.parse(selectSenderWallet.value!.currency.rate);
 
     senderExchangeRate.value =
         double.parse(selectSenderWallet.value!.currency.rate) /
-            double.parse(selectReceiverWallet.value!.currency.rate);
+        double.parse(selectReceiverWallet.value!.currency.rate);
 
     getFee(rate: double.parse(selectSenderWallet.value!.currency.rate));
   }
@@ -264,8 +276,8 @@ class AgentMoneyOutController extends GetxController {
     int precision = selectSenderWallet.value!.currency.type == 'FIAT'
         ? LocalStorages.getFiatPrecision()
         : LocalStorages.getCryptoPrecision();
-    senderAmountController.text =
-        (receiverAmount * senderExchangeRate.value).toStringAsFixed(precision);
+    senderAmountController.text = (receiverAmount * senderExchangeRate.value)
+        .toStringAsFixed(precision);
     getFee(rate: double.parse(selectSenderWallet.value!.currency.rate));
     updateLimit();
   }
@@ -277,8 +289,8 @@ class AgentMoneyOutController extends GetxController {
         ? LocalStorages.getFiatPrecision()
         : LocalStorages.getCryptoPrecision();
 
-    receiverAmountController.text =
-        (senderAmount * receiverExchangeRate.value).toStringAsFixed(precision);
+    receiverAmountController.text = (senderAmount * receiverExchangeRate.value)
+        .toStringAsFixed(precision);
     getFee(rate: double.parse(selectSenderWallet.value!.currency.rate));
     updateLimit();
   }
@@ -290,15 +302,18 @@ class AgentMoneyOutController extends GetxController {
     limitMax.value =
         max.value * double.parse(selectSenderWallet.value!.currency.rate);
 
-    dailyLimit.value = limit.dailyLimit! *
+    dailyLimit.value =
+        limit.dailyLimit! *
         double.parse(selectSenderWallet.value!.currency.rate);
-    monthlyLimit.value = limit.monthlyLimit! *
+    monthlyLimit.value =
+        limit.monthlyLimit! *
         double.parse(selectSenderWallet.value!.currency.rate);
 
-        
-    remainingController.remainingMonthLyLimit.value = limit.monthlyLimit! *
+    remainingController.remainingMonthLyLimit.value =
+        limit.monthlyLimit! *
         double.parse(selectSenderWallet.value!.currency.rate);
-    remainingController.remainingDailyLimit.value = limit.dailyLimit! *
+    remainingController.remainingDailyLimit.value =
+        limit.dailyLimit! *
         double.parse(selectSenderWallet.value!.currency.rate);
 
     remainingController.senderAmount.value = senderAmountController.text;

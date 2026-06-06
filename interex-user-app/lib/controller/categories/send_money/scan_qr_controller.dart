@@ -1,8 +1,6 @@
-
 // import 'package:get/get.dart';
 
 // class  ScanQrController extends GetxController{
- 
 
 // //  final qrKey = GlobalKey(debugLabel: 'QR');
 // //   QRViewController? controller;

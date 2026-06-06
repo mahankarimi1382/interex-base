@@ -2,8 +2,9 @@ import 'package:qrpaypro/utils/custom_color.dart';
 import 'package:qrpaypro/utils/dimensions.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
 class CustomSnackBar {
-  static SnackbarController success( String message) {
+  static SnackbarController success(String message) {
     return Get.snackbar(
       'Success',
       message,

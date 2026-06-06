@@ -9,16 +9,17 @@ class BasicLogoWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Obx(
-          () => controller.isLoading
+      () => controller.isLoading
           ? const Text('')
           : Image.network(
-        isWhite
-            ? controller.appBasicLogoWhite.value
-            : controller.appBasicLogoDark.value,
-        width: MediaQuery.of(context).size.width * 0.52,
-        height: MediaQuery.of(context).size.height *
-            (isDashBoard ? 0.035 : 0.1),
-      ),
+              isWhite
+                  ? controller.appBasicLogoWhite.value
+                  : controller.appBasicLogoDark.value,
+              width: MediaQuery.of(context).size.width * 0.52,
+              height:
+                  MediaQuery.of(context).size.height *
+                  (isDashBoard ? 0.035 : 0.1),
+            ),
     );
   }
 }

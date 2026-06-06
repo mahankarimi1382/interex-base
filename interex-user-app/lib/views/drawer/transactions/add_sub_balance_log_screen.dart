@@ -24,9 +24,7 @@ class AddSubBalanceLogScreen extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(
-            height: Dimensions.heightSize * 1.5,
-          ),
+          SizedBox(height: Dimensions.heightSize * 1.5),
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.78,
             child: data.isNotEmpty
@@ -41,16 +39,18 @@ class AddSubBalanceLogScreen extends StatelessWidget {
                       return _mainListWidget(i, data, context);
                     },
                   )
-                : NoDataWidget(
-                    title: Strings.noTransaction.tr,
-                  ),
+                : NoDataWidget(title: Strings.noTransaction.tr),
           ),
         ],
       ),
     );
   }
 
-  GestureDetector _mainListWidget(int i, List<AddSubBalance> data, BuildContext context) {
+  GestureDetector _mainListWidget(
+    int i,
+    List<AddSubBalance> data,
+    BuildContext context,
+  ) {
     RxBool isExpansion = false.obs;
     return GestureDetector(
       onTap: () {
@@ -66,53 +66,54 @@ class AddSubBalanceLogScreen extends StatelessWidget {
             transaction: data[i].trx,
             monthText: DateFormat.MMM().format(data[i].dateTime),
           ),
-          Obx(() => Visibility(
-                visible: isExpansion.value,
-                child: Container(
-                  padding: EdgeInsets.all(Dimensions.paddingSize * .6),
-                  decoration: BoxDecoration(
-                    color: CustomColor.primaryLightColor.withValues(alpha:0.9),
-                    borderRadius: BorderRadius.circular(Dimensions.radius),
-                  ),
-                  child: Column(
-                    children: [
+          Obx(
+            () => Visibility(
+              visible: isExpansion.value,
+              child: Container(
+                padding: EdgeInsets.all(Dimensions.paddingSize * .6),
+                decoration: BoxDecoration(
+                  color: CustomColor.primaryLightColor.withValues(alpha: 0.9),
+                  borderRadius: BorderRadius.circular(Dimensions.radius),
+                ),
+                child: Column(
+                  children: [
+                    ExpendedItemWidget(
+                      title: Strings.transactionId.tr,
+                      value: data[i].trx,
+                    ),
+                    ExpendedItemWidget(
+                      title: Strings.exchangeRate.tr,
+                      value: data[i].exchangeRate,
+                    ),
+                    ExpendedItemWidget(
+                      title: Strings.feesAndCharges.tr,
+                      value: data[i].totalCharge,
+                    ),
+                    if (data[i].operationType == 'ADD') ...[
                       ExpendedItemWidget(
-                        title: Strings.transactionId.tr,
-                        value: data[i].trx,
-                      ),
-                      ExpendedItemWidget(
-                        title: Strings.exchangeRate.tr,
-                        value: data[i].exchangeRate,
-                      ),
-                      ExpendedItemWidget(
-                        title: Strings.feesAndCharges.tr,
-                        value: data[i].totalCharge,
-                      ),
-                      if (data[i].operationType == 'ADD') ...[
-                        ExpendedItemWidget(
-                          title: Strings.totalReceived.tr,
-                          value: data[i].receiveAmount,
-                        ),
-                      ],
-                      if (data[i].operationType == 'SUBTRACT') ...[
-                        ExpendedItemWidget(
-                          title: Strings.deductedAmount.tr,
-                          value: data[i].deductedAmount,
-                        ),
-                      ],
-                      ExpendedItemWidget(
-                        title: Strings.remark.tr,
-                        value: data[i].remark.toUpperCase(),
-                      ),
-                      ExpendedItemWidget(
-                        title: Strings.timeAndDate.tr,
-                        value:
-                            DateFormat('yyyy-MM-dd').format(data[i].dateTime),
+                        title: Strings.totalReceived.tr,
+                        value: data[i].receiveAmount,
                       ),
                     ],
-                  ),
+                    if (data[i].operationType == 'SUBTRACT') ...[
+                      ExpendedItemWidget(
+                        title: Strings.deductedAmount.tr,
+                        value: data[i].deductedAmount,
+                      ),
+                    ],
+                    ExpendedItemWidget(
+                      title: Strings.remark.tr,
+                      value: data[i].remark.toUpperCase(),
+                    ),
+                    ExpendedItemWidget(
+                      title: Strings.timeAndDate.tr,
+                      value: DateFormat('yyyy-MM-dd').format(data[i].dateTime),
+                    ),
+                  ],
                 ),
-              ))
+              ),
+            ),
+          ),
         ],
       ),
     );

@@ -19,10 +19,11 @@ class BillPayPreviewScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ResponsiveLayout(
-        mobileScaffold: Scaffold(
-      appBar: const AppBarWidget(text: Strings.preview),
-      body: _bodyWidget(context),
-    ));
+      mobileScaffold: Scaffold(
+        appBar: const AppBarWidget(text: Strings.preview),
+        body: _bodyWidget(context),
+      ),
+    );
   }
 
   ListView _bodyWidget(BuildContext context) {
@@ -40,8 +41,9 @@ class BillPayPreviewScreen extends StatelessWidget {
 
   Widget _amountWidget(BuildContext context) {
     return previewAmount(
-        amount:
-            "${controller.amountController.text} ${controller.baseCurrency.value}");
+      amount:
+          "${controller.amountController.text} ${controller.baseCurrency.value}",
+    );
   }
 
   Widget _recipientWidget(BuildContext context) {
@@ -59,9 +61,10 @@ class BillPayPreviewScreen extends StatelessWidget {
           "${controller.amountController.text} ${controller.automaticSelectedCurrency.value}",
       exchangeRate:
           '1 ${controller.automaticSelectedCurrency.value} ${controller.exchangeRate.value.toStringAsFixed(8)}',
-      conversionAmount: (double.parse(controller.amountController.text) *
-              controller.exchangeRate.value)
-          .toStringAsFixed(4),
+      conversionAmount:
+          (double.parse(controller.amountController.text) *
+                  controller.exchangeRate.value)
+              .toStringAsFixed(4),
       totalCharge: '',
       totalPayable: '',
     );
@@ -69,9 +72,7 @@ class BillPayPreviewScreen extends StatelessWidget {
 
   Container _buttonWidget(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(
-        top: Dimensions.marginSizeVertical * 2,
-      ),
+      margin: EdgeInsets.only(top: Dimensions.marginSizeVertical * 2),
       child: PrimaryButton(
         title: Strings.confirm,
         onPressed: () {

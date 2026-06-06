@@ -7,8 +7,6 @@ class PaymentLogScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ResponsiveLayout(
-      mobileScaffold: PaymentLogScreenMobile(),
-    );
+    return ResponsiveLayout(mobileScaffold: PaymentLogScreenMobile());
   }
 }

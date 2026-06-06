@@ -59,48 +59,53 @@ class RequestMoneyController extends GetxController
     _isLoading.value = true;
     update();
 
-    await getRequestMoneyInfoProcessApi().then((value) {
-      _requestMoneyInfoModel = value!;
-      // Get wallet information
-      selectMainWallet.value =
-          walletsController.walletsInfoModel.data.userWallets.first;
-      for (var element in walletsController.walletsInfoModel.data.userWallets) {
-        walletsList.add(
-          MainUserWallet(
-            balance: element.balance,
-            currency: element.currency,
-            status: element.status,
-          ),
-        );
-      }
+    await getRequestMoneyInfoProcessApi()
+        .then((value) {
+          _requestMoneyInfoModel = value!;
+          // Get wallet information
+          selectMainWallet.value =
+              walletsController.walletsInfoModel.data.userWallets.first;
+          for (var element
+              in walletsController.walletsInfoModel.data.userWallets) {
+            walletsList.add(
+              MainUserWallet(
+                balance: element.balance,
+                currency: element.currency,
+                status: element.status,
+              ),
+            );
+          }
 
-      limitMin.value = _requestMoneyInfoModel.data.requestMoneyCharge.minLimit;
-      limitMax.value = _requestMoneyInfoModel.data.requestMoneyCharge.maxLimit;
-      dailyLimit.value =
-          _requestMoneyInfoModel.data.requestMoneyCharge.dailyLimit;
-      monthlyLimit.value =
-          _requestMoneyInfoModel.data.requestMoneyCharge.monthlyLimit;
-      percentCharge.value =
-          _requestMoneyInfoModel.data.requestMoneyCharge.percentCharge;
-      fixedCharge.value =
-          _requestMoneyInfoModel.data.requestMoneyCharge.fixedCharge;
-      rate.value = _requestMoneyInfoModel.data.baseCurrRate;
-      //start remaing get
-      remainingController.transactionType.value =
-          _requestMoneyInfoModel.data.getRemainingFields.transactionType;
-      remainingController.attribute.value =
-          _requestMoneyInfoModel.data.getRemainingFields.attribute;
-      remainingController.cardId.value =
-          _requestMoneyInfoModel.data.requestMoneyCharge.id;
-      remainingController.senderAmount.value = amountController.text;
-      remainingController.senderCurrency.value =
-          selectMainWallet.value!.currency.code;
+          limitMin.value =
+              _requestMoneyInfoModel.data.requestMoneyCharge.minLimit;
+          limitMax.value =
+              _requestMoneyInfoModel.data.requestMoneyCharge.maxLimit;
+          dailyLimit.value =
+              _requestMoneyInfoModel.data.requestMoneyCharge.dailyLimit;
+          monthlyLimit.value =
+              _requestMoneyInfoModel.data.requestMoneyCharge.monthlyLimit;
+          percentCharge.value =
+              _requestMoneyInfoModel.data.requestMoneyCharge.percentCharge;
+          fixedCharge.value =
+              _requestMoneyInfoModel.data.requestMoneyCharge.fixedCharge;
+          rate.value = _requestMoneyInfoModel.data.baseCurrRate;
+          //start remaing get
+          remainingController.transactionType.value =
+              _requestMoneyInfoModel.data.getRemainingFields.transactionType;
+          remainingController.attribute.value =
+              _requestMoneyInfoModel.data.getRemainingFields.attribute;
+          remainingController.cardId.value =
+              _requestMoneyInfoModel.data.requestMoneyCharge.id;
+          remainingController.senderAmount.value = amountController.text;
+          remainingController.senderCurrency.value =
+              selectMainWallet.value!.currency.code;
 
-      remainingController.getRemainingBalanceProcess();
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-    });
+          remainingController.getRemainingBalanceProcess();
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+        });
 
     _isLoading.value = false;
     update();
@@ -115,16 +120,18 @@ class RequestMoneyController extends GetxController
     _isCheckUserLoading.value = true;
     Map<String, dynamic> inputBody = {'qr_code': qrcode};
     update();
-    await checkUserWithQrCodeApi(body: inputBody).then((value) {
-      _checkUserWithQrCodeModel = value!;
-      copyInputController.clear();
-      copyInputController.text = _checkUserWithQrCodeModel.data.userEmail;
-      isValidUser.value = true;
-      update();
-    }).catchError((onError) {
-      isValidUser.value = false;
-      log.e(onError);
-    });
+    await checkUserWithQrCodeApi(body: inputBody)
+        .then((value) {
+          _checkUserWithQrCodeModel = value!;
+          copyInputController.clear();
+          copyInputController.text = _checkUserWithQrCodeModel.data.userEmail;
+          isValidUser.value = true;
+          update();
+        })
+        .catchError((onError) {
+          isValidUser.value = false;
+          log.e(onError);
+        });
 
     _isCheckUserLoading.value = false;
     update();
@@ -139,16 +146,18 @@ class RequestMoneyController extends GetxController
     Map<String, dynamic> inputBody = {'credentials': copyInputController.text};
     update();
 
-    await checkUserExistApi(body: inputBody).then((value) {
-      _checkUserExistModel = value!;
-      checkUserMessage.value = _checkUserExistModel.message.success.first;
-      isValidUser.value = true;
-      update();
-    }).catchError((onError) {
-      checkUserMessage.value = Strings.notValidUser;
-      isValidUser.value = false;
-      log.e(onError);
-    });
+    await checkUserExistApi(body: inputBody)
+        .then((value) {
+          _checkUserExistModel = value!;
+          checkUserMessage.value = _checkUserExistModel.message.success.first;
+          isValidUser.value = true;
+          update();
+        })
+        .catchError((onError) {
+          checkUserMessage.value = Strings.notValidUser;
+          isValidUser.value = false;
+          log.e(onError);
+        });
     _isCheckUserLoading.value = false;
     update();
     return _checkUserExistModel;
@@ -164,18 +173,20 @@ class RequestMoneyController extends GetxController
       'credentials': copyInputController.text,
       'request_amount': amountController.text,
       'currency': selectMainWallet.value!.currency.code,
-      'remark': remarkController.text
+      'remark': remarkController.text,
     };
     update();
 
-    await requestMoneySubmitURL(body: inputBody).then((value) {
-      _requestMoneyModel = value!;
-      update();
-      // Get.offAllNamed(Routes.bottomNavBarScreen);
-    }).catchError((onError) {
-      isValidUser.value = false;
-      log.e(onError);
-    });
+    await requestMoneySubmitURL(body: inputBody)
+        .then((value) {
+          _requestMoneyModel = value!;
+          update();
+          // Get.offAllNamed(Routes.bottomNavBarScreen);
+        })
+        .catchError((onError) {
+          isValidUser.value = false;
+          log.e(onError);
+        });
 
     _isRequestMoneyLoading.value = false;
     update();
@@ -184,9 +195,11 @@ class RequestMoneyController extends GetxController
 
   RxDouble getFee({required double rate}) {
     double value = fixedCharge.value * rate;
-    value = value +
+    value =
+        value +
         (double.parse(
-                amountController.text.isEmpty ? '0.0' : amountController.text) *
+              amountController.text.isEmpty ? '0.0' : amountController.text,
+            ) *
             (percentCharge.value / 100));
 
     if (amountController.text.isEmpty) {
@@ -208,10 +221,12 @@ class RequestMoneyController extends GetxController
 
     dailyLimit.value =
         limit.dailyLimit! * double.parse(selectMainWallet.value!.currency.rate);
-    monthlyLimit.value = limit.monthlyLimit! *
+    monthlyLimit.value =
+        limit.monthlyLimit! *
         double.parse(selectMainWallet.value!.currency.rate);
 
-    remainingController.remainingMonthLyLimit.value = limit.monthlyLimit! *
+    remainingController.remainingMonthLyLimit.value =
+        limit.monthlyLimit! *
         double.parse(selectMainWallet.value!.currency.rate);
     remainingController.remainingDailyLimit.value =
         limit.dailyLimit! * double.parse(selectMainWallet.value!.currency.rate);

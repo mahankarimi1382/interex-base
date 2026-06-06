@@ -36,16 +36,16 @@ class ResetPasswordPhoneController extends GetxController {
       'password': newPasswordController.text,
       'password_confirmation': confirmPasswordController.text,
     };
-    await ApiServices.resetPasswordPhoneApi(
-      body: inputBody,
-    ).then((value) {
-      _resetPasswordModel = value!;
-      Get.toNamed(Routes.signInScreen);
-      _isLoading.value = false;
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-    });
+    await ApiServices.resetPasswordPhoneApi(body: inputBody)
+        .then((value) {
+          _resetPasswordModel = value!;
+          Get.toNamed(Routes.signInScreen);
+          _isLoading.value = false;
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+        });
 
     _isLoading.value = false;
     update();

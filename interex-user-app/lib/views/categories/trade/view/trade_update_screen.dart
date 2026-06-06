@@ -19,12 +19,12 @@ class TradeUpdateScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return ResponsiveLayout(
       mobileScaffold: Scaffold(
-        appBar: AppBarWidget(
-          text: Strings.tradeUpdate,
+        appBar: AppBarWidget(text: Strings.tradeUpdate),
+        body: Obx(
+          () => controller.isUpdateLoading
+              ? CustomLoadingAPI()
+              : _bodyWidget(context),
         ),
-        body: Obx(() => controller.isUpdateLoading
-            ? CustomLoadingAPI()
-            : _bodyWidget(context)),
       ),
     );
   }
@@ -40,27 +40,31 @@ class TradeUpdateScreen extends StatelessWidget {
         _inputWidget(),
         verticalSpace(Dimensions.paddingVerticalSize * .2),
         LimitWidget(
-            feeText: Strings.availabeBlance,
-            limitText: Strings.charge,
-            fee:
-                "${controller.myTradeModel.data.wallet.firstWhere((value) => value.code == controller.selectedSaleCurrency.value.code).balance} ${controller.selectedSaleCurrency.value.code}",
-            limit:
-                "${controller.fixedCharge.value.toStringAsFixed(2)} ${controller.selectedSaleCurrency.value.code}  + ${controller.percCharge.value.toStringAsFixed(2)}%"),
+          feeText: Strings.availabeBlance,
+          limitText: Strings.charge,
+          fee:
+              "${controller.myTradeModel.data.wallet.firstWhere((value) => value.code == controller.selectedSaleCurrency.value.code).balance} ${controller.selectedSaleCurrency.value.code}",
+          limit:
+              "${controller.fixedCharge.value.toStringAsFixed(2)} ${controller.selectedSaleCurrency.value.code}  + ${controller.percCharge.value.toStringAsFixed(2)}%",
+        ),
+
         // verticalSpace(Dimensions.paddingVerticalSize * 1),
         //
         // _limitInformation(context),
-
         verticalSpace(Dimensions.paddingVerticalSize * 1),
         PrimaryButton(
-            title: Strings.update,
-            onPressed: () {
-              if (formKey.currentState!.validate()) {
-                Get.find<SetUpPinController>().showPinDialog(context,
-                    onSuccess: () {
+          title: Strings.update,
+          onPressed: () {
+            if (formKey.currentState!.validate()) {
+              Get.find<SetUpPinController>().showPinDialog(
+                context,
+                onSuccess: () {
                   controller.tradeUpdateApi();
-                });
-              }
-            })
+                },
+              );
+            }
+          },
+        ),
       ],
     );
   }
@@ -85,26 +89,31 @@ class TradeUpdateScreen extends StatelessWidget {
                 }
               },
               suffixIcon: Container(
-                  height: Dimensions.buttonHeight,
-                  width: Dimensions.widthSize * 10,
-                  decoration: BoxDecoration(
-                      color: CustomColor.primaryLightColor,
-                      borderRadius: BorderRadius.horizontal(
-                          right: Radius.circular(Dimensions.radius * .8))),
-                  child: CustomDropDown<ECurrency>(
-                      isExpanded: false,
-                      padding: EdgeInsets.symmetric(
-                          horizontal: Dimensions.paddingHorizontalSize * .2),
-                      dropDownIconColor: CustomColor.whiteColor,
-                      titleTextColor: CustomColor.whiteColor,
-                      borderColor: Colors.transparent,
-                      items: [controller.selectedSaleCurrency.value],
-                      hint: controller.selectedSaleCurrency.value.code,
-                      isCurrencyDropDown: true,
-                      onChanged: (value) {
-                        controller.selectedSaleCurrency.value = value!;
-                        controller.calculation();
-                      })),
+                height: Dimensions.buttonHeight,
+                width: Dimensions.widthSize * 10,
+                decoration: BoxDecoration(
+                  color: CustomColor.primaryLightColor,
+                  borderRadius: BorderRadius.horizontal(
+                    right: Radius.circular(Dimensions.radius * .8),
+                  ),
+                ),
+                child: CustomDropDown<ECurrency>(
+                  isExpanded: false,
+                  padding: EdgeInsets.symmetric(
+                    horizontal: Dimensions.paddingHorizontalSize * .2,
+                  ),
+                  dropDownIconColor: CustomColor.whiteColor,
+                  titleTextColor: CustomColor.whiteColor,
+                  borderColor: Colors.transparent,
+                  items: [controller.selectedSaleCurrency.value],
+                  hint: controller.selectedSaleCurrency.value.code,
+                  isCurrencyDropDown: true,
+                  onChanged: (value) {
+                    controller.selectedSaleCurrency.value = value!;
+                    controller.calculation();
+                  },
+                ),
+              ),
             ),
           ),
           verticalSpace(Dimensions.paddingVerticalSize * .5),
@@ -121,26 +130,31 @@ class TradeUpdateScreen extends StatelessWidget {
                 }
               },
               suffixIcon: Container(
-                  height: Dimensions.buttonHeight,
-                  width: Dimensions.widthSize * 10,
-                  decoration: BoxDecoration(
-                      color: CustomColor.primaryLightColor,
-                      borderRadius: BorderRadius.horizontal(
-                          right: Radius.circular(Dimensions.radius * .8))),
-                  child: CustomDropDown<ECurrency>(
-                      isExpanded: false,
-                      padding: EdgeInsets.symmetric(
-                          horizontal: Dimensions.paddingHorizontalSize * .2),
-                      dropDownIconColor: CustomColor.whiteColor,
-                      titleTextColor: CustomColor.whiteColor,
-                      borderColor: Colors.transparent,
-                      items: [controller.selectedRateCurrency.value],
-                      hint: controller.selectedRateCurrency.value.code,
-                      isCurrencyDropDown: true,
-                      onChanged: (value) {
-                        controller.selectedRateCurrency.value = value!;
-                        controller.calculation();
-                      })),
+                height: Dimensions.buttonHeight,
+                width: Dimensions.widthSize * 10,
+                decoration: BoxDecoration(
+                  color: CustomColor.primaryLightColor,
+                  borderRadius: BorderRadius.horizontal(
+                    right: Radius.circular(Dimensions.radius * .8),
+                  ),
+                ),
+                child: CustomDropDown<ECurrency>(
+                  isExpanded: false,
+                  padding: EdgeInsets.symmetric(
+                    horizontal: Dimensions.paddingHorizontalSize * .2,
+                  ),
+                  dropDownIconColor: CustomColor.whiteColor,
+                  titleTextColor: CustomColor.whiteColor,
+                  borderColor: Colors.transparent,
+                  items: [controller.selectedRateCurrency.value],
+                  hint: controller.selectedRateCurrency.value.code,
+                  isCurrencyDropDown: true,
+                  onChanged: (value) {
+                    controller.selectedRateCurrency.value = value!;
+                    controller.calculation();
+                  },
+                ),
+              ),
             ),
           ),
         ],
@@ -156,21 +170,24 @@ class TradeUpdateScreen extends StatelessWidget {
       child: Container(
         height: Dimensions.buttonHeight * 2,
         decoration: BoxDecoration(
-            color: Get.isDarkMode
-                ? CustomColor.whiteColor.withValues(alpha: .05)
-                : CustomColor.whiteColor.withValues(alpha: 1),
-            borderRadius: BorderRadius.circular(Dimensions.radius * 1.2)),
+          color: Get.isDarkMode
+              ? CustomColor.whiteColor.withValues(alpha: .05)
+              : CustomColor.whiteColor.withValues(alpha: 1),
+          borderRadius: BorderRadius.circular(Dimensions.radius * 1.2),
+        ),
         child: Column(
           crossAxisAlignment: crossCenter,
           mainAxisAlignment: mainCenter,
           children: [
             TitleHeading5Widget(
-                text: Strings.sellingExchangeRate,
-                fontWeight: FontWeight.normal),
+              text: Strings.sellingExchangeRate,
+              fontWeight: FontWeight.normal,
+            ),
             verticalSpace(Dimensions.paddingVerticalSize * .3),
             TitleHeading3Widget(
-                text:
-                    "1 ${controller.selectedSaleCurrency.value.code} = ${controller.exchangeRate.value.toStringAsFixed(4)} ${controller.selectedRateCurrency.value.code}"),
+              text:
+                  "1 ${controller.selectedSaleCurrency.value.code} = ${controller.exchangeRate.value.toStringAsFixed(4)} ${controller.selectedRateCurrency.value.code}",
+            ),
           ],
         ),
       ),

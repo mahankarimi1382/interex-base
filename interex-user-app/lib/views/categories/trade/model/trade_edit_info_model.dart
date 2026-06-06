@@ -1,13 +1,10 @@
 class TradeEditInfoModel {
   final Data data;
 
-  TradeEditInfoModel({
-    required this.data,
-  });
+  TradeEditInfoModel({required this.data});
 
-  factory TradeEditInfoModel.fromJson(Map<String, dynamic> json) => TradeEditInfoModel(
-    data: Data.fromJson(json["data"]),
-  );
+  factory TradeEditInfoModel.fromJson(Map<String, dynamic> json) =>
+      TradeEditInfoModel(data: Data.fromJson(json["data"]));
 }
 
 class Data {

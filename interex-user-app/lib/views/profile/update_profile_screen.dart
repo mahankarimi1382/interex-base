@@ -30,15 +30,11 @@ class UpdateProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return ResponsiveLayout(
       mobileScaffold: Scaffold(
-        appBar: const AppBarWidget(
-          text: Strings.updateProfile,
-        ),
+        appBar: const AppBarWidget(text: Strings.updateProfile),
         body: Obx(
           () => controller.isLoading
               ? const CustomLoadingAPI()
-              : _bodyWidget(
-                  context,
-                ),
+              : _bodyWidget(context),
         ),
       ),
     );
@@ -119,9 +115,7 @@ class UpdateProfileScreen extends StatelessWidget {
           ),
 
           //ended country number picker
-          verticalSpace(
-            Dimensions.heightSize,
-          ),
+          verticalSpace(Dimensions.heightSize),
           Row(
             children: [
               Expanded(
@@ -142,23 +136,25 @@ class UpdateProfileScreen extends StatelessWidget {
             ],
           ),
           verticalSpace(Dimensions.heightSize),
-          Row(children: [
-            Expanded(
-              child: PrimaryInputWidget(
-                hint: Strings.enterState,
-                label: Strings.state,
-                controller: controller.stateController,
+          Row(
+            children: [
+              Expanded(
+                child: PrimaryInputWidget(
+                  hint: Strings.enterState,
+                  label: Strings.state,
+                  controller: controller.stateController,
+                ),
               ),
-            ),
-            horizontalSpace(Dimensions.widthSize),
-            Expanded(
-              child: PrimaryInputWidget(
-                hint: Strings.enterZipCode,
-                label: Strings.zipCode,
-                controller: controller.zipCodeController,
+              horizontalSpace(Dimensions.widthSize),
+              Expanded(
+                child: PrimaryInputWidget(
+                  hint: Strings.enterZipCode,
+                  label: Strings.zipCode,
+                  controller: controller.zipCodeController,
+                ),
               ),
-            ),
-          ])
+            ],
+          ),
         ],
       ),
     );
@@ -166,9 +162,7 @@ class UpdateProfileScreen extends StatelessWidget {
 
   Container _buttonWidget(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(
-        top: Dimensions.marginSizeVertical,
-      ),
+      margin: EdgeInsets.only(top: Dimensions.marginSizeVertical),
       child: Obx(
         () => controller.isUpdateLoading
             ? const CustomLoadingAPI()
@@ -178,26 +172,26 @@ class UpdateProfileScreen extends StatelessWidget {
                   if (_fromKey.currentState!.validate()) {
                     if (controller.imageController.isImagePathSet.value) {
                       controller.profileUpdateWithImageProcess().then(
-                            (value) => StatusScreen.show(
-                              context: context,
-                              subTitle: value.message.success.first,
-                              showAppName: false,
-                              onPressed: () {
-                                Get.offAllNamed(Routes.bottomNavBarScreen);
-                              },
-                            ),
-                          );
+                        (value) => StatusScreen.show(
+                          context: context,
+                          subTitle: value.message.success.first,
+                          showAppName: false,
+                          onPressed: () {
+                            Get.offAllNamed(Routes.bottomNavBarScreen);
+                          },
+                        ),
+                      );
                     } else {
                       controller.profileUpdateWithOutImageProcess().then(
-                            (value) => StatusScreen.show(
-                              context: context,
-                              subTitle: value.message.success.first,
-                              showAppName: false,
-                              onPressed: () {
-                                Get.offAllNamed(Routes.bottomNavBarScreen);
-                              },
-                            ),
-                          );
+                        (value) => StatusScreen.show(
+                          context: context,
+                          subTitle: value.message.success.first,
+                          showAppName: false,
+                          onPressed: () {
+                            Get.offAllNamed(Routes.bottomNavBarScreen);
+                          },
+                        ),
+                      );
                     }
                   }
                 },

@@ -338,7 +338,7 @@ class CardyfieWithdrawFundWidget extends StatelessWidget {
               ),
             ],
           ),
-            Row(
+          Row(
             mainAxisAlignment: mainCenter,
             children: [
               TitleHeading5Widget(

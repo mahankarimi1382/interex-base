@@ -73,10 +73,7 @@ class _CustomInputWithDropDownState<T>
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        TitleHeading4Widget(
-          text: widget.label,
-          fontWeight: FontWeight.w600,
-        ),
+        TitleHeading4Widget(text: widget.label, fontWeight: FontWeight.w600),
         verticalSpace(Dimensions.marginBetweenInputTitleAndBox),
         Row(
           children: [
@@ -111,10 +108,11 @@ class _CustomInputWithDropDownState<T>
                     ? CustomStyle.darkHeading3TextStyle
                     : CustomStyle.lightHeading3TextStyle,
                 inputFormatters: <TextInputFormatter>[
-                  DecimalTextInputFormatter()
+                  DecimalTextInputFormatter(),
                 ],
-                keyboardType:
-                    const TextInputType.numberWithOptions(decimal: true),
+                keyboardType: const TextInputType.numberWithOptions(
+                  decimal: true,
+                ),
                 maxLines: widget.maxLines,
                 decoration: InputDecoration(
                   hintText: languageController.getTranslation(widget.hint),
@@ -122,30 +120,40 @@ class _CustomInputWithDropDownState<T>
                     fontSize: Dimensions.headingTextSize3,
                     fontWeight: FontWeight.w500,
                     color: Get.isDarkMode
-                        ? CustomColor.primaryDarkTextColor.withValues(alpha:0.2)
-                        : CustomColor.primaryTextColor.withValues(alpha:0.2),
+                        ? CustomColor.primaryDarkTextColor.withValues(
+                            alpha: 0.2,
+                          )
+                        : CustomColor.primaryTextColor.withValues(alpha: 0.2),
                   ),
                   enabledBorder: OutlineInputBorder(
-                    borderRadius:
-                        BorderRadius.circular(Dimensions.radius * 0.5),
+                    borderRadius: BorderRadius.circular(
+                      Dimensions.radius * 0.5,
+                    ),
                     borderSide: BorderSide(
-                      color: CustomColor.primaryLightColor.withValues(alpha:0.2),
+                      color: CustomColor.primaryLightColor.withValues(
+                        alpha: 0.2,
+                      ),
                     ),
                   ),
                   focusedBorder: OutlineInputBorder(
-                    borderRadius:
-                        BorderRadius.circular(Dimensions.radius * 0.5),
+                    borderRadius: BorderRadius.circular(
+                      Dimensions.radius * 0.5,
+                    ),
                     borderSide: BorderSide(
-                        width: 2, color: CustomColor.primaryLightColor),
+                      width: 2,
+                      color: CustomColor.primaryLightColor,
+                    ),
                   ),
                   errorBorder: OutlineInputBorder(
-                    borderRadius:
-                        BorderRadius.circular(Dimensions.radius * 0.5),
+                    borderRadius: BorderRadius.circular(
+                      Dimensions.radius * 0.5,
+                    ),
                     borderSide: const BorderSide(color: Colors.red, width: 2),
                   ),
                   focusedErrorBorder: OutlineInputBorder(
-                    borderRadius:
-                        BorderRadius.circular(Dimensions.radius * 0.5),
+                    borderRadius: BorderRadius.circular(
+                      Dimensions.radius * 0.5,
+                    ),
                     borderSide: const BorderSide(color: Colors.red, width: 2),
                   ),
                   contentPadding: EdgeInsets.symmetric(
@@ -160,11 +168,12 @@ class _CustomInputWithDropDownState<T>
                         ? Dimensions.widthSize * 6
                         : Dimensions.widthSize * 7.5,
                     decoration: BoxDecoration(
-                        color: CustomColor.primaryLightColor,
-                        borderRadius: BorderRadius.only(
-                          topRight: Radius.circular(Dimensions.radius * 0.5),
-                          bottomRight: Radius.circular(Dimensions.radius * 0.5),
-                        )),
+                      color: CustomColor.primaryLightColor,
+                      borderRadius: BorderRadius.only(
+                        topRight: Radius.circular(Dimensions.radius * 0.5),
+                        bottomRight: Radius.circular(Dimensions.radius * 0.5),
+                      ),
+                    ),
                     child: Obx(
                       () => Padding(
                         padding: const EdgeInsets.only(right: 10),
@@ -178,24 +187,24 @@ class _CustomInputWithDropDownState<T>
                             ),
                           ),
                           iconEnabledColor: CustomColor.whiteColor,
-                          iconSize: Dimensions.heightSize * 1.5, 
+                          iconSize: Dimensions.heightSize * 1.5,
                           dropdownColor: CustomColor.primaryLightColor,
                           underline: Container(),
-                          items: widget.itemList.map<DropdownMenuItem<T>>(
-                            (value) {
-                              return DropdownMenuItem<T>(
-                                value: value,
-                                child: Text(
-                                  widget.displayItem(value),
-                                  style: GoogleFonts.inter(
-                                    color: CustomColor.whiteColor,
-                                    fontSize: Dimensions.headingTextSize4,
-                                    fontWeight: FontWeight.w500,
-                                  ),
+                          items: widget.itemList.map<DropdownMenuItem<T>>((
+                            value,
+                          ) {
+                            return DropdownMenuItem<T>(
+                              value: value,
+                              child: Text(
+                                widget.displayItem(value),
+                                style: GoogleFonts.inter(
+                                  color: CustomColor.whiteColor,
+                                  fontSize: Dimensions.headingTextSize4,
+                                  fontWeight: FontWeight.w500,
                                 ),
-                              );
-                            },
-                          ).toList(),
+                              ),
+                            );
+                          }).toList(),
                           onChanged: widget.onDropChanged,
                         ),
                       ),
@@ -205,7 +214,7 @@ class _CustomInputWithDropDownState<T>
               ),
             ),
           ],
-        )
+        ),
       ],
     );
   }

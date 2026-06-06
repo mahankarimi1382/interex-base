@@ -9,9 +9,7 @@ import '../../language/language_controller.dart';
 import '../../utils/custom_color.dart';
 
 class SplashScreen extends StatelessWidget {
-  SplashScreen({
-    super.key,
-  });
+  SplashScreen({super.key});
   final controller = Get.find<AppSettingsController>();
   final languageController = Get.find<LanguageController>();
   @override
@@ -20,8 +18,8 @@ class SplashScreen extends StatelessWidget {
       mobileScaffold: Scaffold(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         body: Obx(
-          () => controller.isLoading 
-              ? const CustomLoadingAPI() 
+          () => controller.isLoading
+              ? const CustomLoadingAPI()
               : Center(
                   child: Stack(
                     alignment: Alignment.bottomCenter,
@@ -30,9 +28,10 @@ class SplashScreen extends StatelessWidget {
                         imageUrl: controller.splashImagePath.value,
                         placeholder: (context, url) => const Text(''),
                         errorWidget: (context, url, error) => const Text(''),
-                      ),       
+                      ),
                       Visibility(
-                        visible: languageController.isLoading && 
+                        visible:
+                            languageController.isLoading &&
                             controller.isVisible.value,
                         child: Padding(
                           padding: EdgeInsets.only(
@@ -41,18 +40,18 @@ class SplashScreen extends StatelessWidget {
                             right: MediaQuery.sizeOf(context).width * 0.15,
                           ),
                           child: LinearProgressIndicator(
-                            color:
-                                CustomColor.primaryLightColor.withValues(alpha:0.8),
+                            color: CustomColor.primaryLightColor.withValues(
+                              alpha: 0.8,
+                            ),
                             backgroundColor: Colors.transparent,
                           ),
                         ),
                       ),
                     ],
-                  ),   
-                ),    
+                  ),
+                ),
         ),
       ),
-    ); 
+    );
   }
 }
-   

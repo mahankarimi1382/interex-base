@@ -29,7 +29,7 @@ class DrawerUtils {
       'icon': Assets.icon.requestMoney,
       'route': Routes.requestMoneyLogScreen,
     },
-      {
+    {
       'title': Strings.referralStatus,
       'icon': Assets.icon.refer,
       'route': Routes.referralStatusScreen,

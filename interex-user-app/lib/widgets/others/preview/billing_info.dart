@@ -30,7 +30,7 @@ extension PreviewRecipient on Widget {
           ),
           Divider(
             thickness: 1,
-            color: CustomColor.primaryLightColor.withValues(alpha:0.2),
+            color: CustomColor.primaryLightColor.withValues(alpha: 0.2),
           ),
           Padding(
             padding: EdgeInsets.only(
@@ -47,12 +47,16 @@ extension PreviewRecipient on Widget {
                     TitleHeading4Widget(
                       text: Strings.billType,
                       fontWeight: FontWeight.w400,
-                      color: CustomColor.primaryLightColor.withValues(alpha:0.4),
+                      color: CustomColor.primaryLightColor.withValues(
+                        alpha: 0.4,
+                      ),
                     ),
                     TitleHeading3Widget(
                       text: billType,
                       fontWeight: FontWeight.w600,
-                      color: CustomColor.primaryLightColor.withValues(alpha:0.6),
+                      color: CustomColor.primaryLightColor.withValues(
+                        alpha: 0.6,
+                      ),
                     ),
                   ],
                 ),
@@ -63,12 +67,16 @@ extension PreviewRecipient on Widget {
                     TitleHeading4Widget(
                       text: Strings.billNumber,
                       fontWeight: FontWeight.w400,
-                      color: CustomColor.primaryLightColor.withValues(alpha:0.4),
+                      color: CustomColor.primaryLightColor.withValues(
+                        alpha: 0.4,
+                      ),
                     ),
                     TitleHeading3Widget(
                       text: billNumber,
                       fontWeight: FontWeight.w600,
-                      color: CustomColor.primaryLightColor.withValues(alpha:0.6),
+                      color: CustomColor.primaryLightColor.withValues(
+                        alpha: 0.6,
+                      ),
                     ),
                   ],
                 ),
@@ -79,18 +87,22 @@ extension PreviewRecipient on Widget {
                     TitleHeading4Widget(
                       text: Strings.billMonths,
                       fontWeight: FontWeight.w400,
-                      color: CustomColor.primaryLightColor.withValues(alpha:0.4),
+                      color: CustomColor.primaryLightColor.withValues(
+                        alpha: 0.4,
+                      ),
                     ),
                     TitleHeading3Widget(
                       text: billMonth,
                       fontWeight: FontWeight.w600,
-                      color: CustomColor.primaryLightColor.withValues(alpha:0.6),
+                      color: CustomColor.primaryLightColor.withValues(
+                        alpha: 0.6,
+                      ),
                     ),
                   ],
                 ),
               ],
             ),
-          )
+          ),
         ],
       ),
     );

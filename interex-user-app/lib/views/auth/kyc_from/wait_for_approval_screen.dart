@@ -27,9 +27,7 @@ class WaitForApprovalScreen extends StatelessWidget {
             Get.offAllNamed(Routes.bottomNavBarScreen);
           }
         },
-        child: Scaffold(
-          body: _bodyWidget(context),
-        ),
+        child: Scaffold(body: _bodyWidget(context)),
       ),
     );
   }

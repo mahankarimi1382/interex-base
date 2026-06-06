@@ -29,18 +29,12 @@ class OnBoardController extends GetxController {
   void nextPage() {
     if (isLastPage) {
     } else {
-      pageController.nextPage(
-        duration: 300.milliseconds,
-        curve: Curves.ease,
-      );
+      pageController.nextPage(duration: 300.milliseconds, curve: Curves.ease);
     }
   }
 
   void backPage() {
-    pageController.previousPage(
-      duration: 300.milliseconds,
-      curve: Curves.ease,
-    );
+    pageController.previousPage(duration: 300.milliseconds, curve: Curves.ease);
   }
 
   void pageNavigate() {
@@ -72,7 +66,7 @@ class OnBoardController extends GetxController {
         width: 7.17,
         color: index == selectedIndex.value
             ? CustomColor.blackColor
-            : CustomColor.primaryTextColor.withValues(alpha:0.5),
+            : CustomColor.primaryTextColor.withValues(alpha: 0.5),
         path: Assets.icon.rightArrow,
       ),
     );
@@ -80,14 +74,17 @@ class OnBoardController extends GetxController {
 
   Container dotWidget() {
     return Container(
-      margin: EdgeInsets.only(
-        left: Dimensions.widthSize * 1.7,
-      ),
+      margin: EdgeInsets.only(left: Dimensions.widthSize * 1.7),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: List.generate(
           controller
-              .appSettingsModel.data.appSettings.user.onboardScreen.length,
+              .appSettingsModel
+              .data
+              .appSettings
+              .user
+              .onboardScreen
+              .length,
           (index) => buildDot(index: index),
         ),
       ),
@@ -103,7 +100,12 @@ class OnBoardController extends GetxController {
         mainAxisAlignment: MainAxisAlignment.center,
         children: List.generate(
           controller
-              .appSettingsModel.data.appSettings.user.onboardScreen.length,
+              .appSettingsModel
+              .data
+              .appSettings
+              .user
+              .onboardScreen
+              .length,
           (index) => buildArrow(index: index),
         ),
       ),

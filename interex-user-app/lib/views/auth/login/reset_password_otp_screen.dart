@@ -57,9 +57,7 @@ class ResetPhoneOtpScreen extends StatelessWidget {
 
   Container _titleAndSubtitleWidget(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(
-        top: Dimensions.marginSizeVertical * 3,
-      ),
+      margin: EdgeInsets.only(top: Dimensions.marginSizeVertical * 3),
       child: Column(
         crossAxisAlignment: crossStart,
         children: [
@@ -68,9 +66,7 @@ class ResetPhoneOtpScreen extends StatelessWidget {
           Column(
             crossAxisAlignment: crossStart,
             children: [
-              const TitleHeading4Widget(
-                text: Strings.enterTheOTPCodeSendTo,
-              ),
+              const TitleHeading4Widget(text: Strings.enterTheOTPCodeSendTo),
               TitleHeading4Widget(
                 text: signInController.emailForgotController.text,
               ),
@@ -88,41 +84,34 @@ class ResetPhoneOtpScreen extends StatelessWidget {
         mainAxisAlignment: mainCenter,
         children: [
           Padding(
-            padding: EdgeInsets.only(
-              top: Dimensions.heightSize * 5,
-            ),
-            child: PinCodeTextField(
-              errorTextSpace: Dimensions.heightSize * 2,
-              cursorColor: CustomColor.primaryLightColor,
-              controller: controller.otpController,
-              appContext: context,
+            padding: EdgeInsets.only(top: Dimensions.heightSize * 5),
+            child: MaterialPinFormField(
               length: 6,
-              obscureText: false,
-              keyboardType: TextInputType.number,
-              textStyle: TextStyle(color: CustomColor.primaryLightColor),
-              animationType: AnimationType.fade,
+              pinController: controller.otpController,
               validator: (v) {
-                if (v!.length < 3) {
-                  return Strings.pleaseFillOutTheField.translation;
+                if (v == null || v.length < 3) {
+                  return Strings.pleaseFillOutTheField;
                 } else {
                   return null;
                 }
               },
-              pinTheme: PinTheme(
-                  shape: PinCodeFieldShape.box,
-                  borderRadius: BorderRadius.circular(Dimensions.radius * 0.7),
-                  selectedColor: CustomColor.primaryLightColor,
-                  activeColor: CustomColor.primaryLightColor,
-                  inactiveColor: CustomColor.blackColor,
-                  fieldHeight: 50,
-                  fieldWidth: 48,
-                  errorBorderColor: CustomColor.redColor,
-                  activeFillColor: CustomColor.transparent,
-                  borderWidth: 2,
-                  fieldOuterPadding: const EdgeInsets.all(1)),
               onChanged: (value) {
                 controller.changeCurrentText(value);
               },
+              theme: MaterialPinTheme(
+                borderRadius: BorderRadius.circular(Dimensions.radius * 0.7),
+                cellSize: const Size(48, 50),
+                spacing: 2,
+                borderWidth: 2,
+                borderColor: CustomColor.blackColor,
+                focusedBorderColor: CustomColor.primaryLightColor,
+                filledBorderColor: CustomColor.primaryLightColor,
+                errorColor: CustomColor.redColor,
+                fillColor: CustomColor.transparent,
+                textStyle: TextStyle(color: CustomColor.primaryLightColor),
+                cursorColor: CustomColor.primaryLightColor,
+                entryAnimation: MaterialPinAnimation.fade,
+              ),
             ),
           ),
         ],
@@ -135,15 +124,15 @@ class ResetPhoneOtpScreen extends StatelessWidget {
       () => Column(
         children: [
           Visibility(
-              visible: controller.enableResend.value,
-              child: SizedBox(
-                height: MediaQuery.of(context).size.height * 0.10,
-              )),
+            visible: controller.enableResend.value,
+            child: SizedBox(height: MediaQuery.of(context).size.height * 0.10),
+          ),
           Visibility(
             visible: !controller.enableResend.value,
             child: Container(
-              margin:
-                  EdgeInsets.symmetric(vertical: Dimensions.marginSizeVertical),
+              margin: EdgeInsets.symmetric(
+                vertical: Dimensions.marginSizeVertical,
+              ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -153,13 +142,15 @@ class ResetPhoneOtpScreen extends StatelessWidget {
                   ),
                   SizedBox(width: Dimensions.widthSize * 0.4),
                   CustomTitleHeadingWidget(
-                    text: controller.secondsRemaining.value >= 0 &&
+                    text:
+                        controller.secondsRemaining.value >= 0 &&
                             controller.secondsRemaining.value <= 9
                         ? '00:0${controller.secondsRemaining.value}'
                         : '00:${controller.secondsRemaining.value}',
                     style: CustomStyle.darkHeading4TextStyle.copyWith(
-                        fontWeight: FontWeight.w600,
-                        color: CustomColor.primaryLightColor),
+                      fontWeight: FontWeight.w600,
+                      color: CustomColor.primaryLightColor,
+                    ),
                   ),
                 ],
               ),

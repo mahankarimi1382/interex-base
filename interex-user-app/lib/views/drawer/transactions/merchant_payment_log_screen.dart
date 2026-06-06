@@ -24,9 +24,7 @@ class MerchantPaymentLogScreen extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(
-            height: Dimensions.heightSize * 1.5,
-          ),
+          SizedBox(height: Dimensions.heightSize * 1.5),
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.78,
             child: data.isNotEmpty
@@ -41,16 +39,18 @@ class MerchantPaymentLogScreen extends StatelessWidget {
                       return _mainListWidget(i, data, context);
                     },
                   )
-                : NoDataWidget(
-                    title: Strings.noTransaction.tr,
-                  ),
+                : NoDataWidget(title: Strings.noTransaction.tr),
           ),
         ],
       ),
     );
   }
 
-  GestureDetector _mainListWidget(int i, List<MerchantPayment> data, BuildContext context) {
+  GestureDetector _mainListWidget(
+    int i,
+    List<MerchantPayment> data,
+    BuildContext context,
+  ) {
     RxBool isExpansion = false.obs;
     return GestureDetector(
       onTap: () {
@@ -67,41 +67,42 @@ class MerchantPaymentLogScreen extends StatelessWidget {
             transaction: data[i].trx,
             monthText: DateFormat.MMM().format(data[i].dateTime),
           ),
-          Obx(() => Visibility(
-                visible: isExpansion.value,
-                child: Container(
-                  padding: EdgeInsets.all(Dimensions.paddingSize * .6),
-                  decoration: BoxDecoration(
-                    color: CustomColor.primaryLightColor.withValues(alpha:0.9),
-                    borderRadius: BorderRadius.circular(Dimensions.radius),
-                  ),
-                  child: Column(
-                    children: [
-                      ExpendedItemWidget(
-                        title: Strings.transactionId.tr,
-                        value: data[i].trx,
-                      ),
-                      ExpendedItemWidget(
-                        title: Strings.senderAmount.tr,
-                        value: data[i].senderAmount,
-                      ),
-                      ExpendedItemWidget(
-                        title: Strings.recipient.tr,
-                        value: data[i].recipient,
-                      ),
-                      ExpendedItemWidget(
-                        title: Strings.recipientAmount.tr,
-                        value: data[i].recipientAmount,
-                      ),
-                      ExpendedItemWidget(
-                        title: Strings.timeAndDate.tr,
-                        value:
-                            DateFormat('yyyy-MM-dd').format(data[i].dateTime),
-                      ),
-                    ],
-                  ),
+          Obx(
+            () => Visibility(
+              visible: isExpansion.value,
+              child: Container(
+                padding: EdgeInsets.all(Dimensions.paddingSize * .6),
+                decoration: BoxDecoration(
+                  color: CustomColor.primaryLightColor.withValues(alpha: 0.9),
+                  borderRadius: BorderRadius.circular(Dimensions.radius),
                 ),
-              ))
+                child: Column(
+                  children: [
+                    ExpendedItemWidget(
+                      title: Strings.transactionId.tr,
+                      value: data[i].trx,
+                    ),
+                    ExpendedItemWidget(
+                      title: Strings.senderAmount.tr,
+                      value: data[i].senderAmount,
+                    ),
+                    ExpendedItemWidget(
+                      title: Strings.recipient.tr,
+                      value: data[i].recipient,
+                    ),
+                    ExpendedItemWidget(
+                      title: Strings.recipientAmount.tr,
+                      value: data[i].recipientAmount,
+                    ),
+                    ExpendedItemWidget(
+                      title: Strings.timeAndDate.tr,
+                      value: DateFormat('yyyy-MM-dd').format(data[i].dateTime),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
         ],
       ),
     );

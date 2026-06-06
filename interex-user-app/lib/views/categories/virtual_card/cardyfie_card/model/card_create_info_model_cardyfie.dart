@@ -14,10 +14,7 @@ class CreateCardInfoModelCardyfie {
   Message message;
   Data data;
 
-  CreateCardInfoModelCardyfie({
-    required this.message,
-    required this.data,
-  });
+  CreateCardInfoModelCardyfie({required this.message, required this.data});
 
   factory CreateCardInfoModelCardyfie.fromJson(Map<String, dynamic> json) =>
       CreateCardInfoModelCardyfie(
@@ -191,7 +188,7 @@ class User {
   dynamic refferalUserId;
   dynamic image;
   int status;
-//  dynamic address;
+  //  dynamic address;
   int emailVerified;
   int smsVerified;
   int kycVerified;

@@ -7,10 +7,7 @@ String allRecipientModelToJson(AllRecipientModel data) =>
     json.encode(data.toJson());
 
 class AllRecipientModel {
-  AllRecipientModel({
-    required this.message,
-    required this.data,
-  });
+  AllRecipientModel({required this.message, required this.data});
 
   Message message;
   Data data;
@@ -22,9 +19,9 @@ class AllRecipientModel {
       );
 
   Map<String, dynamic> toJson() => {
-        "message": message.toJson(),
-        "data": data.toJson(),
-      };
+    "message": message.toJson(),
+    "data": data.toJson(),
+  };
 }
 
 class Data {
@@ -39,19 +36,22 @@ class Data {
   List<ReceiverCountry> receiverCountries;
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
-        recipients: List<Recipient>.from(
-            json["recipients"].map((x) => Recipient.fromJson(x))),
-        countryFlugPath: json["countryFlugPath"],
-        receiverCountries: List<ReceiverCountry>.from(
-            json["receiverCountries"].map((x) => ReceiverCountry.fromJson(x))),
-      );
+    recipients: List<Recipient>.from(
+      json["recipients"].map((x) => Recipient.fromJson(x)),
+    ),
+    countryFlugPath: json["countryFlugPath"],
+    receiverCountries: List<ReceiverCountry>.from(
+      json["receiverCountries"].map((x) => ReceiverCountry.fromJson(x)),
+    ),
+  );
 
   Map<String, dynamic> toJson() => {
-        "recipients": List<dynamic>.from(recipients.map((x) => x.toJson())),
-        "countryFlugPath": countryFlugPath,
-        "receiverCountries":
-            List<dynamic>.from(receiverCountries.map((x) => x.toJson())),
-      };
+    "recipients": List<dynamic>.from(recipients.map((x) => x.toJson())),
+    "countryFlugPath": countryFlugPath,
+    "receiverCountries": List<dynamic>.from(
+      receiverCountries.map((x) => x.toJson()),
+    ),
+  };
 }
 
 class ReceiverCountry {
@@ -94,17 +94,17 @@ class ReceiverCountry {
       );
 
   Map<String, dynamic> toJson() => {
-        "id": id,
-        "country": country,
-        "name": name,
-        "code": code,
-        "mobile_code": mobileCode,
-        "symbol": symbol,
-        "flag": flag,
-        "rate": rate,
-        "status": status,
-        "created_at": createdAt.toIso8601String(),
-      };
+    "id": id,
+    "country": country,
+    "name": name,
+    "code": code,
+    "mobile_code": mobileCode,
+    "symbol": symbol,
+    "flag": flag,
+    "rate": rate,
+    "status": status,
+    "created_at": createdAt.toIso8601String(),
+  };
 }
 
 class Recipient {
@@ -145,56 +145,53 @@ class Recipient {
   DateTime updatedAt;
 
   factory Recipient.fromJson(Map<String, dynamic> json) => Recipient(
-        id: json["id"],
-        country: json["country"],
-        countryName: json["country_name"],
-        trxType: json["trx_type"],
-        trxTypeName: json["trx_type_name"],
-        alias: json["alias"],
-        firstname: json["firstname"],
-        lastname: json["lastname"],
-        mobileCode: json["mobile_code"],
-        mobile: json["mobile"],
-        city: json["city"],
-        state: json["state"],
-        address: json["address"],
-        zipCode: json["zip_code"],
-        createdAt: DateTime.parse(json["created_at"]),
-        updatedAt: DateTime.parse(json["updated_at"]),
-      );
+    id: json["id"],
+    country: json["country"],
+    countryName: json["country_name"],
+    trxType: json["trx_type"],
+    trxTypeName: json["trx_type_name"],
+    alias: json["alias"],
+    firstname: json["firstname"],
+    lastname: json["lastname"],
+    mobileCode: json["mobile_code"],
+    mobile: json["mobile"],
+    city: json["city"],
+    state: json["state"],
+    address: json["address"],
+    zipCode: json["zip_code"],
+    createdAt: DateTime.parse(json["created_at"]),
+    updatedAt: DateTime.parse(json["updated_at"]),
+  );
 
   Map<String, dynamic> toJson() => {
-        "id": id,
-        "country": country,
-        "country_name": countryName,
-        "trx_type": trxType,
-        "trx_type_name": trxTypeName,
-        "alias": alias,
-        "firstname": firstname,
-        "lastname": lastname,
-        "mobile_code": mobileCode,
-        "mobile": mobile,
-        "city": city,
-        "state": state,
-        "address": address,
-        "zip_code": zipCode,
-        "created_at": createdAt.toIso8601String(),
-        "updated_at": updatedAt.toIso8601String(),
-      };
+    "id": id,
+    "country": country,
+    "country_name": countryName,
+    "trx_type": trxType,
+    "trx_type_name": trxTypeName,
+    "alias": alias,
+    "firstname": firstname,
+    "lastname": lastname,
+    "mobile_code": mobileCode,
+    "mobile": mobile,
+    "city": city,
+    "state": state,
+    "address": address,
+    "zip_code": zipCode,
+    "created_at": createdAt.toIso8601String(),
+    "updated_at": updatedAt.toIso8601String(),
+  };
 }
 
 class Message {
-  Message({
-    required this.success,
-  });
+  Message({required this.success});
 
   List<String> success;
 
-  factory Message.fromJson(Map<String, dynamic> json) => Message(
-        success: List<String>.from(json["success"].map((x) => x)),
-      );
+  factory Message.fromJson(Map<String, dynamic> json) =>
+      Message(success: List<String>.from(json["success"].map((x) => x)));
 
   Map<String, dynamic> toJson() => {
-        "success": List<dynamic>.from(success.map((x) => x)),
-      };
+    "success": List<dynamic>.from(success.map((x) => x)),
+  };
 }

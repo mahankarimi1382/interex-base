@@ -70,17 +70,19 @@ class PrimaryTextInputWidget extends StatelessWidget {
           controller: controller,
           inputFormatters: inputFormatters,
           keyboardType: keyboardType,
-          validator: validator ?? (String? value) {
-            if (value!.isEmpty && maxLine == 1) {
-              return Get.find<LanguageController>().isLoading
-                  ? ""
-                  : Get.find<LanguageController>().getTranslation(
-                Strings.pleaseFillOutTheField,
-              );
-            } else {
-              return null;
-            }
-          },
+          validator:
+              validator ??
+              (String? value) {
+                if (value!.isEmpty && maxLine == 1) {
+                  return Get.find<LanguageController>().isLoading
+                      ? ""
+                      : Get.find<LanguageController>().getTranslation(
+                          Strings.pleaseFillOutTheField,
+                        );
+                } else {
+                  return null;
+                }
+              },
           onChanged: onChanged,
           decoration: InputDecoration(
             enabledBorder: OutlineInputBorder(
@@ -117,19 +119,19 @@ class PrimaryTextInputWidget extends StatelessWidget {
                 : "${Get.find<LanguageController>().getTranslation(Strings.enter)} ${Get.find<LanguageController>().getTranslation(labelText)}",
             hintStyle: Get.isDarkMode
                 ? CustomStyle.darkHeading3TextStyle.copyWith(
-              color: CustomColor.primaryDarkTextColor.withValues(
-                alpha: 0.2,
-              ),
-              fontWeight: FontWeight.w500,
-              fontSize: Dimensions.headingTextSize3,
-            )
+                    color: CustomColor.primaryDarkTextColor.withValues(
+                      alpha: 0.2,
+                    ),
+                    fontWeight: FontWeight.w500,
+                    fontSize: Dimensions.headingTextSize3,
+                  )
                 : CustomStyle.lightHeading3TextStyle.copyWith(
-              color: CustomColor.primaryLightTextColor.withValues(
-                alpha: 0.2,
-              ),
-              fontWeight: FontWeight.w500,
-              fontSize: Dimensions.headingTextSize3,
-            ),
+                    color: CustomColor.primaryLightTextColor.withValues(
+                      alpha: 0.2,
+                    ),
+                    fontWeight: FontWeight.w500,
+                    fontSize: Dimensions.headingTextSize3,
+                  ),
             suffixIcon: suffixIcon,
             prefixIcon: prefixIcon,
           ),

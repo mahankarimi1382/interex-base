@@ -33,8 +33,10 @@ class _ImageWidgetState extends State<ImageWidget> {
 
   Future pickImage(ImageSource imageSource) async {
     try {
-      final image =
-          await ImagePicker().pickImage(source: imageSource, imageQuality: 50);
+      final image = await ImagePicker().pickImage(
+        source: imageSource,
+        imageQuality: 50,
+      );
       if (image == null) return;
 
       imageFile = File(image.path);
@@ -84,7 +86,7 @@ class _ImageWidgetState extends State<ImageWidget> {
               text: widget.optionalLabel,
               fontWeight: FontWeight.w600,
               fontSize: Dimensions.headingTextSize5,
-              color: CustomColor.primaryLightColor.withValues(alpha:.8),
+              color: CustomColor.primaryLightColor.withValues(alpha: .8),
             ),
           verticalSpace(Dimensions.marginBetweenInputTitleAndBox),
           Container(
@@ -93,20 +95,19 @@ class _ImageWidgetState extends State<ImageWidget> {
                 : MediaQuery.of(context).size.height * 0.15,
             padding: EdgeInsets.all(Dimensions.paddingSize * 0.4),
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(Dimensions.radius),
-                border: RDottedLineBorder.all(
-                  color: CustomColor.primaryLightColor,
-                ),
-                image: controller.getImagePath(widget.fieldName) == null
-                    ? null
-                    : DecorationImage(
-                        fit: BoxFit.cover,
-                        image: FileImage(
-                          File(
-                            controller.getImagePath(widget.fieldName) ?? '',
-                          ),
-                        ),
-                      )),
+              borderRadius: BorderRadius.circular(Dimensions.radius),
+              border: RDottedLineBorder.all(
+                color: CustomColor.primaryLightColor,
+              ),
+              image: controller.getImagePath(widget.fieldName) == null
+                  ? null
+                  : DecorationImage(
+                      fit: BoxFit.cover,
+                      image: FileImage(
+                        File(controller.getImagePath(widget.fieldName) ?? ''),
+                      ),
+                    ),
+            ),
             child: controller.getImagePath(widget.fieldName) == null
                 ? Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -115,12 +116,8 @@ class _ImageWidgetState extends State<ImageWidget> {
                         Icons.cloud_upload_outlined,
                         color: CustomColor.primaryLightColor,
                       ),
-                      SizedBox(
-                        width: Dimensions.widthSize * 0.5,
-                      ),
-                      const TitleHeading4Widget(
-                        text: Strings.uploadImage,
-                      )
+                      SizedBox(width: Dimensions.widthSize * 0.5),
+                      const TitleHeading4Widget(text: Strings.uploadImage),
                     ],
                   )
                 : const Row(children: []),

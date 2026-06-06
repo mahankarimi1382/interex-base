@@ -60,17 +60,13 @@ class ResetPasswordPhoneScreen extends StatelessWidget {
 
   Container _titleAndSubtitleWidget(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(
-        top: Dimensions.marginSizeVertical * 0.1,
-      ),
+      margin: EdgeInsets.only(top: Dimensions.marginSizeVertical * 0.1),
       child: Column(
         crossAxisAlignment: crossStart,
         children: [
           TitleHeading2Widget(text: Strings.resetPassword),
           verticalSpace(Dimensions.heightSize * 0.7),
-          const TitleHeading4Widget(
-            text: Strings.resetPasswordDetails,
-          )
+          const TitleHeading4Widget(text: Strings.resetPasswordDetails),
         ],
       ),
     );
@@ -78,8 +74,9 @@ class ResetPasswordPhoneScreen extends StatelessWidget {
 
   Container _inputWidget(BuildContext context) {
     return Container(
-      margin:
-          EdgeInsets.symmetric(vertical: Dimensions.marginSizeVertical * 1.4),
+      margin: EdgeInsets.symmetric(
+        vertical: Dimensions.marginSizeVertical * 1.4,
+      ),
       child: Form(
         key: _resetFormKey,
         child: Column(
@@ -105,25 +102,28 @@ class ResetPasswordPhoneScreen extends StatelessWidget {
   Column _continueButtonWidget(BuildContext context) {
     return Column(
       children: [
-        Obx(() => controller.isLoading
-            ? const CustomLoadingAPI()
-            : PrimaryButton(
-                title: Strings.resetPassword,
-                onPressed: () {
-                  if (_resetFormKey.currentState!.validate()) {
-                    controller.resetApiProcess().then((value) {
-                      if (context.mounted) {
-                        StatusScreen.show(
+        Obx(
+          () => controller.isLoading
+              ? const CustomLoadingAPI()
+              : PrimaryButton(
+                  title: Strings.resetPassword,
+                  onPressed: () {
+                    if (_resetFormKey.currentState!.validate()) {
+                      controller.resetApiProcess().then((value) {
+                        if (context.mounted) {
+                          StatusScreen.show(
                             context: context,
                             subTitle: Strings.yourPasswordHasBeen.tr,
                             onPressed: () {
                               Get.offAllNamed(Routes.signInScreen);
-                            });
-                      }
-                    });
-                  }
-                },
-              )),
+                            },
+                          );
+                        }
+                      });
+                    }
+                  },
+                ),
+        ),
         verticalSpace(Dimensions.heightSize * 2),
       ],
     );

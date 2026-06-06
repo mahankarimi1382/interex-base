@@ -43,7 +43,7 @@ class TatumPaymentScreen extends StatelessWidget {
               return element;
             }).toList(),
             _copyAddressWidget(context),
-            _buttonWidget(context)
+            _buttonWidget(context),
           ],
         ),
       ),
@@ -84,7 +84,7 @@ class TatumPaymentScreen extends StatelessWidget {
             border: Border.all(
               color: Get.isDarkMode
                   ? CustomColor.whiteColor
-                  : CustomColor.primaryDarkColor.withValues(alpha:0.4),
+                  : CustomColor.primaryDarkColor.withValues(alpha: 0.4),
               width: 0.5,
             ),
             borderRadius: BorderRadius.circular(Dimensions.radius * 0.5),
@@ -101,8 +101,8 @@ class TatumPaymentScreen extends StatelessWidget {
               InkWell(
                 onTap: () {
                   Clipboard.setData(
-                          ClipboardData(text: controller.qrAddress.value))
-                      .then((_) {
+                    ClipboardData(text: controller.qrAddress.value),
+                  ).then((_) {
                     CustomSnackBar.success(Strings.addressCopyTo);
                   });
                 },
@@ -115,12 +115,9 @@ class TatumPaymentScreen extends StatelessWidget {
                     ),
                     color: CustomColor.primaryLightColor,
                   ),
-                  child: const Icon(
-                    Icons.copy,
-                    color: CustomColor.whiteColor,
-                  ),
+                  child: const Icon(Icons.copy, color: CustomColor.whiteColor),
                 ),
-              )
+              ),
             ],
           ),
         ),
@@ -160,9 +157,7 @@ class TatumPaymentScreen extends StatelessWidget {
         vertical: Dimensions.marginSizeVertical,
         horizontal: Dimensions.marginSizeHorizontal,
       ),
-      margin: EdgeInsets.only(
-        bottom: Dimensions.heightSize,
-      ),
+      margin: EdgeInsets.only(bottom: Dimensions.heightSize),
       child: Column(
         children: [
           TitleHeading1Widget(

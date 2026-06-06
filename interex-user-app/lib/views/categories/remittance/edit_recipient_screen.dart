@@ -32,9 +32,11 @@ class EditRecipientScreen extends StatelessWidget {
     return ResponsiveLayout(
       mobileScaffold: Scaffold(
         appBar: const AppBarWidget(text: Strings.updateReceipient),
-        body: Obx(() => controller.isLoading
-            ? const CustomLoadingAPI()
-            : _bodyWidget(context)),
+        body: Obx(
+          () => controller.isLoading
+              ? const CustomLoadingAPI()
+              : _bodyWidget(context),
+        ),
       ),
     );
   }
@@ -45,7 +47,8 @@ class EditRecipientScreen extends StatelessWidget {
       child: ListView(
         physics: const BouncingScrollPhysics(),
         padding: EdgeInsets.symmetric(
-            horizontal: Dimensions.marginSizeHorizontal * 0.9),
+          horizontal: Dimensions.marginSizeHorizontal * 0.9,
+        ),
         children: [
           _transTypeWidget(),
           _countryWidget(),
@@ -84,7 +87,9 @@ class EditRecipientScreen extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         CustomTitleHeadingWidget(
-            text: Strings.transactionType, style: CustomStyle.labelTextStyle),
+          text: Strings.transactionType,
+          style: CustomStyle.labelTextStyle,
+        ),
         verticalSpace(Dimensions.heightSize * 0.5),
         TransactionTypeDropDown(
           selectMethod: controller.transactionTypeSelectedMethod,
@@ -165,48 +170,56 @@ class EditRecipientScreen extends StatelessWidget {
           ],
         ),
         verticalSpace(Dimensions.heightSize),
-        Obx(() => Visibility(
-              visible: controller.transactionTypeSelectedMethod.value ==
-                  controller.transactionTypeList[2].labelName,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  CustomTitleHeadingWidget(
-                      text: Strings.pickUpPoint,
-                      style: CustomStyle.labelTextStyle),
-                  verticalSpace(Dimensions.heightSize * 0.5),
-                  ReceiverBankDropDown(
-                    selectMethod: controller.pickupPointMethod,
-                    itemsList: controller.pickupPointList,
-                    onChanged: (value) {
-                      controller.pickupPointMethod.value = value!.name;
-                      controller.pickupPoint = value;
-                    },
-                  ),
-                ],
-              ),
-            )),
-        Obx(() => Visibility(
-              visible: controller.transactionTypeSelectedMethod.value ==
-                  controller.transactionTypeList[0].labelName,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  CustomTitleHeadingWidget(
-                      text: Strings.selectBank,
-                      style: CustomStyle.labelTextStyle),
-                  verticalSpace(Dimensions.heightSize * 0.5),
-                  ReceiverBankDropDown(
-                    selectMethod: controller.receiverBankSelectedMethod,
-                    itemsList: controller.receiverBankList,
-                    onChanged: (value) {
-                      controller.receiverBankSelectedMethod.value = value!.name;
-                      controller.receiverBank = value;
-                    },
-                  ),
-                ],
-              ),
-            )),
+        Obx(
+          () => Visibility(
+            visible:
+                controller.transactionTypeSelectedMethod.value ==
+                controller.transactionTypeList[2].labelName,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                CustomTitleHeadingWidget(
+                  text: Strings.pickUpPoint,
+                  style: CustomStyle.labelTextStyle,
+                ),
+                verticalSpace(Dimensions.heightSize * 0.5),
+                ReceiverBankDropDown(
+                  selectMethod: controller.pickupPointMethod,
+                  itemsList: controller.pickupPointList,
+                  onChanged: (value) {
+                    controller.pickupPointMethod.value = value!.name;
+                    controller.pickupPoint = value;
+                  },
+                ),
+              ],
+            ),
+          ),
+        ),
+        Obx(
+          () => Visibility(
+            visible:
+                controller.transactionTypeSelectedMethod.value ==
+                controller.transactionTypeList[0].labelName,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                CustomTitleHeadingWidget(
+                  text: Strings.selectBank,
+                  style: CustomStyle.labelTextStyle,
+                ),
+                verticalSpace(Dimensions.heightSize * 0.5),
+                ReceiverBankDropDown(
+                  selectMethod: controller.receiverBankSelectedMethod,
+                  itemsList: controller.receiverBankList,
+                  onChanged: (value) {
+                    controller.receiverBankSelectedMethod.value = value!.name;
+                    controller.receiverBank = value;
+                  },
+                ),
+              ],
+            ),
+          ),
+        ),
       ],
     );
   }
@@ -216,7 +229,9 @@ class EditRecipientScreen extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         CustomTitleHeadingWidget(
-            text: Strings.selectCountry, style: CustomStyle.labelTextStyle),
+          text: Strings.selectCountry,
+          style: CustomStyle.labelTextStyle,
+        ),
         verticalSpace(Dimensions.heightSize * 0.5),
         ReceiverCountryDropDown(
           selectMethod: controller.receiverCountrySelectedMethod,
@@ -235,15 +250,16 @@ class EditRecipientScreen extends StatelessWidget {
     return Container(
       margin: EdgeInsets.symmetric(vertical: Dimensions.marginSizeVertical),
       child: PrimaryButton(
-          title: Strings.updateReceipient,
-          onPressed: () {
-            if (formKey.currentState!.validate()) {
-              controller.recipientUpdateApiProcess(context).then((value) {
-                allRecipientController.getAllRecipientData();
-                Navigator.pop(context);
-              });
-            }
-          }),
+        title: Strings.updateReceipient,
+        onPressed: () {
+          if (formKey.currentState!.validate()) {
+            controller.recipientUpdateApiProcess(context).then((value) {
+              allRecipientController.getAllRecipientData();
+              Navigator.pop(context);
+            });
+          }
+        },
+      ),
     );
   }
 

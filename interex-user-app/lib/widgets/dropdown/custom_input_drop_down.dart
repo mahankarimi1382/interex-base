@@ -26,10 +26,7 @@ class CustomInputDropDown extends StatelessWidget {
       () => Container(
         height: Dimensions.inputBoxHeight * 0.72,
         decoration: BoxDecoration(
-          border: Border.all(
-            color: CustomColor.primaryLightColor,
-            width: 2,
-          ),
+          border: Border.all(color: CustomColor.primaryLightColor, width: 2),
           borderRadius: BorderRadius.circular(Dimensions.radius * 0.5),
         ),
         child: DropdownButtonHideUnderline(
@@ -41,9 +38,10 @@ class CustomInputDropDown extends StatelessWidget {
                 child: Text(
                   selectMethod.value,
                   style: GoogleFonts.inter(
-                      fontSize: Dimensions.headingTextSize4,
-                      fontWeight: FontWeight.w600,
-                      color: CustomColor.primaryLightColor),
+                    fontSize: Dimensions.headingTextSize4,
+                    fontWeight: FontWeight.w600,
+                    color: CustomColor.primaryLightColor,
+                  ),
                 ),
               ),
               icon: const Padding(
@@ -56,9 +54,8 @@ class CustomInputDropDown extends StatelessWidget {
               isExpanded: true,
               underline: Container(),
               borderRadius: BorderRadius.circular(Dimensions.radius),
-              menuMaxHeight: MediaQuery.sizeOf(context).height*0.5,
+              menuMaxHeight: MediaQuery.sizeOf(context).height * 0.5,
               items: itemsList.map<DropdownMenuItem<BillType>>((value) {
-              
                 return DropdownMenuItem<BillType>(
                   value: value,
                   child: Text(

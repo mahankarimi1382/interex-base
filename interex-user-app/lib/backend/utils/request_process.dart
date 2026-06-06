@@ -20,8 +20,9 @@ class RequestProcess extends GetxController {
     List<String>? fieldList,
     List<String>? pathList,
   }) async {
-    Map<String, String>? stringBody =
-        body?.map((key, value) => MapEntry(key, value.toString()));
+    Map<String, String>? stringBody = body?.map(
+      (key, value) => MapEntry(key, value.toString()),
+    );
     try {
       isLoading.value = true;
       update();

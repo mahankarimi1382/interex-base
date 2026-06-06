@@ -47,8 +47,9 @@ class ExchangeMoneyPreviewScreen extends StatelessWidget {
         ? LocalStorages.getFiatPrecision()
         : LocalStorages.getCryptoPrecision();
     return previewAmount(
-        amount:
-            '${double.parse(controller.exchangeFromAmountController.text).toStringAsFixed(precision)} ${controller.selectFromWallet.value!.currency.code}');
+      amount:
+          '${double.parse(controller.exchangeFromAmountController.text).toStringAsFixed(precision)} ${controller.selectFromWallet.value!.currency.code}',
+    );
   }
 
   Widget _amountInformationWidget(BuildContext context) {
@@ -60,14 +61,8 @@ class ExchangeMoneyPreviewScreen extends StatelessWidget {
     return amountInformationWidget(
       children: Column(
         children: [
-          _rowWidget(
-            title: Strings.fromWallet,
-            subTitle: senderCurrency.code,
-          ),
-          _rowWidget(
-            title: Strings.toWallet,
-            subTitle: receiverCurrency.code,
-          ),
+          _rowWidget(title: Strings.fromWallet, subTitle: senderCurrency.code),
+          _rowWidget(title: Strings.toWallet, subTitle: receiverCurrency.code),
         ],
       ),
       information: Strings.amountInformation,
@@ -88,9 +83,7 @@ class ExchangeMoneyPreviewScreen extends StatelessWidget {
 
   Container _buttonWidget(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(
-        top: Dimensions.marginSizeVertical * 2,
-      ),
+      margin: EdgeInsets.only(top: Dimensions.marginSizeVertical * 2),
       child: Obx(
         () => controller.isMoneyExchangeLoading
             ? const CustomLoadingAPI()
@@ -98,7 +91,9 @@ class ExchangeMoneyPreviewScreen extends StatelessWidget {
                 title: Strings.confirm,
                 onPressed: () {
                   if (dashboardController.kycStatus.value == 1) {
-                    controller.moneyExchangeProcess(context).then(
+                    controller
+                        .moneyExchangeProcess(context)
+                        .then(
                           (value) => StatusScreen.show(
                             context: context,
                             subTitle: value.message.success.first,
@@ -107,18 +102,18 @@ class ExchangeMoneyPreviewScreen extends StatelessWidget {
                             },
                           ),
                         );
-                  } else {  
+                  } else {
                     CustomSnackBar.error(Strings.pleaseSubmitYourInformation);
                     Future.delayed(const Duration(seconds: 2), () {
                       Get.toNamed(Routes.updateKycScreen);
                     });
-                   }
+                  }
                 },
               ),
       ),
     );
-  }         
-                                                                                                                                     
+  }
+
   Column _rowWidget({required String title, required String subTitle}) {
     return Column(
       children: [
@@ -128,18 +123,14 @@ class ExchangeMoneyPreviewScreen extends StatelessWidget {
             TitleHeading4Widget(
               text: title,
               color: Get.isDarkMode
-                  ? CustomColor.primaryDarkTextColor.withValues(alpha:0.6)
-                  : CustomColor.primaryLightColor.withValues(alpha:
-                      0.4,
-                    ),
+                  ? CustomColor.primaryDarkTextColor.withValues(alpha: 0.6)
+                  : CustomColor.primaryLightColor.withValues(alpha: 0.4),
             ),
             TitleHeading3Widget(
               text: subTitle,
               color: Get.isDarkMode
-                  ? CustomColor.primaryDarkTextColor.withValues(alpha:0.6)
-                  : CustomColor.primaryLightColor.withValues(alpha:
-                      0.6,
-                    ),
+                  ? CustomColor.primaryDarkTextColor.withValues(alpha: 0.6)
+                  : CustomColor.primaryLightColor.withValues(alpha: 0.6),
               fontWeight: FontWeight.w600,
             ),
           ],

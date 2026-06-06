@@ -64,10 +64,7 @@ class _PrimaryInputWidgetState extends State<AgentInputFieldWidget> {
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        TitleHeading4Widget(
-          text: widget.label,
-          fontWeight: FontWeight.w600,
-        ),
+        TitleHeading4Widget(text: widget.label, fontWeight: FontWeight.w600),
         verticalSpace(7),
         TextFormField(
           validator: widget.isValidator == false
@@ -88,7 +85,10 @@ class _PrimaryInputWidgetState extends State<AgentInputFieldWidget> {
           },
           onFieldSubmitted: (value) {
             if (widget
-                .agentMoneyOutController.copyInputController.text.isNotEmpty) {
+                .agentMoneyOutController
+                .copyInputController
+                .text
+                .isNotEmpty) {
               widget.agentMoneyOutController.getCheckUserExistDate();
             }
             setState(() {
@@ -97,7 +97,10 @@ class _PrimaryInputWidgetState extends State<AgentInputFieldWidget> {
           },
           onTapOutside: (value) {
             if (widget
-                .agentMoneyOutController.copyInputController.text.isNotEmpty) {
+                .agentMoneyOutController
+                .copyInputController
+                .text
+                .isNotEmpty) {
               widget.agentMoneyOutController.getCheckUserExistDate();
             }
             setState(() {
@@ -116,19 +119,21 @@ class _PrimaryInputWidgetState extends State<AgentInputFieldWidget> {
               fontSize: Dimensions.headingTextSize3,
               fontWeight: FontWeight.w500,
               color: Get.isDarkMode
-                  ? CustomColor.primaryDarkTextColor.withValues(alpha:0.2)
-                  : CustomColor.primaryTextColor.withValues(alpha:0.2),
+                  ? CustomColor.primaryDarkTextColor.withValues(alpha: 0.2)
+                  : CustomColor.primaryTextColor.withValues(alpha: 0.2),
             ),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(Dimensions.radius * 0.5),
               borderSide: BorderSide(
-                color: CustomColor.primaryLightColor.withValues(alpha:0.2),
+                color: CustomColor.primaryLightColor.withValues(alpha: 0.2),
               ),
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(Dimensions.radius * 0.5),
-              borderSide:
-                  BorderSide(width: 2, color: CustomColor.primaryLightColor),
+              borderSide: BorderSide(
+                width: 2,
+                color: CustomColor.primaryLightColor,
+              ),
             ),
             errorBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(Dimensions.radius * 0.5),
@@ -148,8 +153,10 @@ class _PrimaryInputWidgetState extends State<AgentInputFieldWidget> {
                 padding: const EdgeInsets.all(8.0),
                 child: CircleAvatar(
                   backgroundColor: CustomColor.primaryLightColor,
-                  child: SvgPicture.asset(widget.suffixIcon,
-                      color: widget.suffixColor),
+                  child: SvgPicture.asset(
+                    widget.suffixIcon,
+                    color: widget.suffixColor,
+                  ),
                 ),
               ),
             ),

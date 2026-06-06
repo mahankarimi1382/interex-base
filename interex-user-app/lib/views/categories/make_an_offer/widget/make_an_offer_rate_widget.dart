@@ -1,4 +1,3 @@
-
 import '../../../../custom_assets/assets.gen.dart';
 import '../../../../utils/basic_screen_imports.dart';
 import '../../../others/custom_image_widget.dart';
@@ -16,12 +15,10 @@ class MakeAnOfferRateWidget extends StatelessWidget {
         vertical: Dimensions.marginSizeVertical * 1.83,
       ),
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(
-              Dimensions.radius * 1.2),
-          color: Get.isDarkMode
-              ? CustomColor.whiteColor
-              .withValues(alpha: .05)
-              : CustomColor.whiteColor
+        borderRadius: BorderRadius.circular(Dimensions.radius * 1.2),
+        color: Get.isDarkMode
+            ? CustomColor.whiteColor.withValues(alpha: .05)
+            : CustomColor.whiteColor,
       ),
       child: Row(
         mainAxisAlignment: mainCenter,

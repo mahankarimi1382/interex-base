@@ -148,7 +148,7 @@ class Routes {
   static const String referralStatusScreen = '/referralStatusScreen';
   static const String webhookLogsScreen = '/webhookLogsScreen';
 
-//
+  //
   static const String pinSetupScreen = '/pinSetupScreen';
   static const String myChatScreen = '/myChatScreen';
   static const String chatScreen = '/chatScreen';
@@ -170,14 +170,13 @@ class Routes {
   static const String makeAnOfferBuyingPreviewScreen =
       '/makeAnOfferBuyingPreviewScreen';
 
-  static const String getOfferScreen =
-      '/GetOfferScreen';
-  static const String marketplaceScreen =
-      '/marketplaceScreen';
+  static const String getOfferScreen = '/GetOfferScreen';
+  static const String marketplaceScreen = '/marketplaceScreen';
 
-  static const String addMoneyAuthorizedPaymentScreen = '/AddMoneyAuthorizedPaymentScreen';
+  static const String addMoneyAuthorizedPaymentScreen =
+      '/AddMoneyAuthorizedPaymentScreen';
 
-    // cardyfie card screen
+  // cardyfie card screen
   static const String crateCardyfieScreen = '/crateCardyfieScreen';
   static const String cardyfieDetailsScreen = '/cardyfieDetailsScreen';
   static const String cardyfieTransactionHistoryScreen =
@@ -186,5 +185,4 @@ class Routes {
   static const String cardyfieWithdrawScreen = '/cardyfieWithdrawScreen';
   static const String cardyfieUpdateCustomerScreen =
       '/cardyfieUpdateCustomerScreen';
-
 }

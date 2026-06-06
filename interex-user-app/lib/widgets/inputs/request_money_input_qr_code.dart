@@ -65,10 +65,7 @@ class _PrimaryInputWidgetState extends State<CopyRequestMoneyInputWidget> {
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        TitleHeading4Widget(
-          text: widget.label,
-          fontWeight: FontWeight.w600,
-        ),
+        TitleHeading4Widget(text: widget.label, fontWeight: FontWeight.w600),
         verticalSpace(7),
         TextFormField(
           validator: widget.isValidator == false
@@ -89,7 +86,10 @@ class _PrimaryInputWidgetState extends State<CopyRequestMoneyInputWidget> {
           },
           onFieldSubmitted: (value) {
             if (widget
-                .requestMoneyController.copyInputController.text.isNotEmpty) {
+                .requestMoneyController
+                .copyInputController
+                .text
+                .isNotEmpty) {
               widget.requestMoneyController.getCheckUserExist();
             }
             setState(() {
@@ -98,15 +98,18 @@ class _PrimaryInputWidgetState extends State<CopyRequestMoneyInputWidget> {
           },
           onTapOutside: (value) {
             if (widget
-                .requestMoneyController.copyInputController.text.isNotEmpty) {
+                .requestMoneyController
+                .copyInputController
+                .text
+                .isNotEmpty) {
               widget.requestMoneyController.getCheckUserExist();
             }
             setState(() {
               focusNode!.unfocus();
             });
-          }, 
+          },
 
-             cursorColor: CustomColor.primaryLightColor,
+          cursorColor: CustomColor.primaryLightColor,
 
           focusNode: focusNode,
           textAlign: TextAlign.left,
@@ -120,19 +123,21 @@ class _PrimaryInputWidgetState extends State<CopyRequestMoneyInputWidget> {
               fontSize: Dimensions.headingTextSize3,
               fontWeight: FontWeight.w500,
               color: Get.isDarkMode
-                  ? CustomColor.primaryDarkTextColor.withValues(alpha:0.2)
-                  : CustomColor.primaryTextColor.withValues(alpha:0.2),
+                  ? CustomColor.primaryDarkTextColor.withValues(alpha: 0.2)
+                  : CustomColor.primaryTextColor.withValues(alpha: 0.2),
             ),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(Dimensions.radius * 0.5),
               borderSide: BorderSide(
-                color: CustomColor.primaryLightColor.withValues(alpha:0.2),
+                color: CustomColor.primaryLightColor.withValues(alpha: 0.2),
               ),
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(Dimensions.radius * 0.5),
-              borderSide:
-                  BorderSide(width: 2, color: CustomColor.primaryLightColor),
+              borderSide: BorderSide(
+                width: 2,
+                color: CustomColor.primaryLightColor,
+              ),
             ),
             errorBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(Dimensions.radius * 0.5),
@@ -152,8 +157,10 @@ class _PrimaryInputWidgetState extends State<CopyRequestMoneyInputWidget> {
                 padding: const EdgeInsets.all(8.0),
                 child: CircleAvatar(
                   backgroundColor: CustomColor.primaryLightColor,
-                  child: SvgPicture.asset(widget.suffixIcon,
-                      color: widget.suffixColor),
+                  child: SvgPicture.asset(
+                    widget.suffixIcon,
+                    color: widget.suffixColor,
+                  ),
                 ),
               ),
             ),

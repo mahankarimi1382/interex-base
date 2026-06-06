@@ -17,10 +17,11 @@ class AddFundPreviewScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ResponsiveLayout(
-        mobileScaffold: Scaffold(
-          appBar: const AppBarWidget(text: Strings.preview),
-          body: _bodyWidget(context),
-        ));
+      mobileScaffold: Scaffold(
+        appBar: const AppBarWidget(text: Strings.preview),
+        body: _bodyWidget(context),
+      ),
+    );
   }
 
   ListView _bodyWidget(BuildContext context) {
@@ -55,20 +56,19 @@ class AddFundPreviewScreen extends StatelessWidget {
 
   Container _buttonWidget(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(
-        top: Dimensions.marginSizeVertical * 2,),
+      margin: EdgeInsets.only(top: Dimensions.marginSizeVertical * 2),
       child: PrimaryButton(
-          title: Strings.confirm,
-          onPressed: () {
-            StatusScreen.show(
-                context: context,
-                subTitle: Strings.addMoneySuccessfully.tr,
-                onPressed: () {
-                  Get.toNamed(
-                    Routes.bottomNavBarScreen,
-                  );
-                });
-          }),
+        title: Strings.confirm,
+        onPressed: () {
+          StatusScreen.show(
+            context: context,
+            subTitle: Strings.addMoneySuccessfully.tr,
+            onPressed: () {
+              Get.toNamed(Routes.bottomNavBarScreen);
+            },
+          );
+        },
+      ),
     );
   }
 }

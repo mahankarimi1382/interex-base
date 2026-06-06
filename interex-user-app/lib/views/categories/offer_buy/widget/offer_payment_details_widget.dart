@@ -1,5 +1,3 @@
-
-
 import '../../../../utils/basic_screen_imports.dart';
 import '../../../../widgets/text_labels/title_heading5_widget.dart';
 import '../../get_offer/controller/offer_buy_preview_controller.dart';
@@ -10,34 +8,23 @@ class OfferPaymentDetailsWidget extends StatelessWidget {
   final OfferBuyPreviewController controller;
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        _transactionSummaryWidget(context),
-      ],
-    );
+    return Column(children: [_transactionSummaryWidget(context)]);
   }
 
   Container _transactionSummaryWidget(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(
-        bottom: Dimensions.marginSizeVertical,
-      ),
+      margin: EdgeInsets.only(bottom: Dimensions.marginSizeVertical),
       padding: EdgeInsets.all(Dimensions.paddingSize * 0.75),
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(
-              Dimensions.radius * 1.2),
-          color: Get.isDarkMode
-              ? CustomColor.whiteColor
-              .withValues(alpha: .05)
-              : CustomColor.whiteColor
+        borderRadius: BorderRadius.circular(Dimensions.radius * 1.2),
+        color: Get.isDarkMode
+            ? CustomColor.whiteColor.withValues(alpha: .05)
+            : CustomColor.whiteColor,
       ),
       child: Column(
         crossAxisAlignment: crossStart,
         children: [
-           TitleHeading5Widget(
-            text: Strings.transactionsSummary,
-            opacity: 0.60,
-          ),
+          TitleHeading5Widget(text: Strings.transactionsSummary, opacity: 0.60),
           Container(
             height: 2,
             width: double.infinity,

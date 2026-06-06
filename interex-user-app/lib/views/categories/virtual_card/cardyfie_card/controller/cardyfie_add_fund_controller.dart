@@ -17,7 +17,7 @@ class CardyfieAddFundController extends GetxController {
   RxDouble totalCharge = 0.0.obs;
   RxDouble totalPay = 0.00.obs;
   RxDouble percentCharge = 0.00.obs;
-    RxDouble depositCharge = 0.00.obs;
+  RxDouble depositCharge = 0.00.obs;
   RxDouble fromAmount = 0.00.obs;
 
   final controller = Get.put(VirtualCardyfieCardController());
@@ -116,7 +116,7 @@ class CardyfieAddFundController extends GetxController {
         );
     fromAmount.value = amount * exchangeRate.value;
 
-   percentCharge.value = double.parse(data.cardDepositPercentFee.toString());
+    percentCharge.value = double.parse(data.cardDepositPercentFee.toString());
     depositCharge.value =
         double.parse(data.cardDepositFixedFee.toString()) * exchangeRate.value;
 

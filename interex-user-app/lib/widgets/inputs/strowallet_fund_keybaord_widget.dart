@@ -14,19 +14,18 @@ import '../../views/set_up_pin/controller/set_up_pin_controller.dart';
 import '../payment_link/custom_drop_down.dart';
 
 class StrowalletAddFundWidget extends StatelessWidget {
-  StrowalletAddFundWidget({
-    super.key,
-    required this.buttonText,
-  });
+  StrowalletAddFundWidget({super.key, required this.buttonText});
   final String buttonText;
   final controller = Get.put(StrowalletAddFundController());
   final cardController = Get.put(VirtualStrowalletCardController());
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() => controller.isLoadingCharge || cardController.isLoading
-        ? const CustomLoadingAPI()
-        : _bodyWidget(context));
+    return Obx(
+      () => controller.isLoadingCharge || cardController.isLoading
+          ? const CustomLoadingAPI()
+          : _bodyWidget(context),
+    );
   }
 
   Column _bodyWidget(BuildContext context) {
@@ -39,19 +38,21 @@ class StrowalletAddFundWidget extends StatelessWidget {
         _inputFieldWidget(context),
         _fromWallet(context),
         Padding(
-          padding:
-              EdgeInsets.only(left: Dimensions.paddingHorizontalSize * 0.7),
+          padding: EdgeInsets.only(
+            left: Dimensions.paddingHorizontalSize * 0.7,
+          ),
           child: Align(
             alignment: Alignment.centerLeft,
             child: limitWidget(
-                fee:
-                    "${cardCharge.fixedCharge} ${data.baseCurr} + ${cardCharge.percentCharge} %",
-                limit:
-                    "${cardCharge.minLimit} ${data.baseCurr} - ${cardCharge.maxLimit} ${data.baseCurr}"),
+              fee:
+                  "${cardCharge.fixedCharge} ${data.baseCurr} + ${cardCharge.percentCharge} %",
+              limit:
+                  "${cardCharge.minLimit} ${data.baseCurr} - ${cardCharge.maxLimit} ${data.baseCurr}",
+            ),
           ),
         ),
         _customNumKeyBoardWidget(context),
-        _buttonWidget(context)
+        _buttonWidget(context),
       ],
     );
   }
@@ -89,14 +90,14 @@ class StrowalletAddFundWidget extends StatelessWidget {
                             ),
                       readOnly: true,
                       controller: controller.amountTextController,
-                      keyboardType:
-                          const TextInputType.numberWithOptions(decimal: true),
+                      keyboardType: const TextInputType.numberWithOptions(
+                        decimal: true,
+                      ),
                       inputFormatters: <TextInputFormatter>[
                         FilteringTextInputFormatter.allow(
-                            RegExp(r'(^-?\d*\.?\d*)')),
-                        LengthLimitingTextInputFormatter(
-                          6,
+                          RegExp(r'(^-?\d*\.?\d*)'),
                         ),
+                        LengthLimitingTextInputFormatter(6),
                       ],
                       validator: (String? value) {
                         if (value!.isEmpty) {
@@ -113,16 +114,15 @@ class StrowalletAddFundWidget extends StatelessWidget {
                         contentPadding: EdgeInsets.zero,
                         hintText: '0.0',
                         hintStyle: CustomStyle.darkHeading2TextStyle.copyWith(
-                          color: CustomColor.primaryTextColor
-                              .withValues(alpha: 0.7),
+                          color: CustomColor.primaryTextColor.withValues(
+                            alpha: 0.7,
+                          ),
                           fontSize: Dimensions.headingTextSize3 * 2,
                         ),
                       ),
                     ),
                   ),
-                  SizedBox(
-                    width: Dimensions.widthSize * 0.5,
-                  ),
+                  SizedBox(width: Dimensions.widthSize * 0.5),
                 ],
               ),
             ),
@@ -173,12 +173,9 @@ class StrowalletAddFundWidget extends StatelessWidget {
         mainAxisSpacing: 10.0,
         childAspectRatio: 3 / 1.7,
         shrinkWrap: true,
-        children: List.generate(
-          controller.keyboardItemList.length,
-          (index) {
-            return controller.inputItem(index);
-          },
-        ),
+        children: List.generate(controller.keyboardItemList.length, (index) {
+          return controller.inputItem(index);
+        }),
       ),
     );
   }
@@ -200,10 +197,12 @@ class StrowalletAddFundWidget extends StatelessWidget {
                       title: buttonText,
                       onPressed: () {
                         if (controller.amountTextController.text.isNotEmpty) {
-                          Get.find<SetUpPinController>().showPinDialog(context,
-                              onSuccess: () {
-                            controller.addFundProcess(context);
-                          });
+                          Get.find<SetUpPinController>().showPinDialog(
+                            context,
+                            onSuccess: () {
+                              controller.addFundProcess(context);
+                            },
+                          );
                         } else {
                           CustomSnackBar.error("Strings.plzEnterAmount");
                         }
@@ -223,20 +222,24 @@ class StrowalletAddFundWidget extends StatelessWidget {
       height: Dimensions.buttonHeight * 0.65,
       alignment: Alignment.center,
       margin: EdgeInsets.symmetric(
-          horizontal: Dimensions.marginSizeHorizontal * 0.1,
-          vertical: Dimensions.marginSizeVertical * 0.2),
+        horizontal: Dimensions.marginSizeHorizontal * 0.1,
+        vertical: Dimensions.marginSizeVertical * 0.2,
+      ),
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(Dimensions.radius * 1.7),
-          color: CustomColor.primaryBGDarkColor),
-      child: Row(children: [
-        horizontalSpace(Dimensions.widthSize),
-        TitleHeading3Widget(
-          text: controller.cardChargesModel.data.baseCurr,
-          color: CustomColor.whiteColor,
-          fontWeight: FontWeight.w500,
-        ),
-        horizontalSpace(Dimensions.widthSize),
-      ]),
+        borderRadius: BorderRadius.circular(Dimensions.radius * 1.7),
+        color: CustomColor.primaryBGDarkColor,
+      ),
+      child: Row(
+        children: [
+          horizontalSpace(Dimensions.widthSize),
+          TitleHeading3Widget(
+            text: controller.cardChargesModel.data.baseCurr,
+            color: CustomColor.whiteColor,
+            fontWeight: FontWeight.w500,
+          ),
+          horizontalSpace(Dimensions.widthSize),
+        ],
+      ),
     );
   }
 }

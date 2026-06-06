@@ -32,7 +32,7 @@ class AddFundCustomAmountWidget extends StatelessWidget {
         children: [
           _inputFields(context),
           _chargeAndFee(context),
-          _buttonWidget(context)
+          _buttonWidget(context),
         ],
       ),
     );
@@ -84,9 +84,7 @@ class AddFundCustomAmountWidget extends StatelessWidget {
 
   Container _buttonWidget(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(
-        top: Dimensions.marginSizeVertical * 1.5,
-      ),
+      margin: EdgeInsets.only(top: Dimensions.marginSizeVertical * 1.5),
       child: Row(
         mainAxisAlignment: mainCenter,
         children: [
@@ -120,7 +118,7 @@ class AddFundCustomAmountWidget extends StatelessWidget {
         padding: EdgeInsets.symmetric(
           horizontal: Dimensions.paddingHorizontalSize * 0.25,
         ),
-       
+
         borderEnable: true,
         dropDownFieldColor: Colors.transparent,
         dropDownIconColor: CustomColor.primaryLightTextColor,

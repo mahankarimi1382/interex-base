@@ -23,8 +23,7 @@ class CardyfieWithdrawScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return ResponsiveLayout(
       mobileScaffold: Scaffold(
-  
-           appBar: const AppBarWidget(text: Strings.withdraw),
+        appBar: const AppBarWidget(text: Strings.withdraw),
         body: Obx(
           () => controller.isLoading
               ? const CustomLoadingAPI()

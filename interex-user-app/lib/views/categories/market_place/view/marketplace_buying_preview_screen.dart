@@ -1,9 +1,7 @@
-
 import '../../../../utils/basic_screen_imports.dart';
 import '../../../../utils/responsive_layout.dart';
 import '../controller/marketplace_buying_preview_controller.dart';
 import 'marketplace_buying_preview_mobile_screen_layout.dart';
-
 
 class MarketplaceBuyingPreviewScreen extends StatelessWidget {
   MarketplaceBuyingPreviewScreen({super.key});

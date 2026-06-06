@@ -55,9 +55,11 @@ class TradeController extends GetxController with TradeApiServices {
       exchangeRate.value = askingAmount / sellingAmount;
     }
 
-    dailyLimit.value = myTradeModel.data.tradeCharge.dailyLimit *
+    dailyLimit.value =
+        myTradeModel.data.tradeCharge.dailyLimit *
         selectedSaleCurrency.value.rate;
-    monthlyLimit.value = myTradeModel.data.tradeCharge.monthlyLimit *
+    monthlyLimit.value =
+        myTradeModel.data.tradeCharge.monthlyLimit *
         selectedSaleCurrency.value.rate;
 
     for (var v in myTradeModel.data.tradeCharge.intervals) {
@@ -78,31 +80,34 @@ class TradeController extends GetxController with TradeApiServices {
   Future<my_trade.MyTradeModel> fetchTradeApi() async {
     _isLoading.value = true;
     update();
-    await getTradeListInfoApi().then((value) {
-      _myTradeModel = value!;
+    await getTradeListInfoApi()
+        .then((value) {
+          _myTradeModel = value!;
 
-      print("MyTrade Wallet Length");
-      print(myTradeModel.data.wallet.length);
+          print("MyTrade Wallet Length");
+          print(myTradeModel.data.wallet.length);
 
-      selectedSaleCurrency = _myTradeModel.data.saleCurrency.first.obs;
-      selectedRateCurrency = _myTradeModel.data.rateCurrency.first.obs;
+          selectedSaleCurrency = _myTradeModel.data.saleCurrency.first.obs;
+          selectedRateCurrency = _myTradeModel.data.rateCurrency.first.obs;
 
-      if (selectedSaleCurrency.value.code == selectedRateCurrency.value.code) {
-        selectedRateCurrency.value = _myTradeModel.data.rateCurrency.last;
-      }
+          if (selectedSaleCurrency.value.code ==
+              selectedRateCurrency.value.code) {
+            selectedRateCurrency.value = _myTradeModel.data.rateCurrency.last;
+          }
 
-      var v = myTradeModel.data.tradeCharge.intervals.first;
-      fixedCharge.value = v.charge * selectedSaleCurrency.value.rate;
-      minLimit.value = v.minLimit * selectedSaleCurrency.value.rate;
-      maxLimit.value = v.maxLimit * selectedSaleCurrency.value.rate;
+          var v = myTradeModel.data.tradeCharge.intervals.first;
+          fixedCharge.value = v.charge * selectedSaleCurrency.value.rate;
+          minLimit.value = v.minLimit * selectedSaleCurrency.value.rate;
+          maxLimit.value = v.maxLimit * selectedSaleCurrency.value.rate;
 
-      calculation();
+          calculation();
 
-      _isLoading.value = false;
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-    });
+          _isLoading.value = false;
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+        });
     _isLoading.value = false;
     update();
     return _myTradeModel;
@@ -120,21 +125,25 @@ class TradeController extends GetxController with TradeApiServices {
     _isSubmitLoading.value = true;
     update();
 
-    await tradeSubmitProcessApi(body: {
-      "currency": selectedSaleCurrency.value.id,
-      "rate_currency": selectedRateCurrency.value.id,
-      "amount": sellingAmountController.text,
-      "rate": askingRateController.text,
-    }).then((value) {
-      _tradeSubmitModel = value!;
+    await tradeSubmitProcessApi(
+          body: {
+            "currency": selectedSaleCurrency.value.id,
+            "rate_currency": selectedRateCurrency.value.id,
+            "amount": sellingAmountController.text,
+            "rate": askingRateController.text,
+          },
+        )
+        .then((value) {
+          _tradeSubmitModel = value!;
 
-      Get.toNamed(Routes.tradeQrScreen);
+          Get.toNamed(Routes.tradeQrScreen);
 
-      _isSubmitLoading.value = false;
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-    });
+          _isSubmitLoading.value = false;
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+        });
     _isSubmitLoading.value = false;
     update();
     return _tradeSubmitModel;
@@ -154,16 +163,18 @@ class TradeController extends GetxController with TradeApiServices {
     _isCloseLoading.value = true;
     update();
 
-    await tradeCloseProcessApi(body: {"target": id}).then((value) {
-      _tradeCloseModel = value!;
+    await tradeCloseProcessApi(body: {"target": id})
+        .then((value) {
+          _tradeCloseModel = value!;
 
-      fetchTradeApi();
+          fetchTradeApi();
 
-      _isCloseLoading.value = false;
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-    });
+          _isCloseLoading.value = false;
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+        });
     _isCloseLoading.value = false;
     update();
     return _tradeCloseModel;
@@ -182,24 +193,32 @@ class TradeController extends GetxController with TradeApiServices {
     _isCloseLoading.value = true;
     update();
 
-    await tradeEditInfoProcessApi(body: {"target": id}).then((value) {
-      _tradeEditModel = value!;
-      target = id;
+    await tradeEditInfoProcessApi(body: {"target": id})
+        .then((value) {
+          _tradeEditModel = value!;
+          target = id;
 
-      sellingAmountController.text = _tradeEditModel.data.amount;
-      askingRateController.text = _tradeEditModel.data.rate;
+          sellingAmountController.text = _tradeEditModel.data.amount;
+          askingRateController.text = _tradeEditModel.data.rate;
 
-      selectedSaleCurrency.value = _myTradeModel.data.saleCurrency.firstWhere((v)=> v.code == _tradeEditModel.data.saleCurrency.code);
-      selectedRateCurrency.value = _myTradeModel.data.rateCurrency.firstWhere((v)=> v.code == _tradeEditModel.data.rateCurrency.code);
+          selectedSaleCurrency.value = _myTradeModel.data.saleCurrency
+              .firstWhere(
+                (v) => v.code == _tradeEditModel.data.saleCurrency.code,
+              );
+          selectedRateCurrency.value = _myTradeModel.data.rateCurrency
+              .firstWhere(
+                (v) => v.code == _tradeEditModel.data.rateCurrency.code,
+              );
 
-      calculation();
-      Get.toNamed(Routes.tradeUpdateScreen);
+          calculation();
+          Get.toNamed(Routes.tradeUpdateScreen);
 
-      _isCloseLoading.value = false;
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-    });
+          _isCloseLoading.value = false;
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+        });
     _isCloseLoading.value = false;
     update();
     return _tradeEditModel;
@@ -217,21 +236,22 @@ class TradeController extends GetxController with TradeApiServices {
     _isUpdateLoading.value = true;
     update();
 
-    await tradeUpdateProcessApi(body: {
-      "target": target,
-      "rate": askingRateController.text,
-    }).then((value) {
-      _tradeUpdateModel = value!;
+    await tradeUpdateProcessApi(
+          body: {"target": target, "rate": askingRateController.text},
+        )
+        .then((value) {
+          _tradeUpdateModel = value!;
 
-      fetchTradeApi();
-      Get.close(1);
-      CustomSnackBar.success(_tradeUpdateModel.message.success.first);
+          fetchTradeApi();
+          Get.close(1);
+          CustomSnackBar.success(_tradeUpdateModel.message.success.first);
 
-      _isUpdateLoading.value = false;
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-    });
+          _isUpdateLoading.value = false;
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+        });
     _isUpdateLoading.value = false;
     update();
     return _tradeUpdateModel;

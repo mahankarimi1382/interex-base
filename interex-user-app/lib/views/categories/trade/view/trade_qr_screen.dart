@@ -23,7 +23,6 @@ class TradeQrScreen extends StatefulWidget {
 class _TradeQrScreenState extends State<TradeQrScreen> {
   final controller = Get.find<TradeController>();
 
-
   ScreenshotController screenshotController = ScreenshotController();
 
   Future<void> captureAndShare() async {
@@ -34,13 +33,17 @@ class _TradeQrScreenState extends State<TradeQrScreen> {
       if (image != null) {
         // Get temporary directory
         final directory = await getTemporaryDirectory();
-        final imagePath = await File('${directory.path}/screenshot.png').create();
+        final imagePath = await File(
+          '${directory.path}/screenshot.png',
+        ).create();
 
         // Write the image bytes to the file
         await imagePath.writeAsBytes(image);
 
         // Share the image file
-        await Share.shareXFiles([XFile(imagePath.path)], text: 'Check out this image!');
+        await Share.shareXFiles([
+          XFile(imagePath.path),
+        ], text: 'Check out this image!');
       }
     } catch (e) {
       print('Error capturing and sharing image: $e');
@@ -67,17 +70,14 @@ class _TradeQrScreenState extends State<TradeQrScreen> {
         mainAxisAlignment: mainCenter,
         children: [
           _titleSubTitleWidget(context),
-      
+
           Screenshot(
             controller: screenshotController,
             child: Column(
-              children: [
-                _qrCodeWidget(context),
-                _copyLinkWidget(context),
-              ],
+              children: [_qrCodeWidget(context), _copyLinkWidget(context)],
             ),
           ),
-      
+
           _shareButtonWidget(context),
         ],
       ),
@@ -93,12 +93,13 @@ class _TradeQrScreenState extends State<TradeQrScreen> {
         ).marginSymmetric(horizontal: Dimensions.marginSizeHorizontal * 0.8),
 
         verticalSpace(Dimensions.paddingVerticalSize * .7),
-        
-        TextButton(onPressed: (){
-          Get.offAllNamed(Routes.bottomNavBarScreen);
-        }, child: TitleHeading4Widget(text: Strings.backtoHome)).marginSymmetric(horizontal: Dimensions.marginSizeHorizontal * 0.8),
 
-
+        TextButton(
+          onPressed: () {
+            Get.offAllNamed(Routes.bottomNavBarScreen);
+          },
+          child: TitleHeading4Widget(text: Strings.backtoHome),
+        ).marginSymmetric(horizontal: Dimensions.marginSizeHorizontal * 0.8),
       ],
     );
   }
@@ -108,15 +109,11 @@ class _TradeQrScreenState extends State<TradeQrScreen> {
       padding: EdgeInsets.all(Dimensions.paddingSize * 0.666),
       margin: EdgeInsets.only(bottom: Dimensions.paddingSize * 0.666),
       decoration: BoxDecoration(
-        border: Border.all(
-          color: CustomColor.blackColor
-        ),
-          borderRadius: BorderRadius.circular(
-              Dimensions.radius * 1.2),
-          color: Get.isDarkMode
-              ? CustomColor.whiteColor
-              .withValues(alpha: .05)
-              : CustomColor.whiteColor
+        border: Border.all(color: CustomColor.blackColor),
+        borderRadius: BorderRadius.circular(Dimensions.radius * 1.2),
+        color: Get.isDarkMode
+            ? CustomColor.whiteColor.withValues(alpha: .05)
+            : CustomColor.whiteColor,
       ),
       child: Row(
         mainAxisAlignment: mainSpaceBet,
@@ -124,7 +121,11 @@ class _TradeQrScreenState extends State<TradeQrScreen> {
           Expanded(
             flex: 10,
             child: TitleHeading4Widget(
-              text: Uri.parse(controller.tradeSubmitModel.data.preview.qrcode).queryParameters['data'] ?? "",
+              text:
+                  Uri.parse(
+                    controller.tradeSubmitModel.data.preview.qrcode,
+                  ).queryParameters['data'] ??
+                  "",
               opacity: 0.70,
               color: Get.isDarkMode ? CustomColor.whiteColor : null,
             ),
@@ -134,13 +135,19 @@ class _TradeQrScreenState extends State<TradeQrScreen> {
               child: Icon(Icons.copy),
               onTap: () async {
                 await Clipboard.setData(
-                    ClipboardData(text: Uri.parse(controller.tradeSubmitModel.data.preview.qrcode).queryParameters['data'] ?? ""))
-                    .then((value) {
+                  ClipboardData(
+                    text:
+                        Uri.parse(
+                          controller.tradeSubmitModel.data.preview.qrcode,
+                        ).queryParameters['data'] ??
+                        "",
+                  ),
+                ).then((value) {
                   // CustomSnackBar.success(Strings.copyQrUrl);
                 });
               },
             ),
-          )
+          ),
         ],
       ),
     ).marginSymmetric(horizontal: Dimensions.marginSizeHorizontal * 0.8);
@@ -151,35 +158,30 @@ class _TradeQrScreenState extends State<TradeQrScreen> {
       title: controller.tradeSubmitModel.data.preview.message,
       subtitle: controller.tradeSubmitModel.data.preview.details,
       crossAxisAlignment: crossCenter,
-    ).paddingSymmetric(
-      horizontal: Dimensions.marginSizeHorizontal * 0.7,
-    );
+    ).paddingSymmetric(horizontal: Dimensions.marginSizeHorizontal * 0.7);
   }
 
   Container _qrCodeWidget(BuildContext context) {
     return Container(
       margin: EdgeInsets.symmetric(
         horizontal: Dimensions.paddingHorizontalSize * .8,
-        vertical: Dimensions.paddingVerticalSize * .6
+        vertical: Dimensions.paddingVerticalSize * .6,
       ),
       alignment: Alignment.center,
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(
-              Dimensions.radius * 1.2),
-          color: Get.isDarkMode
-              ? CustomColor.whiteColor
-              .withValues(alpha: .05)
-              : CustomColor.whiteColor
+        borderRadius: BorderRadius.circular(Dimensions.radius * 1.2),
+        color: Get.isDarkMode
+            ? CustomColor.whiteColor.withValues(alpha: .05)
+            : CustomColor.whiteColor,
       ),
-      child: Image.network(
-        controller.tradeSubmitModel.data.preview.qrcode,
-        height: Dimensions.heightSize * 15,
-      ).paddingSymmetric(
-        vertical: Dimensions.marginSizeVertical * 1.3,
-        horizontal: Dimensions.marginSizeHorizontal * 0.4,
-      ),
+      child:
+          Image.network(
+            controller.tradeSubmitModel.data.preview.qrcode,
+            height: Dimensions.heightSize * 15,
+          ).paddingSymmetric(
+            vertical: Dimensions.marginSizeVertical * 1.3,
+            horizontal: Dimensions.marginSizeHorizontal * 0.4,
+          ),
     );
   }
-
-
 }

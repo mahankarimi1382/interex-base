@@ -25,10 +25,11 @@ class RemittancePreviewScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ResponsiveLayout(
-        mobileScaffold: Scaffold(
-      appBar: const AppBarWidget(text: Strings.preview),
-      body: _bodyWidget(context),
-    ));
+      mobileScaffold: Scaffold(
+        appBar: const AppBarWidget(text: Strings.preview),
+        body: _bodyWidget(context),
+      ),
+    );
   }
 
   ListView _bodyWidget(BuildContext context) {
@@ -49,8 +50,9 @@ class RemittancePreviewScreen extends StatelessWidget {
         ? LocalStorages.getFiatPrecision()
         : LocalStorages.getCryptoPrecision();
     return previewAmount(
-        amount:
-            "${double.parse(controller.amountController.text).toStringAsFixed(precision)} ${controller.selectedSendingCountryCode.value}");
+      amount:
+          "${double.parse(controller.amountController.text).toStringAsFixed(precision)} ${controller.selectedSendingCountryCode.value}",
+    );
   }
 
   Widget _recipientWidget(BuildContext context) {
@@ -91,9 +93,7 @@ class RemittancePreviewScreen extends StatelessWidget {
 
   Container _buttonWidget(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(
-        top: Dimensions.marginSizeVertical * 2,
-      ),
+      margin: EdgeInsets.only(top: Dimensions.marginSizeVertical * 2),
       child: Obx(
         () => controller.isRemittanceConfirm
             ? const CustomLoadingAPI()

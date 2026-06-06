@@ -77,103 +77,109 @@ class BillPayController extends GetxController {
     _isLoading.value = true;
     update();
 
-    await ApiServices.billPayInfoAPi().then((value) {
-      _billPayInfoData = value!;
-      var data = _billPayInfoData.data;
-      baseCurrency.value = data.baseCurr;
-      limitMin.value = data.billPayCharge.minLimit;
-      limitMax.value = data.billPayCharge.maxLimit;
-      dailyLimit.value = data.billPayCharge.dailyLimit;
-      monthlyLimit.value = data.billPayCharge.monthlyLimit;
+    await ApiServices.billPayInfoAPi()
+        .then((value) {
+          _billPayInfoData = value!;
+          var data = _billPayInfoData.data;
+          baseCurrency.value = data.baseCurr;
+          limitMin.value = data.billPayCharge.minLimit;
+          limitMax.value = data.billPayCharge.maxLimit;
+          dailyLimit.value = data.billPayCharge.dailyLimit;
+          monthlyLimit.value = data.billPayCharge.monthlyLimit;
 
-      automaticMin.value = data.billTypes.first.minLocalTransactionAmount;
-      automaticMax.value = data.billTypes.first.maxLocalTransactionAmount;
-      automaticLimitMin.value = data.billTypes.first.minLocalTransactionAmount;
-      automaticLimitMax.value = data.billTypes.first.maxLocalTransactionAmount;
-      percentCharge.value = data.billPayCharge.percentCharge;
-      fixedCharge.value = data.billPayCharge.fixedCharge;
-      rate.value = data.baseCurrRate;
-      automaticRate.value = data.billTypes.first.receiverCurrencyRate;
-      automaticSelectedCurrency.value =
-          data.billTypes.first.receiverCurrencyCode;
+          automaticMin.value = data.billTypes.first.minLocalTransactionAmount;
+          automaticMax.value = data.billTypes.first.maxLocalTransactionAmount;
+          automaticLimitMin.value =
+              data.billTypes.first.minLocalTransactionAmount;
+          automaticLimitMax.value =
+              data.billTypes.first.maxLocalTransactionAmount;
+          percentCharge.value = data.billPayCharge.percentCharge;
+          fixedCharge.value = data.billPayCharge.fixedCharge;
+          rate.value = data.baseCurrRate;
+          automaticRate.value = data.billTypes.first.receiverCurrencyRate;
+          automaticSelectedCurrency.value =
+              data.billTypes.first.receiverCurrencyCode;
 
-      // Get wallet information
-      selectMainWallet.value =
-          walletsController.walletsInfoModel.data.userWallets.first;
-      for (var element in walletsController.walletsInfoModel.data.userWallets) {
-        walletsList.add(
-          MainUserWallet(
-            balance: element.balance,
-            currency: element.currency,
-            status: element.status,
-          ),
-        );
-      }
-      if (data.billTypes.first.itemType == "AUTOMATIC") {
-        isAutomatic.value = true;
-      } else {
-        isAutomatic.value = false;
-      }
+          // Get wallet information
+          selectMainWallet.value =
+              walletsController.walletsInfoModel.data.userWallets.first;
+          for (var element
+              in walletsController.walletsInfoModel.data.userWallets) {
+            walletsList.add(
+              MainUserWallet(
+                balance: element.balance,
+                currency: element.currency,
+                status: element.status,
+              ),
+            );
+          }
+          if (data.billTypes.first.itemType == "AUTOMATIC") {
+            isAutomatic.value = true;
+          } else {
+            isAutomatic.value = false;
+          }
 
-      billMethodselected.value = data.billTypes.first.name!;
+          billMethodselected.value = data.billTypes.first.name!;
 
-      for (var element in data.billTypes) {
-        billList.add(
-          BillType(
-            id: element.id,
-            name: element.name,
-            countryCode: element.countryCode,
-            countryName: element.countryName,
-            type: element.type,
-            serviceType: element.serviceType,
-            minLocalTransactionAmount: element.minLocalTransactionAmount,
-            maxLocalTransactionAmount: element.maxLocalTransactionAmount,
-            localTransactionFee: element.localTransactionFee,
-            localTransactionFeeCurrencyCode:
-                element.localTransactionFeeCurrencyCode,
-            localTransactionFeePercentage:
-                element.localTransactionFeePercentage,
-            denominationType: element.denominationType,
-            itemType: element.itemType,
-            slug: element.slug,
-            receiverCurrencyRate: element.receiverCurrencyRate,
-            receiverCurrencyCode: element.receiverCurrencyCode,
-          ),
-        );
-      }
-      selectedBillMonths.value =
-          _billPayInfoData.data.billMonths.first.fieldName;
-      for (var element in _billPayInfoData.data.billMonths) {
-        billMonthsList.add(element.fieldName);
-      }
+          for (var element in data.billTypes) {
+            billList.add(
+              BillType(
+                id: element.id,
+                name: element.name,
+                countryCode: element.countryCode,
+                countryName: element.countryName,
+                type: element.type,
+                serviceType: element.serviceType,
+                minLocalTransactionAmount: element.minLocalTransactionAmount,
+                maxLocalTransactionAmount: element.maxLocalTransactionAmount,
+                localTransactionFee: element.localTransactionFee,
+                localTransactionFeeCurrencyCode:
+                    element.localTransactionFeeCurrencyCode,
+                localTransactionFeePercentage:
+                    element.localTransactionFeePercentage,
+                denominationType: element.denominationType,
+                itemType: element.itemType,
+                slug: element.slug,
+                receiverCurrencyRate: element.receiverCurrencyRate,
+                receiverCurrencyCode: element.receiverCurrencyCode,
+              ),
+            );
+          }
+          selectedBillMonths.value =
+              _billPayInfoData.data.billMonths.first.fieldName;
+          for (var element in _billPayInfoData.data.billMonths) {
+            billMonthsList.add(element.fieldName);
+          }
 
-      automaticCharge.value = data.billTypes.first.localTransactionFee!;
+          automaticCharge.value = data.billTypes.first.localTransactionFee!;
 
-      //start remaing get
-      remainingController.transactionType.value =
-          _billPayInfoData.data.getRemainingFields.transactionType;
-      remainingController.attribute.value =
-          _billPayInfoData.data.getRemainingFields.attribute;
-      remainingController.cardId.value = _billPayInfoData.data.billPayCharge.id;
-      remainingController.senderAmount.value = amountController.text;
-      remainingController.senderCurrency.value =
-          selectMainWallet.value!.currency.code;
+          //start remaing get
+          remainingController.transactionType.value =
+              _billPayInfoData.data.getRemainingFields.transactionType;
+          remainingController.attribute.value =
+              _billPayInfoData.data.getRemainingFields.attribute;
+          remainingController.cardId.value =
+              _billPayInfoData.data.billPayCharge.id;
+          remainingController.senderAmount.value = amountController.text;
+          remainingController.senderCurrency.value =
+              selectMainWallet.value!.currency.code;
 
-      remainingController.getRemainingBalanceProcess();
-      // Rate & currency get
-      getExchangeRate(r: data.billTypes.first.receiverCurrencyRate);
-      if (data.billTypes.first.itemType == "AUTOMATIC") {
-        isAutomatic.value = true;
-        exchangeRateUpdate();
-        getAutomaticFee();
-      } else {
-        isAutomatic.value = false;
-        getFee(rate: rate.value);
-      }
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-    });
+          remainingController.getRemainingBalanceProcess();
+          // Rate & currency get
+          getExchangeRate(r: data.billTypes.first.receiverCurrencyRate);
+          if (data.billTypes.first.itemType == "AUTOMATIC") {
+            isAutomatic.value = true;
+            exchangeRateUpdate();
+            getAutomaticFee();
+          } else {
+            isAutomatic.value = false;
+            getFee(rate: rate.value);
+          }
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+        });
 
     _isLoading.value = false;
     update();
@@ -202,13 +208,15 @@ class BillPayController extends GetxController {
       'currency': selectMainWallet.value!.currency.code,
     };
     // calling login api from api service
-    await ApiServices.billPayConfirmedApi(body: inputBody).then((value) {
-      _successDatya = value!;
-      _isInsertLoading.value = false;
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-    });
+    await ApiServices.billPayConfirmedApi(body: inputBody)
+        .then((value) {
+          _successDatya = value!;
+          _isInsertLoading.value = false;
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+        });
 
     _isInsertLoading.value = false;
     update();
@@ -232,9 +240,11 @@ class BillPayController extends GetxController {
     double value = fixedCharge.value * rate;
 
     _updateLimit(value);
-    value = value +
+    value =
+        value +
         (double.parse(
-                amountController.text.isEmpty ? '0.0' : amountController.text) *
+              amountController.text.isEmpty ? '0.0' : amountController.text,
+            ) *
             (percentCharge.value / 100));
 
     if (amountController.text.isEmpty) {
@@ -252,9 +262,11 @@ class BillPayController extends GetxController {
         fixedCharge.value * double.parse(selectMainWallet.value!.currency.rate);
 
     _updateLimit(value);
-    value = value +
+    value =
+        value +
         (double.parse(
-                amountController.text.isEmpty ? '0.0' : amountController.text) *
+              amountController.text.isEmpty ? '0.0' : amountController.text,
+            ) *
             (percentCharge.value / 100));
 
     if (amountController.text.isEmpty) {
@@ -285,11 +297,10 @@ class BillPayController extends GetxController {
   }
 
   void exchangeRateUpdate() {
-    exchangeRate.value = automaticRate.value /
+    exchangeRate.value =
+        automaticRate.value /
         double.parse(selectMainWallet.value!.currency.rate);
     automaticLimitMin.value = automaticMin.value / exchangeRate.value;
     automaticLimitMax.value = automaticMax.value / exchangeRate.value;
-
-  
   }
 }

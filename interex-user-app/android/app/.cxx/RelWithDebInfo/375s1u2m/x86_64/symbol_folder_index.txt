@@ -1,1 +1,0 @@
-/Users/appdevs/StudioProjects/Qrpay-Pro-User-App/build/app/intermediates/cxx/RelWithDebInfo/375s1u2m/obj/x86_64

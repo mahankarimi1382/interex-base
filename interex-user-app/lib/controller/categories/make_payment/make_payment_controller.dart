@@ -79,62 +79,67 @@ class MakePaymentController extends GetxController {
   Future<MakePaymentInfoModel> getMakePaymentInfoData() async {
     _isLoading.value = true;
     update();
-    await ApiServices.makePaymentInfoApi().then((value) {
-      _makePaymentInfoModel = value!;
+    await ApiServices.makePaymentInfoApi()
+        .then((value) {
+          _makePaymentInfoModel = value!;
 
-      baseCurrRate.value = _makePaymentInfoModel.data.baseCurrRate;
+          baseCurrRate.value = _makePaymentInfoModel.data.baseCurrRate;
 
-      limitMin.value = _makePaymentInfoModel.data.makePaymentcharge.minLimit;
-      limitMax.value = _makePaymentInfoModel.data.makePaymentcharge.maxLimit;
-      dailyLimit.value =
-          _makePaymentInfoModel.data.makePaymentcharge.dailyLimit;
+          limitMin.value =
+              _makePaymentInfoModel.data.makePaymentcharge.minLimit;
+          limitMax.value =
+              _makePaymentInfoModel.data.makePaymentcharge.maxLimit;
+          dailyLimit.value =
+              _makePaymentInfoModel.data.makePaymentcharge.dailyLimit;
 
-      monthlyLimit.value =
-          _makePaymentInfoModel.data.makePaymentcharge.monthlyLimit;
-      min.value = _makePaymentInfoModel.data.makePaymentcharge.minLimit;
-      max.value = _makePaymentInfoModel.data.makePaymentcharge.maxLimit;
+          monthlyLimit.value =
+              _makePaymentInfoModel.data.makePaymentcharge.monthlyLimit;
+          min.value = _makePaymentInfoModel.data.makePaymentcharge.minLimit;
+          max.value = _makePaymentInfoModel.data.makePaymentcharge.maxLimit;
 
-      percentCharge.value =
-          _makePaymentInfoModel.data.makePaymentcharge.percentCharge;
-      fixedCharge.value =
-          _makePaymentInfoModel.data.makePaymentcharge.fixedCharge;
+          percentCharge.value =
+              _makePaymentInfoModel.data.makePaymentcharge.percentCharge;
+          fixedCharge.value =
+              _makePaymentInfoModel.data.makePaymentcharge.fixedCharge;
 
-      // Get wallets info
-      receiverExchangeRate.value = walletsController.exchangeRate.value;
-      senderExchangeRate.value = walletsController.exchangeRate.value;
+          // Get wallets info
+          receiverExchangeRate.value = walletsController.exchangeRate.value;
+          senderExchangeRate.value = walletsController.exchangeRate.value;
 
-      // Get payment
-      selectReceiverWallet.value =
-          walletsController.walletsInfoModel.data.userWallets.first;
-      selectSenderWallet.value =
-          walletsController.walletsInfoModel.data.userWallets.first;
+          // Get payment
+          selectReceiverWallet.value =
+              walletsController.walletsInfoModel.data.userWallets.first;
+          selectSenderWallet.value =
+              walletsController.walletsInfoModel.data.userWallets.first;
 
-      //start remaing get
-      remainingController.transactionType.value =
-          _makePaymentInfoModel.data.getRemainingFields.transactionType;
-      remainingController.attribute.value =
-          _makePaymentInfoModel.data.getRemainingFields.attribute;
-      remainingController.cardId.value =
-          _makePaymentInfoModel.data.makePaymentcharge.id;
-      remainingController.senderAmount.value = senderAmountController.text;
-      remainingController.senderCurrency.value =
-          selectSenderWallet.value!.currency.code;
-      remainingController.getRemainingBalanceProcess();
+          //start remaing get
+          remainingController.transactionType.value =
+              _makePaymentInfoModel.data.getRemainingFields.transactionType;
+          remainingController.attribute.value =
+              _makePaymentInfoModel.data.getRemainingFields.attribute;
+          remainingController.cardId.value =
+              _makePaymentInfoModel.data.makePaymentcharge.id;
+          remainingController.senderAmount.value = senderAmountController.text;
+          remainingController.senderCurrency.value =
+              selectSenderWallet.value!.currency.code;
+          remainingController.getRemainingBalanceProcess();
 
-      for (var element in walletsController.walletsInfoModel.data.userWallets) {
-        walletsList.add(
-          MainUserWallet(
-            balance: element.balance,
-            currency: element.currency,
-            status: element.status,
-          ),
-        );
-      }
+          for (var element
+              in walletsController.walletsInfoModel.data.userWallets) {
+            walletsList.add(
+              MainUserWallet(
+                balance: element.balance,
+                currency: element.currency,
+                status: element.status,
+              ),
+            );
+          }
 
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-    });
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+        });
 
     _isLoading.value = false;
     update();
@@ -165,16 +170,18 @@ class MakePaymentController extends GetxController {
     Map<String, dynamic> inputBody = {'credentials': copyInputController.text};
     update();
 
-    await ApiServices.checkMerchantExistApi(body: inputBody).then((value) {
-      _checkUserExistModel = value!;
-      checkUserMessage.value = _checkUserExistModel.message.success.first;
-      isValidUser.value = true;
-      update();
-    }).catchError((onError) {
-      checkUserMessage.value = Strings.notValidUser;
-      isValidUser.value = false;
-      log.e(onError);
-    });
+    await ApiServices.checkMerchantExistApi(body: inputBody)
+        .then((value) {
+          _checkUserExistModel = value!;
+          checkUserMessage.value = _checkUserExistModel.message.success.first;
+          isValidUser.value = true;
+          update();
+        })
+        .catchError((onError) {
+          checkUserMessage.value = Strings.notValidUser;
+          isValidUser.value = false;
+          log.e(onError);
+        });
 
     _isCheckUserLoading.value = false;
     update();
@@ -195,23 +202,26 @@ class MakePaymentController extends GetxController {
   // ------------------------------API Function---------------------------------
   //
   Future<CheckMercantWithQrCodeModel> getCheckMerchantWithQrCodeData(
-      String qrcode) async {
+    String qrcode,
+  ) async {
     _isCheckUserLoading.value = true;
 
     Map<String, dynamic> inputBody = {'qr_code': qrcode};
     update();
 
-    await ApiServices.checkMerchantWithQrCodeApi(body: inputBody).then((value) {
-      _checkMerchantWithQrCodeModel = value!;
-      copyInputController.clear();
-      copyInputController.text =
-          _checkMerchantWithQrCodeModel.data.merchantMobile;
-      isValidUser.value = true;
-      update();
-    }).catchError((onError) {
-      isValidUser.value = false;
-      log.e(onError);
-    });
+    await ApiServices.checkMerchantWithQrCodeApi(body: inputBody)
+        .then((value) {
+          _checkMerchantWithQrCodeModel = value!;
+          copyInputController.clear();
+          copyInputController.text =
+              _checkMerchantWithQrCodeModel.data.merchantMobile;
+          isValidUser.value = true;
+          update();
+        })
+        .catchError((onError) {
+          isValidUser.value = false;
+          log.e(onError);
+        });
 
     _isCheckUserLoading.value = false;
     update();
@@ -248,13 +258,15 @@ class MakePaymentController extends GetxController {
     };
     update();
 
-    await ApiServices.makePaymentApi(body: inputBody).then((value) {
-      _makePaymentModelData = value!;
-      update();
-    }).catchError((onError) {
-      isValidUser.value = false;
-      log.e(onError);
-    });
+    await ApiServices.makePaymentApi(body: inputBody)
+        .then((value) {
+          _makePaymentModelData = value!;
+          update();
+        })
+        .catchError((onError) {
+          isValidUser.value = false;
+          log.e(onError);
+        });
 
     _isSendMoneyLoading.value = false;
     update();
@@ -263,10 +275,13 @@ class MakePaymentController extends GetxController {
 
   RxDouble getFee({required double rate}) {
     double value = fixedCharge.value * rate;
-    value = value +
-        (double.parse(senderAmountController.text.isEmpty
-                ? '0.0'
-                : senderAmountController.text) *
+    value =
+        value +
+        (double.parse(
+              senderAmountController.text.isEmpty
+                  ? '0.0'
+                  : senderAmountController.text,
+            ) *
             (percentCharge.value / 100));
 
     if (senderAmountController.text.isEmpty) {
@@ -282,11 +297,11 @@ class MakePaymentController extends GetxController {
   void updateExchangeRate() {
     receiverExchangeRate.value =
         double.parse(selectReceiverWallet.value!.currency.rate) /
-            double.parse(selectSenderWallet.value!.currency.rate);
+        double.parse(selectSenderWallet.value!.currency.rate);
 
     senderExchangeRate.value =
         double.parse(selectSenderWallet.value!.currency.rate) /
-            double.parse(selectReceiverWallet.value!.currency.rate);
+        double.parse(selectReceiverWallet.value!.currency.rate);
 
     getFee(rate: double.parse(selectSenderWallet.value!.currency.rate));
   }
@@ -299,8 +314,8 @@ class MakePaymentController extends GetxController {
         ? LocalStorages.getFiatPrecision()
         : LocalStorages.getCryptoPrecision();
 
-    senderAmountController.text =
-        (receiverAmount * senderExchangeRate.value).toStringAsFixed(precision);
+    senderAmountController.text = (receiverAmount * senderExchangeRate.value)
+        .toStringAsFixed(precision);
     getFee(rate: double.parse(selectSenderWallet.value!.currency.rate));
     updateLimit();
   }
@@ -310,8 +325,8 @@ class MakePaymentController extends GetxController {
     int precision = selectReceiverWallet.value!.currency.type == 'FIAT'
         ? LocalStorages.getFiatPrecision()
         : LocalStorages.getCryptoPrecision();
-    receiverAmountController.text =
-        (senderAmount * receiverExchangeRate.value).toStringAsFixed(precision);
+    receiverAmountController.text = (senderAmount * receiverExchangeRate.value)
+        .toStringAsFixed(precision);
     getFee(rate: double.parse(selectSenderWallet.value!.currency.rate));
     updateLimit();
   }
@@ -324,13 +339,17 @@ class MakePaymentController extends GetxController {
     limitMax.value =
         max.value * double.parse(selectSenderWallet.value!.currency.rate);
 
-    dailyLimit.value = limit.dailyLimit! *
+    dailyLimit.value =
+        limit.dailyLimit! *
         double.parse(selectSenderWallet.value!.currency.rate);
-    monthlyLimit.value = limit.monthlyLimit! *
+    monthlyLimit.value =
+        limit.monthlyLimit! *
         double.parse(selectSenderWallet.value!.currency.rate);
-    remainingController.remainingMonthLyLimit.value = limit.monthlyLimit! *
+    remainingController.remainingMonthLyLimit.value =
+        limit.monthlyLimit! *
         double.parse(selectSenderWallet.value!.currency.rate);
-    remainingController.remainingDailyLimit.value = limit.dailyLimit! *
+    remainingController.remainingDailyLimit.value =
+        limit.dailyLimit! *
         double.parse(selectSenderWallet.value!.currency.rate);
 
     remainingController.senderAmount.value = senderAmountController.text;

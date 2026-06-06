@@ -43,21 +43,24 @@ class WithdrawScreen extends StatelessWidget {
             if (dashboardController.kycStatus.value == 1) {
               debugPrint(controller.selectedCurrencyAlias.value);
 
-              Get.find<SetUpPinController>().showPinDialog(context, onSuccess: (){
-                if (controller.amountTextController.text.isNotEmpty) {
-                  if (controller.selectedCurrencyType.value
-                      .contains("AUTOMATIC")) {
-                    if (controller.selectedCurrencyAlias.value
-                        .contains('flutterwave')) {
-                      controller.automaticPaymentFlutterwaveInsertProcess();
+              Get.find<SetUpPinController>().showPinDialog(
+                context,
+                onSuccess: () {
+                  if (controller.amountTextController.text.isNotEmpty) {
+                    if (controller.selectedCurrencyType.value.contains(
+                      "AUTOMATIC",
+                    )) {
+                      if (controller.selectedCurrencyAlias.value.contains(
+                        'flutterwave',
+                      )) {
+                        controller.automaticPaymentFlutterwaveInsertProcess();
+                      }
+                    } else {
+                      controller.manualPaymentGetGatewaysProcess();
                     }
-                  } else {
-                    controller.manualPaymentGetGatewaysProcess();
                   }
-                }
-
-              });
-
+                },
+              );
             } else {
               CustomSnackBar.error(Strings.pleaseSubmitYourInformation);
               Future.delayed(const Duration(seconds: 2), () {

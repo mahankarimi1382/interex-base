@@ -10,10 +10,7 @@ import '../controller/marketplace_controller.dart';
 import '../widget/marketplace_widget.dart';
 
 class MarketplaceMobileScreenLayout extends StatelessWidget {
-  MarketplaceMobileScreenLayout({
-    super.key,
-    required this.controller,
-  });
+  MarketplaceMobileScreenLayout({super.key, required this.controller});
 
   final MarketplaceController controller;
   final formKey = GlobalKey<FormState>();
@@ -55,16 +52,17 @@ class MarketplaceMobileScreenLayout extends StatelessWidget {
                         Icons.replay_outlined,
                         color: CustomColor.blackColor,
                       ),
-                    )
+                    ),
                   ],
                 ),
               )
             : Stack(
-              children: [
-                ListView.separated(
-                  controller: controller.scrollController,
-                    padding:
-                        EdgeInsets.only(top: Dimensions.paddingVerticalSize * .5),
+                children: [
+                  ListView.separated(
+                    controller: controller.scrollController,
+                    padding: EdgeInsets.only(
+                      top: Dimensions.paddingVerticalSize * .5,
+                    ),
                     physics: const BouncingScrollPhysics(
                       parent: AlwaysScrollableScrollPhysics(),
                     ),
@@ -80,11 +78,13 @@ class MarketplaceMobileScreenLayout extends StatelessWidget {
                       );
                     },
                   ),
-                Obx(() => controller.isMoreLoading
-                    ? const CustomLoadingAPI()
-                    : const SizedBox()),
-              ],
-            ),
+                  Obx(
+                    () => controller.isMoreLoading
+                        ? const CustomLoadingAPI()
+                        : const SizedBox(),
+                  ),
+                ],
+              ),
       ),
     );
   }

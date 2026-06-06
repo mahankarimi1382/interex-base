@@ -6,9 +6,7 @@ import '../../widgets/appbar/appbar_widget.dart';
 import '../../widgets/text_labels/title_heading5_widget.dart';
 
 class ReferralUsersScreen extends StatelessWidget {
-  ReferralUsersScreen({
-    super.key,
-  });
+  ReferralUsersScreen({super.key});
   final controller = Get.put(ReferralStatusController());
   @override
   Widget build(BuildContext context) {
@@ -55,69 +53,66 @@ class ReferralUsersScreen extends StatelessWidget {
                         ),
                       ),
                     ]
-                  : List.generate(
-                      controller.referUsers.length,
-                      (index) {
-                        var refer = controller.referUsers[index];
-                        return Container(
-                          padding: EdgeInsets.all(Dimensions.paddingSize * 0.5),
-                          margin: EdgeInsets.only(
-                            bottom: Dimensions.heightSize * 0.6,
+                  : List.generate(controller.referUsers.length, (index) {
+                      var refer = controller.referUsers[index];
+                      return Container(
+                        padding: EdgeInsets.all(Dimensions.paddingSize * 0.5),
+                        margin: EdgeInsets.only(
+                          bottom: Dimensions.heightSize * 0.6,
+                        ),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(
+                            Dimensions.radius * 1.5,
                           ),
-                          decoration: BoxDecoration(
-                            borderRadius:
-                                BorderRadius.circular(Dimensions.radius * 1.5),
-                            color: Get.isDarkMode
-                                ? CustomColor.primaryBGDarkColor
-                                : Colors.white,
-                          ),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: crossStart,
-                                  children: [
-                                    TitleHeading3Widget(text: refer.username),
-                                    verticalSpace(Dimensions.heightSize * 0.3),
-                                    Row(
-                                      children: [
-                                        CircleAvatar(
-                                          radius: Dimensions.radius * 0.3,
-                                          backgroundColor: CustomColor
-                                              .blackColor
-                                              .withValues(alpha:0.3),
-                                        ),
-                                        horizontalSpace(
-                                            Dimensions.widthSize * 0.4),
-                                        TitleHeading5Widget(text: refer.email),
-                                      ],
-                                    ),
-                                    Row(
-                                      children: [
-                                        CircleAvatar(
-                                          radius: Dimensions.radius * 0.3,
-                                          backgroundColor: CustomColor
-                                              .blackColor
-                                              .withValues(alpha:0.3),
-                                        ),
-                                        horizontalSpace(
-                                          Dimensions.widthSize * 0.4,
-                                        ),
-                                        TitleHeading5Widget(
-                                          text: refer.fullMobile,
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
+                          color: Get.isDarkMode
+                              ? CustomColor.primaryBGDarkColor
+                              : Colors.white,
+                        ),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: crossStart,
+                                children: [
+                                  TitleHeading3Widget(text: refer.username),
+                                  verticalSpace(Dimensions.heightSize * 0.3),
+                                  Row(
+                                    children: [
+                                      CircleAvatar(
+                                        radius: Dimensions.radius * 0.3,
+                                        backgroundColor: CustomColor.blackColor
+                                            .withValues(alpha: 0.3),
+                                      ),
+                                      horizontalSpace(
+                                        Dimensions.widthSize * 0.4,
+                                      ),
+                                      TitleHeading5Widget(text: refer.email),
+                                    ],
+                                  ),
+                                  Row(
+                                    children: [
+                                      CircleAvatar(
+                                        radius: Dimensions.radius * 0.3,
+                                        backgroundColor: CustomColor.blackColor
+                                            .withValues(alpha: 0.3),
+                                      ),
+                                      horizontalSpace(
+                                        Dimensions.widthSize * 0.4,
+                                      ),
+                                      TitleHeading5Widget(
+                                        text: refer.fullMobile,
+                                      ),
+                                    ],
+                                  ),
+                                ],
                               ),
-                              TitleHeading5Widget(text: refer.referralId)
-                            ],
-                          ),
-                        );
-                      },
-                    ),
-            )
+                            ),
+                            TitleHeading5Widget(text: refer.referralId),
+                          ],
+                        ),
+                      );
+                    }),
+            ),
           ],
         ),
       ),

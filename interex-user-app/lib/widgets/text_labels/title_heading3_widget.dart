@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../language/language_controller.dart';
 import '../../utils/custom_style.dart';
- 
 
 class TitleHeading3Widget extends StatelessWidget {
   const TitleHeading3Widget({
@@ -16,8 +15,8 @@ class TitleHeading3Widget extends StatelessWidget {
     this.fontSize,
     this.fontWeight,
     this.color,
-  }); 
-    
+  });
+
   final String text;
   final TextAlign? textAlign;
   final TextOverflow? textOverflow;
@@ -45,11 +44,13 @@ class TitleHeading3Widget extends StatelessWidget {
                       ? CustomStyle.darkHeading3TextStyle.copyWith(
                           fontSize: fontSize,
                           fontWeight: fontWeight,
-                          color: color)
+                          color: color,
+                        )
                       : CustomStyle.lightHeading3TextStyle.copyWith(
                           fontSize: fontSize,
                           fontWeight: fontWeight,
-                          color: color),
+                          color: color,
+                        ),
                   textAlign: textAlign,
                   overflow: textOverflow,
                   maxLines: maxLines,

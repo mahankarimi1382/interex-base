@@ -499,18 +499,16 @@ class RoutePageList {
       name: Routes.crateCardyfieScreen,
       page: () => CrateCardyfieScreen(),
     ),
-     GetPage(
+    GetPage(
       name: Routes.cardyfieUpdateCustomerScreen,
       page: () => UpdateCustomerScreen(),
     ),
-
-
 
     GetPage(
       name: Routes.cardyfieAddFundScreen,
       page: () => CardyfieDepositScreen(),
     ),
-      GetPage(
+    GetPage(
       name: Routes.cardyfieWithdrawScreen,
       page: () => CardyfieWithdrawScreen(),
     ),

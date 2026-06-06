@@ -38,9 +38,7 @@ class _UploadImageWidgetState extends State<UploadImageWidget> {
     return Container(
       decoration: BoxDecoration(
         color: Colors.transparent,
-        borderRadius: BorderRadius.all(
-          Radius.circular(Dimensions.radius),
-        ),
+        borderRadius: BorderRadius.all(Radius.circular(Dimensions.radius)),
       ),
       padding: EdgeInsets.only(
         left: Dimensions.paddingHorizontalSize * 0.15,
@@ -64,7 +62,7 @@ class _UploadImageWidgetState extends State<UploadImageWidget> {
                   text: "(${Strings.optional.tr})",
                   fontWeight: FontWeight.w600,
                   fontSize: Dimensions.headingTextSize4,
-                  color: CustomColor.primaryLightColor.withValues(alpha:.8),
+                  color: CustomColor.primaryLightColor.withValues(alpha: .8),
                 ),
               ),
             ],
@@ -73,12 +71,12 @@ class _UploadImageWidgetState extends State<UploadImageWidget> {
           DottedBorder(
             options: RoundedRectDottedBorderOptions(
               radius: Radius.circular(Dimensions.radius * 0.8),
-              dashPattern: const [3,3],
+              dashPattern: const [3, 3],
               padding: EdgeInsets.symmetric(
                 horizontal: Dimensions.paddingHorizontalSize * 0.3,
                 vertical: Dimensions.paddingHorizontalSize * .25,
               ),
-              color: CustomColor.primaryLightColor.withValues(alpha:0.2),
+              color: CustomColor.primaryLightColor.withValues(alpha: 0.2),
               strokeWidth: 2,
             ),
             // borderType: BorderType.RRect,
@@ -93,9 +91,7 @@ class _UploadImageWidgetState extends State<UploadImageWidget> {
             child: Container(
               // alignment: Alignment.bottomCenter,
               padding: !widget.isPicker
-                  ? EdgeInsets.only(
-                      bottom: 10.h,
-                    )
+                  ? EdgeInsets.only(bottom: 10.h)
                   : EdgeInsets.zero,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(Dimensions.radius * 0.5),
@@ -105,9 +101,11 @@ class _UploadImageWidgetState extends State<UploadImageWidget> {
                         fit: BoxFit.cover,
                       )
                     : DecorationImage(
-                        image: NetworkImage(widget.networkImage.isNotEmpty
-                            ? widget.networkImage
-                            : widget.defaultImage),
+                        image: NetworkImage(
+                          widget.networkImage.isNotEmpty
+                              ? widget.networkImage
+                              : widget.defaultImage,
+                        ),
                         fit: BoxFit.cover,
                       ),
               ),

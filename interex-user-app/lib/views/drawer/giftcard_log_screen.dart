@@ -14,9 +14,7 @@ class GiftCardLogScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return ResponsiveLayout(
       mobileScaffold: Scaffold(
-        appBar: const AppBarWidget(
-          text: Strings.giftcardLog,
-        ),
+        appBar: const AppBarWidget(text: Strings.giftcardLog),
         body: _bodyWidget(context),
       ),
     );
@@ -24,19 +22,20 @@ class GiftCardLogScreen extends StatelessWidget {
 
   ListView _bodyWidget(BuildContext context) {
     return ListView.builder(
-        padding: EdgeInsets.symmetric(
-          horizontal: Dimensions.marginSizeHorizontal * 0.9,
-        ),
-        physics: const BouncingScrollPhysics(),
-        itemCount: giftCardData.length,
-        itemBuilder: (context, index) {
-          return TransactionWidget(
-            amount: giftCardData[index].amount,
-            title: giftCardData[index].title,
-            dateText: giftCardData[index].dateText,
-            transaction: giftCardData[index].transaction,
-            monthText: giftCardData[index].monthText,
-          );
-        });
+      padding: EdgeInsets.symmetric(
+        horizontal: Dimensions.marginSizeHorizontal * 0.9,
+      ),
+      physics: const BouncingScrollPhysics(),
+      itemCount: giftCardData.length,
+      itemBuilder: (context, index) {
+        return TransactionWidget(
+          amount: giftCardData[index].amount,
+          title: giftCardData[index].title,
+          dateText: giftCardData[index].dateText,
+          transaction: giftCardData[index].transaction,
+          monthText: giftCardData[index].monthText,
+        );
+      },
+    );
   }
 }

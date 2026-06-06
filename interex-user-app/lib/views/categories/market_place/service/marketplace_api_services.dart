@@ -1,4 +1,3 @@
-
 import 'package:get_storage/get_storage.dart';
 
 import '../../../../backend/model/common/common_success_model.dart';
@@ -18,27 +17,28 @@ class MarketplaceApiServices {
   static Future<MarketplaceInfoModel?> getMarketplaceProcessApi(
     String amount,
     String rate,
-    currencyId,
-  {
+    currencyId, {
     required bool isFilter,
     required String page,
-        bool isDeepLink = false,
+    bool isDeepLink = false,
   }) async {
     Map<String, dynamic>? mapResponse;
     try {
       mapResponse = await ApiMethod(isBasic: false).get(
-         "${ApiEndpoint.marketplaceListURL}?lang=${GetStorage().read('selectedLanguage')}&page=$page",
+        "${ApiEndpoint.marketplaceListURL}?lang=${GetStorage().read('selectedLanguage')}&page=$page",
         code: 200,
       );
       if (mapResponse != null) {
-        MarketplaceInfoModel result =
-            MarketplaceInfoModel.fromJson(mapResponse);
+        MarketplaceInfoModel result = MarketplaceInfoModel.fromJson(
+          mapResponse,
+        );
 
         return result;
       }
     } catch (e) {
       log.e(
-          '🐞🐞🐞 err from Marketplace get info process api service ==> $e 🐞🐞🐞');
+        '🐞🐞🐞 err from Marketplace get info process api service ==> $e 🐞🐞🐞',
+      );
       CustomSnackBar.error('Something went Wrong! in MarketplaceInfoModel');
       return null;
     }
@@ -71,22 +71,22 @@ class MarketplaceApiServices {
   // }
 
   ///*  Marketplace buy process api
-  static Future<MarketplaceBuyModel?> marketplaceBuyProcessApi(
-      {required Map<String, dynamic> body}) async {
+  static Future<MarketplaceBuyModel?> marketplaceBuyProcessApi({
+    required Map<String, dynamic> body,
+  }) async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false).post(
-        ApiEndpoint.marketplaceBuyURL,
-        body,
-        code: 200,
-      );
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).post(ApiEndpoint.marketplaceBuyURL, body, code: 200);
       if (mapResponse != null) {
         MarketplaceBuyModel result = MarketplaceBuyModel.fromJson(mapResponse);
         return result;
       }
     } catch (e) {
       log.e(
-          '🐞🐞🐞 err from Marketplace buy process api service ==> $e 🐞🐞🐞');
+        '🐞🐞🐞 err from Marketplace buy process api service ==> $e 🐞🐞🐞',
+      );
       CustomSnackBar.error('Something went Wrong!');
       return null;
     }
@@ -94,24 +94,24 @@ class MarketplaceApiServices {
   }
 
   ///*  Marketplace buy confirm process api
-  static Future<MarketplaceBuyConfirmModel?> marketplaceBuyConfirmProcessApi(
-      {required Map<String, dynamic> body})
-  async {
+  static Future<MarketplaceBuyConfirmModel?> marketplaceBuyConfirmProcessApi({
+    required Map<String, dynamic> body,
+  }) async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false).post(
-        ApiEndpoint.marketplaceBuyConfirmURL,
-        body,
-        code: 200,
-      );
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).post(ApiEndpoint.marketplaceBuyConfirmURL, body, code: 200);
       if (mapResponse != null) {
-        MarketplaceBuyConfirmModel result =
-            MarketplaceBuyConfirmModel.fromJson(mapResponse);
+        MarketplaceBuyConfirmModel result = MarketplaceBuyConfirmModel.fromJson(
+          mapResponse,
+        );
         return result;
       }
     } catch (e) {
       log.e(
-          '🐞🐞🐞 err from Marketplace confirm process api service ==> $e 🐞🐞🐞');
+        '🐞🐞🐞 err from Marketplace confirm process api service ==> $e 🐞🐞🐞',
+      );
       CustomSnackBar.error('Something went Wrong!');
       return null;
     }
@@ -123,8 +123,7 @@ class MarketplaceApiServices {
     required Map<String, String> body,
     required List<String> pathList,
     required List<String> fieldList,
-  })
-  async {
+  }) async {
     Map<String, dynamic>? mapResponse;
     try {
       mapResponse = await ApiMethod(isBasic: false).multipartMultiFile(
@@ -140,7 +139,8 @@ class MarketplaceApiServices {
       }
     } catch (e) {
       log.e(
-          '🐞🐞🐞 err from Marketplace evidence submit process api service ==> $e 🐞🐞🐞');
+        '🐞🐞🐞 err from Marketplace evidence submit process api service ==> $e 🐞🐞🐞',
+      );
       CustomSnackBar.error('Something went Wrong!');
       return null;
     }

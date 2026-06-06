@@ -37,14 +37,16 @@ class ResetPasswordController extends GetxController {
       'password_confirmation': confirmPasswordController.text,
     };
     // calling login api from api service
-    await ApiServices.resetPasswordApi(body: inputBody).then((value) {
-      _resetPasswordModel = value!;
-      Get.toNamed(Routes.signInScreen);
-      _isLoading.value = false;
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-    });
+    await ApiServices.resetPasswordApi(body: inputBody)
+        .then((value) {
+          _resetPasswordModel = value!;
+          Get.toNamed(Routes.signInScreen);
+          _isLoading.value = false;
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+        });
 
     _isLoading.value = false;
     update();

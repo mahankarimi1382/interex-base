@@ -10,9 +10,7 @@ class AccountLevelInfo extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const TitleHeading3Widget(
-          text: Strings.accountLevel,
-        ),
+        const TitleHeading3Widget(text: Strings.accountLevel),
         verticalSpace(Dimensions.heightSize),
         GridView.builder(
           shrinkWrap: true,

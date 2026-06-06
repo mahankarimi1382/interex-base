@@ -37,7 +37,7 @@ class CreateGiftCardScreen extends StatelessWidget {
           _fromNameWidget(context),
           _quantityWidget(context),
           _userWalletWidget(context),
-          _buttonWidget(context)
+          _buttonWidget(context),
         ],
       ),
     );
@@ -45,9 +45,7 @@ class CreateGiftCardScreen extends StatelessWidget {
 
   Padding _receiverEmailWidget(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(
-        bottom: Dimensions.heightSize,
-      ),
+      padding: EdgeInsets.only(bottom: Dimensions.heightSize),
       child: Column(
         children: [
           PrimaryTextInputWidget(
@@ -62,9 +60,7 @@ class CreateGiftCardScreen extends StatelessWidget {
 
   Padding _phoneNumberWidget(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(
-        bottom: Dimensions.heightSize,
-      ),
+      padding: EdgeInsets.only(bottom: Dimensions.heightSize),
       child: Column(
         children: [
           PrimaryTextInputWidget(
@@ -72,9 +68,7 @@ class CreateGiftCardScreen extends StatelessWidget {
             labelText: Strings.phoneNumber,
             keyboardType: TextInputType.phone,
             prefixIcon: Container(
-              margin: EdgeInsets.only(
-                right: Dimensions.widthSize * 0.5,
-              ),
+              margin: EdgeInsets.only(right: Dimensions.widthSize * 0.5),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(Dimensions.radius * 0.5),
@@ -94,7 +88,7 @@ class CreateGiftCardScreen extends StatelessWidget {
                       text: controller.mobileCode.value,
                       color: Colors.white,
                     ),
-                  )
+                  ),
                 ],
               ),
             ),
@@ -106,9 +100,7 @@ class CreateGiftCardScreen extends StatelessWidget {
 
   Padding _fromNameWidget(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(
-        bottom: Dimensions.heightSize,
-      ),
+      padding: EdgeInsets.only(bottom: Dimensions.heightSize),
       child: Column(
         children: [
           PrimaryTextInputWidget(
@@ -123,9 +115,7 @@ class CreateGiftCardScreen extends StatelessWidget {
 
   Padding _quantityWidget(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(
-        bottom: Dimensions.heightSize,
-      ),
+      padding: EdgeInsets.only(bottom: Dimensions.heightSize),
       child: PrimaryTextInputWidget(
         controller: controller.quantityController,
         labelText: Strings.quantity,
@@ -136,9 +126,7 @@ class CreateGiftCardScreen extends StatelessWidget {
 
   Padding _countryDropDownWidget(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(
-        bottom: Dimensions.heightSize,
-      ),
+      padding: EdgeInsets.only(bottom: Dimensions.heightSize),
       child: Column(
         crossAxisAlignment: crossStart,
         children: [
@@ -163,9 +151,7 @@ class CreateGiftCardScreen extends StatelessWidget {
 
   Padding _userWalletWidget(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(
-        bottom: Dimensions.heightSize,
-      ),
+      padding: EdgeInsets.only(bottom: Dimensions.heightSize),
       child: Column(
         crossAxisAlignment: crossStart,
         children: [
@@ -189,9 +175,7 @@ class CreateGiftCardScreen extends StatelessWidget {
 
   Padding _amountWidget(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(
-        bottom: Dimensions.heightSize,
-      ),
+      padding: EdgeInsets.only(bottom: Dimensions.heightSize),
       child: Column(
         crossAxisAlignment: crossStart,
         mainAxisSize: mainMin,
@@ -206,8 +190,12 @@ class CreateGiftCardScreen extends StatelessWidget {
             Flexible(
               child: Wrap(
                 children: List.generate(
-                  controller.giftCardDetailsModel.data.product
-                      .fixedRecipientDenominations.length,
+                  controller
+                      .giftCardDetailsModel
+                      .data
+                      .product
+                      .fixedRecipientDenominations
+                      .length,
                   (index) => InkWell(
                     onTap: () {
                       controller.selectedIndex.value = index;
@@ -225,8 +213,9 @@ class CreateGiftCardScreen extends StatelessWidget {
                         color: controller.selectedIndex.value == index
                             ? CustomColor.primaryLightColor
                             : Colors.transparent,
-                        borderRadius:
-                            BorderRadius.circular(Dimensions.radius * 0.5),
+                        borderRadius: BorderRadius.circular(
+                          Dimensions.radius * 0.5,
+                        ),
                         border: Border.all(
                           color: controller.selectedIndex.value == index
                               ? Colors.transparent
@@ -234,7 +223,10 @@ class CreateGiftCardScreen extends StatelessWidget {
                         ),
                       ),
                       child: TitleHeading3Widget(
-                        text: controller.giftCardDetailsModel.data.product
+                        text: controller
+                            .giftCardDetailsModel
+                            .data
+                            .product
                             .fixedRecipientDenominations[index]
                             .toString(),
                         fontWeight: FontWeight.bold,

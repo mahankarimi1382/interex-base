@@ -16,9 +16,7 @@ import '../../../widgets/appbar/appbar_widget.dart';
 import '../../others/custom_image_widget.dart';
 
 class RequestMoneyQRCodeScreen extends StatefulWidget {
-  const RequestMoneyQRCodeScreen({
-    super.key,
-  });
+  const RequestMoneyQRCodeScreen({super.key});
 
   @override
   ScanScreenState createState() => ScanScreenState();
@@ -60,13 +58,12 @@ class ScanScreenState extends State<RequestMoneyQRCodeScreen> {
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(
       const SystemUiOverlayStyle(
-          statusBarColor: CustomColor.primaryLightScaffoldBackgroundColor),
+        statusBarColor: CustomColor.primaryLightScaffoldBackgroundColor,
+      ),
     );
     return ResponsiveLayout(
       mobileScaffold: Scaffold(
-        appBar: const AppBarWidget(
-          text: Strings.scanQR,
-        ),
+        appBar: const AppBarWidget(text: Strings.scanQR),
         body: _bodyWidget(context),
       ),
     );
@@ -78,10 +75,7 @@ class ScanScreenState extends State<RequestMoneyQRCodeScreen> {
       child: Stack(
         alignment: Alignment.center,
         children: [
-          Positioned(
-            top: 40,
-            child: _scanQrCodeWidget(context),
-          ),
+          Positioned(top: 40, child: _scanQrCodeWidget(context)),
           Positioned(
             bottom: 20,
             right: 5,
@@ -106,48 +100,52 @@ class ScanScreenState extends State<RequestMoneyQRCodeScreen> {
       key: qrKey,
       onQRViewCreated: onQRViewCreated,
       overlay: QrScannerOverlayShape(
-          cutOutSize: MediaQuery.of(context).size.width * 0.6,
-          borderWidth: 8,
-          borderLength: 20,
-          borderRadius: 10,
-          borderColor: CustomColor.primaryLightColor),
+        cutOutSize: MediaQuery.of(context).size.width * 0.6,
+        borderWidth: 8,
+        borderLength: 20,
+        borderRadius: 10,
+        borderColor: CustomColor.primaryLightColor,
+      ),
     );
   }
 
   void onQRViewCreated(QRViewController? controller) {
     setState(() => this.controller = controller);
-    controller!.scannedDataStream.listen((barcode) => setState(() {
-          this.barcode = barcode;
-          requestMoneyController.getCheckUserWithQrCodeData(
-            this.barcode!.code.toString(),
-          );
-          debugPrint(this.barcode!.code);
+    controller!.scannedDataStream.listen(
+      (barcode) => setState(() {
+        this.barcode = barcode;
+        requestMoneyController.getCheckUserWithQrCodeData(
+          this.barcode!.code.toString(),
+        );
+        debugPrint(this.barcode!.code);
 
-          requestMoneyController.copyInputController.text = this.barcode!.code!;
-          Get.toNamed(Routes.requestMoneyScreen);
+        requestMoneyController.copyInputController.text = this.barcode!.code!;
+        Get.toNamed(Routes.requestMoneyScreen);
 
-          readQr();
-        }));
+        readQr();
+      }),
+    );
   }
 
   Container _iconButtonWidget(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: Dimensions.paddingSize * 0.8),
-      margin: EdgeInsets.only(
-        bottom: Dimensions.marginSizeVertical,
-      ),
-      child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
-        GestureDetector(
-          onTap: () {
-            // Get.toNamed(Routes.moneyTransferScreen);
-          },
-          child: CircleAvatar(
-            radius: 30,
-            backgroundColor: Colors.black,
-            child: CustomImageWidget(path: Assets.icon.scan),
+      margin: EdgeInsets.only(bottom: Dimensions.marginSizeVertical),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          GestureDetector(
+            onTap: () {
+              // Get.toNamed(Routes.moneyTransferScreen);
+            },
+            child: CircleAvatar(
+              radius: 30,
+              backgroundColor: Colors.black,
+              child: CustomImageWidget(path: Assets.icon.scan),
+            ),
           ),
-        ),
-      ]),
+        ],
+      ),
     );
   }
 }

@@ -42,6 +42,7 @@ class RequestMoneyScreen extends StatelessWidget {
       physics: const BouncingScrollPhysics(),
       children: [
         _inputWidget(context),
+
         // Obx(() {
         //   return LimitWidget(
         //       fee:
@@ -49,7 +50,6 @@ class RequestMoneyScreen extends StatelessWidget {
         //       limit:
         //           '${controller.limitMin.value.toStringAsFixed(precision)} - ${controller.limitMax.value.toStringAsFixed(precision)} ${controller.selectMainWallet.value!.currency.code}');
         // }),
-
         verticalSpace(Dimensions.heightSize * 0.5),
         PrimaryInputWidget(
           controller: controller.remarkController,
@@ -92,7 +92,7 @@ class RequestMoneyScreen extends StatelessWidget {
                         ? CustomColor.greenColor
                         : CustomColor.redColor,
                   );
-                })
+                }),
               ],
             ),
             verticalSpace(Dimensions.heightSize),
@@ -138,31 +138,43 @@ class RequestMoneyScreen extends StatelessWidget {
         () => controller.isRequestMoneyLoading
             ? const CustomLoadingAPI()
             : PrimaryButton(
-                buttonColor: controller.isValidUser.value &&   double.parse(controller
-                                .remainingController.senderAmount.value) >0 &&
-                        double.parse(controller
-                                .remainingController.senderAmount.value) <=
+                buttonColor:
+                    controller.isValidUser.value &&
+                        double.parse(
+                              controller.remainingController.senderAmount.value,
+                            ) >
+                            0 &&
+                        double.parse(
+                              controller.remainingController.senderAmount.value,
+                            ) <=
                             controller.dailyLimit.value &&
-                        double.parse(controller
-                                .remainingController.senderAmount.value) <=
+                        double.parse(
+                              controller.remainingController.senderAmount.value,
+                            ) <=
                             controller.monthlyLimit.value
                     ? CustomColor.primaryLightColor
-                    : CustomColor.primaryLightColor.withValues(alpha:0.3),
+                    : CustomColor.primaryLightColor.withValues(alpha: 0.3),
                 title: Strings.send,
                 onPressed: () {
-                  if (controller.isValidUser.value &&  double.parse(controller
-                                .remainingController.senderAmount.value) >0 &&
-                      double.parse(controller
-                              .remainingController.senderAmount.value) <=
+                  if (controller.isValidUser.value &&
+                      double.parse(
+                            controller.remainingController.senderAmount.value,
+                          ) >
+                          0 &&
+                      double.parse(
+                            controller.remainingController.senderAmount.value,
+                          ) <=
                           controller.dailyLimit.value &&
-                      double.parse(controller
-                              .remainingController.senderAmount.value) <=
+                      double.parse(
+                            controller.remainingController.senderAmount.value,
+                          ) <=
                           controller.monthlyLimit.value) {
-
-                    Get.find<SetUpPinController>().showPinDialog(context, onSuccess: (){
-                      Get.toNamed(Routes.requestMoneyPreviewScreen);
-                    });
-
+                    Get.find<SetUpPinController>().showPinDialog(
+                      context,
+                      onSuccess: () {
+                        Get.toNamed(Routes.requestMoneyPreviewScreen);
+                      },
+                    );
                   }
                 },
               ),

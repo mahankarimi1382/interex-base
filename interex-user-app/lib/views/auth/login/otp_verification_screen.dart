@@ -85,39 +85,33 @@ class ResetOtpScreen extends StatelessWidget {
         children: [
           Padding(
             padding: EdgeInsets.only(top: Dimensions.heightSize * 5),
-            child: PinCodeTextField(
-              errorTextSpace: Dimensions.heightSize * 2,
-              cursorColor: CustomColor.primaryLightColor,
-              controller: controller.otpController,
-              appContext: context,
+            child: MaterialPinFormField(
               length: 6,
-              obscureText: false,
-              keyboardType: TextInputType.number,
-              textStyle: TextStyle(color: CustomColor.primaryLightColor),
-              animationType: AnimationType.fade,
+              pinController: controller.otpController,
               validator: (v) {
-                if (v!.length < 3) {
-                  return Strings.pleaseFillOutTheField.translation;
+                if (v == null || v.length < 3) {
+                  return Strings.pleaseFillOutTheField;
                 } else {
                   return null;
                 }
               },
-              pinTheme: PinTheme(
-                shape: PinCodeFieldShape.box,
-                borderRadius: BorderRadius.circular(Dimensions.radius * 0.7),
-                selectedColor: CustomColor.primaryLightColor,
-                activeColor: CustomColor.primaryLightColor,
-                inactiveColor: CustomColor.blackColor,
-                fieldHeight: 50,
-                fieldWidth: 48,
-                errorBorderColor: CustomColor.redColor,
-                activeFillColor: CustomColor.transparent,
-                borderWidth: 2,
-                fieldOuterPadding: const EdgeInsets.all(1),
-              ),
               onChanged: (value) {
                 controller.changeCurrentText(value);
               },
+              theme: MaterialPinTheme(
+                borderRadius: BorderRadius.circular(Dimensions.radius * 0.7),
+                cellSize: const Size(48, 50),
+                spacing: 2,
+                borderWidth: 2,
+                borderColor: CustomColor.blackColor,
+                focusedBorderColor: Theme.of(context).primaryColor,
+                filledBorderColor: Theme.of(context).primaryColor,
+                errorColor: CustomColor.redColor,
+                fillColor: CustomColor.transparent,
+                textStyle: TextStyle(color: Theme.of(context).primaryColor),
+                cursorColor: Theme.of(context).primaryColor,
+                entryAnimation: MaterialPinAnimation.fade,
+              ),
             ),
           ),
         ],

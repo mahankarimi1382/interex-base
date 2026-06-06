@@ -1,25 +1,19 @@
 class UserListModel {
   final Data data;
 
-  UserListModel({
-    required this.data,
-  });
+  UserListModel({required this.data});
 
-  factory UserListModel.fromJson(Map<String, dynamic> json) => UserListModel(
-        data: Data.fromJson(json["data"]),
-      );
+  factory UserListModel.fromJson(Map<String, dynamic> json) =>
+      UserListModel(data: Data.fromJson(json["data"]));
 }
 
 class Data {
   final ChatBox chatBox;
 
-  Data({
-    required this.chatBox,
-  });
+  Data({required this.chatBox});
 
-  factory Data.fromJson(Map<String, dynamic> json) => Data(
-        chatBox: ChatBox.fromJson(json["chatBox"]),
-      );
+  factory Data.fromJson(Map<String, dynamic> json) =>
+      Data(chatBox: ChatBox.fromJson(json["chatBox"]));
 }
 
 class ChatBox {
@@ -27,13 +21,17 @@ class ChatBox {
   final int lastPage;
   final List<Datum> data;
 
-  ChatBox(
-      {required this.currentPage, required this.lastPage, required this.data});
+  ChatBox({
+    required this.currentPage,
+    required this.lastPage,
+    required this.data,
+  });
 
   factory ChatBox.fromJson(Map<String, dynamic> json) => ChatBox(
-      currentPage: json["current_page"],
-      lastPage: json["last_page"],
-      data: List<Datum>.from(json["data"].map((x) => Datum.fromJson(x))));
+    currentPage: json["current_page"],
+    lastPage: json["last_page"],
+    data: List<Datum>.from(json["data"].map((x) => Datum.fromJson(x))),
+  );
 }
 
 class Datum {
@@ -58,15 +56,15 @@ class Datum {
   });
 
   factory Datum.fromJson(Map<String, dynamic> json) => Datum(
-        id: json["id"].toString(),
-        senderId: json["sender_id"].toString(),
-        receiverId: json["receiver_id"].toString(),
-        token: json["token"] ?? "",
-        status: json["status"],
-        createdAt: DateTime.parse(json["created_at"]),
-        updatedAt: DateTime.parse(json["updated_at"] ?? json["created_at"]),
-        senderImage: SenderImage.fromJson(json["senderImage"]),
-      );
+    id: json["id"].toString(),
+    senderId: json["sender_id"].toString(),
+    receiverId: json["receiver_id"].toString(),
+    token: json["token"] ?? "",
+    status: json["status"],
+    createdAt: DateTime.parse(json["created_at"]),
+    updatedAt: DateTime.parse(json["updated_at"] ?? json["created_at"]),
+    senderImage: SenderImage.fromJson(json["senderImage"]),
+  );
 }
 
 class SenderImage {
@@ -81,8 +79,8 @@ class SenderImage {
   });
 
   factory SenderImage.fromJson(Map<String, dynamic> json) => SenderImage(
-        fullname: json["fullname"],
-        email: json["email"],
-        image: json["image"],
-      );
+    fullname: json["fullname"],
+    email: json["email"],
+    image: json["image"],
+  );
 }

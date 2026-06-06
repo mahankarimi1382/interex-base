@@ -1,12 +1,12 @@
 import 'dart:convert';
 
 MarketplaceLatestTransactionModel marketplaceLatestTransactionModelFromJson(
-        String str) =>
-    MarketplaceLatestTransactionModel.fromJson(json.decode(str));
+  String str,
+) => MarketplaceLatestTransactionModel.fromJson(json.decode(str));
 
 String marketplaceLatestTransactionModelToJson(
-        MarketplaceLatestTransactionModel data) =>
-    json.encode(data.toJson());
+  MarketplaceLatestTransactionModel data,
+) => json.encode(data.toJson());
 
 class MarketplaceLatestTransactionModel {
   Message message;
@@ -18,35 +18,34 @@ class MarketplaceLatestTransactionModel {
   });
 
   factory MarketplaceLatestTransactionModel.fromJson(
-          Map<String, dynamic> json) =>
-      MarketplaceLatestTransactionModel(
-        message: Message.fromJson(json["message"]),
-        data: Data.fromJson(json["data"]),
-      );
+    Map<String, dynamic> json,
+  ) => MarketplaceLatestTransactionModel(
+    message: Message.fromJson(json["message"]),
+    data: Data.fromJson(json["data"]),
+  );
 
   Map<String, dynamic> toJson() => {
-        "message": message.toJson(),
-        "data": data.toJson(),
-      };
+    "message": message.toJson(),
+    "data": data.toJson(),
+  };
 }
 
 class Data {
   List<LatestTransaction> latestTransaction;
 
-  Data({
-    required this.latestTransaction,
-  });
+  Data({required this.latestTransaction});
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
-        latestTransaction: List<LatestTransaction>.from(
-            json["latest_transaction"]
-                .map((x) => LatestTransaction.fromJson(x))),
-      );
+    latestTransaction: List<LatestTransaction>.from(
+      json["latest_transaction"].map((x) => LatestTransaction.fromJson(x)),
+    ),
+  );
 
   Map<String, dynamic> toJson() => {
-        "latest_transaction":
-            List<dynamic>.from(latestTransaction.map((x) => x.toJson())),
-      };
+    "latest_transaction": List<dynamic>.from(
+      latestTransaction.map((x) => x.toJson()),
+    ),
+  };
 }
 
 class LatestTransaction {
@@ -98,34 +97,31 @@ class LatestTransaction {
       );
 
   Map<String, dynamic> toJson() => {
-        "id": id,
-        "trx": trx,
-        "transactin_type": transactinType,
-        "request_amount": requestAmount,
-        "payable": payable,
-        "total_charge": totalCharge,
-        "buyer_will_pay": buyerWillPay,
-        "buyer_will_get": buyerWillGet,
-        "rate_currency": rateCurrency,
-        "sale_currency": saleCurrency,
-        "status": status,
-        "status_id": statusId,
-        "created_at": createdAt.toIso8601String(),
-      };
+    "id": id,
+    "trx": trx,
+    "transactin_type": transactinType,
+    "request_amount": requestAmount,
+    "payable": payable,
+    "total_charge": totalCharge,
+    "buyer_will_pay": buyerWillPay,
+    "buyer_will_get": buyerWillGet,
+    "rate_currency": rateCurrency,
+    "sale_currency": saleCurrency,
+    "status": status,
+    "status_id": statusId,
+    "created_at": createdAt.toIso8601String(),
+  };
 }
 
 class Message {
   List<String> success;
 
-  Message({
-    required this.success,
-  });
+  Message({required this.success});
 
-  factory Message.fromJson(Map<String, dynamic> json) => Message(
-        success: List<String>.from(json["success"].map((x) => x)),
-      );
+  factory Message.fromJson(Map<String, dynamic> json) =>
+      Message(success: List<String>.from(json["success"].map((x) => x)));
 
   Map<String, dynamic> toJson() => {
-        "success": List<dynamic>.from(success.map((x) => x)),
-      };
+    "success": List<dynamic>.from(success.map((x) => x)),
+  };
 }

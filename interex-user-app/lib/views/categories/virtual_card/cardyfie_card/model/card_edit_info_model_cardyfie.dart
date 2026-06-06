@@ -164,24 +164,14 @@ class Option {
   String name;
   String value;
 
-  Option({
-    required this.id,
-    required this.name,
-    required this.value,
-  });
+  Option({required this.id, required this.name, required this.value});
 
-  factory Option.fromJson(Map<String, dynamic> json) => Option(
-    id: json["id"],
-    name: json["name"],
-    value: json["value"],
-  );
+  factory Option.fromJson(Map<String, dynamic> json) =>
+      Option(id: json["id"], name: json["name"], value: json["value"]);
 
-  Map<String, dynamic> toJson() => {
-    "id": id,
-    "name": name,
-    "value": value,
-  };
+  Map<String, dynamic> toJson() => {"id": id, "name": name, "value": value};
 }
+
 class Message {
   List<String> success;
 
@@ -193,6 +183,4 @@ class Message {
   Map<String, dynamic> toJson() => {
     "success": List<dynamic>.from(success.map((x) => x)),
   };
-
-
 }

@@ -24,11 +24,12 @@ class StripeTransactionController extends GetxController {
 
     await ApiServices.stripeCardTransactionApi(controller.cardId.value)
         .then((value) {
-      _stripeCardTransactionsModel = value!;
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-    });
+          _stripeCardTransactionsModel = value!;
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+        });
 
     _isLoading.value = false;
     update();

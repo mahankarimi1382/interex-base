@@ -1,5 +1,3 @@
-
-
 import '../../../../backend/utils/custom_loading_api.dart';
 import '../../../../custom_assets/assets.gen.dart';
 import '../../../../language/language_controller.dart';
@@ -11,11 +9,7 @@ import '../controller/marketplace_buying_preview_controller.dart';
 import '../model/marketplace_info_model.dart';
 
 class MarketplaceWidget extends StatelessWidget {
-  MarketplaceWidget({
-    super.key,
-    required this.data,
-    required this.index,
-  });
+  MarketplaceWidget({super.key, required this.data, required this.index});
   final Datum data;
   final int index;
   final buyAndOfferController = Get.put(MarketplaceBuyingPreviewController());
@@ -28,12 +22,10 @@ class MarketplaceWidget extends StatelessWidget {
     final userImage = data.user.image != '' ? userImageSet : defaultImagePath;
     return Container(
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(
-              Dimensions.radius * 1.2),
-          color: Get.isDarkMode
-              ? CustomColor.whiteColor
-              .withValues(alpha: .05)
-              : CustomColor.whiteColor
+        borderRadius: BorderRadius.circular(Dimensions.radius * 1.2),
+        color: Get.isDarkMode
+            ? CustomColor.whiteColor.withValues(alpha: .05)
+            : CustomColor.whiteColor,
       ),
       margin: EdgeInsets.only(
         bottom: Dimensions.marginBetweenInputTitleAndBox * 2,
@@ -48,10 +40,10 @@ class MarketplaceWidget extends StatelessWidget {
               horizontal: Dimensions.paddingSize * 0.7,
             ),
             // decoration: ShapeDecoration(
-              // color: Theme.of(context).colorScheme.surface,
-              // shape: RoundedRectangleBorder(
-              //   borderRadius: BorderRadius.circular(Dimensions.radius),
-              // ),
+            // color: Theme.of(context).colorScheme.surface,
+            // shape: RoundedRectangleBorder(
+            //   borderRadius: BorderRadius.circular(Dimensions.radius),
+            // ),
             // ),
             child: Column(
               children: [
@@ -62,14 +54,21 @@ class MarketplaceWidget extends StatelessWidget {
                   child: Row(
                     children: [
                       _amountWidget(
-                          context, data.amount.toStringAsFixed(2), data.saleCurrency.code),
+                        context,
+                        data.amount.toStringAsFixed(2),
+                        data.saleCurrency.code,
+                      ),
                       CustomImageWidget(
                         path: Assets.icon.replyTeal,
                         color: CustomColor.blackColor,
                       ).paddingSymmetric(
                         horizontal: Dimensions.marginSizeHorizontal * 0.2,
                       ),
-                      _amountWidget(context, data.rate.toStringAsFixed(2), data.rateCurrency.code),
+                      _amountWidget(
+                        context,
+                        data.rate.toStringAsFixed(2),
+                        data.rateCurrency.code,
+                      ),
                     ],
                   ),
                 ),
@@ -82,7 +81,7 @@ class MarketplaceWidget extends StatelessWidget {
                   color: CustomColor.whiteColor.withValues(alpha: .5),
                 ),
                 verticalSpace(Dimensions.paddingVerticalSize * .3),
-                _userProfileWidget(context, userImage)
+                _userProfileWidget(context, userImage),
               ],
             ),
           ),
@@ -149,7 +148,8 @@ class MarketplaceWidget extends StatelessWidget {
   }
 
   Row _userProfileWidget(BuildContext context, String userImage) {
-    bool isBigText = Get.find<LanguageController>()
+    bool isBigText =
+        Get.find<LanguageController>()
             .getTranslation(Strings.makeAnOffer)
             .length >
         13;
@@ -160,9 +160,7 @@ class MarketplaceWidget extends StatelessWidget {
           child: CircleAvatar(
             radius: Dimensions.radius * 1.5,
             backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-            backgroundImage: NetworkImage(
-              userImage,
-            ),
+            backgroundImage: NetworkImage(userImage),
           ),
         ),
         horizontalSpace(Dimensions.widthSize * .2),
@@ -183,8 +181,8 @@ class MarketplaceWidget extends StatelessWidget {
                 fontSize: Dimensions.headingTextSize6,
                 color:
                     data.user.emailVerified == 1 && data.user.kycVerified == 1
-                        ? Theme.of(context).primaryColor
-                        : CustomColor.redColor,
+                    ? Theme.of(context).primaryColor
+                    : CustomColor.redColor,
               ),
             ],
           ),
@@ -202,7 +200,7 @@ class MarketplaceWidget extends StatelessWidget {
               _buyNowButtonWidget(context),
             ],
           ),
-        ]
+        ],
       ],
     );
   }
@@ -235,7 +233,8 @@ class MarketplaceWidget extends StatelessWidget {
         _onBuyProcessMethod();
       },
       child: Obx(
-        () => buyAndOfferController.loadingIndex.value == index &&
+        () =>
+            buyAndOfferController.loadingIndex.value == index &&
                 buyAndOfferController.isBuyLoading
             ? const CustomLoadingAPI().marginSymmetric(
                 horizontal: Dimensions.marginSizeHorizontal * 0.5,
@@ -246,8 +245,9 @@ class MarketplaceWidget extends StatelessWidget {
                 decoration: ShapeDecoration(
                   color: Theme.of(context).primaryColor,
                   shape: RoundedRectangleBorder(
-                    borderRadius:
-                        BorderRadius.circular(Dimensions.radius * 0.3),
+                    borderRadius: BorderRadius.circular(
+                      Dimensions.radius * 0.3,
+                    ),
                   ),
                 ),
                 child: const TitleHeading4Widget(
@@ -266,8 +266,8 @@ class MarketplaceWidget extends StatelessWidget {
     controller.sellerName.value = data.user.name;
     controller.isVerified.value =
         (data.user.emailVerified == 1 && data.user.kycVerified == 1)
-            ? true
-            : false;
+        ? true
+        : false;
 
     /// >>> get rate amount and currency from marketplace list
     controller.rateCurrency.value = data.rateCurrency.code;
@@ -292,8 +292,8 @@ class MarketplaceWidget extends StatelessWidget {
     buyAndOfferController.sellerName.value = data.user.name;
     buyAndOfferController.isVerified.value =
         data.user.emailVerified == 1 && data.user.kycVerified == 1
-            ? true
-            : false;
+        ? true
+        : false;
     debugPrint(buyAndOfferController.loadingIndex.value.toString());
     buyAndOfferController.marketplaceBuyProcessApi(data.id);
   }

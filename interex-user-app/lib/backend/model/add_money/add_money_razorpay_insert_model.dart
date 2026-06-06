@@ -15,16 +15,15 @@ class AddMoneyRazorPayInsertModel {
     required this.data,
   });
 
-  factory AddMoneyRazorPayInsertModel.fromJson(Map<String, dynamic> json) =>
-      AddMoneyRazorPayInsertModel(
-        // message:
-        //     json['message'] != null ? Message.fromJson(json['message']) : null,
-        data: Data.fromJson(json["data"]),
-      );
+  factory AddMoneyRazorPayInsertModel.fromJson(
+    Map<String, dynamic> json,
+  ) => AddMoneyRazorPayInsertModel(
+    // message:
+    //     json['message'] != null ? Message.fromJson(json['message']) : null,
+    data: Data.fromJson(json["data"]),
+  );
 
-  Map<String, dynamic> toJson() => {
-        "data": data.toJson(),
-      };
+  Map<String, dynamic> toJson() => {"data": data.toJson()};
 }
 
 class Data {
@@ -47,25 +46,26 @@ class Data {
   });
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
-        gatewayType: json["gateway_type"],
-        gatewayCurrencyName: json["gateway_currency_name"],
-        alias: json["alias"],
-        identify: json["identify"],
-        paymentInformation:
-            PaymentInformation.fromJson(json["payment_information"]),
-        url: json["url"],
-        method: json["method"],
-      );
+    gatewayType: json["gateway_type"],
+    gatewayCurrencyName: json["gateway_currency_name"],
+    alias: json["alias"],
+    identify: json["identify"],
+    paymentInformation: PaymentInformation.fromJson(
+      json["payment_information"],
+    ),
+    url: json["url"],
+    method: json["method"],
+  );
 
   Map<String, dynamic> toJson() => {
-        "gateway_type": gatewayType,
-        "gateway_currency_name": gatewayCurrencyName,
-        "alias": alias,
-        "identify": identify,
-        "payment_information": paymentInformation.toJson(),
-        "url": url,
-        "method": method,
-      };
+    "gateway_type": gatewayType,
+    "gateway_currency_name": gatewayCurrencyName,
+    "alias": alias,
+    "identify": identify,
+    "payment_information": paymentInformation.toJson(),
+    "url": url,
+    "method": method,
+  };
 }
 
 class PaymentInformation {
@@ -99,31 +99,30 @@ class PaymentInformation {
       );
 
   Map<String, dynamic> toJson() => {
-        "trx": trx,
-        "gateway_currency_name": gatewayCurrencyName,
-        "request_amount": requestAmount,
-        "exchange_rate": exchangeRate,
-        "total_charge": totalCharge,
-        "will_get": willGet,
-        "payable_amount": payableAmount,
-      };
+    "trx": trx,
+    "gateway_currency_name": gatewayCurrencyName,
+    "request_amount": requestAmount,
+    "exchange_rate": exchangeRate,
+    "total_charge": totalCharge,
+    "will_get": willGet,
+    "payable_amount": payableAmount,
+  };
 }
 
 class Message {
   List<String>? success;
 
-  Message({
-    this.success,
-  });
+  Message({this.success});
 
   factory Message.fromJson(Map<String, dynamic> json) => Message(
-        success: json['success'] != null
-            ? List<String>.from(json['success'].map((x) => x))
-            : null,
-      );
+    success: json['success'] != null
+        ? List<String>.from(json['success'].map((x) => x))
+        : null,
+  );
 
   Map<String, dynamic> toJson() => {
-        'success':
-            success != null ? List<dynamic>.from(success!.map((x) => x)) : null,
-      };
+    'success': success != null
+        ? List<dynamic>.from(success!.map((x) => x))
+        : null,
+  };
 }

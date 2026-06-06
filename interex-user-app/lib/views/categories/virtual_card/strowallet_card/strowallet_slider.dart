@@ -4,10 +4,9 @@ import '../../../../controller/navbar/dashboard_controller.dart';
 import '../../../../custom_assets/assets.gen.dart';
 import '../../../../utils/basic_screen_imports.dart';
 import 'card_widget.dart';
+
 class StrowalletSlider extends StatelessWidget {
-  StrowalletSlider({
-    super.key,
-  });
+  StrowalletSlider({super.key});
   final myCardController = Get.put(VirtualStrowalletCardController());
   final controller = Get.find<DashBoardController>();
   @override
@@ -29,7 +28,10 @@ class StrowalletSlider extends StatelessWidget {
                           cvv: card.cvv,
                           logo: card.siteLogo,
                           cardBgNetwork: myCardController
-                              .strowalletCardModel.data.cardBasicInfo.cardBg,
+                              .strowalletCardModel
+                              .data
+                              .cardBasicInfo
+                              .cardBg,
                         );
                       },
                     );
@@ -63,8 +65,9 @@ class StrowalletSlider extends StatelessWidget {
                     const TitleHeading3Widget(text: Strings.myCard),
                     horizontalSpace(Dimensions.widthSize * 0.4),
                     TitleHeading3Widget(
-                        text:
-                            '${myCardController.strowalletCardModel.data.myCards.length}/${myCardController.strowalletCardModel.data.cardBasicInfo.cardCreateLimit}'),
+                      text:
+                          '${myCardController.strowalletCardModel.data.myCards.length}/${myCardController.strowalletCardModel.data.cardBasicInfo.cardCreateLimit}',
+                    ),
                   ],
                 ),
                 Row(
@@ -73,33 +76,37 @@ class StrowalletSlider extends StatelessWidget {
                       .asMap()
                       .entries
                       .map((entry) {
-                    return controller.current.value == entry.key
-                        ? Container(
-                            width: Dimensions.widthSize * 1,
-                            height: Dimensions.heightSize * 0.6,
-                            margin: EdgeInsets.only(
-                              bottom: Dimensions.marginSizeVertical * 0.2,
-                              left: Dimensions.marginSizeHorizontal * 0.2,
-                              right: Dimensions.marginSizeHorizontal * 0.2,
-                            ),
-                            decoration: const BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: CustomColor.whiteColor,
-                            ))
-                        : Container(
-                            width: Dimensions.widthSize * 0.7,
-                            height: Dimensions.heightSize * 0.5,
-                            margin: EdgeInsets.only(
-                              bottom: Dimensions.marginSizeVertical * 0.2,
-                              left: Dimensions.marginSizeHorizontal * 0.2,
-                              right: Dimensions.marginSizeHorizontal * 0.2,
-                            ),
-                            decoration: BoxDecoration(
-                              color: CustomColor.whiteColor.withValues(alpha:0.3),
-                              shape: BoxShape.circle,
-                            ),
-                          );
-                  }).toList(),
+                        return controller.current.value == entry.key
+                            ? Container(
+                                width: Dimensions.widthSize * 1,
+                                height: Dimensions.heightSize * 0.6,
+                                margin: EdgeInsets.only(
+                                  bottom: Dimensions.marginSizeVertical * 0.2,
+                                  left: Dimensions.marginSizeHorizontal * 0.2,
+                                  right: Dimensions.marginSizeHorizontal * 0.2,
+                                ),
+                                decoration: const BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: CustomColor.whiteColor,
+                                ),
+                              )
+                            : Container(
+                                width: Dimensions.widthSize * 0.7,
+                                height: Dimensions.heightSize * 0.5,
+                                margin: EdgeInsets.only(
+                                  bottom: Dimensions.marginSizeVertical * 0.2,
+                                  left: Dimensions.marginSizeHorizontal * 0.2,
+                                  right: Dimensions.marginSizeHorizontal * 0.2,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: CustomColor.whiteColor.withValues(
+                                    alpha: 0.3,
+                                  ),
+                                  shape: BoxShape.circle,
+                                ),
+                              );
+                      })
+                      .toList(),
                 ),
               ],
             );
@@ -115,7 +122,10 @@ class StrowalletSlider extends StatelessWidget {
                 logo: Assets.logo.logo.path,
                 isNetworkImage: false,
                 cardBgNetwork: myCardController
-                    .strowalletCardModel.data.cardBasicInfo.cardBg,
+                    .strowalletCardModel
+                    .data
+                    .cardBasicInfo
+                    .cardBg,
               ),
               verticalSpace(Dimensions.heightSize * 0.5),
               Row(
@@ -124,13 +134,12 @@ class StrowalletSlider extends StatelessWidget {
                   const TitleHeading3Widget(text: Strings.myCard),
                   horizontalSpace(Dimensions.widthSize * 0.4),
                   TitleHeading3Widget(
-                      text:
-                          '${myCardController.strowalletCardModel.data.myCards.length}/${myCardController.strowalletCardModel.data.cardBasicInfo.cardCreateLimit}'),
+                    text:
+                        '${myCardController.strowalletCardModel.data.myCards.length}/${myCardController.strowalletCardModel.data.cardBasicInfo.cardCreateLimit}',
+                  ),
                 ],
               ),
             ],
           );
   }
-} 
- 
- 
+}

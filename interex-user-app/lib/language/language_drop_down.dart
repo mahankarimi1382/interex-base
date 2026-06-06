@@ -16,18 +16,18 @@ class ChangeLanguageWidget extends StatelessWidget {
       () => _languageController.isLoading
           ? const Text('')
           : !isHome
-              ? _dropDown(context)
-              : Container(
-                  alignment: Alignment.center,
-                  padding: EdgeInsets.symmetric(
-                    horizontal: Dimensions.paddingSize * 0.5,
-                  ),
-                  decoration: BoxDecoration(
-                    border: Border.all(),
-                    borderRadius: BorderRadius.circular(Dimensions.radius),
-                  ),
-                  child: _dropDown(context),
-                ),
+          ? _dropDown(context)
+          : Container(
+              alignment: Alignment.center,
+              padding: EdgeInsets.symmetric(
+                horizontal: Dimensions.paddingSize * 0.5,
+              ),
+              decoration: BoxDecoration(
+                border: Border.all(),
+                borderRadius: BorderRadius.circular(Dimensions.radius),
+              ),
+              child: _dropDown(context),
+            ),
     );
   }
 
@@ -48,16 +48,14 @@ class ChangeLanguageWidget extends StatelessWidget {
           _languageController.changeLanguage(newValue);
         }
       },
-      items: _languageController.languages.map<DropdownMenuItem<String>>(
-        (language) {
-          return DropdownMenuItem<String>(
-            value: language.code,
-            child: Text(
-              isHome ? language.code.toUpperCase() : language.name,
-            ),
-          );
-        },
-      ).toList(),
+      items: _languageController.languages.map<DropdownMenuItem<String>>((
+        language,
+      ) {
+        return DropdownMenuItem<String>(
+          value: language.code,
+          child: Text(isHome ? language.code.toUpperCase() : language.name),
+        );
+      }).toList(),
     );
   }
 }

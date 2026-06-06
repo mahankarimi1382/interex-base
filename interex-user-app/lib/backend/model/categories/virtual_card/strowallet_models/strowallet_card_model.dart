@@ -2,10 +2,7 @@ class StrowalletCardModel {
   Message message;
   Data data;
 
-  StrowalletCardModel({
-    required this.message,
-    required this.data,
-  });
+  StrowalletCardModel({required this.message, required this.data});
 
   factory StrowalletCardModel.fromJson(Map<String, dynamic> json) =>
       StrowalletCardModel(
@@ -14,9 +11,9 @@ class StrowalletCardModel {
       );
 
   Map<String, dynamic> toJson() => {
-        "message": message.toJson(),
-        "data": data.toJson(),
-      };
+    "message": message.toJson(),
+    "data": data.toJson(),
+  };
 }
 
 class Data {
@@ -41,31 +38,32 @@ class Data {
   });
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
-        baseCurr: json["base_curr"],
-        cardBasicInfo: CardBasicInfo.fromJson(json["card_basic_info"]),
-        myCards:
-            List<MyCard>.from(json["myCards"].map((x) => MyCard.fromJson(x))),
-        user: User.fromJson(json["user"]),
-        cardCharge: CardCharge.fromJson(json["cardCharge"]),
-        transactions: List<Transaction>.from(
-            json["transactions"].map((x) => Transaction.fromJson(x))),
-        cardCreateAction: json['card_create_action'] ?? false,
-        supportedCurrency: List<SupportedCurrency>.from(
-            json["supported_currency"]
-                .map((x) => SupportedCurrency.fromJson(x))),
-      );
+    baseCurr: json["base_curr"],
+    cardBasicInfo: CardBasicInfo.fromJson(json["card_basic_info"]),
+    myCards: List<MyCard>.from(json["myCards"].map((x) => MyCard.fromJson(x))),
+    user: User.fromJson(json["user"]),
+    cardCharge: CardCharge.fromJson(json["cardCharge"]),
+    transactions: List<Transaction>.from(
+      json["transactions"].map((x) => Transaction.fromJson(x)),
+    ),
+    cardCreateAction: json['card_create_action'] ?? false,
+    supportedCurrency: List<SupportedCurrency>.from(
+      json["supported_currency"].map((x) => SupportedCurrency.fromJson(x)),
+    ),
+  );
 
   Map<String, dynamic> toJson() => {
-        "base_curr": baseCurr,
-        "card_basic_info": cardBasicInfo.toJson(),
-        "myCards": List<dynamic>.from(myCards.map((x) => x.toJson())),
-        "user": user.toJson(),
-        "cardCharge": cardCharge.toJson(),
-        "transactions": List<dynamic>.from(transactions.map((x) => x.toJson())),
-        "card_create_action": cardCreateAction,
-        "supported_currency":
-            List<dynamic>.from(supportedCurrency.map((x) => x.toJson())),
-      };
+    "base_curr": baseCurr,
+    "card_basic_info": cardBasicInfo.toJson(),
+    "myCards": List<dynamic>.from(myCards.map((x) => x.toJson())),
+    "user": user.toJson(),
+    "cardCharge": cardCharge.toJson(),
+    "transactions": List<dynamic>.from(transactions.map((x) => x.toJson())),
+    "card_create_action": cardCreateAction,
+    "supported_currency": List<dynamic>.from(
+      supportedCurrency.map((x) => x.toJson()),
+    ),
+  };
 }
 
 class CardBasicInfo {
@@ -86,22 +84,22 @@ class CardBasicInfo {
   });
 
   factory CardBasicInfo.fromJson(Map<String, dynamic> json) => CardBasicInfo(
-        cardBackDetails: json["card_back_details"],
-        cardBg: json["card_bg"],
-        siteTitle: json["site_title"],
-        siteLogo: json["site_logo"],
-        siteFav: json["site_fav"],
-        cardCreateLimit: json["card_create_limit"],
-      );
+    cardBackDetails: json["card_back_details"],
+    cardBg: json["card_bg"],
+    siteTitle: json["site_title"],
+    siteLogo: json["site_logo"],
+    siteFav: json["site_fav"],
+    cardCreateLimit: json["card_create_limit"],
+  );
 
   Map<String, dynamic> toJson() => {
-        "card_back_details": cardBackDetails,
-        "card_bg": cardBg,
-        "site_title": siteTitle,
-        "site_logo": siteLogo,
-        "site_fav": siteFav,
-        "card_create_limit": cardCreateLimit,
-      };
+    "card_back_details": cardBackDetails,
+    "card_bg": cardBg,
+    "site_title": siteTitle,
+    "site_logo": siteLogo,
+    "site_fav": siteFav,
+    "card_create_limit": cardCreateLimit,
+  };
 }
 
 class CardCharge {
@@ -124,24 +122,24 @@ class CardCharge {
   });
 
   factory CardCharge.fromJson(Map<String, dynamic> json) => CardCharge(
-        id: json["id"],
-        slug: json["slug"],
-        title: json["title"],
-        fixedCharge: double.parse(json["fixed_charge"] ?? '0.0'),
-        percentCharge: double.parse(json["percent_charge"] ?? '0.0'),
-        minLimit: double.parse(json["min_limit"] ?? '0.0'),
-        maxLimit: double.parse(json["max_limit"] ?? '0.0'),
-      );
+    id: json["id"],
+    slug: json["slug"],
+    title: json["title"],
+    fixedCharge: double.parse(json["fixed_charge"] ?? '0.0'),
+    percentCharge: double.parse(json["percent_charge"] ?? '0.0'),
+    minLimit: double.parse(json["min_limit"] ?? '0.0'),
+    maxLimit: double.parse(json["max_limit"] ?? '0.0'),
+  );
 
   Map<String, dynamic> toJson() => {
-        "id": id,
-        "slug": slug,
-        "title": title,
-        "fixed_charge": fixedCharge,
-        "percent_charge": percentCharge,
-        "min_limit": minLimit,
-        "max_limit": maxLimit,
-      };
+    "id": id,
+    "slug": slug,
+    "title": title,
+    "fixed_charge": fixedCharge,
+    "percent_charge": percentCharge,
+    "min_limit": minLimit,
+    "max_limit": maxLimit,
+  };
 }
 
 class MyCard {
@@ -178,59 +176,50 @@ class MyCard {
   });
 
   factory MyCard.fromJson(Map<String, dynamic> json) => MyCard(
-        id: json["id"],
-        name: json["name"],
-        cardId: json["card_id"],
-        cardNumber: json["card_number"],
-        expiry: json["expiry"],
-        cvv: json["cvv"],
-        balance: json["balance"],
-        cardBackDetails: json["card_back_details"],
-        siteTitle: json["site_title"],
-        siteLogo: json["site_logo"],
-        siteFav: json["site_fav"],
-        status: json["status"],
-        isDefault: json["is_default"] ?? false,
-        statusInfo: MyCardStatusInfo.fromJson(json["status_info"]),
-      );
+    id: json["id"],
+    name: json["name"],
+    cardId: json["card_id"],
+    cardNumber: json["card_number"],
+    expiry: json["expiry"],
+    cvv: json["cvv"],
+    balance: json["balance"],
+    cardBackDetails: json["card_back_details"],
+    siteTitle: json["site_title"],
+    siteLogo: json["site_logo"],
+    siteFav: json["site_fav"],
+    status: json["status"],
+    isDefault: json["is_default"] ?? false,
+    statusInfo: MyCardStatusInfo.fromJson(json["status_info"]),
+  );
 
   Map<String, dynamic> toJson() => {
-        "id": id,
-        "name": name,
-        "card_id": cardId,
-        "card_number": cardNumber,
-        "expiry": expiry,
-        "cvv": cvv,
-        "balance": balance,
-        "card_back_details": cardBackDetails,
-        "site_title": siteTitle,
-        "site_logo": siteLogo,
-        "site_fav": siteFav,
-        "status": status,
-        "is_default": isDefault,
-        "status_info": statusInfo.toJson(),
-      };
+    "id": id,
+    "name": name,
+    "card_id": cardId,
+    "card_number": cardNumber,
+    "expiry": expiry,
+    "cvv": cvv,
+    "balance": balance,
+    "card_back_details": cardBackDetails,
+    "site_title": siteTitle,
+    "site_logo": siteLogo,
+    "site_fav": siteFav,
+    "status": status,
+    "is_default": isDefault,
+    "status_info": statusInfo.toJson(),
+  };
 }
 
 class MyCardStatusInfo {
   int block;
   int unblock;
 
-  MyCardStatusInfo({
-    required this.block,
-    required this.unblock,
-  });
+  MyCardStatusInfo({required this.block, required this.unblock});
 
   factory MyCardStatusInfo.fromJson(Map<String, dynamic> json) =>
-      MyCardStatusInfo(
-        block: json["block"],
-        unblock: json["unblock"],
-      );
+      MyCardStatusInfo(block: json["block"], unblock: json["unblock"]);
 
-  Map<String, dynamic> toJson() => {
-        "block": block,
-        "unblock": unblock,
-      };
+  Map<String, dynamic> toJson() => {"block": block, "unblock": unblock};
 }
 
 class Transaction {
@@ -263,34 +252,34 @@ class Transaction {
   });
 
   factory Transaction.fromJson(Map<String, dynamic> json) => Transaction(
-        id: json["id"],
-        trx: json["trx"],
-        transactionType: json["transaction_type"],
-        requestAmount: json["request_amount"],
-        payable: json["payable"],
-        totalCharge: json["total_charge"],
-        cardAmount: json["card_amount"],
-        cardNumber: json["card_number"],
-        currentBalance: json["current_balance"],
-        status: json["status"],
-        dateTime: DateTime.parse(json["date_time"]),
-        statusInfo: TransactionStatusInfo.fromJson(json["status_info"]),
-      );
+    id: json["id"],
+    trx: json["trx"],
+    transactionType: json["transaction_type"],
+    requestAmount: json["request_amount"],
+    payable: json["payable"],
+    totalCharge: json["total_charge"],
+    cardAmount: json["card_amount"],
+    cardNumber: json["card_number"],
+    currentBalance: json["current_balance"],
+    status: json["status"],
+    dateTime: DateTime.parse(json["date_time"]),
+    statusInfo: TransactionStatusInfo.fromJson(json["status_info"]),
+  );
 
   Map<String, dynamic> toJson() => {
-        "id": id,
-        "trx": trx,
-        "transaction_type": transactionType,
-        "request_amount": requestAmount,
-        "payable": payable,
-        "total_charge": totalCharge,
-        "card_amount": cardAmount,
-        "card_number": cardNumber,
-        "current_balance": currentBalance,
-        "status": status,
-        "date_time": dateTime.toIso8601String(),
-        "status_info": statusInfo.toJson(),
-      };
+    "id": id,
+    "trx": trx,
+    "transaction_type": transactionType,
+    "request_amount": requestAmount,
+    "payable": payable,
+    "total_charge": totalCharge,
+    "card_amount": cardAmount,
+    "card_number": cardNumber,
+    "current_balance": currentBalance,
+    "status": status,
+    "date_time": dateTime.toIso8601String(),
+    "status_info": statusInfo.toJson(),
+  };
 }
 
 class TransactionStatusInfo {
@@ -312,10 +301,10 @@ class TransactionStatusInfo {
       );
 
   Map<String, dynamic> toJson() => {
-        "success": success,
-        "pending": pending,
-        "rejected": rejected,
-      };
+    "success": success,
+    "pending": pending,
+    "rejected": rejected,
+  };
 }
 
 class User {
@@ -390,76 +379,76 @@ class User {
   });
 
   factory User.fromJson(Map<String, dynamic> json) => User(
-        id: json["id"],
-        firstname: json["firstname"],
-        lastname: json["lastname"],
-        username: json["username"],
-        email: json["email"],
-        mobileCode: json["mobile_code"] ?? "",
-        mobile: json["mobile"] ?? "",
-        fullMobile: json["full_mobile"] ?? "",
-        refferalUserId: json["refferal_user_id"],
-        image: json["image"] ?? "",
-        status: json["status"],
-        address: Address.fromJson(json["address"]),
-        emailVerified: json["email_verified"],
-        smsVerified: json["sms_verified"],
-        kycVerified: json["kyc_verified"],
-        verCode: json["ver_code"],
-        verCodeSendAt: json["ver_code_send_at"],
-        twoFactorVerified: json["two_factor_verified"],
-        deviceId: json["device_id"],
-        emailVerifiedAt: json["email_verified_at"],
-        deletedAt: json["deleted_at"],
-        createdAt: DateTime.parse(json["created_at"]),
-        updatedAt: DateTime.parse(json["updated_at"]),
-        sudoCustomer: json["sudo_customer"],
-        sudoAccount: json["sudo_account"],
-        strowalletCustomer: json["strowallet_customer"] ?? "",
-        stripeCardHolders: json["stripe_card_holders"],
-        stripeConnectedAccount: json["stripe_connected_account"],
-        fullname: json["fullname"],
-        userImage: json["userImage"],
-        stringStatus: Status.fromJson(json["stringStatus"]),
-        lastLogin: json["lastLogin"],
-        kycStringStatus: Status.fromJson(json["kycStringStatus"]),
-      );
+    id: json["id"],
+    firstname: json["firstname"],
+    lastname: json["lastname"],
+    username: json["username"],
+    email: json["email"],
+    mobileCode: json["mobile_code"] ?? "",
+    mobile: json["mobile"] ?? "",
+    fullMobile: json["full_mobile"] ?? "",
+    refferalUserId: json["refferal_user_id"],
+    image: json["image"] ?? "",
+    status: json["status"],
+    address: Address.fromJson(json["address"]),
+    emailVerified: json["email_verified"],
+    smsVerified: json["sms_verified"],
+    kycVerified: json["kyc_verified"],
+    verCode: json["ver_code"],
+    verCodeSendAt: json["ver_code_send_at"],
+    twoFactorVerified: json["two_factor_verified"],
+    deviceId: json["device_id"],
+    emailVerifiedAt: json["email_verified_at"],
+    deletedAt: json["deleted_at"],
+    createdAt: DateTime.parse(json["created_at"]),
+    updatedAt: DateTime.parse(json["updated_at"]),
+    sudoCustomer: json["sudo_customer"],
+    sudoAccount: json["sudo_account"],
+    strowalletCustomer: json["strowallet_customer"] ?? "",
+    stripeCardHolders: json["stripe_card_holders"],
+    stripeConnectedAccount: json["stripe_connected_account"],
+    fullname: json["fullname"],
+    userImage: json["userImage"],
+    stringStatus: Status.fromJson(json["stringStatus"]),
+    lastLogin: json["lastLogin"],
+    kycStringStatus: Status.fromJson(json["kycStringStatus"]),
+  );
 
   Map<String, dynamic> toJson() => {
-        "id": id,
-        "firstname": firstname,
-        "lastname": lastname,
-        "username": username,
-        "email": email,
-        "mobile_code": mobileCode,
-        "mobile": mobile,
-        "full_mobile": fullMobile,
-        "refferal_user_id": refferalUserId,
-        "image": image,
-        "status": status,
-        "address": address.toJson(),
-        "email_verified": emailVerified,
-        "sms_verified": smsVerified,
-        "kyc_verified": kycVerified,
-        "ver_code": verCode,
-        "ver_code_send_at": verCodeSendAt,
-        "two_factor_verified": twoFactorVerified,
-        "device_id": deviceId,
-        "email_verified_at": emailVerifiedAt,
-        "deleted_at": deletedAt,
-        "created_at": createdAt.toIso8601String(),
-        "updated_at": updatedAt.toIso8601String(),
-        "sudo_customer": sudoCustomer,
-        "sudo_account": sudoAccount,
-        "strowallet_customer": strowalletCustomer!.toJson(),
-        "stripe_card_holders": stripeCardHolders,
-        "stripe_connected_account": stripeConnectedAccount,
-        "fullname": fullname,
-        "userImage": userImage,
-        "stringStatus": stringStatus.toJson(),
-        "lastLogin": lastLogin,
-        "kycStringStatus": kycStringStatus.toJson(),
-      };
+    "id": id,
+    "firstname": firstname,
+    "lastname": lastname,
+    "username": username,
+    "email": email,
+    "mobile_code": mobileCode,
+    "mobile": mobile,
+    "full_mobile": fullMobile,
+    "refferal_user_id": refferalUserId,
+    "image": image,
+    "status": status,
+    "address": address.toJson(),
+    "email_verified": emailVerified,
+    "sms_verified": smsVerified,
+    "kyc_verified": kycVerified,
+    "ver_code": verCode,
+    "ver_code_send_at": verCodeSendAt,
+    "two_factor_verified": twoFactorVerified,
+    "device_id": deviceId,
+    "email_verified_at": emailVerifiedAt,
+    "deleted_at": deletedAt,
+    "created_at": createdAt.toIso8601String(),
+    "updated_at": updatedAt.toIso8601String(),
+    "sudo_customer": sudoCustomer,
+    "sudo_account": sudoAccount,
+    "strowallet_customer": strowalletCustomer!.toJson(),
+    "stripe_card_holders": stripeCardHolders,
+    "stripe_connected_account": stripeConnectedAccount,
+    "fullname": fullname,
+    "userImage": userImage,
+    "stringStatus": stringStatus.toJson(),
+    "lastLogin": lastLogin,
+    "kycStringStatus": kycStringStatus.toJson(),
+  };
 }
 
 class Address {
@@ -478,40 +467,32 @@ class Address {
   });
 
   factory Address.fromJson(Map<String, dynamic> json) => Address(
-        country: json["country"],
-        state: json["state"],
-        city: json["city"],
-        zip: json["zip"],
-        address: json["address"],
-      );
+    country: json["country"],
+    state: json["state"],
+    city: json["city"],
+    zip: json["zip"],
+    address: json["address"],
+  );
 
   Map<String, dynamic> toJson() => {
-        "country": country,
-        "state": state,
-        "city": city,
-        "zip": zip,
-        "address": address,
-      };
+    "country": country,
+    "state": state,
+    "city": city,
+    "zip": zip,
+    "address": address,
+  };
 }
 
 class Status {
   String statusClass;
   String value;
 
-  Status({
-    required this.statusClass,
-    required this.value,
-  });
+  Status({required this.statusClass, required this.value});
 
-  factory Status.fromJson(Map<String, dynamic> json) => Status(
-        statusClass: json["class"],
-        value: json["value"],
-      );
+  factory Status.fromJson(Map<String, dynamic> json) =>
+      Status(statusClass: json["class"], value: json["value"]);
 
-  Map<String, dynamic> toJson() => {
-        "class": statusClass,
-        "value": value,
-      };
+  Map<String, dynamic> toJson() => {"class": statusClass, "value": value};
 }
 
 class StrowalletCustomer {
@@ -578,42 +559,39 @@ class StrowalletCustomer {
       );
 
   Map<String, dynamic> toJson() => {
-        "bvn": bvn,
-        "customerEmail": customerEmail,
-        "firstName": firstName,
-        "lastName": lastName,
-        "phoneNumber": phoneNumber,
-        "city": city,
-        "state": state,
-        "country": country,
-        "line1": line1,
-        "zipCode": zipCode,
-        "houseNumber": houseNumber,
-        "idNumber": idNumber,
-        "idType": idType,
-        "idImage": idImage,
-        "userPhoto": userPhoto,
-        "dateOfBirth":
-            "${dateOfBirth.year.toString().padLeft(4, '0')}-${dateOfBirth.month.toString().padLeft(2, '0')}-${dateOfBirth.day.toString().padLeft(2, '0')}",
-        "bitvcard_customer_id": bitvcardCustomerId,
-        "card_brand": cardBrand,
-      };
+    "bvn": bvn,
+    "customerEmail": customerEmail,
+    "firstName": firstName,
+    "lastName": lastName,
+    "phoneNumber": phoneNumber,
+    "city": city,
+    "state": state,
+    "country": country,
+    "line1": line1,
+    "zipCode": zipCode,
+    "houseNumber": houseNumber,
+    "idNumber": idNumber,
+    "idType": idType,
+    "idImage": idImage,
+    "userPhoto": userPhoto,
+    "dateOfBirth":
+        "${dateOfBirth.year.toString().padLeft(4, '0')}-${dateOfBirth.month.toString().padLeft(2, '0')}-${dateOfBirth.day.toString().padLeft(2, '0')}",
+    "bitvcard_customer_id": bitvcardCustomerId,
+    "card_brand": cardBrand,
+  };
 }
 
 class Message {
   List<String> success;
 
-  Message({
-    required this.success,
-  });
+  Message({required this.success});
 
-  factory Message.fromJson(Map<String, dynamic> json) => Message(
-        success: List<String>.from(json["success"].map((x) => x)),
-      );
+  factory Message.fromJson(Map<String, dynamic> json) =>
+      Message(success: List<String>.from(json["success"].map((x) => x)));
 
   Map<String, dynamic> toJson() => {
-        "success": List<dynamic>.from(success.map((x) => x)),
-      };
+    "success": List<dynamic>.from(success.map((x) => x)),
+  };
 }
 
 class SupportedCurrency {
@@ -659,16 +637,16 @@ class SupportedCurrency {
       );
 
   Map<String, dynamic> toJson() => {
-        "id": id,
-        "country": country,
-        "name": name,
-        "code": code,
-        "symbol": symbol,
-        "type": type,
-        "flag": flag,
-        "rate": rate,
-        "default": supportedCurrencyDefault,
-        "status": status,
-        "currencyImage": currencyImage,
-      };
+    "id": id,
+    "country": country,
+    "name": name,
+    "code": code,
+    "symbol": symbol,
+    "type": type,
+    "flag": flag,
+    "rate": rate,
+    "default": supportedCurrencyDefault,
+    "status": status,
+    "currencyImage": currencyImage,
+  };
 }

@@ -14,9 +14,10 @@ class FingerprintController extends GetxController {
   @override
   void onInit() async {
     auth.isDeviceSupported().then(
-          (bool isSupported) => supportState =
-              isSupported ? SupportState.supported : SupportState.unsupported,
-        );
+      (bool isSupported) => supportState = isSupported
+          ? SupportState.supported
+          : SupportState.unsupported,
+    );
     if (LocalStorages.isLoggedIn()) {
       bool isAuthenticated = await Authentication.authenticateWithBiometrics();
 
@@ -30,11 +31,7 @@ class FingerprintController extends GetxController {
   }
 }
 
-enum SupportState {
-  unknown,
-  supported,
-  unsupported,
-}
+enum SupportState { unknown, supported, unsupported }
 
 class Authentication {
   static Future<bool> authenticateWithBiometrics() async {

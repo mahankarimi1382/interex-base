@@ -23,7 +23,7 @@ class ExpendedItemWidget extends StatelessWidget {
     this.valueColor,
     this.textWrap = false,
   });
-  
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -31,7 +31,8 @@ class ExpendedItemWidget extends StatelessWidget {
       children: [
         Padding(
           padding: EdgeInsets.symmetric(
-              vertical: Dimensions.marginBetweenInputTitleAndBox),
+            vertical: Dimensions.marginBetweenInputTitleAndBox,
+          ),
           child: TransactionItemTileWidget(
             onTap: onTap,
             richText2: richText,
@@ -41,7 +42,7 @@ class ExpendedItemWidget extends StatelessWidget {
             textWrap: textWrap,
           ),
         ),
-        Visibility(visible: visible, child: _divider())
+        Visibility(visible: visible, child: _divider()),
       ],
     );
   }

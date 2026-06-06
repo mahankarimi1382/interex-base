@@ -15,8 +15,9 @@ class StrowalletTransactionHistoryScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return ResponsiveLayout(
       mobileScaffold: Scaffold(
-        appBar:
-            const StrowalletTransactionAppbar(text: Strings.transactionHistory),
+        appBar: const StrowalletTransactionAppbar(
+          text: Strings.transactionHistory,
+        ),
         body: Obx(
           () => controller.isLoading
               ? const CustomLoadingAPI()
@@ -35,19 +36,20 @@ class StrowalletTransactionHistoryScreen extends StatelessWidget {
               controller.getCardTransactionHistory();
             },
             child: ListView.builder(
-                padding: EdgeInsets.symmetric(
-                  horizontal: Dimensions.marginSizeHorizontal * 0.9,
-                ),
-                itemCount: data.length,
-                itemBuilder: (context, index) {
-                  return TransactionWidget(
-                    amount: data[index].amount,
-                    title: '${'Trx'} ${data[index].cardId}',
-                    dateText: DateFormat.M().format(data[index].createdAt),
-                    transaction: data[index].status,
-                    monthText: DateFormat.MMM().format(data[index].createdAt),
-                  );
-                }),
+              padding: EdgeInsets.symmetric(
+                horizontal: Dimensions.marginSizeHorizontal * 0.9,
+              ),
+              itemCount: data.length,
+              itemBuilder: (context, index) {
+                return TransactionWidget(
+                  amount: data[index].amount,
+                  title: '${'Trx'} ${data[index].cardId}',
+                  dateText: DateFormat.M().format(data[index].createdAt),
+                  transaction: data[index].status,
+                  monthText: DateFormat.MMM().format(data[index].createdAt),
+                );
+              },
+            ),
           )
         : Center(
             child: TitleHeading3Widget(

@@ -2,15 +2,13 @@ class UserSearchModel {
   final Message message;
   final Data data;
 
-  UserSearchModel({
-    required this.message,
-    required this.data,
-  });
+  UserSearchModel({required this.message, required this.data});
 
-  factory UserSearchModel.fromJson(Map<String, dynamic> json) => UserSearchModel(
-    message: Message.fromJson(json["message"]),
-    data: Data.fromJson(json["data"]),
-  );
+  factory UserSearchModel.fromJson(Map<String, dynamic> json) =>
+      UserSearchModel(
+        message: Message.fromJson(json["message"]),
+        data: Data.fromJson(json["data"]),
+      );
 }
 
 class Data {
@@ -40,11 +38,8 @@ class Data {
 class Message {
   final List<String> success;
 
-  Message({
-    required this.success,
-  });
+  Message({required this.success});
 
-  factory Message.fromJson(Map<String, dynamic> json) => Message(
-    success: List<String>.from(json["success"].map((x) => x)),
-  );
+  factory Message.fromJson(Map<String, dynamic> json) =>
+      Message(success: List<String>.from(json["success"].map((x) => x)));
 }

@@ -46,8 +46,9 @@ class SendMoneyPreviewScreen extends StatelessWidget {
         ? LocalStorages.getFiatPrecision()
         : LocalStorages.getCryptoPrecision();
     return previewAmount(
-        amount:
-            '${double.parse(controller.senderAmountController.text).toStringAsFixed(precision)} ${controller.selectSenderWallet.value!.currency.code}');
+      amount:
+          '${double.parse(controller.senderAmountController.text).toStringAsFixed(precision)} ${controller.selectSenderWallet.value!.currency.code}',
+    );
   }
 
   Widget _amountInformationWidget(BuildContext context) {
@@ -92,9 +93,7 @@ class SendMoneyPreviewScreen extends StatelessWidget {
 
   Container _buttonWidget(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(
-        top: Dimensions.marginSizeVertical * 2,
-      ),
+      margin: EdgeInsets.only(top: Dimensions.marginSizeVertical * 2),
       child: Obx(
         () => controller.isSendMoneyLoading
             ? const CustomLoadingAPI()
@@ -102,7 +101,9 @@ class SendMoneyPreviewScreen extends StatelessWidget {
                 title: Strings.confirm,
                 onPressed: () {
                   if (dashboardController.kycStatus.value == 1) {
-                    controller.sendMoneyProcess(context).then( 
+                    controller
+                        .sendMoneyProcess(context)
+                        .then(
                           (value) => StatusScreen.show(
                             context: context,
                             subTitle: Strings.yourmoneySenSuccess,
@@ -132,20 +133,16 @@ class SendMoneyPreviewScreen extends StatelessWidget {
             TitleHeading4Widget(
               text: title,
               color: Get.isDarkMode
-                  ? CustomColor.primaryDarkTextColor.withValues(alpha:0.6)
-                  : CustomColor.primaryLightColor.withValues(alpha:
-                      0.4,
-                    ),
+                  ? CustomColor.primaryDarkTextColor.withValues(alpha: 0.6)
+                  : CustomColor.primaryLightColor.withValues(alpha: 0.4),
             ),
             TitleHeading3Widget(
-                      text: subTitle,
-                      color: Get.isDarkMode
-                          ? CustomColor.primaryDarkTextColor.withValues(alpha:0.6)
-                          : CustomColor.primaryLightColor.withValues(alpha:
-                              0.6,
-                            ),
-                      fontWeight: FontWeight.w600,
-                    ),
+              text: subTitle,
+              color: Get.isDarkMode
+                  ? CustomColor.primaryDarkTextColor.withValues(alpha: 0.6)
+                  : CustomColor.primaryLightColor.withValues(alpha: 0.6),
+              fontWeight: FontWeight.w600,
+            ),
           ],
         ),
         verticalSpace(Dimensions.heightSize * 0.7),

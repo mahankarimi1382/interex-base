@@ -12,9 +12,7 @@ class WalletsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return ResponsiveLayout(
       mobileScaffold: Scaffold(
-        appBar: const AppBarWidget(
-          text: Strings.myWallets,
-        ),
+        appBar: const AppBarWidget(text: Strings.myWallets),
         body: _bodyWidget(context),
       ),
     );
@@ -32,7 +30,8 @@ class WalletsScreen extends StatelessWidget {
           runSpacing: Dimensions.marginSizeHorizontal * 0.5,
           children: List.generate(wallets.length, (index) {
             return Container(
-              width: MediaQuery.of(context).size.width / 2 -
+              width:
+                  MediaQuery.of(context).size.width / 2 -
                   Dimensions.marginSizeHorizontal,
               padding: EdgeInsets.symmetric(
                 horizontal: Dimensions.marginSizeHorizontal * 0.5,
@@ -40,8 +39,8 @@ class WalletsScreen extends StatelessWidget {
               ),
               decoration: BoxDecoration(
                 color: Get.isDarkMode
-                    ? CustomColor.whiteColor.withValues(alpha:0.06)
-                    : CustomColor.primaryLightColor.withValues(alpha:0.06),
+                    ? CustomColor.whiteColor.withValues(alpha: 0.06)
+                    : CustomColor.primaryLightColor.withValues(alpha: 0.06),
                 borderRadius: BorderRadius.circular(Dimensions.radius * 1.4),
               ),
               child: _buildWalletItem(wallets[index]),

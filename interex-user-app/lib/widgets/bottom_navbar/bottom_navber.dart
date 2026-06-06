@@ -5,9 +5,11 @@ import 'package:qrpaypro/views/others/custom_image_widget.dart';
 
 import '../../custom_assets/assets.gen.dart';
 
-
 // ignore_for_file: deprecated_member_use
-BottomAppBar buildBottomNavigationMenu(BuildContext context, bottomNavBarController) {
+BottomAppBar buildBottomNavigationMenu(
+  BuildContext context,
+  bottomNavBarController,
+) {
   return BottomAppBar(
     elevation: 0,
     color: CustomColor.transparent,
@@ -19,8 +21,9 @@ BottomAppBar buildBottomNavigationMenu(BuildContext context, bottomNavBarControl
         bottom: Dimensions.marginSizeVertical * 0.2,
       ),
       decoration: BoxDecoration(
-          color: CustomColor.primaryLightColor,
-          borderRadius: BorderRadius.circular(Dimensions.radius * 3.22)),
+        color: CustomColor.primaryLightColor,
+        borderRadius: BorderRadius.circular(Dimensions.radius * 3.22),
+      ),
       child: Row(
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -30,12 +33,10 @@ BottomAppBar buildBottomNavigationMenu(BuildContext context, bottomNavBarControl
           // horizontalSpace(10),
           GestureDetector(
             onTap: () {
-              Get.toNamed(Routes.qRCodeScreen); 
+              Get.toNamed(Routes.qRCodeScreen);
             },
             child: CircleAvatar(
-              backgroundColor: CustomColor.whiteColor.withValues(alpha:
-                0.1,
-              ),
+              backgroundColor: CustomColor.whiteColor.withValues(alpha: 0.1),
               radius: 26,
               child: CustomImageWidget(
                 path: Assets.icon.scan,
@@ -63,7 +64,7 @@ Expanded bottomItemWidget(String icon, bottomNavBarController, page) {
         icon,
         color: bottomNavBarController.selectedIndex.value == page
             ? CustomColor.whiteColor
-            : CustomColor.whiteColor.withValues(alpha:0.4),
+            : CustomColor.whiteColor.withValues(alpha: 0.4),
         height: Dimensions.iconSizeLarge,
       ),
     ),

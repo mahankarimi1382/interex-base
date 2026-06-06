@@ -4,8 +4,6 @@ import '../utils/basic_screen_imports.dart';
 import 'language_model.dart';
 import 'language_service.dart';
 
- 
-    
 class LanguageController extends GetxController {
   RxString selectedLanguage = "".obs; // Selected language is English
   RxString defLangKey = "".obs; // Default language is English
@@ -24,7 +22,6 @@ class LanguageController extends GetxController {
 
   Future<void> fetchLanguages() async {
     isLoadingValue.value = true;
- 
 
     try {
       final languageService = LanguageService();
@@ -35,10 +32,7 @@ class LanguageController extends GetxController {
       debugPrint('Error fetching language data: $e');
     }
   }
- 
-  
-   
-    
+
   // >> get default language key
   String getDefaultKey() {
     isLoadingValue.value = true;
@@ -48,7 +42,6 @@ class LanguageController extends GetxController {
         (lang) => lang.status == false,
       ), // Fallback to language default code, when status true.
     );
- 
 
     defLangKey.value = selectedLang.code;
 
@@ -56,9 +49,8 @@ class LanguageController extends GetxController {
     final box = GetStorage();
     selectedLanguage.value = box.read(selectedLanguageKey) ?? defLangKey.value;
     isLoadingValue.value = false;
-    return selectedLang.code;   
+    return selectedLang.code;
   }
- 
 
   void changeLanguage(String newLanguage) {
     selectedLanguage.value = newLanguage;
@@ -66,24 +58,17 @@ class LanguageController extends GetxController {
     box.write(selectedLanguageKey, newLanguage);
     update();
   }
- 
-  
-   
 
   String getTranslation(String key) {
     final selectedLang = languages.firstWhere(
       (lang) => lang.code == selectedLanguage.value,
-      orElse: () => languages.firstWhere(
-        (lang) => lang.code == defLangKey.value,
-      ),
+      orElse: () =>
+          languages.firstWhere((lang) => lang.code == defLangKey.value),
     );
- 
-     
+
     final defaultLanguage = languages.firstWhere(
       (lang) => lang.code == 'en',
-      orElse: () => languages.firstWhere(
-        (lang) => lang.code == 'en',
-      ),
+      orElse: () => languages.firstWhere((lang) => lang.code == 'en'),
     );
 
     String value;
@@ -103,9 +88,8 @@ class LanguageController extends GetxController {
     try {
       final selectedLang = languages.firstWhere(
         (lang) => lang.code == selectedLanguage.value,
-        orElse: () => languages.firstWhere(
-          (lang) => lang.code == defLangKey.value,
-        ),
+        orElse: () =>
+            languages.firstWhere((lang) => lang.code == defLangKey.value),
       );
       isLoadingValue.value = false;
       update();

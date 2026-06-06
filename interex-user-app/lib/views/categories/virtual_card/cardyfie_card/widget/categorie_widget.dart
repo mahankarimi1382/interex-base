@@ -1,7 +1,4 @@
-
-
 part of '../screen/cardyfie_card_screen.dart';
-
 
 class CategoriesWidget extends StatelessWidget {
   const CategoriesWidget({

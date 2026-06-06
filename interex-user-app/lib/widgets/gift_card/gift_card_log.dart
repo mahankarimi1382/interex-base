@@ -10,9 +10,7 @@ class GiftCardLog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(
-        bottom: Dimensions.heightSize,
-      ),
+      margin: EdgeInsets.only(bottom: Dimensions.heightSize),
       padding: EdgeInsets.symmetric(
         horizontal: Dimensions.paddingHorizontalSize * .4,
         vertical: Dimensions.paddingVerticalSize * .3,
@@ -28,9 +26,7 @@ class GiftCardLog extends StatelessWidget {
           Expanded(
             flex: 0,
             child: Container(
-              padding: EdgeInsets.all(
-                Dimensions.paddingSize * 1,
-              ),
+              padding: EdgeInsets.all(Dimensions.paddingSize * 1),
               decoration: BoxDecoration(
                 color: Theme.of(context).scaffoldBackgroundColor,
                 borderRadius: BorderRadius.circular(Dimensions.radius),
@@ -88,7 +84,7 @@ class GiftCardLog extends StatelessWidget {
                 ),
               ],
             ),
-          )
+          ),
         ],
       ),
     );

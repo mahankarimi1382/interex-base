@@ -10,10 +10,7 @@ class MaintenanceModel {
   Message message;
   Data data;
 
-  MaintenanceModel({
-    required this.message,
-    required this.data,
-  });
+  MaintenanceModel({required this.message, required this.data});
 
   factory MaintenanceModel.fromJson(Map<String, dynamic> json) =>
       MaintenanceModel(
@@ -22,9 +19,9 @@ class MaintenanceModel {
       );
 
   Map<String, dynamic> toJson() => {
-        "message": message.toJson(),
-        "data": data.toJson(),
-      };
+    "message": message.toJson(),
+    "data": data.toJson(),
+  };
 }
 
 class Data {
@@ -45,36 +42,33 @@ class Data {
   });
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
-        baseUrl: json["base_url"],
-        imagePath: json["image_path"],
-        image: json["image"],
-        status: json["status"],
-        title: json["title"],
-        details: json["details"],
-      );
+    baseUrl: json["base_url"],
+    imagePath: json["image_path"],
+    image: json["image"],
+    status: json["status"],
+    title: json["title"],
+    details: json["details"],
+  );
 
   Map<String, dynamic> toJson() => {
-        "base_url": baseUrl,
-        "image_path": imagePath,
-        "image": image,
-        "status": status,
-        "title": title,
-        "details": details,
-      };
+    "base_url": baseUrl,
+    "image_path": imagePath,
+    "image": image,
+    "status": status,
+    "title": title,
+    "details": details,
+  };
 }
 
 class Message {
   List<String> error;
 
-  Message({
-    required this.error,
-  });
+  Message({required this.error});
 
-  factory Message.fromJson(Map<String, dynamic> json) => Message(
-        error: List<String>.from(json["error"].map((x) => x)),
-      );
+  factory Message.fromJson(Map<String, dynamic> json) =>
+      Message(error: List<String>.from(json["error"].map((x) => x)));
 
   Map<String, dynamic> toJson() => {
-        "error": List<dynamic>.from(error.map((x) => x)),
-      };
+    "error": List<dynamic>.from(error.map((x) => x)),
+  };
 }

@@ -2,11 +2,12 @@ import 'package:qrpaypro/utils/basic_screen_imports.dart';
 import 'package:qrpaypro/widgets/text_labels/title_heading5_widget.dart';
 
 class LimitWithExchangeRateWidget extends StatelessWidget {
-  const LimitWithExchangeRateWidget(
-      {super.key,
-      required this.fee,
-      required this.limit,
-      required this.exchangeRate});
+  const LimitWithExchangeRateWidget({
+    super.key,
+    required this.fee,
+    required this.limit,
+    required this.exchangeRate,
+  });
   final String fee;
   final String limit;
   final String exchangeRate;
@@ -14,8 +15,9 @@ class LimitWithExchangeRateWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin:
-          EdgeInsets.symmetric(vertical: Dimensions.marginSizeVertical * 0.2),
+      margin: EdgeInsets.symmetric(
+        vertical: Dimensions.marginSizeVertical * 0.2,
+      ),
       child: Column(
         crossAxisAlignment: crossStart,
         children: [
@@ -29,7 +31,7 @@ class LimitWithExchangeRateWidget extends StatelessWidget {
                 fontWeight: FontWeight.w500,
                 color: Get.isDarkMode
                     ? CustomColor.primaryDarkTextColor
-                    : CustomColor.primaryLightColor.withValues(alpha:0.6),
+                    : CustomColor.primaryLightColor.withValues(alpha: 0.6),
               ),
               TitleHeading5Widget(
                 text: ": $exchangeRate ",
@@ -38,7 +40,7 @@ class LimitWithExchangeRateWidget extends StatelessWidget {
                 fontWeight: FontWeight.w500,
                 color: Get.isDarkMode
                     ? CustomColor.primaryDarkTextColor
-                    : CustomColor.primaryLightColor.withValues(alpha:0.6),
+                    : CustomColor.primaryLightColor.withValues(alpha: 0.6),
               ),
             ],
           ),
@@ -53,7 +55,7 @@ class LimitWithExchangeRateWidget extends StatelessWidget {
                 fontWeight: FontWeight.w500,
                 color: Get.isDarkMode
                     ? CustomColor.primaryDarkTextColor
-                    : CustomColor.primaryLightColor.withValues(alpha:0.6),
+                    : CustomColor.primaryLightColor.withValues(alpha: 0.6),
               ),
               TitleHeading5Widget(
                 text: ": $fee ",
@@ -62,7 +64,7 @@ class LimitWithExchangeRateWidget extends StatelessWidget {
                 fontWeight: FontWeight.w500,
                 color: Get.isDarkMode
                     ? CustomColor.primaryDarkTextColor
-                    : CustomColor.primaryLightColor.withValues(alpha:0.6),
+                    : CustomColor.primaryLightColor.withValues(alpha: 0.6),
               ),
             ],
           ),
@@ -77,7 +79,7 @@ class LimitWithExchangeRateWidget extends StatelessWidget {
                 fontWeight: FontWeight.w500,
                 color: Get.isDarkMode
                     ? CustomColor.primaryDarkTextColor
-                    : CustomColor.primaryLightColor.withValues(alpha:0.6),
+                    : CustomColor.primaryLightColor.withValues(alpha: 0.6),
               ),
               TitleHeading5Widget(
                 text: ": $limit ",
@@ -86,7 +88,7 @@ class LimitWithExchangeRateWidget extends StatelessWidget {
                 fontWeight: FontWeight.w500,
                 color: Get.isDarkMode
                     ? CustomColor.primaryDarkTextColor
-                    : CustomColor.primaryLightColor.withValues(alpha:0.6),
+                    : CustomColor.primaryLightColor.withValues(alpha: 0.6),
               ),
             ],
           ),

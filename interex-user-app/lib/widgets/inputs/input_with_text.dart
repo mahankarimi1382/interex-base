@@ -62,10 +62,7 @@ class _PrimaryInputWidgetState extends State<InputWithText> {
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        TitleHeading4Widget(
-          text: widget.label,
-          fontWeight: FontWeight.w600,
-        ),
+        TitleHeading4Widget(text: widget.label, fontWeight: FontWeight.w600),
         verticalSpace(Dimensions.heightSize * 0.7),
         Row(
           children: [
@@ -94,20 +91,21 @@ class _PrimaryInputWidgetState extends State<InputWithText> {
                     focusNode!.unfocus();
                   });
                 },
-             cursorColor: CustomColor.primaryLightColor,
+                cursorColor: CustomColor.primaryLightColor,
 
                 focusNode: focusNode,
                 textAlign: TextAlign.left,
                 style: CustomStyle.darkHeading3TextStyle.copyWith(
                   color: Get.isDarkMode
-                      ? CustomColor.primaryDarkTextColor.withValues(alpha:0.2)
+                      ? CustomColor.primaryDarkTextColor.withValues(alpha: 0.2)
                       : CustomColor.primaryTextColor,
                 ),
                 inputFormatters: <TextInputFormatter>[
-                  DecimalTextInputFormatter()
+                  DecimalTextInputFormatter(),
                 ],
-                keyboardType:
-                    const TextInputType.numberWithOptions(decimal: true),
+                keyboardType: const TextInputType.numberWithOptions(
+                  decimal: true,
+                ),
                 maxLines: widget.maxLines,
                 decoration: InputDecoration(
                   hintText: widget.hint,
@@ -115,21 +113,29 @@ class _PrimaryInputWidgetState extends State<InputWithText> {
                     fontSize: Dimensions.headingTextSize3,
                     fontWeight: FontWeight.w500,
                     color: Get.isDarkMode
-                        ? CustomColor.primaryDarkTextColor.withValues(alpha:0.2)
-                        : CustomColor.primaryTextColor.withValues(alpha:0.2),
+                        ? CustomColor.primaryDarkTextColor.withValues(
+                            alpha: 0.2,
+                          )
+                        : CustomColor.primaryTextColor.withValues(alpha: 0.2),
                   ),
                   enabledBorder: OutlineInputBorder(
-                    borderRadius:
-                        BorderRadius.circular(Dimensions.radius * 0.5),
+                    borderRadius: BorderRadius.circular(
+                      Dimensions.radius * 0.5,
+                    ),
                     borderSide: BorderSide(
-                      color: CustomColor.primaryLightColor.withValues(alpha:0.2),
+                      color: CustomColor.primaryLightColor.withValues(
+                        alpha: 0.2,
+                      ),
                     ),
                   ),
                   focusedBorder: OutlineInputBorder(
-                    borderRadius:
-                        BorderRadius.circular(Dimensions.radius * 0.5),
+                    borderRadius: BorderRadius.circular(
+                      Dimensions.radius * 0.5,
+                    ),
                     borderSide: BorderSide(
-                        width: 2, color: CustomColor.primaryLightColor),
+                      width: 2,
+                      color: CustomColor.primaryLightColor,
+                    ),
                   ),
                   contentPadding: EdgeInsets.symmetric(
                     horizontal: Dimensions.widthSize * 1.7,
@@ -161,7 +167,7 @@ class _PrimaryInputWidgetState extends State<InputWithText> {
               ),
             ),
           ],
-        )
+        ),
       ],
     );
   }

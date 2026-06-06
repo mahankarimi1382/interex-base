@@ -184,23 +184,22 @@ class KycFromScreen extends StatelessWidget {
           Visibility(
             visible: kycController.inputFileFields.isNotEmpty,
             child: Container(
-              margin: EdgeInsets.only(
-                top: Dimensions.marginSizeVertical * 0.5,
-              ),
+              margin: EdgeInsets.only(top: Dimensions.marginSizeVertical * 0.5),
               height: kycController.inputFileFields.length == 2
                   ? MediaQuery.of(context).size.height * 0.20
                   : MediaQuery.of(context).size.height * 0.25,
               child: GridView.builder(
-                  physics: const BouncingScrollPhysics(),
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    crossAxisSpacing: 10.0,
-                    mainAxisSpacing: 10.0,
-                  ),
-                  itemCount: kycController.inputFileFields.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return kycController.inputFileFields[index];
-                  }),
+                physics: const BouncingScrollPhysics(),
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  crossAxisSpacing: 10.0,
+                  mainAxisSpacing: 10.0,
+                ),
+                itemCount: kycController.inputFileFields.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return kycController.inputFileFields[index];
+                },
+              ),
             ),
           ),
           Obx(() {
@@ -233,8 +232,9 @@ class KycFromScreen extends StatelessWidget {
                     width: 20,
                     child: Checkbox(
                       shape: RoundedRectangleBorder(
-                        borderRadius:
-                            BorderRadius.circular(Dimensions.radius * 0.3),
+                        borderRadius: BorderRadius.circular(
+                          Dimensions.radius * 0.3,
+                        ),
                       ),
                       fillColor: WidgetStateProperty.all(
                         CustomColor.primaryLightColor,
@@ -244,7 +244,9 @@ class KycFromScreen extends StatelessWidget {
                       side: WidgetStateBorderSide.resolveWith(
                         (states) => BorderSide(
                           width: 1.4,
-                          color: CustomColor.primaryLightColor.withValues(alpha:0.2),
+                          color: CustomColor.primaryLightColor.withValues(
+                            alpha: 0.2,
+                          ),
                         ),
                       ),
                     ),
@@ -258,10 +260,10 @@ class KycFromScreen extends StatelessWidget {
                     fontWeight: FontWeight.w500,
                     text: Strings.agreed.tr,
                   ),
-                )
+                ),
               ],
             ),
-          )
+          ),
         ],
       ),
     );
@@ -269,8 +271,9 @@ class KycFromScreen extends StatelessWidget {
 
   Container _buttonWidget(BuildContext context) {
     return Container(
-      margin:
-          EdgeInsets.symmetric(vertical: Dimensions.marginSizeVertical * 1.4),
+      margin: EdgeInsets.symmetric(
+        vertical: Dimensions.marginSizeVertical * 1.4,
+      ),
       child: Obx(
         () => kycController.isLoading
             ? const CustomLoadingAPI()

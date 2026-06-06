@@ -54,41 +54,43 @@ class SudoAddFundController extends GetxController {
 
     Map<String, dynamic> inputBody =
         !virtualCardController.cardInfoModel.data.cardExtraFieldsStatus
-            ? {
-                // 'date_of_birth': birthdateController.text,
-                // 'identity_type': selectIdentityType.value!.value,
-                // 'identity_number': identityNumberController.text,
-                // 'phone_number': phoneController.text,
-                'card_amount': virtualCardController.fundAmountController.text,
-                'currency':
-                    virtualCardController.selectedSupportedCurrency.value!.code,
-                'from_currency':
-                    virtualCardController.selectMainWallet.value!.currency.code
-              }
-            : {
-                'date_of_birth': birthdateController.text,
-                'identity_type': selectIdentityType.value!.value,
-                'identity_number': identityNumberController.text,
-                'phone_number': phoneController.text,
-                'card_amount': virtualCardController.fundAmountController.text,
-                'currency':
-                    virtualCardController.selectedSupportedCurrency.value!.code,
-                'from_currency':
-                    virtualCardController.selectMainWallet.value!.currency.code
-              };
+        ? {
+            // 'date_of_birth': birthdateController.text,
+            // 'identity_type': selectIdentityType.value!.value,
+            // 'identity_number': identityNumberController.text,
+            // 'phone_number': phoneController.text,
+            'card_amount': virtualCardController.fundAmountController.text,
+            'currency':
+                virtualCardController.selectedSupportedCurrency.value!.code,
+            'from_currency':
+                virtualCardController.selectMainWallet.value!.currency.code,
+          }
+        : {
+            'date_of_birth': birthdateController.text,
+            'identity_type': selectIdentityType.value!.value,
+            'identity_number': identityNumberController.text,
+            'phone_number': phoneController.text,
+            'card_amount': virtualCardController.fundAmountController.text,
+            'currency':
+                virtualCardController.selectedSupportedCurrency.value!.code,
+            'from_currency':
+                virtualCardController.selectMainWallet.value!.currency.code,
+          };
 
     update();
 
-    await ApiServices.sudoCreateCardApi(body: inputBody).then((value) {
-      _cardCreateData = value!;
+    await ApiServices.sudoCreateCardApi(body: inputBody)
+        .then((value) {
+          _cardCreateData = value!;
 
-      CustomSnackBar.success(_cardCreateData.message.success.first);
-      Get.offAllNamed(Routes.bottomNavBarScreen);
+          CustomSnackBar.success(_cardCreateData.message.success.first);
+          Get.offAllNamed(Routes.bottomNavBarScreen);
 
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-    });
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+        });
 
     _isLoading.value = false;
     update();
@@ -128,17 +130,8 @@ class SudoAddFundController extends GetxController {
   // }
 
   final List<IdentityTypeModel> identityTypeList = [
-    IdentityTypeModel(
-      label: 'Bank Verification Number',
-      value: 'BVN',
-    ),
-    IdentityTypeModel(
-      label: 'National Identification Number',
-      value: 'NIN',
-    ),
-    IdentityTypeModel(
-      label: 'Taxpayer identification numbers',
-      value: 'TIN',
-    ),
+    IdentityTypeModel(label: 'Bank Verification Number', value: 'BVN'),
+    IdentityTypeModel(label: 'National Identification Number', value: 'NIN'),
+    IdentityTypeModel(label: 'Taxpayer identification numbers', value: 'TIN'),
   ];
 }

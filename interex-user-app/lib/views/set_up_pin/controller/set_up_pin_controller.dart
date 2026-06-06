@@ -1,5 +1,3 @@
-
-
 import '../../../backend/model/common/common_success_model.dart';
 import '../../../backend/utils/custom_loading_api.dart';
 import '../../../backend/utils/custom_snackbar.dart';
@@ -32,35 +30,35 @@ class SetUpPinController extends GetxController {
   PinVerifyModel get pinVerifyModel => _pinVerifyModel;
 
   Future<PinVerifyModel> pinVerifyProcess(VoidCallback onSuccess) async {
-    Map<String, dynamic> body = {
-      "pin": pinController.text,
-    };
+    Map<String, dynamic> body = {"pin": pinController.text};
 
     _isLoading.value = true;
     update();
 
     // calling  from api service
-    await PinSetupServices.pinVerifyApi(body: body).then((value) async {
-      _pinVerifyModel = value!;
-      pinController.clear();
-      oldPinController.clear();
-      newPinController.clear();
+    await PinSetupServices.pinVerifyApi(body: body)
+        .then((value) async {
+          _pinVerifyModel = value!;
+          pinController.clear();
+          oldPinController.clear();
+          newPinController.clear();
 
-      Get.close(1);
-      onSuccess();
+          Get.close(1);
+          onSuccess();
 
-      CustomSnackBar.success(_pinVerifyModel.message.success.first);
+          CustomSnackBar.success(_pinVerifyModel.message.success.first);
 
-      _isLoading.value = false;
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-      Get.close(1);
-      pinController.clear();
-      oldPinController.clear();
-      newPinController.clear();
-      _isLoading.value = false;
-    });
+          _isLoading.value = false;
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+          Get.close(1);
+          pinController.clear();
+          oldPinController.clear();
+          newPinController.clear();
+          _isLoading.value = false;
+        });
     update();
     return _pinVerifyModel;
   }
@@ -82,21 +80,23 @@ class SetUpPinController extends GetxController {
     update();
 
     // calling  from api service
-    await PinSetupServices.pinSetUpApi(body: body).then((value) async {
-      _pinSetupModel = value!;
-      pinController.clear();
-      oldPinController.clear();
-      newPinController.clear();
+    await PinSetupServices.pinSetUpApi(body: body)
+        .then((value) async {
+          _pinSetupModel = value!;
+          pinController.clear();
+          oldPinController.clear();
+          newPinController.clear();
 
-      _isLoading.value = false;
-      update();
-    }).catchError((onError) {
-      pinController.clear();
-      oldPinController.clear();
-      newPinController.clear();
-      _isLoading.value = false;
-      log.e(onError);
-    });
+          _isLoading.value = false;
+          update();
+        })
+        .catchError((onError) {
+          pinController.clear();
+          oldPinController.clear();
+          newPinController.clear();
+          _isLoading.value = false;
+          log.e(onError);
+        });
     update();
     return _pinSetupModel;
   }
@@ -118,33 +118,33 @@ class SetUpPinController extends GetxController {
     update();
 
     // calling  from api service
-    await PinSetupServices.pinUpdateApi(body: body).then((value) async {
-      _pinUpdateModel = value!;
+    await PinSetupServices.pinUpdateApi(body: body)
+        .then((value) async {
+          _pinUpdateModel = value!;
 
-      pinController.clear();
-      oldPinController.clear();
-      newPinController.clear();
+          pinController.clear();
+          oldPinController.clear();
+          newPinController.clear();
 
-      _isLoading.value = false;
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-      pinController.clear();
-      oldPinController.clear();
-      newPinController.clear();
-      _isLoading.value = false;
-    });
+          _isLoading.value = false;
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+          pinController.clear();
+          oldPinController.clear();
+          newPinController.clear();
+          _isLoading.value = false;
+        });
     update();
     return _pinUpdateModel;
   }
 
-
-
-
   void showPinDialog(BuildContext context, {required VoidCallback onSuccess}) {
-
-    debugPrint("Checking Dialog is enable : ${dashboardController.pinVerification.value}");
-    if(!dashboardController.pinVerification.value){
+    debugPrint(
+      "Checking Dialog is enable : ${dashboardController.pinVerification.value}",
+    );
+    if (!dashboardController.pinVerification.value) {
       onSuccess();
       return;
     }
@@ -156,7 +156,9 @@ class SetUpPinController extends GetxController {
         return StatefulBuilder(
           builder: (context, setState) {
             return Dialog(
-              backgroundColor: Get.isDarkMode ? CustomColor.blackColor : CustomColor.whiteColor,
+              backgroundColor: Get.isDarkMode
+                  ? CustomColor.blackColor
+                  : CustomColor.whiteColor,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(16),
               ),
@@ -176,36 +178,40 @@ class SetUpPinController extends GetxController {
                     verticalSpace(Dimensions.heightSize * 1.2),
 
                     /// Submit Button
-                    Obx(() => isLoading ? CustomLoadingAPI(): SizedBox(
-                      width: double.infinity,
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: PrimaryButton(
-                              buttonColor: CustomColor.redColor,
-                              title: Strings.cancel,
-                              onPressed: () {
-                                pinController.clear();
-                                oldPinController.clear();
-                                newPinController.clear();
-                                Navigator.pop(context);
-                              },
-                            ),
-                          ),
+                    Obx(
+                      () => isLoading
+                          ? CustomLoadingAPI()
+                          : SizedBox(
+                              width: double.infinity,
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: PrimaryButton(
+                                      buttonColor: CustomColor.redColor,
+                                      title: Strings.cancel,
+                                      onPressed: () {
+                                        pinController.clear();
+                                        oldPinController.clear();
+                                        newPinController.clear();
+                                        Navigator.pop(context);
+                                      },
+                                    ),
+                                  ),
 
-                          horizontalSpace(Dimensions.widthSize),
-                          Expanded(
-                            child: PrimaryButton(
-                              title: Strings.submit,
-                              onPressed: () {
-                                // Navigator.pop(context);
-                                pinVerifyProcess(onSuccess);
-                              },
+                                  horizontalSpace(Dimensions.widthSize),
+                                  Expanded(
+                                    child: PrimaryButton(
+                                      title: Strings.submit,
+                                      onPressed: () {
+                                        // Navigator.pop(context);
+                                        pinVerifyProcess(onSuccess);
+                                      },
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
-                          ),
-                        ],
-                      ),
-                    )),
+                    ),
                   ],
                 ),
               ),
@@ -218,12 +224,12 @@ class SetUpPinController extends GetxController {
 
   // Pin status and verification check
   void pinVerificationCheck({required VoidCallback onChecked}) {
-    if(!dashboardController.pinStatus.value && dashboardController.pinVerification.value){
+    if (!dashboardController.pinStatus.value &&
+        dashboardController.pinVerification.value) {
       Get.toNamed(Routes.pinSetupScreen);
-    }else{
+    } else {
       debugPrint("CHECKED");
       onChecked();
     }
   }
 }
-

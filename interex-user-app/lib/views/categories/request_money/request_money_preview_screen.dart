@@ -47,8 +47,9 @@ class RequestMoneyPreviewScreen extends StatelessWidget {
         ? LocalStorages.getFiatPrecision()
         : LocalStorages.getCryptoPrecision();
     return previewAmount(
-        amount:
-            '${double.parse(controller.amountController.text).toStringAsFixed(precision)} ${controller.selectMainWallet.value!.currency.code}');
+      amount:
+          '${double.parse(controller.amountController.text).toStringAsFixed(precision)} ${controller.selectMainWallet.value!.currency.code}',
+    );
   }
 
   Widget _amountInformationWidget(BuildContext context) {
@@ -83,9 +84,7 @@ class RequestMoneyPreviewScreen extends StatelessWidget {
 
   Container _buttonWidget(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(
-        top: Dimensions.marginSizeVertical * 2,
-      ),
+      margin: EdgeInsets.only(top: Dimensions.marginSizeVertical * 2),
       child: Obx(
         () => controller.isRequestMoneyLoading
             ? const CustomLoadingAPI()
@@ -93,22 +92,22 @@ class RequestMoneyPreviewScreen extends StatelessWidget {
                 title: Strings.confirm,
                 onPressed: () {
                   if (dashboardController.kycStatus.value == 1) {
-                    controller.requestMoneyProcess().then( 
-                          (value) => StatusScreen.show(
-                            context: context,
-                            subTitle: Strings.requestMoneySuccess,
-                            showAppName: false,
-                            onPressed: () {
-                              Get.offAllNamed(Routes.bottomNavBarScreen);
-                            },
-                          ),
-                        );
+                    controller.requestMoneyProcess().then(
+                      (value) => StatusScreen.show(
+                        context: context,
+                        subTitle: Strings.requestMoneySuccess,
+                        showAppName: false,
+                        onPressed: () {
+                          Get.offAllNamed(Routes.bottomNavBarScreen);
+                        },
+                      ),
+                    );
                   } else {
                     CustomSnackBar.error(Strings.pleaseSubmitYourInformation);
                     Future.delayed(const Duration(seconds: 2), () {
                       Get.toNamed(Routes.updateKycScreen);
                     });
-                  } 
+                  }
                 },
               ),
       ),
@@ -124,18 +123,14 @@ class RequestMoneyPreviewScreen extends StatelessWidget {
             TitleHeading4Widget(
               text: title,
               color: Get.isDarkMode
-                  ? CustomColor.primaryDarkTextColor.withValues(alpha:0.6)
-                  : CustomColor.primaryLightColor.withValues(alpha:
-                      0.4,
-                    ),
+                  ? CustomColor.primaryDarkTextColor.withValues(alpha: 0.6)
+                  : CustomColor.primaryLightColor.withValues(alpha: 0.4),
             ),
             TitleHeading3Widget(
               text: subTitle,
               color: Get.isDarkMode
-                  ? CustomColor.primaryDarkTextColor.withValues(alpha:0.6)
-                  : CustomColor.primaryLightColor.withValues(alpha:
-                      0.6,
-                    ),
+                  ? CustomColor.primaryDarkTextColor.withValues(alpha: 0.6)
+                  : CustomColor.primaryLightColor.withValues(alpha: 0.6),
               fontWeight: FontWeight.w600,
             ),
           ],

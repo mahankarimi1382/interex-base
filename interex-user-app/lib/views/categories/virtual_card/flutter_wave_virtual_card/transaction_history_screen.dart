@@ -46,7 +46,8 @@ class TransactionHistoryScreen extends StatelessWidget {
                 transaction: data[index].trx.toString(),
                 monthText: controller.getMonth(data[index].date),
               );
-            })
+            },
+          )
         : const NoDataWidget();
   }
 }

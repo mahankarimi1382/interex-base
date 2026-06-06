@@ -1,23 +1,22 @@
-
 import 'dart:convert';
 
-CheckRecipientModel checkRecipientModelFromJson(String str) => CheckRecipientModel.fromJson(json.decode(str));
+CheckRecipientModel checkRecipientModelFromJson(String str) =>
+    CheckRecipientModel.fromJson(json.decode(str));
 
-String checkRecipientModelToJson(CheckRecipientModel data) => json.encode(data.toJson());
+String checkRecipientModelToJson(CheckRecipientModel data) =>
+    json.encode(data.toJson());
 
 class CheckRecipientModel {
   Message message;
   Data data;
 
-  CheckRecipientModel({
-    required this.message,
-    required this.data,
-  });
+  CheckRecipientModel({required this.message, required this.data});
 
-  factory CheckRecipientModel.fromJson(Map<String, dynamic> json) => CheckRecipientModel(
-    message: Message.fromJson(json["message"]),
-    data: Data.fromJson(json["data"]),
-  );
+  factory CheckRecipientModel.fromJson(Map<String, dynamic> json) =>
+      CheckRecipientModel(
+        message: Message.fromJson(json["message"]),
+        data: Data.fromJson(json["data"]),
+      );
 
   Map<String, dynamic> toJson() => {
     "message": message.toJson(),
@@ -28,17 +27,12 @@ class CheckRecipientModel {
 class Data {
   User user;
 
-  Data({
-    required this.user,
-  });
+  Data({required this.user});
 
-  factory Data.fromJson(Map<String, dynamic> json) => Data(
-    user: User.fromJson(json["user"]),
-  );
+  factory Data.fromJson(Map<String, dynamic> json) =>
+      Data(user: User.fromJson(json["user"]));
 
-  Map<String, dynamic> toJson() => {
-    "user": user.toJson(),
-  };
+  Map<String, dynamic> toJson() => {"user": user.toJson()};
 }
 
 class User {
@@ -161,32 +155,21 @@ class StringStatus {
   String stringStatusClass;
   String value;
 
-  StringStatus({
-    required this.stringStatusClass,
-    required this.value,
-  });
+  StringStatus({required this.stringStatusClass, required this.value});
 
-  factory StringStatus.fromJson(Map<String, dynamic> json) => StringStatus(
-    stringStatusClass: json["class"],
-    value: json["value"],
-  );
+  factory StringStatus.fromJson(Map<String, dynamic> json) =>
+      StringStatus(stringStatusClass: json["class"], value: json["value"]);
 
-  Map<String, dynamic> toJson() => {
-    "class": stringStatusClass,
-    "value": value,
-  };
+  Map<String, dynamic> toJson() => {"class": stringStatusClass, "value": value};
 }
 
 class Message {
   List<String> success;
 
-  Message({
-    required this.success,
-  });
+  Message({required this.success});
 
-  factory Message.fromJson(Map<String, dynamic> json) => Message(
-    success: List<String>.from(json["success"].map((x) => x)),
-  );
+  factory Message.fromJson(Map<String, dynamic> json) =>
+      Message(success: List<String>.from(json["success"].map((x) => x)));
 
   Map<String, dynamic> toJson() => {
     "success": List<dynamic>.from(success.map((x) => x)),

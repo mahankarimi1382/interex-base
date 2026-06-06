@@ -10,9 +10,8 @@ class ReferralStatusController extends GetxController {
   void onInit() {
     getReferInfoProcess();
     super.onInit();
-  } 
-   
-   
+  }
+
   final _isLoading = false.obs;
   bool get isLoading => _isLoading.value;
 
@@ -32,8 +31,7 @@ class ReferralStatusController extends GetxController {
       },
     );
   }
- 
- 
+
   void filterUsers() {
     String query = searchController.text.toLowerCase();
     referUsers.value = _referInfoModel.data.referUsers.where((user) {

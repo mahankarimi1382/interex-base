@@ -1,4 +1,3 @@
-
 import '../../../../backend/model/common/common_success_model.dart';
 import '../../../../routes/routes.dart';
 import '../../../../utils/basic_screen_imports.dart';
@@ -44,13 +43,15 @@ class MakeAnOfferController extends GetxController {
       'rate': rateController.text,
       'type': 'OFFER',
     };
-    await OfferApiServices.makeAnOfferProcessApi(body: inputBody).then((value) {
-      _makeAnOfferModel = value!;
+    await OfferApiServices.makeAnOfferProcessApi(body: inputBody)
+        .then((value) {
+          _makeAnOfferModel = value!;
 
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-    });
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+        });
 
     _isLoading.value = false;
     update();

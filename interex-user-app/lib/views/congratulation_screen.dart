@@ -27,11 +27,7 @@ class CongratulationScreen extends StatelessWidget {
     // ignore: deprecated_member_use
     return WillPopScope(
       onWillPop: willPop,
-      child: Scaffold(
-        body: _bodyWidget(
-          context,
-        ),
-      ),
+      child: Scaffold(body: _bodyWidget(context)),
     );
   }
 
@@ -42,13 +38,9 @@ class CongratulationScreen extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          _congratulationImageWidget(
-            context,
-          ),
+          _congratulationImageWidget(context),
           verticalSpace(Dimensions.heightSize * 2),
-          _congratulationInfoWidget(
-            context,
-          ),
+          _congratulationInfoWidget(context),
           verticalSpace(Dimensions.heightSize * 1.33),
           _buttonWidget(context),
         ],
@@ -68,17 +60,11 @@ class CongratulationScreen extends StatelessWidget {
     );
   }
 
-  SvgPicture _congratulationImageWidget(
-      BuildContext context,
-      ) {
-    return SvgPicture.asset(
-      Assets.clipart.confirmation,
-    );
+  SvgPicture _congratulationImageWidget(BuildContext context) {
+    return SvgPicture.asset(Assets.clipart.confirmation);
   }
 
-  Container _congratulationInfoWidget(
-      BuildContext context,
-      ) {
+  Container _congratulationInfoWidget(BuildContext context) {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: Dimensions.marginSizeHorizontal),
       child: Column(

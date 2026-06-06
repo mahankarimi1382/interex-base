@@ -1,5 +1,3 @@
-
-
 import 'package:get/get.dart';
 import 'package:qrpaypro/language/language_controller.dart';
 
@@ -12,17 +10,15 @@ import '../model/card_details_model_cardyfie.dart';
 import '../model/card_transaction_model_cardyfie.dart';
 
 class CardyfieApiServices {
-    // card details api
+  // card details api
   static Future<CardDetailsModelCardyfie?> cardyfieCardDetailsApi(
     String id,
   ) async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false).get(
-        ApiEndpoint.cardyfieCardDetails + id,
-        code: 200,
-        showResult: false,
-      );
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).get(ApiEndpoint.cardyfieCardDetails + id, code: 200, showResult: false);
       CardDetailsModelCardyfie cardDetailsModel =
           CardDetailsModelCardyfie.fromJson(mapResponse!);
 
@@ -37,7 +33,8 @@ class CardyfieApiServices {
       return null;
     }
   }
-    //cardyfie card inactive api
+
+  //cardyfie card inactive api
   static Future<CommonSuccessModel?> cardyfieFreezeApi({
     required Map<String, dynamic> body,
   }) async {
@@ -65,7 +62,6 @@ class CardyfieApiServices {
     }
   }
 
-
   //cardyfie card transaction method
   static Future<CardTransactionModelCardyfie?> cardyfieCardTransactionApi(
     String cardId,
@@ -87,7 +83,4 @@ class CardyfieApiServices {
       return null;
     }
   }
-
-
-
 }

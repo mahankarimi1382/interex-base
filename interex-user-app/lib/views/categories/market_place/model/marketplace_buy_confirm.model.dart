@@ -1,12 +1,8 @@
-
 class MarketplaceBuyConfirmModel {
   Message message;
   MarketplaceBuyConfirmModelData data;
 
-  MarketplaceBuyConfirmModel({
-    required this.message,
-    required this.data,
-  });
+  MarketplaceBuyConfirmModel({required this.message, required this.data});
 
   factory MarketplaceBuyConfirmModel.fromJson(Map<String, dynamic> json) =>
       MarketplaceBuyConfirmModel(
@@ -28,7 +24,8 @@ class MarketplaceBuyConfirmModelData {
       MarketplaceBuyConfirmModelData(
         trxId: json["trx_id"],
         paymentFields: List<PaymentField>.from(
-            json["payment_fields"].map((x) => PaymentField.fromJson(x))),
+          json["payment_fields"].map((x) => PaymentField.fromJson(x)),
+        ),
       );
 }
 
@@ -66,21 +63,21 @@ class DataData {
   });
 
   factory DataData.fromJson(Map<String, dynamic> json) => DataData(
-        target: json["target"],
-        gatewayId: json["gateway_id"],
-        rateCurrency: json["rate_currency"],
-        paymentGatewayId: json["payment_gateway_id"],
-        willGet: json["will_get"],
-        saleCurrency: json["sale_currency"],
-        amount: json["amount"],
-        subtotal: json["subtotal"],
-        wallet: Wallet.fromJson(json["wallet"]),
-        fixedCharge: json["fixed_charge"],
-        percentCharge: json["percent_charge"],
-        totalCharge: json["total_charge"],
-        totalAmount: json["total_amount"],
-        transactionType: json["transaction_type"],
-      );
+    target: json["target"],
+    gatewayId: json["gateway_id"],
+    rateCurrency: json["rate_currency"],
+    paymentGatewayId: json["payment_gateway_id"],
+    willGet: json["will_get"],
+    saleCurrency: json["sale_currency"],
+    amount: json["amount"],
+    subtotal: json["subtotal"],
+    wallet: Wallet.fromJson(json["wallet"]),
+    fixedCharge: json["fixed_charge"],
+    percentCharge: json["percent_charge"],
+    totalCharge: json["total_charge"],
+    totalAmount: json["total_amount"],
+    transactionType: json["transaction_type"],
+  );
 }
 
 class Wallet {
@@ -103,14 +100,14 @@ class Wallet {
   });
 
   factory Wallet.fromJson(Map<String, dynamic> json) => Wallet(
-        id: json["id"],
-        userId: json["user_id"],
-        currencyId: json["currency_id"],
-        balance: json["balance"],
-        status: json["status"],
-        createdAt: DateTime.parse(json["created_at"]),
-        updatedAt: DateTime.parse(json["updated_at"]),
-      );
+    id: json["id"],
+    userId: json["user_id"],
+    currencyId: json["currency_id"],
+    balance: json["balance"],
+    status: json["status"],
+    createdAt: DateTime.parse(json["created_at"]),
+    updatedAt: DateTime.parse(json["updated_at"]),
+  );
 }
 
 class PaymentField {
@@ -129,12 +126,12 @@ class PaymentField {
   });
 
   factory PaymentField.fromJson(Map<String, dynamic> json) => PaymentField(
-        type: json["type"],
-        label: json["label"],
-        name: json["name"],
-        required: json["required"],
-        validation: Validation.fromJson(json["validation"]),
-      );
+    type: json["type"],
+    label: json["label"],
+    name: json["name"],
+    required: json["required"],
+    validation: Validation.fromJson(json["validation"]),
+  );
 }
 
 class Validation {
@@ -153,22 +150,19 @@ class Validation {
   });
 
   factory Validation.fromJson(Map<String, dynamic> json) => Validation(
-        max: json["max"],
-        mimes: List<String>.from(json["mimes"].map((x) => x)),
-        min: json["min"],
-        options: List<dynamic>.from(json["options"].map((x) => x)),
-        required: json["required"],
-      );
+    max: json["max"],
+    mimes: List<String>.from(json["mimes"].map((x) => x)),
+    min: json["min"],
+    options: List<dynamic>.from(json["options"].map((x) => x)),
+    required: json["required"],
+  );
 }
 
 class Message {
   List<String> success;
 
-  Message({
-    required this.success,
-  });
+  Message({required this.success});
 
-  factory Message.fromJson(Map<String, dynamic> json) => Message(
-        success: List<String>.from(json["success"].map((x) => x)),
-      );
+  factory Message.fromJson(Map<String, dynamic> json) =>
+      Message(success: List<String>.from(json["success"].map((x) => x)));
 }

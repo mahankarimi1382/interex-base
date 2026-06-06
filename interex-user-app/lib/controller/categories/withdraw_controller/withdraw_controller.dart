@@ -142,94 +142,115 @@ class WithdrawController extends GetxController {
     _isLoading.value = true;
     update();
 
-    await ApiServices.withdrawInfoAPi().then((value) {
-      _moneyOutPaymentGatewayModel = value!;
+    await ApiServices.withdrawInfoAPi()
+        .then((value) {
+          _moneyOutPaymentGatewayModel = value!;
 
-      currencyWalletCode.value = _moneyOutPaymentGatewayModel
-          .data.gateways.first.currencies.first.currencyCode;
+          currencyWalletCode.value = _moneyOutPaymentGatewayModel
+              .data
+              .gateways
+              .first
+              .currencies
+              .first
+              .currencyCode;
 
-      for (var gateways in _moneyOutPaymentGatewayModel.data.gateways) {
-        for (var currency in gateways.currencies) {
-          currencyList.add(
-            Currency(
-              dailyLimit: currency.dailyLimit,
-              monthlyLimit: currency.monthlyLimit,
-              id: currency.id,
-              paymentGatewayId: currency.paymentGatewayId,
-              name: currency.name,
-              alias: currency.alias,
-              currencyCode: currency.currencyCode,
-              currencySymbol: currency.currencySymbol,
-              minLimit: currency.minLimit,
-              maxLimit: currency.maxLimit,
-              percentCharge: currency.percentCharge,
-              fixedCharge: currency.fixedCharge,
-              rate: currency.rate,
-              createdAt: currency.createdAt,
-              updatedAt: currency.updatedAt,
-              type: currency.type,
-              image: currency.image,
-              crypto: currency.crypto,
-            ),
-          );
-        }
-      }
+          for (var gateways in _moneyOutPaymentGatewayModel.data.gateways) {
+            for (var currency in gateways.currencies) {
+              currencyList.add(
+                Currency(
+                  dailyLimit: currency.dailyLimit,
+                  monthlyLimit: currency.monthlyLimit,
+                  id: currency.id,
+                  paymentGatewayId: currency.paymentGatewayId,
+                  name: currency.name,
+                  alias: currency.alias,
+                  currencyCode: currency.currencyCode,
+                  currencySymbol: currency.currencySymbol,
+                  minLimit: currency.minLimit,
+                  maxLimit: currency.maxLimit,
+                  percentCharge: currency.percentCharge,
+                  fixedCharge: currency.fixedCharge,
+                  rate: currency.rate,
+                  createdAt: currency.createdAt,
+                  updatedAt: currency.updatedAt,
+                  type: currency.type,
+                  image: currency.image,
+                  crypto: currency.crypto,
+                ),
+              );
+            }
+          }
 
-      Currency currency =
-          _moneyOutPaymentGatewayModel.data.gateways.first.currencies.first;
-      Gateway gateway = _moneyOutPaymentGatewayModel.data.gateways.first;
+          Currency currency =
+              _moneyOutPaymentGatewayModel.data.gateways.first.currencies.first;
+          Gateway gateway = _moneyOutPaymentGatewayModel.data.gateways.first;
 
-      selectedCurrencyAlias.value = currency.alias;
-      selectedCurrencyType.value = currency.type;
-      selectedGatewaySlug.value = gateway.slug;
-      selectedCurrencyId.value = currency.id;
-      selectedCurrencyName.value = currency.name;
-      crypto.value = currency.crypto;
-      // currencyCode.value = currency.currencyCode;
+          selectedCurrencyAlias.value = currency.alias;
+          selectedCurrencyType.value = currency.type;
+          selectedGatewaySlug.value = gateway.slug;
+          selectedCurrencyId.value = currency.id;
+          selectedCurrencyName.value = currency.name;
+          crypto.value = currency.crypto;
+          // currencyCode.value = currency.currencyCode;
 
-      gateWayCurrencyRate.value = currency.rate.toDouble();
+          gateWayCurrencyRate.value = currency.rate.toDouble();
 
-      /// wrong function
-      // fee.value = currency.fixedCharge.toDouble();
-      // min.value = currency.minLimit.toDouble() / gateWayCurrencyRate.value;
-      // max.value = currency.maxLimit.toDouble() / gateWayCurrencyRate.value;
-      // percentCharge.value = currency.percentCharge.toDouble();
+          /// wrong function
+          // fee.value = currency.fixedCharge.toDouble();
+          // min.value = currency.minLimit.toDouble() / gateWayCurrencyRate.value;
+          // max.value = currency.maxLimit.toDouble() / gateWayCurrencyRate.value;
+          // percentCharge.value = currency.percentCharge.toDouble();
 
-      min.value = currency.minLimit.toDouble();
-      max.value = currency.maxLimit.toDouble();
-      fixedCharge.value = currency.fixedCharge.toDouble();
-      percentCharge.value = currency.percentCharge.toDouble();
+          min.value = currency.minLimit.toDouble();
+          max.value = currency.maxLimit.toDouble();
+          fixedCharge.value = currency.fixedCharge.toDouble();
+          percentCharge.value = currency.percentCharge.toDouble();
 
-      //Base Currency
-      selectMainWallet.value =
-          walletsController.walletsInfoModel.data.userWallets.first;
-      for (var element in walletsController.walletsInfoModel.data.userWallets) {
-        walletsList.add(
-          MainUserWallet(
-            balance: element.balance,
-            currency: element.currency,
-            status: element.status,
-          ),
-        );
-      }
+          //Base Currency
+          selectMainWallet.value =
+              walletsController.walletsInfoModel.data.userWallets.first;
+          for (var element
+              in walletsController.walletsInfoModel.data.userWallets) {
+            walletsList.add(
+              MainUserWallet(
+                balance: element.balance,
+                currency: element.currency,
+                status: element.status,
+              ),
+            );
+          }
 
-      remainingController.transactionType.value =
-          _moneyOutPaymentGatewayModel.data.getRemainingFields.transactionType;
-      remainingController.attribute.value =
-          _moneyOutPaymentGatewayModel.data.getRemainingFields.attribute;
-      remainingController.cardId.value =
-          _moneyOutPaymentGatewayModel.data.gateways.first.currencies.first.id;
-      remainingController.senderAmount.value = amountTextController.text;
-      remainingController.senderCurrency.value = walletsController
-          .walletsInfoModel.data.userWallets.first.currency.code;
+          remainingController.transactionType.value =
+              _moneyOutPaymentGatewayModel
+                  .data
+                  .getRemainingFields
+                  .transactionType;
+          remainingController.attribute.value =
+              _moneyOutPaymentGatewayModel.data.getRemainingFields.attribute;
+          remainingController.cardId.value = _moneyOutPaymentGatewayModel
+              .data
+              .gateways
+              .first
+              .currencies
+              .first
+              .id;
+          remainingController.senderAmount.value = amountTextController.text;
+          remainingController.senderCurrency.value = walletsController
+              .walletsInfoModel
+              .data
+              .userWallets
+              .first
+              .currency
+              .code;
 
-      remainingController.getRemainingBalanceProcess();
-      updateExchangeRate();
+          remainingController.getRemainingBalanceProcess();
+          updateExchangeRate();
 
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-    });
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+        });
 
     _isLoading.value = false;
     update();
@@ -248,32 +269,31 @@ class WithdrawController extends GetxController {
     update();
 
     await ApiServices.getFlutterWaveBanksApi(
-      withdrawFlutterwaveInsertModel.data.paymentInformation.trx,
-    ).then((value) {
-      _flutterWaveBanksModel = value!;
-      for (var element in _flutterWaveBanksModel.data.bankInfo) {
-        bankInfoList.add(
-          BankInfos(
-            code: element.code,
-            id: element.id,
-            name: element.name,
-          ),
-        );
-      }
-      foundChapter.value = _flutterWaveBanksModel.data.bankInfo;
-      selectFlutterWaveBankName.value =
-          _flutterWaveBanksModel.data.bankInfo.first.name;
-      bankNameController.text = _flutterWaveBanksModel.data.bankInfo.first.name;
-      bankCode.value = _flutterWaveBanksModel.data.bankInfo.first.name;
+          withdrawFlutterwaveInsertModel.data.paymentInformation.trx,
+        )
+        .then((value) {
+          _flutterWaveBanksModel = value!;
+          for (var element in _flutterWaveBanksModel.data.bankInfo) {
+            bankInfoList.add(
+              BankInfos(code: element.code, id: element.id, name: element.name),
+            );
+          }
+          foundChapter.value = _flutterWaveBanksModel.data.bankInfo;
+          selectFlutterWaveBankName.value =
+              _flutterWaveBanksModel.data.bankInfo.first.name;
+          bankNameController.text =
+              _flutterWaveBanksModel.data.bankInfo.first.name;
+          bankCode.value = _flutterWaveBanksModel.data.bankInfo.first.name;
 
-      selectFlutterWaveBankCode.value =
-          _flutterWaveBanksModel.data.bankInfo.first.code;
-      selectFlutterWaveBankId.value =
-          _flutterWaveBanksModel.data.bankInfo.first.id;
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-    });
+          selectFlutterWaveBankCode.value =
+              _flutterWaveBanksModel.data.bankInfo.first.code;
+          selectFlutterWaveBankId.value =
+              _flutterWaveBanksModel.data.bankInfo.first.id;
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+        });
 
     _isLoading.value = false;
     update();
@@ -305,102 +325,111 @@ class WithdrawController extends GetxController {
       'currency': selectMainWallet.value!.currency.code,
     };
 
-    await ApiServices.withdrawManualInsertApi(body: inputBody).then((value) {
-      _moneyOutManualInsertModel = value!;
+    await ApiServices.withdrawManualInsertApi(body: inputBody)
+        .then((value) {
+          _moneyOutManualInsertModel = value!;
 
-      final previewData = _moneyOutManualInsertModel.data.paymentInformation;
-      enteredAmount = previewData.requestAmount;
-      transferFeeAmount = previewData.totalCharge;
-      totalCharge = previewData.totalCharge;
-      youWillGet = previewData.willGet;
-      payableAmount = previewData.requestAmount;
+          final previewData =
+              _moneyOutManualInsertModel.data.paymentInformation;
+          enteredAmount = previewData.requestAmount;
+          transferFeeAmount = previewData.totalCharge;
+          totalCharge = previewData.totalCharge;
+          youWillGet = previewData.willGet;
+          payableAmount = previewData.requestAmount;
 
-      //-------------------------- Process inputs start ------------------------
-      final data = _moneyOutManualInsertModel.data.inputFields;
+          //-------------------------- Process inputs start ------------------------
+          final data = _moneyOutManualInsertModel.data.inputFields;
 
-      for (int item = 0; item < data.length; item++) {
-        // make the dynamic controller
-        var textEditingController = TextEditingController();
-        inputFieldControllers.add(textEditingController);
+          for (int item = 0; item < data.length; item++) {
+            // make the dynamic controller
+            var textEditingController = TextEditingController();
+            inputFieldControllers.add(textEditingController);
 
-        // make dynamic input widget
-        if (data[item].type.contains('file')) {
-          hasFile.value = true;
-          inputFields.add(
-            Padding(
-              padding: const EdgeInsets.only(bottom: 8.0),
-              child: ManualPaymentImageWidgetForMoneyOut(
-                labelName: data[item].label,
-                fieldName: data[item].name,
-              ),
-            ),
-          );
-        } else if (data[item].type.contains('text') ||
-            data[item].type.contains('textarea')) {
-          inputFields.add(
-            Column(
-              children: [
-                PrimaryInputWidget(
-                  paddings: EdgeInsets.only(
-                      left: Dimensions.widthSize,
-                      right: Dimensions.widthSize,
-                      top: Dimensions.heightSize * 0.5),
-                  controller: inputFieldControllers[item],
-                  label: data[item].label,
-                  hint: data[item].label,
-                  isValidator: data[item].required,
-                  inputFormatters: [
-                    LengthLimitingTextInputFormatter(
-                        int.parse(data[item].validation.max.toString())),
+            // make dynamic input widget
+            if (data[item].type.contains('file')) {
+              hasFile.value = true;
+              inputFields.add(
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 8.0),
+                  child: ManualPaymentImageWidgetForMoneyOut(
+                    labelName: data[item].label,
+                    fieldName: data[item].name,
+                  ),
+                ),
+              );
+            } else if (data[item].type.contains('text') ||
+                data[item].type.contains('textarea')) {
+              inputFields.add(
+                Column(
+                  children: [
+                    PrimaryInputWidget(
+                      paddings: EdgeInsets.only(
+                        left: Dimensions.widthSize,
+                        right: Dimensions.widthSize,
+                        top: Dimensions.heightSize * 0.5,
+                      ),
+                      controller: inputFieldControllers[item],
+                      label: data[item].label,
+                      hint: data[item].label,
+                      isValidator: data[item].required,
+                      inputFormatters: [
+                        LengthLimitingTextInputFormatter(
+                          int.parse(data[item].validation.max.toString()),
+                        ),
+                      ],
+                    ),
                   ],
                 ),
-              ],
-            ),
-          );
-        } else if (data[item].type.contains('select')) {
-          hasFile.value = true;
-          selectedIDType.value = data[item].validation.options.first.toString();
-          inputFieldControllers[item].text = selectedIDType.value;
-          for (var element in data[item].validation.options) {
-            idTypeList.add(IdTypeModel(element, element));
-          }
-          inputFields.add(
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Obx(() => CustomDropDown<IdTypeModel>(
-                    items: idTypeList,
-                    title: data[item].label,
-                    hint: selectedIDType.value.isEmpty
-                        ? Strings.selectType
-                        : selectedIDType.value,
-                    onChanged: (value) {
-                      selectedIDType.value = value!.title;
-                    },
-                    padding: EdgeInsets.symmetric(
-                      horizontal: Dimensions.paddingHorizontalSize * 0.25,
+              );
+            } else if (data[item].type.contains('select')) {
+              hasFile.value = true;
+              selectedIDType.value = data[item].validation.options.first
+                  .toString();
+              inputFieldControllers[item].text = selectedIDType.value;
+              for (var element in data[item].validation.options) {
+                idTypeList.add(IdTypeModel(element, element));
+              }
+              inputFields.add(
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Obx(
+                      () => CustomDropDown<IdTypeModel>(
+                        items: idTypeList,
+                        title: data[item].label,
+                        hint: selectedIDType.value.isEmpty
+                            ? Strings.selectType
+                            : selectedIDType.value,
+                        onChanged: (value) {
+                          selectedIDType.value = value!.title;
+                        },
+                        padding: EdgeInsets.symmetric(
+                          horizontal: Dimensions.paddingHorizontalSize * 0.25,
+                        ),
+                        titleTextColor: CustomColor.primaryLightTextColor
+                            .withValues(alpha: .2),
+                        borderEnable: true,
+                        dropDownFieldColor: Colors.transparent,
+                        dropDownIconColor: CustomColor.primaryLightTextColor
+                            .withValues(alpha: .2),
+                      ),
                     ),
-                    titleTextColor:
-                        CustomColor.primaryLightTextColor.withValues(alpha: .2),
-                    borderEnable: true,
-                    dropDownFieldColor: Colors.transparent,
-                    dropDownIconColor: CustomColor.primaryLightTextColor
-                        .withValues(alpha: .2))),
-                verticalSpace(Dimensions.marginBetweenInputBox * .8),
-              ],
-            ),
-          );
-        }
-      }
+                    verticalSpace(Dimensions.marginBetweenInputBox * .8),
+                  ],
+                ),
+              );
+            }
+          }
 
-      //-------------------------- Process inputs end --------------------------
-      _isInsertLoading.value = false;
-      goToAddMoneyPreviewScreen();
-      update();
-    }).catchError((onError) {
-      _isInsertLoading.value = false;
-      log.e(onError);
-    });
+          //-------------------------- Process inputs end --------------------------
+          _isInsertLoading.value = false;
+          goToAddMoneyPreviewScreen();
+          update();
+        })
+        .catchError((onError) {
+          _isInsertLoading.value = false;
+          log.e(onError);
+        });
 
     update();
     return _moneyOutManualInsertModel;
@@ -413,7 +442,7 @@ class WithdrawController extends GetxController {
 
   // Automatic Payment Get Gateway process function
   Future<WithdrawFlutterWaveInsertModel>
-      automaticPaymentFlutterwaveInsertProcess() async {
+  automaticPaymentFlutterwaveInsertProcess() async {
     inputFieldControllersFlutterWave.clear();
     inputFieldsFlutterWave.clear();
     _isInsertLoading.value = true;
@@ -427,241 +456,241 @@ class WithdrawController extends GetxController {
 
     await ApiServices.withdrawAutomaticFluuerwaveInsertApi(body: inputBody)
         .then((value) {
-      _withdrawFlutterwaveInsertModel = value!;
+          _withdrawFlutterwaveInsertModel = value!;
 
-      final previewData =
-          _withdrawFlutterwaveInsertModel.data.paymentInformation;
-      enteredAmount = previewData.requestAmount;
-      transferFeeAmount = previewData.totalCharge;
-      totalCharge = previewData.totalCharge;
-      youWillGet = previewData.willGet;
-      payableAmount = previewData.payable;
-      isBranch.value = _withdrawFlutterwaveInsertModel.data.branchAvailable;
+          final previewData =
+              _withdrawFlutterwaveInsertModel.data.paymentInformation;
+          enteredAmount = previewData.requestAmount;
+          transferFeeAmount = previewData.totalCharge;
+          totalCharge = previewData.totalCharge;
+          youWillGet = previewData.willGet;
+          payableAmount = previewData.payable;
+          isBranch.value = _withdrawFlutterwaveInsertModel.data.branchAvailable;
 
-      //-------------------------- Process inputs start ------------------------
-      final gatewayCurrencyCode =
-          _withdrawFlutterwaveInsertModel.data.gatewayCurrencyCode;
-      final data = _withdrawFlutterwaveInsertModel.data.inputFields;
-      RxList<Option> branchDropdownList = <Option>[].obs;
+          //-------------------------- Process inputs start ------------------------
+          final gatewayCurrencyCode =
+              _withdrawFlutterwaveInsertModel.data.gatewayCurrencyCode;
+          final data = _withdrawFlutterwaveInsertModel.data.inputFields;
+          RxList<Option> branchDropdownList = <Option>[].obs;
 
-      for (int item = 0; item < data.length; item++) {
-        // make the dynamic controller
-        var textEditingController = TextEditingController();
-        inputFieldControllersFlutterWave.add(textEditingController);
-        // make dynamic input widget
-        if (data[item].type.contains('file')) {
-          hasFileFlutterWave.value = true;
-          inputFieldsFlutterWave.add(
-            Padding(
-              padding: const EdgeInsets.only(bottom: 8.0),
-              child: ManualPaymentImageWidgetForMoneyOut(
-                labelName: data[item].label,
-                fieldName: data[item].name,
-              ),
-            ),
-          );
-        } else if (data[item].type.contains('text') ||
-            data[item].type.contains('textarea') ||
-            data[item].type.contains('number')) {
-          inputFieldsFlutterWave.add(
-            Column(
-              children: [
-                PrimaryInputWidget(
-                  paddings: EdgeInsets.only(
-                    left: Dimensions.widthSize,
-                    right: Dimensions.widthSize,
-                    top: Dimensions.heightSize * 0.5,
+          for (int item = 0; item < data.length; item++) {
+            // make the dynamic controller
+            var textEditingController = TextEditingController();
+            inputFieldControllersFlutterWave.add(textEditingController);
+            // make dynamic input widget
+            if (data[item].type.contains('file')) {
+              hasFileFlutterWave.value = true;
+              inputFieldsFlutterWave.add(
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 8.0),
+                  child: ManualPaymentImageWidgetForMoneyOut(
+                    labelName: data[item].label,
+                    fieldName: data[item].name,
                   ),
-                  controller: inputFieldControllersFlutterWave[item],
-                  label: data[item].label,
-                  hint: data[item].label,
-                  isValidator: data[item].required,
-                  // inputFormatters: [
-                  //   LengthLimitingTextInputFormatter(
-                  //       int.parse(data[item].validation.max.toString())),
-                  // ],
                 ),
-                verticalSpace(Dimensions.marginBetweenInputBox * 0.8),
-              ],
-            ),
-          );
-        } else if (data[item].type.contains('select')) {
-          hasFileFlutterWave.value = true;
+              );
+            } else if (data[item].type.contains('text') ||
+                data[item].type.contains('textarea') ||
+                data[item].type.contains('number')) {
+              inputFieldsFlutterWave.add(
+                Column(
+                  children: [
+                    PrimaryInputWidget(
+                      paddings: EdgeInsets.only(
+                        left: Dimensions.widthSize,
+                        right: Dimensions.widthSize,
+                        top: Dimensions.heightSize * 0.5,
+                      ),
+                      controller: inputFieldControllersFlutterWave[item],
+                      label: data[item].label,
+                      hint: data[item].label,
+                      isValidator: data[item].required,
+                      // inputFormatters: [
+                      //   LengthLimitingTextInputFormatter(
+                      //       int.parse(data[item].validation.max.toString())),
+                      // ],
+                    ),
+                    verticalSpace(Dimensions.marginBetweenInputBox * 0.8),
+                  ],
+                ),
+              );
+            } else if (data[item].type.contains('select')) {
+              hasFileFlutterWave.value = true;
 
-          Rx<Option?> selectedOption = Rx<Option?>(null);
-          RxList<Option> dropdownList = <Option>[].obs;
+              Rx<Option?> selectedOption = Rx<Option?>(null);
+              RxList<Option> dropdownList = <Option>[].obs;
 
-          if (data[item].options.isNotEmpty) {
-            dropdownList.assignAll(
-              data[item].options.map(
+              if (data[item].options.isNotEmpty) {
+                dropdownList.assignAll(
+                  data[item].options.map(
                     (element) => Option(
                       id: element.id,
                       code: element.code ?? '',
                       name: element.name,
                     ),
                   ),
-            );
-          }
-          if (data[item].name == "bank_name") {
-            selectedOption.value = dropdownList.first;
-            if (gatewayCurrencyCode == "USD" ||
-                gatewayCurrencyCode == "EUR" ||
-                gatewayCurrencyCode == "GBP") {
-              inputFieldControllersFlutterWave[item].text =
-                  selectedOption.value?.name ?? '';
-            } else {
-              inputFieldControllersFlutterWave[item].text =
-                  selectedOption.value?.code ?? '';
-            }
-            branchDropdownList.clear();
-
-            getFlutterWaveBanksBranch(
-              selectedOption.value!.id.toString(),
-              branchDropdownList,
-            );
-          }
-
-          // Bank Name Dropdown
-          if (data[item].name == "bank_name") {
-            inputFieldsFlutterWave.add(
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Obx(
-                    () => CustomDropDown<Option>(
-                      items: dropdownList,
-                      title: data[item].label,
-                      hint: selectedOption.value?.name ?? Strings.selectType,
-                      onChanged: (value) {
-                        if (value != null) {
-                          selectedOption.value = value;
-                          if (gatewayCurrencyCode == "USD" ||
-                              gatewayCurrencyCode == "EUR" ||
-                              gatewayCurrencyCode == "GBP") {
-                            inputFieldControllersFlutterWave[item].text =
-                                selectedOption.value?.name ?? '';
-                          } else {
-                            inputFieldControllersFlutterWave[item].text =
-                                selectedOption.value?.code ?? '';
-                          }
-                          branchDropdownList.clear();
-
-                          getFlutterWaveBanksBranch(
-                            value.id.toString(),
-                            branchDropdownList,
-                          );
-                        }
-                      },
-                      padding: EdgeInsets.symmetric(
-                        horizontal: Dimensions.paddingHorizontalSize * 0.25,
-                      ),
-                      titleTextColor:
-                          CustomColor.primaryLightTextColor.withValues(alpha: 0.2),
-                      borderEnable: true,
-                      dropDownFieldColor: Colors.transparent,
-                      dropDownIconColor:
-                          CustomColor.primaryLightTextColor.withValues(alpha: 0.2),
-                    ),
-                  ),
-                  verticalSpace(Dimensions.marginBetweenInputBox * 0.8),
-                ],
-              ),
-            );
-          }
-
-          // Branch Code Dropdown
-          else if (data[item].name == "branch_code") {
-            inputFieldsFlutterWave.add(
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Obx(
-                    () => CustomDropDown<Option>(
-                      items: branchDropdownList,
-                      title: data[item].label,
-                      hint: selectedOption.value?.name ?? Strings.selectType,
-                      onChanged: (value) {
-                        if (value != null) {
-                          selectedOption.value = value;
-                          inputFieldControllersFlutterWave[item].text =
-                              value.code;
-                        }
-                      },
-                      padding: EdgeInsets.symmetric(
-                        horizontal: Dimensions.paddingHorizontalSize * 0.25,
-                      ),
-                      titleTextColor:
-                          CustomColor.primaryLightTextColor.withValues(alpha: 0.2),
-                      borderEnable: true,
-                      dropDownFieldColor: Colors.transparent,
-                      dropDownIconColor:
-                          
-                          CustomColor.primaryLightTextColor.withValues(alpha: 0.2),
-                    ),
-                  ),
-                  verticalSpace(Dimensions.marginBetweenInputBox * 0.8),
-                ],
-              ),
-            );
-          } else {
-            inputFieldsFlutterWave.add(
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Obx(
-                    () => CustomDropDown<Option>(
-                      items: dropdownList,
-                      title: data[item].label,
-                      hint: selectedOption.value?.name ??
-                          Get.find<LanguageController>()
-                              .getTranslation(Strings.selectType),
-                      onChanged: (value) {
-                        if (value != null) {
-                          selectedOption.value = value;
-
-                          inputFieldControllersFlutterWave[item].text =
-                              selectedOption.value?.name ?? '';
-                        }
-                      },
-                      padding: EdgeInsets.symmetric(
-                        horizontal: Dimensions.paddingHorizontalSize * 0.25,
-                      ),
-                      titleTextColor:
-                          CustomColor.primaryLightTextColor.withValues(alpha: 0.2),
-                      borderEnable: true,
-                      dropDownFieldColor: Colors.transparent,
-                      dropDownIconColor:
-                          CustomColor.primaryLightTextColor.withValues(alpha: 0.2),
-                    ),
-                  ),
-                  verticalSpace(Dimensions.marginBetweenInputBox * 0.8),
-                ],
-              ),
-            );
-          }
-          // Automatically select the first available branch after fetching
-          ever(
-            branchDropdownList,
-            (_) {
-              if (branchDropdownList.isNotEmpty) {
-                if (data[item].name == "branch_code") {
-                  selectedOption.value = branchDropdownList.first;
-                  inputFieldControllersFlutterWave[item].text =
-                      selectedOption.value!.code;
-                }
+                );
               }
-            },
-          );
-        }
-      }
-      _isInsertLoading.value = false;
-      getFlutterWaveBanks().then((value) => goToAddMoneyPreviewScreen());
+              if (data[item].name == "bank_name") {
+                selectedOption.value = dropdownList.first;
+                if (gatewayCurrencyCode == "USD" ||
+                    gatewayCurrencyCode == "EUR" ||
+                    gatewayCurrencyCode == "GBP") {
+                  inputFieldControllersFlutterWave[item].text =
+                      selectedOption.value?.name ?? '';
+                } else {
+                  inputFieldControllersFlutterWave[item].text =
+                      selectedOption.value?.code ?? '';
+                }
+                branchDropdownList.clear();
 
-      update();
-    }).catchError((onError) {
-      _isInsertLoading.value = false;
-      log.e(onError);
-    });
+                getFlutterWaveBanksBranch(
+                  selectedOption.value!.id.toString(),
+                  branchDropdownList,
+                );
+              }
+
+              // Bank Name Dropdown
+              if (data[item].name == "bank_name") {
+                inputFieldsFlutterWave.add(
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Obx(
+                        () => CustomDropDown<Option>(
+                          items: dropdownList,
+                          title: data[item].label,
+                          hint:
+                              selectedOption.value?.name ?? Strings.selectType,
+                          onChanged: (value) {
+                            if (value != null) {
+                              selectedOption.value = value;
+                              if (gatewayCurrencyCode == "USD" ||
+                                  gatewayCurrencyCode == "EUR" ||
+                                  gatewayCurrencyCode == "GBP") {
+                                inputFieldControllersFlutterWave[item].text =
+                                    selectedOption.value?.name ?? '';
+                              } else {
+                                inputFieldControllersFlutterWave[item].text =
+                                    selectedOption.value?.code ?? '';
+                              }
+                              branchDropdownList.clear();
+
+                              getFlutterWaveBanksBranch(
+                                value.id.toString(),
+                                branchDropdownList,
+                              );
+                            }
+                          },
+                          padding: EdgeInsets.symmetric(
+                            horizontal: Dimensions.paddingHorizontalSize * 0.25,
+                          ),
+                          titleTextColor: CustomColor.primaryLightTextColor
+                              .withValues(alpha: 0.2),
+                          borderEnable: true,
+                          dropDownFieldColor: Colors.transparent,
+                          dropDownIconColor: CustomColor.primaryLightTextColor
+                              .withValues(alpha: 0.2),
+                        ),
+                      ),
+                      verticalSpace(Dimensions.marginBetweenInputBox * 0.8),
+                    ],
+                  ),
+                );
+              }
+              // Branch Code Dropdown
+              else if (data[item].name == "branch_code") {
+                inputFieldsFlutterWave.add(
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Obx(
+                        () => CustomDropDown<Option>(
+                          items: branchDropdownList,
+                          title: data[item].label,
+                          hint:
+                              selectedOption.value?.name ?? Strings.selectType,
+                          onChanged: (value) {
+                            if (value != null) {
+                              selectedOption.value = value;
+                              inputFieldControllersFlutterWave[item].text =
+                                  value.code;
+                            }
+                          },
+                          padding: EdgeInsets.symmetric(
+                            horizontal: Dimensions.paddingHorizontalSize * 0.25,
+                          ),
+                          titleTextColor: CustomColor.primaryLightTextColor
+                              .withValues(alpha: 0.2),
+                          borderEnable: true,
+                          dropDownFieldColor: Colors.transparent,
+                          dropDownIconColor: CustomColor.primaryLightTextColor
+                              .withValues(alpha: 0.2),
+                        ),
+                      ),
+                      verticalSpace(Dimensions.marginBetweenInputBox * 0.8),
+                    ],
+                  ),
+                );
+              } else {
+                inputFieldsFlutterWave.add(
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Obx(
+                        () => CustomDropDown<Option>(
+                          items: dropdownList,
+                          title: data[item].label,
+                          hint:
+                              selectedOption.value?.name ??
+                              Get.find<LanguageController>().getTranslation(
+                                Strings.selectType,
+                              ),
+                          onChanged: (value) {
+                            if (value != null) {
+                              selectedOption.value = value;
+
+                              inputFieldControllersFlutterWave[item].text =
+                                  selectedOption.value?.name ?? '';
+                            }
+                          },
+                          padding: EdgeInsets.symmetric(
+                            horizontal: Dimensions.paddingHorizontalSize * 0.25,
+                          ),
+                          titleTextColor: CustomColor.primaryLightTextColor
+                              .withValues(alpha: 0.2),
+                          borderEnable: true,
+                          dropDownFieldColor: Colors.transparent,
+                          dropDownIconColor: CustomColor.primaryLightTextColor
+                              .withValues(alpha: 0.2),
+                        ),
+                      ),
+                      verticalSpace(Dimensions.marginBetweenInputBox * 0.8),
+                    ],
+                  ),
+                );
+              }
+              // Automatically select the first available branch after fetching
+              ever(branchDropdownList, (_) {
+                if (branchDropdownList.isNotEmpty) {
+                  if (data[item].name == "branch_code") {
+                    selectedOption.value = branchDropdownList.first;
+                    inputFieldControllersFlutterWave[item].text =
+                        selectedOption.value!.code;
+                  }
+                }
+              });
+            }
+          }
+          _isInsertLoading.value = false;
+          getFlutterWaveBanks().then((value) => goToAddMoneyPreviewScreen());
+
+          update();
+        })
+        .catchError((onError) {
+          _isInsertLoading.value = false;
+          log.e(onError);
+        });
 
     update();
     return _withdrawFlutterwaveInsertModel;
@@ -696,14 +725,18 @@ class WithdrawController extends GetxController {
     }
 
     await ApiServices.manualPaymentConfirmApiForWithdraw(
-            body: inputBody, fieldList: listFieldName, pathList: listImagePath)
+          body: inputBody,
+          fieldList: listFieldName,
+          pathList: listImagePath,
+        )
         .then((value) {
-      _manualPaymentConfirmModel = value!;
-      _isConfirmManualLoading.value = false;
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-    });
+          _manualPaymentConfirmModel = value!;
+          _isConfirmManualLoading.value = false;
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+        });
     _isConfirmManualLoading.value = false;
     update();
     return _manualPaymentConfirmModel;
@@ -724,12 +757,13 @@ class WithdrawController extends GetxController {
     }
     await ApiServices.withdrawFluuerwaveConfirmApiApi(body: inputBody)
         .then((value) {
-      _manualPaymentConfirmModel = value!;
+          _manualPaymentConfirmModel = value!;
 
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-    });
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+        });
     _isConfirmManualLoading.value = false;
     update();
     return _manualPaymentConfirmModel;
@@ -756,7 +790,7 @@ class WithdrawController extends GetxController {
     '9',
     '.',
     '0',
-    '<'
+    '<',
   ];
 
   InkWell inputItem(int index) {
@@ -816,10 +850,11 @@ class WithdrawController extends GetxController {
       results = _flutterWaveBanksModel.data.bankInfo;
     } else {
       results = _flutterWaveBanksModel.data.bankInfo
-          .where((element) => element.name
-              .toString()
-              .toLowerCase()
-              .contains(value.toLowerCase()))
+          .where(
+            (element) => element.name.toString().toLowerCase().contains(
+              value.toLowerCase(),
+            ),
+          )
           .toList();
     }
 
@@ -847,23 +882,25 @@ class WithdrawController extends GetxController {
 
     await ApiServices.flutterwaveAccountCheackerApi(body: inputBody)
         .then((value) {
-      _flutterwaveAccountCheckModel = value!;
+          _flutterwaveAccountCheckModel = value!;
 
-      isButtonEnable.value = true;
-      // CustomSnackBar.success(
-      //     "Hello ${_flutterwaveAccountCheckModel.data.bankInfo.accountName}");
-      update();
-    }).catchError((onError) {
-      isButtonEnable.value = false;
-      log.e(onError);
-    });
+          isButtonEnable.value = true;
+          // CustomSnackBar.success(
+          //     "Hello ${_flutterwaveAccountCheckModel.data.bankInfo.accountName}");
+          update();
+        })
+        .catchError((onError) {
+          isButtonEnable.value = false;
+          log.e(onError);
+        });
     // _isConfirmManualLoading.value = false;
     update();
     return _flutterwaveAccountCheckModel;
   }
 
   void updateExchangeRate() {
-    exchangeRate.value = gateWayCurrencyRate.value /
+    exchangeRate.value =
+        gateWayCurrencyRate.value /
         double.parse(selectMainWallet.value!.currency.rate);
     updateLimit();
   }
@@ -884,7 +921,9 @@ class WithdrawController extends GetxController {
   BankBranchesModel get bankBranchesModel => _bankBranchesModel;
 
   Future<BankBranchesModel?> getFlutterWaveBanksBranch(
-      String id, RxList<Option> dropdownList) async {
+    String id,
+    RxList<Option> dropdownList,
+  ) async {
     return RequestProcess().request<BankBranchesModel>(
       fromJson: BankBranchesModel.fromJson,
       apiEndpoint:
@@ -894,19 +933,25 @@ class WithdrawController extends GetxController {
         _bankBranchesModel = value!;
         var data = _bankBranchesModel.data.bankBranches;
         branch.value = data;
-        branchNameController.text =
-            data.isNotEmpty ? data.first.branchName : '';
-        selectFlutterWaveBankBranchCode.value =
-            data.isNotEmpty ? data.first.branchCode : '';
+        branchNameController.text = data.isNotEmpty
+            ? data.first.branchName
+            : '';
+        selectFlutterWaveBankBranchCode.value = data.isNotEmpty
+            ? data.first.branchCode
+            : '';
 
         // Use assignAll to update the list reactively
-        dropdownList.assignAll(data
-            .map((item) => Option(
+        dropdownList.assignAll(
+          data
+              .map(
+                (item) => Option(
                   id: item.id,
                   code: item.branchCode,
                   name: item.branchName,
-                ))
-            .toList());
+                ),
+              )
+              .toList(),
+        );
 
         update();
       },
@@ -919,10 +964,11 @@ class WithdrawController extends GetxController {
       results = _bankBranchesModel.data.bankBranches;
     } else {
       results = _bankBranchesModel.data.bankBranches
-          .where((element) => element.branchName
-              .toString()
-              .toLowerCase()
-              .contains(value.toLowerCase()))
+          .where(
+            (element) => element.branchName.toString().toLowerCase().contains(
+              value.toLowerCase(),
+            ),
+          )
           .toList();
     }
 

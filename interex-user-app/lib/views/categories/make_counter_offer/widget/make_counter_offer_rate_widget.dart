@@ -1,4 +1,3 @@
-
 import '../../../../custom_assets/assets.gen.dart';
 import '../../../../utils/basic_screen_imports.dart';
 import '../../../../widgets/text_labels/title_heading5_widget.dart';
@@ -14,32 +13,27 @@ class MakeCounterOfferRateWidget extends StatelessWidget {
     return Column(
       children: [
         verticalSpace(Dimensions.paddingVerticalSize * .5),
-        _rateWidget(context), _priceOfferWidget(context)],
+        _rateWidget(context),
+        _priceOfferWidget(context),
+      ],
     );
   }
 
   Container _priceOfferWidget(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(Dimensions.paddingSize * 0.75),
-      margin: EdgeInsets.only(
-        top: Dimensions.marginBetweenInputTitleAndBox,
-      ),
+      margin: EdgeInsets.only(top: Dimensions.marginBetweenInputTitleAndBox),
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(
-              Dimensions.radius * 1.2),
-          color: Get.isDarkMode
-              ? CustomColor.whiteColor
-              .withValues(alpha: .05)
-              : CustomColor.whiteColor
+        borderRadius: BorderRadius.circular(Dimensions.radius * 1.2),
+        color: Get.isDarkMode
+            ? CustomColor.whiteColor.withValues(alpha: .05)
+            : CustomColor.whiteColor,
       ),
       child: Form(
         child: Column(
           crossAxisAlignment: crossStart,
           children: [
-            TitleHeading5Widget(
-              text: Strings.priceOffer,
-              opacity: 0.60,
-            ),
+            TitleHeading5Widget(text: Strings.priceOffer, opacity: 0.60),
             Container(
               height: 2,
               width: double.infinity,
@@ -69,11 +63,7 @@ class MakeCounterOfferRateWidget extends StatelessWidget {
     );
   }
 
-  Row _offerPriceWidget(
-    String title,
-    sellAmount,
-    rateAmount,
-  ) {
+  Row _offerPriceWidget(String title, sellAmount, rateAmount) {
     return Row(
       mainAxisAlignment: mainSpaceBet,
       children: [
@@ -127,12 +117,10 @@ class MakeCounterOfferRateWidget extends StatelessWidget {
         vertical: Dimensions.marginSizeVertical * 1.83,
       ),
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(
-              Dimensions.radius * 1.2),
-          color: Get.isDarkMode
-              ? CustomColor.whiteColor
-              .withValues(alpha: .05)
-              : CustomColor.whiteColor
+        borderRadius: BorderRadius.circular(Dimensions.radius * 1.2),
+        color: Get.isDarkMode
+            ? CustomColor.whiteColor.withValues(alpha: .05)
+            : CustomColor.whiteColor,
       ),
       child: Row(
         mainAxisAlignment: mainCenter,
@@ -147,8 +135,7 @@ class MakeCounterOfferRateWidget extends StatelessWidget {
             color: Get.isDarkMode
                 ? CustomColor.whiteColor
                 : CustomColor.blackColor,
-          ).paddingSymmetric(
-              horizontal: Dimensions.marginSizeHorizontal * 0.2),
+          ).paddingSymmetric(horizontal: Dimensions.marginSizeHorizontal * 0.2),
           AmountWidget(
             amount: controller.rateAmount.value.toStringAsFixed(2),
             currency: controller.rateCurrency.value,

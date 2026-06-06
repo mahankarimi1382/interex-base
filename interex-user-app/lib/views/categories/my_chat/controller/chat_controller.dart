@@ -26,7 +26,7 @@ class ChatController extends GetxController with MyChatApiServices {
   void _handleNewConversations(List<PropertyConversation> newConversations) {
     print("==>> ");
     print("==>> ");
-    print(newConversations.length );
+    print(newConversations.length);
     for (var conversation in newConversations) {
       if (!conversations.any((c) => c.id == conversation.id)) {
         conversations.add(conversation);
@@ -92,7 +92,8 @@ class ChatController extends GetxController with MyChatApiServices {
         // Handle error appropriately
       } finally {}
       await Future.delayed(
-          Duration(seconds: 2)); // Adjust the interval as needed
+        Duration(seconds: 2),
+      ); // Adjust the interval as needed
     }
   }
 
@@ -101,24 +102,28 @@ class ChatController extends GetxController with MyChatApiServices {
       _isLoading.value = true;
     }
     update();
-    await conversationProcessApi(body: {"Chatbox_id": user.id}).then((value) {
-      _conversationModel = value!;
+    await conversationProcessApi(body: {"Chatbox_id": user.id})
+        .then((value) {
+          _conversationModel = value!;
 
-      _handleNewConversations(_conversationModel.data.propertyConversations);
+          _handleNewConversations(
+            _conversationModel.data.propertyConversations,
+          );
 
-      // conversations.addAll(_conversationModel.data.propertyConversations);
+          // conversations.addAll(_conversationModel.data.propertyConversations);
 
-      // if(apiCount.isLowerThan(4)){
-      //   _scrollDown();
-      // }
+          // if(apiCount.isLowerThan(4)){
+          //   _scrollDown();
+          // }
 
-      apiCount++;
-      _isLoading.value = false;
-      update();
-    }).catchError((onError) {
-      haveError.value = true;
-      log.e(onError);
-    });
+          apiCount++;
+          _isLoading.value = false;
+          update();
+        })
+        .catchError((onError) {
+          haveError.value = true;
+          log.e(onError);
+        });
     _isLoading.value = false;
     update();
     return _conversationModel;
@@ -137,17 +142,23 @@ class ChatController extends GetxController with MyChatApiServices {
     // _isLoading.value = true;
     update();
 
-    await sendMessageProcessApi(body: {"message": text, "chatBox_id": _conversationModel.data.chatBox})
+    await sendMessageProcessApi(
+          body: {
+            "message": text,
+            "chatBox_id": _conversationModel.data.chatBox,
+          },
+        )
         .then((value) {
-      _sendMessageModel = value!;
+          _sendMessageModel = value!;
 
-      sendController.clear();
+          sendController.clear();
 
-      _isSendLoading.value = false;
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-    });
+          _isSendLoading.value = false;
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+        });
     _isSendLoading.value = false;
     update();
     return _sendMessageModel;

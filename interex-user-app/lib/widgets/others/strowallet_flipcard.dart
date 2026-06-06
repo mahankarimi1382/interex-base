@@ -38,10 +38,12 @@ class StrowalletFlipCardWidget extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(Dimensions.radius * 1.3),
           image: DecorationImage(
-              image: NetworkImage(
-                  controller.strowalletCardModel.data.cardBasicInfo.cardBg),
-              scale: Platform.isAndroid ? 3 : 3,
-              fit: BoxFit.cover),
+            image: NetworkImage(
+              controller.strowalletCardModel.data.cardBasicInfo.cardBg,
+            ),
+            scale: Platform.isAndroid ? 3 : 3,
+            fit: BoxFit.cover,
+          ),
         ),
         child: Column(
           crossAxisAlignment: crossStart,
@@ -51,30 +53,32 @@ class StrowalletFlipCardWidget extends StatelessWidget {
               children: [
                 TitleHeading3Widget(text: title),
                 Container(
-                    margin: EdgeInsets.only(
-                      top: Dimensions.heightSize * 1.3,
-                      bottom: Dimensions.heightSize * 1.3,
-                    ),
-                    alignment: Alignment.topRight,
-                    child: Column(
-                      children: [
-                        Image.network(
-                          controller
-                              .strowalletCardModel.data.cardBasicInfo.siteLogo,
-                          color: CustomColor.whiteColor,
-                          height: Dimensions.heightSize * 1,
-                          width: 100,
-                        ),
-                      ],
-                    )),
+                  margin: EdgeInsets.only(
+                    top: Dimensions.heightSize * 1.3,
+                    bottom: Dimensions.heightSize * 1.3,
+                  ),
+                  alignment: Alignment.topRight,
+                  child: Column(
+                    children: [
+                      Image.network(
+                        controller
+                            .strowalletCardModel
+                            .data
+                            .cardBasicInfo
+                            .siteLogo,
+                        color: CustomColor.whiteColor,
+                        height: Dimensions.heightSize * 1,
+                        width: 100,
+                      ),
+                    ],
+                  ),
+                ),
               ],
             ),
             Row(
               children: [
                 Padding(
-                  padding: EdgeInsets.only(
-                    top: Dimensions.paddingSize * 0.5,
-                  ),
+                  padding: EdgeInsets.only(top: Dimensions.paddingSize * 0.5),
                   child: Image.asset(
                     Assets.card.chip.path,
                     height: Dimensions.heightSize * 2,
@@ -83,9 +87,7 @@ class StrowalletFlipCardWidget extends StatelessWidget {
                 ),
                 horizontalSpace(Dimensions.widthSize),
                 Padding(
-                  padding: EdgeInsets.only(
-                    top: Dimensions.paddingSize * 0.5,
-                  ),
+                  padding: EdgeInsets.only(top: Dimensions.paddingSize * 0.5),
                   child: Image.asset(
                     Assets.card.contactLess.path,
                     height: Dimensions.heightSize * 2,
@@ -94,8 +96,9 @@ class StrowalletFlipCardWidget extends StatelessWidget {
                 ),
                 CustomTitleHeadingWidget(
                   padding: EdgeInsets.only(
-                      left: Dimensions.paddingSize * 0.3,
-                      top: Dimensions.paddingSize * 0.5),
+                    left: Dimensions.paddingSize * 0.3,
+                    top: Dimensions.paddingSize * 0.5,
+                  ),
                   text: cardNumber,
                   textOverflow: TextOverflow.ellipsis,
                   maxLines: 1,
@@ -120,7 +123,7 @@ class StrowalletFlipCardWidget extends StatelessWidget {
                       color: CustomColor.whiteColor,
                     ),
                     TitleHeading4Widget(
-                      color: CustomColor.whiteColor.withValues(alpha:0.6),
+                      color: CustomColor.whiteColor.withValues(alpha: 0.6),
                       fontWeight: FontWeight.w500,
                       fontSize: Dimensions.headingTextSize5,
                       text: Strings.expiryDate,
@@ -136,7 +139,7 @@ class StrowalletFlipCardWidget extends StatelessWidget {
                       color: CustomColor.whiteColor,
                     ),
                     TitleHeading4Widget(
-                      color: CustomColor.whiteColor.withValues(alpha:0.6),
+                      color: CustomColor.whiteColor.withValues(alpha: 0.6),
                       fontWeight: FontWeight.w500,
                       fontSize: Dimensions.headingTextSize5,
                       text: availableBalance ?? Strings.availabeBlance,
@@ -174,7 +177,7 @@ class StrowalletFlipCardWidget extends StatelessWidget {
               style: GoogleFonts.outfit(
                 fontSize: Dimensions.headingTextSize2 * 0.5,
                 fontWeight: FontWeight.w500,
-                color: CustomColor.whiteColor.withValues(alpha:0.6),
+                color: CustomColor.whiteColor.withValues(alpha: 0.6),
               ),
             ),
             Container(
@@ -186,16 +189,14 @@ class StrowalletFlipCardWidget extends StatelessWidget {
               ),
               alignment: Alignment.center,
               decoration: BoxDecoration(
-                color: CustomColor.primaryLightTextColor.withValues(alpha:0.2),
-                borderRadius: BorderRadius.circular(
-                  Dimensions.radius * 0.3,
-                ),
+                color: CustomColor.primaryLightTextColor.withValues(alpha: 0.2),
+                borderRadius: BorderRadius.circular(Dimensions.radius * 0.3),
               ),
               child: TitleHeading4Widget(
                 text: cvv,
                 fontSize: 10,
                 fontWeight: FontWeight.w600,
-                color: CustomColor.whiteColor.withValues(alpha:0.4),
+                color: CustomColor.whiteColor.withValues(alpha: 0.4),
               ),
             ),
             verticalSpace(Dimensions.heightSize * 2),

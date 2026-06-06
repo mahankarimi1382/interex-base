@@ -1,4 +1,3 @@
-
 import '../../../../custom_assets/assets.gen.dart';
 import '../../../../utils/basic_screen_imports.dart';
 import '../../../../widgets/payment_link/custom_drop_down.dart';
@@ -14,10 +13,7 @@ class MarketplaceGatewayWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      children: [
-        _amountWidget(context),
-        _paymentMethodWidget(context),
-      ],
+      children: [_amountWidget(context), _paymentMethodWidget(context)],
     );
   }
 
@@ -28,12 +24,10 @@ class MarketplaceGatewayWidget extends StatelessWidget {
         vertical: Dimensions.marginSizeVertical * 1.83,
       ),
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(
-              Dimensions.radius * 1.2),
-          color: Get.isDarkMode
-              ? CustomColor.whiteColor
-              .withValues(alpha: .05)
-              : CustomColor.whiteColor
+        borderRadius: BorderRadius.circular(Dimensions.radius * 1.2),
+        color: Get.isDarkMode
+            ? CustomColor.whiteColor.withValues(alpha: .05)
+            : CustomColor.whiteColor,
       ),
       child: Row(
         mainAxisAlignment: mainCenter,
@@ -66,20 +60,15 @@ class MarketplaceGatewayWidget extends StatelessWidget {
       ),
       padding: EdgeInsets.all(Dimensions.paddingSize * 0.75),
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(
-              Dimensions.radius * 1.2),
-          color: Get.isDarkMode
-              ? CustomColor.whiteColor
-              .withValues(alpha: .05)
-              : CustomColor.whiteColor
+        borderRadius: BorderRadius.circular(Dimensions.radius * 1.2),
+        color: Get.isDarkMode
+            ? CustomColor.whiteColor.withValues(alpha: .05)
+            : CustomColor.whiteColor,
       ),
       child: Column(
         crossAxisAlignment: crossStart,
         children: [
-           TitleHeading5Widget(
-            text: Strings.paymentMethod,
-            opacity: 0.60,
-          ),
+          TitleHeading5Widget(text: Strings.paymentMethod, opacity: 0.60),
           Container(
             height: 2,
             width: double.infinity,
@@ -99,14 +88,11 @@ class MarketplaceGatewayWidget extends StatelessWidget {
               controller.selectPaymentGateway.value = value!.name;
               controller.selectPaymentGatewayId.value = value.id.toString();
             },
-            padding: EdgeInsets.only(
-              left: Dimensions.paddingSize * 0.25,
-            ),
+            padding: EdgeInsets.only(left: Dimensions.paddingSize * 0.25),
             titleTextColor: CustomColor.blackColor.withValues(alpha: 1),
             dropDownColor: Theme.of(context).scaffoldBackgroundColor,
             borderEnable: false,
-            dropDownIconColor:
-                CustomColor.blackColor.withValues(alpha: 01),
+            dropDownIconColor: CustomColor.blackColor.withValues(alpha: 01),
           ),
         ],
       ),

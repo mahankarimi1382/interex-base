@@ -1,5 +1,3 @@
-
-
 import '../../../../utils/basic_screen_imports.dart';
 import '../../../../widgets/text_labels/title_heading5_widget.dart';
 import '../controller/make_counter_offer_controller.dart';
@@ -18,21 +16,16 @@ class MakeCounterOfferFieldsWidget extends StatelessWidget {
         bottom: Dimensions.marginSizeVertical,
       ),
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(
-              Dimensions.radius * 1.2),
-          color: Get.isDarkMode
-              ? CustomColor.whiteColor
-              .withValues(alpha: .05)
-              : CustomColor.whiteColor
+        borderRadius: BorderRadius.circular(Dimensions.radius * 1.2),
+        color: Get.isDarkMode
+            ? CustomColor.whiteColor.withValues(alpha: .05)
+            : CustomColor.whiteColor,
       ),
       child: Form(
         child: Column(
           crossAxisAlignment: crossStart,
           children: [
-             TitleHeading5Widget(
-              text: Strings.makeCounterOffer,
-              opacity: 0.60,
-            ),
+            TitleHeading5Widget(text: Strings.makeCounterOffer, opacity: 0.60),
             Container(
               height: 2,
               width: double.infinity,

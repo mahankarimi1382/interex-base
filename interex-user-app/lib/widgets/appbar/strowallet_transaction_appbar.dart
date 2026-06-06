@@ -17,13 +17,14 @@ class StrowalletTransactionAppbar extends StatelessWidget
   final bool homeButtonShow;
   final IconData? actionIcon;
 
-  const StrowalletTransactionAppbar(
-      {required this.text,
-      this.onTapLeading,
+  const StrowalletTransactionAppbar({
+    required this.text,
+    this.onTapLeading,
 
-      this.homeButtonShow = false,
-      this.actionIcon,
-      super.key});
+    this.homeButtonShow = false,
+    this.actionIcon,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -43,26 +44,25 @@ class StrowalletTransactionAppbar extends StatelessWidget
             : CustomColor.primaryLightColor,
       ),
       elevation: 0,
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor, 
-      actions: [ 
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      actions: [
         InkWell(
-          onTap: (){
+          onTap: () {
             Get.toNamed(Routes.webhookLogsScreen);
           },
-          child:  TitleHeading3Widget(
+          child: TitleHeading3Widget(
             fontSize: Dimensions.headingTextSize4,
             padding: EdgeInsets.only(
-              right: Dimensions.paddingHorizontalSize*0.4,
-            
+              right: Dimensions.paddingHorizontalSize * 0.4,
             ),
-           text: Strings.webhookLogs,
-           
+            text: Strings.webhookLogs,
           ),
         ),
-      ], 
+      ],
 
       leading: BackButtonWidget(
-        onTap: onTapLeading ??
+        onTap:
+            onTapLeading ??
             () {
               Get.close(1);
             },

@@ -17,9 +17,7 @@ class BottomNavBarScreen extends StatelessWidget {
   final bottomNavBarController = Get.put(NavbarController(), permanent: false);
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey();
 
-  BottomNavBarScreen({
-    super.key,
-  });
+  BottomNavBarScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -30,8 +28,10 @@ class BottomNavBarScreen extends StatelessWidget {
         appBar: appBarWidget(context),
         extendBody: true,
         backgroundColor: CustomColor.primaryLightColor,
-        bottomNavigationBar:
-            buildBottomNavigationMenu(context, bottomNavBarController),
+        bottomNavigationBar: buildBottomNavigationMenu(
+          context,
+          bottomNavBarController,
+        ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         body: bottomNavBarController
             .page[bottomNavBarController.selectedIndex.value],

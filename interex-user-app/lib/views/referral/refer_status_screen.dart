@@ -47,9 +47,7 @@ class _ReferralStatusScreenState extends State<ReferralStatusScreen> {
 }
 
 class ReferralUsersSection extends StatelessWidget {
-  ReferralUsersSection({
-    super.key,
-  });
+  ReferralUsersSection({super.key});
   final controller = Get.put(ReferralStatusController());
   @override
   Widget build(BuildContext context) {
@@ -59,16 +57,10 @@ class ReferralUsersSection extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            const TitleHeading3Widget(
-              text: Strings.referralUsers,
-            ),
+            const TitleHeading3Widget(text: Strings.referralUsers),
             InkWell(
               onTap: () {
-                  
-
-                 Get.to(() => ReferralUsersScreen());  
-                 
-
+                Get.to(() => ReferralUsersScreen());
               },
               child: TitleHeading5Widget(
                 text: Strings.viewAll,
@@ -79,65 +71,59 @@ class ReferralUsersSection extends StatelessWidget {
         ),
         verticalSpace(Dimensions.heightSize),
         Column(
-          children: List.generate(
-            controller.referUsers.length, 
-            (index) {
-              var refer = controller.referUsers[index];
-              return Container(
-                padding: EdgeInsets.all(Dimensions.paddingSize * 0.5),
-                margin: EdgeInsets.only(
-                  bottom: Dimensions.heightSize * 0.6,
-                ),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(Dimensions.radius * 1.5),
-                  color: Get.isDarkMode
-                      ? CustomColor.primaryBGDarkColor
-                      : Colors.white,
-                ), 
+          children: List.generate(controller.referUsers.length, (index) {
+            var refer = controller.referUsers[index];
+            return Container(
+              padding: EdgeInsets.all(Dimensions.paddingSize * 0.5),
+              margin: EdgeInsets.only(bottom: Dimensions.heightSize * 0.6),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(Dimensions.radius * 1.5),
+                color: Get.isDarkMode
+                    ? CustomColor.primaryBGDarkColor
+                    : Colors.white,
+              ),
 
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Column( 
-                        crossAxisAlignment: crossStart,
-                        children: [ 
-                          TitleHeading3Widget(text: refer.username),
-                          verticalSpace(Dimensions.heightSize * 0.3),
-                           
-                           Row(
-                            children: [
-                              CircleAvatar(
-                                radius: Dimensions.radius * 0.3, 
-                                backgroundColor: 
-                                    CustomColor.blackColor.withValues(alpha:0.3),
-                              ),
-                              horizontalSpace(Dimensions.widthSize * 0.4), 
-                              TitleHeading5Widget(text: refer.email), 
-                            ],
-                          ),  
-                        
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: crossStart,
+                      children: [
+                        TitleHeading3Widget(text: refer.username),
+                        verticalSpace(Dimensions.heightSize * 0.3),
 
-                          Row(
-                            children: [
-                              CircleAvatar(
-                                radius: Dimensions.radius * 0.3,
-                                backgroundColor:
-                                    CustomColor.blackColor.withValues(alpha:0.3),
-                              ),
-                              horizontalSpace(Dimensions.widthSize * 0.4),
-                              TitleHeading5Widget(text: refer.fullMobile),
-                            ],
-                          ),
-                        ],
-                      ),
+                        Row(
+                          children: [
+                            CircleAvatar(
+                              radius: Dimensions.radius * 0.3,
+                              backgroundColor: CustomColor.blackColor
+                                  .withValues(alpha: 0.3),
+                            ),
+                            horizontalSpace(Dimensions.widthSize * 0.4),
+                            TitleHeading5Widget(text: refer.email),
+                          ],
+                        ),
+
+                        Row(
+                          children: [
+                            CircleAvatar(
+                              radius: Dimensions.radius * 0.3,
+                              backgroundColor: CustomColor.blackColor
+                                  .withValues(alpha: 0.3),
+                            ),
+                            horizontalSpace(Dimensions.widthSize * 0.4),
+                            TitleHeading5Widget(text: refer.fullMobile),
+                          ],
+                        ),
+                      ],
                     ),
-                    TitleHeading5Widget(text: refer.referralId)
-                  ],
-                ),
-              );
-            },
-          ),
-        )
+                  ),
+                  TitleHeading5Widget(text: refer.referralId),
+                ],
+              ),
+            );
+          }),
+        ),
       ],
     );
   }

@@ -89,56 +89,60 @@ class VirtualStrowalletCardController extends GetxController {
     _isLoading.value = true;
     update();
 
-    await StrowalletApiServices.strowalletCardInfoApi().then((value) {
-      _strowalletCardModel = value!;
-      baseCurrency.value = _strowalletCardModel.data.baseCurr;
-      if (_strowalletCardModel.data.myCards.isNotEmpty) {
-        strowalletCardId.value = _strowalletCardModel.data.myCards.first.cardId;
-      }
-      limitMin.value = _strowalletCardModel.data.cardCharge.minLimit;
-      limitMax.value = _strowalletCardModel.data.cardCharge.maxLimit;
-      selectedSupportedCurrency.value =
-          _strowalletCardModel.data.supportedCurrency.first;
-      for (var v in _strowalletCardModel.data.supportedCurrency) {
-        supportedCurrencyList.add(
-          SupportedCurrency(
-            id: v.id,
-            country: v.country,
-            name: v.name,
-            code: v.code,
-            type: v.type,
-            rate: v.rate,
-            supportedCurrencyDefault: v.supportedCurrencyDefault,
-            status: v.status,
-            flag: v.flag,
-            symbol: v.symbol,
-            // createdAt: v.createdAt,
-            currencyImage: v.currencyImage,
-          ),
-        );
-      }
-      selectMainWallet.value =
-          walletsController.walletsInfoModel.data.userWallets.first;
-      for (var element in walletsController.walletsInfoModel.data.userWallets) {
-        walletsList.add(
-          MainUserWallet(
-            balance: element.balance,
-            currency: element.currency,
-            status: element.status,
-          ),
-        );
-      }
-      if (dashboardController.kycStatus.value == 1) {
-      } else {
-        Future.delayed(const Duration(seconds: 2), () {
-          Get.toNamed(Routes.updateKycScreen);
+    await StrowalletApiServices.strowalletCardInfoApi()
+        .then((value) {
+          _strowalletCardModel = value!;
+          baseCurrency.value = _strowalletCardModel.data.baseCurr;
+          if (_strowalletCardModel.data.myCards.isNotEmpty) {
+            strowalletCardId.value =
+                _strowalletCardModel.data.myCards.first.cardId;
+          }
+          limitMin.value = _strowalletCardModel.data.cardCharge.minLimit;
+          limitMax.value = _strowalletCardModel.data.cardCharge.maxLimit;
+          selectedSupportedCurrency.value =
+              _strowalletCardModel.data.supportedCurrency.first;
+          for (var v in _strowalletCardModel.data.supportedCurrency) {
+            supportedCurrencyList.add(
+              SupportedCurrency(
+                id: v.id,
+                country: v.country,
+                name: v.name,
+                code: v.code,
+                type: v.type,
+                rate: v.rate,
+                supportedCurrencyDefault: v.supportedCurrencyDefault,
+                status: v.status,
+                flag: v.flag,
+                symbol: v.symbol,
+                // createdAt: v.createdAt,
+                currencyImage: v.currencyImage,
+              ),
+            );
+          }
+          selectMainWallet.value =
+              walletsController.walletsInfoModel.data.userWallets.first;
+          for (var element
+              in walletsController.walletsInfoModel.data.userWallets) {
+            walletsList.add(
+              MainUserWallet(
+                balance: element.balance,
+                currency: element.currency,
+                status: element.status,
+              ),
+            );
+          }
+          if (dashboardController.kycStatus.value == 1) {
+          } else {
+            Future.delayed(const Duration(seconds: 2), () {
+              Get.toNamed(Routes.updateKycScreen);
+            });
+          }
+          _calculation();
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
         });
-      }
-      _calculation();
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-    });
 
     _isLoading.value = false;
     update();
@@ -149,17 +153,20 @@ class VirtualStrowalletCardController extends GetxController {
   Future<StrowalletCardModel> getStrowalletCardInfo() async {
     update();
 
-    await StrowalletApiServices.strowalletCardInfoApi().then((value) {
-      _strowalletCardModel = value!;
+    await StrowalletApiServices.strowalletCardInfoApi()
+        .then((value) {
+          _strowalletCardModel = value!;
 
-      if (_strowalletCardModel.data.myCards.isNotEmpty) {
-        strowalletCardId.value = _strowalletCardModel.data.myCards.first.cardId;
-      }
-      _calculation();
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-    });
+          if (_strowalletCardModel.data.myCards.isNotEmpty) {
+            strowalletCardId.value =
+                _strowalletCardModel.data.myCards.first.cardId;
+          }
+          _calculation();
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+        });
 
     update();
     return _strowalletCardModel;
@@ -192,19 +199,20 @@ class VirtualStrowalletCardController extends GetxController {
 
     await StrowalletApiServices.strowalletBuyCardApi(body: inputBody)
         .then((value) {
-      _buyCardModel = value!;
-      StatusScreen.show(
-        context: Get.context!,
-        subTitle: Strings.yourCardSuccess.tr,
-        onPressed: () {
-          Get.offAllNamed(Routes.bottomNavBarScreen);
-        },
-      );
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-      update();
-    });
+          _buyCardModel = value!;
+          StatusScreen.show(
+            context: Get.context!,
+            subTitle: Strings.yourCardSuccess.tr,
+            onPressed: () {
+              Get.offAllNamed(Routes.bottomNavBarScreen);
+            },
+          );
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+          update();
+        });
     _isBuyCardLoading.value = false;
     update();
     return _buyCardModel;
@@ -258,14 +266,16 @@ class VirtualStrowalletCardController extends GetxController {
     update();
 
     await StrowalletApiServices.strowalletCardMakeOrRemoveDefaultApi(
-            body: inputBody)
+          body: inputBody,
+        )
         .then((value) {
-      _cardDefaultModel = value!;
-      getStrowalletCardData();
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-    });
+          _cardDefaultModel = value!;
+          getStrowalletCardData();
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+        });
 
     _isMakeDefaultLoading.value = false;
     update();
@@ -285,7 +295,8 @@ class VirtualStrowalletCardController extends GetxController {
     }
 
     percentCharge.value = ((amount / 100) * data.percentCharge);
-    totalCharge.value = (double.parse(data.fixedCharge.toString()) *
+    totalCharge.value =
+        (double.parse(data.fixedCharge.toString()) *
             selectedSupportedCurrency.value!.rate) +
         percentCharge.value;
 
@@ -330,8 +341,9 @@ class VirtualStrowalletCardController extends GetxController {
         for (int item = 0; item < data.length; item++) {
           // If the current item type is 'phone', use the controller from updateProfileController
           if (data[item].type.contains('phone')) {
-            inputFieldControllers.add(updateProfileController
-                .phoneController); // Use phoneController for phone input
+            inputFieldControllers.add(
+              updateProfileController.phoneController,
+            ); // Use phoneController for phone input
           } else if (data[item].type.contains('email')) {
             inputFieldControllers.add(updateProfileController.emailController);
           } else {
@@ -392,8 +404,8 @@ class VirtualStrowalletCardController extends GetxController {
                         right: Dimensions.widthSize,
                         top: Dimensions.heightSize * 0.5,
                       ),
-                      controller: inputFieldControllers[
-                          item], // Use dynamic controller for other inputs
+                      controller:
+                          inputFieldControllers[item], // Use dynamic controller for other inputs
                       label: data[item].labelName,
                       hint:
                           "${Get.find<LanguageController>().getTranslation(Strings.enter)} ${data[item].labelName}",
@@ -416,9 +428,7 @@ class VirtualStrowalletCardController extends GetxController {
                 ),
                 child: GestureDetector(
                   onTap: () async {
-                    print(
-                      data[item].labelName,
-                    );
+                    print(data[item].labelName);
                     DateTime? pickedDate = await showDatePicker(
                       context: Get.context!,
                       initialDate: DateTime.now(),

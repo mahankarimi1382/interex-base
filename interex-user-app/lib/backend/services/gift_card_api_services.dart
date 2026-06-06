@@ -11,11 +11,9 @@ class GiftCardApiServices {
   static Future<MyGiftCardModel?> myGiftCardInfoProcess() async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false).get(
-        ApiEndpoint.myGiftCardURL,
-        code: 200,
-        showResult: false,
-      );
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).get(ApiEndpoint.myGiftCardURL, code: 200, showResult: false);
       MyGiftCardModel result = MyGiftCardModel.fromJson(mapResponse!);
       return result;
     } catch (e) {
@@ -27,7 +25,9 @@ class GiftCardApiServices {
 
   // All gift card  api
   static Future<GiftCardListModel?> allGiftCardInfoProcess(
-      String page, String countryCode) async {
+    String page,
+    String countryCode,
+  ) async {
     Map<String, dynamic>? mapResponse;
     try {
       mapResponse = await ApiMethod(isBasic: false).get(
@@ -74,12 +74,9 @@ class GiftCardApiServices {
   }) async {
     Map<String, dynamic>? mapResponse;
     try {
-      mapResponse = await ApiMethod(isBasic: false).post(
-        ApiEndpoint.giftCardOrderURL,
-        body,
-        code: 200,
-        showResult: true,
-      );
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).post(ApiEndpoint.giftCardOrderURL, body, code: 200, showResult: true);
       CommonSuccessModel result = CommonSuccessModel.fromJson(mapResponse!);
       CustomSnackBar.success(result.message.success.first.toString());
       return result;

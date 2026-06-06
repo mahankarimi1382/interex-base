@@ -23,13 +23,13 @@ class AmountWidget extends StatelessWidget {
             text: amount,
             style: Get.isDarkMode
                 ? CustomStyle.darkHeading1TextStyle.copyWith(
-              fontWeight: FontWeight.w700,
-              fontSize: fontSize ?? Dimensions.headingTextSize1 * 0.78,
-            )
+                    fontWeight: FontWeight.w700,
+                    fontSize: fontSize ?? Dimensions.headingTextSize1 * 0.78,
+                  )
                 : CustomStyle.lightHeading1TextStyle.copyWith(
-              fontWeight: FontWeight.w700,
-              fontSize: fontSize ?? Dimensions.headingTextSize1 * 0.78,
-            ),
+                    fontWeight: FontWeight.w700,
+                    fontSize: fontSize ?? Dimensions.headingTextSize1 * 0.78,
+                  ),
           ),
           WidgetSpan(
             child: Padding(

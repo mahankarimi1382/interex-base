@@ -36,7 +36,7 @@ class FlutterWaveVirtualCardScreen extends StatelessWidget {
             data.isEmpty
                 ? _createCardWidget(context)
                 : _cardCategoriesWidget(context),
-            const SizedBox()
+            const SizedBox(),
           ],
         ),
         _draggableSheet(context),
@@ -92,29 +92,31 @@ class FlutterWaveVirtualCardScreen extends StatelessWidget {
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: controller.cardInfoModel.data.myCard
-                .asMap()
-                .entries
-                .map((entry) {
+            children: controller.cardInfoModel.data.myCard.asMap().entries.map((
+              entry,
+            ) {
               return controller.current.value == entry.key
                   ? Container(
                       width: Dimensions.widthSize * 1,
                       height: Dimensions.heightSize * 0.6,
                       margin: EdgeInsets.symmetric(
-                          vertical: Dimensions.marginSizeVertical * 0.2,
-                          horizontal: Dimensions.marginSizeHorizontal * 0.2),
+                        vertical: Dimensions.marginSizeVertical * 0.2,
+                        horizontal: Dimensions.marginSizeHorizontal * 0.2,
+                      ),
                       decoration: const BoxDecoration(
                         shape: BoxShape.circle,
                         color: CustomColor.whiteColor,
-                      ))
+                      ),
+                    )
                   : Container(
                       width: Dimensions.widthSize * 0.7,
                       height: Dimensions.heightSize * 0.5,
                       margin: EdgeInsets.symmetric(
-                          vertical: Dimensions.marginSizeVertical * 0.2,
-                          horizontal: Dimensions.marginSizeHorizontal * 0.2),
+                        vertical: Dimensions.marginSizeVertical * 0.2,
+                        horizontal: Dimensions.marginSizeHorizontal * 0.2,
+                      ),
                       decoration: BoxDecoration(
-                        color: CustomColor.whiteColor.withValues(alpha:0.3),
+                        color: CustomColor.whiteColor.withValues(alpha: 0.3),
                         shape: BoxShape.circle,
                       ),
                     );
@@ -144,7 +146,8 @@ class FlutterWaveVirtualCardScreen extends StatelessWidget {
       ),
       child: Padding(
         padding: EdgeInsets.symmetric(
-            horizontal: Dimensions.marginSizeHorizontal * 0.7),
+          horizontal: Dimensions.marginSizeHorizontal * 0.7,
+        ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: crossStart,
@@ -163,7 +166,7 @@ class FlutterWaveVirtualCardScreen extends StatelessWidget {
                 fontFamily: "AgencyFB",
                 fontSize: Dimensions.headingTextSize2 * 0.8,
                 fontWeight: FontWeight.w700,
-                color: CustomColor.whiteColor.withValues(alpha:0.6),
+                color: CustomColor.whiteColor.withValues(alpha: 0.6),
               ),
             ),
             verticalSpace(Dimensions.heightSize * 0.5),
@@ -184,14 +187,15 @@ class FlutterWaveVirtualCardScreen extends StatelessWidget {
                     CustomTitleHeadingWidget(
                       text: Strings.expiryDate,
                       style: CustomStyle.f20w600pri.copyWith(
-                          color: CustomColor.whiteColor.withValues(alpha:0.6),
-                          fontWeight: FontWeight.w500,
-                          fontSize: Dimensions.headingTextSize5),
+                        color: CustomColor.whiteColor.withValues(alpha: 0.6),
+                        fontWeight: FontWeight.w500,
+                        fontSize: Dimensions.headingTextSize5,
+                      ),
                     ),
                   ],
                 ),
               ],
-            )
+            ),
           ],
         ),
       ),
@@ -202,9 +206,10 @@ class FlutterWaveVirtualCardScreen extends StatelessWidget {
     return Container(
       alignment: Alignment.topRight,
       padding: EdgeInsets.only(
-          bottom: Dimensions.marginSizeVertical * 1.5,
-          left: Dimensions.paddingSize * 0.5,
-          right: Dimensions.paddingSize * 0.5),
+        bottom: Dimensions.marginSizeVertical * 1.5,
+        left: Dimensions.paddingSize * 0.5,
+        right: Dimensions.paddingSize * 0.5,
+      ),
       height: MediaQuery.of(context).size.height * 0.30,
       width: MediaQuery.of(context).size.width * 0.9,
       decoration: BoxDecoration(
@@ -225,15 +230,17 @@ class FlutterWaveVirtualCardScreen extends StatelessWidget {
             children: [
               CustomTitleHeadingWidget(
                 text: data.cvv,
-                style: CustomStyle.f20w600pri
-                    .copyWith(color: CustomColor.whiteColor),
+                style: CustomStyle.f20w600pri.copyWith(
+                  color: CustomColor.whiteColor,
+                ),
               ),
               CustomTitleHeadingWidget(
                 text: Strings.cvc,
                 style: CustomStyle.f20w600pri.copyWith(
-                    color: CustomColor.whiteColor.withValues(alpha:0.6),
-                    fontWeight: FontWeight.w500,
-                    fontSize: Dimensions.headingTextSize5),
+                  color: CustomColor.whiteColor.withValues(alpha: 0.6),
+                  fontWeight: FontWeight.w500,
+                  fontSize: Dimensions.headingTextSize5,
+                ),
               ),
             ],
           ),
@@ -290,7 +297,7 @@ class FlutterWaveVirtualCardScreen extends StatelessWidget {
                 fontFamily: "AgencyFB",
                 fontSize: Dimensions.headingTextSize2,
                 fontWeight: FontWeight.w700,
-                color: CustomColor.whiteColor.withValues(alpha:0.6),
+                color: CustomColor.whiteColor.withValues(alpha: 0.6),
               ),
             ),
             verticalSpace(Dimensions.heightSize * 1.5),
@@ -302,20 +309,22 @@ class FlutterWaveVirtualCardScreen extends StatelessWidget {
                   children: [
                     CustomTitleHeadingWidget(
                       text: '00/00',
-                      style: CustomStyle.f20w600pri
-                          .copyWith(color: CustomColor.whiteColor),
+                      style: CustomStyle.f20w600pri.copyWith(
+                        color: CustomColor.whiteColor,
+                      ),
                     ),
                     CustomTitleHeadingWidget(
                       text: Strings.expiryDate,
                       style: CustomStyle.f20w600pri.copyWith(
-                          color: CustomColor.whiteColor.withValues(alpha:0.6),
-                          fontWeight: FontWeight.w500,
-                          fontSize: Dimensions.headingTextSize5),
+                        color: CustomColor.whiteColor.withValues(alpha: 0.6),
+                        fontWeight: FontWeight.w500,
+                        fontSize: Dimensions.headingTextSize5,
+                      ),
                     ),
                   ],
                 ),
               ],
-            )
+            ),
           ],
         ),
       ),
@@ -326,17 +335,19 @@ class FlutterWaveVirtualCardScreen extends StatelessWidget {
     return Container(
       alignment: Alignment.topRight,
       padding: EdgeInsets.only(
-          bottom: Dimensions.marginSizeVertical * 1.5,
-          left: Dimensions.paddingSize * 0.5,
-          right: Dimensions.paddingSize * 0.5),
+        bottom: Dimensions.marginSizeVertical * 1.5,
+        left: Dimensions.paddingSize * 0.5,
+        right: Dimensions.paddingSize * 0.5,
+      ),
       height: MediaQuery.of(context).size.height * 0.30,
       width: MediaQuery.of(context).size.width * 0.9,
       decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage(Assets.card.backPart.path),
-            fit: BoxFit.cover,
-          ),
-          borderRadius: BorderRadius.circular(Dimensions.radius * 1.5)),
+        image: DecorationImage(
+          image: AssetImage(Assets.card.backPart.path),
+          fit: BoxFit.cover,
+        ),
+        borderRadius: BorderRadius.circular(Dimensions.radius * 1.5),
+      ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: crossStart,
@@ -348,15 +359,17 @@ class FlutterWaveVirtualCardScreen extends StatelessWidget {
             children: [
               CustomTitleHeadingWidget(
                 text: "000",
-                style: CustomStyle.f20w600pri
-                    .copyWith(color: CustomColor.whiteColor),
+                style: CustomStyle.f20w600pri.copyWith(
+                  color: CustomColor.whiteColor,
+                ),
               ),
               CustomTitleHeadingWidget(
                 text: Strings.cvc,
                 style: CustomStyle.f20w600pri.copyWith(
-                    color: CustomColor.whiteColor.withValues(alpha:0.6),
-                    fontWeight: FontWeight.w500,
-                    fontSize: Dimensions.headingTextSize5),
+                  color: CustomColor.whiteColor.withValues(alpha: 0.6),
+                  fontWeight: FontWeight.w500,
+                  fontSize: Dimensions.headingTextSize5,
+                ),
               ),
             ],
           ),
@@ -369,8 +382,9 @@ class FlutterWaveVirtualCardScreen extends StatelessWidget {
     final data = controller.cardInfoModel.data.myCard;
     return Container(
       margin: EdgeInsets.only(
-          bottom: Dimensions.marginSizeVertical,
-          top: Dimensions.marginSizeVertical),
+        bottom: Dimensions.marginSizeVertical,
+        top: Dimensions.marginSizeVertical,
+      ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
@@ -383,11 +397,12 @@ class FlutterWaveVirtualCardScreen extends StatelessWidget {
             },
           ),
           CategoriesWidget(
-              icon: Assets.icon.fund,
-              text: Strings.fund,
-              onTap: () {
-                Get.toNamed(Routes.addFundScreen);
-              }),
+            icon: Assets.icon.fund,
+            text: Strings.fund,
+            onTap: () {
+              Get.toNamed(Routes.addFundScreen);
+            },
+          ),
           Obx(
             () => controller.isMakeDefaultLoading
                 ? const CustomLoadingAPI()
@@ -426,7 +441,10 @@ class FlutterWaveVirtualCardScreen extends StatelessWidget {
     );
   }
 
-  Widget _recentTransWidget(BuildContext context, ScrollController scrollController) {
+  Widget _recentTransWidget(
+    BuildContext context,
+    ScrollController scrollController,
+  ) {
     final data = controller.cardInfoModel.data.transactions;
     return data.isNotEmpty
         ? ListView(
@@ -434,7 +452,8 @@ class FlutterWaveVirtualCardScreen extends StatelessWidget {
             children: [
               Padding(
                 padding: EdgeInsets.symmetric(
-                    horizontal: Dimensions.paddingSize * 0.8),
+                  horizontal: Dimensions.paddingSize * 0.8,
+                ),
                 child: CustomTitleHeadingWidget(
                   text: Strings.recentTransactions,
                   style: Get.isDarkMode
@@ -463,15 +482,17 @@ class FlutterWaveVirtualCardScreen extends StatelessWidget {
                       amount: data[index].requestAmount,
                       title: data[index].transactionType,
                       payableAmount: data[index].payable,
-                      dateText:
-                          controller.getDay(data[index].dateTime.toString()),
+                      dateText: controller.getDay(
+                        data[index].dateTime.toString(),
+                      ),
                       transaction: data[index].trx,
-                      monthText:
-                          controller.getMonth(data[index].dateTime.toString()),
+                      monthText: controller.getMonth(
+                        data[index].dateTime.toString(),
+                      ),
                     );
                   },
                 ),
-              )
+              ),
             ],
           ).customGlassWidget()
         : Container();

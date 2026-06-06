@@ -7,10 +7,7 @@ File? pickedFile;
 ImagePicker imagePicker = ImagePicker();
 
 class UploadImageController extends GetxController {
-
-
   RxString userImagePath = ''.obs;
-
 
   //-> Image Picker
   RxBool isImagePathSet = false.obs;

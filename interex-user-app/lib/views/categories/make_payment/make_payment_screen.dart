@@ -79,7 +79,7 @@ class MakePaymentScreen extends StatelessWidget {
                         ? Colors.green
                         : Colors.red,
                   );
-                })
+                }),
               ],
             ),
             verticalSpace(Dimensions.heightSize),
@@ -142,39 +142,49 @@ class MakePaymentScreen extends StatelessWidget {
         () => controller.isSendMoneyLoading
             ? const CustomLoadingAPI()
             : PrimaryButton(
-                buttonColor: controller.isValidUser.value &&
-                        double.parse(controller
-                                .remainingController.senderAmount.value) <=
+                buttonColor:
+                    controller.isValidUser.value &&
+                        double.parse(
+                              controller.remainingController.senderAmount.value,
+                            ) <=
                             controller.dailyLimit.value &&
-                        double.parse(controller
-                                .remainingController.senderAmount.value) <=
+                        double.parse(
+                              controller.remainingController.senderAmount.value,
+                            ) <=
                             controller.monthlyLimit.value
                     ? CustomColor.primaryLightColor
-                    : CustomColor.primaryLightColor.withValues(alpha:0.3),
+                    : CustomColor.primaryLightColor.withValues(alpha: 0.3),
                 title: Strings.makePayment,
                 onPressed: () {
                   if (controller.isValidUser.value &&
-                      double.parse(controller
-                              .remainingController.senderAmount.value) <=
+                      double.parse(
+                            controller.remainingController.senderAmount.value,
+                          ) <=
                           controller.dailyLimit.value &&
-                      double.parse(controller
-                              .remainingController.senderAmount.value) <=
+                      double.parse(
+                            controller.remainingController.senderAmount.value,
+                          ) <=
                           controller.monthlyLimit.value) {
                     if (dashboardController.kycStatus.value == 1) {
-                      Get.find<SetUpPinController>().showPinDialog(context, onSuccess: (){
-                        controller.makePaymentProcess().then(
-                              (value) => StatusScreen.show(
-                            context: context,
-                            subTitle: controller
-                                .makePaymentModelData.message.success.first,
-                            showAppName: false,
-                            onPressed: () {
-                              Get.offAllNamed(Routes.bottomNavBarScreen);
-                            },
-                          ),
-                        );
-                      });
-
+                      Get.find<SetUpPinController>().showPinDialog(
+                        context,
+                        onSuccess: () {
+                          controller.makePaymentProcess().then(
+                            (value) => StatusScreen.show(
+                              context: context,
+                              subTitle: controller
+                                  .makePaymentModelData
+                                  .message
+                                  .success
+                                  .first,
+                              showAppName: false,
+                              onPressed: () {
+                                Get.offAllNamed(Routes.bottomNavBarScreen);
+                              },
+                            ),
+                          );
+                        },
+                      );
                     } else {
                       CustomSnackBar.error(Strings.pleaseSubmitYourInformation);
                       Future.delayed(const Duration(seconds: 2), () {

@@ -1,13 +1,13 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:pin_code_fields/pin_code_fields.dart';
 
 import '../../../backend/model/common/common_success_model.dart';
 import '../../../backend/services/api_services.dart';
 
 class TwoFaOtpController extends GetxController {
-  final emailOtpInputController = TextEditingController();
+  final emailOtpInputController = PinInputController();
 
   bool hasError = false;
   RxString currentText = "".obs;
@@ -30,20 +30,20 @@ class TwoFaOtpController extends GetxController {
     _isLoading.value = true;
     update();
 
-    Map<String, dynamic> inputBody = {
-      'otp': emailOtpInputController.text,
-    };
+    Map<String, dynamic> inputBody = {'otp': emailOtpInputController.text};
 
-    await ApiServices.twoFAVerifyAPi(body: inputBody).then((value) {
-      _updateTwoFAModelData = value!;
+    await ApiServices.twoFAVerifyAPi(body: inputBody)
+        .then((value) {
+          _updateTwoFAModelData = value!;
 
-      _isLoading.value = false;
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-      _isLoading.value = false;
-      update();
-    });
+          _isLoading.value = false;
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+          _isLoading.value = false;
+          update();
+        });
 
     return _updateTwoFAModelData;
   }

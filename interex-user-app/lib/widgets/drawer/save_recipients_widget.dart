@@ -35,7 +35,7 @@ class SaveRecipientWidget extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(Dimensions.radius),
-          color: CustomColor.primaryLightColor.withValues(alpha:0.05),
+          color: CustomColor.primaryLightColor.withValues(alpha: 0.05),
         ),
         padding: EdgeInsets.symmetric(horizontal: Dimensions.paddingSize * 0.2),
         height: Dimensions.heightSize * 6,
@@ -64,12 +64,12 @@ class SaveRecipientWidget extends StatelessWidget {
                           vertical: Dimensions.paddingSize * .1,
                         ),
                         decoration: BoxDecoration(
-                            borderRadius:
-                                BorderRadius.circular(Dimensions.radius),
-                            color: CustomColor.yellowColor.withValues(alpha:.5)),
-                        child: TitleHeading4Widget(
-                          text: type,
+                          borderRadius: BorderRadius.circular(
+                            Dimensions.radius,
+                          ),
+                          color: CustomColor.yellowColor.withValues(alpha: .5),
                         ),
+                        child: TitleHeading4Widget(text: type),
                       ),
                     ],
                   ),
@@ -77,9 +77,10 @@ class SaveRecipientWidget extends StatelessWidget {
                   CustomTitleHeadingWidget(
                     text: subTitle,
                     style: CustomStyle.darkHeading4TextStyle.copyWith(
-                        fontSize: Dimensions.headingTextSize5,
-                        fontWeight: FontWeight.w400,
-                        color: CustomColor.primaryLightColor),
+                      fontSize: Dimensions.headingTextSize5,
+                      fontWeight: FontWeight.w400,
+                      color: CustomColor.primaryLightColor,
+                    ),
                   ),
                 ],
               ),
@@ -104,61 +105,74 @@ class SaveRecipientWidget extends StatelessWidget {
 
   void _showDialog(BuildContext context) {
     showDialog(
-        barrierColor: CustomColor.whiteColor.withValues(alpha:0.8),
-        context: context,
-        barrierDismissible: true,
-        builder: (context) {
-          return GestureDetector(
-              onTap: () {
-                Get.close(1);
-              },
-              child: Container(
-                padding: const EdgeInsets.all(30),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: List.generate(
-                    moreList.length,
-                    (index) => Container(
+      barrierColor: CustomColor.whiteColor.withValues(alpha: 0.8),
+      context: context,
+      barrierDismissible: true,
+      builder: (context) {
+        return GestureDetector(
+          onTap: () {
+            Get.close(1);
+          },
+          child: Container(
+            padding: const EdgeInsets.all(30),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: List.generate(
+                moreList.length,
+                (index) =>
+                    Container(
                       alignment: Alignment.centerLeft,
                       width: MediaQuery.of(context).size.width * 0.6,
-                      color: CustomColor.primaryLightColor.withValues(alpha:0.1),
+                      color: CustomColor.primaryLightColor.withValues(
+                        alpha: 0.1,
+                      ),
                       padding: EdgeInsets.symmetric(
-                          horizontal: Dimensions.widthSize * 1,
-                          vertical: Dimensions.heightSize * 0.1),
+                        horizontal: Dimensions.widthSize * 1,
+                        vertical: Dimensions.heightSize * 0.1,
+                      ),
                       child: TextButton(
-                          onPressed: () {
-                            onTap(moreList[index]);
-                          },
-                          child: Row(
-                            children: [
-                              Text(
-                                moreList[index],
-                                style: GoogleFonts.inter(
-                                  fontSize: Dimensions.headingTextSize3,
-                                  color: CustomColor.primaryLightColor,
-                                  fontWeight: FontWeight.w500,
-                                ),
+                        onPressed: () {
+                          onTap(moreList[index]);
+                        },
+                        child: Row(
+                          children: [
+                            Text(
+                              moreList[index],
+                              style: GoogleFonts.inter(
+                                fontSize: Dimensions.headingTextSize3,
+                                color: CustomColor.primaryLightColor,
+                                fontWeight: FontWeight.w500,
                               ),
-                            ],
-                          )),
+                            ),
+                          ],
+                        ),
+                      ),
                     ).customGlassWidget(
-                        tintColor:
-                            CustomColor.primaryLightColor.withValues(alpha:0.2),
-                        clipBorderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(
-                              index == 2 ? Dimensions.radius * 0.6 : 0),
-                          bottomRight: Radius.circular(
-                              index == 2 ? Dimensions.radius * 0.6 : 0),
-                          topLeft: Radius.circular(
-                              index == 0 ? Dimensions.radius * 0.6 : 0),
-                          topRight: Radius.circular(
-                              index == 0 ? Dimensions.radius * 0.6 : 0),
-                        )),
-                  ),
-                ),
-              ));
-        });
+                      tintColor: CustomColor.primaryLightColor.withValues(
+                        alpha: 0.2,
+                      ),
+                      clipBorderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(
+                          index == 2 ? Dimensions.radius * 0.6 : 0,
+                        ),
+                        bottomRight: Radius.circular(
+                          index == 2 ? Dimensions.radius * 0.6 : 0,
+                        ),
+                        topLeft: Radius.circular(
+                          index == 0 ? Dimensions.radius * 0.6 : 0,
+                        ),
+                        topRight: Radius.circular(
+                          index == 0 ? Dimensions.radius * 0.6 : 0,
+                        ),
+                      ),
+                    ),
+              ),
+            ),
+          ),
+        );
+      },
+    );
   }
 }

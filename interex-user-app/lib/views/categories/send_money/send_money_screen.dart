@@ -82,7 +82,7 @@ class MoneyTransferScreen extends StatelessWidget {
                         ? CustomColor.greenColor
                         : CustomColor.redColor,
                   );
-                })
+                }),
               ],
             ),
             verticalSpace(Dimensions.heightSize),
@@ -124,36 +124,46 @@ class MoneyTransferScreen extends StatelessWidget {
         () => controller.isSendMoneyLoading
             ? const CustomLoadingAPI()
             : PrimaryButton(
-                buttonColor: controller.isValidUser.value &&
-                        double.parse(controller
-                                .remainingController.senderAmount.value) >
+                buttonColor:
+                    controller.isValidUser.value &&
+                        double.parse(
+                              controller.remainingController.senderAmount.value,
+                            ) >
                             0 &&
-                        double.parse(controller
-                                .remainingController.senderAmount.value) <=
+                        double.parse(
+                              controller.remainingController.senderAmount.value,
+                            ) <=
                             controller.dailyLimit.value &&
-                        double.parse(controller
-                                .remainingController.senderAmount.value) <=
+                        double.parse(
+                              controller.remainingController.senderAmount.value,
+                            ) <=
                             controller.monthlyLimit.value
                     ? CustomColor.primaryLightColor
-                    : CustomColor.primaryLightColor.withValues(alpha:0.3),
+                    : CustomColor.primaryLightColor.withValues(alpha: 0.3),
                 title: Strings.send,
                 onPressed: () {
                   if (controller.isValidUser.value &&
-                      double.parse(controller
-                              .remainingController.senderAmount.value) >
+                      double.parse(
+                            controller.remainingController.senderAmount.value,
+                          ) >
                           0 &&
-                      double.parse(controller
-                              .remainingController.senderAmount.value) <=
+                      double.parse(
+                            controller.remainingController.senderAmount.value,
+                          ) <=
                           controller.dailyLimit.value &&
-                      double.parse(controller
-                              .remainingController.senderAmount.value) <=
+                      double.parse(
+                            controller.remainingController.senderAmount.value,
+                          ) <=
                           controller.monthlyLimit.value) {
-
-                    Get.find<SetUpPinController>().showPinDialog(context, onSuccess: (){
-                      Get.toNamed(Routes.sendMoneyPreviewScreen);
-                    });
+                    Get.find<SetUpPinController>().showPinDialog(
+                      context,
+                      onSuccess: () {
+                        Get.toNamed(Routes.sendMoneyPreviewScreen);
+                      },
+                    );
                   }
-                }),
+                },
+              ),
       ),
     );
   }

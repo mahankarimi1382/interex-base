@@ -20,14 +20,14 @@ class SplashController extends GetxController {
                 LocalStorages.isOnBoardDone()
                     ? Routes.signInScreen
                     : Get.find<AppSettingsController>()
-                            .appSettingsModel
-                            .data
-                            .appSettings
-                            .user
-                            .onboardScreen
-                            .isEmpty
-                        ? Routes.signInScreen
-                        : Routes.onboardScreen,
+                          .appSettingsModel
+                          .data
+                          .appSettings
+                          .user
+                          .onboardScreen
+                          .isEmpty
+                    ? Routes.signInScreen
+                    : Routes.onboardScreen,
               );
       },
     );

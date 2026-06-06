@@ -60,10 +60,7 @@ class _PrimaryInputWidgetState extends State<RecipientEmailInputWidget> {
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        TitleHeading4Widget(
-          text: widget.label,
-          fontWeight: FontWeight.w600,
-        ),
+        TitleHeading4Widget(text: widget.label, fontWeight: FontWeight.w600),
         verticalSpace(7),
         TextFormField(
           readOnly: widget.readOnly ?? false,
@@ -83,10 +80,14 @@ class _PrimaryInputWidgetState extends State<RecipientEmailInputWidget> {
               focusNode!.requestFocus();
             });
           },
-          onFieldSubmitted: widget.onFieldSubmitted ??
+          onFieldSubmitted:
+              widget.onFieldSubmitted ??
               (value) {
                 if (widget
-                        .recipientController.emailController.text.isNotEmpty &&
+                        .recipientController
+                        .emailController
+                        .text
+                        .isNotEmpty &&
                     widget.recipientController.transactionTypeFieldName.value ==
                         'wallet-to-wallet-transfer') {
                   widget.recipientController.recipientCheckApiProcess();
@@ -109,24 +110,24 @@ class _PrimaryInputWidgetState extends State<RecipientEmailInputWidget> {
             hintStyle: GoogleFonts.inter(
               fontSize: Dimensions.headingTextSize3,
               fontWeight: FontWeight.w500,
-              color: CustomColor.primaryTextColor.withValues(alpha:0.2),
+              color: CustomColor.primaryTextColor.withValues(alpha: 0.2),
             ),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(Dimensions.radius * 0.5),
-              borderSide: const BorderSide(
-                color: CustomColor.transparent,
-              ),
+              borderSide: const BorderSide(color: CustomColor.transparent),
             ),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(Dimensions.radius * 0.5),
               borderSide: BorderSide(
-                color: CustomColor.primaryLightColor.withValues(alpha:0.2),
+                color: CustomColor.primaryLightColor.withValues(alpha: 0.2),
               ),
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(Dimensions.radius * 0.5),
-              borderSide:
-                  BorderSide(width: 2, color: CustomColor.primaryLightColor),
+              borderSide: BorderSide(
+                width: 2,
+                color: CustomColor.primaryLightColor,
+              ),
             ),
             contentPadding: EdgeInsets.symmetric(
               horizontal: Dimensions.widthSize * 1.7,

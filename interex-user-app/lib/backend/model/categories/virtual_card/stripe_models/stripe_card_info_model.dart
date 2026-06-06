@@ -4,10 +4,7 @@ class StripeCardInfoModel {
   Message message;
   Data data;
 
-  StripeCardInfoModel({
-    required this.message,
-    required this.data,
-  });
+  StripeCardInfoModel({required this.message, required this.data});
 
   factory StripeCardInfoModel.fromJson(Map<String, dynamic> json) =>
       StripeCardInfoModel(
@@ -34,17 +31,17 @@ class Data {
   });
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
-        baseCurr: json["base_curr"],
-        cardBasicInfo: CardBasicInfo.fromJson(json["card_basic_info"]),
-        myCard:
-            List<MyCard>.from(json["myCard"].map((x) => MyCard.fromJson(x))),
-        cardCharge: CardCharge.fromJson(json["cardCharge"]),
-        transactions: List<Transaction>.from(
-            json["transactions"].map((x) => Transaction.fromJson(x))),
-        supportedCurrency: List<SupportedCurrency>.from(
-            json["supported_currency"]
-                .map((x) => SupportedCurrency.fromJson(x))),
-      );
+    baseCurr: json["base_curr"],
+    cardBasicInfo: CardBasicInfo.fromJson(json["card_basic_info"]),
+    myCard: List<MyCard>.from(json["myCard"].map((x) => MyCard.fromJson(x))),
+    cardCharge: CardCharge.fromJson(json["cardCharge"]),
+    transactions: List<Transaction>.from(
+      json["transactions"].map((x) => Transaction.fromJson(x)),
+    ),
+    supportedCurrency: List<SupportedCurrency>.from(
+      json["supported_currency"].map((x) => SupportedCurrency.fromJson(x)),
+    ),
+  );
 }
 
 class CardBasicInfo {
@@ -63,12 +60,12 @@ class CardBasicInfo {
   });
 
   factory CardBasicInfo.fromJson(Map<String, dynamic> json) => CardBasicInfo(
-        cardBackDetails: json["card_back_details"],
-        cardBg: json["card_bg"],
-        siteTitle: json["site_title"],
-        siteLogo: json["site_logo"],
-        siteFav: json["site_fav"],
-      );
+    cardBackDetails: json["card_back_details"],
+    cardBg: json["card_bg"],
+    siteTitle: json["site_title"],
+    siteLogo: json["site_logo"],
+    siteFav: json["site_fav"],
+  );
 }
 
 class CardCharge {
@@ -91,14 +88,14 @@ class CardCharge {
   });
 
   factory CardCharge.fromJson(Map<String, dynamic> json) => CardCharge(
-        id: json["id"],
-        slug: json["slug"],
-        title: json["title"],
-        fixedCharge: double.parse((json["fixed_charge"] ?? "0").toString()),
-        percentCharge: double.parse((json["percent_charge"] ?? "0").toString()),
-        minLimit: double.parse((json["min_limit"] ?? "0").toString()),
-        maxLimit: double.parse((json["max_limit"] ?? "0").toString()),
-      );
+    id: json["id"],
+    slug: json["slug"],
+    title: json["title"],
+    fixedCharge: double.parse((json["fixed_charge"] ?? "0").toString()),
+    percentCharge: double.parse((json["percent_charge"] ?? "0").toString()),
+    minLimit: double.parse((json["min_limit"] ?? "0").toString()),
+    maxLimit: double.parse((json["max_limit"] ?? "0").toString()),
+  );
 }
 
 class MyCard {
@@ -139,39 +136,33 @@ class MyCard {
   });
 
   factory MyCard.fromJson(Map<String, dynamic> json) => MyCard(
-        id: json["id"],
-        cardId: json["card_id"],
-        currency: json["currency"],
-        cardHolder: json["card_holder"],
-        brand: json["brand"],
-        type: json["type"],
-        cardPan: json["card_pan"],
-        expiryMonth: json["expiry_month"],
-        expiryYear: json["expiry_year"],
-        cvv: json["cvv"],
-        cardBackDetails: json["card_back_details"],
-        siteTitle: json["site_title"],
-        siteLogo: json["site_logo"],
-        status: json["status"],
-        isDefault: json["is_default"],
-        statusInfo: MyCardStatusInfo.fromJson(json["status_info"]),
-      );
+    id: json["id"],
+    cardId: json["card_id"],
+    currency: json["currency"],
+    cardHolder: json["card_holder"],
+    brand: json["brand"],
+    type: json["type"],
+    cardPan: json["card_pan"],
+    expiryMonth: json["expiry_month"],
+    expiryYear: json["expiry_year"],
+    cvv: json["cvv"],
+    cardBackDetails: json["card_back_details"],
+    siteTitle: json["site_title"],
+    siteLogo: json["site_logo"],
+    status: json["status"],
+    isDefault: json["is_default"],
+    statusInfo: MyCardStatusInfo.fromJson(json["status_info"]),
+  );
 }
 
 class MyCardStatusInfo {
   int active;
   int inactive;
 
-  MyCardStatusInfo({
-    required this.active,
-    required this.inactive,
-  });
+  MyCardStatusInfo({required this.active, required this.inactive});
 
   factory MyCardStatusInfo.fromJson(Map<String, dynamic> json) =>
-      MyCardStatusInfo(
-        active: json["active"],
-        inactive: json["inactive"],
-      );
+      MyCardStatusInfo(active: json["active"], inactive: json["inactive"]);
 }
 
 class Transaction {
@@ -204,19 +195,19 @@ class Transaction {
   });
 
   factory Transaction.fromJson(Map<String, dynamic> json) => Transaction(
-        id: json["id"],
-        trx: json["trx"],
-        transactionType: json["transaction_type"],
-        requestAmount: json["request_amount"],
-        payable: json["payable"],
-        totalCharge: json["total_charge"],
-        cardAmount: json["card_amount"],
-        cardNumber: json["card_number"],
-        currentBalance: json["current_balance"],
-        status: json["status"],
-        dateTime: DateTime.parse(json["date_time"]),
-        statusInfo: TransactionStatusInfo.fromJson(json["status_info"]),
-      );
+    id: json["id"],
+    trx: json["trx"],
+    transactionType: json["transaction_type"],
+    requestAmount: json["request_amount"],
+    payable: json["payable"],
+    totalCharge: json["total_charge"],
+    cardAmount: json["card_amount"],
+    cardNumber: json["card_number"],
+    currentBalance: json["current_balance"],
+    status: json["status"],
+    dateTime: DateTime.parse(json["date_time"]),
+    statusInfo: TransactionStatusInfo.fromJson(json["status_info"]),
+  );
 }
 
 class TransactionStatusInfo {
@@ -236,19 +227,15 @@ class TransactionStatusInfo {
         pending: json["pending"],
         rejected: json["rejected"],
       );
-
 }
 
 class Message {
   List<String> success;
 
-  Message({
-    required this.success,
-  });
+  Message({required this.success});
 
-  factory Message.fromJson(Map<String, dynamic> json) => Message(
-        success: List<String>.from(json["success"].map((x) => x)),
-      );
+  factory Message.fromJson(Map<String, dynamic> json) =>
+      Message(success: List<String>.from(json["success"].map((x) => x)));
 }
 
 class SupportedCurrency implements DropdownModel {

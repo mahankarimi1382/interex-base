@@ -3,13 +3,10 @@ import 'package:qrpaypro/widgets/payment_link/custom_drop_down.dart';
 class MyTradeModel {
   final Data data;
 
-  MyTradeModel({
-    required this.data,
-  });
+  MyTradeModel({required this.data});
 
-  factory MyTradeModel.fromJson(Map<String, dynamic> json) => MyTradeModel(
-        data: Data.fromJson(json["data"]),
-      );
+  factory MyTradeModel.fromJson(Map<String, dynamic> json) =>
+      MyTradeModel(data: Data.fromJson(json["data"]));
 }
 
 class Data {
@@ -34,18 +31,19 @@ class Data {
   });
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
-        baseUrl: json["base_url"],
-        defaultImage: json["default_image"],
-        imagePath: json["image_path"],
-        trade: List<Trade>.from(json["trade"].map((x) => Trade.fromJson(x))),
-        rateCurrency: List<ECurrency>.from(
-            json["rate_currency"].map((x) => ECurrency.fromJson(x))),
-        saleCurrency: List<ECurrency>.from(
-            json["sale_currency"].map((x) => ECurrency.fromJson(x))),
-        wallet:
-            List<Wallet>.from(json["wallet"].map((x) => Wallet.fromJson(x))),
-        tradeCharge: TradeCharge.fromJson(json["trade_Charge"]),
-      );
+    baseUrl: json["base_url"],
+    defaultImage: json["default_image"],
+    imagePath: json["image_path"],
+    trade: List<Trade>.from(json["trade"].map((x) => Trade.fromJson(x))),
+    rateCurrency: List<ECurrency>.from(
+      json["rate_currency"].map((x) => ECurrency.fromJson(x)),
+    ),
+    saleCurrency: List<ECurrency>.from(
+      json["sale_currency"].map((x) => ECurrency.fromJson(x)),
+    ),
+    wallet: List<Wallet>.from(json["wallet"].map((x) => Wallet.fromJson(x))),
+    tradeCharge: TradeCharge.fromJson(json["trade_Charge"]),
+  );
 }
 
 class ECurrency extends DropdownModel {
@@ -66,13 +64,13 @@ class ECurrency extends DropdownModel {
   });
 
   factory ECurrency.fromJson(Map<String, dynamic> json) => ECurrency(
-        id: json["id"],
-        code: json["code"],
-        symbol: json["symbol"],
-        flag: json["flag"] ?? "",
-        type: json["type"] ?? "FIAT",
-        rate: double.parse(json["rate"]),
-      );
+    id: json["id"],
+    code: json["code"],
+    symbol: json["symbol"],
+    flag: json["flag"] ?? "",
+    type: json["type"] ?? "FIAT",
+    rate: double.parse(json["rate"]),
+  );
 
   @override
   String get title => code;
@@ -114,22 +112,22 @@ class Trade {
   });
 
   factory Trade.fromJson(Map<String, dynamic> json) => Trade(
-        id: json["id"],
-        tradeId: json["trade_id"],
-        trx: json["trx"],
-        transactinType: json["transactin_type"],
-        requestAmount: json["request_amount"],
-        payable: json["payable"],
-        totalCharge: json["total_charge"],
-        buyerWillPay: json["buyer_will_pay"],
-        buyerWillGet: json["buyer_will_get"],
-        saleCurrency: json["sale_currency"],
-        rateCurrency: json["rate_currency"],
-        status: json["status"],
-        statusId: json["status_id"],
-        rejectionReason: json["rejection_reason"],
-        createdAt: DateTime.parse(json["created_at"]),
-      );
+    id: json["id"],
+    tradeId: json["trade_id"],
+    trx: json["trx"],
+    transactinType: json["transactin_type"],
+    requestAmount: json["request_amount"],
+    payable: json["payable"],
+    totalCharge: json["total_charge"],
+    buyerWillPay: json["buyer_will_pay"],
+    buyerWillGet: json["buyer_will_get"],
+    saleCurrency: json["sale_currency"],
+    rateCurrency: json["rate_currency"],
+    status: json["status"],
+    statusId: json["status_id"],
+    rejectionReason: json["rejection_reason"],
+    createdAt: DateTime.parse(json["created_at"]),
+  );
 }
 
 class TradeCharge {
@@ -150,14 +148,15 @@ class TradeCharge {
   });
 
   factory TradeCharge.fromJson(Map<String, dynamic> json) => TradeCharge(
-        id: json["id"],
-        slug: json["slug"],
-        title: json["title"],
-        intervals: List<Interval>.from(
-            json["intervals"].map((x) => Interval.fromJson(x))),
-        monthlyLimit: double.parse(json["monthly_limit"]),
-        dailyLimit: double.parse(json["daily_limit"]),
-      );
+    id: json["id"],
+    slug: json["slug"],
+    title: json["title"],
+    intervals: List<Interval>.from(
+      json["intervals"].map((x) => Interval.fromJson(x)),
+    ),
+    monthlyLimit: double.parse(json["monthly_limit"]),
+    dailyLimit: double.parse(json["daily_limit"]),
+  );
 }
 
 class Interval {
@@ -174,11 +173,11 @@ class Interval {
   });
 
   factory Interval.fromJson(Map<String, dynamic> json) => Interval(
-        minLimit: double.parse(json["min_limit"] ?? "0"),
-        maxLimit: double.parse(json["max_limit"] ?? "0"),
-        charge: double.parse(json["charge"] ?? "0"),
-        percent: double.parse(json["percent"] ?? "0"),
-      );
+    minLimit: double.parse(json["min_limit"] ?? "0"),
+    maxLimit: double.parse(json["max_limit"] ?? "0"),
+    charge: double.parse(json["charge"] ?? "0"),
+    percent: double.parse(json["percent"] ?? "0"),
+  );
 }
 
 class Wallet {
@@ -197,10 +196,10 @@ class Wallet {
   });
 
   factory Wallet.fromJson(Map<String, dynamic> json) => Wallet(
-        id: json["id"],
-        flag: json["flag"] ?? "",
-        code: json["code"],
-        name: json["name"],
-        balance: json["balance"],
-      );
+    id: json["id"],
+    flag: json["flag"] ?? "",
+    code: json["code"],
+    name: json["name"],
+    balance: json["balance"],
+  );
 }

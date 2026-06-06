@@ -23,13 +23,11 @@ class ChatScreen extends StatelessWidget {
 
   Padding _bodyWidget(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(
-          horizontal: Dimensions.paddingSize * .5),
+      padding: EdgeInsets.symmetric(horizontal: Dimensions.paddingSize * .5),
       child: Column(
         mainAxisAlignment: mainEnd,
         children: [
-          Expanded(
-              child: ChatStreamWidget()),
+          Expanded(child: ChatStreamWidget()),
           SendChatWidget(),
           verticalSpace(Dimensions.paddingVerticalSize * .8),
         ],

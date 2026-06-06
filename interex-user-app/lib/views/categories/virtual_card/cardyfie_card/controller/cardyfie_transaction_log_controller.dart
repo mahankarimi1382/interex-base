@@ -1,8 +1,4 @@
-
-
-
 import 'package:get/get.dart';
-
 
 import '../../../../../backend/services/payment_link_services.dart';
 import '../model/card_transaction_model_cardyfie.dart';

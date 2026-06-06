@@ -14,10 +14,7 @@ class CheckMercantWithQrCodeModel {
   Message message;
   Data data;
 
-  CheckMercantWithQrCodeModel({
-    required this.message,
-    required this.data,
-  });
+  CheckMercantWithQrCodeModel({required this.message, required this.data});
 
   factory CheckMercantWithQrCodeModel.fromJson(Map<String, dynamic> json) =>
       CheckMercantWithQrCodeModel(
@@ -26,39 +23,31 @@ class CheckMercantWithQrCodeModel {
       );
 
   Map<String, dynamic> toJson() => {
-        "message": message.toJson(),
-        "data": data.toJson(),
-      };
+    "message": message.toJson(),
+    "data": data.toJson(),
+  };
 }
 
 class Data {
   String merchantMobile;
 
-  Data({
-    required this.merchantMobile,
-  });
+  Data({required this.merchantMobile});
 
-  factory Data.fromJson(Map<String, dynamic> json) => Data(
-        merchantMobile: json["merchant_email"],
-      );
+  factory Data.fromJson(Map<String, dynamic> json) =>
+      Data(merchantMobile: json["merchant_email"]);
 
-  Map<String, dynamic> toJson() => {
-        "merchant_email": merchantMobile,
-      };
+  Map<String, dynamic> toJson() => {"merchant_email": merchantMobile};
 }
 
 class Message {
   List<String> success;
 
-  Message({
-    required this.success,
-  });
+  Message({required this.success});
 
-  factory Message.fromJson(Map<String, dynamic> json) => Message(
-        success: List<String>.from(json["success"].map((x) => x)),
-      );
+  factory Message.fromJson(Map<String, dynamic> json) =>
+      Message(success: List<String>.from(json["success"].map((x) => x)));
 
   Map<String, dynamic> toJson() => {
-        "success": List<dynamic>.from(success.map((x) => x)),
-      };
+    "success": List<dynamic>.from(success.map((x) => x)),
+  };
 }

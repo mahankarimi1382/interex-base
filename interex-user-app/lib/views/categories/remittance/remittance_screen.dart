@@ -86,7 +86,7 @@ class RemittanceScreen extends StatelessWidget {
               controller.fromCountriesRate.value = value.rate;
               controller.fromCountriesType.value = value.type;
               controller.recipientGet;
-               controller.getRate();
+              controller.getRate();
             },
           ),
           verticalSpace(Dimensions.heightSize * 0.5),
@@ -110,7 +110,7 @@ class RemittanceScreen extends StatelessWidget {
               controller.toCountriesRate.value = value.rate;
               controller.recipientGet;
               controller.remittanceGetRecipientProcess();
-               controller.getRate();
+              controller.getRate();
             },
           ),
         ],
@@ -145,12 +145,13 @@ class RemittanceScreen extends StatelessWidget {
         verticalSpace(Dimensions.heightSize * 0.8),
 
         CustomTitleHeadingWidget(
-            text: Strings.recipient,
-            style: CustomStyle.labelTextStyle.copyWith(
-              color: Get.isDarkMode
-                  ? CustomColor.primaryDarkTextColor
-                  : CustomColor.primaryTextColor,
-            )),
+          text: Strings.recipient,
+          style: CustomStyle.labelTextStyle.copyWith(
+            color: Get.isDarkMode
+                ? CustomColor.primaryDarkTextColor
+                : CustomColor.primaryTextColor,
+          ),
+        ),
         verticalSpace(Dimensions.heightSize * 0.5),
 
         Row(
@@ -179,8 +180,9 @@ class RemittanceScreen extends StatelessWidget {
                   width: Dimensions.widthSize * 8.2,
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
-                    borderRadius:
-                        BorderRadius.circular(Dimensions.radius * 0.5),
+                    borderRadius: BorderRadius.circular(
+                      Dimensions.radius * 0.5,
+                    ),
                     color: CustomColor.primaryLightColor,
                   ),
                   child: Container(
@@ -228,21 +230,23 @@ class RemittanceScreen extends StatelessWidget {
               controller.remainingController.senderAmount.value =
                   controller.amountController.text;
               controller.remainingController.getRemainingBalanceProcess();
-             }   
+            }
             controller.recipientGet;
             controller.getFee(rate: controller.fromCountriesRate.value);
           },
         ),
-          verticalSpace(Dimensions.heightSize * 0.3),
+        verticalSpace(Dimensions.heightSize * 0.3),
         if (controller.selectedTrxType.value == 'bank-transfer') ...[
           LimitWidget(
             showExchangeRate: true,
-            exchangeRate: "1 ${ controller.selectedSendingCountryCode.value} - ${controller.exchangeRate.value.toStringAsFixed(precision)} ${ controller.selectedReceivingCountryCode.value} ",
-          
-              fee:
-                  "${controller.totalFee.value.toStringAsFixed(precision)} $currency",
-              limit:
-                  "${controller.minLimit.value.toStringAsFixed(precision)} $currency - ${controller.maxLimit.value.toStringAsFixed(precision)} $currency "),
+            exchangeRate:
+                "1 ${controller.selectedSendingCountryCode.value} - ${controller.exchangeRate.value.toStringAsFixed(precision)} ${controller.selectedReceivingCountryCode.value} ",
+
+            fee:
+                "${controller.totalFee.value.toStringAsFixed(precision)} $currency",
+            limit:
+                "${controller.minLimit.value.toStringAsFixed(precision)} $currency - ${controller.maxLimit.value.toStringAsFixed(precision)} $currency ",
+          ),
         ] else ...[
           LimitWidget(
             fee:
@@ -250,8 +254,8 @@ class RemittanceScreen extends StatelessWidget {
             limit:
                 "${controller.minLimit.value.toStringAsFixed(precision)} $currency - ${controller.maxLimit.value.toStringAsFixed(precision)} $currency ",
           ),
-        ], 
-         
+        ],
+
         verticalSpace(Dimensions.heightSize * 0.3),
         LimitInformationWidget(
           showDailyLimit: controller.dailyLimit.value == 0.0 ? false : true,
@@ -273,29 +277,31 @@ class RemittanceScreen extends StatelessWidget {
           suffixText: controller.selectedReceivingCountryCode.value.toString(),
           controller: controller.recipientGetController,
           label: Strings.recipientGet,
-          onChanged: (amount) {   
+          onChanged: (amount) {
             controller.senderSendAmount;
-          },  
+          },
         ),
       ],
     );
   }
-  
+
   Container _buttonWidget(BuildContext context) {
     return Container(
       margin: EdgeInsets.symmetric(vertical: Dimensions.marginSizeVertical),
       child: PrimaryButton(
-        buttonColor: double.parse(
-                        controller.remainingController.senderAmount.value) >
+        buttonColor:
+            double.parse(controller.remainingController.senderAmount.value) >
                     0 &&
                 double.parse(
-                        controller.remainingController.senderAmount.value) <=
-                    controller.dailyLimit.value && 
+                      controller.remainingController.senderAmount.value,
+                    ) <=
+                    controller.dailyLimit.value &&
                 double.parse(
-                        controller.remainingController.senderAmount.value) <=
+                      controller.remainingController.senderAmount.value,
+                    ) <=
                     controller.monthlyLimit.value
             ? CustomColor.primaryLightColor
-            : CustomColor.primaryLightColor.withValues(alpha:0.3),
+            : CustomColor.primaryLightColor.withValues(alpha: 0.3),
         title: Strings.send,
         onPressed: () {
           if (double.parse(controller.remainingController.senderAmount.value) >
@@ -304,17 +310,15 @@ class RemittanceScreen extends StatelessWidget {
                   controller.dailyLimit.value &&
               double.parse(controller.remainingController.senderAmount.value) <=
                   controller.monthlyLimit.value) {
-
-            Get.find<SetUpPinController>().showPinDialog(context, onSuccess: (){
-              controller.togoRemittancePreview();
-            });
-
+            Get.find<SetUpPinController>().showPinDialog(
+              context,
+              onSuccess: () {
+                controller.togoRemittancePreview();
+              },
+            );
           }
         },
       ),
     );
   }
-
-
-
 }

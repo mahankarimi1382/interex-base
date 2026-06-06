@@ -56,15 +56,17 @@ class EditRecipientController extends GetxController {
     _isLoading.value = true;
     update();
 
-    await ApiServices.saveRecipientInfoAPi().then((value) {
-      _recipientInfoData = value!;
+    await ApiServices.saveRecipientInfoAPi()
+        .then((value) {
+          _recipientInfoData = value!;
 
-      setValues(_recipientInfoData);
+          setValues(_recipientInfoData);
 
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-    });
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+        });
 
     _isLoading.value = false;
     update();
@@ -149,7 +151,8 @@ class EditRecipientController extends GetxController {
 
   RxString updateUserId = "".obs;
   Future<CommonSuccessModel> recipientUpdateApiProcess(
-      BuildContext context) async {
+    BuildContext context,
+  ) async {
     _isLoading.value = true;
     update();
 
@@ -171,13 +174,15 @@ class EditRecipientController extends GetxController {
       'email': emailAddressController.text,
     };
     // calling login api from api service
-    await ApiServices.recipientUpdateApi(body: inputBody).then((value) {
-      _successDatya = value!;
-      _isLoading.value = false;
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-    });
+    await ApiServices.recipientUpdateApi(body: inputBody)
+        .then((value) {
+          _successDatya = value!;
+          _isLoading.value = false;
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+        });
 
     _isLoading.value = false;
     update();

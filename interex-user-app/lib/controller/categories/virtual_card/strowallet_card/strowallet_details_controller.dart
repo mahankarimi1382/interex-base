@@ -32,22 +32,24 @@ class StrowalletCardDetailsController extends GetxController {
     update();
 
     await StrowalletApiServices.strowalletCardDetailsApi(
-            strowalletController.strowalletCardId.value)
+          strowalletController.strowalletCardId.value,
+        )
         .then((value) {
-      _stripeCardDetailsModel = value!;
+          _stripeCardDetailsModel = value!;
 
-      if (_stripeCardDetailsModel.data.myCards.status == true) {
-        isSelected.value = true;
-      } else {
-        isSelected.value = false;
-      }
+          if (_stripeCardDetailsModel.data.myCards.status == true) {
+            isSelected.value = true;
+          } else {
+            isSelected.value = false;
+          }
 
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-      _isLoading.value = false;
-      update();
-    });
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+          _isLoading.value = false;
+          update();
+        });
 
     _isLoading.value = false;
     update();
@@ -66,15 +68,16 @@ class StrowalletCardDetailsController extends GetxController {
     };
     await StrowalletApiServices.strowalletpeActiveApi(body: inputBody)
         .then((value) {
-      _cardActiveModel = value!;
-      update();
-      debugPrint('Card Active');
-      getCardDetailsData();
-    }).catchError((onError) {
-      log.e(onError);
-      _isCardStatusLoading.value = false;
-      update();
-    });
+          _cardActiveModel = value!;
+          update();
+          debugPrint('Card Active');
+          getCardDetailsData();
+        })
+        .catchError((onError) {
+          log.e(onError);
+          _isCardStatusLoading.value = false;
+          update();
+        });
 
     _isCardStatusLoading.value = false;
     update();
@@ -93,15 +96,16 @@ class StrowalletCardDetailsController extends GetxController {
     };
     await StrowalletApiServices.strowalletInactiveApi(body: inputBody)
         .then((value) {
-      _cardInactiveModel = value!;
-      update();
-      debugPrint('Card Inactive');
-      getCardDetailsData();
-    }).catchError((onError) {
-      log.e(onError);
-      _isCardStatusLoading.value = false;
-      update();
-    });
+          _cardInactiveModel = value!;
+          update();
+          debugPrint('Card Inactive');
+          getCardDetailsData();
+        })
+        .catchError((onError) {
+          log.e(onError);
+          _isCardStatusLoading.value = false;
+          update();
+        });
 
     _isCardStatusLoading.value = false;
     update();

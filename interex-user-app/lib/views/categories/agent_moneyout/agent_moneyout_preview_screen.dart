@@ -47,8 +47,9 @@ class AgentMoneyScreenPreviewScreen extends StatelessWidget {
         ? LocalStorages.getFiatPrecision()
         : LocalStorages.getCryptoPrecision();
     return previewAmount(
-        amount:
-            '${double.parse(controller.senderAmountController.text).toStringAsFixed(precision)} ${controller.selectSenderWallet.value!.currency.code}');
+      amount:
+          '${double.parse(controller.senderAmountController.text).toStringAsFixed(precision)} ${controller.selectSenderWallet.value!.currency.code}',
+    );
   }
 
   Widget _amountInformationWidget(BuildContext context) {
@@ -88,9 +89,7 @@ class AgentMoneyScreenPreviewScreen extends StatelessWidget {
 
   Container _buttonWidget(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(
-        top: Dimensions.marginSizeVertical * 2,
-      ),
+      margin: EdgeInsets.only(top: Dimensions.marginSizeVertical * 2),
       child: Obx(
         () => controller.isSendMoneyLoading
             ? const CustomLoadingAPI()
@@ -98,7 +97,9 @@ class AgentMoneyScreenPreviewScreen extends StatelessWidget {
                 title: Strings.confirm,
                 onPressed: () {
                   if (dashBoardController.kycStatus.value == 1) {
-                    controller.moneyOutProcess(context).then(
+                    controller
+                        .moneyOutProcess(context)
+                        .then(
                           (value) => StatusScreen.show(
                             context: context,
                             subTitle: Strings.yourmoneySenSuccess,
@@ -111,8 +112,7 @@ class AgentMoneyScreenPreviewScreen extends StatelessWidget {
                     CustomSnackBar.error(Strings.pleaseSubmitYourInformation);
                     Future.delayed(const Duration(seconds: 2), () {
                       Get.toNamed(Routes.updateKycScreen);
-                    }); 
-                    
+                    });
                   }
                 },
               ),
@@ -129,18 +129,14 @@ class AgentMoneyScreenPreviewScreen extends StatelessWidget {
             TitleHeading4Widget(
               text: title,
               color: Get.isDarkMode
-                  ? CustomColor.primaryDarkTextColor.withValues(alpha:0.6)
-                  : CustomColor.primaryLightColor.withValues(alpha:
-                      0.4,
-                    ),
+                  ? CustomColor.primaryDarkTextColor.withValues(alpha: 0.6)
+                  : CustomColor.primaryLightColor.withValues(alpha: 0.4),
             ),
             TitleHeading3Widget(
               text: subTitle,
               color: Get.isDarkMode
-                  ? CustomColor.primaryDarkTextColor.withValues(alpha:0.6)
-                  : CustomColor.primaryLightColor.withValues(alpha:
-                      0.6,
-                    ),
+                  ? CustomColor.primaryDarkTextColor.withValues(alpha: 0.6)
+                  : CustomColor.primaryLightColor.withValues(alpha: 0.6),
               fontWeight: FontWeight.w600,
             ),
           ],

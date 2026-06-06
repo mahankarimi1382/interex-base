@@ -45,32 +45,36 @@ const String isPusherAuthenticationKey = "isPusherAuthenticationKey";
 const String pusherInstanceIdKey = "pusherInstanceIdKey";
 
 class LocalStorages {
-  static Future<void> saveEmailVerification(
-      {required bool isEmailVerification}) async {
+  static Future<void> saveEmailVerification({
+    required bool isEmailVerification,
+  }) async {
     final box = GetStorage();
 
     await box.write(isEmailVerificationKey, isEmailVerification);
     debugPrint(isEmailVerification.toString());
   }
 
-  static Future<void> saveSmsVerification(
-      {required bool isSmsVerification}) async {
+  static Future<void> saveSmsVerification({
+    required bool isSmsVerification,
+  }) async {
     final box = GetStorage();
 
     await box.write(isSmsVerificationKey, isSmsVerification);
     debugPrint(isSmsVerification.toString());
   }
 
-  static Future<void> saveKycVerification(
-      {required bool isKycVerification}) async {
+  static Future<void> saveKycVerification({
+    required bool isKycVerification,
+  }) async {
     final box = GetStorage();
 
     await box.write(isKycVerificationKey, isKycVerification);
     debugPrint(isKycVerification.toString());
   }
 
-  static Future<void> savePusherAuthenticationKey(
-      {required bool pusherAuthenticationKey}) async {
+  static Future<void> savePusherAuthenticationKey({
+    required bool pusherAuthenticationKey,
+  }) async {
     final box = GetStorage();
 
     await box.write(isPusherAuthenticationKey, pusherAuthenticationKey);
@@ -123,8 +127,9 @@ class LocalStorages {
     await box.write(tokenKey, token);
   }
 
-  static Future<void> saveCountryCode(
-      {required String countryCodeValue}) async {
+  static Future<void> saveCountryCode({
+    required String countryCodeValue,
+  }) async {
     final box = GetStorage();
 
     await box.write(countryCode, countryCodeValue);
@@ -172,8 +177,9 @@ class LocalStorages {
     await box.write(showAdKey, isShowAdYes);
   }
 
-  static Future<void> saveOnboardDoneOrNot(
-      {required bool isOnBoardDone}) async {
+  static Future<void> saveOnboardDoneOrNot({
+    required bool isOnBoardDone,
+  }) async {
     final box = GetStorage();
 
     await box.write(isOnBoardDoneKey, isOnBoardDone);
@@ -215,20 +221,25 @@ class LocalStorages {
     final box = GetStorage();
     await box.remove(language);
   }
-static Future<void> saveFiatPrecision({required int value}) async {
+
+  static Future<void> saveFiatPrecision({required int value}) async {
     final box = GetStorage();
     await box.write('FiatPrecision', value);
   }
+
   static int getFiatPrecision() {
     return GetStorage().read('FiatPrecision') ?? 0;
   }
+
   static Future<void> saveCryptoPrecision({required int value}) async {
     final box = GetStorage();
     await box.write('CryptoPrecision', value);
   }
+
   static int getCryptoPrecision() {
     return GetStorage().read('CryptoPrecision') ?? 0;
   }
+
   static String? getId() {
     return GetStorage().read(idKey);
   }

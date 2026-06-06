@@ -87,55 +87,59 @@ class VirtualSudoCardController extends GetxController {
     _isLoading.value = true;
     update();
 
-    await ApiServices.sudoCardInfoApi().then((value) {
-      _cardInfoModel = value!;
-      baseCurrency.value = _cardInfoModel.data.baseCurr;
-      baseCurrencyList.add(_cardInfoModel.data.baseCurr);
+    await ApiServices.sudoCardInfoApi()
+        .then((value) {
+          _cardInfoModel = value!;
+          baseCurrency.value = _cardInfoModel.data.baseCurr;
+          baseCurrencyList.add(_cardInfoModel.data.baseCurr);
 
-      limitMin.value = _cardInfoModel.data.cardCharge.minLimit;
-      limitMax.value = _cardInfoModel.data.cardCharge.maxLimit;
-      percentCharge.value = _cardInfoModel.data.cardCharge.percentCharge;
-      fixedCharge.value = _cardInfoModel.data.cardCharge.fixedCharge;
-      rate.value = 1.0;
+          limitMin.value = _cardInfoModel.data.cardCharge.minLimit;
+          limitMax.value = _cardInfoModel.data.cardCharge.maxLimit;
+          percentCharge.value = _cardInfoModel.data.cardCharge.percentCharge;
+          fixedCharge.value = _cardInfoModel.data.cardCharge.fixedCharge;
+          rate.value = 1.0;
 
-      cardImage.value = _cardInfoModel.data.cardBasicInfo.cardBg;
-      cardBackDetails.value = _cardInfoModel.data.cardBasicInfo.cardBackDetails;
-      siteTitle.value = _cardInfoModel.data.cardBasicInfo.siteTitle;
-      siteLogo.value = _cardInfoModel.data.cardBasicInfo.siteLogo;
-      selectedSupportedCurrency.value =
-          _cardInfoModel.data.supportedCurrency.first;
+          cardImage.value = _cardInfoModel.data.cardBasicInfo.cardBg;
+          cardBackDetails.value =
+              _cardInfoModel.data.cardBasicInfo.cardBackDetails;
+          siteTitle.value = _cardInfoModel.data.cardBasicInfo.siteTitle;
+          siteLogo.value = _cardInfoModel.data.cardBasicInfo.siteLogo;
+          selectedSupportedCurrency.value =
+              _cardInfoModel.data.supportedCurrency.first;
 
-      for (var v in _cardInfoModel.data.supportedCurrency) {
-        supportedCurrencyList.add(
-          SupportedCurrency(
-            id: v.id,
-            country: v.country,
-            name: v.name,
-            code: v.code,
-            type: v.type,
-            rate: v.rate,
-            supportedCurrencyDefault: v.supportedCurrencyDefault,
-            status: v.status,
-            // createdAt: v.createdAt,
-            currencyImage: v.currencyImage,
-          ),
-        );
-      }
-      selectMainWallet.value =
-          walletsController.walletsInfoModel.data.userWallets.first;
-      for (var element in walletsController.walletsInfoModel.data.userWallets) {
-        walletsList.add(
-          MainUserWallet(
-            balance: element.balance,
-            currency: element.currency,
-            status: element.status,
-          ),
-        );
-      }
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-    });
+          for (var v in _cardInfoModel.data.supportedCurrency) {
+            supportedCurrencyList.add(
+              SupportedCurrency(
+                id: v.id,
+                country: v.country,
+                name: v.name,
+                code: v.code,
+                type: v.type,
+                rate: v.rate,
+                supportedCurrencyDefault: v.supportedCurrencyDefault,
+                status: v.status,
+                // createdAt: v.createdAt,
+                currencyImage: v.currencyImage,
+              ),
+            );
+          }
+          selectMainWallet.value =
+              walletsController.walletsInfoModel.data.userWallets.first;
+          for (var element
+              in walletsController.walletsInfoModel.data.userWallets) {
+            walletsList.add(
+              MainUserWallet(
+                balance: element.balance,
+                currency: element.currency,
+                status: element.status,
+              ),
+            );
+          }
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+        });
 
     _isLoading.value = false;
     update();
@@ -164,13 +168,15 @@ class VirtualSudoCardController extends GetxController {
     _isDetailsLoading.value = true;
     update();
 
-    await ApiServices.sudoCardDetailsApi(id: id).then((value) {
-      _cardDetailsModel = value!;
+    await ApiServices.sudoCardDetailsApi(id: id)
+        .then((value) {
+          _cardDetailsModel = value!;
 
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-    });
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+        });
 
     _isDetailsLoading.value = false;
     update();
@@ -195,13 +201,15 @@ class VirtualSudoCardController extends GetxController {
 
     update();
 
-    await ApiServices.sudoCardBlockApi(body: inputBody).then((value) {
-      _cardBlockModel = value!;
-      getCardDetailsData(cardId);
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-    });
+    await ApiServices.sudoCardBlockApi(body: inputBody)
+        .then((value) {
+          _cardBlockModel = value!;
+          getCardDetailsData(cardId);
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+        });
 
     _isLoading.value = false;
     update();
@@ -227,13 +235,15 @@ class VirtualSudoCardController extends GetxController {
 
     update();
 
-    await ApiServices.sudoCardUnBlockApi(body: inputBody).then((value) {
-      _cardUnBlockModel = value!;
-      getCardDetailsData(cardId);
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-    });
+    await ApiServices.sudoCardUnBlockApi(body: inputBody)
+        .then((value) {
+          _cardUnBlockModel = value!;
+          getCardDetailsData(cardId);
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+        });
 
     _isLoading.value = false;
     update();
@@ -258,12 +268,13 @@ class VirtualSudoCardController extends GetxController {
 
     await ApiServices.sudoCardMakeOrRemoveDefaultApi(body: inputBody)
         .then((value) {
-      _cardDefaultModel = value!;
-      getCardInfoData();
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-    });
+          _cardDefaultModel = value!;
+          getCardInfoData();
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+        });
 
     _isMakeDefaultLoading.value = false;
     update();
@@ -286,13 +297,14 @@ class VirtualSudoCardController extends GetxController {
     _isLoading.value = true;
     update();
     Get.toNamed(Routes.transactionHistoryScreen);
-    await ApiServices.cardTransactionApi(id: id).then((value) {
-
-      _cardTransactionModel = value!;
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-    });
+    await ApiServices.cardTransactionApi(id: id)
+        .then((value) {
+          _cardTransactionModel = value!;
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+        });
 
     _isLoading.value = false;
     update();
@@ -309,19 +321,19 @@ class VirtualSudoCardController extends GetxController {
 
   Future<CommonSuccessModel> cardCreateProcess(String cardAmount) async {
     _isLoading.value = true;
-    Map<String, dynamic> inputBody = {
-      'card_amount': cardAmount,
-    };
+    Map<String, dynamic> inputBody = {'card_amount': cardAmount};
 
     update();
 
-    await ApiServices.createCardApi(body: inputBody).then((value) {
-      _cardCreateData = value!;
+    await ApiServices.createCardApi(body: inputBody)
+        .then((value) {
+          _cardCreateData = value!;
 
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-    });
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+        });
 
     _isLoading.value = false;
     update();
@@ -341,7 +353,8 @@ class VirtualSudoCardController extends GetxController {
     }
 
     percentCharge.value = ((amount / 100) * data.percentCharge);
-    totalCharge.value = (double.parse(data.fixedCharge.toString()) *
+    totalCharge.value =
+        (double.parse(data.fixedCharge.toString()) *
             double.parse(selectMainWallet.value!.currency.rate.toString())) +
         percentCharge.value;
 

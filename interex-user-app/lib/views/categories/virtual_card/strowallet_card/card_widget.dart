@@ -37,31 +37,33 @@ class CardWidget extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(Dimensions.radius * 1.3),
           image: DecorationImage(
-              image: NetworkImage(cardBgNetwork!),
-              scale: Platform.isAndroid ? 3 : 3),
+            image: NetworkImage(cardBgNetwork!),
+            scale: Platform.isAndroid ? 3 : 3,
+          ),
         ),
         child: Column(
           mainAxisSize: mainMin,
           crossAxisAlignment: crossStart,
           children: [
             Container(
-                margin: EdgeInsets.only(
-                  top: Dimensions.heightSize * 1.3,
-                  bottom: Dimensions.heightSize * 1.3,
-                ),
-                alignment: Alignment.topRight,
-                child: Column(
-                  children: [
-                    Visibility(
-                      visible: isNetworkImage,
-                      child: Image.network(
-                        logo,
-                        color: CustomColor.whiteColor,
-                        height: Dimensions.heightSize * 1.5,
-                      ),
+              margin: EdgeInsets.only(
+                top: Dimensions.heightSize * 1.3,
+                bottom: Dimensions.heightSize * 1.3,
+              ),
+              alignment: Alignment.topRight,
+              child: Column(
+                children: [
+                  Visibility(
+                    visible: isNetworkImage,
+                    child: Image.network(
+                      logo,
+                      color: CustomColor.whiteColor,
+                      height: Dimensions.heightSize * 1.5,
                     ),
-                  ],
-                )),
+                  ),
+                ],
+              ),
+            ),
             CustomTitleHeadingWidget(
               padding: EdgeInsets.only(
                 left: Dimensions.paddingSize * 0.1,
@@ -90,7 +92,7 @@ class CardWidget extends StatelessWidget {
                         color: CustomColor.whiteColor,
                       ),
                       TitleHeading4Widget(
-                        color: CustomColor.whiteColor.withValues(alpha:0.6),
+                        color: CustomColor.whiteColor.withValues(alpha: 0.6),
                         fontWeight: FontWeight.w500,
                         fontSize: Dimensions.headingTextSize5,
                         text: Strings.expiryDate,
@@ -108,7 +110,7 @@ class CardWidget extends StatelessWidget {
                         color: CustomColor.whiteColor,
                       ),
                       TitleHeading4Widget(
-                        color: CustomColor.whiteColor.withValues(alpha:0.6),
+                        color: CustomColor.whiteColor.withValues(alpha: 0.6),
                         fontWeight: FontWeight.w500,
                         fontSize: Dimensions.headingTextSize5,
                         text: availableBalance ?? Strings.availabeBlance,
@@ -131,9 +133,7 @@ class CardWidget extends StatelessWidget {
         ),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(Dimensions.radius * 1.3),
-          image: DecorationImage(
-            image: NetworkImage(cardBgNetwork!),
-          ),
+          image: DecorationImage(image: NetworkImage(cardBgNetwork!)),
         ),
         child: Column(
           crossAxisAlignment: crossEnd,
@@ -147,7 +147,7 @@ class CardWidget extends StatelessWidget {
               style: GoogleFonts.outfit(
                 fontSize: Dimensions.headingTextSize2 * 0.5,
                 fontWeight: FontWeight.w500,
-                color: CustomColor.whiteColor.withValues(alpha:0.6),
+                color: CustomColor.whiteColor.withValues(alpha: 0.6),
               ),
             ),
             Container(
@@ -159,16 +159,14 @@ class CardWidget extends StatelessWidget {
               ),
               alignment: Alignment.center,
               decoration: BoxDecoration(
-                color: CustomColor.primaryLightTextColor.withValues(alpha:0.2),
-                borderRadius: BorderRadius.circular(
-                  Dimensions.radius * 0.3,
-                ),
+                color: CustomColor.primaryLightTextColor.withValues(alpha: 0.2),
+                borderRadius: BorderRadius.circular(Dimensions.radius * 0.3),
               ),
               child: TitleHeading4Widget(
                 text: cvv,
                 fontSize: 10,
                 fontWeight: FontWeight.w600,
-                color: CustomColor.whiteColor.withValues(alpha:0.4),
+                color: CustomColor.whiteColor.withValues(alpha: 0.4),
               ),
             ),
             verticalSpace(Dimensions.heightSize * 2),

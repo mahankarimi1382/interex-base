@@ -45,11 +45,13 @@ class TitleHeading4Widget extends StatelessWidget {
                       ? CustomStyle.darkHeading4TextStyle.copyWith(
                           fontSize: fontSize,
                           fontWeight: fontWeight,
-                          color: color)
+                          color: color,
+                        )
                       : CustomStyle.lightHeading4TextStyle.copyWith(
                           fontSize: fontSize,
                           fontWeight: fontWeight,
-                          color: color),
+                          color: color,
+                        ),
                   textAlign: textAlign,
                   overflow: textOverflow,
                   maxLines: maxLines,
