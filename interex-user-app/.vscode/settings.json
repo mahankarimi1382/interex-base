@@ -1,0 +1,16 @@
+{
+    "editor.codeActionsOnSave": {
+        "source.fixAll": "explicit",
+        "source.organizeImports": "explicit"
+    },
+    "editor.acceptSuggestionOnEnter": "on",
+    "cSpell.words": [
+        "AGENCYFB",
+        "appbar",
+        "Pagadito",
+        "Paystack",
+        "qrpaypro",
+        "strowallet",
+        "topup"
+    ]
+}

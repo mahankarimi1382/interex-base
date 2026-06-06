@@ -1,0 +1,1 @@
+/Users/appdevs/StudioProjects/Qrpay-Pro-Mechant-App/build/app/intermediates/cxx/RelWithDebInfo/54712kw6/obj/arm64-v8a

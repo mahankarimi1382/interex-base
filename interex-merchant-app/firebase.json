@@ -1,0 +1,30 @@
+{
+    "flutter": {
+        "platforms": {
+            "android": {
+                "default": {
+                    "projectId": "adchatv2",
+                    "appId": "1:149173581625:android:89d7295c1ded7a93fb5ae8",
+                    "fileOutput": "android/app/google-services.json"
+                }
+            },
+            "ios": {
+                "default": {
+                    "projectId": "adchatv2",
+                    "appId": "1:149173581625:ios:ba16895ac1c0be7afb5ae8",
+                    "uploadDebugSymbols": false,
+                    "fileOutput": "ios/Runner/GoogleService-Info.plist"
+                }
+            },
+            "dart": {
+                "lib/firebase_options.dart": {
+                    "projectId": "adchatv2",
+                    "configurations": {
+                        "android": "1:149173581625:android:89d7295c1ded7a93fb5ae8",
+                        "ios": "1:149173581625:ios:ba16895ac1c0be7afb5ae8"
+                    }
+                }
+            }
+        }
+    }
+}

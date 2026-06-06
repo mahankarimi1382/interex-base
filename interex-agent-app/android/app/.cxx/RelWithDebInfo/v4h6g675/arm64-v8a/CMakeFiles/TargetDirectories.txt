@@ -1,0 +1,2 @@
+/Users/appdevs/StudioProjects/Qrpay-Pro_Agent-App/android/app/.cxx/RelWithDebInfo/v4h6g675/arm64-v8a/CMakeFiles/rebuild_cache.dir
+/Users/appdevs/StudioProjects/Qrpay-Pro_Agent-App/android/app/.cxx/RelWithDebInfo/v4h6g675/arm64-v8a/CMakeFiles/edit_cache.dir

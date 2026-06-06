@@ -1,0 +1,25 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Update JSON to Double",
+            "type": "shell",
+            "command": "${workspaceFolder}/update_json.sh",
+            "args": [
+                "${input:filePath}"
+            ],
+            "problemMatcher": [],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        }
+    ],
+    "inputs": [
+        {
+            "id": "filePath",
+            "type": "promptString",
+            "description": "Enter the path to the Dart file"
+        }
+    ]
+}

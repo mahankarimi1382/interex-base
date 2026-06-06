@@ -1,0 +1,1 @@
+/Users/appdevs/StudioProjects/Qrpay-Pro-User-App/build/app/intermediates/cxx/RelWithDebInfo/375s1u2m/obj/armeabi-v7a

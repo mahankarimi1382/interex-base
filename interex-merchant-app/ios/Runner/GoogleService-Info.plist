@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>149173581625-7d6njhsujg788ehjttu9cji7mvqe8m6p.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyDLt59YoEMNe7fpJslvNn4vHN1jZWfp2IM</string>
+	<key>GCM_SENDER_ID</key>
+	<string>149173581625</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>net.appdevs.qrpaymerchant</string>
+	<key>PROJECT_ID</key>
+	<string>adchatv2</string>
+	<key>STORAGE_BUCKET</key>
+	<string>adchatv2.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:149173581625:ios:ba16895ac1c0be7afb5ae8</string>
+</dict>
+</plist>
