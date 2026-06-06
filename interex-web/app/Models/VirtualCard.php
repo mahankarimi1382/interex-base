@@ -5,13 +5,15 @@ namespace App\Models;
 use App\Models\Admin\Currency;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Plan;
 
 class VirtualCard extends Model
 {
     use HasFactory;
+
     protected $guarded = ['id'];
-    protected $table = "virtual_cards";
+
+    protected $table = 'virtual_cards';
+
     protected $casts = [
         'user_id' => 'integer',
         'card_id' => 'string',
@@ -42,13 +44,13 @@ class VirtualCard extends Model
 
     ];
 
-
-    public function user() {
+    public function user()
+    {
         return $this->belongsTo(User::class);
     }
 
-    public function card_currency() {
-        return $this->belongsTo(Currency::class,'currency','code');
+    public function card_currency()
+    {
+        return $this->belongsTo(Currency::class, 'currency', 'code');
     }
-
 }

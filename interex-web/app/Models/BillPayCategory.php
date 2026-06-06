@@ -8,8 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class BillPayCategory extends Model
 {
     use HasFactory;
-    protected $table = "bill_pay_categories";
+
+    protected $table = 'bill_pay_categories';
+
     protected $guarded = ['id'];
+
     protected $casts = [
         'admin_id' => 'integer',
         'name' => 'string',
@@ -21,17 +24,20 @@ class BillPayCategory extends Model
     protected $appends = [
         'editData',
     ];
-    public function getEditDataAttribute() {
+
+    public function getEditDataAttribute()
+    {
 
         $data = [
-            'id'      => $this->id,
-            'name'      => $this->name,
-            'slug'      => $this->slug,
-            'status'      => $this->status,
+            'id' => $this->id,
+            'name' => $this->name,
+            'slug' => $this->slug,
+            'status' => $this->status,
         ];
 
         return json_encode($data);
     }
+
     public function scopeActive($query)
     {
         return $query->where('status', true);
@@ -42,7 +48,8 @@ class BillPayCategory extends Model
         return $query->where('status', false);
     }
 
-    public function scopeSearch($query,$text) {
-        $query->Where("name","like","%".$text."%");
+    public function scopeSearch($query, $text)
+    {
+        $query->Where('name', 'like', '%'.$text.'%');
     }
 }

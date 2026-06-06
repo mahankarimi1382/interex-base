@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('sudo_virtual_cards', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger("user_id");
+            $table->unsignedBigInteger('user_id');
             $table->string('card_id')->nullable();
             $table->string('name')->nullable();
             $table->string('business_id')->nullable();
@@ -25,8 +25,8 @@ return new class extends Migration
             $table->string('type')->nullable();
             $table->string('brand')->nullable();
             $table->string('currency')->nullable();
-            $table->string('amount',28,8)->default(0.00000000);
-            $table->string('charge',28,8)->default(0.00000000);
+            $table->string('amount', 28, 8)->default(0.00000000);
+            $table->string('charge', 28, 8)->default(0.00000000);
             $table->string('maskedPan')->nullable();
             $table->string('last4')->nullable();
             $table->string('expiryMonth')->nullable();

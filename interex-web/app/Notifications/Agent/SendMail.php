@@ -38,7 +38,7 @@ class SendMail extends Notification
      * Get the mail representation of the notification.
      *
      * @param  mixed  $notifiable
-     * @return \Illuminate\Notifications\Messages\MailMessage
+     * @return MailMessage
      */
     public function toMail($notifiable)
     {
@@ -46,9 +46,9 @@ class SendMail extends Notification
         $data = $this->data;
 
         return (new MailMessage)
-                    ->greeting('Hey ' . $user->fullname . "!")
-                    ->subject($data->subject)
-                    ->line(new HtmlString($data->message));
+            ->greeting('Hey '.$user->fullname.'!')
+            ->subject($data->subject)
+            ->line(new HtmlString($data->message));
     }
 
     /**

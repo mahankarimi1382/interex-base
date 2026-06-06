@@ -35,7 +35,7 @@ class ImageCompat
      */
     public static function make($source): self
     {
-        $manager = new ImageManager(new Driver());
+        $manager = new ImageManager(new Driver);
 
         // v4 ImageManager exposes read()/decode() depending on the release;
         // use whichever is available so the shim works across 4.x versions.
@@ -80,8 +80,10 @@ class ImageCompat
         if ($callback !== null) {
             // Run the legacy constraint callback against a no-op stub so the
             // existing closures ($constraint->aspectRatio()) don't error.
-            $callback(new class {
+            $callback(new class
+            {
                 public function aspectRatio() {}
+
                 public function upsize() {}
             });
 
@@ -136,11 +138,11 @@ class ImageCompat
             'jpg', 'jpeg' => new JpegEncoder(quality: (int) $quality),
             'webp' => new WebpEncoder(quality: (int) $quality),
             'avif' => new AvifEncoder(quality: (int) $quality),
-            'png' => new PngEncoder(),
-            'gif' => new GifEncoder(),
+            'png' => new PngEncoder,
+            'gif' => new GifEncoder,
             default => $extension !== ''
                 ? new FileExtensionEncoder($extension)
-                : new FileExtensionEncoder(),
+                : new FileExtensionEncoder,
         };
 
         return $this->image->encode($encoder);

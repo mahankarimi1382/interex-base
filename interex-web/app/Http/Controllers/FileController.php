@@ -3,15 +3,13 @@
 namespace App\Http\Controllers;
 
 use Exception;
-use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 class FileController extends Controller
 {
-
     public function storeFile(Request $request)
     {
         $data = [];
@@ -34,7 +32,7 @@ class FileController extends Controller
             $file_ext = $file_holder_files->getClientOriginalExtension();
             $file_store_name = Str::uuid().'.'.$file_ext;
 
-            $data['path'] = "fileholder/img"; // store path
+            $data['path'] = 'fileholder/img'; // store path
 
             $data['file_name'] = $file_store_name;
             $data['file_link'] = Storage::disk(Storage::getDefaultDriver())->url($data['path'].'/'.$data['file_name']);
@@ -77,7 +75,7 @@ class FileController extends Controller
         $file_info = json_decode($validated['file_info']);
         $data['status'] = true;
         try {
-            Storage::disk(Storage::getDefaultDriver())->delete(rtrim($file_info->path, "/") . "/" . $file_info->file_name);
+            Storage::disk(Storage::getDefaultDriver())->delete(rtrim($file_info->path, '/').'/'.$file_info->file_name);
 
             $data['message'] = 'File Deleted Successfully!';
         } catch (Exception $e) {

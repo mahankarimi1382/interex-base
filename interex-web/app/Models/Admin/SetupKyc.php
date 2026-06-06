@@ -12,24 +12,30 @@ class SetupKyc extends Model
     protected $guarded = ['id'];
 
     protected $casts = [
-        'slug'    => "string",
-        'user_type'    => "string",
-        'status'    => "integer",
-        'last_edit_by'    => "integer",
-        'fields'    => "object",
+        'slug' => 'string',
+        'user_type' => 'string',
+        'status' => 'integer',
+        'last_edit_by' => 'integer',
+        'fields' => 'object',
     ];
 
-    public function scopeUserKyc($query) {
-        return $query->where("user_type","USER")->active();
-    }
-    public function scopeMerchantKyc($query) {
-        return $query->where("user_type","MERCHANT")->active();
-    }
-    public function scopeAgentKyc($query) {
-        return $query->where("user_type","AGENT")->active();
+    public function scopeUserKyc($query)
+    {
+        return $query->where('user_type', 'USER')->active();
     }
 
-    public function scopeActive($query) {
-        $query->where("status",true);
+    public function scopeMerchantKyc($query)
+    {
+        return $query->where('user_type', 'MERCHANT')->active();
+    }
+
+    public function scopeAgentKyc($query)
+    {
+        return $query->where('user_type', 'AGENT')->active();
+    }
+
+    public function scopeActive($query)
+    {
+        $query->where('status', true);
     }
 }

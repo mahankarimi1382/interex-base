@@ -3,7 +3,6 @@
 namespace App\Notifications\Merchant\Auth;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
@@ -38,18 +37,19 @@ class SendAuthorizationCode extends Notification
      * Get the mail representation of the notification.
      *
      * @param  mixed  $notifiable
-     * @return \Illuminate\Notifications\Messages\MailMessage
+     * @return MailMessage
      */
     public function toMail($notifiable)
     {
         $fullname = $notifiable->fullname;
         $data = $this->data;
+
         return (new MailMessage)
-                    ->subject("Account Authorization")
-                    ->greeting("Hello ".$fullname . "!")
-                    ->line('Need to verify your account before access your dashboard.')
-                    ->line("Your verification code: ".$data->code)
-                    ->line(__('Thank you for using our application!'));
+            ->subject('Account Authorization')
+            ->greeting('Hello '.$fullname.'!')
+            ->line('Need to verify your account before access your dashboard.')
+            ->line('Your verification code: '.$data->code)
+            ->line(__('Thank you for using our application!'));
     }
 
     /**

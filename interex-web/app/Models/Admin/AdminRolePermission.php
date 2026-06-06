@@ -2,8 +2,8 @@
 
 namespace App\Models\Admin;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class AdminRolePermission extends Model
 {
@@ -16,29 +16,33 @@ class AdminRolePermission extends Model
         'hasPermissions',
     ];
 
-    public function role() {
-        return $this->belongsTo(AdminRole::class,"admin_role_id");
+    public function role()
+    {
+        return $this->belongsTo(AdminRole::class, 'admin_role_id');
     }
 
-    public function getStringStatusAttribute() {
+    public function getStringStatusAttribute()
+    {
         $status = [
-             true    => __("active"),
-            false   => __("Deactivated"),
+            true => __('active'),
+            false => __('Deactivated'),
         ];
 
         return $status[$this->status];
     }
 
-    public function getEditDataAttribute() {
+    public function getEditDataAttribute()
+    {
         $data = [
-            'id'        => $this->id,
-            'name'      => $this->name,
+            'id' => $this->id,
+            'name' => $this->name,
         ];
 
         return json_encode($data);
     }
 
-    public function hasPermissions() {
-        return $this->hasMany(AdminRoleHasPermission::class,"admin_role_permission_id");
+    public function hasPermissions()
+    {
+        return $this->hasMany(AdminRoleHasPermission::class, 'admin_role_permission_id');
     }
 }

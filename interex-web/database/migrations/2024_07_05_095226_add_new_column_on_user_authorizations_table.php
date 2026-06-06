@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('user_authorizations',function(Blueprint $table){
+        Schema::table('user_authorizations', function (Blueprint $table) {
             $table->string('phone')->nullable()->after('email');
             $table->text('temp_data')->nullable()->after('token');
         });

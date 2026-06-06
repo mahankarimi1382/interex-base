@@ -15,12 +15,12 @@ return new class extends Migration
     {
         Schema::create('conversation_attachments', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger("chatbox_id");
-            $table->string("attachment",255)->nullable();
-            $table->text("attachment_info",1000)->nullable();
+            $table->unsignedBigInteger('chatbox_id');
+            $table->string('attachment', 255)->nullable();
+            $table->text('attachment_info', 1000)->nullable();
             $table->timestamps();
 
-            $table->foreign("chatbox_id")->references("id")->on("chatboxes")->onDelete("cascade")->onUpdate("cascade");
+            $table->foreign('chatbox_id')->references('id')->on('chatboxes')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 

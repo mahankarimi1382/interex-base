@@ -4,14 +4,12 @@ namespace App\Notifications\Admin\Auth;
 
 use App\Providers\Admin\BasicSettingsProvider;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
 class ResetPassword extends Notification
 {
     use Queueable;
-
 
     protected $token;
 
@@ -40,23 +38,23 @@ class ResetPassword extends Notification
      * Get the mail representation of the notification.
      *
      * @param  mixed  $notifiable
-     * @return \Illuminate\Notifications\Messages\MailMessage
+     * @return MailMessage
      */
     public function toMail($notifiable)
     {
         $basic_settings = BasicSettingsProvider::get();
-        $reset_url =  url(route('admin.password.reset', [
+        $reset_url = url(route('admin.password.reset', [
             'token' => $this->token,
             'email' => $notifiable->getEmailForPasswordReset(),
         ], false));
 
         return (new MailMessage)
-                    ->view('mail-templates.admin.auth.password-reset',[
-                        'reset_url'         => $reset_url,
-                        'site_url'          => url('/'),
-                        'site_name'         => $basic_settings->site_name ?? "",
-                        'logo'              => get_logo_public_path($basic_settings),
-                    ]);
+            ->view('mail-templates.admin.auth.password-reset', [
+                'reset_url' => $reset_url,
+                'site_url' => url('/'),
+                'site_name' => $basic_settings->site_name ?? '',
+                'logo' => get_logo_public_path($basic_settings),
+            ]);
     }
 
     /**

@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class TransactionCharge extends Model
 {
     use HasFactory;
+
     protected $casts = [
         'transaction_id' => 'integer',
         'percent_charge' => 'double',
@@ -17,6 +18,6 @@ class TransactionCharge extends Model
 
     public function transactions()
     {
-        return $this->belongsTo(Transaction::class,'transaction_id');
+        return $this->belongsTo(Transaction::class, 'transaction_id');
     }
 }

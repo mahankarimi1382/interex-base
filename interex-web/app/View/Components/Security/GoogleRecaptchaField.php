@@ -2,13 +2,13 @@
 
 namespace App\View\Components\Security;
 
-use Illuminate\View\Component;
 use App\Constants\ExtensionConst;
 use App\Providers\Admin\ExtensionProvider;
+use Illuminate\Contracts\View\View;
+use Illuminate\View\Component;
 
 class GoogleRecaptchaField extends Component
 {
-
     public string $site_key;
 
     public $extension;
@@ -21,19 +21,19 @@ class GoogleRecaptchaField extends Component
     public function __construct()
     {
         $extension = ExtensionProvider::get()->where('slug', ExtensionConst::GOOGLE_RECAPTCHA_SLUG)->first();
-        $site_key = $extension->shortcode->site_key->value ?? "";
+        $site_key = $extension->shortcode->site_key->value ?? '';
 
-        $this->site_key     = $site_key;
-        $this->extension    = $extension;
+        $this->site_key = $site_key;
+        $this->extension = $extension;
     }
 
     /**
      * Get the view / contents that represent the component.
      *
-     * @return \Illuminate\Contracts\View\View|\Closure|string
+     * @return View|\Closure|string
      */
     public function render()
-    {   
+    {
         return view('components.security.google-recaptcha-field');
     }
 }

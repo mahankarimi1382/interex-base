@@ -12,6 +12,7 @@ class RefundBalance extends Notification
     use Queueable;
 
     public $user;
+
     public $data;
 
     /**
@@ -19,7 +20,7 @@ class RefundBalance extends Notification
      *
      * @return void
      */
-    public function __construct($user,$data)
+    public function __construct($user, $data)
     {
         $this->user = $user;
         $this->data = $data;
@@ -41,7 +42,7 @@ class RefundBalance extends Notification
      * Get the mail representation of the notification.
      *
      * @param  mixed  $notifiable
-     * @return \Illuminate\Notifications\Messages\MailMessage
+     * @return MailMessage
      */
     public function toMail($notifiable)
     {
@@ -49,14 +50,15 @@ class RefundBalance extends Notification
         $data = $this->data;
         $date = Carbon::now();
         $dateTime = $date->format('Y-m-d h:i:s A');
+
         return (new MailMessage)
-                    ->greeting(__("Hello")." ".$user->fullname." !")
-                    ->subject(__("Refund Balance"))
-                    ->line(__("The refunded amount has been successfully sent to USER ")."@".$data->details->sender_username)
-                    ->line(__("web_trx_id").": " . $data->trx_id)
-                    ->line(__("Refund Balance").": " . get_amount($data->details->charges->sender_amount,$data->details->charges->sender_currency,get_wallet_precision($data->creator_wallet->currency)))
-                    ->line(__("Date And Time").": " .$dateTime)
-                    ->line(__('Thank you for using our application!'));
+            ->greeting(__('Hello').' '.$user->fullname.' !')
+            ->subject(__('Refund Balance'))
+            ->line(__('The refunded amount has been successfully sent to USER ').'@'.$data->details->sender_username)
+            ->line(__('web_trx_id').': '.$data->trx_id)
+            ->line(__('Refund Balance').': '.get_amount($data->details->charges->sender_amount, $data->details->charges->sender_currency, get_wallet_precision($data->creator_wallet->currency)))
+            ->line(__('Date And Time').': '.$dateTime)
+            ->line(__('Thank you for using our application!'));
     }
 
     /**

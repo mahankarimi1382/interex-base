@@ -3,14 +3,15 @@
 namespace App\Models;
 
 use App\Models\Admin\Currency;
-use App\Models\Admin\ReceiverCounty;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Receipient extends Model
 {
     use HasFactory;
+
     protected $guarded = ['id'];
+
     protected $casts = [
         'user_id' => 'integer',
         'country' => 'integer',
@@ -26,20 +27,25 @@ class Receipient extends Model
         'zip_code' => 'string',
         'details' => 'object',
     ];
-    public function scopeAuth($query) {
-        $query->where("user_id",auth()->user()->id);
+
+    public function scopeAuth($query)
+    {
+        $query->where('user_id', auth()->user()->id);
     }
+
     public function getFullnameAttribute()
     {
 
-        return $this->firstname . ' ' . $this->lastname;
+        return $this->firstname.' '.$this->lastname;
     }
-    public function user() {
+
+    public function user()
+    {
         return $this->belongsTo(User::class);
     }
-    public function receiver_country() {
-        return $this->belongsTo(Currency::class,'country');
+
+    public function receiver_country()
+    {
+        return $this->belongsTo(Currency::class, 'country');
     }
-
-
 }

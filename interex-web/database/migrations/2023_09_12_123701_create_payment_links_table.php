@@ -25,13 +25,13 @@ return new class extends Migration
             $table->string('title');
             $table->string('image')->nullable();
             $table->text('details')->nullable();
-            $table->enum('limit', [1,2])->comment('1:limited, 2:unlimited')->nullable();
-            $table->decimal('min_amount', 28,16,true)->nullable();
-            $table->decimal('max_amount', 28,16,true)->nullable();
-            $table->decimal('price', 28,16,true)->nullable();
+            $table->enum('limit', [1, 2])->comment('1:limited, 2:unlimited')->nullable();
+            $table->decimal('min_amount', 28, 16, true)->nullable();
+            $table->decimal('max_amount', 28, 16, true)->nullable();
+            $table->decimal('price', 28, 16, true)->nullable();
             $table->integer('qty')->nullable();
             $table->text('reject_reason')->nullable();
-            $table->enum('status', [1,2,3])->default(2)->comment('1=Active, 2=Closed, 3=Rejected');
+            $table->enum('status', [1, 2, 3])->default(2)->comment('1=Active, 2=Closed, 3=Rejected');
             $table->timestamps();
         });
     }

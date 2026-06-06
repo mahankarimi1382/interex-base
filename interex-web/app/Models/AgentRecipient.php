@@ -4,14 +4,15 @@ namespace App\Models;
 
 use App\Constants\GlobalConst;
 use App\Models\Admin\Currency;
-use App\Models\Admin\ReceiverCounty;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class AgentRecipient extends Model
 {
     use HasFactory;
+
     protected $guarded = ['id'];
+
     protected $casts = [
         'agent_id' => 'integer',
         'country' => 'integer',
@@ -28,25 +29,35 @@ class AgentRecipient extends Model
         'zip_code' => 'string',
         'details' => 'object',
     ];
-    public function scopeAuth($query) {
-        $query->where("agent_id",auth()->user()->id);
+
+    public function scopeAuth($query)
+    {
+        $query->where('agent_id', auth()->user()->id);
     }
+
     public function getFullnameAttribute()
     {
 
-        return $this->firstname . ' ' . $this->lastname;
-    }
-    public function agent() {
-        return $this->belongsTo(Agent::class);
-    }
-    public function receiver_country() {
-        return $this->belongsTo(Currency::class,'country');
+        return $this->firstname.' '.$this->lastname;
     }
 
-    public function scopeSender($query) {
-        return $query->where("recipient_type",GlobalConst::SENDER);
+    public function agent()
+    {
+        return $this->belongsTo(Agent::class);
     }
-    public function scopeReceiver($query) {
-        return $query->where("recipient_type",GlobalConst::RECEIVER);
+
+    public function receiver_country()
+    {
+        return $this->belongsTo(Currency::class, 'country');
+    }
+
+    public function scopeSender($query)
+    {
+        return $query->where('recipient_type', GlobalConst::SENDER);
+    }
+
+    public function scopeReceiver($query)
+    {
+        return $query->where('recipient_type', GlobalConst::RECEIVER);
     }
 }

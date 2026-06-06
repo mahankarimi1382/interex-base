@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('user_qr_codes', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger("user_id");
+            $table->unsignedBigInteger('user_id');
             $table->string('qr_code')->nullable();
             $table->timestamps();
 

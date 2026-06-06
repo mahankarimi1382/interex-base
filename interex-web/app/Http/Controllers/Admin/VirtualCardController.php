@@ -2,30 +2,32 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Exception;
-use App\Models\Transaction;
-use Illuminate\Http\Request;
-use App\Models\VirtualCardApi;
-use Illuminate\Validation\Rule;
-use App\Http\Controllers\Controller;
-use Maatwebsite\Excel\Facades\Excel;
-use App\Exports\VirtualCardTrxExport;
 use App\Constants\PaymentGatewayConst;
+use App\Exports\VirtualCardTrxExport;
+use App\Http\Controllers\Controller;
+use App\Models\Transaction;
+use App\Models\VirtualCardApi;
+use Exception;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-
+use Illuminate\Validation\Rule;
+use Maatwebsite\Excel\Facades\Excel;
 
 class VirtualCardController extends Controller
 {
     public function cardApi()
     {
-        $page_title = __("Setup Virtual Card Api");
+        $page_title = __('Setup Virtual Card Api');
         $api = VirtualCardApi::first();
-        return view('admin.sections.virtual-card.api',compact(
+
+        return view('admin.sections.virtual-card.api', compact(
             'page_title',
             'api',
         ));
     }
-    public function cardApiUpdate(Request $request){
+
+    public function cardApiUpdate(Request $request)
+    {
         $card_limit_rules = ['required', 'numeric'];
 
         if ($request->api_method !== 'cardyfie') {
@@ -33,73 +35,73 @@ class VirtualCardController extends Controller
         }
 
         $validator = Validator::make($request->all(), [
-            'api_method'                          => 'required|in:flutterwave,sudo,stripe,strowallet,cardyfie',
-            'flutterwave_secret_key'              => 'required_if:api_method,flutterwave',
-            'flutterwave_url'                     => 'required_if:api_method,flutterwave',
-            'sudo_api_key'                        => 'required_if:api_method,sudo',
-            'sudo_vault_id'                       => 'required_if:api_method,sudo',
-            'sudo_url'                            => 'required_if:api_method,sudo',
-            'sudo_mode'                           => 'required_if:api_method,sudo',
-            'card_details'                        => 'required|string',
-            'stripe_public_key'                   => 'required_if:api_method,stripe',
-            'stripe_secret_key'                   => 'required_if:api_method,stripe',
-            'stripe_mode'                         => 'required_if:api_method,stripe',
-            'stripe_url'                          => 'required_if:api_method,stripe',
-            'strowallet_public_key'               => 'required_if:api_method,strowallet',
-            'strowallet_secret_key'               => 'required_if:api_method,strowallet',
-            'strowallet_url'                      => 'required_if:api_method,strowallet',
-            'cardyfie_public_key'                 => 'required_if:api_method,cardyfie',
-            'cardyfie_secret_key'                 => 'required_if:api_method,cardyfie',
-            'cardyfie_sandbox_url'                => 'required_if:api_method,cardyfie',
-            'cardyfie_production_url'             => 'required_if:api_method,cardyfie',
-            'cardyfie_webhook_secret'             => 'required_if:api_method,cardyfie',
-            'cardyfie_mode'                       => 'required_if:api_method,cardyfie',
-            'cardyfie_universal_card_issues_fee'  => 'required_if:api_method,cardyfie',
-            'cardyfie_platinum_card_issues_fee'   => 'required_if:api_method,cardyfie',
-            'cardyfie_card_deposit_fixed_fee'     => 'required_if:api_method,cardyfie',
-            'cardyfie_card_deposit_percent_fee'   => 'required_if:api_method,cardyfie',
-            'cardyfie_card_withdraw_fixed_fee'    => 'required_if:api_method,cardyfie',
-            'cardyfie_card_withdraw_percent_fee'  => 'required_if:api_method,cardyfie',
+            'api_method' => 'required|in:flutterwave,sudo,stripe,strowallet,cardyfie',
+            'flutterwave_secret_key' => 'required_if:api_method,flutterwave',
+            'flutterwave_url' => 'required_if:api_method,flutterwave',
+            'sudo_api_key' => 'required_if:api_method,sudo',
+            'sudo_vault_id' => 'required_if:api_method,sudo',
+            'sudo_url' => 'required_if:api_method,sudo',
+            'sudo_mode' => 'required_if:api_method,sudo',
+            'card_details' => 'required|string',
+            'stripe_public_key' => 'required_if:api_method,stripe',
+            'stripe_secret_key' => 'required_if:api_method,stripe',
+            'stripe_mode' => 'required_if:api_method,stripe',
+            'stripe_url' => 'required_if:api_method,stripe',
+            'strowallet_public_key' => 'required_if:api_method,strowallet',
+            'strowallet_secret_key' => 'required_if:api_method,strowallet',
+            'strowallet_url' => 'required_if:api_method,strowallet',
+            'cardyfie_public_key' => 'required_if:api_method,cardyfie',
+            'cardyfie_secret_key' => 'required_if:api_method,cardyfie',
+            'cardyfie_sandbox_url' => 'required_if:api_method,cardyfie',
+            'cardyfie_production_url' => 'required_if:api_method,cardyfie',
+            'cardyfie_webhook_secret' => 'required_if:api_method,cardyfie',
+            'cardyfie_mode' => 'required_if:api_method,cardyfie',
+            'cardyfie_universal_card_issues_fee' => 'required_if:api_method,cardyfie',
+            'cardyfie_platinum_card_issues_fee' => 'required_if:api_method,cardyfie',
+            'cardyfie_card_deposit_fixed_fee' => 'required_if:api_method,cardyfie',
+            'cardyfie_card_deposit_percent_fee' => 'required_if:api_method,cardyfie',
+            'cardyfie_card_withdraw_fixed_fee' => 'required_if:api_method,cardyfie',
+            'cardyfie_card_withdraw_percent_fee' => 'required_if:api_method,cardyfie',
             'cardyfie_card_maintenance_fixed_fee' => 'required_if:api_method,cardyfie',
-            'cardyfie_min_limit'                  => 'required_if:api_method,cardyfie',
-            'cardyfie_max_limit'                  => 'required_if:api_method,cardyfie',
-            'cardyfie_daily_limit'                => 'required_if:api_method,cardyfie',
-            'cardyfie_monthly_limit'              => 'required_if:api_method,cardyfie',
-            'image'                               => "nullable|mimes:png,jpg,jpeg,webp,svg",
-            'card_limit'                          => $card_limit_rules,
+            'cardyfie_min_limit' => 'required_if:api_method,cardyfie',
+            'cardyfie_max_limit' => 'required_if:api_method,cardyfie',
+            'cardyfie_daily_limit' => 'required_if:api_method,cardyfie',
+            'cardyfie_monthly_limit' => 'required_if:api_method,cardyfie',
+            'image' => 'nullable|mimes:png,jpg,jpeg,webp,svg',
+            'card_limit' => $card_limit_rules,
         ]);
 
-        if($validator->fails()) {
+        if ($validator->fails()) {
             return back()->withErrors($validator)->withInput();
         }
-        $request->merge(['name'=>$request->api_method]);
-        $data = array_filter($request->except('_token','api_method','_method','card_details','image','card_limit'));
+        $request->merge(['name' => $request->api_method]);
+        $data = array_filter($request->except('_token', 'api_method', '_method', 'card_details', 'image', 'card_limit'));
 
-        $api               = VirtualCardApi::first();
+        $api = VirtualCardApi::first();
         $api->card_details = $request->card_details;
-        $api->card_limit   = $request->card_limit;
-        $api->config       = $data;
+        $api->card_limit = $request->card_limit;
+        $api->config = $data;
 
-        if ($request->hasFile("image")) {
+        if ($request->hasFile('image')) {
             try {
-                $image = get_files_from_fileholder($request, "image");
-                $upload_file = upload_files_from_path_dynamic($image, "card-api");
+                $image = get_files_from_fileholder($request, 'image');
+                $upload_file = upload_files_from_path_dynamic($image, 'card-api');
                 $api->image = $upload_file;
             } catch (Exception $e) {
-                return back()->with(['error' => [__("Ops! Failed To Upload Image.")]]);
+                return back()->with(['error' => [__('Ops! Failed To Upload Image.')]]);
             }
         }
         $api->save();
 
-        return back()->with(['success' => [__("Card API Has Been Updated.")]]);
+        return back()->with(['success' => [__('Card API Has Been Updated.')]]);
     }
 
-    //user logs
+    // user logs
     public function transactionLogs()
     {
-        $page_title = __("Virtual Card Logs");
+        $page_title = __('Virtual Card Logs');
         $transactions = Transaction::with(
-          'user:id,firstname,lastname,email,username,full_mobile',
+            'user:id,firstname,lastname,email,username,full_mobile',
             'currency:id,name',
         )->where('type', PaymentGatewayConst::VIRTUALCARD)->latest()->paginate(20);
 
@@ -108,8 +110,11 @@ class VirtualCardController extends Controller
             'transactions'
         ));
     }
-    public function exportData(){
-        $file_name = now()->format('Y-m-d_H:i:s') . "_Virtual_Card_Logs".'.xlsx';
+
+    public function exportData()
+    {
+        $file_name = now()->format('Y-m-d_H:i:s').'_Virtual_Card_Logs'.'.xlsx';
+
         return Excel::download(new VirtualCardTrxExport, $file_name);
     }
 }

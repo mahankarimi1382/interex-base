@@ -2,9 +2,8 @@
 
 namespace App\Providers\Admin;
 
-
-class BasicSettingsProvider {
-
+class BasicSettingsProvider
+{
     public $setting;
 
     public function __construct($settings = null)
@@ -12,16 +11,18 @@ class BasicSettingsProvider {
         $this->setting = $settings;
     }
 
-
-    public function set($settings) {
+    public function set($settings)
+    {
         return $this->setting = $settings;
     }
-    
-    public function getData() {
+
+    public function getData()
+    {
         return $this->setting;
     }
 
-    public static function get() {
+    public static function get()
+    {
         return app(BasicSettingsProvider::class)->getData();
     }
 }

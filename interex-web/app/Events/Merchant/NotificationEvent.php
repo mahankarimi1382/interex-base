@@ -3,6 +3,7 @@
 namespace App\Events\Merchant;
 
 use App\Models\Merchants\Merchant;
+use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
@@ -13,6 +14,7 @@ class NotificationEvent implements ShouldBroadcast
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public $notification;
+
     public $user;
 
     /**
@@ -20,27 +22,24 @@ class NotificationEvent implements ShouldBroadcast
      *
      * @return void
      */
-    public function __construct($notification_content,Merchant $user)
+    public function __construct($notification_content, Merchant $user)
     {
         $this->notification = $notification_content;
         $this->user = $user;
     }
 
-
-
     /**
      * Get the channels the event should broadcast on.
      *
-     * @return \Illuminate\Broadcasting\Channel|array
+     * @return Channel|array
      */
     public function broadcastOn()
     {
-        return ["merchant-notification-".$this->user->id];
+        return ['merchant-notification-'.$this->user->id];
     }
-
 
     public function broadcastAs()
     {
-        return "merchant-dashboard-notification-push";
+        return 'merchant-dashboard-notification-push';
     }
 }

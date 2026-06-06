@@ -12,10 +12,10 @@ class CountryRestriction extends Model
     protected $guarded = ['id'];
 
     protected $casts = [
-        'id'              => 'integer',
-        'slug'            => 'string',
-        'user_type'       => 'string',
-        'data'            => 'object',
-        'status'          => 'integer',
+        'id' => 'integer',
+        'slug' => 'string',
+        'user_type' => 'string',
+        'data' => 'object',
+        'status' => 'integer',
     ];
 }

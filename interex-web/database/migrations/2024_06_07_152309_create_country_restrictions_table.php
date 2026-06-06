@@ -16,8 +16,8 @@ return new class extends Migration
         Schema::create('country_restrictions', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('admin_id');
-            $table->string('slug',50)->unique();
-            $table->string('user_type',100)->nullable();
+            $table->string('slug', 50)->unique();
+            $table->string('user_type', 100)->nullable();
             $table->text('data')->nullable();
             $table->boolean('status')->default(true);
             $table->timestamps();

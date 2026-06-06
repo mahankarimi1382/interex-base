@@ -3,15 +3,14 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 
 class CheckSmsStatus
 {
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
+     * @param  Request  $request
      * @return mixed
      */
     public function handle($request, Closure $next)
@@ -23,14 +22,14 @@ class CheckSmsStatus
             } else {
                 return redirect()->route('user.authorize.sms');
             }
-        }elseif(auth()->guard('merchant')->check()){
+        } elseif (auth()->guard('merchant')->check()) {
             $user = auth()->user();
             if ($user->status == true && $user->sms_verified == true) {
                 return $next($request);
             } else {
                 return redirect()->route('merchant.authorize.sms');
             }
-        }elseif(auth()->guard('agent')->check()){
+        } elseif (auth()->guard('agent')->check()) {
             $user = auth()->user();
             if ($user->status == true && $user->sms_verified == true) {
                 return $next($request);

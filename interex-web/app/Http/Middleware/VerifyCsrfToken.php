@@ -34,10 +34,10 @@ class VerifyCsrfToken extends Middleware
         'agent/add-money/sslcommerz/fail',
         'agent/add-money/sslcommerz/cancel',
 
-        'user/add-money/success/response/' . PaymentGatewayConst::RAZORPAY,
-        'user/add-money/cancel/response/' . PaymentGatewayConst::RAZORPAY,
-        'agent/add-money/success/response/' . PaymentGatewayConst::RAZORPAY,
-        'agent/add-money/cancel/response/' . PaymentGatewayConst::RAZORPAY,
+        'user/add-money/success/response/'.PaymentGatewayConst::RAZORPAY,
+        'user/add-money/cancel/response/'.PaymentGatewayConst::RAZORPAY,
+        'agent/add-money/success/response/'.PaymentGatewayConst::RAZORPAY,
+        'agent/add-money/cancel/response/'.PaymentGatewayConst::RAZORPAY,
         'user/strowallet-virtual-card/webhook',
     ];
 }

@@ -6,10 +6,13 @@ use App\Constants\ExtensionConst;
 use App\Http\Controllers\Controller;
 use App\Providers\Admin\ExtensionProvider;
 use Illuminate\Auth\Notifications\ResetPassword;
+use Illuminate\Contracts\Auth\PasswordBroker;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
-use Illuminate\Support\Facades\Password;
-use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Password;
+use Illuminate\View\View;
 
 class ForgotPasswordController extends Controller
 {
@@ -29,7 +32,7 @@ class ForgotPasswordController extends Controller
     /**
      * Display the form to request a password reset link.
      *
-     * @return \Illuminate\View\View
+     * @return View
      */
     public function showLinkRequestForm()
     {
@@ -39,64 +42,60 @@ class ForgotPasswordController extends Controller
     /**
      * Get the needed authentication credentials from the request.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return array
      */
     protected function credentials(Request $request)
     {
         $credential = $request->credential;
-        if(!filter_var($credential, FILTER_VALIDATE_EMAIL)) {
+        if (! filter_var($credential, FILTER_VALIDATE_EMAIL)) {
             $request->merge(['username' => $credential]);
+
             return $request->only('username');
         }
 
         $request->merge(['email' => $credential]);
+
         return $request->only('email');
     }
-
 
     /**
      * Validate the email for the given request.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return void
      */
     protected function validateEmail(Request $request)
     {
         $extension = ExtensionProvider::get()->where('slug', ExtensionConst::GOOGLE_RECAPTCHA_SLUG)->first();
-        $captcha_rules = "nullable";
-        if($extension && $extension->status == true) {
+        $captcha_rules = 'nullable';
+        if ($extension && $extension->status == true) {
             $captcha_rules = 'required|string|g_recaptcha_verify';
         }
         $request->validate([
             'credential' => 'required|string|max:60',
-            'g-recaptcha-response'  => $captcha_rules
+            'g-recaptcha-response' => $captcha_rules,
         ]);
     }
 
     /**
      * Get the response for a successful password reset link.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  string  $response
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse
+     * @return RedirectResponse|JsonResponse
      */
     protected function sendResetLinkResponse(Request $request, $response)
     {
-        return back()->with(['success' => [__("Password Reset Link sended to your email address.")]]);
+        return back()->with(['success' => [__('Password Reset Link sended to your email address.')]]);
     }
-
 
     /**
      * Get the broker to be used during password reset.
      *
-     * @return \Illuminate\Contracts\Auth\PasswordBroker
+     * @return PasswordBroker
      */
     public function broker()
     {
         return Password::broker('admins');
     }
-
 
     /**
      * Send the password reset notification.
@@ -108,5 +107,4 @@ class ForgotPasswordController extends Controller
     {
         $this->notify(new ResetPassword($token));
     }
-
 }

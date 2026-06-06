@@ -142,7 +142,7 @@ return [
     'uppercase' => 'The :attribute must be uppercase.',
     'url' => 'The :attribute must be a valid URL.',
     'uuid' => 'The :attribute must be a valid UUID.',
-     'g_recaptcha_verify' => 'Recaptcha verification failed! Please try again.',
+    'g_recaptcha_verify' => 'Recaptcha verification failed! Please try again.',
 
     /*
     |--------------------------------------------------------------------------

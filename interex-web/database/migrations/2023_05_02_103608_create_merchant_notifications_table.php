@@ -15,12 +15,12 @@ return new class extends Migration
     {
         Schema::create('merchant_notifications', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger("merchant_id");
-            $table->string("type",100)->nullable();
-            $table->text('message',1000);
+            $table->unsignedBigInteger('merchant_id');
+            $table->string('type', 100)->nullable();
+            $table->text('message', 1000);
             $table->timestamps();
 
-            $table->foreign("merchant_id")->references("id")->on("merchants")->onDelete("cascade")->onUpdate("cascade");
+            $table->foreign('merchant_id')->references('id')->on('merchants')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 

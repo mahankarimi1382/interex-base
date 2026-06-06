@@ -16,19 +16,19 @@ return new class extends Migration
     {
         Schema::create('frontend_header_section_pages', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger("parent_id")->nullable();
-            $table->enum("type",[
+            $table->unsignedBigInteger('parent_id')->nullable();
+            $table->enum('type', [
                 GlobalConst::PERSONAL,
                 GlobalConst::BUSINESS,
                 GlobalConst::ENTERPRISE,
                 GlobalConst::COMPANY,
             ]);
             $table->longText('value')->nullable();
-            $table->unsignedBigInteger("last_edit_by")->nullable();
-            $table->boolean("status")->default(true);
+            $table->unsignedBigInteger('last_edit_by')->nullable();
+            $table->boolean('status')->default(true);
 
-            $table->foreign("parent_id")->references("id")->on("frontend_header_sections")->onDelete("cascade")->onUpdate("cascade");
-            $table->foreign("last_edit_by")->references("id")->on("admins")->onDelete("cascade")->onUpdate("cascade");
+            $table->foreign('parent_id')->references('id')->on('frontend_header_sections')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('last_edit_by')->references('id')->on('admins')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }

@@ -20,9 +20,9 @@ return new class extends Migration
             $table->decimal('balance', 28, 8);
             $table->boolean('status')->default(true);
             $table->timestamps();
-            
-            $table->foreign("currency_id")->references("id")->on("currencies")->onDelete("cascade")->onUpdate("cascade");
-            $table->foreign("merchant_id")->references("id")->on("merchants")->onDelete("cascade")->onUpdate("cascade");
+
+            $table->foreign('currency_id')->references('id')->on('currencies')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('merchant_id')->references('id')->on('merchants')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 

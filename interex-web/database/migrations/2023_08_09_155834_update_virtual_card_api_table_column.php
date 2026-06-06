@@ -9,7 +9,7 @@ class UpdateVirtualCardApiTableColumn extends Migration
     public function up()
     {
         Schema::table('virtual_card_apis', function (Blueprint $table) {
-           $table->integer('card_limit')->default(3);
+            $table->integer('card_limit')->default(3);
         });
     }
 

@@ -13,13 +13,17 @@ class GiftCard extends Model
 
     protected $guarded = ['id'];
 
-    protected $casts = ['details' => 'object' ,'codes' => 'object'];
+    protected $casts = ['details' => 'object', 'codes' => 'object'];
 
-    const STATUS_SUCCESS    = "SUCCESS";
-    const STATUS_PENDING    = "PENDING";
-    const STATUS_PROCESSING = "PROCESSING";
-    const STATUS_REFUNDED   = "REFUNDED";
-    const STATUS_FAILED     = "FAILED";
+    const STATUS_SUCCESS = 'SUCCESS';
+
+    const STATUS_PENDING = 'PENDING';
+
+    const STATUS_PROCESSING = 'PROCESSING';
+
+    const STATUS_REFUNDED = 'REFUNDED';
+
+    const STATUS_FAILED = 'FAILED';
 
     // public function getStringStatusAttribute()
     // {
@@ -34,21 +38,22 @@ class GiftCard extends Model
 
     //     return (object) $data;
     // }
-    public function getStringStatusAttribute() {
+    public function getStringStatusAttribute()
+    {
         $status = $this->status;
         $data = [
-            'class' => "",
-            'value' => "",
+            'class' => '',
+            'value' => '',
         ];
-        if($status == PaymentGatewayConst::STATUSSUCCESS) {
+        if ($status == PaymentGatewayConst::STATUSSUCCESS) {
             $data = [
-                'class'     => "badge badge--success",
-                'value'     => __("success"),
+                'class' => 'badge badge--success',
+                'value' => __('success'),
             ];
-        }else if($status == PaymentGatewayConst::STATUSPENDING) {
+        } elseif ($status == PaymentGatewayConst::STATUSPENDING) {
             $data = [
-                'class'     => "badge badge--warning",
-                'value'     => __("Pending"),
+                'class' => 'badge badge--warning',
+                'value' => __('Pending'),
             ];
         }
 
@@ -77,40 +82,46 @@ class GiftCard extends Model
 
     public function userWallet()
     {
-        return $this->belongsTo(UserWallet::class,"user_wallet_id");
+        return $this->belongsTo(UserWallet::class, 'user_wallet_id');
     }
 
     public function getCreatorWalletAttribute()
     {
-        if($this->user_type == GlobalConst::USER) {
+        if ($this->user_type == GlobalConst::USER) {
             return $this->userWallet;
         }
     }
 
     public function getCreatorAttribute()
     {
-        if($this->user_type == GlobalConst::USER) {
+        if ($this->user_type == GlobalConst::USER) {
             return $this->user;
         }
     }
 
     public function isSuccess()
     {
-        if($this->status == self::STATUS_SUCCESS) return true;
+        if ($this->status == self::STATUS_SUCCESS) {
+            return true;
+        }
 
         return false;
     }
 
     public function isPending()
     {
-        if($this->status == self::STATUS_PENDING) return true;
+        if ($this->status == self::STATUS_PENDING) {
+            return true;
+        }
 
         return false;
     }
 
     public function isProcessing()
     {
-        if($this->status == self::STATUS_PROCESSING) return true;
+        if ($this->status == self::STATUS_PROCESSING) {
+            return true;
+        }
 
         return false;
     }

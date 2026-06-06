@@ -19,13 +19,16 @@ class AgentProfit extends Model
 
     public function transactions()
     {
-        return $this->belongsTo(Transaction::class,'transaction_id');
+        return $this->belongsTo(Transaction::class, 'transaction_id');
     }
+
     public function agent()
     {
         return $this->belongsTo(Agent::class);
     }
-    public function scopeAgentAuth($query) {
-        $query->where("agent_id",auth()->user()->id);
+
+    public function scopeAgentAuth($query)
+    {
+        $query->where('agent_id', auth()->user()->id);
     }
 }

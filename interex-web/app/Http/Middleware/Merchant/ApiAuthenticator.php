@@ -4,9 +4,10 @@ namespace App\Http\Middleware\Merchant;
 
 use App\Http\Helpers\Api\Helpers;
 use Closure;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Auth\Middleware\Authenticate;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\UnauthorizedException;
 
 class ApiAuthenticator extends Authenticate
@@ -14,12 +15,11 @@ class ApiAuthenticator extends Authenticate
     /**
      * Determine if the user is authenticated and authorized to access the requested resource.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  array  $guards
+     * @param  Request  $request
      * @return void
      *
-     * @throws \Illuminate\Auth\AuthenticationException
-     * @throws \Illuminate\Validation\UnauthorizedException
+     * @throws AuthenticationException
+     * @throws UnauthorizedException
      */
     protected function authenticate($request, array $guards)
     {
@@ -33,22 +33,22 @@ class ApiAuthenticator extends Authenticate
     /**
      * Handle an unauthenticated user.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  Request  $request
      * @param  array  $guards
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      *
-     * @throws \Illuminate\Validation\UnauthorizedException
+     * @throws UnauthorizedException
      */
     public function handle($request, Closure $next, ...$guards)
     {
         try {
             $this->authenticate($request, $guards);
         } catch (UnauthorizedException $e) {
-            $message = ['error'=>[__('Sorry, You are unauthorized merchant user')]];
+            $message = ['error' => [__('Sorry, You are unauthorized merchant user')]];
+
             return Helpers::unauthorized($data = null, $message);
         }
 
         return $next($request);
     }
-
 }

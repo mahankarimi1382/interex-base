@@ -23,19 +23,24 @@ class GlobalController extends Controller
 {
     /**
      * Funtion for get state under a country
+     *
      * @param country_id
      * @return json $state list
      */
-    public function getStates(Request $request) {
+    public function getStates(Request $request)
+    {
         $request->validate([
             'country_id' => 'required|integer',
         ]);
         $country_id = $request->country_id;
         // Get All States From Country
         $country_states = get_country_states($country_id);
-        return response()->json($country_states,200);
+
+        return response()->json($country_states, 200);
     }
-    public function getCities(Request $request) {
+
+    public function getCities(Request $request)
+    {
         $request->validate([
             'state_id' => 'required|integer',
         ]);
@@ -43,186 +48,213 @@ class GlobalController extends Controller
         $state_id = $request->state_id;
         $state_cities = get_state_cities($state_id);
 
-        return response()->json($state_cities,200);
+        return response()->json($state_cities, 200);
         // return $state_id;
     }
-    public function getCountries(Request $request) {
+
+    public function getCountries(Request $request)
+    {
         $countries = get_all_countries();
-        return response()->json($countries,200);
+
+        return response()->json($countries, 200);
     }
-    public function getCountriesUser(Request $request) {
+
+    public function getCountriesUser(Request $request)
+    {
         $countries = freedom_countries(GlobalConst::USER);
-        return response()->json($countries,200);
+
+        return response()->json($countries, 200);
     }
-    public function getCountriesAgent(Request $request) {
+
+    public function getCountriesAgent(Request $request)
+    {
         $countries = freedom_countries(GlobalConst::AGENT);
-        return response()->json($countries,200);
+
+        return response()->json($countries, 200);
     }
-    public function getCountriesMerchant(Request $request) {
+
+    public function getCountriesMerchant(Request $request)
+    {
         $countries = freedom_countries(GlobalConst::MERCHANT);
-        return response()->json($countries,200);
+
+        return response()->json($countries, 200);
     }
-    public function getTimezones(Request $request) {
+
+    public function getTimezones(Request $request)
+    {
         $timeZones = get_all_timezones();
 
-        return response()->json($timeZones,200);
+        return response()->json($timeZones, 200);
     }
-    public function userInfo(Request $request) {
-        $validator = Validator::make($request->all(),[
-            'text'      => "required|string",
-            'country_name'      => "required|string",
+
+    public function userInfo(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'text' => 'required|string',
+            'country_name' => 'required|string',
         ]);
-        if($validator->fails()) {
-            return Response::error($validator->errors(),null,400);
+        if ($validator->fails()) {
+            return Response::error($validator->errors(), null, 400);
         }
         $validated = $validator->validate();
-        $field_name = "email";
+        $field_name = 'email';
         // if(check_email($validated['text'])) {
         //     $field_name = "email";
         // }
 
-        try{
-            $user = User::where($field_name,$validated['text'])->first();
+        try {
+            $user = User::where($field_name, $validated['text'])->first();
             // if($user != null) {
             //     if(@$user->address->country === null ||  @$user->address->country !=  $validated['country_name']) {
             //         $error = ['error' => [__("The user's country does not match the selected country.")]];
             //         return Response::error($error, null, 500);
             //     }
             // }
-        }catch(Exception $e) {
+        } catch (Exception $e) {
             $error = ['error' => [$e->getMessage()]];
-            return Response::error($error,null,500);
+
+            return Response::error($error, null, 500);
         }
         $success = ['success' => [__('Successfully executed')]];
-        return Response::success($success,$user,200);
+
+        return Response::success($success, $user, 200);
     }
-    public function webHookResponse(Request $request){
+
+    public function webHookResponse(Request $request)
+    {
         $response_data = $request->all();
-        $transaction = Transaction::where('callback_ref',$response_data['data']['reference'])->first();
+        $transaction = Transaction::where('callback_ref', $response_data['data']['reference'])->first();
 
-        $update_temp_data = json_decode(json_encode($transaction->details),true);
-        $update_temp_data['callback_data']  = $response_data;
+        $update_temp_data = json_decode(json_encode($transaction->details), true);
+        $update_temp_data['callback_data'] = $response_data;
 
-
-        if($response_data['data']['status'] === "SUCCESSFUL" && $transaction->payable > $transaction->creator_wallet->balance ){
+        if ($response_data['data']['status'] === 'SUCCESSFUL' && $transaction->payable > $transaction->creator_wallet->balance) {
             $transaction->update([
-                'status'    => PaymentGatewayConst::STATUSFAILD,
-                'details'   => $update_temp_data,
-                'reject_reason'   => "Insufficient Balance In Your Wallet"??null,
+                'status' => PaymentGatewayConst::STATUSFAILD,
+                'details' => $update_temp_data,
+                'reject_reason' => 'Insufficient Balance In Your Wallet' ?? null,
                 'available_balance' => $transaction->creator_wallet->balance,
             ]);
-            logger("Transaction Status: " . PaymentGatewayConst::STATUSFAILD." Reason: "."Insufficient Balance In Your Wallet"??"");
+            logger('Transaction Status: '.PaymentGatewayConst::STATUSFAILD.' Reason: '.'Insufficient Balance In Your Wallet' ?? '');
 
-        }elseif($response_data['data']['status'] === "SUCCESSFUL"){
+        } elseif ($response_data['data']['status'] === 'SUCCESSFUL') {
             $reduce_balance = ($transaction->creator_wallet->balance - $transaction->payable);
             $transaction->update([
-                'status'            => PaymentGatewayConst::STATUSSUCCESS,
-                'details'           => $update_temp_data,
+                'status' => PaymentGatewayConst::STATUSSUCCESS,
+                'details' => $update_temp_data,
                 'available_balance' => $reduce_balance,
             ]);
 
             $transaction->creator_wallet->update([
-                'balance'   => $reduce_balance,
+                'balance' => $reduce_balance,
             ]);
-            logger("Transaction Status: " . $response_data['data']['status']);
-        }elseif($response_data['data']['status'] === "FAILED"){
+            logger('Transaction Status: '.$response_data['data']['status']);
+        } elseif ($response_data['data']['status'] === 'FAILED') {
 
             $transaction->update([
-                'status'    => PaymentGatewayConst::STATUSFAILD,
-                'details'   => $update_temp_data,
-                'reject_reason'   => $response_data['data']['complete_message']??null,
+                'status' => PaymentGatewayConst::STATUSFAILD,
+                'details' => $update_temp_data,
+                'reject_reason' => $response_data['data']['complete_message'] ?? null,
                 'available_balance' => $transaction->creator_wallet->balance,
             ]);
-            logger("Transaction Status: " . $response_data['data']['status']." Reason: ".$response_data['data']['complete_message']??"");
+            logger('Transaction Status: '.$response_data['data']['status'].' Reason: '.$response_data['data']['complete_message'] ?? '');
         }
 
-
     }
-    public function setCookie(Request $request){
+
+    public function setCookie(Request $request)
+    {
         $userAgent = $request->header('User-Agent');
         $cookie_status = $request->type;
-        if($cookie_status == 'allow'){
-            $response_message = __("Cookie Allowed Success");
-            $expirationTime = 2147483647; //Maximum Unix timestamp.
-        }else{
-            $response_message = __("Cookie Declined");
-            $expirationTime = Carbon::now()->addHours(24)->timestamp;// Set the expiration time to 24 hours from now.
+        if ($cookie_status == 'allow') {
+            $response_message = __('Cookie Allowed Success');
+            $expirationTime = 2147483647; // Maximum Unix timestamp.
+        } else {
+            $response_message = __('Cookie Declined');
+            $expirationTime = Carbon::now()->addHours(24)->timestamp; // Set the expiration time to 24 hours from now.
         }
         $browser = Agent::browser();
         $platform = Agent::platform();
         $ipAddress = $request->ip();
+
         // Set the expiration time to a very distant future
-        return response($response_message)->cookie('approval_status', $cookie_status,$expirationTime)
-                                            ->cookie('user_agent', $userAgent,$expirationTime)
-                                            ->cookie('ip_address', $ipAddress,$expirationTime)
-                                            ->cookie('browser', $browser,$expirationTime)
-                                            ->cookie('platform', $platform,$expirationTime);
+        return response($response_message)->cookie('approval_status', $cookie_status, $expirationTime)
+            ->cookie('user_agent', $userAgent, $expirationTime)
+            ->cookie('ip_address', $ipAddress, $expirationTime)
+            ->cookie('browser', $browser, $expirationTime)
+            ->cookie('platform', $platform, $expirationTime);
 
     }
-     // ajax call for get user available balance by currency
-     public function userWalletBalance(Request $request){
+
+    // ajax call for get user available balance by currency
+    public function userWalletBalance(Request $request)
+    {
         $user_wallets = UserWallet::where(['user_id' => auth()->user()->id, 'currency_id' => $request->id])->first();
+
         return $user_wallets->balance ?? 0;
     }
-    public function receiverWallet(Request $request){
+
+    public function receiverWallet(Request $request)
+    {
         $receiver_currency = Currency::where(['code' => $request->code])->first();
+
         return $receiver_currency;
     }
-    public function getTotalTransactions(Request $request){
-        $user_field         = $request->user_field;
-        $user_id            = $request->user_id;
-        $transaction_type   = $request->transaction_type;
-        $currency_id        = $request->currency_id;
-        $sender_amount      = $request->sender_amount;
-        $charge_id          = $request->charge_id;
-        $attribute          = $request->attribute;
 
+    public function getTotalTransactions(Request $request)
+    {
+        $user_field = $request->user_field;
+        $user_id = $request->user_id;
+        $transaction_type = $request->transaction_type;
+        $currency_id = $request->currency_id;
+        $sender_amount = $request->sender_amount;
+        $charge_id = $request->charge_id;
+        $attribute = $request->attribute;
 
-        $currency = Currency::where('id',$currency_id)->active()->first();
-        if($transaction_type == PaymentGatewayConst::TYPEMONEYOUT || $transaction_type == PaymentGatewayConst::TYPEADDMONEY){
-            $limits = PaymentGatewayCurrency::where('id',$charge_id)->first();
-        }else{
-            if( $transaction_type == payment_gateway_const()::VIRTUALCARD && activeCardSystem() == 'cardyfie'){
+        $currency = Currency::where('id', $currency_id)->active()->first();
+        if ($transaction_type == PaymentGatewayConst::TYPEMONEYOUT || $transaction_type == PaymentGatewayConst::TYPEADDMONEY) {
+            $limits = PaymentGatewayCurrency::where('id', $charge_id)->first();
+        } else {
+            if ($transaction_type == payment_gateway_const()::VIRTUALCARD && activeCardSystem() == 'cardyfie') {
                 $cardApi = VirtualCardApi::first();
-                $limits = (object)[
-                    'id'            => 1,
-                    'daily_limit'   => floatval($cardApi->config->cardyfie_daily_limit ?? 0),
+                $limits = (object) [
+                    'id' => 1,
+                    'daily_limit' => floatval($cardApi->config->cardyfie_daily_limit ?? 0),
                     'monthly_limit' => floatval($cardApi->config->cardyfie_monthly_limit ?? 0),
                 ];
-            }else{
-                $limits = TransactionSetting::where('id',$charge_id)->first();
+            } else {
+                $limits = TransactionSetting::where('id', $charge_id)->first();
             }
         }
 
+        $result = (new TransactionLimit)->trxLimit($user_field, $user_id, $transaction_type, $currency, $sender_amount, $limits, $attribute, 'json');
 
-        $result = (new TransactionLimit())->trxLimit($user_field,$user_id,$transaction_type,$currency,$sender_amount,$limits,$attribute,'json');
         return response()->json($result);
 
-
     }
-    //reloadly webhook response
-    public function webhookInfo(Request $request){
+
+    // reloadly webhook response
+    public function webhookInfo(Request $request)
+    {
         $response_data = $request->all();
         $custom_identifier = $response_data['data']['customIdentifier'];
-        $transaction = Transaction::where('type',PaymentGatewayConst::MOBILETOPUP)->where('callback_ref',$custom_identifier)->first();
-        if( $response_data ['data']['status'] =="SUCCESSFUL"){
+        $transaction = Transaction::where('type', PaymentGatewayConst::MOBILETOPUP)->where('callback_ref', $custom_identifier)->first();
+        if ($response_data['data']['status'] == 'SUCCESSFUL') {
             $transaction->update([
                 'status' => true,
             ]);
-        }elseif($response_data ['data']['status'] !="SUCCESSFUL" ){
+        } elseif ($response_data['data']['status'] != 'SUCCESSFUL') {
             $afterCharge = (($transaction->creator_wallet->balance + $transaction->details->charges->payable) - $transaction->details->charges->agent_total_commission);
             $transaction->update([
-                'status'            => PaymentGatewayConst::STATUSREJECTED,
-                'available_balance' =>  $afterCharge,
+                'status' => PaymentGatewayConst::STATUSREJECTED,
+                'available_balance' => $afterCharge,
             ]);
-            //refund balance
+            // refund balance
             $transaction->creator_wallet->update([
-                'balance'   => $afterCharge,
+                'balance' => $afterCharge,
             ]);
 
         }
-        logger("Mobile Top Up Success!", ['custom_identifier' => $custom_identifier, 'status' => $response_data ['data']['status']]);
+        logger('Mobile Top Up Success!', ['custom_identifier' => $custom_identifier, 'status' => $response_data['data']['status']]);
     }
-
-
 }

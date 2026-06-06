@@ -15,10 +15,10 @@ return new class extends Migration
     {
         Schema::create('referral_level_packages', function (Blueprint $table) {
             $table->id();
-            $table->string('title',250)->unique()->nullable();
+            $table->string('title', 250)->unique()->nullable();
             $table->string('refer_user');
-            $table->decimal('deposit_amount',28,8);
-            $table->decimal('commission',28,8);
+            $table->decimal('deposit_amount', 28, 8);
+            $table->decimal('commission', 28, 8);
             $table->boolean('default')->default(false);
             $table->timestamps();
         });

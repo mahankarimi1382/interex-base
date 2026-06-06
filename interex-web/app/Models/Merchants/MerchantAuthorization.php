@@ -8,9 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class MerchantAuthorization extends Model
 {
     use HasFactory;
+
     protected $guarded = ['id'];
 
-    public function merchant() {
+    public function merchant()
+    {
         return $this->belongsTo(Merchant::class);
     }
 }

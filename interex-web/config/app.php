@@ -1,6 +1,40 @@
 <?php
 
+use App\Http\Helpers\Response;
+use App\Providers\AppServiceProvider;
+use App\Providers\CustomServiceProvider;
+use App\Providers\EventServiceProvider;
+use App\Providers\RouteServiceProvider;
+use App\Providers\StorageServiceProvider;
+use App\Support\ImageCompat;
+use Illuminate\Auth\AuthServiceProvider;
+use Illuminate\Auth\Passwords\PasswordResetServiceProvider;
+use Illuminate\Broadcasting\BroadcastServiceProvider;
+use Illuminate\Bus\BusServiceProvider;
+use Illuminate\Cache\CacheServiceProvider;
+use Illuminate\Cookie\CookieServiceProvider;
+use Illuminate\Database\DatabaseServiceProvider;
+use Illuminate\Encryption\EncryptionServiceProvider;
+use Illuminate\Filesystem\FilesystemServiceProvider;
+use Illuminate\Foundation\Providers\ConsoleSupportServiceProvider;
+use Illuminate\Foundation\Providers\FoundationServiceProvider;
+use Illuminate\Hashing\HashServiceProvider;
+use Illuminate\Mail\MailServiceProvider;
+use Illuminate\Notifications\NotificationServiceProvider;
+use Illuminate\Pagination\PaginationServiceProvider;
+use Illuminate\Pipeline\PipelineServiceProvider;
+use Illuminate\Queue\QueueServiceProvider;
+use Illuminate\Redis\RedisServiceProvider;
+use Illuminate\Session\SessionServiceProvider;
 use Illuminate\Support\Facades\Facade;
+use Illuminate\Translation\TranslationServiceProvider;
+use Illuminate\Validation\ValidationServiceProvider;
+use Illuminate\View\ViewServiceProvider;
+use Jenssegers\Agent\AgentServiceProvider;
+use Jenssegers\Agent\Facades\Agent;
+use Maatwebsite\Excel\ExcelServiceProvider;
+use Maatwebsite\Excel\Facades\Excel;
+use Torann\GeoIP\GeoIPServiceProvider;
 
 return [
 
@@ -69,7 +103,7 @@ return [
     |
     */
 
-    'timezone' => env('APP_TIMEZONE','Asia/Dhaka'),
+    'timezone' => env('APP_TIMEZONE', 'Asia/Dhaka'),
 
     /*
     |--------------------------------------------------------------------------
@@ -159,29 +193,28 @@ return [
         /*
          * Laravel Framework Service Providers...
          */
-        Illuminate\Auth\AuthServiceProvider::class,
-        Illuminate\Broadcasting\BroadcastServiceProvider::class,
-        Illuminate\Bus\BusServiceProvider::class,
-        Illuminate\Cache\CacheServiceProvider::class,
-        Illuminate\Foundation\Providers\ConsoleSupportServiceProvider::class,
-        Illuminate\Cookie\CookieServiceProvider::class,
-        Illuminate\Database\DatabaseServiceProvider::class,
-        Illuminate\Encryption\EncryptionServiceProvider::class,
-        Illuminate\Filesystem\FilesystemServiceProvider::class,
-        Illuminate\Foundation\Providers\FoundationServiceProvider::class,
-        Illuminate\Hashing\HashServiceProvider::class,
-        Illuminate\Mail\MailServiceProvider::class,
-        Illuminate\Notifications\NotificationServiceProvider::class,
-        Illuminate\Pagination\PaginationServiceProvider::class,
-        Illuminate\Pipeline\PipelineServiceProvider::class,
-        Illuminate\Queue\QueueServiceProvider::class,
-        Illuminate\Redis\RedisServiceProvider::class,
-        Illuminate\Auth\Passwords\PasswordResetServiceProvider::class,
-        Illuminate\Session\SessionServiceProvider::class,
-        Illuminate\Translation\TranslationServiceProvider::class,
-        Illuminate\Validation\ValidationServiceProvider::class,
-        Illuminate\View\ViewServiceProvider::class,
-
+        AuthServiceProvider::class,
+        BroadcastServiceProvider::class,
+        BusServiceProvider::class,
+        CacheServiceProvider::class,
+        ConsoleSupportServiceProvider::class,
+        CookieServiceProvider::class,
+        DatabaseServiceProvider::class,
+        EncryptionServiceProvider::class,
+        FilesystemServiceProvider::class,
+        FoundationServiceProvider::class,
+        HashServiceProvider::class,
+        MailServiceProvider::class,
+        NotificationServiceProvider::class,
+        PaginationServiceProvider::class,
+        PipelineServiceProvider::class,
+        QueueServiceProvider::class,
+        RedisServiceProvider::class,
+        PasswordResetServiceProvider::class,
+        SessionServiceProvider::class,
+        TranslationServiceProvider::class,
+        ValidationServiceProvider::class,
+        ViewServiceProvider::class,
 
         /*
          * Package Service Providers...
@@ -190,27 +223,25 @@ return [
         /*
          * Application Service Providers...
          */
-        App\Providers\AppServiceProvider::class,
+        AppServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
         App\Providers\BroadcastServiceProvider::class,
-        App\Providers\EventServiceProvider::class,
-        App\Providers\RouteServiceProvider::class,
-        App\Providers\StorageServiceProvider::class,
-
+        EventServiceProvider::class,
+        RouteServiceProvider::class,
+        StorageServiceProvider::class,
 
         // Custom Service Provider
-        App\Providers\CustomServiceProvider::class,
-        \Torann\GeoIP\GeoIPServiceProvider::class,
+        CustomServiceProvider::class,
+        GeoIPServiceProvider::class,
 
         // Get Client Device Location
-        Torann\GeoIP\GeoIPServiceProvider::class,
+        GeoIPServiceProvider::class,
 
         // Get Client Browser Information
-        Jenssegers\Agent\AgentServiceProvider::class,
-
+        AgentServiceProvider::class,
 
         // Import/Export Excel
-        Maatwebsite\Excel\ExcelServiceProvider::class,
+        ExcelServiceProvider::class,
 
     ],
 
@@ -226,11 +257,11 @@ return [
     */
 
     'aliases' => Facade::defaultAliases()->merge([
-        'Image'     => App\Support\ImageCompat::class,
-        'Response'  => App\Http\Helpers\Response::class,
-        'Agent'     => Jenssegers\Agent\Facades\Agent::class,
-        'Excel'     => Maatwebsite\Excel\Facades\Excel::class,
-        'Agent'     => Jenssegers\Agent\Facades\Agent::class,
+        'Image' => ImageCompat::class,
+        'Response' => Response::class,
+        'Agent' => Agent::class,
+        'Excel' => Excel::class,
+        'Agent' => Agent::class,
 
     ])->toArray(),
 

@@ -15,10 +15,10 @@ return new class extends Migration
     {
         Schema::create('agent_authorizations', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger("agent_id");
-            $table->string("email")->nullable();
-            $table->integer("code");
-            $table->text("token")->nullable();
+            $table->unsignedBigInteger('agent_id');
+            $table->string('email')->nullable();
+            $table->integer('code');
+            $table->text('token')->nullable();
             $table->timestamps();
         });
     }

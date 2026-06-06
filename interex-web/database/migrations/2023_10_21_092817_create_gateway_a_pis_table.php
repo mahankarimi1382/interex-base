@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('gateway_a_pis', function (Blueprint $table) {
             $table->id();
-            $table->foreignId("admin_id")->constrained('admins')->cascadeOnDelete();
+            $table->foreignId('admin_id')->constrained('admins')->cascadeOnDelete();
             $table->text('secret_key')->nullable();
             $table->text('public_key')->nullable();
             $table->text('account_id')->nullable();

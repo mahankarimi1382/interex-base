@@ -4,9 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\Constants\PaymentGatewayConst;
 use App\Exports\PayLinkTrxExport;
-use App\Models\Transaction;
-use App\Models\PaymentLink;
 use App\Http\Controllers\Controller;
+use App\Models\PaymentLink;
+use App\Models\Transaction;
+use Illuminate\Http\Response;
 use Maatwebsite\Excel\Facades\Excel;
 
 class PaymentLinkController extends Controller
@@ -14,7 +15,7 @@ class PaymentLinkController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index()
     {
@@ -23,6 +24,7 @@ class PaymentLinkController extends Controller
         $transactions = Transaction::with(
             'user:id,firstname,email,username,mobile',
         )->where('type', PaymentGatewayConst::TYPEPAYLINK)->receive()->orderBy('id', 'desc')->paginate(20);
+
         return view('admin.sections.payment-link.index', compact(
             'page_title',
             'transactions'
@@ -32,7 +34,7 @@ class PaymentLinkController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function AllLink()
     {
@@ -48,7 +50,7 @@ class PaymentLinkController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function closedLink()
     {
@@ -64,7 +66,7 @@ class PaymentLinkController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function activeLink()
     {
@@ -79,22 +81,28 @@ class PaymentLinkController extends Controller
 
     /**
      * This method for show details of add money
+     *
      * @return view $details-payment-link-logs
      */
-    public function details($id){
-        $data = Transaction::where('id',$id)->with(
+    public function details($id)
+    {
+        $data = Transaction::where('id', $id)->with(
             'user:id,firstname,email,username,full_mobile',
             'currency:id,name,alias,payment_gateway_id,currency_code,rate',
         )->where('type', PaymentGatewayConst::TYPEPAYLINK)->receive()->first();
 
-        $page_title = __("Payment Link details");
+        $page_title = __('Payment Link details');
+
         return view('admin.sections.payment-link.details', compact(
             'page_title',
             'data'
         ));
     }
-    public function exportData(){
-        $file_name = now()->format('Y-m-d_H:i:s') . "_Payment_Link_Logs".'.xlsx';
-        return Excel::download(new PayLinkTrxExport,$file_name);
+
+    public function exportData()
+    {
+        $file_name = now()->format('Y-m-d_H:i:s').'_Payment_Link_Logs'.'.xlsx';
+
+        return Excel::download(new PayLinkTrxExport, $file_name);
     }
 }

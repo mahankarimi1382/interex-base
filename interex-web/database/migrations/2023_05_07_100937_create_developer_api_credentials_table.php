@@ -19,7 +19,7 @@ return new class extends Migration
             $table->unsignedBigInteger('merchant_id');
             $table->string('client_id');
             $table->string('client_secret');
-            $table->enum('mode',[
+            $table->enum('mode', [
                 PaymentGatewayConst::ENV_PRODUCTION,
                 PaymentGatewayConst::ENV_SANDBOX,
             ]);

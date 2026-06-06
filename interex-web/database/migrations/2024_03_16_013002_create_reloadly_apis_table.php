@@ -16,11 +16,11 @@ return new class extends Migration
     {
         Schema::create('reloadly_apis', function (Blueprint $table) {
             $table->id();
-            $table->string('provider',250)->comment('Provider slug');
-            $table->string('type',250)->unique()->comment('Type slug');
+            $table->string('provider', 250)->comment('Provider slug');
+            $table->string('type', 250)->unique()->comment('Type slug');
             $table->text('credentials')->comment('configuration credentials');
             $table->tinyInteger('status')->comment('1: Active, 2: Deactivate');
-            $table->string('env',100)->default(GlobalConst::ENV_SANDBOX)->comment("environment");
+            $table->string('env', 100)->default(GlobalConst::ENV_SANDBOX)->comment('environment');
             $table->timestamps();
         });
     }

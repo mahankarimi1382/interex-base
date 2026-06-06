@@ -1,72 +1,71 @@
 <?php
 
-use App\Lib\SendSms;
-use App\Models\UserWallet;
-use App\Models\Admin\Admin;
-use App\Models\AgentWallet;
-use App\Models\VirtualCard;
-use Illuminate\Support\Arr;
-use Illuminate\Support\Str;
-use Jenssegers\Agent\Agent;
-use App\Constants\GlobalConst;
-use App\Models\Admin\Currency;
-use App\Models\Admin\Language;
-use App\Models\VirtualCardApi;
-use Illuminate\Support\Carbon;
-use App\Imports\LanguageImport;
-use App\Models\Admin\SetupPage;
-use App\Models\SudoVirtualCard;
-use App\Constants\LanguageConst;
-use App\Models\Admin\GatewayAPi;
-use App\Models\UserNotification;
 use App\Constants\AdminRoleConst;
 use App\Constants\ExtensionConst;
+use App\Constants\GlobalConst;
+use App\Constants\LanguageConst;
+use App\Constants\NotificationConst;
+use App\Constants\PaymentGatewayConst;
+use App\Constants\SupportTicketConst;
 use App\Http\Helpers\Api\Helpers;
+use App\Imports\LanguageImport;
+use App\Lib\SendSms;
+use App\Models\Admin\Admin;
+use App\Models\Admin\AdminHasRole;
+use App\Models\Admin\AdminNotification;
+use App\Models\Admin\BasicSettings;
+use App\Models\Admin\CountryRestriction;
+use App\Models\Admin\Currency;
+use App\Models\Admin\GatewayAPi;
+use App\Models\Admin\Language;
+use App\Models\Admin\ModuleSetting;
+use App\Models\Admin\PaymentGateway;
+use App\Models\Admin\PaymentGatewayCurrency;
+use App\Models\Admin\ReferralSetting;
+use App\Models\Admin\SetupPage;
 use App\Models\Admin\SmsTemplate;
+use App\Models\AgentAuthorization;
 use App\Models\AgentNotification;
+use App\Models\AgentWallet;
+use App\Models\CardyfieVirtualCard;
+use App\Models\LiveExchangeRateApiSetting;
+use App\Models\Merchants\MerchantAuthorization;
+use App\Models\Merchants\MerchantNotification;
+use App\Models\Merchants\MerchantWallet;
 use App\Models\StripeVirtualCard;
+use App\Models\StrowalletVirtualCard;
+use App\Models\SudoVirtualCard;
 use App\Models\TransactionCharge;
 use App\Models\UserAuthorization;
+use App\Models\UserNotification;
 use App\Models\UserSupportTicket;
+use App\Models\UserWallet;
+use App\Models\VirtualCard;
+use App\Models\VirtualCardApi;
+use App\Notifications\Agent\Auth\SendAuthorizationCode as AgentAuthSendAuthorizationCode;
+use App\Notifications\Merchant\Auth\SendAuthorizationCode as AuthSendAuthorizationCode;
+use App\Notifications\User\Auth\SendAuthorizationCode;
+use App\Providers\Admin\BasicSettingsProvider;
+use App\Providers\Admin\CurrencyProvider;
+use App\Support\ImageCompat as Image;
 use Illuminate\Http\UploadedFile;
-use App\Models\Admin\AdminHasRole;
-use App\Models\AgentAuthorization;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\DB;
-use App\Models\Admin\BasicSettings;
-use App\Models\Admin\ModuleSetting;
-use App\Models\CardyfieVirtualCard;
 use Illuminate\Support\Facades\App;
-use App\Constants\NotificationConst;
-use App\Models\Admin\PaymentGateway;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Http;
-use Maatwebsite\Excel\Facades\Excel;
-use App\Constants\SupportTicketConst;
-use App\Models\Admin\ReferralSetting;
-use App\Models\StrowalletVirtualCard;
 use Illuminate\Support\Facades\Route;
-use App\Support\ImageCompat as Image;
-use App\Constants\PaymentGatewayConst;
-use App\Models\Admin\AdminNotification;
 use Illuminate\Support\Facades\Storage;
-use App\Models\Admin\CountryRestriction;
-use App\Models\Merchants\MerchantWallet;
-use App\Providers\Admin\CurrencyProvider;
-use Maatwebsite\Excel\Concerns\FromArray;
-use App\Models\LiveExchangeRateApiSetting;
-use function PHPUnit\Framework\returnSelf;
-use App\Models\Admin\PaymentGatewayCurrency;
-use App\Models\Merchants\MerchantNotification;
-use App\Providers\Admin\BasicSettingsProvider;
+use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
-use App\Models\Merchants\MerchantAuthorization;
+use Jenssegers\Agent\Agent;
+use Maatwebsite\Excel\Concerns\FromArray;
+use Maatwebsite\Excel\Facades\Excel;
+use PragmaRX\Google2FA\Google2FA;
 use Pusher\PushNotifications\PushNotifications;
-use App\Notifications\User\Auth\SendAuthorizationCode;
-
-use App\Notifications\Merchant\Auth\SendAuthorizationCode as AuthSendAuthorizationCode;
-use App\Notifications\Agent\Auth\SendAuthorizationCode as AgentAuthSendAuthorizationCode;
 
 function setRoute($route_name, $param = null)
 {
@@ -84,7 +83,8 @@ function setRoute($route_name, $param = null)
                 return route($route_name);
             }
         }
-        return "javascript:void(0)";
+
+        return 'javascript:void(0)';
     }
 }
 
@@ -94,13 +94,13 @@ function get_all_countries($item = [])
 
     $countries = array_map(function ($array) {
         return [
-            'id'                    => $array['id'],
-            'name'                  => $array['name'],
-            'mobile_code'           => $array['phone_code'],
-            'currency_name'         => $array['currency_name'],
-            'currency_code'         => $array['currency'],
-            'currency_symbol'       => $array['currency_symbol'],
-            'iso2'                  => $array['iso2'],
+            'id' => $array['id'],
+            'name' => $array['name'],
+            'mobile_code' => $array['phone_code'],
+            'currency_name' => $array['currency_name'],
+            'currency_code' => $array['currency'],
+            'currency_symbol' => $array['currency_symbol'],
+            'iso2' => $array['iso2'],
         ];
     }, $countries);
 
@@ -112,12 +112,12 @@ function all_countries($item = [])
 
     $countries = array_map(function ($array) {
         return [
-            'id'                    => $array['id'],
-            'name'                  => $array['name'],
-            'mobile_code'           => $array['phone_code'],
-            'currency_name'         => $array['currency_name'],
-            'currency_code'         => $array['currency'],
-            'currency_symbol'       => $array['currency_symbol'],
+            'id' => $array['id'],
+            'name' => $array['name'],
+            'mobile_code' => $array['phone_code'],
+            'currency_name' => $array['currency_name'],
+            'currency_code' => $array['currency'],
+            'currency_symbol' => $array['currency_symbol'],
         ];
     }, $countries);
 
@@ -127,16 +127,17 @@ function all_countries($item = [])
 function get_country_phone_code($country)
 {
     $countries = json_decode(file_get_contents(resource_path('world/countries.json')), true);
-    $phone_code = "";
+    $phone_code = '';
     foreach ($countries as $item) {
         if ($item['name'] == $country) {
             $phone_code = $item['phone_code'];
         }
     }
-    if ($phone_code == "") {
-        throw new Exception("Sorry, country (" . $country . ") is not available in our list");
+    if ($phone_code == '') {
+        throw new Exception('Sorry, country ('.$country.') is not available in our list');
     }
-    $phone_code = str_replace("+", "", $phone_code);
+    $phone_code = str_replace('+', '', $phone_code);
+
     return $phone_code;
 }
 
@@ -149,9 +150,10 @@ function get_all_timezones()
     }
     $timezones = array_map(function ($array) {
         return [
-            'name'  => $array['zoneName'],
+            'name' => $array['zoneName'],
         ];
     }, $timezones);
+
     return json_decode(json_encode($timezones));
 }
 
@@ -165,10 +167,10 @@ function get_country_states($country_id)
         if (array_key_exists($item_array['country_id'], $all_states)) {
             if ($item_array['country_id'] == $country_id) {
                 $states[] = [
-                    'country_id'    => $item_array['country_id'],
-                    'name'          => $item_array['name'],
-                    'id'            => $item_array['id'],
-                    'state_code'    => $item_array['state_code'],
+                    'country_id' => $item_array['country_id'],
+                    'name' => $item_array['name'],
+                    'id' => $item_array['id'],
+                    'state_code' => $item_array['state_code'],
                 ];
             }
         }
@@ -187,10 +189,10 @@ function get_state_cities($state_id)
         if (array_key_exists($item_array['state_id'], $all_cities)) {
             if ($item_array['state_id'] == $state_id) {
                 $cities[] = [
-                    'name'          => $item_array['name'],
-                    'id'            => $item_array['id'],
-                    'state_code'    => $item_array['state_code'],
-                    'state_name'    => $item_array['state_name'],
+                    'name' => $item_array['name'],
+                    'id' => $item_array['id'],
+                    'state_code' => $item_array['state_code'],
+                    'state_name' => $item_array['state_name'],
                 ];
             }
         }
@@ -201,16 +203,16 @@ function get_state_cities($state_id)
 
 function get_files_from_fileholder($request, $file_input_name)
 {
-    $keyword                        = 'fileholder';
-    $fileholder_stored_file_path    = "fileholder/img";
+    $keyword = 'fileholder';
+    $fileholder_stored_file_path = 'fileholder/img';
 
     $files_link = [];
     if ($request->hasFile($file_input_name)) {
-        $input_name = $keyword . '-' . $file_input_name;
+        $input_name = $keyword.'-'.$file_input_name;
         $file_name_array = explode(',', $request->$input_name);
 
         foreach ($file_name_array as $item) {
-            $file_link = $fileholder_stored_file_path . '/' . $item;
+            $file_link = $fileholder_stored_file_path.'/'.$item;
 
             if (Storage::disk(Storage::getDefaultDriver())->exists($file_link)) {
                 array_push($files_link, $file_link);
@@ -222,7 +224,7 @@ function get_files_from_fileholder($request, $file_input_name)
         }
     } else {
         throw ValidationException::withMessages([
-            $file_input_name => $file_input_name . ' is required.',
+            $file_input_name => $file_input_name.' is required.',
         ]);
     }
 
@@ -251,7 +253,7 @@ function upload_files_from_path_dynamic($files_path, $destination_path, $old_fil
 
         $file_name = File::name($path);
         $file_extension = File::extension($path);
-        $file_base_name = $file_name . '.' . $file_extension;
+        $file_base_name = $file_name.'.'.$file_extension;
 
         $file_mime_type = Storage::disk(Storage::getDefaultDriver())->mimeType($path);
         $file_size = Storage::disk(Storage::getDefaultDriver())->size($path);
@@ -330,12 +332,12 @@ function upload_files_from_path_dynamic($files_path, $destination_path, $old_fil
             }
 
             $get_ultimate_file = Storage::disk(Storage::getDefaultDriver())->get($path);
-            $instance_temp_path = 'temp/temp_' . $file_base_name;
+            $instance_temp_path = 'temp/temp_'.$file_base_name;
             Storage::disk('local')->put($instance_temp_path, $get_ultimate_file, [
                 'visibility' => 'public',
             ]);
 
-            $instance_temp_full_path = storage_path() . '/app/' . $instance_temp_path;
+            $instance_temp_full_path = storage_path().'/app/'.$instance_temp_path;
             $file_instance = new UploadedFile(
                 $instance_temp_full_path,
                 $file_base_name,
@@ -343,17 +345,17 @@ function upload_files_from_path_dynamic($files_path, $destination_path, $old_fil
                 $file_size,
             );
 
-            $store_file_name = $file_name . '.webp';
+            $store_file_name = $file_name.'.webp';
             try {
                 if ($file_extension != 'webp') {
                     // Create a temporary local path for WebP
-                    $temp_path = storage_path('app/temp_' . $store_file_name);
+                    $temp_path = storage_path('app/temp_'.$store_file_name);
 
                     // Convert to WebP and save locally
                     $webp = Image::make($file_instance)->encode('webp', 70)->save($temp_path);
 
                     // Upload to S3
-                    Storage::disk(Storage::getDefaultDriver())->putFileAs($save_path, new \Illuminate\Http\File($temp_path), $store_file_name, [
+                    Storage::disk(Storage::getDefaultDriver())->putFileAs($save_path, new Illuminate\Http\File($temp_path), $store_file_name, [
                         'visibility' => 'public',
                     ]);
 
@@ -380,7 +382,7 @@ function upload_files_from_path_dynamic($files_path, $destination_path, $old_fil
         } else { // IF Other Files
 
             try {
-                Storage::disk(Storage::getDefaultDriver())->move($path, rtrim($save_path, '/') . '/' . $file_base_name);
+                Storage::disk(Storage::getDefaultDriver())->move($path, rtrim($save_path, '/').'/'.$file_base_name);
 
                 array_push($output_files_name, $file_base_name);
             } catch (Exception $e) {
@@ -394,12 +396,12 @@ function upload_files_from_path_dynamic($files_path, $destination_path, $old_fil
                 if (is_array($old_files)) {
                     // Delete Multiple File
                     foreach ($old_files as $item) {
-                        $file_link = $save_path . '/' . $item;
+                        $file_link = $save_path.'/'.$item;
                         delete_file($item);
                     }
                 } elseif (is_string($old_files)) {
                     // Delete Single File
-                    $file_link = $save_path . '/' . $old_files;
+                    $file_link = $save_path.'/'.$old_files;
                     delete_file($file_link);
                 }
             }
@@ -427,8 +429,11 @@ function get_files_path($slug)
 
 function create_asset_dir($path)
 {
-    $path = "public/" . $path;
-    if (file_exists($path)) return true;
+    $path = 'public/'.$path;
+    if (file_exists($path)) {
+        return true;
+    }
+
     return mkdir($path, 0755, true);
 }
 
@@ -442,7 +447,7 @@ function get_image($image_name, $path_type = null, $image_type = null, $size = n
     if ($image_name != null) {
         if ($path_type != null) {
             $image_path = files_path($path_type)->path;
-            $image_link = $image_path . '/' . $image_name;
+            $image_link = $image_path.'/'.$image_name;
             $image = Storage::disk(Storage::getDefaultDriver())->url($image_link);
         } else {
 
@@ -457,14 +462,14 @@ function get_storage_image($image_name, $path_type = null, $image_type = null, $
 {
 
     if ($image_type == 'profile') {
-        $image =  asset(files_path('profile-default')->path);
+        $image = asset(files_path('profile-default')->path);
     } else {
-        $image =  asset(files_path('default')->path);
+        $image = asset(files_path('default')->path);
     }
     if ($image_name != null) {
         if ($path_type != null) {
             $image_path = files_path($path_type)->path;
-            $image_link = $image_path . "/" . $image_name;
+            $image_link = $image_path.'/'.$image_name;
 
             if (file_exists(storage_path($image_link))) {
                 // if(file_exists(public_path($image_link))) {
@@ -479,107 +484,107 @@ function get_storage_image($image_name, $path_type = null, $image_type = null, $
 function files_path($slug)
 {
     $data = [
-        'admin-profile'         => [
-            'path'              => 'backend/images/admin/profile',
-            'width'             => 800,
-            'height'            => 800,
+        'admin-profile' => [
+            'path' => 'backend/images/admin/profile',
+            'width' => 800,
+            'height' => 800,
         ],
-        'default'               => [
-            'path'              => 'backend/images/default/default.webp',
-            'width'             => 800,
-            'height'            => 800,
+        'default' => [
+            'path' => 'backend/images/default/default.webp',
+            'width' => 800,
+            'height' => 800,
         ],
-        'default-card'               => [
-            'path'              => 'backend/images/default/card-default.webp',
-            'width'             => 800,
-            'height'            => 800,
+        'default-card' => [
+            'path' => 'backend/images/default/card-default.webp',
+            'width' => 800,
+            'height' => 800,
         ],
-        'profile-default'       => [
-            'path'              => 'backend/images/default/profile-default.webp',
-            'width'             => 800,
-            'height'            => 800,
+        'profile-default' => [
+            'path' => 'backend/images/default/profile-default.webp',
+            'width' => 800,
+            'height' => 800,
         ],
-        'currency-flag'         => [
-            'path'              => 'backend/images/currency-flag',
-            'width'             => 400,
-            'height'            => 400,
+        'currency-flag' => [
+            'path' => 'backend/images/currency-flag',
+            'width' => 400,
+            'height' => 400,
         ],
-        'country-flag'         => [
-            'path'              => 'backend/images/country-flag',
-            'width'             => 400,
-            'height'            => 400,
+        'country-flag' => [
+            'path' => 'backend/images/country-flag',
+            'width' => 400,
+            'height' => 400,
         ],
-        'image-assets'          => [
-            'path'              => 'backend/images/web-settings/image-assets',
+        'image-assets' => [
+            'path' => 'backend/images/web-settings/image-assets',
         ],
-        'seo'                   => [
-            'path'              => 'backend/images/seo',
+        'seo' => [
+            'path' => 'backend/images/seo',
         ],
-        'app-images'            => [
-            'path'              => 'backend/images/app',
-            'width'             => 414,
-            'height'            => 896,
+        'app-images' => [
+            'path' => 'backend/images/app',
+            'width' => 414,
+            'height' => 896,
         ],
-        'splash-images'            => [
-            'path'              => 'backend/images/app',
-            'width'             => 414,
-            'height'            => 896,
+        'splash-images' => [
+            'path' => 'backend/images/app',
+            'width' => 414,
+            'height' => 896,
         ],
-        'payment-gateways'      => [
-            'path'              => 'backend/images/payment-gateways',
+        'payment-gateways' => [
+            'path' => 'backend/images/payment-gateways',
         ],
-        'extensions'      => [
-            'path'              => 'backend/images/extensions',
+        'extensions' => [
+            'path' => 'backend/images/extensions',
         ],
-        'user-profile'      => [
-            'path'              => 'frontend/user',
+        'user-profile' => [
+            'path' => 'frontend/user',
         ],
-        'card-kyc-images'      => [
-            'path'              => 'frontend/user/card-kyc-images',
+        'card-kyc-images' => [
+            'path' => 'frontend/user/card-kyc-images',
         ],
-        'merchant-profile'      => [
-            'path'              => 'frontend/merchant',
+        'merchant-profile' => [
+            'path' => 'frontend/merchant',
         ],
-        'agent-profile'      => [
-            'path'              => 'frontend/agent',
+        'agent-profile' => [
+            'path' => 'frontend/agent',
         ],
-        'language-file'     => [
-            'path'          => 'backend/files/language',
+        'language-file' => [
+            'path' => 'backend/files/language',
         ],
-        'site-section'         => [
-            'path'          => 'frontend/images/site-section',
+        'site-section' => [
+            'path' => 'frontend/images/site-section',
         ],
-        'header-section'         => [
-            'path'          => 'frontend/images/site-section/header-image',
+        'header-section' => [
+            'path' => 'frontend/images/site-section/header-image',
         ],
-        'support-attachment'    => [
-            'path'          => 'frontend/images/support-ticket/attachment',
+        'support-attachment' => [
+            'path' => 'frontend/images/support-ticket/attachment',
         ],
-        'kyc-files'         => [
-            'path'          => 'backend/files/kyc-files'
+        'kyc-files' => [
+            'path' => 'backend/files/kyc-files',
         ],
-        'blog'         => [
-            'path'          => 'backend/files/blog'
+        'blog' => [
+            'path' => 'backend/files/blog',
         ],
-        'junk-files'        => [
-            'path'      => 'backend/files/junk-files',
+        'junk-files' => [
+            'path' => 'backend/files/junk-files',
         ],
-        'merchant-config'   => [
-            'path'      => 'backend/images/merchant-config',
+        'merchant-config' => [
+            'path' => 'backend/images/merchant-config',
         ],
-        'error-images'   => [
-            'path'      => 'error-images',
+        'error-images' => [
+            'path' => 'error-images',
         ],
-        'card-api'   => [
-            'path'      => 'backend/images/card-settings',
+        'card-api' => [
+            'path' => 'backend/images/card-settings',
         ],
-        'payment-link-image'         => [
-            'path'              => 'backend/images/payment-link-image',
-            'width'             => 400,
-            'height'            => 400,
+        'payment-link-image' => [
+            'path' => 'backend/images/payment-link-image',
+            'width' => 400,
+            'height' => 400,
         ],
-        'conversation'    => [
-            'path'          => 'frontend/images/conversation',
+        'conversation' => [
+            'path' => 'frontend/images/conversation',
         ],
     ];
 
@@ -595,45 +600,50 @@ function files_asset_path($slug)
 
 function get_amount($amount, $currency = null, $precision = null)
 {
-    if (!is_numeric($amount)) return __("Not Number");
-    if ($precision == "double") {
+    if (! is_numeric($amount)) {
+        return __('Not Number');
+    }
+    if ($precision == 'double') {
         $amount = (float) $amount;
     } else {
-        $amount = ($precision) ? number_format($amount, $precision, ".", "") : number_format($amount, 2, ".", "");
+        $amount = ($precision) ? number_format($amount, $precision, '.', '') : number_format($amount, 2, '.', '');
     }
-    if (!$currency) return $amount;
-    $amount = $amount . " " . $currency;
+    if (! $currency) {
+        return $amount;
+    }
+    $amount = $amount.' '.$currency;
+
     return $amount;
 }
 
 function get_logo($basic_settings, $type = null)
 {
-    $logo = "";
+    $logo = '';
     if ($type == 'white') {
-        if (!$basic_settings->site_logo) {
+        if (! $basic_settings->site_logo) {
             $logo = files_asset_path('default');
         } else {
-            $logo = files_asset_path('image-assets') . "/" . $basic_settings->site_logo;
+            $logo = files_asset_path('image-assets').'/'.$basic_settings->site_logo;
         }
     }
 
     if ($type == 'dark') {
-        if (!$basic_settings->site_logo_dark) {
+        if (! $basic_settings->site_logo_dark) {
             $logo = files_asset_path('default');
         } else {
-            $logo = files_asset_path('image-assets') . "/" . $basic_settings->site_logo_dark;
+            $logo = files_asset_path('image-assets').'/'.$basic_settings->site_logo_dark;
         }
     }
 
     if ($type == null) {
-        if (!$basic_settings->site_logo) {
-            if (!$basic_settings->site_logo_dark) {
+        if (! $basic_settings->site_logo) {
+            if (! $basic_settings->site_logo_dark) {
                 $logo = files_asset_path('default');
             } else {
-                $logo = files_asset_path('image-assets') . "/" . $basic_settings->site_logo_dark;
+                $logo = files_asset_path('image-assets').'/'.$basic_settings->site_logo_dark;
             }
         } else {
-            $logo = files_asset_path('image-assets') . "/" . $basic_settings->site_logo;
+            $logo = files_asset_path('image-assets').'/'.$basic_settings->site_logo;
         }
     }
 
@@ -641,32 +651,32 @@ function get_logo($basic_settings, $type = null)
 }
 function get_logo_merchant($basic_settings, $type = null)
 {
-    $logo = "";
+    $logo = '';
     if ($type == 'white') {
-        if (!$basic_settings->site_logo) {
+        if (! $basic_settings->site_logo) {
             $logo = files_asset_path('default');
         } else {
-            $logo = files_asset_path('image-assets') . "/" . $basic_settings->merchant_site_logo;
+            $logo = files_asset_path('image-assets').'/'.$basic_settings->merchant_site_logo;
         }
     }
 
     if ($type == 'dark') {
-        if (!$basic_settings->site_logo_dark) {
+        if (! $basic_settings->site_logo_dark) {
             $logo = files_asset_path('default');
         } else {
-            $logo = files_asset_path('image-assets') . "/" . $basic_settings->merchant_site_logo_dark;
+            $logo = files_asset_path('image-assets').'/'.$basic_settings->merchant_site_logo_dark;
         }
     }
 
     if ($type == null) {
-        if (!$basic_settings->merchant_site_logo) {
-            if (!$basic_settings->merchant_site_logo_dark) {
+        if (! $basic_settings->merchant_site_logo) {
+            if (! $basic_settings->merchant_site_logo_dark) {
                 $logo = files_asset_path('default');
             } else {
-                $logo = files_asset_path('image-assets') . "/" . $basic_settings->merchant_site_logo_dark;
+                $logo = files_asset_path('image-assets').'/'.$basic_settings->merchant_site_logo_dark;
             }
         } else {
-            $logo = files_asset_path('image-assets') . "/" . $basic_settings->merchant_site_logo;
+            $logo = files_asset_path('image-assets').'/'.$basic_settings->merchant_site_logo;
         }
     }
 
@@ -674,32 +684,32 @@ function get_logo_merchant($basic_settings, $type = null)
 }
 function get_logo_agent($basic_settings, $type = null)
 {
-    $logo = "";
+    $logo = '';
     if ($type == 'white') {
-        if (!$basic_settings->site_logo) {
+        if (! $basic_settings->site_logo) {
             $logo = files_asset_path('default');
         } else {
-            $logo = files_asset_path('image-assets') . "/" . $basic_settings->agent_site_logo;
+            $logo = files_asset_path('image-assets').'/'.$basic_settings->agent_site_logo;
         }
     }
 
     if ($type == 'dark') {
-        if (!$basic_settings->site_logo_dark) {
+        if (! $basic_settings->site_logo_dark) {
             $logo = files_asset_path('default');
         } else {
-            $logo = files_asset_path('image-assets') . "/" . $basic_settings->agent_site_logo_dark;
+            $logo = files_asset_path('image-assets').'/'.$basic_settings->agent_site_logo_dark;
         }
     }
 
     if ($type == null) {
-        if (!$basic_settings->agent_site_logo) {
-            if (!$basic_settings->agent_site_logo_dark) {
+        if (! $basic_settings->agent_site_logo) {
+            if (! $basic_settings->agent_site_logo_dark) {
                 $logo = files_asset_path('default');
             } else {
-                $logo = files_asset_path('image-assets') . "/" . $basic_settings->agent_site_logo_dark;
+                $logo = files_asset_path('image-assets').'/'.$basic_settings->agent_site_logo_dark;
             }
         } else {
-            $logo = files_asset_path('image-assets') . "/" . $basic_settings->agent_site_logo;
+            $logo = files_asset_path('image-assets').'/'.$basic_settings->agent_site_logo;
         }
     }
 
@@ -708,32 +718,32 @@ function get_logo_agent($basic_settings, $type = null)
 
 function get_logo_public_path($basic_settings, $type = null)
 {
-    $logo = "";
+    $logo = '';
     if ($type == 'white') {
-        if (!$basic_settings->site_logo) {
+        if (! $basic_settings->site_logo) {
             $logo = get_files_path('default');
         } else {
-            $logo = get_files_path('image-assets') . "/" . $basic_settings->site_logo;
+            $logo = get_files_path('image-assets').'/'.$basic_settings->site_logo;
         }
     }
 
     if ($type == 'dark') {
-        if (!$basic_settings->site_logo_dark) {
+        if (! $basic_settings->site_logo_dark) {
             $logo = get_files_path('default');
         } else {
-            $logo = get_files_path('image-assets') . "/" . $basic_settings->site_logo_dark;
+            $logo = get_files_path('image-assets').'/'.$basic_settings->site_logo_dark;
         }
     }
 
     if ($type == null) {
-        if (!$basic_settings->site_logo) {
-            if (!$basic_settings->site_logo_dark) {
+        if (! $basic_settings->site_logo) {
+            if (! $basic_settings->site_logo_dark) {
                 $logo = get_files_path('default');
             } else {
-                $logo = get_files_path('image-assets') . "/" . $basic_settings->site_logo_dark;
+                $logo = get_files_path('image-assets').'/'.$basic_settings->site_logo_dark;
             }
         } else {
-            $logo = get_files_path('image-assets') . "/" . $basic_settings->site_logo;
+            $logo = get_files_path('image-assets').'/'.$basic_settings->site_logo;
         }
     }
 
@@ -742,33 +752,35 @@ function get_logo_public_path($basic_settings, $type = null)
 
 function get_fav($basic_settings = null, $type = null)
 {
-    if ($basic_settings == null) $basic_settings = BasicSettingsProvider::get();
-    $fav = "";
+    if ($basic_settings == null) {
+        $basic_settings = BasicSettingsProvider::get();
+    }
+    $fav = '';
     if ($type == 'white') {
-        if (!$basic_settings->site_fav) {
+        if (! $basic_settings->site_fav) {
             $fav = files_asset_path('default');
         } else {
-            $fav = files_asset_path('image-assets') . "/" . $basic_settings->site_fav;
+            $fav = files_asset_path('image-assets').'/'.$basic_settings->site_fav;
         }
     }
 
     if ($type == 'dark') {
-        if (!$basic_settings->site_fav_dark) {
+        if (! $basic_settings->site_fav_dark) {
             $fav = files_asset_path('default');
         } else {
-            $fav = files_asset_path('image-assets') . "/" . $basic_settings->site_fav_dark;
+            $fav = files_asset_path('image-assets').'/'.$basic_settings->site_fav_dark;
         }
     }
 
     if ($type == null) {
-        if (!$basic_settings->site_fav) {
-            if (!$basic_settings->site_fav_dark) {
+        if (! $basic_settings->site_fav) {
+            if (! $basic_settings->site_fav_dark) {
                 $fav = files_asset_path('default');
             } else {
-                $fav = files_asset_path('image-assets') . "/" . $basic_settings->site_fav_dark;
+                $fav = files_asset_path('image-assets').'/'.$basic_settings->site_fav_dark;
             }
         } else {
-            $fav = files_asset_path('image-assets') . "/" . $basic_settings->site_fav;
+            $fav = files_asset_path('image-assets').'/'.$basic_settings->site_fav;
         }
     }
 
@@ -776,33 +788,35 @@ function get_fav($basic_settings = null, $type = null)
 }
 function get_fav_merchant($basic_settings = null, $type = null)
 {
-    if ($basic_settings == null) $basic_settings = BasicSettingsProvider::get();
-    $fav = "";
+    if ($basic_settings == null) {
+        $basic_settings = BasicSettingsProvider::get();
+    }
+    $fav = '';
     if ($type == 'white') {
-        if (!$basic_settings->merchant_site_fav) {
+        if (! $basic_settings->merchant_site_fav) {
             $fav = files_asset_path('default');
         } else {
-            $fav = files_asset_path('image-assets') . "/" . $basic_settings->merchant_site_fav;
+            $fav = files_asset_path('image-assets').'/'.$basic_settings->merchant_site_fav;
         }
     }
 
     if ($type == 'dark') {
-        if (!$basic_settings->merchant_site_fav_dark) {
+        if (! $basic_settings->merchant_site_fav_dark) {
             $fav = files_asset_path('default');
         } else {
-            $fav = files_asset_path('image-assets') . "/" . $basic_settings->merchant_site_fav_dark;
+            $fav = files_asset_path('image-assets').'/'.$basic_settings->merchant_site_fav_dark;
         }
     }
 
     if ($type == null) {
-        if (!$basic_settings->merchant_site_fav) {
-            if (!$basic_settings->merchant_site_fav_dark) {
+        if (! $basic_settings->merchant_site_fav) {
+            if (! $basic_settings->merchant_site_fav_dark) {
                 $fav = files_asset_path('default');
             } else {
-                $fav = files_asset_path('image-assets') . "/" . $basic_settings->merchant_site_fav_dark;
+                $fav = files_asset_path('image-assets').'/'.$basic_settings->merchant_site_fav_dark;
             }
         } else {
-            $fav = files_asset_path('image-assets') . "/" . $basic_settings->merchant_site_fav;
+            $fav = files_asset_path('image-assets').'/'.$basic_settings->merchant_site_fav;
         }
     }
 
@@ -810,33 +824,35 @@ function get_fav_merchant($basic_settings = null, $type = null)
 }
 function get_fav_agent($basic_settings = null, $type = null)
 {
-    if ($basic_settings == null) $basic_settings = BasicSettingsProvider::get();
-    $fav = "";
+    if ($basic_settings == null) {
+        $basic_settings = BasicSettingsProvider::get();
+    }
+    $fav = '';
     if ($type == 'white') {
-        if (!$basic_settings->agent_site_fav) {
+        if (! $basic_settings->agent_site_fav) {
             $fav = files_asset_path('default');
         } else {
-            $fav = files_asset_path('image-assets') . "/" . $basic_settings->agent_site_fav;
+            $fav = files_asset_path('image-assets').'/'.$basic_settings->agent_site_fav;
         }
     }
 
     if ($type == 'dark') {
-        if (!$basic_settings->agent_site_fav_dark) {
+        if (! $basic_settings->agent_site_fav_dark) {
             $fav = files_asset_path('default');
         } else {
-            $fav = files_asset_path('image-assets') . "/" . $basic_settings->agent_site_fav_dark;
+            $fav = files_asset_path('image-assets').'/'.$basic_settings->agent_site_fav_dark;
         }
     }
 
     if ($type == null) {
-        if (!$basic_settings->agent_site_fav) {
-            if (!$basic_settings->agent_site_fav_dark) {
+        if (! $basic_settings->agent_site_fav) {
+            if (! $basic_settings->agent_site_fav_dark) {
                 $fav = files_asset_path('default');
             } else {
-                $fav = files_asset_path('image-assets') . "/" . $basic_settings->agent_site_fav_dark;
+                $fav = files_asset_path('image-assets').'/'.$basic_settings->agent_site_fav_dark;
             }
         } else {
-            $fav = files_asset_path('image-assets') . "/" . $basic_settings->agent_site_fav;
+            $fav = files_asset_path('image-assets').'/'.$basic_settings->agent_site_fav;
         }
     }
 
@@ -849,7 +865,7 @@ function upload_files_from_path_static($files_path, $destination_path, $old_file
     foreach ($files_path as $path) {
         $file_name = File::name($path);
         $file_extension = File::extension($path);
-        $file_base_name = $file_name . '.' . $file_extension;
+        $file_base_name = $file_name.'.'.$file_extension;
 
         $file_mime_type = Storage::disk(Storage::getDefaultDriver())->mimeType($path);
         $file_size = Storage::disk(Storage::getDefaultDriver())->size($path);
@@ -911,7 +927,7 @@ function upload_files_from_path_static($files_path, $destination_path, $old_file
                             $file->resize($new_width, null, function ($constraint) {
                                 $constraint->aspectRatio();
                             });
-                        } catch (\Exception $e) {
+                        } catch (Exception $e) {
                             throw new Exception('Image upload failed. Please try again');
                         }
                     }
@@ -950,12 +966,12 @@ function upload_files_from_path_static($files_path, $destination_path, $old_file
             }
 
             $get_ultimate_file = Storage::disk(Storage::getDefaultDriver())->get($path);
-            $instance_temp_path = 'temp/temp_' . $file_base_name;
+            $instance_temp_path = 'temp/temp_'.$file_base_name;
             Storage::disk('local')->put($instance_temp_path, $get_ultimate_file, [
                 'visibility' => 'public',
             ]);
 
-            $instance_temp_full_path = storage_path() . '/app/' . $instance_temp_path;
+            $instance_temp_full_path = storage_path().'/app/'.$instance_temp_path;
             $file_instance = new UploadedFile(
                 $instance_temp_full_path,
                 $file_base_name,
@@ -970,17 +986,17 @@ function upload_files_from_path_static($files_path, $destination_path, $old_file
             //     $file_size,
             // );
 
-            $store_file_name = $file_name . '.webp';
+            $store_file_name = $file_name.'.webp';
             try {
                 if ($file_extension != 'webp') {
                     // Create a temporary local path for WebP
-                    $temp_path = storage_path('app/temp_' . $store_file_name);
+                    $temp_path = storage_path('app/temp_'.$store_file_name);
 
                     // Convert to WebP and save locally
                     $webp = Image::make($file_instance)->encode('webp', 70)->save($temp_path);
 
                     // Upload to S3
-                    Storage::disk(Storage::getDefaultDriver())->putFileAs($save_path, new \Illuminate\Http\File($temp_path), $store_file_name, [
+                    Storage::disk(Storage::getDefaultDriver())->putFileAs($save_path, new Illuminate\Http\File($temp_path), $store_file_name, [
                         'visibility' => 'public',
                     ]);
 
@@ -1017,7 +1033,7 @@ function upload_files_from_path_static($files_path, $destination_path, $old_file
                 //     'visibility' => 'public',
                 // ]);
 
-                Storage::disk(Storage::getDefaultDriver())->move($path, rtrim($save_path, '/') . '/' . $file_base_name);
+                Storage::disk(Storage::getDefaultDriver())->move($path, rtrim($save_path, '/').'/'.$file_base_name);
                 array_push($output_files_name, $file_base_name);
             } catch (Exception $e) {
                 throw new Exception('An error occurred. Failed to upload file.');
@@ -1030,12 +1046,12 @@ function upload_files_from_path_static($files_path, $destination_path, $old_file
                 if (is_array($old_files)) {
                     // Delete Multiple File
                     foreach ($old_files as $item) {
-                        $file_link = $save_path . '/' . $item;
+                        $file_link = $save_path.'/'.$item;
                         delete_file($item);
                     }
                 } elseif (is_string($old_files)) {
                     // Delete Single File
-                    $file_link = $save_path . '/' . $old_files;
+                    $file_link = $save_path.'/'.$old_files;
                     delete_file($file_link);
                 }
             }
@@ -1064,49 +1080,57 @@ function delete_file($file_link)
 
 function get_default_currency_code($default_currency = null)
 {
-    if ($default_currency == null) $default_currency = CurrencyProvider::default();
+    if ($default_currency == null) {
+        $default_currency = CurrencyProvider::default();
+    }
     if ($default_currency != false) {
         return $default_currency->code;
     }
-    return "";
+
+    return '';
 }
 function get_default_currency_rate($default_currency_rate = null)
 {
-    if ($default_currency_rate == null) $default_currency_rate = CurrencyProvider::default();
+    if ($default_currency_rate == null) {
+        $default_currency_rate = CurrencyProvider::default();
+    }
     if ($default_currency_rate != false) {
         return $default_currency_rate->rate;
     }
+
     return 0.00;
 }
 function get_default_currency_name($default_currency_name = null)
 {
-    if ($default_currency_name == null) $default_currency_name = CurrencyProvider::default();
+    if ($default_currency_name == null) {
+        $default_currency_name = CurrencyProvider::default();
+    }
     if ($default_currency_name != false) {
         return $default_currency_name->country;
     }
+
     return '';
 }
 
-function replace_array_key($array, $remove_keyword, $replace_keyword = "")
+function replace_array_key($array, $remove_keyword, $replace_keyword = '')
 {
     $filter = [];
     foreach ($array as $key => $value) {
-        $update_key = preg_replace('/' . $remove_keyword . '/i', $replace_keyword, $key);
+        $update_key = preg_replace('/'.$remove_keyword.'/i', $replace_keyword, $key);
         $filter[$update_key] = $value;
     }
+
     return $filter;
 }
-
 
 function get_paginate($data)
 {
     try {
         return $data->onEachSide(2)->links();
     } catch (Exception $e) {
-        return "";
+        return '';
     }
 }
-
 
 function set_payment_gateway_code($last_record_of_code)
 {
@@ -1115,15 +1139,17 @@ function set_payment_gateway_code($last_record_of_code)
 
 function make_input_name($string)
 {
-    $string         = preg_replace('/[^A-Za-z0-9]/', ' ', $string);
-    $string         = preg_replace("/ /i", "_", $string);
-    $string         = Str::lower($string);
+    $string = preg_replace('/[^A-Za-z0-9]/', ' ', $string);
+    $string = preg_replace('/ /i', '_', $string);
+    $string = Str::lower($string);
+
     return $string;
 }
 
 /**
  * Function for Making Input field array with all information that comes from Frontend Form
- * @param array $validated
+ *
+ * @param  array  $validated
  * @return array $input_fields
  */
 function decorate_input_fields($validated)
@@ -1132,65 +1158,64 @@ function decorate_input_fields($validated)
     $input_fields = [];
 
     $field_necessity_list = [
-        '1'             => true,
-        '0'             => false,
+        '1' => true,
+        '0' => false,
     ];
     $file_array_key = 0;
     $select_array_key = 0;
     $global_array_key = 0;
     foreach ($validated['input_type'] ?? [] as $key => $item) {
-        $field_necessity = $validated['field_necessity'][$key] ?? "";
+        $field_necessity = $validated['field_necessity'][$key] ?? '';
 
         $validation_rules = ['min' => 0, 'mimes' => []];
 
-        if ($item == "file") {
-            $extensions = $validated['file_extensions'][$file_array_key] ?? "";
-            $extensions = explode(",", $extensions);
+        if ($item == 'file') {
+            $extensions = $validated['file_extensions'][$file_array_key] ?? '';
+            $extensions = explode(',', $extensions);
 
             $validation_rules = [
-                'max'       => $validated['file_max_size'][$file_array_key] ?? 0,
-                'mimes'     => $extensions,
-                'min'       => 0,
-                'options'  => [],
+                'max' => $validated['file_max_size'][$file_array_key] ?? 0,
+                'mimes' => $extensions,
+                'min' => 0,
+                'options' => [],
             ];
 
             $file_array_key++;
-        } else if ($item == "select") {
-            $options = $validated['select_options'][$select_array_key] ?? "";
-            $options = explode(",", $options);
+        } elseif ($item == 'select') {
+            $options = $validated['select_options'][$select_array_key] ?? '';
+            $options = explode(',', $options);
 
             $validation_rules = [
-                'max'       => 0,
-                'min'       => 0,
-                'mimes'     => [],
-                'options'   => $options,
+                'max' => 0,
+                'min' => 0,
+                'mimes' => [],
+                'options' => $options,
             ];
 
             $select_array_key++;
         } else {
             $validation_rules = [
-                'max'      => $validated['max_char'][$global_array_key] ?? 0,
-                'mimes'    => [],
-                'min'      => $validated['min_char'][$global_array_key] ?? 0,
-                'options'  => [],
+                'max' => $validated['max_char'][$global_array_key] ?? 0,
+                'mimes' => [],
+                'min' => $validated['min_char'][$global_array_key] ?? 0,
+                'options' => [],
             ];
             $global_array_key++;
         }
 
         $validation_rules['required'] = $field_necessity_list[$field_necessity] ?? false;
 
-        $input_fields[]     = [
-            'type'          => $item,
-            'label'         => $validated['label'][$key] ?? "",
-            'name'          => make_input_name($validated['label'][$key] ?? ""),
-            'required'      => $field_necessity_list[$field_necessity] ?? false,
-            'validation'    => $validation_rules,
+        $input_fields[] = [
+            'type' => $item,
+            'label' => $validated['label'][$key] ?? '',
+            'name' => make_input_name($validated['label'][$key] ?? ''),
+            'required' => $field_necessity_list[$field_necessity] ?? false,
+            'validation' => $validation_rules,
         ];
     }
 
     return $input_fields;
 }
-
 
 // Role Permission START
 
@@ -1214,14 +1239,14 @@ function get_role_permission_routes()
     $routes_name = [];
     foreach ($routes_info as $key => $item) {
         if (isset($item->action['as'])) {
-            if (Str::is("admin.*", $item->action['as'])) {
-                if (Str::is("admin.login*", $item->action['as'])) {
+            if (Str::is('admin.*', $item->action['as'])) {
+                if (Str::is('admin.login*', $item->action['as'])) {
                     continue;
-                } else if (Str::is("admin.profile*", $item->action['as'])) {
+                } elseif (Str::is('admin.profile*', $item->action['as'])) {
                     continue;
-                } else if (Str::is("admin.password*", $item->action['as'])) {
+                } elseif (Str::is('admin.password*', $item->action['as'])) {
                     continue;
-                } else if (in_array($item->action['as'], permission_skip())) {
+                } elseif (in_array($item->action['as'], permission_skip())) {
                     continue;
                 }
                 $routes_name[] = $item->action['as'];
@@ -1231,12 +1256,12 @@ function get_role_permission_routes()
 
     $readable_route_text = [];
     foreach ($routes_name as $item) {
-        $make_title = str_replace('admin.', "", $item);
-        $make_title = str_replace('.', " ", $make_title);
+        $make_title = str_replace('admin.', '', $item);
+        $make_title = str_replace('.', ' ', $make_title);
         $make_title = ucwords($make_title);
         $readable_route_text[] = [
-            'route'     => $item,
-            'text'      => $make_title,
+            'route' => $item,
+            'text' => $make_title,
         ];
     }
 
@@ -1246,14 +1271,18 @@ function get_role_permission_routes()
 function get_route_info($route_name)
 {
     $route_info = Route::getRoutes()->getByName($route_name);
+
     return $route_info;
 }
 
 function system_super_admin()
 {
     if (AdminHasRole::whereHas('role', function ($query) {
-        $query->where("name", AdminRoleConst::SUPER_ADMIN);
-    })->exists()) return true;
+        $query->where('name', AdminRoleConst::SUPER_ADMIN);
+    })->exists()) {
+        return true;
+    }
+
     return false;
 }
 
@@ -1264,7 +1293,7 @@ function admin_role_const()
 
 function auth_admin_roles()
 {
-    return auth()->guard("admin")->user()->getRolesCollection();
+    return auth()->guard('admin')->user()->getRolesCollection();
 }
 
 function auth_admin_permissions()
@@ -1278,20 +1307,25 @@ function auth_admin_permissions()
             }
         }
     }
+
     return array_unique($permissions);
 }
 
 function auth_is_super_admin()
 {
     $auth_admin_roles = auth_admin_roles();
-    if (in_array(AdminRoleConst::SUPER_ADMIN, $auth_admin_roles)) return true;
+    if (in_array(AdminRoleConst::SUPER_ADMIN, $auth_admin_roles)) {
+        return true;
+    }
+
     return false;
 }
 
 function permission_protected()
 {
     $permissions = get_role_permission_routes();
-    $permissions = Arr::pluck($permissions, ["route"]);
+    $permissions = Arr::pluck($permissions, ['route']);
+
     return $permissions;
 }
 
@@ -1299,16 +1333,28 @@ function auth_admin_incomming_permission()
 {
     $incomming_access = Route::currentRouteName();
     $auth_admin_permissions = auth_admin_permissions();
-    if (auth_is_super_admin() == true) return true;
-    if (!in_array($incomming_access, permission_protected())) return true;
-    if (in_array($incomming_access, $auth_admin_permissions)) return true;
+    if (auth_is_super_admin() == true) {
+        return true;
+    }
+    if (! in_array($incomming_access, permission_protected())) {
+        return true;
+    }
+    if (in_array($incomming_access, $auth_admin_permissions)) {
+        return true;
+    }
+
     return false;
 }
 
 function admin_permission_by_name($name)
 {
-    if (auth_is_super_admin()) return true;
-    if (in_array($name, auth_admin_permissions())) return true;
+    if (auth_is_super_admin()) {
+        return true;
+    }
+    if (in_array($name, auth_admin_permissions())) {
+        return true;
+    }
+
     return false;
 }
 
@@ -1317,6 +1363,7 @@ function auth_has_no_role()
     if (count(auth_admin_roles()) == 0) {
         return true;
     }
+
     return false;
 }
 
@@ -1325,30 +1372,34 @@ function auth_has_role()
     if (count(auth_admin_roles()) > 0) {
         return true;
     }
+
     return false;
 }
-
 
 function admin_permission_by_name_array($names)
 {
     $auth_admin_permissions = auth_admin_permissions();
-    if (auth_is_super_admin()) return true;
+    if (auth_is_super_admin()) {
+        return true;
+    }
     $match = array_intersect($auth_admin_permissions, $names);
     if (count($match) > 0) {
         return true;
     }
+
     return false;
 }
 
 // Role Permission END
 function remove_spaces($string)
 {
-    return str_replace(' ', "", $string);
+    return str_replace(' ', '', $string);
 }
 
 function get_admin_notifications()
 {
     $notifications = AdminNotification::auth()->whereNot('type', NotificationConst::SIDE_NAV)->latest()->paginate(10);
+
     return $notifications;
 }
 
@@ -1372,20 +1423,20 @@ function addMoneyChargeCalc($amount, $charges)
     $total_charge = $fixed_charge_calc + $percent_charge_calc;
     $total_amount = $amount + $total_charge;
     $data = [
-        'requested_amount'  => $amount,
-        'total_amount'      => $total_amount,
-        'total_charges'     => $total_charge,
-        'fixed_charge'      => $fixed_charge_calc,
-        'percent_charges'   => $percent_charge_calc,
+        'requested_amount' => $amount,
+        'total_amount' => $total_amount,
+        'total_charges' => $total_charge,
+        'fixed_charge' => $fixed_charge_calc,
+        'percent_charges' => $percent_charge_calc,
     ];
+
     return (object) $data;
 }
 
-function create_file($path, $mode = "w")
+function create_file($path, $mode = 'w')
 {
     return fopen($path, $mode);
 }
-
 
 function get_first_file_from_dir($dir)
 {
@@ -1417,18 +1468,19 @@ function get_default_language_code()
 
 function get_admin($username)
 {
-    $admin = Admin::where("username", $username)->first();
+    $admin = Admin::where('username', $username)->first();
+
     return $admin;
 }
 
 function setPageTitle(string $title)
 {
     $basic_settings = BasicSettingsProvider::get();
-    return $basic_settings->site_name . " | " . $title;
+
+    return $basic_settings->site_name.' | '.$title;
 }
 
-
-function make_username($first_name, $last_name, $table = "users")
+function make_username($first_name, $last_name, $table = 'users')
 {
     // Normalize the names to NFC form
     $first_name = normalizer_normalize($first_name, Normalizer::FORM_C);
@@ -1438,30 +1490,30 @@ function make_username($first_name, $last_name, $table = "users")
     $first_name = preg_replace('/[^\p{L}\p{N}]/u', '', $first_name);
     $last_name = preg_replace('/[^\p{L}\p{N}]/u', '', $last_name);
 
-    $generate_name_with_count = "";
+    $generate_name_with_count = '';
     do {
         // Generate username
         $firstName = $first_name;
         $lastName = $last_name;
 
-        if ($generate_name_with_count == "") {
+        if ($generate_name_with_count == '') {
             if (mb_strlen($firstName) >= 6) {
                 $generate_name = filter_string_lower($firstName);
             } else {
                 $modfy_last_name = explode(' ', $lastName);
                 $lastName = filter_string_lower($modfy_last_name[0]);
                 $firstName = filter_string_lower($firstName);
-                $generate_name = $firstName . $lastName;
+                $generate_name = $firstName.$lastName;
                 if (mb_strlen($generate_name) < 6) {
                     $firstName = filter_string_lower($firstName);
                     $lastName = filter_string_lower($lastName);
-                    $generate_name = $firstName . $lastName;
+                    $generate_name = $firstName.$lastName;
 
                     if (mb_strlen($generate_name) < 6) {
                         $getCurrentLen = mb_strlen($generate_name);
                         $dueChar = 6 - $getCurrentLen;
                         $generate_due_char = strtolower(generate_random_string($dueChar));
-                        $generate_name = $generate_name . $generate_due_char;
+                        $generate_name = $generate_name.$generate_due_char;
                     }
                 }
             }
@@ -1478,8 +1530,8 @@ function make_username($first_name, $last_name, $table = "users")
             $generate_name_with_count = $generate_name;
 
             $split_string = array_reverse(preg_split('//u', $generate_name_with_count, -1, PREG_SPLIT_NO_EMPTY));
-            $username_string_part = "";
-            $last_numeric_values = "";
+            $username_string_part = '';
+            $last_numeric_values = '';
             $numeric_close = false;
 
             foreach ($split_string as $character) {
@@ -1495,16 +1547,17 @@ function make_username($first_name, $last_name, $table = "users")
                 }
             }
 
-            if ($last_numeric_values == "") { // If has no number in username string;
+            if ($last_numeric_values == '') { // If has no number in username string;
                 $last_numeric_values = 1;
             }
 
             $username_string_part = implode('', array_reverse(preg_split('//u', $username_string_part, -1, PREG_SPLIT_NO_EMPTY))); // username back to original order;
             $last_numeric_values = strrev($last_numeric_values); // last number back to original order;
-            $generate_name_with_count = $username_string_part . ($last_numeric_values + 1);
+            $generate_name_with_count = $username_string_part.($last_numeric_values + 1);
             $loop = true;
         }
     } while ($loop);
+
     return $generate_name;
 }
 
@@ -1522,9 +1575,9 @@ function generate_random_string($length)
     for ($i = 0; $i < $length; $i++) {
         $randomString .= mb_substr($characters, rand(0, mb_strlen($characters) - 1), 1);
     }
+
     return $randomString;
 }
-
 
 function generate_random_string_number($length = 12)
 {
@@ -1534,6 +1587,7 @@ function generate_random_string_number($length = 12)
     for ($i = 0; $i < $length; $i++) {
         $randomString .= $characters[rand(0, $charactersLength - 1)];
     }
+
     return $randomString;
 }
 
@@ -1565,10 +1619,10 @@ function upload_file($file, $destination_path, $old_file = null)
         array_pop($file_base_name);
         $file_base_name = implode('-', $file_base_name);
 
-        $file_name = Str::uuid() . '.' . $file_extension;
+        $file_name = Str::uuid().'.'.$file_extension;
 
-        $file_public_link = $save_path . '/' . $file_name;
-        $file_asset_link = files_asset_path($destination_path) . '/' . $file_name;
+        $file_public_link = $save_path.'/'.$file_name;
+        $file_asset_link = files_asset_path($destination_path).'/'.$file_name;
 
         $file_info = [
             'name' => $file_name,
@@ -1583,7 +1637,7 @@ function upload_file($file, $destination_path, $old_file = null)
 
         try {
             if ($old_file) {
-                $old_file_link = Storage::disk(Storage::getDefaultDriver())->path($save_path . '/' . $old_file);
+                $old_file_link = Storage::disk(Storage::getDefaultDriver())->path($save_path.'/'.$old_file);
                 delete_file($old_file_link);
             }
 
@@ -1620,20 +1674,25 @@ function support_ticket_const()
     return SupportTicketConst::class;
 }
 
-function get_percentage_from_two_number($total, $available, $result_type = "int")
+function get_percentage_from_two_number($total, $available, $result_type = 'int')
 {
     if (is_numeric($total) && is_numeric($available)) {
         $one_percent = $total / 100;
         $result = 0;
-        if ($one_percent > 0) $result = $available / $one_percent;
-        if ($result_type == "int") return (int) ceil($result);
-        return number_format($result, 2, ".", ",");
+        if ($one_percent > 0) {
+            $result = $available / $one_percent;
+        }
+        if ($result_type == 'int') {
+            return (int) ceil($result);
+        }
+
+        return number_format($result, 2, '.', ',');
     }
 }
 
 function remove_speacial_char($string)
 {
-    return preg_replace("/[^A-Za-z0-9]/", "", $string);
+    return preg_replace('/[^A-Za-z0-9]/', '', $string);
 }
 
 function check_email($string)
@@ -1641,6 +1700,7 @@ function check_email($string)
     if (filter_var($string, FILTER_VALIDATE_EMAIL)) {
         return true;
     }
+
     return false;
 }
 
@@ -1652,6 +1712,7 @@ function generate_random_code($length = 6)
     for ($i = 0; $i < $length; $i++) {
         $randNumber .= $numbers[rand(0, $numbersLength - 1)];
     }
+
     return $randNumber;
 }
 
@@ -1659,10 +1720,10 @@ function mailVerificationTemplate($user)
 {
     $basic_settings = BasicSettingsProvider::get();
     $data = [
-        'user_id'       => $user->id,
-        'code'          => generate_random_code(),
-        'token'         => generate_unique_string("user_authorizations", "token", 200),
-        'created_at'    => now(),
+        'user_id' => $user->id,
+        'code' => generate_random_code(),
+        'token' => generate_unique_string('user_authorizations', 'token', 200),
+        'created_at' => now(),
     ];
 
     DB::beginTransaction();
@@ -1671,23 +1732,25 @@ function mailVerificationTemplate($user)
         if ($basic_settings->email_notification == true) {
             $user->notify(new SendAuthorizationCode((object) $data));
         }
-        UserAuthorization::where("user_id", $user->id)->delete();
-        DB::table("user_authorizations")->insert($data);
+        UserAuthorization::where('user_id', $user->id)->delete();
+        DB::table('user_authorizations')->insert($data);
         DB::commit();
     } catch (Exception $e) {
         DB::rollBack();
-        return back()->with(['error' => [__("Something went wrong! Please try again.")]]);
+
+        return back()->with(['error' => [__('Something went wrong! Please try again.')]]);
     }
-    return redirect()->route('user.authorize.mail', $data['token'])->with(['warning' => [__("Please verify your mail address. Check your mail inbox to get verification code")]]);
+
+    return redirect()->route('user.authorize.mail', $data['token'])->with(['warning' => [__('Please verify your mail address. Check your mail inbox to get verification code')]]);
 }
 function mailVerificationTemplateMerchant($merchant)
 {
     $basic_settings = BasicSettingsProvider::get();
     $data = [
-        'merchant_id'       => $merchant->id,
-        'code'          => generate_random_code(),
-        'token'         => generate_unique_string("merchant_authorizations", "token", 200),
-        'created_at'    => now(),
+        'merchant_id' => $merchant->id,
+        'code' => generate_random_code(),
+        'token' => generate_unique_string('merchant_authorizations', 'token', 200),
+        'created_at' => now(),
     ];
 
     DB::beginTransaction();
@@ -1695,25 +1758,26 @@ function mailVerificationTemplateMerchant($merchant)
         if ($basic_settings->merchant_email_verification == true) {
             $merchant->notify(new AuthSendAuthorizationCode((object) $data));
         }
-        MerchantAuthorization::where("merchant_id", $merchant->id)->delete();
-        DB::table("merchant_authorizations")->insert($data);
+        MerchantAuthorization::where('merchant_id', $merchant->id)->delete();
+        DB::table('merchant_authorizations')->insert($data);
 
         DB::commit();
     } catch (Exception $e) {
         DB::rollBack();
-        return back()->with(['error' => [__("Something went wrong! Please try again.")]]);
+
+        return back()->with(['error' => [__('Something went wrong! Please try again.')]]);
     }
 
-    return redirect()->route('merchant.authorize.mail', $data['token'])->with(['warning' => [__("Please verify your mail address. Check your mail inbox to get verification code")]]);
+    return redirect()->route('merchant.authorize.mail', $data['token'])->with(['warning' => [__('Please verify your mail address. Check your mail inbox to get verification code')]]);
 }
 function mailVerificationTemplateAgent($agent)
 {
     $basic_settings = BasicSettingsProvider::get();
     $data = [
-        'agent_id'       => $agent->id,
-        'code'          => generate_random_code(),
-        'token'         => generate_unique_string("agent_authorizations", "token", 200),
-        'created_at'    => now(),
+        'agent_id' => $agent->id,
+        'code' => generate_random_code(),
+        'token' => generate_unique_string('agent_authorizations', 'token', 200),
+        'created_at' => now(),
     ];
 
     DB::beginTransaction();
@@ -1721,26 +1785,27 @@ function mailVerificationTemplateAgent($agent)
         if ($basic_settings->agent_email_verification == true) {
             $agent->notify(new AgentAuthSendAuthorizationCode((object) $data));
         }
-        AgentAuthorization::where("agent_id", $agent->id)->delete();
-        DB::table("agent_authorizations")->insert($data);
+        AgentAuthorization::where('agent_id', $agent->id)->delete();
+        DB::table('agent_authorizations')->insert($data);
 
         DB::commit();
     } catch (Exception $e) {
         DB::rollBack();
-        return back()->with(['error' => [__("Something went wrong! Please try again.")]]);
+
+        return back()->with(['error' => [__('Something went wrong! Please try again.')]]);
     }
 
-    return redirect()->route('agent.authorize.mail', $data['token'])->with(['warning' => [__("Please verify your mail address. Check your mail inbox to get verification code")]]);
+    return redirect()->route('agent.authorize.mail', $data['token'])->with(['warning' => [__('Please verify your mail address. Check your mail inbox to get verification code')]]);
 }
 function mailVerificationTemplateApi($user)
 {
     $basic_settings = BasicSettingsProvider::get();
 
     $data = [
-        'user_id'       => $user->id,
-        'code'          => generate_random_code(),
-        'token'         => generate_unique_string("user_authorizations", "token", 200),
-        'created_at'    => now(),
+        'user_id' => $user->id,
+        'code' => generate_random_code(),
+        'token' => generate_unique_string('user_authorizations', 'token', 200),
+        'created_at' => now(),
     ];
 
     DB::beginTransaction();
@@ -1748,15 +1813,17 @@ function mailVerificationTemplateApi($user)
         if ($basic_settings->email_notification == true) {
             $user->notify(new SendAuthorizationCode((object) $data));
         }
-        UserAuthorization::where("user_id", $user->id)->delete();
-        DB::table("user_authorizations")->insert($data);
+        UserAuthorization::where('user_id', $user->id)->delete();
+        DB::table('user_authorizations')->insert($data);
         DB::commit();
     } catch (Exception $e) {
         DB::rollBack();
-        $error = ['error' => [__("Something went wrong! Please try again.")]];
+        $error = ['error' => [__('Something went wrong! Please try again.')]];
+
         return Helpers::error($error);
     }
-    $error = ['errors' => [__("Email verification is required")]];
+    $error = ['errors' => [__('Email verification is required')]];
+
     return Helpers::error($error);
 }
 function merchantMailVerificationTemplateApi($user)
@@ -1764,10 +1831,10 @@ function merchantMailVerificationTemplateApi($user)
     $basic_settings = BasicSettingsProvider::get();
 
     $data = [
-        'merchant_id'       => $user->id,
-        'code'          => generate_random_code(),
-        'token'         => generate_unique_string("merchant_authorizations", "token", 200),
-        'created_at'    => now(),
+        'merchant_id' => $user->id,
+        'code' => generate_random_code(),
+        'token' => generate_unique_string('merchant_authorizations', 'token', 200),
+        'created_at' => now(),
     ];
 
     DB::beginTransaction();
@@ -1775,25 +1842,27 @@ function merchantMailVerificationTemplateApi($user)
         if ($basic_settings->merchant_email_verification == true) {
             $user->notify(new AuthSendAuthorizationCode((object) $data));
         }
-        MerchantAuthorization::where("merchant_id", $user->id)->delete();
-        DB::table("merchant_authorizations")->insert($data);
+        MerchantAuthorization::where('merchant_id', $user->id)->delete();
+        DB::table('merchant_authorizations')->insert($data);
         DB::commit();
     } catch (Exception $e) {
         DB::rollBack();
-        $error = ['error' => [__("Something went wrong! Please try again.")]];
+        $error = ['error' => [__('Something went wrong! Please try again.')]];
+
         return Helpers::error($error);
     }
-    $error = ['errors' => [__("Email verification is required")]];
+    $error = ['errors' => [__('Email verification is required')]];
+
     return Helpers::error($error);
 }
 function agentMailVerificationTemplateApi($user)
 {
     $basic_settings = BasicSettingsProvider::get();
     $data = [
-        'agent_id'       => $user->id,
-        'code'          => generate_random_code(),
-        'token'         => generate_unique_string("agent_authorizations", "token", 200),
-        'created_at'    => now(),
+        'agent_id' => $user->id,
+        'code' => generate_random_code(),
+        'token' => generate_unique_string('agent_authorizations', 'token', 200),
+        'created_at' => now(),
     ];
 
     DB::beginTransaction();
@@ -1801,15 +1870,17 @@ function agentMailVerificationTemplateApi($user)
         if ($basic_settings->agent_email_verification == true) {
             $user->notify(new AgentAuthSendAuthorizationCode((object) $data));
         }
-        AgentAuthorization::where("agent_id", $user->id)->delete();
-        DB::table("agent_authorizations")->insert($data);
+        AgentAuthorization::where('agent_id', $user->id)->delete();
+        DB::table('agent_authorizations')->insert($data);
         DB::commit();
     } catch (Exception $e) {
         DB::rollBack();
-        $error = ['error' => [__("Something went wrong! Please try again.")]];
+        $error = ['error' => [__('Something went wrong! Please try again.')]];
+
         return Helpers::error($error);
     }
-    $error = ['errors' => [__("Email verification is required")]];
+    $error = ['errors' => [__('Email verification is required')]];
+
     return Helpers::error($error);
 }
 
@@ -1830,10 +1901,15 @@ function imageExtenstions()
 
 function its_image(string $string)
 {
-    if (!is_string($string)) return false;
-    $extension = explode(".", $string);
+    if (! is_string($string)) {
+        return false;
+    }
+    $extension = explode('.', $string);
     $extension = strtolower(end($extension));
-    if (in_array($extension, imageExtenstions())) return true;
+    if (in_array($extension, imageExtenstions())) {
+        return true;
+    }
+
     return false;
 }
 
@@ -1845,7 +1921,7 @@ function get_file_link($path_source, $name = null)
 
     $path = files_asset_path($path_source);
 
-    $link = $path . '/' . $name;
+    $link = $path.'/'.$name;
 
     return $link;
 }
@@ -1853,12 +1929,13 @@ function get_file_link($path_source, $name = null)
 function get_file_basename_ext_from_link(string $link)
 {
     $link = $link;
-    $file_name = explode("/", $link);
+    $file_name = explode('/', $link);
     $file_name = end($file_name);
-    $file_base = explode(".", $file_name);
+    $file_base = explode('.', $file_name);
     $extension = end($file_base);
     array_pop($file_base);
-    $file_base = implode(".", $file_base);
+    $file_base = implode('.', $file_base);
+
     return (object) ['base_name' => $file_base, 'extension' => $extension];
 }
 function makeActive($routeName, $type = null)
@@ -1880,7 +1957,7 @@ function makeActiveRouteSlugOnly($routeName, $slug = null)
 {
     $class = 'active';
 
-    if (!request()->routeIs($routeName)) {
+    if (! request()->routeIs($routeName)) {
         return '';
     }
 
@@ -1897,61 +1974,62 @@ function makeActiveRouteSlugOnly($routeName, $slug = null)
     return '';
 }
 
-
 function slug($string)
 {
-    return Illuminate\Support\Str::slug($string);
+    return Str::slug($string);
 }
 
-//moveable
+// moveable
 function getDialCode()
 {
     $client_ip = request()->ip() ?? false;
     $location = geoip()->getLocation($client_ip);
-    $agent = new Agent();
-    $mac = "";
+    $agent = new Agent;
+    $mac = '';
     $data = [
         // 'user_id'       => $user->id,
-        'ip'            => $client_ip,
-        'mac'           => $mac,
-        'city'          => $location['city'] ?? "",
-        'country'       => $location['country'] ?? "",
-        'longitude'     => $location['lon'] ?? "",
-        'latitude'      => $location['lat'] ?? "",
-        'timezone'      => $location['timezone'] ?? "",
-        'browser'       => $agent->browser() ?? "",
-        'os'            => $agent->platform() ?? "",
+        'ip' => $client_ip,
+        'mac' => $mac,
+        'city' => $location['city'] ?? '',
+        'country' => $location['country'] ?? '',
+        'longitude' => $location['lon'] ?? '',
+        'latitude' => $location['lat'] ?? '',
+        'timezone' => $location['timezone'] ?? '',
+        'browser' => $agent->browser() ?? '',
+        'os' => $agent->platform() ?? '',
     ];
     $dial_code = get_country_phone_code($data['country']);
+
     return $dial_code;
 }
 function location_info()
 {
     $client_ip = request()->ip() ?? false;
     $location = geoip()->getLocation($client_ip);
-    $agent = new Agent();
-    $mac = "";
+    $agent = new Agent;
+    $mac = '';
     $data = [
         // 'user_id'       => $user->id,
-        'ip'            => $client_ip,
-        'mac'           => $mac,
-        'city'          => $location['city'] ?? "",
-        'country'       => $location['country'] ?? "",
-        'longitude'     => $location['lon'] ?? "",
-        'latitude'      => $location['lat'] ?? "",
-        'timezone'      => $location['timezone'] ?? "",
-        'browser'       => $agent->browser() ?? "",
-        'os'            => $agent->platform() ?? "",
+        'ip' => $client_ip,
+        'mac' => $mac,
+        'city' => $location['city'] ?? '',
+        'country' => $location['country'] ?? '',
+        'longitude' => $location['lon'] ?? '',
+        'latitude' => $location['lat'] ?? '',
+        'timezone' => $location['timezone'] ?? '',
+        'browser' => $agent->browser() ?? '',
+        'os' => $agent->platform() ?? '',
     ];
 
-    $data['country'] = preg_replace('/^The\s+/i', '', $data['country'] ?? "");
+    $data['country'] = preg_replace('/^The\s+/i', '', $data['country'] ?? '');
     $dial_code = get_country_phone_code($data['country']);
     $info = [
         'dial_code' => $dial_code,
         'info' => [
-            'country' => $data['country']
+            'country' => $data['country'],
         ],
     ];
+
     return $info ?? [];
 }
 function payment_gateway_const()
@@ -1962,17 +2040,19 @@ function get_user_notifications()
 {
     if (auth()->guard('web')->check()) {
         $notifications = UserNotification::auth()->latest()->take(5)->get();
-    } else if (auth()->guard('merchant')->check()) {
+    } elseif (auth()->guard('merchant')->check()) {
         $notifications = MerchantNotification::auth()->latest()->take(5)->get();
-    } else if (auth()->guard('agent')->check()) {
+    } elseif (auth()->guard('agent')->check()) {
         $notifications = AgentNotification::auth()->latest()->take(5)->get();
     }
+
     return $notifications;
 }
 function selectedLang()
 {
     $default_language = Language::where('status', GlobalConst::ACTIVE)->first();
     $default_language_code = $default_language->code ?? LanguageConst::NOT_REMOVABLE;
+
     return session()->get('local') ?? $default_language_code;
 }
 function selectedLangDir()
@@ -1984,41 +2064,47 @@ function selectedLangDir()
         $default_language = Language::where('status', GlobalConst::ACTIVE)->first();
         $default_language_dir = $default_language->dir ?? LanguageConst::NOT_REMOVABLE;
     }
+
     return $default_language_dir;
 }
 function textLength($string, $length = 120)
 {
-    return Illuminate\Support\Str::limit($string, $length);
+    return Str::limit($string, $length);
 }
 function showDate($date, $format = 'd-m-Y')
 {
     $lang = session()->get('lang');
     Carbon::setlocale($lang);
+
     return Carbon::parse($date)->translatedFormat($format);
 }
 function authWalletBalance()
 {
     if (auth()->guard('web')->check()) {
         $wallet = UserWallet::where('user_id', auth()->user()->id)->first();
+
         return number_format($wallet->balance, 2);
-    } else if (auth()->guard('merchant')->check()) {
+    } elseif (auth()->guard('merchant')->check()) {
         $wallet = MerchantWallet::where('merchant_id', auth()->user()->id)->first();
+
         return number_format($wallet->balance, 2);
-    } else if (auth()->guard('agent')->check()) {
+    } elseif (auth()->guard('agent')->check()) {
         $wallet = AgentWallet::where('agent_id', auth()->user()->id)->first();
+
         return number_format($wallet->balance, 2);
     }
 }
 function getAmount($amount, $length = 8)
 {
     $amount = round($amount, $length);
+
     return $amount + 0;
 }
 function get_gateway_image($gateway_id)
 {
     if ($gateway_id != null) {
         $gateway = PaymentGateway::where('id', $gateway_id)->first();
-        $image = get_image($gateway->image, "payment-gateways");
+        $image = get_image($gateway->image, 'payment-gateways');
     } else {
         $image = files_asset_path('profile-default');
     }
@@ -2028,54 +2114,55 @@ function get_gateway_image($gateway_id)
 function get_gateway_name($gateway_id)
 {
     $gateway = PaymentGateway::where('id', $gateway_id)->first();
+
     return $gateway->name;
 }
 function generateQr($val)
 {
 
-    return 'https://qrcode.tec-it.com/API/QRCode?data=' . $val;
+    return 'https://qrcode.tec-it.com/API/QRCode?data='.$val;
 }
 function userGuard()
 {
     if (auth()->guard('web')->check()) {
         $user = auth()->guard('web')->user();
         $userType = 'USER';
-        $guard = "web";
-    } else if (auth()->guard('api')->check()) {
+        $guard = 'web';
+    } elseif (auth()->guard('api')->check()) {
         $user = auth()->guard('api')->user();
         $userType = 'USER';
-        $guard = "api";
-    } else if (auth()->guard('merchant')->check()) {
+        $guard = 'api';
+    } elseif (auth()->guard('merchant')->check()) {
         $user = auth()->guard('merchant')->user();
         $userType = 'MERCHANT';
-        $guard = "merchant";
-    } else if (auth()->guard('merchant_api')->check()) {
+        $guard = 'merchant';
+    } elseif (auth()->guard('merchant_api')->check()) {
         $user = auth()->guard('merchant_api')->user();
         $userType = 'MERCHANT';
-        $guard = "merchant_api";
-    } else if (auth()->guard('agent')->check()) {
+        $guard = 'merchant_api';
+    } elseif (auth()->guard('agent')->check()) {
         $user = auth()->guard('agent')->user();
         $userType = 'AGENT';
-        $guard = "agent";
-    } else if (auth()->guard('agent_api')->check()) {
+        $guard = 'agent';
+    } elseif (auth()->guard('agent_api')->check()) {
         $user = auth()->guard('agent_api')->user();
         $userType = 'AGENT';
-        $guard = "agent_api";
-    } else if (auth()->guard('admin')->check()) {
+        $guard = 'agent_api';
+    } elseif (auth()->guard('admin')->check()) {
         $user = auth()->guard('admin')->user();
         $userType = 'ADMIN';
-        $guard = "admin";
+        $guard = 'admin';
     }
 
     return [
         'user' => $user,
         'type' => $userType,
-        'guard' => $guard
+        'guard' => $guard,
     ];
 }
 function generate_google_2fa_auth_qr()
 {
-    $google2FA = new \PragmaRX\Google2FA\Google2FA();
+    $google2FA = new Google2FA;
     $secret_key = $google2FA->generateSecretKey();
     $user = auth()->user();
     $site_url = App::make('url')->to('/');
@@ -2088,44 +2175,47 @@ function generate_google_2fa_auth_qr()
         ]);
     }
     // $qr_image = 'https://chart.googleapis.com/chart?cht=qr&chs=350x350&chl='.$generate_text;
-    $qr_image = 'https://qrcode.tec-it.com/API/QRCode?data=' . $generate_text;
+    $qr_image = 'https://qrcode.tec-it.com/API/QRCode?data='.$generate_text;
+
     return $qr_image;
 }
 
 function googleTwoFactorVerificationTemplate($user)
 {
-    return redirect()->route('user.authorize.google.2fa')->with(['error' => [__("Please verify two factor authentication")]]);
+    return redirect()->route('user.authorize.google.2fa')->with(['error' => [__('Please verify two factor authentication')]]);
 }
 function merchantGoogleTwoFactorVerificationTemplate($user)
 {
-    return redirect()->route('merchant.authorize.google.2fa')->with(['error' => [__("Please verify two factor authentication")]]);
+    return redirect()->route('merchant.authorize.google.2fa')->with(['error' => [__('Please verify two factor authentication')]]);
 }
 function agentGoogleTwoFactorVerificationTemplate($user)
 {
-    return redirect()->route('agent.authorize.google.2fa')->with(['error' => [__("Please verify two factor authentication")]]);
+    return redirect()->route('agent.authorize.google.2fa')->with(['error' => [__('Please verify two factor authentication')]]);
 }
-
 
 function google_2fa_verify($secret_key, $code)
 {
-    $google2FA = new \PragmaRX\Google2FA\Google2FA();
+    $google2FA = new Google2FA;
     if ($google2FA->verifyKey($secret_key, $code, 0) == false) {
         throw ValidationException::withMessages([
-            'code'       => "Invalid authentication code",
+            'code' => 'Invalid authentication code',
         ]);
+
         return false;
     }
+
     return true;
 }
 function google_2fa_verify_api($secret_key, $code)
 {
-    $google2FA = new \PragmaRX\Google2FA\Google2FA();
+    $google2FA = new Google2FA;
     if ($google2FA->verifyKey($secret_key, $code, 0) == false) {
         // throw ValidationException::withMessages([
         //     'code'       => "Invalid authentication code",
         // ]);
         return false;
     }
+
     return true;
 }
 
@@ -2137,26 +2227,28 @@ function getTrxNum($length = 8)
     for ($i = 0; $i < $length; $i++) {
         $randomString .= $characters[rand(0, $charactersLength - 1)];
     }
+
     return $randomString;
 }
 function get_auth_guard()
 {
-    if (auth()->guard("web")->check()) {
-        return "web";
-    } else if (auth()->guard("admin")->check()) {
-        return "admin";
-    } else if (auth()->guard("api")->check()) {
-        return "api";
-    } else if (auth()->guard("merchant")->check()) {
-        return "merchant";
-    } else if (auth()->guard("merchant_api")->check()) {
-        return "merchant_api";
-    } else if (auth()->guard("agent")->check()) {
-        return "agent";
-    } else if (auth()->guard("agent_api")->check()) {
-        return "agent_api";
+    if (auth()->guard('web')->check()) {
+        return 'web';
+    } elseif (auth()->guard('admin')->check()) {
+        return 'admin';
+    } elseif (auth()->guard('api')->check()) {
+        return 'api';
+    } elseif (auth()->guard('merchant')->check()) {
+        return 'merchant';
+    } elseif (auth()->guard('merchant_api')->check()) {
+        return 'merchant_api';
+    } elseif (auth()->guard('agent')->check()) {
+        return 'agent';
+    } elseif (auth()->guard('agent_api')->check()) {
+        return 'agent_api';
     }
-    return "";
+
+    return '';
 }
 function ticketType()
 {
@@ -2164,6 +2256,7 @@ function ticketType()
     $pending = UserSupportTicket::pending()->count();
     $solved = UserSupportTicket::solved()->count();
     $all = UserSupportTicket::count();
+
     return [
         'active' => $active,
         'pending' => $pending,
@@ -2173,42 +2266,47 @@ function ticketType()
 }
 function get_default_currency_symbol($default_currency = null)
 {
-    if ($default_currency == null) $default_currency = CurrencyProvider::default();
+    if ($default_currency == null) {
+        $default_currency = CurrencyProvider::default();
+    }
     if ($default_currency != false) {
         return $default_currency->symbol;
     }
-    return "";
+
+    return '';
 }
-if (!function_exists('formatNumberInKNotation')) {
-    function formatNumberInKNotation(Int $number, Int $decimals = 1): String
+if (! function_exists('formatNumberInKNotation')) {
+    function formatNumberInKNotation(int $number, int $decimals = 1): string
     {
         $unitSize = 1000;
-        $units = ["", "K", "M", "B", "T"];
+        $units = ['', 'K', 'M', 'B', 'T'];
         $unitsCount = ($number === 0) ? 0 : floor(log(abs($number), $unitSize));
         $unit = $units[min($unitsCount, count($units) - 1)];
         $value = round($number / pow($unitSize, $unitsCount), $decimals);
-        return $value . $unit;
+
+        return $value.$unit;
     }
 }
 
-if (!function_exists('dateFormat')) {
+if (! function_exists('dateFormat')) {
     function dateFormat($format, $date)
     {
         if (function_exists('is_jalali') && is_jalali()) {
             return jdate($date, $format);
         }
+
         return date($format, strtotime($date));
     }
 }
 function generateTransactionReference()
 {
-    return 'TXREF_' . time();
+    return 'TXREF_'.time();
 }
 function generateTrxString($table, $column, $prefix = '', $length = 8)
 {
     do {
         $generate_number = getTrxNum($length);
-        $generate_number = $prefix . '' . $generate_number;
+        $generate_number = $prefix.''.$generate_number;
         $unique = DB::table($table)->where($column, $generate_number)->exists();
         $loop = false;
         if ($unique) {
@@ -2222,46 +2320,50 @@ function generateTrxString($table, $column, $prefix = '', $length = 8)
 
 function module_access($key, $module = null)
 {
-    if (!$module) {
+    if (! $module) {
         $module = ModuleSetting::query();
     }
+
     return $module->where('slug', $key)->first();
 }
 function module_access_api($key)
 {
     $module = ModuleSetting::where('slug', $key)->first();
-    return  $module->status;
+
+    return $module->status;
 }
 function module_access_merchant_api($key)
 {
     $module = ModuleSetting::where('slug', $key)->first();
-    return  $module->status;
+
+    return $module->status;
 }
-//flutterwave automatic withdrawal helper functions
+// flutterwave automatic withdrawal helper functions
 function getFlutterwaveBanks($iso2)
 {
-    $cardApi = PaymentGateway::where('type', "AUTOMATIC")->where('alias', 'flutterwave-money-out')->first();
+    $cardApi = PaymentGateway::where('type', 'AUTOMATIC')->where('alias', 'flutterwave-money-out')->first();
     $secretKey = getPaymentCredentials($cardApi->credentials, 'Secret key');
     $base_url = getPaymentCredentials($cardApi->credentials, 'Base Url');
     $curl = curl_init();
-    curl_setopt_array($curl, array(
-        CURLOPT_URL =>  $base_url . '/banks' . '/' . $iso2,
+    curl_setopt_array($curl, [
+        CURLOPT_URL => $base_url.'/banks'.'/'.$iso2,
         CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_ENCODING => "",
+        CURLOPT_ENCODING => '',
         CURLOPT_MAXREDIRS => 10,
         CURLOPT_TIMEOUT => 30,
         CURLOPT_FOLLOWLOCATION => true,
         CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-        CURLOPT_CUSTOMREQUEST => "GET",
-        CURLOPT_HTTPHEADER => array(
-            "Authorization: Bearer " . $secretKey
-        ),
-    ));
+        CURLOPT_CUSTOMREQUEST => 'GET',
+        CURLOPT_HTTPHEADER => [
+            'Authorization: Bearer '.$secretKey,
+        ],
+    ]);
 
     $response = curl_exec($curl);
 
     curl_close($curl);
     $banks = json_decode($response, true);
+
     return filterBanks($banks['data'] ?? []);
 }
 function filterBanks($banks)
@@ -2277,9 +2379,9 @@ function filterBanks($banks)
         'AIRTEL',
         'MOBILE TRANSFER',
         'Mobile Transfer',
-        "MTN",
-        "mtn",
-        "Mtn"
+        'MTN',
+        'mtn',
+        'Mtn',
     ];
 
     // Filter the banks that do not match any keyword in $search_keyword
@@ -2291,27 +2393,30 @@ function filterBanks($banks)
                     return false; // Return false to filter out this bank
                 }
             }
+
             return true; // Keep this bank
         }
+
         return false; // Filter out invalid entries
     });
+
     return $filtered_banks;
 }
 function checkBankAccount($account_number, $bank_code)
 {
-    $cardApi = PaymentGateway::where('type', "AUTOMATIC")->where('alias', 'flutterwave-money-out')->first();
+    $cardApi = PaymentGateway::where('type', 'AUTOMATIC')->where('alias', 'flutterwave-money-out')->first();
     $secretKey = getPaymentCredentials($cardApi->credentials, 'Secret key');
     $base_url = getPaymentCredentials($cardApi->credentials, 'Base Url');
     $ch = curl_init();
-    $url =   $base_url . '/accounts/resolve';
+    $url = $base_url.'/accounts/resolve';
     $data = [
-        "account_number" => $account_number,
-        "account_bank" => $bank_code
+        'account_number' => $account_number,
+        'account_bank' => $bank_code,
     ];
 
     $headers = [
-        "Authorization: Bearer " . $secretKey,
-        'Content-Type: application/json'
+        'Authorization: Bearer '.$secretKey,
+        'Content-Type: application/json',
     ];
 
     curl_setopt($ch, CURLOPT_URL, $url);
@@ -2324,6 +2429,7 @@ function checkBankAccount($account_number, $bank_code)
         return curl_errno($ch);
     } else {
         $data = json_decode($response, true);
+
         return $data;
     }
 
@@ -2333,12 +2439,13 @@ function getPaymentCredentials($credentials, $label)
 {
     $data = null;
     foreach ($credentials as $object) {
-        $object = (object)$object;
+        $object = (object) $object;
         if ($object->label === $label) {
             $data = $object;
             break;
         }
     }
+
     return $data->value;
 }
 function flutterwaveBalance($secret_key = null)
@@ -2348,51 +2455,52 @@ function flutterwaveBalance($secret_key = null)
     $secretKey = $secret_key ?? $cardApi->config->flutterwave_secret_key;
     $base_url = $cardApi->config->flutterwave_url;
     $curl = curl_init();
-    curl_setopt_array($curl, array(
+    curl_setopt_array($curl, [
 
-        CURLOPT_URL => $base_url . '/balances',
+        CURLOPT_URL => $base_url.'/balances',
         CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_ENCODING => "",
+        CURLOPT_ENCODING => '',
         CURLOPT_MAXREDIRS => 10,
         CURLOPT_TIMEOUT => 0,
         CURLOPT_FOLLOWLOCATION => true,
         CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-        CURLOPT_CUSTOMREQUEST => "GET",
-        CURLOPT_HTTPHEADER => array(
+        CURLOPT_CUSTOMREQUEST => 'GET',
+        CURLOPT_HTTPHEADER => [
 
-            "Content-Type: application/json",
-            "Authorization: Bearer " . $secretKey
-        ),
-    ));
+            'Content-Type: application/json',
+            'Authorization: Bearer '.$secretKey,
+        ],
+    ]);
 
     $response = curl_exec($curl);
 
     curl_close($curl);
     $result = json_decode($response);
-    $currency =  get_default_currency_code();
+    $currency = get_default_currency_code();
     if ($result->status == 'success') {
 
         $key = array_search($currency, array_column($result->data, 'currency'));
-        $balance =  (array) $result;
-        $base_curr =  $balance['data'][$key];
+        $balance = (array) $result;
+        $base_curr = $balance['data'][$key];
         $balance = $base_curr->available_balance;
         $data = [
             'status' => true,
-            'message' => __("SuccessFully Fetch Account Balance"),
+            'message' => __('SuccessFully Fetch Account Balance'),
             'balance' => $balance,
         ];
     } else {
         $data = [
             'status' => false,
-            'message' => __("Something went wrong! Please try again."),
+            'message' => __('Something went wrong! Please try again.'),
             'balance' => 0.0,
         ];
     }
+
     return $data;
 }
 function menuActive($routeName)
 {
-    $class = "active";
+    $class = 'active';
     if (is_array($routeName)) {
         foreach ($routeName as $key => $value) {
             if (request()->routeIs($value)) {
@@ -2408,9 +2516,11 @@ function get_api_languages()
 
     $lang = Language::get()->map(function ($data, $index) {
 
-        if (file_exists(base_path('lang/') . $data->code . '.json') == false) return false;
+        if (file_exists(base_path('lang/').$data->code.'.json') == false) {
+            return false;
+        }
 
-        $json = json_decode(file_get_contents(base_path('lang/') . $data->code . '.json'), true);
+        $json = json_decode(file_get_contents(base_path('lang/').$data->code.'.json'), true);
         $lan_key_values = [];
         if ($json != null) {
             foreach ($json as $lan_key => $item) {
@@ -2418,13 +2528,13 @@ function get_api_languages()
                 $lan_key = preg_replace('/[^A-Za-z]/i', ' ', strtolower($lan_key));
                 if (strlen($lan_key) > 40) {
                     // $lan_key = substr($lan_key,0,20);
-                    $word_array = explode(" ", $lan_key);
+                    $word_array = explode(' ', $lan_key);
                     $count_char = 0;
                     foreach ($word_array as $word_key => $word) {
                         $count_char += strlen($word);
                         if ($count_char > 40) {
                             $get_limit_val = array_splice($word_array, 0, $word_key);
-                            $lan_key = implode(" ", $get_limit_val);
+                            $lan_key = implode(' ', $get_limit_val);
                             $count_char = 0;
                             break;
                         }
@@ -2432,29 +2542,29 @@ function get_api_languages()
                 }
 
                 // Make Key Readable
-                $var_array = explode(" ", $lan_key);
+                $var_array = explode(' ', $lan_key);
                 foreach ($var_array as $key => $var) {
                     if ($key > 0) {
                         $var_array[$key] = ucwords($var);
                     }
                 }
 
-                $lan_key = implode("", $var_array);
+                $lan_key = implode('', $var_array);
 
                 if (array_key_exists($lan_key, $lan_key_values) && $lan_key_values[$lan_key] != $item) {
                     throw new Exception("Duplicate Key Found! Please check/update this key [$lan_key_original]");
                 }
 
-                ($lan_key != "") ? $lan_key_values[$lan_key] = $item : "";
+                ($lan_key != '') ? $lan_key_values[$lan_key] = $item : '';
             }
         }
 
         return [
-            'name'                  => $data->name,
-            'code'                  => $data->code,
-            'status'                => $data->status,
-            'dir'                   => $data->dir,
-            'translate_key_values'  => $lan_key_values,
+            'name' => $data->name,
+            'code' => $data->code,
+            'status' => $data->status,
+            'dir' => $data->dir,
+            'translate_key_values' => $lan_key_values,
         ];
     })->reject(function ($value) {
         return $value == false;
@@ -2465,23 +2575,23 @@ function get_api_languages()
 function send_push_notification(array $users, array $data)
 {
     $basic_settings = BasicSettingsProvider::get();
-    if (!$basic_settings) {
+    if (! $basic_settings) {
         return false;
     }
     $notification_config = $basic_settings->push_notification_config;
-    if (!$notification_config) {
+    if (! $notification_config) {
         return false;
     }
-    $instance_id    = $notification_config->instance_id ?? null;
-    $primary_key    = $notification_config->primary_key ?? null;
+    $instance_id = $notification_config->instance_id ?? null;
+    $primary_key = $notification_config->primary_key ?? null;
     if ($instance_id == null || $primary_key == null) {
         return false;
     }
     $notification = new PushNotifications(
-        array(
-            "instanceId" => $notification_config->instance_id,
-            "secretKey" => $notification_config->primary_key,
-        )
+        [
+            'instanceId' => $notification_config->instance_id,
+            'secretKey' => $notification_config->primary_key,
+        ]
     );
 
     $notification_data = $data;
@@ -2489,8 +2599,8 @@ function send_push_notification(array $users, array $data)
     $response = $notification->publishToUsers(
         $users,
         [
-            "web"   => [
-                "notification"      => $notification_data,
+            'web' => [
+                'notification' => $notification_data,
             ],
         ],
     );
@@ -2505,63 +2615,64 @@ function totalAdminProfits()
         ->whereHas('transactions', function ($query) {
             $query->where('status', 1);
         })->get());
-    return  $total_profits ?? 0;
+
+    return $total_profits ?? 0;
 }
 function virtual_card_system($name)
 {
     $method = VirtualCardApi::first();
     if ($method->config->name == $name) {
-        return  $method->config->name;
+        return $method->config->name;
     } else {
         return false;
     }
 }
 function activeCardSystem()
 {
-    if (virtual_card_system('flutterwave') == "flutterwave") {
-        $active_virtual_system = "flutterwave";
-    } elseif (virtual_card_system('sudo') == "sudo") {
-        $active_virtual_system = "sudo";
-    } elseif (virtual_card_system('stripe') == "stripe") {
-        $active_virtual_system = "stripe";
-    } elseif (virtual_card_system('strowallet') == "strowallet") {
-        $active_virtual_system = "strowallet";
-    } elseif (virtual_card_system('cardyfie') == "cardyfie") {
-        $active_virtual_system = "cardyfie";
+    if (virtual_card_system('flutterwave') == 'flutterwave') {
+        $active_virtual_system = 'flutterwave';
+    } elseif (virtual_card_system('sudo') == 'sudo') {
+        $active_virtual_system = 'sudo';
+    } elseif (virtual_card_system('stripe') == 'stripe') {
+        $active_virtual_system = 'stripe';
+    } elseif (virtual_card_system('strowallet') == 'strowallet') {
+        $active_virtual_system = 'strowallet';
+    } elseif (virtual_card_system('cardyfie') == 'cardyfie') {
+        $active_virtual_system = 'cardyfie';
     }
 
-    return  $active_virtual_system ?? "";
+    return $active_virtual_system ?? '';
 }
 function activeCardData()
 {
-    if (virtual_card_system('flutterwave') == "flutterwave") {
-        $virtual_cards  = VirtualCard::toBase()->count();
-        $active_cards   = VirtualCard::toBase()->where('is_active', 1)->count();
+    if (virtual_card_system('flutterwave') == 'flutterwave') {
+        $virtual_cards = VirtualCard::toBase()->count();
+        $active_cards = VirtualCard::toBase()->where('is_active', 1)->count();
         $inactive_cards = VirtualCard::toBase()->where('is_active', 0)->count();
-    } elseif (virtual_card_system('sudo') == "sudo") {
-        $virtual_cards  = SudoVirtualCard::toBase()->count();
-        $active_cards   = SudoVirtualCard::toBase()->where('status', 1)->count();
+    } elseif (virtual_card_system('sudo') == 'sudo') {
+        $virtual_cards = SudoVirtualCard::toBase()->count();
+        $active_cards = SudoVirtualCard::toBase()->where('status', 1)->count();
         $inactive_cards = SudoVirtualCard::toBase()->where('status', 0)->count();
-    } elseif (virtual_card_system('stripe') == "stripe") {
-        $virtual_cards  = StripeVirtualCard::toBase()->count();
-        $active_cards   = StripeVirtualCard::toBase()->where('status', 1)->count();
+    } elseif (virtual_card_system('stripe') == 'stripe') {
+        $virtual_cards = StripeVirtualCard::toBase()->count();
+        $active_cards = StripeVirtualCard::toBase()->where('status', 1)->count();
         $inactive_cards = StripeVirtualCard::toBase()->where('status', 0)->count();
-    } elseif (virtual_card_system('strowallet') == "strowallet") {
-        $virtual_cards  = StrowalletVirtualCard::toBase()->count();
-        $active_cards   = StrowalletVirtualCard::toBase()->where('is_active', 1)->count();
+    } elseif (virtual_card_system('strowallet') == 'strowallet') {
+        $virtual_cards = StrowalletVirtualCard::toBase()->count();
+        $active_cards = StrowalletVirtualCard::toBase()->where('is_active', 1)->count();
         $inactive_cards = StrowalletVirtualCard::toBase()->where('is_active', 0)->count();
-    } elseif (virtual_card_system('cardyfie') == "cardyfie") {
-        $virtual_cards  = CardyfieVirtualCard::toBase()->count();
-        $active_cards   = CardyfieVirtualCard::toBase()->where('status', "ENABLED")->count();
+    } elseif (virtual_card_system('cardyfie') == 'cardyfie') {
+        $virtual_cards = CardyfieVirtualCard::toBase()->count();
+        $active_cards = CardyfieVirtualCard::toBase()->where('status', 'ENABLED')->count();
         $inactive_cards = CardyfieVirtualCard::toBase()->whereIn('status', ['PENDING', 'FREEZE'])->count();
     }
     $virtual_card_info = [
-        'virtual_cards'  => $virtual_cards ?? 0,
-        'active_cards'   => $active_cards ?? 0,
+        'virtual_cards' => $virtual_cards ?? 0,
+        'active_cards' => $active_cards ?? 0,
         'inactive_cards' => $inactive_cards ?? 0,
     ];
 
-    return  $virtual_card_info ?? [];
+    return $virtual_card_info ?? [];
 }
 
 function userActiveCardData()
@@ -2577,74 +2688,76 @@ function userActiveCardData()
         $cardyfie_card_mode = strtoupper(cardyFieCardMode($cardApi->config->cardyfie_mode));
     }
 
-    if (virtual_card_system('flutterwave') == "flutterwave") {
-        $virtual_cards  = VirtualCard::where('user_id', $user->id)->count();
-        $active_cards   = VirtualCard::where('user_id', $user->id)->where('is_active', 1)->count();
+    if (virtual_card_system('flutterwave') == 'flutterwave') {
+        $virtual_cards = VirtualCard::where('user_id', $user->id)->count();
+        $active_cards = VirtualCard::where('user_id', $user->id)->where('is_active', 1)->count();
         $inactive_cards = VirtualCard::where('user_id', $user->id)->where('is_active', 0)->count();
-        $total_balance  = VirtualCard::where('user_id', $user->id)->where('is_active', 1)->sum('amount');
-        $total_cards    = VirtualCard::where('user_id', $user->id)->where('is_active', 1)->get();
-    } elseif (virtual_card_system('sudo') == "sudo") {
-        $virtual_cards  = SudoVirtualCard::where('user_id', $user->id)->count();
-        $active_cards   = SudoVirtualCard::where('user_id', $user->id)->where('status', 1)->count();
+        $total_balance = VirtualCard::where('user_id', $user->id)->where('is_active', 1)->sum('amount');
+        $total_cards = VirtualCard::where('user_id', $user->id)->where('is_active', 1)->get();
+    } elseif (virtual_card_system('sudo') == 'sudo') {
+        $virtual_cards = SudoVirtualCard::where('user_id', $user->id)->count();
+        $active_cards = SudoVirtualCard::where('user_id', $user->id)->where('status', 1)->count();
         $inactive_cards = SudoVirtualCard::where('user_id', $user->id)->where('status', 0)->count();
-        $total_balance  = SudoVirtualCard::where('user_id', $user->id)->where('status', 1)->sum('amount');
-        $total_cards    = SudoVirtualCard::where('user_id', $user->id)->where('status', 1)->get();
-    } elseif (virtual_card_system('stripe') == "stripe") {
-        $virtual_cards  = StripeVirtualCard::where('user_id', $user->id)->where('mode', $card_mode)->count();
-        $active_cards   = StripeVirtualCard::where('user_id', $user->id)->where('mode', $card_mode)->where('status', 1)->count();
+        $total_balance = SudoVirtualCard::where('user_id', $user->id)->where('status', 1)->sum('amount');
+        $total_cards = SudoVirtualCard::where('user_id', $user->id)->where('status', 1)->get();
+    } elseif (virtual_card_system('stripe') == 'stripe') {
+        $virtual_cards = StripeVirtualCard::where('user_id', $user->id)->where('mode', $card_mode)->count();
+        $active_cards = StripeVirtualCard::where('user_id', $user->id)->where('mode', $card_mode)->where('status', 1)->count();
         $inactive_cards = StripeVirtualCard::where('user_id', $user->id)->where('mode', $card_mode)->where('status', 0)->count();
-        $total_balance  = StripeVirtualCard::where('user_id', $user->id)->where('mode', $card_mode)->where('status', 1)->sum('amount');
-        $total_cards    = StripeVirtualCard::where('user_id', $user->id)->where('mode', $card_mode)->where('status', 1)->get();
-    } elseif (virtual_card_system('strowallet') == "strowallet") {
-        $virtual_cards  = StrowalletVirtualCard::where('user_id', $user->id)->count();
-        $active_cards   = StrowalletVirtualCard::where('user_id', $user->id)->where('is_active', 1)->count();
+        $total_balance = StripeVirtualCard::where('user_id', $user->id)->where('mode', $card_mode)->where('status', 1)->sum('amount');
+        $total_cards = StripeVirtualCard::where('user_id', $user->id)->where('mode', $card_mode)->where('status', 1)->get();
+    } elseif (virtual_card_system('strowallet') == 'strowallet') {
+        $virtual_cards = StrowalletVirtualCard::where('user_id', $user->id)->count();
+        $active_cards = StrowalletVirtualCard::where('user_id', $user->id)->where('is_active', 1)->count();
         $inactive_cards = StrowalletVirtualCard::where('user_id', $user->id)->where('is_active', 0)->count();
-        $total_balance  = StrowalletVirtualCard::where('user_id', $user->id)->where('is_active', 1)->sum('balance');
-        $total_cards    = StrowalletVirtualCard::where('user_id', $user->id)->where('is_active', 1)->get();
-    } elseif (virtual_card_system('cardyfie') == "cardyfie") {
-        $virtual_cards  = CardyfieVirtualCard::where('user_id', $user->id)->where('env', $cardyfie_card_mode)->count();
-        $active_cards   = CardyfieVirtualCard::where('user_id', $user->id)->where('env', $cardyfie_card_mode)->where('status', '"ENABLED"')->count();
+        $total_balance = StrowalletVirtualCard::where('user_id', $user->id)->where('is_active', 1)->sum('balance');
+        $total_cards = StrowalletVirtualCard::where('user_id', $user->id)->where('is_active', 1)->get();
+    } elseif (virtual_card_system('cardyfie') == 'cardyfie') {
+        $virtual_cards = CardyfieVirtualCard::where('user_id', $user->id)->where('env', $cardyfie_card_mode)->count();
+        $active_cards = CardyfieVirtualCard::where('user_id', $user->id)->where('env', $cardyfie_card_mode)->where('status', '"ENABLED"')->count();
         $inactive_cards = CardyfieVirtualCard::where('user_id', $user->id)->where('env', $cardyfie_card_mode)->whereIn('status', ['PENDING', 'FREEZE'])->count();
-        $total_balance  = CardyfieVirtualCard::where('user_id', $user->id)->where('env', $cardyfie_card_mode)->sum('amount');
-        $total_cards    = CardyfieVirtualCard::where('user_id', $user->id)->where('env', $cardyfie_card_mode)->where('status', "ENABLED")->get();
+        $total_balance = CardyfieVirtualCard::where('user_id', $user->id)->where('env', $cardyfie_card_mode)->sum('amount');
+        $total_cards = CardyfieVirtualCard::where('user_id', $user->id)->where('env', $cardyfie_card_mode)->where('status', 'ENABLED')->get();
     }
     $virtual_card_info = [
-        'virtual_cards'     =>  $virtual_cards ?? 0,
-        'active_cards'      =>  $active_cards ?? 0,
-        'inactive_cards'    =>  $inactive_cards ?? 0,
-        'total_balance'     =>  $total_balance ?? 0,
-        'total_cards'       =>  $total_cards ?? [],
+        'virtual_cards' => $virtual_cards ?? 0,
+        'active_cards' => $active_cards ?? 0,
+        'inactive_cards' => $inactive_cards ?? 0,
+        'total_balance' => $total_balance ?? 0,
+        'total_cards' => $total_cards ?? [],
     ];
 
-    return  $virtual_card_info ?? [];
+    return $virtual_card_info ?? [];
 }
 function get_transaction_numeric_attribute(string $attribute)
 {
     if ($attribute == PaymentGatewayConst::SEND) {
-        return "-";
-    } else if ($attribute == PaymentGatewayConst::RECEIVED) {
-        return "+";
+        return '-';
+    } elseif ($attribute == PaymentGatewayConst::RECEIVED) {
+        return '+';
     }
-    return "";
+
+    return '';
 }
 function get_transaction_numeric_attribute_request_money(string $attribute)
 {
     if ($attribute == PaymentGatewayConst::SEND) {
-        return "+";
-    } else if ($attribute == PaymentGatewayConst::RECEIVED) {
-        return "-";
+        return '+';
+    } elseif ($attribute == PaymentGatewayConst::RECEIVED) {
+        return '-';
     }
-    return "";
+
+    return '';
 }
-function remove_special_char($string, $replace_string = "")
+function remove_special_char($string, $replace_string = '')
 {
-    return preg_replace("/[^A-Za-z0-9]/", $replace_string, $string);
+    return preg_replace('/[^A-Za-z0-9]/', $replace_string, $string);
 }
 
 function getCurrencyList()
 {
 
-    $credentials  = GatewayAPi::first();
+    $credentials = GatewayAPi::first();
     $response = Http::withToken($credentials->secret_key)->get('https://api.stripe.com/v1/country_specs', [
         'limit' => 41,
     ]);
@@ -2652,7 +2765,7 @@ function getCurrencyList()
     $statusCode = $response->getStatusCode();
 
     if ($statusCode == 200) {
-        $content    = json_decode($response->getBody()->getContents());
+        $content = json_decode($response->getBody()->getContents());
 
         $uniq_currencies = [];
 
@@ -2664,9 +2777,9 @@ function getCurrencyList()
 
         $currencies = [];
 
-        foreach ($uniq_currencies as  $value) {
+        foreach ($uniq_currencies as $value) {
             $currency = get_currency_code(strtoupper($value), get_default_currency_name());
-            $currencies[] =  (object) $currency;
+            $currencies[] = (object) $currency;
         }
         foreach ($currencies as $currency) {
             // Check if the object has the 'currency_code' and 'country' properties
@@ -2679,6 +2792,7 @@ function getCurrencyList()
                 $filteredArray[] = $currency;
             }
         }
+
         return $filteredArray;
     } else {
         return back()->with(['error' => ['Unable to connect with API, Please Contact Support!']]);
@@ -2700,6 +2814,7 @@ function get_currency_code($currency, $country_name)
             ];
         }
     }
+
     return $currency_data;
 }
 function conversionAmountCalculation($amount, $from_currency_rate, $to_currency_rate)
@@ -2708,8 +2823,9 @@ function conversionAmountCalculation($amount, $from_currency_rate, $to_currency_
 }
 function get_files_public_path($slug)
 {
-    $files_path = files_path($slug)->path ?? "";
-    return "public/" . $files_path;
+    $files_path = files_path($slug)->path ?? '';
+
+    return 'public/'.$files_path;
 }
 function generate_random_number($length = 12)
 {
@@ -2719,6 +2835,7 @@ function generate_random_number($length = 12)
     for ($i = 0; $i < $length; $i++) {
         $randomString .= $characters[rand(0, $charactersLength - 1)];
     }
+
     return $randomString;
 }
 function authGuardApi()
@@ -2727,15 +2844,15 @@ function authGuardApi()
         $guardName = Auth::getDefaultDriver();
         if ($guardName == 'web') {
             $userType = 'USER';
-        } else if ($guardName == 'api') {
+        } elseif ($guardName == 'api') {
             $userType = 'USER';
-        } else if ($guardName == 'agent') {
+        } elseif ($guardName == 'agent') {
             $userType = 'AGENT';
-        } else if ($guardName == 'agent_api') {
+        } elseif ($guardName == 'agent_api') {
             $userType = 'AGENT';
-        } else if ($guardName == 'merchant') {
+        } elseif ($guardName == 'merchant') {
             $userType = 'MERCHANT';
-        } else if ($guardName == 'merchant_api') {
+        } elseif ($guardName == 'merchant_api') {
             $userType = 'MERCHANT';
         }
         if (auth()->guard($guardName)->check()) {
@@ -2747,7 +2864,7 @@ function authGuardApi()
         return [
             'user' => $user,
             'type' => $userType,
-            'guard' => $guard
+            'guard' => $guard,
         ];
     }
 }
@@ -2758,11 +2875,12 @@ function files_asset_path_basename($slug)
 
 /**
  * Function for replace ENV Value based on key
- * @param array $replace_array
+ *
+ * @param  array  $replace_array
  */
 function modifyEnv($replace_array = [])
 {
-    $array_going_to_modify  = $replace_array;
+    $array_going_to_modify = $replace_array;
     sleep(2);
     $env_content_string = File::get(App::environmentFilePath());
     $lines = array_values(array_filter(explode("\n", $env_content_string)));
@@ -2770,17 +2888,17 @@ function modifyEnv($replace_array = [])
     foreach ($lines as $line) {
         $line = trim($line);
         if ($line) {
-            list($key, $value) = explode('=', $line, 2);
+            [$key, $value] = explode('=', $line, 2);
             // Remove any quotes from the value
             $value = trim($value, '"');
             // Store the key-value pair in the array
             $env_content[$key] = $value;
         }
     }
-    $update_array = ["APP_ENV" => App::environment()];
+    $update_array = ['APP_ENV' => App::environment()];
     foreach ($env_content as $key => $value) {
         foreach ($array_going_to_modify as $modify_key => $modify_value) {
-            if (!array_key_exists($modify_key, $env_content) && !array_key_exists($modify_key, $update_array)) {
+            if (! array_key_exists($modify_key, $env_content) && ! array_key_exists($modify_key, $update_array)) {
                 $update_array[$modify_key] = set_env_value($modify_key, $modify_value);
                 break;
             }
@@ -2792,41 +2910,44 @@ function modifyEnv($replace_array = [])
             }
         }
     }
-    $string_content = "";
+    $string_content = '';
     foreach ($update_array as $key => $item) {
-        $line = $key . "=" . $item;
-        $string_content .= $line . "\r\n\n";
+        $line = $key.'='.$item;
+        $string_content .= $line."\r\n\n";
     }
     $env_file = App::environmentFilePath();
     File::put($env_file, $string_content);
 }
 function set_env_value($key, $value)
 {
-    if ($key == "APP_KEY") {
+    if ($key == 'APP_KEY') {
         return $value;
     }
-    return '"' . $value . '"';
+
+    return '"'.$value.'"';
 }
 function setEnvValue($key, $value)
 {
-    if ($key == "APP_KEY") {
+    if ($key == 'APP_KEY') {
         return $value;
     }
-    return '"' . $value . '"';
+
+    return '"'.$value.'"';
 }
 function checkSeederValue($value)
 {
     $input_value = explode('/', $value);
-    if (isset($input_value) && isset($input_value[0]) && $input_value[0] ==  'seeder') {
+    if (isset($input_value) && isset($input_value[0]) && $input_value[0] == 'seeder') {
         $oldImage = null;
     } else {
         $oldImage = $value;
     }
+
     return $oldImage;
 }
 function make_user_id_for_pusher($user_type, $user_id)
 {
-    return remove_special_char(get_full_url_host(), "-") . '-' . $user_type . '-' . $user_id;
+    return remove_special_char(get_full_url_host(), '-').'-'.$user_type.'-'.$user_id;
 }
 /**
  * Get Full URL Path
@@ -2835,15 +2956,16 @@ function get_full_url_host()
 {
     $base_url = url('/');
     $parse_base_url = parse_url($base_url);
-    $host = $parse_base_url['host'] ?? "";
-    $path = $parse_base_url['path'] ?? "";
-    $full_url_host = $host . '' . $path;
+    $host = $parse_base_url['host'] ?? '';
+    $path = $parse_base_url['path'] ?? '';
+    $full_url_host = $host.''.$path;
+
     return $full_url_host;
 }
 function getFirstChar($sentence)
 {
-    $words = explode(" ", $sentence);
-    $firstChars = "";
+    $words = explode(' ', $sentence);
+    $firstChars = '';
     foreach ($words as $word) {
         $firstChars .= substr($word, 0, 1);
     }
@@ -2855,13 +2977,14 @@ function scheduleBillPayApiCall($payBill)
     $submittedAt = $payBill['submittedAt'];
     $finalStatusAvailabilityAt = $payBill['finalStatusAvailabilityAt'];
     $delayInSeconds = strtotime($finalStatusAvailabilityAt) - strtotime($submittedAt);
-    return  $delayInSeconds;
+
+    return $delayInSeconds;
 }
 function billPayCurrency($transaction)
 {
     $transaction_details = $transaction->details;
     if (isset($transaction_details->bill_type)) {
-        $sender_currency =  $transaction_details->charges->sender_currency;
+        $sender_currency = $transaction_details->charges->sender_currency;
         $wallet_currency = $transaction_details->charges->wallet_currency;
     } else {
         $sender_currency = get_default_currency_code();
@@ -2871,19 +2994,21 @@ function billPayCurrency($transaction)
         'sender_currency' => $sender_currency,
         'wallet_currency' => $wallet_currency,
     ];
+
     return $currency;
 }
 function billPayExchangeRate($transaction)
 {
     $transaction_details = $transaction->details;
     if (isset($transaction_details->bill_type)) {
-        $exchange_info =  get_amount(1, $transaction_details->charges->wallet_currency) . " = " . get_amount($transaction_details->charges->exchange_rate, $transaction_details->charges->sender_currency, get_wallet_precision($transaction->creator_wallet->currency));
+        $exchange_info = get_amount(1, $transaction_details->charges->wallet_currency).' = '.get_amount($transaction_details->charges->exchange_rate, $transaction_details->charges->sender_currency, get_wallet_precision($transaction->creator_wallet->currency));
     } else {
-        $exchange_info = get_amount(1, get_default_currency_code()) . " = " . get_amount(1, get_default_currency_code());
+        $exchange_info = get_amount(1, get_default_currency_code()).' = '.get_amount(1, get_default_currency_code());
     }
     $rate = [
         'exchange_info' => $exchange_info,
     ];
+
     return $rate;
 }
 function amountOnBaseCurrency($transactions)
@@ -2895,6 +3020,7 @@ function amountOnBaseCurrency($transactions)
         $result = $requestAmount / $exchange_rate;
         $totalAmount += $result;
     }
+
     return $totalAmount ?? 0;
 }
 
@@ -2909,13 +3035,14 @@ function agentOnBaseCurrency($profits)
             $exchange_rate = $profit->transactions->creator_wallet->currency->rate ?? get_default_currency_rate();
         }
         // Validate $exchange_rate to avoid division by zero
-        if (!$exchange_rate || $exchange_rate == 0) {
+        if (! $exchange_rate || $exchange_rate == 0) {
             // Handle the error case, log or assign a default value
             $exchange_rate = 1; // Default fallback value (modify as per your requirements)
         }
         $result = $requestAmount / $exchange_rate;
         $totalAmount += $result;
     }
+
     return $totalAmount ?? 0;
 }
 function virtualCardAmountOnBaseCurrency($cards)
@@ -2928,6 +3055,7 @@ function virtualCardAmountOnBaseCurrency($cards)
         $result = $requestAmount / $exchange_rate;
         $totalAmount += $result;
     }
+
     return $totalAmount ?? 0;
 }
 
@@ -2935,7 +3063,7 @@ function topUpCurrency($transaction)
 {
     $transaction_details = $transaction->details;
     if (isset($transaction_details->topup_type)) {
-        $destination_currency =  $transaction_details->charges->destination_currency;
+        $destination_currency = $transaction_details->charges->destination_currency;
         $wallet_currency = $transaction_details->charges->sender_currency;
     } else {
         $destination_currency = get_default_currency_code();
@@ -2945,19 +3073,21 @@ function topUpCurrency($transaction)
         'destination_currency' => $destination_currency,
         'wallet_currency' => $wallet_currency,
     ];
+
     return $currency;
 }
 function topUpExchangeRate($transaction)
 {
     $transaction_details = $transaction->details;
     if (isset($transaction_details->topup_type)) {
-        $exchange_info =  get_amount(1, $transaction_details->charges->destination_currency) . " = " . get_amount($transaction_details->charges->exchange_rate, $transaction_details->charges->sender_currency, 4);
+        $exchange_info = get_amount(1, $transaction_details->charges->destination_currency).' = '.get_amount($transaction_details->charges->exchange_rate, $transaction_details->charges->sender_currency, 4);
     } else {
-        $exchange_info = get_amount(1, get_default_currency_code()) . " = " . get_amount(1, get_default_currency_code());
+        $exchange_info = get_amount(1, get_default_currency_code()).' = '.get_amount(1, get_default_currency_code());
     }
     $rate = [
         'exchange_info' => $exchange_info,
     ];
+
     return $rate;
 }
 function receiver_currency($code)
@@ -2965,9 +3095,10 @@ function receiver_currency($code)
 
     $receiver_currency = Currency::where(['code' => $code])->first();
     $data = [
-        'rate' =>  $receiver_currency->rate ?? 1,
-        'currency' =>  $receiver_currency->code ?? get_default_currency_code(),
+        'rate' => $receiver_currency->rate ?? 1,
+        'currency' => $receiver_currency->code ?? get_default_currency_code(),
     ];
+
     return $data;
 }
 function freedom_countries($type)
@@ -2976,16 +3107,17 @@ function freedom_countries($type)
     $rejectedCountries = $country_restriction->data;
     $allCountries = get_all_countries();
     $freedomCountries = array_filter($allCountries, function ($country) use ($rejectedCountries) {
-        return !in_array($country->name, $rejectedCountries);
+        return ! in_array($country->name, $rejectedCountries);
     });
     $freedomCountries = array_values($freedomCountries);
+
     return $freedomCountries;
 }
 function withdrawCurrency($transaction)
 {
     $transaction_details = $transaction->details;
     if (isset($transaction_details->charges)) {
-        $gateway_currency =  $transaction_details->charges->gateway_cur_code;
+        $gateway_currency = $transaction_details->charges->gateway_cur_code;
         $wallet_currency = $transaction_details->charges->wallet_cur_code;
     } else {
         $gateway_currency = $transaction->currency->currency_code;
@@ -2995,9 +3127,9 @@ function withdrawCurrency($transaction)
         'gateway_currency' => $gateway_currency,
         'wallet_currency' => $wallet_currency,
     ];
+
     return $currency;
 }
-
 
 function support_currencies(array $supported_currency)
 {
@@ -3007,6 +3139,7 @@ function support_currencies(array $supported_currency)
         return in_array($currency->code, $supported_currency);
     });
     $filtered_currency->makeHidden(['updated_at', 'admin_id', 'editData', 'sender', 'both', 'receiver', 'senderCurrency', 'receiverCurrency', 'created_at']);
+
     return $filtered_currency->values() ?? [];
     // }else{
     //     $all_currency = Currency::active()->get();
@@ -3043,10 +3176,10 @@ function user_wallets($guard, $column, $limit = null)
         ->whereHas('currency', function ($q) {
             $q->where('status', GlobalConst::ACTIVE); // Ensures the currency is active
         })
-        ->with("currency:id,code,rate,flag,symbol,type,default,country,name");
+        ->with('currency:id,code,rate,flag,symbol,type,default,country,name');
 
     // Apply the limit if provided
-    if (!is_null($limit)) {
+    if (! is_null($limit)) {
         $walletModel->limit($limit);
     }
 
@@ -3059,35 +3192,35 @@ function user_wallets($guard, $column, $limit = null)
         'created_at',
         'updated_at',
         'merchant_id',
-        'agent_id'
+        'agent_id',
     ]);
 
     return $user_wallets ?? [];
 }
 function branch_required_countries($iso2, $bank_id)
 {
-    $branch_required_countries = ["TZ", "GH", "UG", "BJ", "CM", "TD", "CI", "CD", "GA", "MW", "RW", "SN", "SL"];
+    $branch_required_countries = ['TZ', 'GH', 'UG', 'BJ', 'CM', 'TD', 'CI', 'CD', 'GA', 'MW', 'RW', 'SN', 'SL'];
     // Check if the provided iso2 is in the branch_required_countries array
     if (in_array($iso2, $branch_required_countries)) {
-        $flutterWaveGateway = PaymentGateway::where('type', "AUTOMATIC")->where('alias', 'flutterwave-money-out')->first();
+        $flutterWaveGateway = PaymentGateway::where('type', 'AUTOMATIC')->where('alias', 'flutterwave-money-out')->first();
         $secretKey = getPaymentCredentials($flutterWaveGateway->credentials, 'Secret key');
         $base_url = getPaymentCredentials($flutterWaveGateway->credentials, 'Base Url');
-        //find out all branches
+        // find out all branches
         $curl = curl_init();
 
-        curl_setopt_array($curl, array(
-            CURLOPT_URL =>  $base_url . '/banks' . '/' . $bank_id . "/branches",
+        curl_setopt_array($curl, [
+            CURLOPT_URL => $base_url.'/banks'.'/'.$bank_id.'/branches',
             CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => "",
+            CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
             CURLOPT_TIMEOUT => 0,
             CURLOPT_FOLLOWLOCATION => true,
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => "GET",
-            CURLOPT_HTTPHEADER => array(
-                "Authorization: Bearer " . $secretKey
-            ),
-        ));
+            CURLOPT_CUSTOMREQUEST => 'GET',
+            CURLOPT_HTTPHEADER => [
+                'Authorization: Bearer '.$secretKey,
+            ],
+        ]);
 
         $response = curl_exec($curl);
 
@@ -3097,26 +3230,26 @@ function branch_required_countries($iso2, $bank_id)
             return [
                 'status' => true,
                 'branches' => $result['data'],
-                'message' => "Bank branches fetched successfully",
+                'message' => 'Bank branches fetched successfully',
             ];
         } else {
             return [
                 'status' => false,
                 'branches' => [],
-                'message' => "Bank branches fetched failed",
+                'message' => 'Bank branches fetched failed',
             ];
         }
     } else {
         return [
             'status' => false,
             'branches' => [],
-            'message' => "No Need to Fetch Bank branches",
+            'message' => 'No Need to Fetch Bank branches',
         ];
     }
 }
 function branch_required_permission($iso2)
 {
-    $branch_required_countries = ["TZ", "GH", "UG", "BJ", "CM", "TD", "CI", "CD", "GA", "MW", "RW", "SN", "SL"];
+    $branch_required_countries = ['TZ', 'GH', 'UG', 'BJ', 'CM', 'TD', 'CI', 'CD', 'GA', 'MW', 'RW', 'SN', 'SL'];
     if (in_array($iso2, $branch_required_countries)) {
         return true;
     } else {
@@ -3129,7 +3262,8 @@ function getewayIso2($currency)
     $country = Collection::make($countries)->first(function ($item) use ($currency) {
         return $item->currency_code === $currency;
     });
-    return $country->iso2 ?? "";
+
+    return $country->iso2 ?? '';
 }
 
 function get_precision($gateway)
@@ -3141,16 +3275,19 @@ function isCrypto($amount, $currency, $type)
     if ($type == 1) {
         return get_amount($amount, $currency, get_precision_from_admin()['crypto_precision_value']);
     } else {
-        return  get_amount($amount, $currency, get_precision_from_admin()['fiat_precision_value']);
+        return get_amount($amount, $currency, get_precision_from_admin()['fiat_precision_value']);
     }
 }
 
 function get_wallet_precision($default_currency = null)
 {
-    if ($default_currency == null) $default_currency = CurrencyProvider::default();
-    if ($default_currency != false) {
-        return $default_currency->type == "CRYPTO" ? get_precision_from_admin()['crypto_precision_value'] : get_precision_from_admin()['fiat_precision_value'];
+    if ($default_currency == null) {
+        $default_currency = CurrencyProvider::default();
     }
+    if ($default_currency != false) {
+        return $default_currency->type == 'CRYPTO' ? get_precision_from_admin()['crypto_precision_value'] : get_precision_from_admin()['fiat_precision_value'];
+    }
+
     return 2;
 }
 function get_precision_from_admin()
@@ -3158,24 +3295,27 @@ function get_precision_from_admin()
     $basic_settings = BasicSettings::first();
     $data = [
         'fiat_precision_value' => $basic_settings->fiat_precision_value ?? 2,
-        'crypto_precision_value' => $basic_settings->crypto_precision_value ?? 8
+        'crypto_precision_value' => $basic_settings->crypto_precision_value ?? 8,
 
     ];
+
     return $data;
 }
-//live exchange rate code
+// live exchange rate code
 function currenciesCode()
 {
     $currencies = Currency::active()->get();
     $currencyCodes = $currencies->pluck('code')->unique()->implode(',');
+
     return $currencyCodes;
 }
 function gatewayCurrenciesCode()
 {
-    $currencies =   PaymentGatewayCurrency::whereHas('gateway', function ($gateway) {
+    $currencies = PaymentGatewayCurrency::whereHas('gateway', function ($gateway) {
         $gateway->where('status', 1);
     })->get();
     $currencyCodes = $currencies->pluck('currency_code')->unique()->implode(',');
+
     return $currencyCodes;
 }
 function systemCurrenciesCode()
@@ -3215,19 +3355,17 @@ function updateAbleCurrency()
     // Find out which system currencies are missing in the API list
     $missing_currencies = array_diff($system_currency_list, $api_currency_list);
     // Output the missing currencies for update rate
-    $missing_currencies;
 
     // Find out which system currencies are present in the API list
     $matching_currencies = array_intersect($system_currency_list, $api_currency_list);
     // Output the matching currencies for update rate
-    $matching_currencies;
 
     $data = [
         'missing_currencies' => $missing_currencies ?? [],
         'matching_currencies' => $matching_currencies ?? [],
     ];
 
-    return  $data ?? [];
+    return $data ?? [];
 }
 function filterValidCurrencies($currencies)
 {
@@ -3235,9 +3373,10 @@ function filterValidCurrencies($currencies)
     $filtered_array = array_filter($currency_array, function ($code) {
         return preg_match('/^[A-Za-z]{3}$/', $code);
     });
+
     return implode(',', $filtered_array);
 }
-//live exchange rate code end
+// live exchange rate code end
 function totalDeposit($transactions)
 {
     $totalAmount = 0;
@@ -3247,6 +3386,7 @@ function totalDeposit($transactions)
         $result = $requestAmount / $exchange_rate;
         $totalAmount += $result;
     }
+
     return $totalAmount ?? 0;
 }
 function get_super_admin()
@@ -3257,9 +3397,10 @@ function get_super_admin()
             $query_role->where('name', $super_admin_const);
         });
     })->first();
+
     return $super_admin;
 }
-//for sms gateway
+// for sms gateway
 function smsShortCodeReplacer($shortCode, $replace_with, $template_string)
 {
     // dd(str_replace($shortCode, $replace_with, $template_string));
@@ -3278,10 +3419,10 @@ function sendSms($user, $type, $shortCodes = [])
         if ($smsTemplate) {
             $template = $smsTemplate->sms_body;
             foreach ($shortCodes as $code => $value) {
-                $template = smsShortCodeReplacer('{{' . $code . '}}', $value, $template);
+                $template = smsShortCodeReplacer('{{'.$code.'}}', $value, $template);
             }
-            $message = smsShortCodeReplacer("{{message}}", $template, $basic_settings->sms_api);
-            $message = smsShortCodeReplacer("{{name}}", $user->username, $message);
+            $message = smsShortCodeReplacer('{{message}}', $template, $basic_settings->sms_api);
+            $message = smsShortCodeReplacer('{{name}}', $user->username, $message);
             $sendSms->$platform($user->full_mobile, $basic_settings->site_name, $message, $basic_settings->sms_config);
         }
     } catch (Exception $e) {
@@ -3298,10 +3439,10 @@ function sendSmsNotAuthUser($mobile, $type, $shortCodes = [])
         if ($smsTemplate) {
             $template = $smsTemplate->sms_body;
             foreach ($shortCodes as $code => $value) {
-                $template = smsShortCodeReplacer('{{' . $code . '}}', $value, $template);
+                $template = smsShortCodeReplacer('{{'.$code.'}}', $value, $template);
             }
-            $message = smsShortCodeReplacer("{{message}}", $template, $basic_settings->sms_api);
-            $message = smsShortCodeReplacer("{{name}}", "User", $message);
+            $message = smsShortCodeReplacer('{{message}}', $template, $basic_settings->sms_api);
+            $message = smsShortCodeReplacer('{{name}}', 'User', $message);
             $sendSms->$platform($mobile, $basic_settings->site_name, $message, $basic_settings->sms_config);
         }
     } catch (Exception $e) {
@@ -3310,12 +3451,12 @@ function sendSmsNotAuthUser($mobile, $type, $shortCodes = [])
 function smsVerificationTemplate($user)
 {
     $basic_settings = BasicSettingsProvider::get();
-    $code               = generate_random_code();
+    $code = generate_random_code();
     $data = [
-        'user_id'       => $user->id,
-        'code'          => $code,
-        'token'         => generate_unique_string("user_authorizations", "token", 200),
-        'created_at'    => now(),
+        'user_id' => $user->id,
+        'code' => $code,
+        'token' => generate_unique_string('user_authorizations', 'token', 200),
+        'created_at' => now(),
     ];
 
     DB::beginTransaction();
@@ -3324,30 +3465,32 @@ function smsVerificationTemplate($user)
         if ($basic_settings->sms_notification == true) {
             try {
                 sendSms($user, 'SVER_CODE', [
-                    'code' => $code
+                    'code' => $code,
                 ]);
             } catch (Exception $e) {
             }
         }
-        UserAuthorization::where("user_id", $user->id)->delete();
-        DB::table("user_authorizations")->insert($data);
+        UserAuthorization::where('user_id', $user->id)->delete();
+        DB::table('user_authorizations')->insert($data);
         DB::commit();
     } catch (Exception $e) {
         DB::rollBack();
-        return back()->with(['error' => [__("Something went wrong! Please try again.")]]);
+
+        return back()->with(['error' => [__('Something went wrong! Please try again.')]]);
     }
-    return redirect()->route('user.authorize.sms', $data['token'])->with(['warning' => [__("Please verify your phone number. Check your inbox to get verification code")]]);
+
+    return redirect()->route('user.authorize.sms', $data['token'])->with(['warning' => [__('Please verify your phone number. Check your inbox to get verification code')]]);
 }
 function smsVerificationTemplateApi($user)
 {
 
     $basic_settings = BasicSettingsProvider::get();
-    $code               = generate_random_code();
+    $code = generate_random_code();
     $data = [
-        'user_id'       => $user->id,
-        'code'          => $code,
-        'token'         => generate_unique_string("user_authorizations", "token", 200),
-        'created_at'    => now(),
+        'user_id' => $user->id,
+        'code' => $code,
+        'token' => generate_unique_string('user_authorizations', 'token', 200),
+        'created_at' => now(),
     ];
 
     DB::beginTransaction();
@@ -3356,31 +3499,33 @@ function smsVerificationTemplateApi($user)
         if ($basic_settings->sms_notification == true) {
             try {
                 sendSms($user, 'SVER_CODE', [
-                    'code' => $code
+                    'code' => $code,
                 ]);
             } catch (Exception $e) {
             }
         }
-        UserAuthorization::where("user_id", $user->id)->delete();
-        DB::table("user_authorizations")->insert($data);
+        UserAuthorization::where('user_id', $user->id)->delete();
+        DB::table('user_authorizations')->insert($data);
         DB::commit();
     } catch (Exception $e) {
         DB::rollBack();
-        $error = ['error' => [__("Something went wrong! Please try again.")]];
+        $error = ['error' => [__('Something went wrong! Please try again.')]];
+
         return Helpers::error($error);
     }
-    $error = ['errors' => [__("Sms verification is required")]];
+    $error = ['errors' => [__('Sms verification is required')]];
+
     return Helpers::error($error);
 }
 function agentSmsVerificationTemplate($user)
 {
     $basic_settings = BasicSettingsProvider::get();
-    $code               = generate_random_code();
+    $code = generate_random_code();
     $data = [
-        'agent_id'       => $user->id,
-        'code'          => $code,
-        'token'         => generate_unique_string("agent_authorizations", "token", 200),
-        'created_at'    => now(),
+        'agent_id' => $user->id,
+        'code' => $code,
+        'token' => generate_unique_string('agent_authorizations', 'token', 200),
+        'created_at' => now(),
     ];
 
     DB::beginTransaction();
@@ -3389,29 +3534,31 @@ function agentSmsVerificationTemplate($user)
         if ($basic_settings->agent_sms_notification == true) {
             try {
                 sendSms($user, 'SVER_CODE', [
-                    'code' => $code
+                    'code' => $code,
                 ]);
             } catch (Exception $e) {
             }
         }
-        AgentAuthorization::where("agent_id", $user->id)->delete();
-        DB::table("agent_authorizations")->insert($data);
+        AgentAuthorization::where('agent_id', $user->id)->delete();
+        DB::table('agent_authorizations')->insert($data);
         DB::commit();
     } catch (Exception $e) {
         DB::rollBack();
-        return back()->with(['error' => [__("Something went wrong! Please try again.")]]);
+
+        return back()->with(['error' => [__('Something went wrong! Please try again.')]]);
     }
-    return redirect()->route('agent.authorize.sms', $data['token'])->with(['warning' => [__("Please verify your phone number. Check your inbox to get verification code")]]);
+
+    return redirect()->route('agent.authorize.sms', $data['token'])->with(['warning' => [__('Please verify your phone number. Check your inbox to get verification code')]]);
 }
 function agentSmsVerificationTemplateApi($user)
 {
     $basic_settings = BasicSettingsProvider::get();
-    $code               = generate_random_code();
+    $code = generate_random_code();
     $data = [
-        'agent_id'       => $user->id,
-        'code'          => $code,
-        'token'         => generate_unique_string("agent_authorizations", "token", 200),
-        'created_at'    => now(),
+        'agent_id' => $user->id,
+        'code' => $code,
+        'token' => generate_unique_string('agent_authorizations', 'token', 200),
+        'created_at' => now(),
     ];
 
     DB::beginTransaction();
@@ -3420,31 +3567,33 @@ function agentSmsVerificationTemplateApi($user)
         if ($basic_settings->agent_sms_notification == true) {
             try {
                 sendSms($user, 'SVER_CODE', [
-                    'code' => $code
+                    'code' => $code,
                 ]);
             } catch (Exception $e) {
             }
         }
-        AgentAuthorization::where("agent_id", $user->id)->delete();
-        DB::table("agent_authorizations")->insert($data);
+        AgentAuthorization::where('agent_id', $user->id)->delete();
+        DB::table('agent_authorizations')->insert($data);
         DB::commit();
     } catch (Exception $e) {
         DB::rollBack();
-        $error = ['error' => [__("Something went wrong! Please try again.")]];
+        $error = ['error' => [__('Something went wrong! Please try again.')]];
+
         return Helpers::error($error);
     }
-    $error = ['errors' => [__("Sms verification is required")]];
+    $error = ['errors' => [__('Sms verification is required')]];
+
     return Helpers::error($error);
 }
 function merchantSmsVerificationTemplate($user)
 {
-    $basic_settings     = BasicSettingsProvider::get();
-    $code               = generate_random_code();
+    $basic_settings = BasicSettingsProvider::get();
+    $code = generate_random_code();
     $data = [
-        'merchant_id'   => $user->id,
-        'code'          => $code,
-        'token'         => generate_unique_string("merchant_authorizations", "token", 200),
-        'created_at'    => now(),
+        'merchant_id' => $user->id,
+        'code' => $code,
+        'token' => generate_unique_string('merchant_authorizations', 'token', 200),
+        'created_at' => now(),
     ];
 
     DB::beginTransaction();
@@ -3453,29 +3602,31 @@ function merchantSmsVerificationTemplate($user)
         if ($basic_settings->merchant_sms_notification == true) {
             try {
                 sendSms($user, 'SVER_CODE', [
-                    'code' => $code
+                    'code' => $code,
                 ]);
             } catch (Exception $e) {
             }
         }
-        MerchantAuthorization::where("merchant_id", $user->id)->delete();
-        DB::table("merchant_authorizations")->insert($data);
+        MerchantAuthorization::where('merchant_id', $user->id)->delete();
+        DB::table('merchant_authorizations')->insert($data);
         DB::commit();
     } catch (Exception $e) {
         DB::rollBack();
-        return back()->with(['error' => [__("Something went wrong! Please try again.")]]);
+
+        return back()->with(['error' => [__('Something went wrong! Please try again.')]]);
     }
-    return redirect()->route('merchant.authorize.sms', $data['token'])->with(['warning' => [__("Please verify your phone number. Check your inbox to get verification code")]]);
+
+    return redirect()->route('merchant.authorize.sms', $data['token'])->with(['warning' => [__('Please verify your phone number. Check your inbox to get verification code')]]);
 }
 function merchantSmsVerificationTemplateApi($user)
 {
-    $basic_settings     = BasicSettingsProvider::get();
-    $code               = generate_random_code();
+    $basic_settings = BasicSettingsProvider::get();
+    $code = generate_random_code();
     $data = [
-        'merchant_id'   => $user->id,
-        'code'          => $code,
-        'token'         => generate_unique_string("merchant_authorizations", "token", 200),
-        'created_at'    => now(),
+        'merchant_id' => $user->id,
+        'code' => $code,
+        'token' => generate_unique_string('merchant_authorizations', 'token', 200),
+        'created_at' => now(),
     ];
 
     DB::beginTransaction();
@@ -3484,25 +3635,28 @@ function merchantSmsVerificationTemplateApi($user)
         if ($basic_settings->merchant_sms_notification == true) {
             try {
                 sendSms($user, 'SVER_CODE', [
-                    'code' => $code
+                    'code' => $code,
                 ]);
             } catch (Exception $e) {
             }
         }
-        MerchantAuthorization::where("merchant_id", $user->id)->delete();
-        DB::table("merchant_authorizations")->insert($data);
+        MerchantAuthorization::where('merchant_id', $user->id)->delete();
+        DB::table('merchant_authorizations')->insert($data);
         DB::commit();
     } catch (Exception $e) {
         DB::rollBack();
-        $error = ['error' => [__("Something went wrong! Please try again.")]];
+        $error = ['error' => [__('Something went wrong! Please try again.')]];
+
         return Helpers::error($error);
     }
-    $error = ['errors' => [__("Sms verification is required")]];
+    $error = ['errors' => [__('Sms verification is required')]];
+
     return Helpers::error($error);
 }
 function get_mobile_number($mobile_code, $mobile)
 {
-    $mobile =  $mobile_code == '880' ? (int)$mobile : $mobile;
+    $mobile = $mobile_code == '880' ? (int) $mobile : $mobile;
+
     return $mobile ?? null;
 }
 function select_country($country_name)
@@ -3511,17 +3665,20 @@ function select_country($country_name)
     $country = Collection::make($countries)->first(function ($item) use ($country_name) {
         return $item->name == $country_name;
     });
+
     return $country;
 }
 function refer_access()
 {
     $refer = ReferralSetting::first();
-    return  $refer->status ?? false;
+
+    return $refer->status ?? false;
 }
 function page_access($slug)
 {
     $page = SetupPage::where('slug', $slug)->first();
-    return  $page->status ?? false;
+
+    return $page->status ?? false;
 }
 
 /**
@@ -3529,12 +3686,12 @@ function page_access($slug)
  */
 function update_project_localization_data()
 {
-    $update_keys_path       = base_path("update_lang/keys.json");
-    $update_lang_file_path  = base_path('update_lang/file.xlsx');
-    $predefined_keys_path   = base_path('lang/predefined_keys.json');
+    $update_keys_path = base_path('update_lang/keys.json');
+    $update_lang_file_path = base_path('update_lang/file.xlsx');
+    $predefined_keys_path = base_path('lang/predefined_keys.json');
 
     $existing_lang_file_dir = get_files_path('language-file');
-    $directory_files        = Storage::disk(Storage::getDefaultDriver())->files($existing_lang_file_dir);
+    $directory_files = Storage::disk(Storage::getDefaultDriver())->files($existing_lang_file_dir);
 
     // Sort files by last modified date in descending order
     usort($directory_files, function ($a, $b) {
@@ -3543,30 +3700,30 @@ function update_project_localization_data()
 
     $existing_lang_file = $directory_files[0] ?? null;
 
-    if (!file_exists($update_keys_path) || !file_exists($update_lang_file_path) || !$existing_lang_file) return false;
+    if (! file_exists($update_keys_path) || ! file_exists($update_lang_file_path) || ! $existing_lang_file) {
+        return false;
+    }
 
-    $update_keys_array          = json_decode(file_get_contents($update_keys_path));
-    $update_lang_file_array     = (new LanguageImport)->toArray($update_lang_file_path)->columnData()->getArray();
-    $existing_lang_file_array   = (new LanguageImport)->toArray($existing_lang_file)->columnData()->getArray();
+    $update_keys_array = json_decode(file_get_contents($update_keys_path));
+    $update_lang_file_array = (new LanguageImport)->toArray($update_lang_file_path)->columnData()->getArray();
+    $existing_lang_file_array = (new LanguageImport)->toArray($existing_lang_file)->columnData()->getArray();
 
     sleep(2);
 
     $languages = Language::get();
 
     // update predefined keys
-    $predefined_keys_array  = json_decode(file_get_contents($predefined_keys_path));
-    $new_unique_keys        = array_diff($update_keys_array, $predefined_keys_array);
+    $predefined_keys_array = json_decode(file_get_contents($predefined_keys_path));
+    $new_unique_keys = array_diff($update_keys_array, $predefined_keys_array);
     // $new_unique_keys        = $update_keys_array;
 
-
-
-    $predefined_keys_array  = array_merge($predefined_keys_array, $new_unique_keys); // added new keys
+    $predefined_keys_array = array_merge($predefined_keys_array, $new_unique_keys); // added new keys
     // update predefined keys file
     file_put_contents($predefined_keys_path, json_encode($predefined_keys_array));
 
     // add new language into existing languages
     foreach ($languages as $lang) {
-        $lang_file = base_path('lang/' . strtolower($lang->code) . ".json");
+        $lang_file = base_path('lang/'.strtolower($lang->code).'.json');
 
         if (file_exists($lang_file)) {
             // update new keys and values
@@ -3574,11 +3731,11 @@ function update_project_localization_data()
 
             // looping new language keys
             foreach ($new_unique_keys as $new_key) {
-                $update_lang_keys_array = $update_lang_file_array["Key"] ?? $update_lang_file_array["key"];
-                $get_value_key_no       = array_search($new_key, $update_lang_keys_array);
+                $update_lang_keys_array = $update_lang_file_array['Key'] ?? $update_lang_file_array['key'];
+                $get_value_key_no = array_search($new_key, $update_lang_keys_array);
 
-                $get_update_value       = $update_lang_file_array[$lang->code][$get_value_key_no] ??
-                    $update_lang_file_array["en"][$get_value_key_no] ??
+                $get_update_value = $update_lang_file_array[$lang->code][$get_value_key_no] ??
+                    $update_lang_file_array['en'][$get_value_key_no] ??
                     $new_key;
 
                 $lang_contents_array[$new_key] = $get_update_value;
@@ -3588,8 +3745,8 @@ function update_project_localization_data()
             file_put_contents($lang_file, json_encode($lang_contents_array));
         } else {
             // add new language file
-            $update_lang_keys_array = $update_lang_file_array["Key"] ?? $update_lang_file_array["key"];
-            $update_lang_array      = $update_lang_file_array[strtolower($lang->code)];
+            $update_lang_keys_array = $update_lang_file_array['Key'] ?? $update_lang_file_array['key'];
+            $update_lang_array = $update_lang_file_array[strtolower($lang->code)];
 
             $file_content = array_combine($update_lang_keys_array, $update_lang_array);
 
@@ -3603,16 +3760,16 @@ function update_project_localization_data()
     sleep(2);
 
     // new lang file logic
-    $file_unique_keys = array_diff($update_lang_file_array['Key'] ?? $update_lang_file_array['key'], $existing_lang_file_array["Key"] ?? $existing_lang_file_array["key"]);
+    $file_unique_keys = array_diff($update_lang_file_array['Key'] ?? $update_lang_file_array['key'], $existing_lang_file_array['Key'] ?? $existing_lang_file_array['key']);
 
     foreach ($file_unique_keys as $key_no => $key) {
         foreach ($update_lang_file_array as $lang_code => $values) {
             if (array_key_exists($lang_code, $existing_lang_file_array)) {
-                if ($lang_code == "Key" || $lang_code == "key") {
-                    $existing_lang_file_array["Key"][] = $key;
+                if ($lang_code == 'Key' || $lang_code == 'key') {
+                    $existing_lang_file_array['Key'][] = $key;
                 } else {
                     // get values
-                    $value     = $update_lang_file_array[$lang_code][$key_no] ?? "";
+                    $value = $update_lang_file_array[$lang_code][$key_no] ?? '';
 
                     $existing_lang_file_array[$lang_code][] = $value;
                 }
@@ -3622,11 +3779,11 @@ function update_project_localization_data()
 
     // add new language with new translated value
     foreach ($update_lang_file_array as $lang_key => $lang_values) {
-        if (!array_key_exists($lang_key, $existing_lang_file_array)) {
-            $existing_lang_keys = $existing_lang_file_array["Key"];
+        if (! array_key_exists($lang_key, $existing_lang_file_array)) {
+            $existing_lang_keys = $existing_lang_file_array['Key'];
             foreach ($existing_lang_keys as $existing_key) {
                 $update_key_no = array_search($existing_key, $update_lang_file_array['Key'] ?? $update_lang_file_array['key']);
-                $update_key_value = $update_lang_file_array[$lang_key][$update_key_no] ?? "";
+                $update_key_value = $update_lang_file_array[$lang_key][$update_key_no] ?? '';
 
                 $existing_lang_file_array[$lang_key][] = $update_key_value;
             }
@@ -3634,9 +3791,9 @@ function update_project_localization_data()
     }
 
     $excel_file_array = [
-        array_merge(['Key'], $languages->pluck("code")->toArray()),
+        array_merge(['Key'], $languages->pluck('code')->toArray()),
     ];
-    $excel_keys = $existing_lang_file_array["Key"];
+    $excel_keys = $existing_lang_file_array['Key'];
 
     foreach ($excel_keys as $key => $value) {
         $key_mod = (int) $key + count($excel_file_array);
@@ -3649,10 +3806,11 @@ function update_project_localization_data()
     sleep(2);
 
     // update language excel file
-    $update_lang_file_name = "language-" . date("Y-m-d") . "-" . Str::uuid() . ".xlsx";
-    $file_store_path = rtrim(files_path('language-file')->path, "/") . "/" . $update_lang_file_name;
+    $update_lang_file_name = 'language-'.date('Y-m-d').'-'.Str::uuid().'.xlsx';
+    $file_store_path = rtrim(files_path('language-file')->path, '/').'/'.$update_lang_file_name;
 
-    Excel::store(new class(array_values($excel_file_array)) implements FromArray {
+    Excel::store(new class(array_values($excel_file_array)) implements FromArray
+    {
         protected $data;
 
         public function __construct(array $data)
@@ -3671,7 +3829,7 @@ function update_project_localization_data()
     File::delete($existing_lang_file);
 
     // delete update_lang dir
-    File::deleteDirectory(base_path("update_lang"));
+    File::deleteDirectory(base_path('update_lang'));
 
     return true;
 }
@@ -3689,8 +3847,8 @@ function removeLangJson($languageJsonCodes)
         $languageCode = pathinfo($file, PATHINFO_FILENAME);
 
         // Check if the language code exists in the database
-        if (!in_array($languageCode, $existingLanguageCodes)) {
-            $filePath = $directory . DIRECTORY_SEPARATOR . $file;
+        if (! in_array($languageCode, $existingLanguageCodes)) {
+            $filePath = $directory.DIRECTORY_SEPARATOR.$file;
             if (file_exists($filePath)) {
                 unlink($filePath);
             }
@@ -3701,241 +3859,240 @@ function get_flutter_wave_api_data($request_data, $moneyOutData, $callback_url, 
 {
 
     $countries = get_all_countries();
-    $currency =  $moneyOutData->gateway_currency;
+    $currency = $moneyOutData->gateway_currency;
     $country = Collection::make($countries)->first(function ($item) use ($currency) {
-        if ($currency == "GBP") {
-            return $item->currency_code === $currency && $item->name === "United Kingdom";
+        if ($currency == 'GBP') {
+            return $item->currency_code === $currency && $item->name === 'United Kingdom';
         } else {
             return $item->currency_code === $currency;
         }
     });
 
-    if ($country->currency_code == "USD") {
+    if ($country->currency_code == 'USD') {
         $validate_data = [
-            'bank_name'             => 'required',
-            'account_number'        => 'required',
-            'routing_number'        => 'required|numeric',
-            'swift_code'            => 'required|string',
-            'beneficiary_name'      => 'required|string',
-            'beneficiary_address'   => 'required|string',
-            'beneficiary_country'   => 'required|string',
+            'bank_name' => 'required',
+            'account_number' => 'required',
+            'routing_number' => 'required|numeric',
+            'swift_code' => 'required|string',
+            'beneficiary_name' => 'required|string',
+            'beneficiary_address' => 'required|string',
+            'beneficiary_country' => 'required|string',
         ];
         $api_send_data = [
-            "amount"                    => is_array($moneyOutData->charges) ? $moneyOutData->charges['will_get'] : $moneyOutData->charges->will_get ?? 0,
-            "narration"                 => "Withdraw from wallet",
-            "currency"                  => $moneyOutData->gateway_currency,
-            "reference"                 => $reference,
-            "callback_url"              => $callback_url,
-            "beneficiary_name"          => $request_data['beneficiary_name'] ?? "",
-            "meta"                      =>  [
-                (object)[
-                    'account_number'        =>  $request_data['account_number'] ?? null,
-                    'routing_number'        =>  $request_data['routing_number'] ?? null,
-                    'swift_code'            =>  $request_data['swift_code'] ?? null,
-                    'bank_name'             =>  $request_data['bank_name'] ?? null,
-                    'beneficiary_name'      =>  $request_data['beneficiary_name'] ?? null,
-                    'beneficiary_address'   =>  $request_data['beneficiary_address'] ?? null,
-                    'beneficiary_country'   =>  $request_data['beneficiary_country'] ?? null,
-                ]
+            'amount' => is_array($moneyOutData->charges) ? $moneyOutData->charges['will_get'] : $moneyOutData->charges->will_get ?? 0,
+            'narration' => 'Withdraw from wallet',
+            'currency' => $moneyOutData->gateway_currency,
+            'reference' => $reference,
+            'callback_url' => $callback_url,
+            'beneficiary_name' => $request_data['beneficiary_name'] ?? '',
+            'meta' => [
+                (object) [
+                    'account_number' => $request_data['account_number'] ?? null,
+                    'routing_number' => $request_data['routing_number'] ?? null,
+                    'swift_code' => $request_data['swift_code'] ?? null,
+                    'bank_name' => $request_data['bank_name'] ?? null,
+                    'beneficiary_name' => $request_data['beneficiary_name'] ?? null,
+                    'beneficiary_address' => $request_data['beneficiary_address'] ?? null,
+                    'beneficiary_country' => $request_data['beneficiary_country'] ?? null,
+                ],
 
-            ]
+            ],
 
         ];
-    } elseif ($country->currency_code == "EUR" || $country->currency_code == "GBP") {
+    } elseif ($country->currency_code == 'EUR' || $country->currency_code == 'GBP') {
         $validate_data = [
-            'bank_name'             => 'required',
-            'account_number'        => 'required',
-            'routing_number'        => 'required|numeric',
-            'swift_code'            => 'required|string',
-            'beneficiary_name'      => 'required|string',
-            'beneficiary_country'   => 'required|string',
-            'city'                  => 'required|string',
-            'postal_code'           => 'required|string',
-            'street_number'         => 'required|string',
-            'street_name'           => 'required|string',
+            'bank_name' => 'required',
+            'account_number' => 'required',
+            'routing_number' => 'required|numeric',
+            'swift_code' => 'required|string',
+            'beneficiary_name' => 'required|string',
+            'beneficiary_country' => 'required|string',
+            'city' => 'required|string',
+            'postal_code' => 'required|string',
+            'street_number' => 'required|string',
+            'street_name' => 'required|string',
         ];
         $api_send_data = [
-            "amount"                    => is_array($moneyOutData->charges) ? $moneyOutData->charges['will_get'] : $moneyOutData->charges->will_get ?? 0,
-            "narration"                 => "Withdraw from wallet",
-            "currency"                  => $moneyOutData->gateway_currency,
-            "reference"                 => $reference,
-            "callback_url"              => $callback_url,
-            "beneficiary_name"          => $request_data['beneficiary_name'] ?? "",
-            "meta"                      =>  [
-                (object)[
-                    'account_number'        =>  $request_data['account_number'] ?? null,
-                    'routing_number'        =>  $request_data['routing_number'] ?? null,
-                    'swift_code'            =>  $request_data['swift_code'] ?? null,
-                    'bank_name'             =>  $request_data['bank_name'] ?? null,
-                    'beneficiary_name'      =>  $request_data['beneficiary_name'] ?? null,
-                    'beneficiary_country'   =>  $request_data['beneficiary_country'] ?? null,
-                    'postal_code'           =>  $request_data['postal_code'] ?? null,
-                    'street_number'         =>  $request_data['street_number'] ?? null,
-                    'street_name'           =>  $request_data['street_name'] ?? null,
-                    'city'                  =>  $request_data['city'] ?? null,
-                ]
+            'amount' => is_array($moneyOutData->charges) ? $moneyOutData->charges['will_get'] : $moneyOutData->charges->will_get ?? 0,
+            'narration' => 'Withdraw from wallet',
+            'currency' => $moneyOutData->gateway_currency,
+            'reference' => $reference,
+            'callback_url' => $callback_url,
+            'beneficiary_name' => $request_data['beneficiary_name'] ?? '',
+            'meta' => [
+                (object) [
+                    'account_number' => $request_data['account_number'] ?? null,
+                    'routing_number' => $request_data['routing_number'] ?? null,
+                    'swift_code' => $request_data['swift_code'] ?? null,
+                    'bank_name' => $request_data['bank_name'] ?? null,
+                    'beneficiary_name' => $request_data['beneficiary_name'] ?? null,
+                    'beneficiary_country' => $request_data['beneficiary_country'] ?? null,
+                    'postal_code' => $request_data['postal_code'] ?? null,
+                    'street_number' => $request_data['street_number'] ?? null,
+                    'street_name' => $request_data['street_name'] ?? null,
+                    'city' => $request_data['city'] ?? null,
+                ],
 
-            ]
+            ],
 
         ];
-    } elseif ($country->currency_code == "NGN") {
+    } elseif ($country->currency_code == 'NGN') {
         $validate_data = [
-            'bank_name'         => 'required',
-            'account_number'    => 'required'
-        ];
-
-        $api_send_data = [
-            "account_bank"      => $request_data['bank_name'] ?? null,
-            "account_number"    => $request_data['account_number'] ?? null,
-            "amount"            => is_array($moneyOutData->charges) ? $moneyOutData->charges['will_get'] : $moneyOutData->charges->will_get ?? 0,
-            "narration"         => "Withdraw from wallet",
-            "currency"          => $moneyOutData->gateway_currency,
-            "reference"         => $reference,
-            "callback_url"      => $callback_url,
-            "debit_currency"    => $moneyOutData->gateway_currency
-        ];
-    } elseif ($country->currency_code == "GHS" || $country->currency_code == "UGX") {
-        $validate_data = [
-            'bank_name'         => 'required',
-            'account_number'    => 'required',
-            'beneficiary_name'  => 'required',
-            'branch_code'       => 'required',
+            'bank_name' => 'required',
+            'account_number' => 'required',
         ];
 
         $api_send_data = [
-            "account_bank"              => $request_data['bank_name'] ?? null,
-            "account_number"            => $request_data['account_number'] ?? null,
-            "amount"                    => is_array($moneyOutData->charges) ? $moneyOutData->charges['will_get'] : $moneyOutData->charges->will_get ?? 0,
-            "narration"                 => "Withdraw from wallet",
-            "currency"                  => $moneyOutData->gateway_currency,
-            "reference"                 => $reference,
-            "callback_url"              => $callback_url,
-            "destination_branch_code"   => $request_data['branch_code'] ?? null,
-            "beneficiary_name"          => $request_data['beneficiary_name'] ?? null,
+            'account_bank' => $request_data['bank_name'] ?? null,
+            'account_number' => $request_data['account_number'] ?? null,
+            'amount' => is_array($moneyOutData->charges) ? $moneyOutData->charges['will_get'] : $moneyOutData->charges->will_get ?? 0,
+            'narration' => 'Withdraw from wallet',
+            'currency' => $moneyOutData->gateway_currency,
+            'reference' => $reference,
+            'callback_url' => $callback_url,
+            'debit_currency' => $moneyOutData->gateway_currency,
         ];
-    } elseif ($country->currency_code == "MWK" || $country->currency_code == "SLL" || $country->currency_code == "XAF" || $country->currency_code == "XOF") {
+    } elseif ($country->currency_code == 'GHS' || $country->currency_code == 'UGX') {
         $validate_data = [
-            'bank_name'         => 'required',
-            'account_number'    => 'required',
-            'beneficiary_name'  => 'required',
-            'branch_code'       => 'required',
+            'bank_name' => 'required',
+            'account_number' => 'required',
+            'beneficiary_name' => 'required',
+            'branch_code' => 'required',
         ];
 
         $api_send_data = [
-            "account_bank"              => $request_data['bank_name'] ?? null,
-            "account_number"            => $request_data['account_number'] ?? null,
-            "amount"                    => is_array($moneyOutData->charges) ? $moneyOutData->charges['will_get'] : $moneyOutData->charges->will_get ?? 0,
-            "narration"                 => "Withdraw from wallet",
-            "currency"                  => $moneyOutData->gateway_currency,
-            "debit_currency"            => $moneyOutData->gateway_currency,
-            "beneficiary_name"          => $request_data['beneficiary_name'] ?? null,
-            "reference"                 => $reference,
-            "callback_url"              => $callback_url,
-            "destination_branch_code"   => $request_data['branch_code'] ?? null,
+            'account_bank' => $request_data['bank_name'] ?? null,
+            'account_number' => $request_data['account_number'] ?? null,
+            'amount' => is_array($moneyOutData->charges) ? $moneyOutData->charges['will_get'] : $moneyOutData->charges->will_get ?? 0,
+            'narration' => 'Withdraw from wallet',
+            'currency' => $moneyOutData->gateway_currency,
+            'reference' => $reference,
+            'callback_url' => $callback_url,
+            'destination_branch_code' => $request_data['branch_code'] ?? null,
+            'beneficiary_name' => $request_data['beneficiary_name'] ?? null,
         ];
-    } elseif ($country->currency_code == "ZAR") {
+    } elseif ($country->currency_code == 'MWK' || $country->currency_code == 'SLL' || $country->currency_code == 'XAF' || $country->currency_code == 'XOF') {
         $validate_data = [
-            'bank_name'         => 'required|string',
-            'account_number'    => 'required',
-            'first_name'        => 'required|string',
-            'last_name'         => 'required|string',
-            'email'             => 'required|email',
-            'mobile_number'     => 'required',
+            'bank_name' => 'required',
+            'account_number' => 'required',
+            'beneficiary_name' => 'required',
+            'branch_code' => 'required',
+        ];
+
+        $api_send_data = [
+            'account_bank' => $request_data['bank_name'] ?? null,
+            'account_number' => $request_data['account_number'] ?? null,
+            'amount' => is_array($moneyOutData->charges) ? $moneyOutData->charges['will_get'] : $moneyOutData->charges->will_get ?? 0,
+            'narration' => 'Withdraw from wallet',
+            'currency' => $moneyOutData->gateway_currency,
+            'debit_currency' => $moneyOutData->gateway_currency,
+            'beneficiary_name' => $request_data['beneficiary_name'] ?? null,
+            'reference' => $reference,
+            'callback_url' => $callback_url,
+            'destination_branch_code' => $request_data['branch_code'] ?? null,
+        ];
+    } elseif ($country->currency_code == 'ZAR') {
+        $validate_data = [
+            'bank_name' => 'required|string',
+            'account_number' => 'required',
+            'first_name' => 'required|string',
+            'last_name' => 'required|string',
+            'email' => 'required|email',
+            'mobile_number' => 'required',
             'recipient_address' => 'required|string',
         ];
 
         $api_send_data = [
-            "account_bank"              => $request_data['bank_name'] ?? null,
-            "account_number"            => $request_data['account_number'] ?? null,
-            "amount"                    => is_array($moneyOutData->charges) ? $moneyOutData->charges['will_get'] : $moneyOutData->charges->will_get ?? 0,
-            "narration"                 => "Withdraw from wallet",
-            "currency"                  => $moneyOutData->gateway_currency,
-            "reference"                 => $reference,
-            "callback_url"              => $callback_url,
-            "meta"                      =>  (object)[
-                'first_name'        =>  $request_data['first_name'] ?? null,
-                'last_name'         =>  $request_data['last_name'] ?? null,
-                'email'             =>  $request_data['email'] ?? null,
-                'mobile_number'     =>  $request_data['mobile_number'] ?? null,
-                'recipient_address' =>  $request_data['recipient_address'] ?? null,
+            'account_bank' => $request_data['bank_name'] ?? null,
+            'account_number' => $request_data['account_number'] ?? null,
+            'amount' => is_array($moneyOutData->charges) ? $moneyOutData->charges['will_get'] : $moneyOutData->charges->will_get ?? 0,
+            'narration' => 'Withdraw from wallet',
+            'currency' => $moneyOutData->gateway_currency,
+            'reference' => $reference,
+            'callback_url' => $callback_url,
+            'meta' => (object) [
+                'first_name' => $request_data['first_name'] ?? null,
+                'last_name' => $request_data['last_name'] ?? null,
+                'email' => $request_data['email'] ?? null,
+                'mobile_number' => $request_data['mobile_number'] ?? null,
+                'recipient_address' => $request_data['recipient_address'] ?? null,
 
-            ]
+            ],
 
         ];
-    } elseif ($country->currency_code == "TZS") {
+    } elseif ($country->currency_code == 'TZS') {
         $validate_data = [
-            'bank_name'         => 'required|string',
-            'account_number'    => 'required',
-            'beneficiary_name'  => 'required|string',
-            'sender'            => 'required|string',
-            'sender_country'    => 'required|string',
-            'sender_address'     => 'required|string',
+            'bank_name' => 'required|string',
+            'account_number' => 'required',
+            'beneficiary_name' => 'required|string',
+            'sender' => 'required|string',
+            'sender_country' => 'required|string',
+            'sender_address' => 'required|string',
         ];
 
         $api_send_data = [
-            "account_number"            => $request_data['account_number'] ?? null,
-            "account_bank"              => $request_data['bank_name'] ?? null,
-            "amount"                    => is_array($moneyOutData->charges) ? $moneyOutData->charges['will_get'] : $moneyOutData->charges->will_get ?? 0,
-            "narration"                 => "Withdraw from wallet",
-            "currency"                  => $moneyOutData->gateway_currency,
-            "debit_currency"            => $moneyOutData->gateway_currency,
-            "beneficiary_name"          => $request_data['beneficiary_name'] ?? null,
-            "reference"                 => $reference,
-            "callback_url"              => $callback_url,
-            "meta"                      =>  [
-                (object)[
-                    'Sender'            =>  $request_data['sender'] ?? null,
-                    'SenderCountry'     =>  $request_data['sender_country'] ?? null,
-                    'SenderAddress'     =>  $request_data['sender_address'] ?? null
-                ]
+            'account_number' => $request_data['account_number'] ?? null,
+            'account_bank' => $request_data['bank_name'] ?? null,
+            'amount' => is_array($moneyOutData->charges) ? $moneyOutData->charges['will_get'] : $moneyOutData->charges->will_get ?? 0,
+            'narration' => 'Withdraw from wallet',
+            'currency' => $moneyOutData->gateway_currency,
+            'debit_currency' => $moneyOutData->gateway_currency,
+            'beneficiary_name' => $request_data['beneficiary_name'] ?? null,
+            'reference' => $reference,
+            'callback_url' => $callback_url,
+            'meta' => [
+                (object) [
+                    'Sender' => $request_data['sender'] ?? null,
+                    'SenderCountry' => $request_data['sender_country'] ?? null,
+                    'SenderAddress' => $request_data['sender_address'] ?? null,
+                ],
 
-            ]
+            ],
 
         ];
-    } elseif ($country->currency_code == "KES") {
+    } elseif ($country->currency_code == 'KES') {
         $validate_data = [
-            'bank_name'         => 'required|string',
-            'account_number'    => 'required',
-            'beneficiary_name'  => 'required|string',
-            'sender'            => 'required|string',
-            'sender_country'    => 'required|string',
-            'mobile_number'     => 'required',
+            'bank_name' => 'required|string',
+            'account_number' => 'required',
+            'beneficiary_name' => 'required|string',
+            'sender' => 'required|string',
+            'sender_country' => 'required|string',
+            'mobile_number' => 'required',
         ];
 
         $api_send_data = [
-            "account_bank"              => $request_data['bank_name'] ?? null,
-            "account_number"            => $request_data['account_number'] ?? null,
-            "amount"                    => is_array($moneyOutData->charges) ? $moneyOutData->charges['will_get'] : $moneyOutData->charges->will_get ?? 0,
-            "narration"                 => "Withdraw from wallet",
-            "currency"                  => $moneyOutData->gateway_currency,
-            "beneficiary_name"          => $request_data['beneficiary_name'] ?? null,
-            "reference"                 => $reference,
-            "callback_url"              => $callback_url,
-            "meta"                      =>  (object)[
-                'sender'            =>  $request_data['sender'] ?? null,
-                'sender_country'    =>  $request_data['sender_country'] ?? null,
-                'mobile_number'     =>  $request_data['mobile_number'] ?? null
-            ]
-
-
+            'account_bank' => $request_data['bank_name'] ?? null,
+            'account_number' => $request_data['account_number'] ?? null,
+            'amount' => is_array($moneyOutData->charges) ? $moneyOutData->charges['will_get'] : $moneyOutData->charges->will_get ?? 0,
+            'narration' => 'Withdraw from wallet',
+            'currency' => $moneyOutData->gateway_currency,
+            'beneficiary_name' => $request_data['beneficiary_name'] ?? null,
+            'reference' => $reference,
+            'callback_url' => $callback_url,
+            'meta' => (object) [
+                'sender' => $request_data['sender'] ?? null,
+                'sender_country' => $request_data['sender_country'] ?? null,
+                'mobile_number' => $request_data['mobile_number'] ?? null,
+            ],
 
         ];
     }
     $data = [
-        'validate_data' =>  $validate_data  ?? [],
-        'api_send_data' =>  $api_send_data  ?? [],
+        'validate_data' => $validate_data ?? [],
+        'api_send_data' => $api_send_data ?? [],
     ];
+
     return $data;
 }
 function get_flutter_wave_dynamic_fields($moneyOutData)
 {
     $moneyOutData = (object) $moneyOutData;
     $countries = get_all_countries();
-    $currency =  $moneyOutData->gateway_currency;
+    $currency = $moneyOutData->gateway_currency;
 
     $country = Collection::make($countries)->first(function ($item) use ($currency) {
-        if ($currency == "GBP") {
-            return $item->currency_code === $currency && $item->name === "United Kingdom";
+        if ($currency == 'GBP') {
+            return $item->currency_code === $currency && $item->name === 'United Kingdom';
         } else {
             return $item->currency_code === $currency;
         }
@@ -3946,415 +4103,413 @@ function get_flutter_wave_dynamic_fields($moneyOutData)
     $allBanks = array_values($allBanks) ?? [];
     $input_fields = [];
 
-    if ($country->currency_code == "NGN") {
+    if ($country->currency_code == 'NGN') {
         $input_fields = [
-            (object)[
-                'type'          => 'select',
-                'name'          => 'bank_name',
-                'label'         => __('select Bank'),
-                'required'      => true,
-                'place_holder'  => __("select Bank"),
-                'options'       => $allBanks,
+            (object) [
+                'type' => 'select',
+                'name' => 'bank_name',
+                'label' => __('select Bank'),
+                'required' => true,
+                'place_holder' => __('select Bank'),
+                'options' => $allBanks,
 
             ],
-            (object)[
-                'type'          => 'text',
-                'name'          => 'account_number',
-                'label'         => __("account Number"),
-                'required'      => true,
-                'place_holder'  => __("enter Account Number"),
-                'options'       => [],
-
-            ]
-
-        ];
-    } elseif ($country->currency_code == "USD") {
-        $input_fields = [
-            (object)[
-                'type'          => 'select',
-                'name'          => 'bank_name',
-                'label'         => __('select Bank'),
-                'required'      => true,
-                'place_holder'  => __("select Bank"),
-                'options'       => $allBanks,
-
-            ],
-            (object)[
-                'type'          => 'text',
-                'name'          => 'account_number',
-                'label'         => __("account Number"),
-                'required'      => true,
-                'place_holder'  => __("enter Account Number"),
-                'options'       => [],
-
-            ],
-            (object)[
-                'type'          => 'number',
-                'name'          => 'routing_number',
-                'label'         => __("Routing Number"),
-                'required'      => true,
-                'place_holder'  => __("Enter Routing Number"),
-                'options'       => [],
-
-            ],
-            (object)[
-                'type'          => 'text',
-                'name'          => 'swift_code',
-                'label'         => __("Swift Code"),
-                'required'      => true,
-                'place_holder'  => __("Enter Swift Code"),
-                'options'       => [],
-
-            ],
-            (object)[
-                'type'          => 'text',
-                'name'          => 'beneficiary_name',
-                'label'         => __("Beneficiary Name"),
-                'required'      => true,
-                'place_holder'  => __("Beneficiary Name"),
-                'options'       => [],
-
-            ],
-            (object)[
-                'type'          => 'select',
-                'name'          => 'beneficiary_country',
-                'label'         => __("Beneficiary Country"),
-                'required'      => true,
-                'place_holder'  => __("Select Beneficiary Country"),
-                'options'       => $countries,
-
-            ],
-            (object)[
-                'type'          => 'text',
-                'name'          => 'beneficiary_address',
-                'label'         => __("Beneficiary Address"),
-                'place_holder'  => __("Enter Beneficiary Address"),
-                'required'      => true,
-                'options'       => [],
-
-            ]
-
-        ];
-    } elseif ($country->currency_code == "EUR" || $country->currency_code == "GBP") {
-        $input_fields = [
-            (object)[
-                'type'          => 'select',
-                'name'          => 'bank_name',
-                'label'         => __('select Bank'),
-                'required'      => true,
-                'place_holder'  => __("select Bank"),
-                'options'       => $allBanks,
-
-            ],
-            (object)[
-                'type'          => 'text',
-                'name'          => 'account_number',
-                'label'         => __("account Number"),
-                'required'      => true,
-                'place_holder'  => __("enter Account Number"),
-                'options'       => [],
-
-            ],
-            (object)[
-                'type'          => 'number',
-                'name'          => 'routing_number',
-                'label'         => __("Routing Number"),
-                'required'      => true,
-                'place_holder'  => __("Enter Routing Number"),
-                'options'       => [],
-
-            ],
-            (object)[
-                'type'          => 'text',
-                'name'          => 'swift_code',
-                'label'         => __("Swift Code"),
-                'required'      => true,
-                'place_holder'  => __("Enter Swift Code"),
-                'options'       => [],
-
-            ],
-            (object)[
-                'type'          => 'text',
-                'name'          => 'beneficiary_name',
-                'label'         => __("Beneficiary Name"),
-                'required'      => true,
-                'place_holder'  => __("Beneficiary Name"),
-                'options'       => [],
-
-            ],
-            (object)[
-                'type'          => 'select',
-                'name'          => 'beneficiary_country',
-                'label'         => __("Beneficiary Country"),
-                'required'      => true,
-                'place_holder'  => __("Select Beneficiary Country"),
-                'options'       => $countries,
-
-            ],
-            (object)[
-                'type'          => 'text',
-                'name'          => 'city',
-                'label'         => __("city"),
-                'required'      => true,
-                'place_holder'  => __("enter City"),
-                'options'       => [],
-
-            ],
-            (object)[
-                'type'          => 'text',
-                'name'          => 'postal_code',
-                'label'         => __("Postal Code"),
-                'required'      => true,
-                'place_holder'  => __("Enter Postal Code"),
-                'options'       => [],
-
-            ],
-            (object)[
-                'type'          => 'text',
-                'name'          => 'street_number',
-                'label'         => __("Street Number"),
-                'required'      => true,
-                'place_holder'  => __("Enter Street Number"),
-                'options'       => [],
-
-            ],
-            (object)[
-                'type'          => 'text',
-                'name'          => 'street_name',
-                'label'         => __("Street Name"),
-                'required'      => true,
-                'place_holder'  => __("Enter Street Name"),
-                'options'       => [],
+            (object) [
+                'type' => 'text',
+                'name' => 'account_number',
+                'label' => __('account Number'),
+                'required' => true,
+                'place_holder' => __('enter Account Number'),
+                'options' => [],
 
             ],
 
         ];
-    } elseif ($country->currency_code == "GHS" || $country->currency_code == "UGX" || $country->currency_code == "MWK" || $country->currency_code == "SLL" || $country->currency_code == "XAF" || $country->currency_code == "XOF") {
+    } elseif ($country->currency_code == 'USD') {
         $input_fields = [
-            (object)[
-                'type'          => 'select',
-                'name'          => 'bank_name',
-                'label'         => __('select Bank'),
-                'required'      => true,
-                'place_holder'  => __("select Bank"),
-                'options'       => $allBanks,
+            (object) [
+                'type' => 'select',
+                'name' => 'bank_name',
+                'label' => __('select Bank'),
+                'required' => true,
+                'place_holder' => __('select Bank'),
+                'options' => $allBanks,
 
             ],
-            (object)[
-                'type'          => 'select',
-                'name'          => 'branch_code',
-                'label'         => __("Bank Branch"),
-                'required'      => true,
-                'place_holder'  => __("Select Bank Branch"),
-                'options'       => [],
+            (object) [
+                'type' => 'text',
+                'name' => 'account_number',
+                'label' => __('account Number'),
+                'required' => true,
+                'place_holder' => __('enter Account Number'),
+                'options' => [],
 
             ],
-            (object)[
-                'type'          => 'text',
-                'name'          => 'account_number',
-                'label'         => __("account Number"),
-                'required'      => true,
-                'place_holder'  => __("enter Account Number"),
-                'options'       => [],
+            (object) [
+                'type' => 'number',
+                'name' => 'routing_number',
+                'label' => __('Routing Number'),
+                'required' => true,
+                'place_holder' => __('Enter Routing Number'),
+                'options' => [],
 
             ],
-            (object)[
-                'type'          => 'text',
-                'name'          => 'beneficiary_name',
-                'label'         => __("Beneficiary Name"),
-                'required'      => true,
-                'place_holder'  => __("Beneficiary Name"),
-                'options'       => [],
+            (object) [
+                'type' => 'text',
+                'name' => 'swift_code',
+                'label' => __('Swift Code'),
+                'required' => true,
+                'place_holder' => __('Enter Swift Code'),
+                'options' => [],
 
-            ]
+            ],
+            (object) [
+                'type' => 'text',
+                'name' => 'beneficiary_name',
+                'label' => __('Beneficiary Name'),
+                'required' => true,
+                'place_holder' => __('Beneficiary Name'),
+                'options' => [],
 
+            ],
+            (object) [
+                'type' => 'select',
+                'name' => 'beneficiary_country',
+                'label' => __('Beneficiary Country'),
+                'required' => true,
+                'place_holder' => __('Select Beneficiary Country'),
+                'options' => $countries,
+
+            ],
+            (object) [
+                'type' => 'text',
+                'name' => 'beneficiary_address',
+                'label' => __('Beneficiary Address'),
+                'place_holder' => __('Enter Beneficiary Address'),
+                'required' => true,
+                'options' => [],
+
+            ],
 
         ];
-    } elseif ($country->currency_code == "ZAR") {
+    } elseif ($country->currency_code == 'EUR' || $country->currency_code == 'GBP') {
         $input_fields = [
-            (object)[
-                'type'          => 'select',
-                'name'          => 'bank_name',
-                'label'         => __('select Bank'),
-                'required'      => true,
-                'place_holder'  => __("select Bank"),
-                'options'       => $allBanks,
+            (object) [
+                'type' => 'select',
+                'name' => 'bank_name',
+                'label' => __('select Bank'),
+                'required' => true,
+                'place_holder' => __('select Bank'),
+                'options' => $allBanks,
 
             ],
-
-            (object)[
-                'type'          => 'text',
-                'name'          => 'account_number',
-                'label'         => __("account Number"),
-                'required'      => true,
-                'place_holder'  => __("enter Account Number"),
-                'options'       => [],
-
-            ],
-            (object)[
-                'type'          => 'text',
-                'name'          => 'first_name',
-                'label'         => __("first Name"),
-                'required'      => true,
-                'place_holder'  => __("enter First Name"),
-                'options'       => [],
+            (object) [
+                'type' => 'text',
+                'name' => 'account_number',
+                'label' => __('account Number'),
+                'required' => true,
+                'place_holder' => __('enter Account Number'),
+                'options' => [],
 
             ],
-            (object)[
-                'type'          => 'text',
-                'name'          => 'last_name',
-                'label'         => __("last Name"),
-                'required'      => true,
-                'place_holder'  => __("enter Last Name"),
-                'options'       => [],
+            (object) [
+                'type' => 'number',
+                'name' => 'routing_number',
+                'label' => __('Routing Number'),
+                'required' => true,
+                'place_holder' => __('Enter Routing Number'),
+                'options' => [],
 
             ],
-            (object)[
-                'type'          => 'email',
-                'name'          => 'email',
-                'label'         => __("Email"),
-                'required'      => true,
-                'place_holder'  => __("enter Email Address"),
-                'options'       => [],
+            (object) [
+                'type' => 'text',
+                'name' => 'swift_code',
+                'label' => __('Swift Code'),
+                'required' => true,
+                'place_holder' => __('Enter Swift Code'),
+                'options' => [],
 
             ],
-            (object)[
-                'type'          => 'number',
-                'name'          => 'mobile_number',
-                'label'         => __("Mobile Number"),
-                'required'      => true,
-                'place_holder'  => __("enter Mobile Number"),
-                'options'       => [],
+            (object) [
+                'type' => 'text',
+                'name' => 'beneficiary_name',
+                'label' => __('Beneficiary Name'),
+                'required' => true,
+                'place_holder' => __('Beneficiary Name'),
+                'options' => [],
 
             ],
-            (object)[
-                'type'          => 'text',
-                'name'          => 'recipient_address',
-                'label'         => __("Recipient Address"),
-                'required'      => true,
-                'place_holder'  => __("Enter Recipient Address"),
-                'options'       => [],
+            (object) [
+                'type' => 'select',
+                'name' => 'beneficiary_country',
+                'label' => __('Beneficiary Country'),
+                'required' => true,
+                'place_holder' => __('Select Beneficiary Country'),
+                'options' => $countries,
 
             ],
+            (object) [
+                'type' => 'text',
+                'name' => 'city',
+                'label' => __('city'),
+                'required' => true,
+                'place_holder' => __('enter City'),
+                'options' => [],
 
+            ],
+            (object) [
+                'type' => 'text',
+                'name' => 'postal_code',
+                'label' => __('Postal Code'),
+                'required' => true,
+                'place_holder' => __('Enter Postal Code'),
+                'options' => [],
+
+            ],
+            (object) [
+                'type' => 'text',
+                'name' => 'street_number',
+                'label' => __('Street Number'),
+                'required' => true,
+                'place_holder' => __('Enter Street Number'),
+                'options' => [],
+
+            ],
+            (object) [
+                'type' => 'text',
+                'name' => 'street_name',
+                'label' => __('Street Name'),
+                'required' => true,
+                'place_holder' => __('Enter Street Name'),
+                'options' => [],
+
+            ],
 
         ];
-    } elseif ($country->currency_code == "TZS") {
+    } elseif ($country->currency_code == 'GHS' || $country->currency_code == 'UGX' || $country->currency_code == 'MWK' || $country->currency_code == 'SLL' || $country->currency_code == 'XAF' || $country->currency_code == 'XOF') {
         $input_fields = [
-            (object)[
-                'type'          => 'select',
-                'name'          => 'bank_name',
-                'label'         => __('select Bank'),
-                'required'      => true,
-                'place_holder'  => __("select Bank"),
-                'options'       => $allBanks,
+            (object) [
+                'type' => 'select',
+                'name' => 'bank_name',
+                'label' => __('select Bank'),
+                'required' => true,
+                'place_holder' => __('select Bank'),
+                'options' => $allBanks,
 
             ],
-
-            (object)[
-                'type'          => 'text',
-                'name'          => 'account_number',
-                'label'         => __("account Number"),
-                'required'      => true,
-                'place_holder'  => __("enter Account Number"),
-                'options'       => [],
-
-            ],
-            (object)[
-                'type'          => 'text',
-                'name'          => 'beneficiary_name',
-                'label'         => __("Beneficiary Name"),
-                'required'      => true,
-                'place_holder'  => __("Beneficiary Name"),
-                'options'       => [],
+            (object) [
+                'type' => 'select',
+                'name' => 'branch_code',
+                'label' => __('Bank Branch'),
+                'required' => true,
+                'place_holder' => __('Select Bank Branch'),
+                'options' => [],
 
             ],
-            (object)[
-                'type'          => 'text',
-                'name'          => 'sender',
-                'label'         => __("sender"),
-                'required'      => true,
-                'place_holder'  => __("Enter Sender Name"),
-                'options'       => [],
+            (object) [
+                'type' => 'text',
+                'name' => 'account_number',
+                'label' => __('account Number'),
+                'required' => true,
+                'place_holder' => __('enter Account Number'),
+                'options' => [],
 
             ],
-            (object)[
-                'type'          => 'select',
-                'name'          => 'sender_country',
-                'label'         => __("Sender Country"),
-                'required'      => true,
-                'place_holder'  => __("Select Sender Country"),
-                'options'       => $countries,
+            (object) [
+                'type' => 'text',
+                'name' => 'beneficiary_name',
+                'label' => __('Beneficiary Name'),
+                'required' => true,
+                'place_holder' => __('Beneficiary Name'),
+                'options' => [],
 
             ],
-            (object)[
-                'type'          => 'text',
-                'name'          => 'sender_address',
-                'label'         => __("Sender Address"),
-                'required'      => true,
-                'place_holder'  => __("Enter Sender Address"),
-                'options'       => [],
-
-            ]
 
         ];
-    } elseif ($country->currency_code == "KES") {
+    } elseif ($country->currency_code == 'ZAR') {
         $input_fields = [
-            (object)[
-                'type'          => 'select',
-                'name'          => 'bank_name',
-                'label'         => __('select Bank'),
-                'required'      => true,
-                'place_holder'  => __("select Bank"),
-                'options'       => $allBanks,
+            (object) [
+                'type' => 'select',
+                'name' => 'bank_name',
+                'label' => __('select Bank'),
+                'required' => true,
+                'place_holder' => __('select Bank'),
+                'options' => $allBanks,
 
             ],
 
-            (object)[
-                'type'          => 'text',
-                'name'          => 'account_number',
-                'label'         => __("account Number"),
-                'required'      => true,
-                'place_holder'  => __("enter Account Number"),
-                'options'       => [],
+            (object) [
+                'type' => 'text',
+                'name' => 'account_number',
+                'label' => __('account Number'),
+                'required' => true,
+                'place_holder' => __('enter Account Number'),
+                'options' => [],
 
             ],
-            (object)[
-                'type'          => 'text',
-                'name'          => 'beneficiary_name',
-                'label'         => __("Beneficiary Name"),
-                'required'      => true,
-                'place_holder'  => __("Beneficiary Name"),
-                'options'       => [],
+            (object) [
+                'type' => 'text',
+                'name' => 'first_name',
+                'label' => __('first Name'),
+                'required' => true,
+                'place_holder' => __('enter First Name'),
+                'options' => [],
 
             ],
-            (object)[
-                'type'          => 'text',
-                'name'          => 'sender',
-                'label'         => __("sender"),
-                'required'      => true,
-                'place_holder'  => __("Enter Sender Name"),
-                'options'       => [],
+            (object) [
+                'type' => 'text',
+                'name' => 'last_name',
+                'label' => __('last Name'),
+                'required' => true,
+                'place_holder' => __('enter Last Name'),
+                'options' => [],
 
             ],
-            (object)[
-                'type'          => 'select',
-                'name'          => 'sender_country',
-                'label'         => __("Sender Country"),
-                'required'      => true,
-                'place_holder'  => __("Select Sender Country"),
-                'options'       => $countries,
+            (object) [
+                'type' => 'email',
+                'name' => 'email',
+                'label' => __('Email'),
+                'required' => true,
+                'place_holder' => __('enter Email Address'),
+                'options' => [],
 
             ],
-            (object)[
-                'type'          => 'number',
-                'name'          => 'mobile_number',
-                'label'         => __("Mobile Number"),
-                'required'      => true,
-                'place_holder'  => __("enter Mobile Number"),
-                'options'       => [],
+            (object) [
+                'type' => 'number',
+                'name' => 'mobile_number',
+                'label' => __('Mobile Number'),
+                'required' => true,
+                'place_holder' => __('enter Mobile Number'),
+                'options' => [],
 
-            ]
+            ],
+            (object) [
+                'type' => 'text',
+                'name' => 'recipient_address',
+                'label' => __('Recipient Address'),
+                'required' => true,
+                'place_holder' => __('Enter Recipient Address'),
+                'options' => [],
+
+            ],
+
+        ];
+    } elseif ($country->currency_code == 'TZS') {
+        $input_fields = [
+            (object) [
+                'type' => 'select',
+                'name' => 'bank_name',
+                'label' => __('select Bank'),
+                'required' => true,
+                'place_holder' => __('select Bank'),
+                'options' => $allBanks,
+
+            ],
+
+            (object) [
+                'type' => 'text',
+                'name' => 'account_number',
+                'label' => __('account Number'),
+                'required' => true,
+                'place_holder' => __('enter Account Number'),
+                'options' => [],
+
+            ],
+            (object) [
+                'type' => 'text',
+                'name' => 'beneficiary_name',
+                'label' => __('Beneficiary Name'),
+                'required' => true,
+                'place_holder' => __('Beneficiary Name'),
+                'options' => [],
+
+            ],
+            (object) [
+                'type' => 'text',
+                'name' => 'sender',
+                'label' => __('sender'),
+                'required' => true,
+                'place_holder' => __('Enter Sender Name'),
+                'options' => [],
+
+            ],
+            (object) [
+                'type' => 'select',
+                'name' => 'sender_country',
+                'label' => __('Sender Country'),
+                'required' => true,
+                'place_holder' => __('Select Sender Country'),
+                'options' => $countries,
+
+            ],
+            (object) [
+                'type' => 'text',
+                'name' => 'sender_address',
+                'label' => __('Sender Address'),
+                'required' => true,
+                'place_holder' => __('Enter Sender Address'),
+                'options' => [],
+
+            ],
+
+        ];
+    } elseif ($country->currency_code == 'KES') {
+        $input_fields = [
+            (object) [
+                'type' => 'select',
+                'name' => 'bank_name',
+                'label' => __('select Bank'),
+                'required' => true,
+                'place_holder' => __('select Bank'),
+                'options' => $allBanks,
+
+            ],
+
+            (object) [
+                'type' => 'text',
+                'name' => 'account_number',
+                'label' => __('account Number'),
+                'required' => true,
+                'place_holder' => __('enter Account Number'),
+                'options' => [],
+
+            ],
+            (object) [
+                'type' => 'text',
+                'name' => 'beneficiary_name',
+                'label' => __('Beneficiary Name'),
+                'required' => true,
+                'place_holder' => __('Beneficiary Name'),
+                'options' => [],
+
+            ],
+            (object) [
+                'type' => 'text',
+                'name' => 'sender',
+                'label' => __('sender'),
+                'required' => true,
+                'place_holder' => __('Enter Sender Name'),
+                'options' => [],
+
+            ],
+            (object) [
+                'type' => 'select',
+                'name' => 'sender_country',
+                'label' => __('Sender Country'),
+                'required' => true,
+                'place_holder' => __('Select Sender Country'),
+                'options' => $countries,
+
+            ],
+            (object) [
+                'type' => 'number',
+                'name' => 'mobile_number',
+                'label' => __('Mobile Number'),
+                'required' => true,
+                'place_holder' => __('enter Mobile Number'),
+                'options' => [],
+
+            ],
 
         ];
     }
@@ -4362,14 +4517,12 @@ function get_flutter_wave_dynamic_fields($moneyOutData)
     return $input_fields ?? [];
 }
 
-
-
 function feesAndChargeCalculation($intervals, $rate, $sender_cur_rate = null)
 {
 
     foreach ($intervals as $key => $value) {
         if ($value->min_limit <= $rate && $value->max_limit >= $rate) {
-            $fixed_charge_calc   = $value->charge * $sender_cur_rate;
+            $fixed_charge_calc = $value->charge * $sender_cur_rate;
             $percent_charge_calc = ($rate * $value->percent) / 100;
             $subtotal_charge = $fixed_charge_calc + $percent_charge_calc;
             $total_charge = $subtotal_charge * $sender_cur_rate;
@@ -4377,7 +4530,7 @@ function feesAndChargeCalculation($intervals, $rate, $sender_cur_rate = null)
     }
 
     $data = [
-        'fixed_charge' =>  (float) $fixed_charge_calc,
+        'fixed_charge' => (float) $fixed_charge_calc,
         'percent_charge' => (float) $percent_charge_calc,
         'total_charge' => (float) $subtotal_charge,
     ];
@@ -4387,40 +4540,45 @@ function feesAndChargeCalculation($intervals, $rate, $sender_cur_rate = null)
 
 function getDynamicAmount($amount, $currency = null)
 {
-    if (!is_numeric($amount)) return "Not Number";
+    if (! is_numeric($amount)) {
+        return 'Not Number';
+    }
 
-    $amount = doubleval($amount);
+    $amount = floatval($amount);
 
     if (strpos($amount, '.') !== false) {
         $amount = rtrim(rtrim($amount, '0'), '.');
         $explode = explode('.', $amount);
         if (strlen($explode[1]) == 1) {
-            $amount = number_format($amount, 2, ".", "");
+            $amount = number_format($amount, 2, '.', '');
         }
     } else {
-        $amount = $amount . '.00';
+        $amount = $amount.'.00';
     }
 
-    if (!$currency) return $amount;
-    $amount = $amount . " " . $currency;
+    if (! $currency) {
+        return $amount;
+    }
+    $amount = $amount.' '.$currency;
+
     return $amount;
 }
 function pin_verification($user, $pin)
 {
     if ($user->pin_status == true && $user->pin_code == $pin) {
         $data = [
-            'status'    => true,
-            'message'   => __("PIN matched successfully."),
+            'status' => true,
+            'message' => __('PIN matched successfully.'),
         ];
     } else {
         $data = [
-            'status'    => false,
-            'message'   => __("The entered PIN does not match."),
+            'status' => false,
+            'message' => __('The entered PIN does not match.'),
         ];
     }
+
     return $data ?? [];
 }
-
 
 function get_system_role_permissions()
 {
@@ -4437,6 +4595,7 @@ function userWalletOnBaseCurrency($wallets)
         // $result = $requestAmount / $exchange_rate;
         $totalAmount += $wallets->profit_amount;
     }
+
     return $totalAmount ?? 0;
 }
 function totalInvestOnBaseCurrency($invests)
@@ -4448,6 +4607,7 @@ function totalInvestOnBaseCurrency($invests)
         // $result = $requestAmount / $exchange_rate;
         $totalAmount += $result;
     }
+
     return $totalAmount ?? 0;
 }
 function saveImageAndGetUrl($file, $slug = 'card-kyc-images')
@@ -4460,14 +4620,13 @@ function saveImageAndGetUrl($file, $slug = 'card-kyc-images')
     ];
 }
 
-
 function cardyFieCardMode($api_mode)
 {
     $card_mode = GlobalConst::SANDBOX;
     if (isset($api_mode)) {
         if ($api_mode == GlobalConst::SANDBOX) {
             $card_mode = GlobalConst::SANDBOX;
-        } else if ($api_mode == GlobalConst::LIVE) {
+        } elseif ($api_mode == GlobalConst::LIVE) {
             $card_mode = activeCardSystem() == 'cardyfie' ? GlobalConst::ENV_PRODUCTION : GlobalConst::LIVE;
         } else {
             $card_mode = GlobalConst::SANDBOX;

@@ -15,21 +15,21 @@ class MerchantWalletSeeder extends Seeder
      */
     public function run()
     {
-        $currencies_ids = Currency::roleHasOne()->active()->get()->pluck("id")->toArray();
+        $currencies_ids = Currency::roleHasOne()->active()->get()->pluck('id')->toArray();
 
         $merchant_ids = [1];
 
-        foreach($merchant_ids as $merchant_id) {
-            foreach($currencies_ids as $currency_id) {
+        foreach ($merchant_ids as $merchant_id) {
+            foreach ($currencies_ids as $currency_id) {
                 $data[] = [
-                    'merchant_id'   => $merchant_id,
-                    'currency_id'   => $currency_id,
-                    'balance'       => 1000,
-                    'status'        => true,
+                    'merchant_id' => $merchant_id,
+                    'currency_id' => $currency_id,
+                    'balance' => 1000,
+                    'status' => true,
                 ];
             }
         }
 
-        MerchantWallet::upsert($data,['merchant_id','currency_id'],['balance']);
+        MerchantWallet::upsert($data, ['merchant_id', 'currency_id'], ['balance']);
     }
 }

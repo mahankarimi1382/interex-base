@@ -3,16 +3,16 @@
 namespace App\Notifications\User\Trade;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Support\Carbon;
-use Illuminate\Notifications\Notification;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Notification;
+use Illuminate\Support\Carbon;
 
 class TradeMail extends Notification
 {
     use Queueable;
 
     public $user;
+
     public $data;
 
     // public $trx_id;
@@ -44,7 +44,7 @@ class TradeMail extends Notification
      * Get the mail representation of the notification.
      *
      * @param  mixed  $notifiable
-     * @return \Illuminate\Notifications\Messages\MailMessage
+     * @return MailMessage
      */
     public function toMail($notifiable)
     {
@@ -56,19 +56,20 @@ class TradeMail extends Notification
 
         $date = Carbon::now();
         $datetime = dateFormat('Y-m-d h:i:s A', $date);
+
         return (new MailMessage)
 
-            ->greeting(__("Hello")." ".$user->fullname." !")
+            ->greeting(__('Hello').' '.$user->fullname.' !')
             ->subject($data->title)
             ->line($data->title)
-            ->line(__("web_trx_id").": " .$trx_id)
-            ->line(__("request Amount").": " .$data->request_amount)
-            ->line(__("Fees & Charges").": " .$data->charges)
-            ->line(__("Total Payable Amount").": " .$data->payable)
-            ->line(__("Exchange Rate").": " .$data->exchange_rate)
-            ->line(__("Recipient Received").": " .$data->received_amount)
-            ->line(__("Status").": " .$data->status)
-            ->line(__("Date And Time").": " .$datetime)
+            ->line(__('web_trx_id').': '.$trx_id)
+            ->line(__('request Amount').': '.$data->request_amount)
+            ->line(__('Fees & Charges').': '.$data->charges)
+            ->line(__('Total Payable Amount').': '.$data->payable)
+            ->line(__('Exchange Rate').': '.$data->exchange_rate)
+            ->line(__('Recipient Received').': '.$data->received_amount)
+            ->line(__('Status').': '.$data->status)
+            ->line(__('Date And Time').': '.$datetime)
             ->line(__('Thank you for using our application!'));
     }
 

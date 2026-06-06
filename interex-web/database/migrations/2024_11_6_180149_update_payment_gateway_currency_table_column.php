@@ -14,8 +14,8 @@ return new class extends Migration
     public function up()
     {
         Schema::table('payment_gateway_currencies', function (Blueprint $table) {
-            $table->decimal('daily_limit',28,8,true)->default(10000);
-            $table->decimal('monthly_limit',28,8,true)->default(50000);
+            $table->decimal('daily_limit', 28, 8, true)->default(10000);
+            $table->decimal('monthly_limit', 28, 8, true)->default(50000);
         });
     }
 

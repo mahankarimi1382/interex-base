@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('basic_settings',function(Blueprint $table){
+        Schema::table('basic_settings', function (Blueprint $table) {
             $table->string('admin_prefix')->nullable()->after('timezone');
         });
     }
@@ -21,7 +21,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('basic_settings',function(Blueprint $table){
+        Schema::table('basic_settings', function (Blueprint $table) {
             $table->dropColumn('admin_prefix');
         });
     }

@@ -8,28 +8,35 @@ use Illuminate\Database\Eloquent\Model;
 class TopupCategory extends Model
 {
     use HasFactory;
-    protected $table = "topup_categories";
+
+    protected $table = 'topup_categories';
+
     protected $guarded = ['id'];
-     protected $casts = [
+
+    protected $casts = [
         'admin_id' => 'integer',
         'name' => 'string',
         'slug' => 'string',
         'status' => 'integer',
     ];
+
     protected $appends = [
         'editData',
     ];
-    public function getEditDataAttribute() {
+
+    public function getEditDataAttribute()
+    {
 
         $data = [
-            'id'      => $this->id,
-            'name'      => $this->name,
-            'slug'      => $this->slug,
-            'status'      => $this->status,
+            'id' => $this->id,
+            'name' => $this->name,
+            'slug' => $this->slug,
+            'status' => $this->status,
         ];
 
         return json_encode($data);
     }
+
     public function scopeActive($query)
     {
         return $query->where('status', true);
@@ -40,7 +47,8 @@ class TopupCategory extends Model
         return $query->where('status', false);
     }
 
-    public function scopeSearch($query,$text) {
-        $query->Where("name","like","%".$text."%");
+    public function scopeSearch($query, $text)
+    {
+        $query->Where('name', 'like', '%'.$text.'%');
     }
 }

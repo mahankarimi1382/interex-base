@@ -11,24 +11,27 @@ class Language extends Model
 
     protected $guarded = ['id'];
 
-    public function scopeDefault($query) {
-        return $query->where("status",true);
+    public function scopeDefault($query)
+    {
+        return $query->where('status', true);
     }
 
-    public function getEditDataAttribute() {
+    public function getEditDataAttribute()
+    {
         $data = [];
 
         $data = [
-            'id'        => $this->id,
-            'name'      => $this->name,
-            'code'      => $this->code,
-            'dir'       => $this->dir,
+            'id' => $this->id,
+            'name' => $this->name,
+            'code' => $this->code,
+            'dir' => $this->dir,
         ];
 
         return json_encode($data);
     }
+
     protected $casts = [
-        'id'        => 'integer',
+        'id' => 'integer',
         'name' => 'string',
         'code' => 'string',
         'dir' => 'string',

@@ -15,13 +15,13 @@ return new class extends Migration
     {
         Schema::create('agent_mail_logs', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger("agent_id");
-            $table->string("method")->nullable();
-            $table->string("subject",255);
-            $table->text("message",3000);
+            $table->unsignedBigInteger('agent_id');
+            $table->string('method')->nullable();
+            $table->string('subject', 255);
+            $table->text('message', 3000);
             $table->timestamps();
 
-            $table->foreign("agent_id")->references("id")->on("agents")->onDelete("cascade")->onUpdate("cascade");
+            $table->foreign('agent_id')->references('id')->on('agents')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 

@@ -42,7 +42,7 @@ if (! function_exists('to_carbon')) {
 
         try {
             return Carbon::parse($date);
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             $timestamp = is_numeric($date) ? (int) $date : strtotime((string) $date);
 
             return $timestamp ? Carbon::createFromTimestamp($timestamp) : null;
@@ -119,7 +119,7 @@ if (! function_exists('to_gregorian')) {
                 return Verta::createJalali((int) $m[1], (int) $m[2], (int) $m[3], 0, 0, 0)
                     ->datetime()
                     ->format($format);
-            } catch (\Throwable $e) {
+            } catch (Throwable $e) {
                 return $normalized;
             }
         }

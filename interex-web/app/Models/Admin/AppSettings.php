@@ -8,7 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class AppSettings extends Model
 {
     use HasFactory;
+
     protected $guarded = ['id'];
+
     protected $casts = [
         'version' => 'string',
         'agent_version' => 'string',
@@ -20,5 +22,4 @@ class AppSettings extends Model
         'android_url' => 'string',
         'iso_url' => 'string',
     ];
-
 }

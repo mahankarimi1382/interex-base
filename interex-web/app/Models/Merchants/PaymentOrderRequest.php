@@ -10,17 +10,19 @@ class PaymentOrderRequest extends Model
 {
     use HasFactory;
 
-    protected $guarded = ['id','trx_id','token','access_token'];
+    protected $guarded = ['id', 'trx_id', 'token', 'access_token'];
 
     protected $casts = [
-        'data'  => 'object',
+        'data' => 'object',
     ];
 
-    public function merchant() {
+    public function merchant()
+    {
         return $this->belongsTo(Merchant::class);
     }
 
-    public function user() {
+    public function user()
+    {
         return $this->belongsTo(User::class);
     }
 }

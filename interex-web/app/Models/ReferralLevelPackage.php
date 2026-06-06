@@ -13,18 +13,25 @@ class ReferralLevelPackage extends Model
     protected $guarded = ['id'];
 
     protected $casts = [
-        'id'                => 'integer',
-        'title'             => 'string',
-        'refer_user'        => 'integer',
-        'deposit_amount'    => 'double',
-        'commission'        => 'double',
-        'default'           => 'boolean',
+        'id' => 'integer',
+        'title' => 'string',
+        'refer_user' => 'integer',
+        'deposit_amount' => 'double',
+        'commission' => 'double',
+        'default' => 'boolean',
     ];
-    public function isDefault() {
-        if($this->default == true) return true;
+
+    public function isDefault()
+    {
+        if ($this->default == true) {
+            return true;
+        }
+
         return false;
     }
-    function scopeDefault($query) {
-        return $query->where('default',GlobalConst::ACTIVE);
+
+    public function scopeDefault($query)
+    {
+        return $query->where('default', GlobalConst::ACTIVE);
     }
 }

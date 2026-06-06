@@ -12,11 +12,11 @@ class ReferralSetting extends Model
     protected $guarded = ['id'];
 
     protected $casts = [
-        'id'            => 'integer',
-        'bonus'         => 'double',
-        'status'        => 'boolean',
-        'sms'           => 'boolean',
-        'mail'          => 'boolean',
-        'wallet_type'   => 'string',
+        'id' => 'integer',
+        'bonus' => 'double',
+        'status' => 'boolean',
+        'sms' => 'boolean',
+        'mail' => 'boolean',
+        'wallet_type' => 'string',
     ];
 }

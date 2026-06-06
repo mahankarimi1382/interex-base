@@ -13,14 +13,17 @@ class ContactMessageController extends Controller
 {
     /**
      * Mehtod for show subscriber page
+     *
      * @method GET
+     *
      * @return Illuminate\Http\Request Response
      */
-    public function index() {
-        $page_title = __("All Contact Message");
-        $data = Contact::orderBy('id',"DESC")->paginate();
+    public function index()
+    {
+        $page_title = __('All Contact Message');
+        $data = Contact::orderBy('id', 'DESC')->paginate();
 
-        return view('admin.sections.contact-message.index',compact(
+        return view('admin.sections.contact-message.index', compact(
             'page_title',
             'data',
         ));
@@ -28,46 +31,50 @@ class ContactMessageController extends Controller
 
     /**
      * Mehtod mail to mail
+     *
      * @method POST
-     * @param Illuminate\Http\Request $request
+     *
+     * @param  Illuminate\Http\Request  $request
      * @return Illuminate\Http\Request Response
      */
-    public function emailSend(Request $request){
+    public function emailSend(Request $request)
+    {
         $validator = Validator::make($request->all(), [
             'email' => 'required',
-            'data_id'    => 'required',
+            'data_id' => 'required',
             'subject' => 'required|string|max:200',
-            'message' => 'required|string|max:2000'
+            'message' => 'required|string|max:2000',
         ]);
 
-       if($validator->fails()){
+        if ($validator->fails()) {
             return back()->withErrors($validator)->withInput()->with('modal', 'email-contact-user-modal');
-       }
-       $validated = $validator->validated();
+        }
+        $validated = $validator->validated();
 
-       $contact = Contact::findOrFail($validated['data_id']);
+        $contact = Contact::findOrFail($validated['data_id']);
 
-
-       try {
+        try {
             Notification::send($contact, new SendMail((object) $validated));
-       } catch (\Throwable $th) {
-            return back()->with(['error' => [__("Something went wrong! Please try again.")]]);
-       }
+        } catch (\Throwable $th) {
+            return back()->with(['error' => [__('Something went wrong! Please try again.')]]);
+        }
 
-       return back()->with(['success' => [__('Email successfully sended')]]);
+        return back()->with(['success' => [__('Email successfully sended')]]);
 
     }
 
-
     /**
      * Mehtod for delete subscriber item
+     *
      * @method DELETE
-     * @param Illuminate\Http\Request $request
+     *
+     * @param  Illuminate\Http\Request  $request
      * @return Illuminate\Http\Request Response
      */
-    public function delete(Request $request){
+    public function delete(Request $request)
+    {
         $request->validate([
-            'target'    => 'required|string',
+            'target' => 'required|string',
         ]);
 
         $subscriber = Contact::findOrFail($request->target);
@@ -75,9 +82,9 @@ class ContactMessageController extends Controller
         try {
             $subscriber->delete();
         } catch (\Throwable $th) {
-            return back()->with(['error' => [__("Something went wrong! Please try again.")]]);
+            return back()->with(['error' => [__('Something went wrong! Please try again.')]]);
         }
 
-        return back()->with(['success' => [__("Contact Message delete successfully!")]]);
+        return back()->with(['success' => [__('Contact Message delete successfully!')]]);
     }
 }

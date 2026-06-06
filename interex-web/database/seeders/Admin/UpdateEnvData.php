@@ -2,7 +2,6 @@
 
 namespace Database\Seeders\Admin;
 
-
 use Illuminate\Database\Seeder;
 
 class UpdateEnvData extends Seeder
@@ -15,7 +14,7 @@ class UpdateEnvData extends Seeder
     public function run()
     {
         $env_modify_keys = [
-            "APP_TIMEZONE"      => "Asia/Dhaka"
+            'APP_TIMEZONE' => 'Asia/Dhaka',
         ];
 
         modifyEnv($env_modify_keys);

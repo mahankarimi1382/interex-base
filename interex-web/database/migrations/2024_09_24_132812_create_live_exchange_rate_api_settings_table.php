@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('live_exchange_rate_api_settings', function (Blueprint $table) {
             $table->id();
-            $table->string('slug',100);
-            $table->string('provider',100);
+            $table->string('slug', 100);
+            $table->string('provider', 100);
             $table->text('value')->nullable();
             $table->decimal('multiply_by', 28, 8)->default(0);
             $table->boolean('currency_module')->default(true);

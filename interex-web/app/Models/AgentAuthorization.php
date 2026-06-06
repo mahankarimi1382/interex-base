@@ -8,9 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class AgentAuthorization extends Model
 {
     use HasFactory;
+
     protected $guarded = ['id'];
 
-    public function agent() {
+    public function agent()
+    {
         return $this->belongsTo(Agent::class);
     }
 }

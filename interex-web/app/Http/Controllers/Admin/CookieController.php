@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Admin\SiteSections;
 use Exception;
 use Illuminate\Http\Request;
-use Illuminate\Support\Arr;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Validator;
 
 class CookieController extends Controller
@@ -14,14 +14,14 @@ class CookieController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index()
     {
-        $page_title = __("GDPR Cookie");
+        $page_title = __('GDPR Cookie');
         $site_cookie = SiteSections::siteCookie();
 
-        return view('admin.sections.cookie.index',compact(
+        return view('admin.sections.cookie.index', compact(
             'page_title',
             'site_cookie',
         ));
@@ -30,7 +30,7 @@ class CookieController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function create()
     {
@@ -40,8 +40,7 @@ class CookieController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function store(Request $request)
     {
@@ -52,7 +51,7 @@ class CookieController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function show($id)
     {
@@ -63,7 +62,7 @@ class CookieController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function edit($id)
     {
@@ -73,42 +72,41 @@ class CookieController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function update(Request $request)
     {
-        $validator = Validator::make($request->all(),[
-            'status'    => 'required|numeric',
-            'link'      => 'required|string',
-            'desc'      => 'required|string|max:50000',
+        $validator = Validator::make($request->all(), [
+            'status' => 'required|numeric',
+            'link' => 'required|string',
+            'desc' => 'required|string|max:50000',
         ]);
 
         $validated = $validator->validate();
         $type = 'site_cookie';
 
         $status = [
-            '0'     => false,
-            '1'     => true,
+            '0' => false,
+            '1' => true,
         ];
         $validated['status'] = $status[$validated['status']];
 
         // Insert bata into batabase
-        try{
-            SiteSections::updateOrCreate(['key' => $type],['key' => $type , 'value' => $validated, 'status' => $validated['status']]);
-        }catch(Exception $e) {
-            return back()->with(['error' => [__("Something went wrong! Please try again.")]]);
+        try {
+            SiteSections::updateOrCreate(['key' => $type], ['key' => $type, 'value' => $validated, 'status' => $validated['status']]);
+        } catch (Exception $e) {
+            return back()->with(['error' => [__('Something went wrong! Please try again.')]]);
         }
 
-        return back()->with(['success' => [__("Cookie information updated successfully!")]]);
+        return back()->with(['success' => [__('Cookie information updated successfully!')]]);
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function destroy($id)
     {

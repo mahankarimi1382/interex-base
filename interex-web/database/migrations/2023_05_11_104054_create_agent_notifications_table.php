@@ -15,12 +15,12 @@ return new class extends Migration
     {
         Schema::create('agent_notifications', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger("agent_id");
-            $table->string("type",100)->nullable();
-            $table->text('message',1000);
+            $table->unsignedBigInteger('agent_id');
+            $table->string('type', 100)->nullable();
+            $table->text('message', 1000);
             $table->timestamps();
 
-            $table->foreign("agent_id")->references("id")->on("agents")->onDelete("cascade")->onUpdate("cascade");
+            $table->foreign('agent_id')->references('id')->on('agents')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 

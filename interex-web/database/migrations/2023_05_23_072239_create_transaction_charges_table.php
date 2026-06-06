@@ -15,13 +15,13 @@ return new class extends Migration
     {
         Schema::create('transaction_charges', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger("transaction_id");
+            $table->unsignedBigInteger('transaction_id');
             $table->decimal('percent_charge', 28, 8)->default(0);
             $table->decimal('fixed_charge', 28, 8)->default(0);
             $table->decimal('total_charge', 28, 8)->default(0);
             $table->timestamps();
 
-            $table->foreign("transaction_id")->references("id")->on("transactions")->onDelete("cascade")->onUpdate("cascade");
+            $table->foreign('transaction_id')->references('id')->on('transactions')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 

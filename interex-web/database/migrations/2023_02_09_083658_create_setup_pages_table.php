@@ -15,16 +15,16 @@ return new class extends Migration
     {
         Schema::create('setup_pages', function (Blueprint $table) {
             $table->id();
-            $table->string('type',250);
-            $table->string('slug',191)->unique()->nullable();
-            $table->text("title")->nullable();
-            $table->string("url",255)->nullable();
-            $table->longText("details")->nullable();
-            $table->unsignedBigInteger("last_edit_by")->nullable();
-            $table->boolean("status")->default(true);
+            $table->string('type', 250);
+            $table->string('slug', 191)->unique()->nullable();
+            $table->text('title')->nullable();
+            $table->string('url', 255)->nullable();
+            $table->longText('details')->nullable();
+            $table->unsignedBigInteger('last_edit_by')->nullable();
+            $table->boolean('status')->default(true);
             $table->timestamps();
 
-            $table->foreign("last_edit_by")->references("id")->on("admins")->onDelete("cascade")->onUpdate("cascade");
+            $table->foreign('last_edit_by')->references('id')->on('admins')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 

@@ -31,10 +31,10 @@ class FlutterwaveService
     public static function generateReference(?string $transactionPrefix = null): string
     {
         if ($transactionPrefix) {
-            return $transactionPrefix . '_' . uniqid(time());
+            return $transactionPrefix.'_'.uniqid(time());
         }
 
-        return 'flw_' . uniqid(time());
+        return 'flw_'.uniqid(time());
     }
 
     /**
@@ -45,7 +45,7 @@ class FlutterwaveService
     public static function initializePayment(array $data)
     {
         return Http::withToken(static::secretKey())
-            ->post(static::baseUrl() . '/payments', $data)
+            ->post(static::baseUrl().'/payments', $data)
             ->json();
     }
 
@@ -71,7 +71,7 @@ class FlutterwaveService
     public static function verifyTransaction($id)
     {
         return Http::withToken(static::secretKey())
-            ->get(static::baseUrl() . '/transactions/' . $id . '/verify')
+            ->get(static::baseUrl().'/transactions/'.$id.'/verify')
             ->json();
     }
 }

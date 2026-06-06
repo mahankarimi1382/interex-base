@@ -14,9 +14,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('agents',function(Blueprint $table){
+        Schema::table('agents', function (Blueprint $table) {
             $table->string('email')->nullable()->change();
-            $table->enum("registered_by",[
+            $table->enum('registered_by', [
                 GlobalConst::EMAIL,
                 GlobalConst::PHONE,
             ]);
