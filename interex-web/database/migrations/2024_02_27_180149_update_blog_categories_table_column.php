@@ -14,8 +14,8 @@ return new class extends Migration
     public function up()
     {
         Schema::table('blog_categories', function (Blueprint $table) {
-            $table->string('name')->nullable()->change();
-            $table->string('slug')->nullable()->change();
+            $table->string('name', 100)->nullable()->change();
+            $table->string('slug', 200)->nullable()->change();
             $table->longText('data')->nullable()->after('name');
         });
     }

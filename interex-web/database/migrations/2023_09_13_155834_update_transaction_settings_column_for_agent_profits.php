@@ -11,7 +11,7 @@ class UpdateTransactionSettingsColumnForAgentProfits extends Migration
     public function up()
     {
         Schema::table('transaction_settings', function (Blueprint $table) {
-            $table->string("slug")->unique()->change();
+            $table->string("slug", 50)->unique()->change();
             $table->decimal('agent_fixed_commissions',8,2,true)->default(0);
             $table->decimal('agent_percent_commissions',8,2,true)->default(0);
             $table->boolean('agent_profit')->default(false);
