@@ -10,7 +10,10 @@ import '../../custom_assets/assets.gen.dart';
 import '../../utils/custom_color.dart';
 import '../../utils/dimensions.dart';
 
-BottomAppBar buildBottomNavigationMenu(BuildContext context, bottomNavBarController) {
+BottomAppBar buildBottomNavigationMenu(
+  BuildContext context,
+  bottomNavBarController,
+) {
   return BottomAppBar(
     elevation: 0,
     color: CustomColor.transparent,
@@ -21,10 +24,10 @@ BottomAppBar buildBottomNavigationMenu(BuildContext context, bottomNavBarControl
         right: Dimensions.marginSizeHorizontal * 0.7,
       ),
       decoration: BoxDecoration(
-          color: Theme.of(context).primaryColor,
-          borderRadius: BorderRadius.circular(Dimensions.radius * 3.22)),
+        color: Theme.of(context).primaryColor,
+        borderRadius: BorderRadius.circular(Dimensions.radius * 3.22),
+      ),
       child: Row(
-        mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           bottomItemWidget(Assets.icon.home, bottomNavBarController, 0),
@@ -33,7 +36,7 @@ BottomAppBar buildBottomNavigationMenu(BuildContext context, bottomNavBarControl
               Get.toNamed(Routes.moneyReceiveScreen);
             },
             child: CircleAvatar(
-              backgroundColor: CustomColor.whiteColor.withValues(alpha:0.1),
+              backgroundColor: CustomColor.whiteColor.withValues(alpha: 0.1),
               radius: Dimensions.radius * 2.6,
               child: CustomImageWidget(
                 path: Assets.icon.scan,
@@ -59,7 +62,7 @@ Expanded bottomItemWidget(String icon, bottomNavBarController, page) {
         icon,
         color: bottomNavBarController.selectedIndex.value == page
             ? CustomColor.whiteColor
-            : CustomColor.whiteColor.withValues(alpha:0.4),
+            : CustomColor.whiteColor.withValues(alpha: 0.4),
         height: Dimensions.iconSizeLarge,
       ),
     ),

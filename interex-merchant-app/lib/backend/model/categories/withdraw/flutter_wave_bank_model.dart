@@ -10,10 +10,7 @@ class FlutterWaveBanksModel {
   final Message message;
   final Data data;
 
-  FlutterWaveBanksModel({
-    required this.message,
-    required this.data,
-  });
+  FlutterWaveBanksModel({required this.message, required this.data});
 
   factory FlutterWaveBanksModel.fromJson(Map<String, dynamic> json) =>
       FlutterWaveBanksModel(
@@ -22,26 +19,25 @@ class FlutterWaveBanksModel {
       );
 
   Map<String, dynamic> toJson() => {
-        "message": message.toJson(),
-        "data": data.toJson(),
-      };
+    "message": message.toJson(),
+    "data": data.toJson(),
+  };
 }
 
 class Data {
   final List<BankInfos> bankInfo;
 
-  Data({
-    required this.bankInfo,
-  });
+  Data({required this.bankInfo});
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
-        bankInfo: List<BankInfos>.from(
-            json["bank_info"].map((x) => BankInfos.fromJson(x))),
-      );
+    bankInfo: List<BankInfos>.from(
+      json["bank_info"].map((x) => BankInfos.fromJson(x)),
+    ),
+  );
 
   Map<String, dynamic> toJson() => {
-        "bank_info": List<dynamic>.from(bankInfo.map((x) => x.toJson())),
-      };
+    "bank_info": List<dynamic>.from(bankInfo.map((x) => x.toJson())),
+  };
 }
 
 class BankInfos {
@@ -49,37 +45,23 @@ class BankInfos {
   final String code;
   final String name;
 
-  BankInfos({
-    required this.id,
-    required this.code,
-    required this.name,
-  });
+  BankInfos({required this.id, required this.code, required this.name});
 
-  factory BankInfos.fromJson(Map<String, dynamic> json) => BankInfos(
-        id: json["id"],
-        code: json["code"],
-        name: json["name"],
-      );
+  factory BankInfos.fromJson(Map<String, dynamic> json) =>
+      BankInfos(id: json["id"], code: json["code"], name: json["name"]);
 
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "code": code,
-        "name": name,
-      };
+  Map<String, dynamic> toJson() => {"id": id, "code": code, "name": name};
 }
 
 class Message {
   final List<String> success;
 
-  Message({
-    required this.success,
-  });
+  Message({required this.success});
 
-  factory Message.fromJson(Map<String, dynamic> json) => Message(
-        success: List<String>.from(json["success"].map((x) => x)),
-      );
+  factory Message.fromJson(Map<String, dynamic> json) =>
+      Message(success: List<String>.from(json["success"].map((x) => x)));
 
   Map<String, dynamic> toJson() => {
-        "success": List<dynamic>.from(success.map((x) => x)),
-      };
+    "success": List<dynamic>.from(success.map((x) => x)),
+  };
 }

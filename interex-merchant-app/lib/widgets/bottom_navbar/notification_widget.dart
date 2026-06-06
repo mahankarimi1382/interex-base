@@ -26,57 +26,58 @@ class NotificationWidget extends StatelessWidget {
       padding: EdgeInsets.only(bottom: Dimensions.paddingSize * 0.3),
       child: Container(
         margin: EdgeInsets.symmetric(
-            horizontal: Dimensions.marginSizeVertical * 0.7),
+          horizontal: Dimensions.marginSizeVertical * 0.7,
+        ),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(Dimensions.radius),
-          color: Theme.of(context).primaryColor.withValues(alpha:0.05),
+          color: Theme.of(context).primaryColor.withValues(alpha: 0.05),
         ),
         padding: EdgeInsets.only(right: Dimensions.paddingSize * 0.2),
         height: Dimensions.heightSize * 6,
         child: Row(
           children: [
             Expanded(
-                flex: 2,
-                child: Container(
-                  margin: EdgeInsets.only(
-                    left: Dimensions.marginSizeVertical * 0.4,
-                    top: Dimensions.marginSizeVertical * 0.4,
-                    bottom: Dimensions.marginSizeVertical * 0.3,
-                    right: Dimensions.marginSizeVertical * 0.2,
-                  ),
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).primaryColor.withValues(alpha:0.04),
-                    borderRadius:
-                        BorderRadius.circular(Dimensions.radius * 0.6),
-                  ),
-                  child: Column(
-                    mainAxisAlignment: mainStart,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      CustomTitleHeadingWidget(
-                        text: dateText,
-                        style: CustomStyle.darkHeading4TextStyle.copyWith(
-                          fontSize: Dimensions.headingTextSize1 * 1.2,
-                          fontWeight: FontWeight.w800,
-                          color: Get.isDarkMode
-                              ? CustomColor.primaryDarkTextColor
-                              : CustomColor.primaryDarkColor,
-                        ),
+              flex: 2,
+              child: Container(
+                margin: EdgeInsets.only(
+                  left: Dimensions.marginSizeVertical * 0.4,
+                  top: Dimensions.marginSizeVertical * 0.4,
+                  bottom: Dimensions.marginSizeVertical * 0.3,
+                  right: Dimensions.marginSizeVertical * 0.2,
+                ),
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  color: Theme.of(context).primaryColor.withValues(alpha: 0.04),
+                  borderRadius: BorderRadius.circular(Dimensions.radius * 0.6),
+                ),
+                child: Column(
+                  mainAxisAlignment: mainStart,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    CustomTitleHeadingWidget(
+                      text: dateText,
+                      style: CustomStyle.darkHeading4TextStyle.copyWith(
+                        fontSize: Dimensions.headingTextSize1 * 1.2,
+                        fontWeight: FontWeight.w800,
+                        color: Get.isDarkMode
+                            ? CustomColor.primaryDarkTextColor
+                            : CustomColor.primaryDarkColor,
                       ),
-                      CustomTitleHeadingWidget(
-                        text: monthText,
-                        style: CustomStyle.darkHeading4TextStyle.copyWith(
-                          fontSize: Dimensions.headingTextSize6 * 0.7,
-                          fontWeight: FontWeight.w600,
-                          color: Get.isDarkMode
-                              ? CustomColor.primaryDarkTextColor
-                              : CustomColor.primaryDarkColor,
-                        ),
+                    ),
+                    CustomTitleHeadingWidget(
+                      text: monthText,
+                      style: CustomStyle.darkHeading4TextStyle.copyWith(
+                        fontSize: Dimensions.headingTextSize6 * 0.7,
+                        fontWeight: FontWeight.w600,
+                        color: Get.isDarkMode
+                            ? CustomColor.primaryDarkTextColor
+                            : CustomColor.primaryDarkColor,
                       ),
-                    ],
-                  ),
-                )),
+                    ),
+                  ],
+                ),
+              ),
+            ),
             Expanded(
               flex: 7,
               child: Column(
@@ -84,8 +85,9 @@ class NotificationWidget extends StatelessWidget {
                 mainAxisAlignment: mainCenter,
                 children: [
                   TitleHeading3Widget(
-                    text: Get.find<LanguageController>()
-                        .getTranslation(snakeCaseToCamelCase(title)),
+                    text: Get.find<LanguageController>().getTranslation(
+                      snakeCaseToCamelCase(title),
+                    ),
                     color: Get.isDarkMode
                         ? CustomColor.primaryDarkTextColor
                         : CustomColor.primaryDarkColor,
@@ -113,12 +115,14 @@ class NotificationWidget extends StatelessWidget {
   }
 
   String snakeCaseToCamelCase(String input) {
-    List<String> parts = input.split('-');
-    String camelCase = parts.first.toLowerCase() +
+    final List<String> parts = input.split('-');
+    final String camelCase =
+        parts.first.toLowerCase() +
         parts
             .sublist(1)
-            .map((part) =>
-                part[0].toUpperCase() + part.substring(1).toLowerCase())
+            .map(
+              (part) => part[0].toUpperCase() + part.substring(1).toLowerCase(),
+            )
             .join();
     return camelCase;
   }

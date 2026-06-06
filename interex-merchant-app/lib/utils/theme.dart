@@ -30,9 +30,10 @@ class Themes {
     scaffoldBackgroundColor: CustomColor.primaryLightScaffoldBackgroundColor,
     brightness: Brightness.light,
     textTheme: ThemeData.dark().textTheme.apply(
-        // bodyColor: Colors.white,
-        fontFamily: GoogleFonts.josefinSans().fontFamily,
-        bodyColor: Colors.black),
+      // bodyColor: Colors.white,
+      fontFamily: GoogleFonts.josefinSans().fontFamily,
+      bodyColor: Colors.black,
+    ),
   );
   static final dark = ThemeData.dark().copyWith(
     textSelectionTheme: const TextSelectionThemeData(
@@ -44,8 +45,9 @@ class Themes {
     scaffoldBackgroundColor: CustomColor.primaryDarkScaffoldBackgroundColor,
     brightness: Brightness.dark,
     textTheme: ThemeData.dark().textTheme.apply(
-        // bodyColor: Colors.white,
-        fontFamily: GoogleFonts.josefinSans().fontFamily,
-        bodyColor: Colors.black),
+      // bodyColor: Colors.white,
+      fontFamily: GoogleFonts.josefinSans().fontFamily,
+      bodyColor: Colors.black,
+    ),
   );
 }

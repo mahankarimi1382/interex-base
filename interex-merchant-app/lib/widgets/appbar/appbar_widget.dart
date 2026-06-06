@@ -13,14 +13,15 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
   final IconData? actionIcon;
   final PreferredSizeWidget? bottomBar;
 
-  const AppBarWidget(
-      {required this.text,
-      this.onTapLeading,
-      this.onTapAction,
-      this.homeButtonShow = false,
-      this.actionIcon,
-      super.key,
-      this.bottomBar});
+  const AppBarWidget({
+    required this.text,
+    this.onTapLeading,
+    this.onTapAction,
+    this.homeButtonShow = false,
+    this.actionIcon,
+    super.key,
+    this.bottomBar,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -50,11 +51,12 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
               size: Dimensions.iconSizeDefault,
             ),
           ),
-        )
+        ),
       ],
       bottom: bottomBar,
       leading: BackButtonWidget(
-        onTap: onTapLeading ??
+        onTap:
+            onTapLeading ??
             () {
               Navigator.pop(context);
             },

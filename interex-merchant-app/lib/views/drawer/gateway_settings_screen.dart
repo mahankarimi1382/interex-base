@@ -24,9 +24,7 @@ class GatewaySettingsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return ResponsiveLayout(
       mobileScaffold: Scaffold(
-        appBar: AppBarWidget(
-          text: Strings.gatewaySettings.tr,
-        ),
+        appBar: AppBarWidget(text: Strings.gatewaySettings.tr),
         body: Obx(
           () => controller.isLoading
               ? const CustomLoadingAPI()
@@ -40,10 +38,7 @@ class GatewaySettingsScreen extends StatelessWidget {
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: crossStart,
-        children: [
-          _titleWidget(context),
-          _settingsWidget(context),
-        ],
+        children: [_titleWidget(context), _settingsWidget(context)],
       ),
     );
   }
@@ -68,40 +63,46 @@ class GatewaySettingsScreen extends StatelessWidget {
   Column _settingsWidget(BuildContext context) {
     return Column(
       children: [
-        settingsItemWidget(context,
-            title: Strings.walletBalance.tr,
-            checkBoxValue: controller.walletBalanceEnable,
-            onChanged: (value) => {
-                  controller.walletBalanceEnable.value = value,
-                  controller.updateWalletStatusProcess(
-                      value: controller.walletBalanceEnable.value ? '1' : '0')
-                }),
+        settingsItemWidget(
+          context,
+          title: Strings.walletBalance.tr,
+          checkBoxValue: controller.walletBalanceEnable,
+          onChanged: (value) => {
+            controller.walletBalanceEnable.value = value,
+            controller.updateWalletStatusProcess(
+              value: controller.walletBalanceEnable.value ? '1' : '0',
+            ),
+          },
+        ),
         verticalSpace(Dimensions.heightSize),
-        settingsItemWidget(context,
-            title: Strings.virtualCard.tr,
-            checkBoxValue: controller.virtualCardEnable,
-            onChanged: (value) => {
-                  controller.virtualCardEnable.value = value,
-                  controller.updateVirtualCardStatusProcess(
-                      value: controller.virtualCardEnable.value ? '1' : '0')
-                }),
+        settingsItemWidget(
+          context,
+          title: Strings.virtualCard.tr,
+          checkBoxValue: controller.virtualCardEnable,
+          onChanged: (value) => {
+            controller.virtualCardEnable.value = value,
+            controller.updateVirtualCardStatusProcess(
+              value: controller.virtualCardEnable.value ? '1' : '0',
+            ),
+          },
+        ),
         verticalSpace(Dimensions.heightSize),
-        settingsItemWidget(context,
-            title: Strings.masterOrVisaCard.tr,
-            checkBoxValue: controller.masterCardOrVisaCardEnable,
-            onChanged: (value) => {
-                  controller.masterCardOrVisaCardEnable.value = value,
-                  if (controller.masterCardOrVisaCardEnable.value == false)
-                    {
-                      controller.updateMasterCardStatusProcess(value: '0'),
-                    }
-                }),
+        settingsItemWidget(
+          context,
+          title: Strings.masterOrVisaCard.tr,
+          checkBoxValue: controller.masterCardOrVisaCardEnable,
+          onChanged: (value) => {
+            controller.masterCardOrVisaCardEnable.value = value,
+            if (controller.masterCardOrVisaCardEnable.value == false)
+              {controller.updateMasterCardStatusProcess(value: '0')},
+          },
+        ),
         Obx(() {
           return Visibility(
             visible: controller.masterCardOrVisaCardEnable.value,
             child: _inputWidget(context),
           );
-        })
+        }),
       ],
     );
   }
@@ -167,8 +168,9 @@ class GatewaySettingsScreen extends StatelessWidget {
                         Icon(
                           Icons.info_outline,
                           size: Dimensions.iconSizeDefault * 0.8,
-                          color:
-                              Theme.of(context).primaryColor.withValues(alpha:0.4),
+                          color: Theme.of(
+                            context,
+                          ).primaryColor.withValues(alpha: 0.4),
                         ),
                         horizontalSpace(Dimensions.widthSize * 0.2),
                         TitleHeading4Widget(
@@ -192,7 +194,8 @@ class GatewaySettingsScreen extends StatelessWidget {
   Container _inputWidget(BuildContext context) {
     return Container(
       margin: EdgeInsets.symmetric(
-          horizontal: Dimensions.marginSizeHorizontal * 0.7),
+        horizontal: Dimensions.marginSizeHorizontal * 0.7,
+      ),
       child: Form(
         key: formKey,
         child: Column(
@@ -204,17 +207,13 @@ class GatewaySettingsScreen extends StatelessWidget {
               hint: Strings.primaryKey.tr,
               label: Strings.primaryKey.tr,
             ),
-            verticalSpace(
-              Dimensions.heightSize * 0.7,
-            ),
+            verticalSpace(Dimensions.heightSize * 0.7),
             PrimaryInputWidget(
               controller: controller.secretKeyController,
               hint: Strings.secretKey.tr,
               label: Strings.secretKey.tr,
             ),
-            verticalSpace(
-              Dimensions.heightSize * 0.7,
-            ),
+            verticalSpace(Dimensions.heightSize * 0.7),
             Obx(
               () => controller.isChangeLoading
                   ? const CustomLoadingAPI()
@@ -233,7 +232,7 @@ class GatewaySettingsScreen extends StatelessWidget {
                         borderColor: Theme.of(context).primaryColor,
                       ),
                     ),
-            )
+            ),
           ],
         ),
       ),

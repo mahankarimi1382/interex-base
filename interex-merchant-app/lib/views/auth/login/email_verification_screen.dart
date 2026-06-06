@@ -1,4 +1,4 @@
-// ignore_for_file: deprecated_member_use 
+// ignore_for_file: deprecated_member_use
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -31,7 +31,7 @@ class EmailVerificationScreen extends StatelessWidget {
     return ResponsiveLayout(
       mobileScaffold: WillPopScope(
         onWillPop: () async {
-          Get.offAllNamed(Routes.signInScreen);
+          await Get.offAllNamed(Routes.signInScreen);
           return true;
         },
         child: Scaffold(
@@ -65,20 +65,14 @@ class EmailVerificationScreen extends StatelessWidget {
 
   Container _titleAndSubtitleWidget(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(
-        top: Dimensions.marginSizeVertical * 3,
-      ),
+      margin: EdgeInsets.only(top: Dimensions.marginSizeVertical * 3),
       child: Column(
         crossAxisAlignment: crossStart,
         children: [
           TitleHeading2Widget(text: Strings.oTPVerification.tr),
           verticalSpace(Dimensions.heightSize * 0.7),
-          const TitleHeading4Widget(
-            text: Strings.enterTheOTPCodeSendTo,
-          ),
-          TitleHeading4Widget(
-            text: signInController.emailController.text,
-          ),
+          const TitleHeading4Widget(text: Strings.enterTheOTPCodeSendTo),
+          TitleHeading4Widget(text: signInController.emailController.text),
         ],
       ),
     );
@@ -87,47 +81,35 @@ class EmailVerificationScreen extends StatelessWidget {
   Form _inputWidget(BuildContext context) {
     return Form(
       key: _otpFormKey,
-      child: Column(
-        mainAxisAlignment: mainCenter,
-        children: [
-          Padding(
-            padding: EdgeInsets.only(
-              top: Dimensions.heightSize * 5,
+      child: Padding(
+        padding: EdgeInsets.only(top: Dimensions.heightSize * 5),
+        child: MaterialPinField(
+          length: 6,
+          pinController: controller.otpController,
+          theme: MaterialPinTheme(
+            borderRadius: BorderRadius.circular(Dimensions.radius * 0.7),
+
+            borderWidth: 2,
+            borderColor: CustomColor.blackColor,
+            focusedBorderColor: Theme.of(context).primaryColor,
+            errorColor: CustomColor.redColor,
+
+            textStyle: TextStyle(
+              fontSize: Dimensions.headingTextSize2,
+              fontWeight: FontWeight.bold,
+              color: Theme.of(context).primaryColor,
             ),
-            child: PinCodeTextField(
-              cursorColor: Theme.of(context).primaryColor,
-              controller: controller.otpController,
-              appContext: context,
-              length: 6,
-              obscureText: false,
-              keyboardType: TextInputType.number,
-              textStyle: TextStyle(color: Theme.of(context).primaryColor),
-              animationType: AnimationType.fade,
-              validator: (v) {
-                if (v!.length < 3) {
-                  return Strings.pleaseFillOutTheField.tr;
-                } else {
-                  return null;
-                }
-              },
-              pinTheme: PinTheme(
-                  shape: PinCodeFieldShape.box,
-                  borderRadius: BorderRadius.circular(Dimensions.radius * 0.7),
-                  selectedColor: Theme.of(context).primaryColor,
-                  activeColor: Theme.of(context).primaryColor,
-                  inactiveColor: CustomColor.blackColor,
-                  fieldHeight: 50,
-                  fieldWidth: 48,
-                  errorBorderColor: CustomColor.redColor,
-                  activeFillColor: CustomColor.transparent,
-                  borderWidth: 2,
-                  fieldOuterPadding: const EdgeInsets.all(1)),
-              onChanged: (value) {
-                controller.changeCurrentText(value);
-              },
-            ),
+            cursorColor: Theme.of(context).primaryColor,
           ),
-        ],
+
+          onChanged: (value) {
+            controller.changeCurrentText(value);
+          },
+
+          onCompleted: (value) {
+            controller.changeCurrentText(value);
+          },
+        ),
       ),
     );
   }
@@ -145,13 +127,15 @@ class EmailVerificationScreen extends StatelessWidget {
             ),
             SizedBox(width: Dimensions.widthSize * 0.4),
             CustomTitleHeadingWidget(
-              text: controller.secondsRemaining.value >= 0 &&
+              text:
+                  controller.secondsRemaining.value >= 0 &&
                       controller.secondsRemaining.value <= 9
                   ? '00:0${controller.secondsRemaining.value}'
                   : '00:${controller.secondsRemaining.value}',
               style: CustomStyle.darkHeading4TextStyle.copyWith(
-                  fontWeight: FontWeight.w600,
-                  color: Theme.of(context).primaryColor),
+                fontWeight: FontWeight.w600,
+                color: Theme.of(context).primaryColor,
+              ),
             ),
           ],
         ),
@@ -170,7 +154,8 @@ class EmailVerificationScreen extends StatelessWidget {
                   onPressed: () {
                     if (_otpFormKey.currentState!.validate()) {
                       signInController.verifyEmailProcess(
-                          otpCode: controller.otpController.text);
+                        otpCode: controller.otpController.text,
+                      );
                     }
                   },
                 ),

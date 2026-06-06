@@ -41,13 +41,12 @@ class WithdrawKeyboardWidget extends StatelessWidget {
 
   Column _bodyWidget(BuildContext context) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         _inputFieldWidget(context),
         _minMaxWidget(),
         _walletDropDownWidget(context),
         _customNumKeyBoardWidget(context),
-        _buttonWidget(context)
+        _buttonWidget(context),
       ],
     );
   }
@@ -62,7 +61,6 @@ class WithdrawKeyboardWidget extends StatelessWidget {
       height: Dimensions.inputBoxHeight,
       width: double.infinity,
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Directionality(
@@ -85,11 +83,13 @@ class WithdrawKeyboardWidget extends StatelessWidget {
                             ),
                       readOnly: true,
                       controller: controller.amountTextController,
-                      keyboardType:
-                          const TextInputType.numberWithOptions(decimal: true),
+                      keyboardType: const TextInputType.numberWithOptions(
+                        decimal: true,
+                      ),
                       inputFormatters: <TextInputFormatter>[
                         FilteringTextInputFormatter.allow(
-                            RegExp(r'(^-?\d*\.?\d*)')),
+                          RegExp(r'(^-?\d*\.?\d*)'),
+                        ),
                         LengthLimitingTextInputFormatter(
                           6,
                         ), //max length of 12 characters
@@ -110,9 +110,7 @@ class WithdrawKeyboardWidget extends StatelessWidget {
                       ),
                     ),
                   ),
-                  SizedBox(
-                    width: Dimensions.widthSize * 0.5,
-                  ),
+                  SizedBox(width: Dimensions.widthSize * 0.5),
                 ],
               ),
             ),
@@ -132,12 +130,9 @@ class WithdrawKeyboardWidget extends StatelessWidget {
       mainAxisSpacing: 10.0,
       childAspectRatio: 3 / 1.7,
       shrinkWrap: true,
-      children: List.generate(
-        controller.keyboardItemList.length,
-        (index) {
-          return controller.inputItem(index);
-        },
-      ),
+      children: List.generate(controller.keyboardItemList.length, (index) {
+        return controller.inputItem(index);
+      }),
     );
   }
 
@@ -178,8 +173,9 @@ class WithdrawKeyboardWidget extends StatelessWidget {
             : Dimensions.buttonHeight * 0.6,
         alignment: Alignment.center,
         margin: EdgeInsets.symmetric(
-            horizontal: Dimensions.marginSizeHorizontal * 3,
-            vertical: Dimensions.marginSizeVertical * 1.5),
+          horizontal: Dimensions.marginSizeHorizontal * 3,
+          vertical: Dimensions.marginSizeVertical * 1.5,
+        ),
         padding: EdgeInsets.symmetric(
           horizontal: Dimensions.marginSizeHorizontal * .4,
         ),
@@ -208,8 +204,9 @@ class WithdrawKeyboardWidget extends StatelessWidget {
                       ? Dimensions.iconSizeLarge * 1.4
                       : Dimensions.iconSizeLarge,
                 ),
-                items: controller.currencyList
-                    .map<DropdownMenuItem<String>>((value) {
+                items: controller.currencyList.map<DropdownMenuItem<String>>((
+                  value,
+                ) {
                   return DropdownMenuItem<String>(
                     onTap: () {
                       controller.selectedCurrencyAlias.value = value.alias;
@@ -217,21 +214,26 @@ class WithdrawKeyboardWidget extends StatelessWidget {
                       controller.selectedCurrencyId.value = value.id;
                       controller.currencyWalletCode.value = value.currencyCode;
                       controller.crypto.value = value.crypto;
-                      controller.gateWayCurrencyRate.value =
-                          double.parse(value.rate);
+                      controller.gateWayCurrencyRate.value = double.parse(
+                        value.rate,
+                      );
 
-                      controller.fixedCharge.value =
-                          double.parse(value.fixedCharge);
+                      controller.fixedCharge.value = double.parse(
+                        value.fixedCharge,
+                      );
 
                       controller.min.value = double.parse(value.minLimit);
                       controller.max.value = double.parse(value.maxLimit);
 
-                      controller.percentCharge.value =
-                          double.parse(value.percentCharge);
-                      controller.dailyLimit.value =
-                          double.parse(value.dailyLimit);
-                      controller.monthlyLimit.value =
-                          double.parse(value.monthlyLimit);
+                      controller.percentCharge.value = double.parse(
+                        value.percentCharge,
+                      );
+                      controller.dailyLimit.value = double.parse(
+                        value.dailyLimit,
+                      );
+                      controller.monthlyLimit.value = double.parse(
+                        value.monthlyLimit,
+                      );
                       controller.updateExchangeRate();
 
                       controller.remainingController.cardId.value = value.id;
@@ -245,7 +247,8 @@ class WithdrawKeyboardWidget extends StatelessWidget {
                       child: Text(
                         value.name,
                         style: TextStyle(
-                          color: controller.selectedCurrencyName.value ==
+                          color:
+                              controller.selectedCurrencyName.value ==
                                   value.name
                               ? Theme.of(context).primaryColor
                               : Theme.of(context).primaryColor,
@@ -280,11 +283,13 @@ class WithdrawKeyboardWidget extends StatelessWidget {
             : Dimensions.buttonHeight * 0.6,
         alignment: Alignment.center,
         margin: EdgeInsets.symmetric(
-            horizontal: Dimensions.marginSizeHorizontal * 0.1,
-            vertical: Dimensions.marginSizeVertical * 0.2),
+          horizontal: Dimensions.marginSizeHorizontal * 0.1,
+          vertical: Dimensions.marginSizeVertical * 0.2,
+        ),
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(Dimensions.radius * 3),
-            color: CustomColor.primaryLightColor),
+          borderRadius: BorderRadius.circular(Dimensions.radius * 3),
+          color: CustomColor.primaryLightColor,
+        ),
         child: DropdownButton(
           underline: Container(),
           hint: TitleHeading4Widget(
@@ -302,8 +307,9 @@ class WithdrawKeyboardWidget extends StatelessWidget {
                 ? Dimensions.iconSizeLarge * 1.4
                 : Dimensions.iconSizeLarge,
           ),
-          items:
-              controller.walletsList.map<DropdownMenuItem<UserWallet>>((value) {
+          items: controller.walletsList.map<DropdownMenuItem<UserWallet>>((
+            value,
+          ) {
             return DropdownMenuItem<UserWallet>(
               value: value,
               child: Container(
@@ -335,7 +341,7 @@ class WithdrawKeyboardWidget extends StatelessWidget {
   }
 
   Obx _minMaxWidget() {
-    int precision = controller.crypto.value == 0
+    final int precision = controller.crypto.value == 0
         ? LocalStorages.getFiatPrecision()
         : LocalStorages.getCryptoPrecision();
 
@@ -356,26 +362,29 @@ class WithdrawKeyboardWidget extends StatelessWidget {
               children: [
                 TitleHeading5Widget(
                   text: Strings.remainingDailyLimit,
-                  color: CustomColor.primaryLightColor.withValues(alpha:0.6),
+                  color: CustomColor.primaryLightColor.withValues(alpha: 0.6),
                 ),
                 horizontalSpace(Dimensions.widthSize),
                 TitleHeading5Widget(
-                    color: CustomColor.primaryLightColor.withValues(alpha:0.6),
-                    text:
-                        ": ${controller.remainingController.remainingDailyLimit.value.toStringAsFixed(precision)} ${controller.selectMainWallet.value!.currency.code}"),
+                  color: CustomColor.primaryLightColor.withValues(alpha: 0.6),
+                  text:
+                      ": ${controller.remainingController.remainingDailyLimit.value.toStringAsFixed(precision)} ${controller.selectMainWallet.value!.currency.code}",
+                ),
               ],
             ),
             Row(
               mainAxisAlignment: mainCenter,
               children: [
                 TitleHeading5Widget(
-                    color: CustomColor.primaryLightColor.withValues(alpha:0.6),
-                    text: Strings.remainingMonthlyLimit),
+                  color: CustomColor.primaryLightColor.withValues(alpha: 0.6),
+                  text: Strings.remainingMonthlyLimit,
+                ),
                 horizontalSpace(Dimensions.widthSize),
                 TitleHeading5Widget(
-                    color: CustomColor.primaryLightColor.withValues(alpha:0.6),
-                    text:
-                        ": ${controller.remainingController.remainingMonthLyLimit.value.toStringAsFixed(precision)} ${controller.selectMainWallet.value!.currency.code}"),
+                  color: CustomColor.primaryLightColor.withValues(alpha: 0.6),
+                  text:
+                      ": ${controller.remainingController.remainingMonthLyLimit.value.toStringAsFixed(precision)} ${controller.selectMainWallet.value!.currency.code}",
+                ),
               ],
             ),
           ],

@@ -1,142 +1,134 @@
-
 class RegistrationWithKycModel {
-    Message message;
-    Data data;
+  Message message;
+  Data data;
 
-    RegistrationWithKycModel({
-        required this.message,
-        required this.data,
-    });
+  RegistrationWithKycModel({required this.message, required this.data});
 
-    factory RegistrationWithKycModel.fromJson(Map<String, dynamic> json) => RegistrationWithKycModel(
+  factory RegistrationWithKycModel.fromJson(Map<String, dynamic> json) =>
+      RegistrationWithKycModel(
         message: Message.fromJson(json["message"]),
         data: Data.fromJson(json["data"]),
-    );
+      );
 
-    Map<String, dynamic> toJson() => {
-        "message": message.toJson(),
-        "data": data.toJson(),
-    };
+  Map<String, dynamic> toJson() => {
+    "message": message.toJson(),
+    "data": data.toJson(),
+  };
 }
 
 class Data {
-    String token;
-    Merchant merchant;
+  String token;
+  Merchant merchant;
 
-    Data({
-        required this.token,
-        required this.merchant,
-    });
+  Data({required this.token, required this.merchant});
 
-    factory Data.fromJson(Map<String, dynamic> json) => Data(
-        token: json["token"],
-        merchant: Merchant.fromJson(json["merchant"]),
-    );
+  factory Data.fromJson(Map<String, dynamic> json) =>
+      Data(token: json["token"], merchant: Merchant.fromJson(json["merchant"]));
 
-    Map<String, dynamic> toJson() => {
-        "token": token,
-        "merchant": merchant.toJson(),
-    };
+  Map<String, dynamic> toJson() => {
+    "token": token,
+    "merchant": merchant.toJson(),
+  };
 }
 
 class Merchant {
-    // String firstname;
-    // String lastname;
-    // String businessName;
-    // String email;
-    // String mobile;
-    // String mobileCode;
-    // String fullMobile;
-    // String username;
-    // Address address;
-    // int status;
-    // int emailVerified;
-    // int smsVerified;
-    // int kycVerified;
-    // DateTime updatedAt;
-    // DateTime createdAt;
-    int id;
-    // String fullname;
-    // String userImage;
-    // StringStatus stringStatus;
-    // String lastLogin;
-    // StringStatus kycStringStatus;
-    // DeveloperApi developerApi;
+  // String firstname;
+  // String lastname;
+  // String businessName;
+  // String email;
+  // String mobile;
+  // String mobileCode;
+  // String fullMobile;
+  // String username;
+  // Address address;
+  // int status;
+  // int emailVerified;
+  // int smsVerified;
+  // int kycVerified;
+  // DateTime updatedAt;
+  // DateTime createdAt;
+  int id;
+  // String fullname;
+  // String userImage;
+  // StringStatus stringStatus;
+  // String lastLogin;
+  // StringStatus kycStringStatus;
+  // DeveloperApi developerApi;
 
-    Merchant({
-        // required this.firstname,
-        // required this.lastname,
-        // required this.businessName,
-        // required this.email,
-        // required this.mobile,
-        // required this.mobileCode,
-        // required this.fullMobile,
-        // required this.username,
-        // required this.address,
-        // required this.status,
-        // required this.emailVerified,
-        // required this.smsVerified,
-        // required this.kycVerified,
-        // required this.updatedAt,
-        // required this.createdAt,
-        required this.id,
-        // required this.fullname,
-        // required this.userImage,
-        // required this.stringStatus,
-        // required this.lastLogin,
-        // required this.kycStringStatus,
-        // required this.developerApi,
-    });
+  Merchant({
+    // required this.firstname,
+    // required this.lastname,
+    // required this.businessName,
+    // required this.email,
+    // required this.mobile,
+    // required this.mobileCode,
+    // required this.fullMobile,
+    // required this.username,
+    // required this.address,
+    // required this.status,
+    // required this.emailVerified,
+    // required this.smsVerified,
+    // required this.kycVerified,
+    // required this.updatedAt,
+    // required this.createdAt,
+    required this.id,
+    // required this.fullname,
+    // required this.userImage,
+    // required this.stringStatus,
+    // required this.lastLogin,
+    // required this.kycStringStatus,
+    // required this.developerApi,
+  });
 
-    factory Merchant.fromJson(Map<String, dynamic> json) => Merchant(
-        // firstname: json["firstname"],
-        // lastname: json["lastname"],
-        // businessName: json["business_name"],
-        // email: json["email"],
-        // mobile: json["mobile"],
-        // mobileCode: json["mobile_code"],
-        // fullMobile: json["full_mobile"],
-        // username: json["username"],
-        // address: Address.fromJson(json["address"]),
-        // status: json["status"],
-        // emailVerified: json["email_verified"],
-        // smsVerified: json["sms_verified"],
-        // kycVerified: json["kyc_verified"],
-        // updatedAt: DateTime.parse(json["updated_at"]),
-        // createdAt: DateTime.parse(json["created_at"]),
-        id: json["id"],
-        // fullname: json["fullname"],
-        // userImage: json["userImage"],
-        // stringStatus: StringStatus.fromJson(json["stringStatus"]),
-        // lastLogin: json["lastLogin"],
-        // kycStringStatus: StringStatus.fromJson(json["kycStringStatus"]),
-        // developerApi: DeveloperApi.fromJson(json["developer_api"]),
-    );
+  factory Merchant.fromJson(Map<String, dynamic> json) => Merchant(
+    // firstname: json["firstname"],
+    // lastname: json["lastname"],
+    // businessName: json["business_name"],
+    // email: json["email"],
+    // mobile: json["mobile"],
+    // mobileCode: json["mobile_code"],
+    // fullMobile: json["full_mobile"],
+    // username: json["username"],
+    // address: Address.fromJson(json["address"]),
+    // status: json["status"],
+    // emailVerified: json["email_verified"],
+    // smsVerified: json["sms_verified"],
+    // kycVerified: json["kyc_verified"],
+    // updatedAt: DateTime.parse(json["updated_at"]),
+    // createdAt: DateTime.parse(json["created_at"]),
+    id: json["id"],
+    // fullname: json["fullname"],
+    // userImage: json["userImage"],
+    // stringStatus: StringStatus.fromJson(json["stringStatus"]),
+    // lastLogin: json["lastLogin"],
+    // kycStringStatus: StringStatus.fromJson(json["kycStringStatus"]),
+    // developerApi: DeveloperApi.fromJson(json["developer_api"]),
+  );
 
-    Map<String, dynamic> toJson() => {
-        // "firstname": firstname,
-        // "lastname": lastname,
-        // "business_name": businessName,
-        // "email": email,
-        // "mobile": mobile,
-        // "mobile_code": mobileCode,
-        // "full_mobile": fullMobile,
-        // "username": username,
-        // "address": address.toJson(),
-        // "status": status,
-        // "email_verified": emailVerified,
-        // "sms_verified": smsVerified,
-        // "kyc_verified": kycVerified,
-        // "updated_at": updatedAt.toIso8601String(),
-        // "created_at": createdAt.toIso8601String(),
-        "id": id,
-        // "fullname": fullname,
-        // "userImage": userImage,
-        // "stringStatus": stringStatus.toJson(),
-        // "lastLogin": lastLogin,
-        // "kycStringStatus": kycStringStatus.toJson(),
-        // "developer_api": developerApi.toJson(),
-    };
+  Map<String, dynamic> toJson() => {
+    // "firstname": firstname,
+    // "lastname": lastname,
+    // "business_name": businessName,
+    // "email": email,
+    // "mobile": mobile,
+    // "mobile_code": mobileCode,
+    // "full_mobile": fullMobile,
+    // "username": username,
+    // "address": address.toJson(),
+    // "status": status,
+    // "email_verified": emailVerified,
+    // "sms_verified": smsVerified,
+    // "kyc_verified": kycVerified,
+    // "updated_at": updatedAt.toIso8601String(),
+    // "created_at": createdAt.toIso8601String(),
+    "id": id,
+    // "fullname": fullname,
+    // "userImage": userImage,
+    // "stringStatus": stringStatus.toJson(),
+    // "lastLogin": lastLogin,
+    // "kycStringStatus": kycStringStatus.toJson(),
+    // "developer_api": developerApi.toJson(),
+  };
 }
 
 // class Address {
@@ -240,17 +232,14 @@ class Merchant {
 // }
 
 class Message {
-    List<String> success;
+  List<String> success;
 
-    Message({
-        required this.success,
-    });
+  Message({required this.success});
 
-    factory Message.fromJson(Map<String, dynamic> json) => Message(
-        success: List<String>.from(json["success"].map((x) => x)),
-    );
+  factory Message.fromJson(Map<String, dynamic> json) =>
+      Message(success: List<String>.from(json["success"].map((x) => x)));
 
-    Map<String, dynamic> toJson() => {
-        "success": List<dynamic>.from(success.map((x) => x)),
-    };
+  Map<String, dynamic> toJson() => {
+    "success": List<dynamic>.from(success.map((x) => x)),
+  };
 }

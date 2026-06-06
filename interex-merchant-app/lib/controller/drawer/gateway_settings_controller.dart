@@ -32,23 +32,26 @@ class GatewaySettingsController extends GetxController {
     update();
 
     // calling  from api service
-    await ApiServices.gatewaySettingsApi().then((value) {
-      _gatewaySettingsModel = value!;
-      walletBalanceEnable.value = _gatewaySettingsModel.data.walletStatus;
-      virtualCardEnable.value = _gatewaySettingsModel.data.virtualCardStatus;
-      masterCardOrVisaCardEnable.value =
-          _gatewaySettingsModel.data.masterVisaStatus;
+    await ApiServices.gatewaySettingsApi()
+        .then((value) {
+          _gatewaySettingsModel = value!;
+          walletBalanceEnable.value = _gatewaySettingsModel.data.walletStatus;
+          virtualCardEnable.value =
+              _gatewaySettingsModel.data.virtualCardStatus;
+          masterCardOrVisaCardEnable.value =
+              _gatewaySettingsModel.data.masterVisaStatus;
 
-      primaryKeyController.text =
-          _gatewaySettingsModel.data.credentials.primaryKey;
-      secretKeyController.text =
-          _gatewaySettingsModel.data.credentials.secretKey;
+          primaryKeyController.text =
+              _gatewaySettingsModel.data.credentials.primaryKey;
+          secretKeyController.text =
+              _gatewaySettingsModel.data.credentials.secretKey;
 
-      _isLoading.value = false;
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-    });
+          _isLoading.value = false;
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+        });
     update();
     return _gatewaySettingsModel;
   }
@@ -61,18 +64,21 @@ class GatewaySettingsController extends GetxController {
 
   CommonSuccessModel get walletBalanceModel => _walletBalanceModel;
 
-  Future<CommonSuccessModel> updateWalletStatusProcess(
-      {required String value}) async {
+  Future<CommonSuccessModel> updateWalletStatusProcess({
+    required String value,
+  }) async {
     _isLoading.value = true;
-    Map<String, String> inputBody = {'status': value};
+    final Map<String, String> inputBody = {'status': value};
 
-    await ApiServices.walletBalanceStatusApi(body: inputBody).then((value) {
-      _walletBalanceModel = value!;
-      _isLoading.value = false;
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-    });
+    await ApiServices.walletBalanceStatusApi(body: inputBody)
+        .then((value) {
+          _walletBalanceModel = value!;
+          _isLoading.value = false;
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+        });
     _isLoading.value = false;
     update();
     return _walletBalanceModel;
@@ -82,18 +88,21 @@ class GatewaySettingsController extends GetxController {
 
   CommonSuccessModel get virtualCardModel => _virtualCardModel;
 
-  Future<CommonSuccessModel> updateVirtualCardStatusProcess(
-      {required String value}) async {
+  Future<CommonSuccessModel> updateVirtualCardStatusProcess({
+    required String value,
+  }) async {
     _isLoading.value = true;
-    Map<String, String> inputBody = {'status': value};
+    final Map<String, String> inputBody = {'status': value};
 
-    await ApiServices.virtualCardStatusApi(body: inputBody).then((value) {
-      _virtualCardModel = value!;
-      _isLoading.value = false;
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-    });
+    await ApiServices.virtualCardStatusApi(body: inputBody)
+        .then((value) {
+          _virtualCardModel = value!;
+          _isLoading.value = false;
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+        });
     _isLoading.value = false;
     update();
     return _virtualCardModel;
@@ -103,18 +112,21 @@ class GatewaySettingsController extends GetxController {
 
   CommonSuccessModel get masterCardModel => _masterCardModel;
 
-  Future<CommonSuccessModel> updateMasterCardStatusProcess(
-      {required String value}) async {
+  Future<CommonSuccessModel> updateMasterCardStatusProcess({
+    required String value,
+  }) async {
     _isLoading.value = true;
-    Map<String, String> inputBody = {'status': value};
+    final Map<String, String> inputBody = {'status': value};
 
-    await ApiServices.masterCardStatusApi(body: inputBody).then((value) {
-      _masterCardModel = value!;
-      _isLoading.value = false;
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-    });
+    await ApiServices.masterCardStatusApi(body: inputBody)
+        .then((value) {
+          _masterCardModel = value!;
+          _isLoading.value = false;
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+        });
     _isLoading.value = false;
     update();
     return _masterCardModel;
@@ -129,16 +141,18 @@ class GatewaySettingsController extends GetxController {
     required String sk,
   }) async {
     _isChangeLoading.value = true;
-    Map<String, String> inputBody = {'primary_key': pk, 'secret_key': sk};
+    final Map<String, String> inputBody = {'primary_key': pk, 'secret_key': sk};
 
-    await ApiServices.updateKeyApi(body: inputBody).then((value) {
-      _updateKeyModel = value!;
-      _isChangeLoading.value = false;
-      Get.offAllNamed(Routes.bottomNavBarScreen);
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-    });
+    await ApiServices.updateKeyApi(body: inputBody)
+        .then((value) {
+          _updateKeyModel = value!;
+          _isChangeLoading.value = false;
+          Get.offAllNamed(Routes.bottomNavBarScreen);
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+        });
     _isChangeLoading.value = false;
     update();
     return _updateKeyModel;

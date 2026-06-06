@@ -32,11 +32,13 @@ class ImagePickerSheet extends StatelessWidget {
                 child: Container(
                   alignment: Alignment.center,
                   padding: EdgeInsets.symmetric(
-                      horizontal: Dimensions.paddingHorizontalSize * 0.5,
-                      vertical: Dimensions.paddingHorizontalSize * 0.5),
+                    horizontal: Dimensions.paddingHorizontalSize * 0.5,
+                    vertical: Dimensions.paddingHorizontalSize * 0.5,
+                  ),
                   decoration: BoxDecoration(
-                    borderRadius:
-                        BorderRadius.circular(Dimensions.radius * 1.4),
+                    borderRadius: BorderRadius.circular(
+                      Dimensions.radius * 1.4,
+                    ),
                     color: CustomColor.whiteColor,
                   ),
                   child: Column(
@@ -53,7 +55,7 @@ class ImagePickerSheet extends StatelessWidget {
                         text: Strings.fromGallery,
                         color: Theme.of(context).primaryColor,
                         fontSize: Dimensions.headingTextSize6,
-                      )
+                      ),
                     ],
                   ),
                 ),
@@ -67,11 +69,13 @@ class ImagePickerSheet extends StatelessWidget {
                 child: Container(
                   alignment: Alignment.center,
                   padding: EdgeInsets.symmetric(
-                      horizontal: Dimensions.paddingHorizontalSize * 0.5,
-                      vertical: Dimensions.paddingVerticalSize * 0.5),
+                    horizontal: Dimensions.paddingHorizontalSize * 0.5,
+                    vertical: Dimensions.paddingVerticalSize * 0.5,
+                  ),
                   decoration: BoxDecoration(
-                    borderRadius:
-                        BorderRadius.circular(Dimensions.radius * 1.4),
+                    borderRadius: BorderRadius.circular(
+                      Dimensions.radius * 1.4,
+                    ),
                     color: CustomColor.whiteColor,
                   ),
                   child: Column(
@@ -88,7 +92,7 @@ class ImagePickerSheet extends StatelessWidget {
                         text: Strings.fromCamera,
                         color: Theme.of(context).primaryColor,
                         fontSize: Dimensions.headingTextSize6,
-                      )
+                      ),
                     ],
                   ),
                 ),

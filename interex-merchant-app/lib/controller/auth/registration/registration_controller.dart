@@ -52,7 +52,7 @@ class RegistrationController extends GetxController {
   Future<CheckRegisterUserModel> checkExistUserProcess() async {
     _isLoading.value = true;
     update();
-    Map<String, dynamic> inputBody = {
+    final Map<String, dynamic> inputBody = {
       'register_type': selectedRegID.value == 0 ? 'Email' : 'Phone',
       'credentials': selectedRegID.value == 0
           ? emailController.text
@@ -60,29 +60,31 @@ class RegistrationController extends GetxController {
       'mobile_code': selectedPhoneCode.value,
     };
 
-    await ApiServices.checkRegisterApi(body: inputBody).then((value) {
-      _checkRegisterUserModel = value!;
+    await ApiServices.checkRegisterApi(body: inputBody)
+        .then((value) {
+          _checkRegisterUserModel = value!;
 
-      if (selectedRegID.value == 0) {
-        if (LocalStorages.isEmailVerification()) {
-          Get.toNamed(Routes.emailOtpScreen);
-          sendOTPEmailProcess();
-        } else {
-          Get.toNamed(Routes.kycFromScreen);
-        }
-      } else {
-        if (LocalStorages.isSmsVerification()) {
-          Get.toNamed(Routes.smsOtpScreen);
-          sendOTPEmailProcess();
-        } else {
-          Get.toNamed(Routes.kycFromScreen);
-        }
-      }
-      _isLoading.value = false;
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-    });
+          if (selectedRegID.value == 0) {
+            if (LocalStorages.isEmailVerification()) {
+              Get.toNamed(Routes.emailOtpScreen);
+              sendOTPEmailProcess();
+            } else {
+              Get.toNamed(Routes.kycFromScreen);
+            }
+          } else {
+            if (LocalStorages.isSmsVerification()) {
+              Get.toNamed(Routes.smsOtpScreen);
+              sendOTPEmailProcess();
+            } else {
+              Get.toNamed(Routes.kycFromScreen);
+            }
+          }
+          _isLoading.value = false;
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+        });
 
     _isLoading.value = false;
     update();
@@ -103,7 +105,7 @@ class RegistrationController extends GetxController {
     _isSendOTPLoading.value = true;
     update();
 
-    Map<String, dynamic> inputBody = {
+    final Map<String, dynamic> inputBody = {
       'register_type': selectedRegID.value == 0 ? 'Email' : 'Phone',
       'credentials': selectedRegID.value == 0
           ? emailController.text
@@ -112,14 +114,16 @@ class RegistrationController extends GetxController {
       'agree': '1',
     };
 
-    await ApiServices.sendRegisterOTPEmailApi(body: inputBody).then((value) {
-      _sendOTPEmailModel = value!;
+    await ApiServices.sendRegisterOTPEmailApi(body: inputBody)
+        .then((value) {
+          _sendOTPEmailModel = value!;
 
-      _isSendOTPLoading.value = false;
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-    });
+          _isSendOTPLoading.value = false;
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+        });
 
     _isSendOTPLoading.value = false;
     update();
@@ -135,26 +139,29 @@ class RegistrationController extends GetxController {
   CommonSuccessModel get verifyEmailModel => _verifyEmailModel;
 
   // Verify email process function
-  Future<CommonSuccessModel> verifyEmailProcess(
-      {required String otpCode}) async {
+  Future<CommonSuccessModel> verifyEmailProcess({
+    required String otpCode,
+  }) async {
     _isLoading2.value = true;
     update();
 
-    Map<String, dynamic> inputBody = {
+    final Map<String, dynamic> inputBody = {
       'email': emailController.text,
       'code': otpCode,
     };
 
-    await ApiServices.verifyRegisterEmailApi(body: inputBody).then((value) {
-      _verifyEmailModel = value!;
-      _isLoading2.value = false;
+    await ApiServices.verifyRegisterEmailApi(body: inputBody)
+        .then((value) {
+          _verifyEmailModel = value!;
+          _isLoading2.value = false;
 
-      update();
-      Get.toNamed(Routes.kycFromScreen);
-    }).catchError((onError) {
-      _isLoading2.value = false;
-      log.e(onError);
-    });
+          update();
+          Get.toNamed(Routes.kycFromScreen);
+        })
+        .catchError((onError) {
+          _isLoading2.value = false;
+          log.e(onError);
+        });
 
     _isLoading2.value = false;
     update();
@@ -166,27 +173,30 @@ class RegistrationController extends GetxController {
 
   CommonSuccessModel get verifyPhoneModel => _verifyPhoneModel;
 
-  Future<CommonSuccessModel> verifyPhoneOtpProcess(
-      {required String otpCode}) async {
+  Future<CommonSuccessModel> verifyPhoneOtpProcess({
+    required String otpCode,
+  }) async {
     _isLoading2.value = true;
     update();
 
-    Map<String, dynamic> inputBody = {
+    final Map<String, dynamic> inputBody = {
       'mobile': phoneNumberController.text,
       'code': otpCode,
       'mobile_code': selectedPhoneCode.value,
     };
 
-    await ApiServices.verifyRegisterPhoneApi(body: inputBody).then((value) {
-      _verifyPhoneModel = value!;
-      _isLoading2.value = false;
+    await ApiServices.verifyRegisterPhoneApi(body: inputBody)
+        .then((value) {
+          _verifyPhoneModel = value!;
+          _isLoading2.value = false;
 
-      update();
-      Get.toNamed(Routes.kycFromScreen);
-    }).catchError((onError) {
-      _isLoading2.value = false;
-      log.e(onError);
-    });
+          update();
+          Get.toNamed(Routes.kycFromScreen);
+        })
+        .catchError((onError) {
+          _isLoading2.value = false;
+          log.e(onError);
+        });
 
     _isLoading2.value = false;
     update();

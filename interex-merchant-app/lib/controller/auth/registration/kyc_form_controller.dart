@@ -98,120 +98,122 @@ class BasicDataController extends GetxController {
     _isLoading.value = true;
     update();
 
-    await ApiServices.basicData().then((value) {
-      _basicDataModel = value!;
-      final data = _basicDataModel.data.registerKycFields.fields;
+    await ApiServices.basicData()
+        .then((value) {
+          _basicDataModel = value!;
+          final data = _basicDataModel.data.registerKycFields.fields;
 
-      LocalStorages.saveEmailVerification(
-        isEmailVerification: _basicDataModel.data.emailVerification,
-      );
-      LocalStorages.saveSmsVerification(
-        isSmsVerification: _basicDataModel.data.smsVerification,
-      );
-      LocalStorages.saveKycVerification(
-          isKycVerification: _basicDataModel.data.kycVerification);
+          LocalStorages.saveEmailVerification(
+            isEmailVerification: _basicDataModel.data.emailVerification,
+          );
+          LocalStorages.saveSmsVerification(
+            isSmsVerification: _basicDataModel.data.smsVerification,
+          );
+          LocalStorages.saveKycVerification(
+            isKycVerification: _basicDataModel.data.kycVerification,
+          );
 
-      // LocalStorages.saveCountryCode(
-      //     countryCodeValue:
-      //         _basicDataModel.data.countries.first.mobileCode.toString());
-      // LocalStorages.saveCountry(
-      //     countryValue: _basicDataModel.data.countries.first.name.toString());
-      // countryController.text =
-      //     _basicDataModel.data.countries.first.name.toString();
+          // LocalStorages.saveCountryCode(
+          //     countryCodeValue:
+          //         _basicDataModel.data.countries.first.mobileCode.toString());
+          // LocalStorages.saveCountry(
+          //     countryValue: _basicDataModel.data.countries.first.name.toString());
+          // countryController.text =
+          //     _basicDataModel.data.countries.first.name.toString();
 
-      if (LocalStorages.isKycVerification()) {
-        for (int item = 0; item < data.length; item++) {
-          // make the dynamic controller
-          var textEditingController = TextEditingController();
-          inputFieldControllers.add(textEditingController);
+          if (LocalStorages.isKycVerification()) {
+            for (int item = 0; item < data.length; item++) {
+              // make the dynamic controller
+              final textEditingController = TextEditingController();
+              inputFieldControllers.add(textEditingController);
 
-          // make dynamic input widget
-          if (data[item].type.contains('file')) {
-            hasFile.value = true;
-            inputFileFields.add(
-              Column(
-                crossAxisAlignment: crossStart,
-                children: [
-                  TitleHeading4Widget(
-                    text: data[item].label,
-                    textAlign: TextAlign.left,
-                    color: CustomColor.primaryLightTextColor,
-                    fontSize: Dimensions.headingTextSize3,
-                    fontWeight: FontWeight.w600,
-                  ),
-                  verticalSpace(Dimensions.heightSize),
-                  KycImageWidget(
-                    labelName: data[item].label,
-                    fieldName: data[item].name,
-                  ),
-                ],
-              ),
-            );
-          } else if (data[item].type.contains('text') ||
-              data[item].type.contains('textarea')) {
-            inputFields.add(
-              Column(
-                children: [
-                  verticalSpace(Dimensions.heightSize),
-                  PrimaryInputWidget(
-                    paddings: EdgeInsets.only(
-                      left: Dimensions.widthSize,
-                      right: Dimensions.widthSize,
-                      bottom: Dimensions.heightSize,
-                    ),
-                    controller: inputFieldControllers[item],
-                    hint: data[item].label,
-                    isValidator: data[item].required,
-                    label: data[item].label,
-                  ),
-                ],
-              ),
-            );
-          } else if (data[item].type.contains('select')) {
-            hasFile.value = true;
-            selectedIDType.value =
-                data[item].validation.options.first.toString();
-            inputFieldControllers[item].text = selectedIDType.value;
-            for (var element in data[item].validation.options) {
-              idTypeList.add(IdTypeModel(element, element));
-            }
-            inputFields.add(
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Obx(() => CustomDropDown<IdTypeModel>(
-                      items: idTypeList,
-                      title: data[item].label,
-                      hint: selectedIDType.value.isEmpty
-                          ? Strings.selectType
-                          : selectedIDType.value,
-                      onChanged: (value) {
-                        selectedIDType.value = value!.title;
-                      },
-                      padding: EdgeInsets.symmetric(
-                        horizontal: Dimensions.paddingHorizontalSize * 0.25,
+              // make dynamic input widget
+              if (data[item].type.contains('file')) {
+                hasFile.value = true;
+                inputFileFields.add(
+                  Column(
+                    crossAxisAlignment: crossStart,
+                    children: [
+                      TitleHeading4Widget(
+                        text: data[item].label,
+                        textAlign: TextAlign.left,
+                        color: CustomColor.primaryLightTextColor,
+                        fontSize: Dimensions.headingTextSize3,
+                        fontWeight: FontWeight.w600,
                       ),
-                      titleTextColor:
-                          CustomColor.primaryLightTextColor.withValues(alpha:.2),
-                      borderEnable: true,
-                      dropDownFieldColor: Colors.transparent,
-                      dropDownIconColor:
-                          CustomColor.primaryLightTextColor.withValues(alpha:.2))),
-                  verticalSpace(Dimensions.marginBetweenInputBox * .8),
-                ],
-              ),
-            );
+                      verticalSpace(Dimensions.heightSize),
+                      KycImageWidget(
+                        labelName: data[item].label,
+                        fieldName: data[item].name,
+                      ),
+                    ],
+                  ),
+                );
+              } else if (data[item].type.contains('text') ||
+                  data[item].type.contains('textarea')) {
+                inputFields.add(
+                  Column(
+                    children: [
+                      verticalSpace(Dimensions.heightSize),
+                      PrimaryInputWidget(
+                        paddings: EdgeInsets.only(
+                          left: Dimensions.widthSize,
+                          right: Dimensions.widthSize,
+                          bottom: Dimensions.heightSize,
+                        ),
+                        controller: inputFieldControllers[item],
+                        hint: data[item].label,
+                        isValidator: data[item].required,
+                        label: data[item].label,
+                      ),
+                    ],
+                  ),
+                );
+              } else if (data[item].type.contains('select')) {
+                hasFile.value = true;
+                selectedIDType.value = data[item].validation.options.first
+                    .toString();
+                inputFieldControllers[item].text = selectedIDType.value;
+                for (var element in data[item].validation.options) {
+                  idTypeList.add(IdTypeModel(element, element));
+                }
+                inputFields.add(
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Obx(
+                        () => CustomDropDown<IdTypeModel>(
+                          items: idTypeList,
+                          title: data[item].label,
+                          hint: selectedIDType.value.isEmpty
+                              ? Strings.selectType
+                              : selectedIDType.value,
+                          onChanged: (value) {
+                            selectedIDType.value = value!.title;
+                          },
+                          padding: EdgeInsets.symmetric(
+                            horizontal: Dimensions.paddingHorizontalSize * 0.25,
+                          ),
+                          titleTextColor: CustomColor.primaryLightTextColor
+                              .withValues(alpha: .2),
+                          dropDownIconColor: CustomColor.primaryLightTextColor
+                              .withValues(alpha: .2),
+                        ),
+                      ),
+                      verticalSpace(Dimensions.marginBetweenInputBox * .8),
+                    ],
+                  ),
+                );
+              }
+            }
           }
-        }
-      }
 
-      _isLoading.value = false;
-      update();
-    }).catchError(
-      (onError) {
-        log.e(onError);
-      },
-    );
+          _isLoading.value = false;
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+        });
     update();
     return _basicDataModel;
   }
@@ -228,9 +230,9 @@ class BasicDataController extends GetxController {
       isAgree = '1';
     } else {
       isAgree = '';
-    } 
+    }
 
-    Map<String, String> inputBody = {
+    final Map<String, String> inputBody = {
       'register_type': controller.selectedRegID.value == 0 ? 'Email' : 'Phone',
       'firstname': firstNameController.text,
       'business_name': businessNameController.text,
@@ -245,28 +247,30 @@ class BasicDataController extends GetxController {
       'password_confirmation': confirmPasswordController.text,
       'agree': isAgree.toString(),
       'refer': referralIdController.text,
-    }; 
-    
+    };
+
     final data = _basicDataModel.data.registerKycFields.fields;
 
     for (int i = 0; i < data.length; i += 1) {
       if (data[i].type != 'file') {
         inputBody[data[i].name] = inputFieldControllers[i].text;
       }
-    } 
-    
+    }
+
     await ApiServices.registrationApi(
-      body: inputBody,
-      fieldList: listFieldName,
-      pathList: listImagePath,
-    ).then((value) {
-      _registrationModel = value!; 
-      _isLoading.value = false;
-      update();
-      _goToSavedUser(_registrationModel);
-    }).catchError((onError) {
-      log.e(onError);
-    });
+          body: inputBody,
+          fieldList: listFieldName,
+          pathList: listImagePath,
+        )
+        .then((value) {
+          _registrationModel = value!;
+          _isLoading.value = false;
+          update();
+          _goToSavedUser(_registrationModel);
+        })
+        .catchError((onError) {
+          log.e(onError);
+        });
     _isLoading.value = false;
     update();
     return _registrationModel;
@@ -289,7 +293,7 @@ class BasicDataController extends GetxController {
             controller.phoneNumberController.text;
         signInController.smsOtpProcess();
         Get.toNamed(Routes.phoneVerificationScreen);
-       } else {
+      } else {
         Get.offAndToNamed(Routes.waitForApprovalScreen);
       }
     } else if (controller.selectedRegID.value == 1) {
@@ -307,7 +311,7 @@ class BasicDataController extends GetxController {
 
   void updateImageData(String fieldName, String imagePath) {
     if (listFieldName.contains(fieldName)) {
-      int itemIndex = listFieldName.indexOf(fieldName);
+      final int itemIndex = listFieldName.indexOf(fieldName);
       listImagePath[itemIndex] = imagePath;
     } else {
       listFieldName.add(fieldName);
@@ -318,7 +322,7 @@ class BasicDataController extends GetxController {
 
   String? getImagePath(String fieldName) {
     if (listFieldName.contains(fieldName)) {
-      int itemIndex = listFieldName.indexOf(fieldName);
+      final int itemIndex = listFieldName.indexOf(fieldName);
       return listImagePath[itemIndex];
     }
     return null;

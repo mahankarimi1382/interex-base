@@ -291,7 +291,7 @@ class CustomDrawer extends StatelessWidget {
           ),
           content: Builder(
             builder: (context) {
-              var width = MediaQuery.of(context).size.width;
+              final width = MediaQuery.of(context).size.width;
               return Container(
                 width: width * 0.84,
                 margin: EdgeInsets.all(Dimensions.paddingSize * 0.5),

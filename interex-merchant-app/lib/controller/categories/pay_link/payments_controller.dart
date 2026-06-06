@@ -65,12 +65,8 @@ class PaymentsController extends GetxController with PaymentLinkApiServices {
   RxString currencyCountry = ''.obs;
   RxString currencyName = ''.obs;
   List<TypeSelectionModel> typeSelectionList = [
-    TypeSelectionModel(
-      Strings.customerChoose,
-    ),
-    TypeSelectionModel(
-      Strings.productsOrSubscriptions,
-    ),
+    TypeSelectionModel(Strings.customerChoose),
+    TypeSelectionModel(Strings.productsOrSubscriptions),
   ];
 
   @override
@@ -92,12 +88,14 @@ class PaymentsController extends GetxController with PaymentLinkApiServices {
   Future<PaymentLinkModel> getPaymentLinkProcess() async {
     _isLoading.value = true;
     update();
-    await getPaymentLinkProcessApi().then((value) {
-      _paymentLinkModel = value!;
-      _setData(_paymentLinkModel);
-      _isLoading.value = false;
-      update();
-    }).catchError((onError) {});
+    await getPaymentLinkProcessApi()
+        .then((value) {
+          _paymentLinkModel = value!;
+          _setData(_paymentLinkModel);
+          _isLoading.value = false;
+          update();
+        })
+        .catchError((onError) {});
     _isLoading.value = false;
     update();
     return _paymentLinkModel;
@@ -107,13 +105,16 @@ class PaymentsController extends GetxController with PaymentLinkApiServices {
     defaultImage.value =
         "${_paymentLinkModel.data.baseUrl}/${_paymentLinkModel.data.defaultImage}";
     _paymentLinkModel.data.currencyData.forEach((element) {
-      currencyList.add(CurrencyDatum(
-        currencyName: element.currencyName,
-        currencyCode: element.currencyCode,
-        country: element.country,
-        currencySymbol: element.currencySymbol,
-      ));
-      currencySelection.value = currencyList.first.currencyCode +
+      currencyList.add(
+        CurrencyDatum(
+          currencyName: element.currencyName,
+          currencyCode: element.currencyCode,
+          country: element.country,
+          currencySymbol: element.currencySymbol,
+        ),
+      );
+      currencySelection.value =
+          currencyList.first.currencyCode +
           // ignore: prefer_interpolation_to_compose_strings
           '-' +
           currencyList.first.currencyName!;
@@ -136,15 +137,15 @@ class PaymentsController extends GetxController with PaymentLinkApiServices {
   Future<CommonSuccessModel> updateStatusProcess({required dynamic id}) async {
     _isStatusLoading.value = true;
     update();
-    Map<String, dynamic> inputBody = {
-      'target': id,
-    };
-    await updatePaymentLinkStatusApi(body: inputBody).then((value) {
-      _commonSuccessModel = value!;
-      _isStatusLoading.value = false;
-      getPaymentLinkProcess();
-      update();
-    }).catchError((onError) {});
+    final Map<String, dynamic> inputBody = {'target': id};
+    await updatePaymentLinkStatusApi(body: inputBody)
+        .then((value) {
+          _commonSuccessModel = value!;
+          _isStatusLoading.value = false;
+          getPaymentLinkProcess();
+          update();
+        })
+        .catchError((onError) {});
     _isStatusLoading.value = false;
     update();
     return _commonSuccessModel;
@@ -163,7 +164,7 @@ class PaymentsController extends GetxController with PaymentLinkApiServices {
     _isUpdateLoading.value = true;
     update();
 
-    Map<String, String> payInputBody = {
+    final Map<String, String> payInputBody = {
       'currency': currencyCode.value,
       'currency_name': currencyName.value,
       'currency_symbol': currencySymbol.value,
@@ -176,7 +177,7 @@ class PaymentsController extends GetxController with PaymentLinkApiServices {
       'max_amount': setLimit.value == true ? maximumAmountController.text : '',
     };
 
-    Map<String, String> subInputBody = {
+    final Map<String, String> subInputBody = {
       'sub_currency': currencyCode.value,
       'currency_name': currencyName.value,
       'currency_symbol': currencySymbol.value,
@@ -188,17 +189,19 @@ class PaymentsController extends GetxController with PaymentLinkApiServices {
     };
 
     await paymentLinkStoreWithImageApi(
-      body: typeSelection.value == Strings.customerChoose
-          ? payInputBody
-          : subInputBody,
-      filepath: imageController.userImagePath.value,
-    ).then((value) {
-      _paymentLinkStoreModel = value!;
-      createNewLinkController.text =
-          _paymentLinkStoreModel.data.paymentLink.shareLink;
-      _onCreateNewLink();
-      update();
-    }).catchError((onError) {});
+          body: typeSelection.value == Strings.customerChoose
+              ? payInputBody
+              : subInputBody,
+          filepath: imageController.userImagePath.value,
+        )
+        .then((value) {
+          _paymentLinkStoreModel = value!;
+          createNewLinkController.text =
+              _paymentLinkStoreModel.data.paymentLink.shareLink;
+          _onCreateNewLink();
+          update();
+        })
+        .catchError((onError) {});
 
     _isUpdateLoading.value = false;
     update();
@@ -210,7 +213,7 @@ class PaymentsController extends GetxController with PaymentLinkApiServices {
     _isUpdateLoading.value = true;
     update();
 
-    Map<String, String> payInputBody = {
+    final Map<String, String> payInputBody = {
       'currency': currencyCode.value,
       'currency_name': currencyName.value,
       'currency_symbol': currencySymbol.value,
@@ -222,7 +225,7 @@ class PaymentsController extends GetxController with PaymentLinkApiServices {
       'min_amount': setLimit.value == true ? minimumAmountController.text : '',
       'max_amount': setLimit.value == true ? maximumAmountController.text : '',
     };
-    Map<String, String> subInputBody = {
+    final Map<String, String> subInputBody = {
       'sub_currency': currencyCode.value,
       'currency_name': currencyName.value,
       'currency_symbol': currencySymbol.value,
@@ -234,16 +237,18 @@ class PaymentsController extends GetxController with PaymentLinkApiServices {
     };
 
     await paymentLinkStoreWithoutImageApi(
-      body: typeSelection.value == Strings.customerChoose
-          ? payInputBody
-          : subInputBody,
-    ).then((value) {
-      _paymentLinkStoreModel = value!;
-      createNewLinkController.text =
-          _paymentLinkStoreModel.data.paymentLink.shareLink;
-      _onCreateNewLink();
-      update();
-    }).catchError((onError) {});
+          body: typeSelection.value == Strings.customerChoose
+              ? payInputBody
+              : subInputBody,
+        )
+        .then((value) {
+          _paymentLinkStoreModel = value!;
+          createNewLinkController.text =
+              _paymentLinkStoreModel.data.paymentLink.shareLink;
+          _onCreateNewLink();
+          update();
+        })
+        .catchError((onError) {});
 
     _isUpdateLoading.value = false;
     update();
@@ -270,9 +275,7 @@ class PaymentsController extends GetxController with PaymentLinkApiServices {
   }
 
   Future<void> _onCopyTap() async {
-    await Clipboard.setData(
-      ClipboardData(text: copyLinkController.text),
-    );
+    await Clipboard.setData(ClipboardData(text: copyLinkController.text));
     CustomSnackBar.success(Strings.linkCopiedSuccessfully.tr);
   }
 }

@@ -41,23 +41,27 @@ const String isKycVerificationKey = "isKycVerificationKey";
 // const int cryptoKey = "cryptoKey";
 
 class LocalStorages {
-  static Future<void> saveEmailVerification(
-      {required bool isEmailVerification}) async {
+  static Future<void> saveEmailVerification({
+    required bool isEmailVerification,
+  }) async {
     final box = GetStorage();
 
     await box.write(isEmailVerificationKey, isEmailVerification);
     debugPrint(isEmailVerification.toString());
   }
 
-  static Future<void> saveKycVerification(
-      {required bool isKycVerification}) async {
+  static Future<void> saveKycVerification({
+    required bool isKycVerification,
+  }) async {
     final box = GetStorage();
 
     await box.write(isKycVerificationKey, isKycVerification);
     debugPrint(isKycVerification.toString());
   }
-  static Future<void> saveSmsVerification(
-      {required bool isSmsVerification}) async {
+
+  static Future<void> saveSmsVerification({
+    required bool isSmsVerification,
+  }) async {
     final box = GetStorage();
 
     await box.write(isSmsVerificationKey, isSmsVerification);
@@ -68,20 +72,18 @@ class LocalStorages {
     final box = GetStorage();
 
     await box.write(splashImgKey, image);
-  } 
-
+  }
 
   // static Future<void> saveFiat({required int fiatValue}) async {
   //   final box = GetStorage();
-   
+
   //   await box.write(fiatKey, fiatValue);
   // }
 
   // static String getFiat() {
   //   return GetStorage().read(fiatKey);
   // }
- 
- 
+
   // static Future<void> saveCrypto({required int cryptoValue}) async {
   //   final box = GetStorage();
 
@@ -91,8 +93,6 @@ class LocalStorages {
   // static String getCrypto() {
   //   return GetStorage().read(cryptoKey);
   // }
- 
-
 
   static String getSplashImage() {
     return GetStorage().read(splashImgKey);
@@ -110,24 +110,23 @@ class LocalStorages {
     await box.write(nameKey, name);
   }
 
+  static Future<void> saveFiatPrecision({required int value}) async {
+    final box = GetStorage();
+    await box.write('FiatPrecision', value);
+  }
 
-static Future<void> saveFiatPrecision({required int value}) async {
-  final box = GetStorage();
-  await box.write('FiatPrecision', value);
-}
+  static int getFiatPrecision() {
+    return GetStorage().read('FiatPrecision') ?? 0;
+  }
 
-static int getFiatPrecision() {
-  return GetStorage().read('FiatPrecision') ?? 0;
-}
+  static Future<void> saveCryptoPrecision({required int value}) async {
+    final box = GetStorage();
+    await box.write('CryptoPrecision', value);
+  }
 
-static Future<void> saveCryptoPrecision({required int value}) async {
-  final box = GetStorage();
-  await box.write('CryptoPrecision', value);
-}
-
-static int getCryptoPrecision() {
-  return GetStorage().read('CryptoPrecision') ?? 0;
-}
+  static int getCryptoPrecision() {
+    return GetStorage().read('CryptoPrecision') ?? 0;
+  }
 
   static Future<void> saveEmail({required String email}) async {
     final box = GetStorage();
@@ -141,8 +140,9 @@ static int getCryptoPrecision() {
     await box.write(tokenKey, token);
   }
 
-  static Future<void> saveCountryCode(
-      {required String countryCodeValue}) async {
+  static Future<void> saveCountryCode({
+    required String countryCodeValue,
+  }) async {
     final box = GetStorage();
 
     await box.write(countryCode, countryCodeValue);
@@ -184,8 +184,9 @@ static int getCryptoPrecision() {
     await box.write(showAdKey, isShowAdYes);
   }
 
-  static Future<void> saveOnboardDoneOrNot(
-      {required bool isOnBoardDone}) async {
+  static Future<void> saveOnboardDoneOrNot({
+    required bool isOnBoardDone,
+  }) async {
     final box = GetStorage();
 
     await box.write(isOnBoardDoneKey, isOnBoardDone);
@@ -200,17 +201,17 @@ static int getCryptoPrecision() {
     final box2 = GetStorage();
     final box3 = GetStorage();
     languageStateName = languageName;
-    var locale = Locale(langSmall, langCap);
-    Get.updateLocale(locale);
+    final locale = Locale(langSmall, langCap);
+    await Get.updateLocale(locale);
     await box1.write(smallLanguage, langSmall);
     await box2.write(capitalLanguage, langCap);
     await box3.write(language, languageName);
   }
 
   static List getLanguage() {
-    String small = GetStorage().read(smallLanguage) ?? 'en';
-    String capital = GetStorage().read(capitalLanguage) ?? 'EN';
-    String languages = GetStorage().read(language) ?? 'English';
+    final String small = GetStorage().read(smallLanguage) ?? 'en';
+    final String capital = GetStorage().read(capitalLanguage) ?? 'EN';
+    final String languages = GetStorage().read(language) ?? 'English';
     return [small, capital, languages];
   }
 
@@ -232,7 +233,7 @@ static int getCryptoPrecision() {
   }
 
   static String? getToken() {
-    var rtrn = GetStorage().read(tokenKey);
+    final rtrn = GetStorage().read(tokenKey);
 
     debugPrint(rtrn == null ? "##Token is null###" : "");
 
@@ -240,7 +241,7 @@ static int getCryptoPrecision() {
   }
 
   static String? getCountryCode() {
-    var rtrn = GetStorage().read(countryCode);
+    final rtrn = GetStorage().read(countryCode);
 
     debugPrint(rtrn == null ? "##Country Code is null###" : "");
 
@@ -248,7 +249,7 @@ static int getCryptoPrecision() {
   }
 
   static String? getCountry() {
-    var rtrn = GetStorage().read(country);
+    final rtrn = GetStorage().read(country);
 
     debugPrint(rtrn == null ? "##Country is null###" : "");
 
@@ -266,12 +267,15 @@ static int getCryptoPrecision() {
   static bool isEmailVerification() {
     return GetStorage().read(isEmailVerificationKey) ?? false;
   }
+
   static bool isSmsVerification() {
     return GetStorage().read(isSmsVerificationKey) ?? false;
   }
+
   static bool isKycVerification() {
     return GetStorage().read(isKycVerificationKey) ?? false;
   }
+
   static bool isDataLoaded() {
     return GetStorage().read(isDataLoadedKey) ?? false;
   }

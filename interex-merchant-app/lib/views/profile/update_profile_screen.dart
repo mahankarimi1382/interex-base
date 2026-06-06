@@ -29,9 +29,7 @@ class UpdateProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return ResponsiveLayout(
       mobileScaffold: Scaffold(
-        appBar: AppBarWidget(
-          text: Strings.updateProfile.tr,
-        ),
+        appBar: AppBarWidget(text: Strings.updateProfile.tr),
         body: _bodyWidget(context),
       ),
     );
@@ -118,9 +116,7 @@ class UpdateProfileScreen extends StatelessWidget {
             hint: Strings.enterPhone.tr,
             label: Strings.phoneNumber.tr,
           ),
-          verticalSpace(
-            Dimensions.heightSize,
-          ),
+          verticalSpace(Dimensions.heightSize),
           Row(
             children: [
               Expanded(
@@ -148,9 +144,7 @@ class UpdateProfileScreen extends StatelessWidget {
 
   Container _buttonWidget(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(
-        top: Dimensions.marginSizeVertical,
-      ),
+      margin: EdgeInsets.only(top: Dimensions.marginSizeVertical),
       child: Obx(
         () => controller.isUpdateLoading
             ? const CustomLoadingAPI()
@@ -159,23 +153,29 @@ class UpdateProfileScreen extends StatelessWidget {
                 onPressed: () {
                   if (_fromKey.currentState!.validate()) {
                     if (controller.imageController.isImagePathSet.value) {
-                      controller
-                          .profileUpdateWithImageProcess()
-                          .then((value) => StatusScreen.show(
-                              context: context,
-                              subTitle: value.message.success.first,
-                              onPressed: () {
-                                Get.offAllNamed(Routes.bottomNavBarScreen);
-                              }));
+                      controller.profileUpdateWithImageProcess().then((value) {
+                        if (!context.mounted) return;
+                        StatusScreen.show(
+                          context: context,
+                          subTitle: value.message.success.first,
+                          onPressed: () {
+                            Get.offAllNamed(Routes.bottomNavBarScreen);
+                          },
+                        );
+                      });
                     } else {
-                      controller
-                          .profileUpdateWithOutImageProcess()
-                          .then((value) => StatusScreen.show(
-                              context: context,
-                              subTitle: value.message.success.first,
-                              onPressed: () {
-                                Get.offAllNamed(Routes.bottomNavBarScreen);
-                              }));
+                      controller.profileUpdateWithOutImageProcess().then((
+                        value,
+                      ) {
+                        if (!context.mounted) return;
+                        StatusScreen.show(
+                          context: context,
+                          subTitle: value.message.success.first,
+                          onPressed: () {
+                            Get.offAllNamed(Routes.bottomNavBarScreen);
+                          },
+                        );
+                      });
                     }
                   }
                 },

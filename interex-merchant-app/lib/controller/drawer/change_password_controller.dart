@@ -5,7 +5,6 @@ import 'package:qrpay/routes/routes.dart';
 import '../../backend/model/common/common_success_model.dart';
 import '../../backend/services/api_services.dart';
 
-
 class PasswordController extends GetxController {
   final oldPasswordController = TextEditingController();
   final newPasswordController = TextEditingController();
@@ -28,23 +27,24 @@ class PasswordController extends GetxController {
   Future<CommonSuccessModel> updatePasswordProcess() async {
     _isLoading.value = true;
     update();
-    Map<String, dynamic> inputBody = {
+    final Map<String, dynamic> inputBody = {
       'current_password': oldPasswordController.text,
       'password': newPasswordController.text,
       'password_confirmation': confirmPasswordController.text,
     };
 
-    await ApiServices.passwordUpdateApi(body: inputBody).then((value) {
-      _commonSuccessModel = value!;
-      Get.offAllNamed(Routes.bottomNavBarScreen);
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-    });
+    await ApiServices.passwordUpdateApi(body: inputBody)
+        .then((value) {
+          _commonSuccessModel = value!;
+          Get.offAllNamed(Routes.bottomNavBarScreen);
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+        });
 
     _isLoading.value = false;
     update();
     return _commonSuccessModel;
   }
-
 }

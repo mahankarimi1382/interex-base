@@ -35,14 +35,10 @@ class ShareLinkScreenMobile extends StatelessWidget {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        Get.offAllNamed(Routes.bottomNavBarScreen);
+        await Get.offAllNamed(Routes.bottomNavBarScreen);
         return true;
       },
-      child: Scaffold(
-        body: _bodyWidget(
-          context,
-        ),
-      ),
+      child: Scaffold(body: _bodyWidget(context)),
     );
   }
 
@@ -53,13 +49,9 @@ class ShareLinkScreenMobile extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          _congratulationImageWidget(
-            context,
-          ),
+          _congratulationImageWidget(context),
           verticalSpace(Dimensions.heightSize * 2),
-          _congratulationInfoWidget(
-            context,
-          ),
+          _congratulationInfoWidget(context),
           verticalSpace(Dimensions.heightSize * 1.33),
           _buttonWidget(context),
         ],
@@ -72,42 +64,33 @@ class ShareLinkScreenMobile extends StatelessWidget {
       margin: EdgeInsets.symmetric(horizontal: Dimensions.marginSizeHorizontal),
       child: Column(
         children: [
-          PrimaryButton(
-            title: btnName,
-            onPressed: onButtonTap,
-          ),
+          PrimaryButton(title: btnName, onPressed: onButtonTap),
           verticalSpace(Dimensions.heightSize * 2),
           Align(
-              alignment: Alignment.center,
-              child: InkWell(
-                onTap: () {
-                  Get.offAllNamed(Routes.bottomNavBarScreen);
-                },
-                child: Padding(
-                  padding: EdgeInsets.only(top: Dimensions.paddingVerticalSize),
-                  child: const TitleHeading4Widget(
-                    text: Strings.backtoHome,
-                    fontWeight: FontWeight.w600,
-                    color: CustomColor.primaryLightColor,
-                  ),
+            child: InkWell(
+              onTap: () {
+                Get.offAllNamed(Routes.bottomNavBarScreen);
+              },
+              child: Padding(
+                padding: EdgeInsets.only(top: Dimensions.paddingVerticalSize),
+                child: const TitleHeading4Widget(
+                  text: Strings.backtoHome,
+                  fontWeight: FontWeight.w600,
+                  color: CustomColor.primaryLightColor,
                 ),
-              ))
+              ),
+            ),
+          ),
         ],
       ),
     );
   }
 
-  SvgPicture _congratulationImageWidget(
-    BuildContext context,
-  ) {
-    return SvgPicture.asset(
-      Assets.clipart.confirmation,
-    );
+  SvgPicture _congratulationImageWidget(BuildContext context) {
+    return SvgPicture.asset(Assets.clipart.confirmation);
   }
 
-  Container _congratulationInfoWidget(
-    BuildContext context,
-  ) {
+  Container _congratulationInfoWidget(BuildContext context) {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: Dimensions.marginSizeHorizontal),
       child: Column(
@@ -116,7 +99,8 @@ class ShareLinkScreenMobile extends StatelessWidget {
         children: [
           Padding(
             padding: EdgeInsets.symmetric(
-                horizontal: Dimensions.marginSizeHorizontal),
+              horizontal: Dimensions.marginSizeHorizontal,
+            ),
             child: TitleHeading2Widget(
               text: title,
               color: CustomColor.primaryLightTextColor,
@@ -132,7 +116,7 @@ class ShareLinkScreenMobile extends StatelessWidget {
             fillColor: CustomColor.whiteColor,
             readOnly: true,
             suffixIcon: _customCopyWidget(),
-          )
+          ),
         ],
       ),
     );
@@ -151,8 +135,11 @@ class ShareLinkScreenMobile extends StatelessWidget {
           ),
           color: Theme.of(Get.context!).primaryColor,
         ),
-        child: Icon(Icons.copy,
-            color: CustomColor.whiteColor, size: Dimensions.heightSize * 1.5),
+        child: Icon(
+          Icons.copy,
+          color: CustomColor.whiteColor,
+          size: Dimensions.heightSize * 1.5,
+        ),
       ),
     );
   }

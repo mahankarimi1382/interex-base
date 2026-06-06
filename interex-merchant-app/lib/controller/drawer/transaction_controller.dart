@@ -30,14 +30,16 @@ class TransactionController extends GetxController {
     update();
 
     // calling  from api service
-    await ApiServices.getTransactionLogAPi().then((value) {
-      _transactionLogModel = value!;
+    await ApiServices.getTransactionLogAPi()
+        .then((value) {
+          _transactionLogModel = value!;
 
-      _isLoading.value = false;
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-    });
+          _isLoading.value = false;
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+        });
     update();
     return _transactionLogModel;
   }
@@ -60,14 +62,15 @@ class TransactionController extends GetxController {
     // calling  from api service
     await ApiServices.refundApi(body: {"target": targetId}, endPoint: endPoint)
         .then((value) {
-      _refundModel = value!;
-      getTransactionData();
-      _isRefundLoading.value = false;
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-      _isRefundLoading.value = false;
-    });
+          _refundModel = value!;
+          getTransactionData();
+          _isRefundLoading.value = false;
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+          _isRefundLoading.value = false;
+        });
     update();
     return _refundModel;
   }
@@ -81,20 +84,18 @@ class TransactionController extends GetxController {
   }) {
     showDialog(
       context: context,
-      barrierDismissible: true,
       builder: (context) {
         return Dialog(
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
           child: Padding(
             padding: const EdgeInsets.all(20),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
                 /// Title Text
-                TitleHeading2Widget(
-                  text: Strings.areYouSureToRefundBalance,
-                ),
+                TitleHeading2Widget(text: Strings.areYouSureToRefundBalance),
 
                 verticalSpace(Dimensions.heightSize),
 
@@ -113,12 +114,16 @@ class TransactionController extends GetxController {
                       child: PrimaryButton(
                         onPressed: () {
                           Navigator.pop(context);
-                          Get.find<SetUpPinController>().showPinDialog(context,
-                              onSuccess: () {
-                            refundProcess(
-                                endPoint: endPoint, targetId: targetId);
-                            debugPrint("Refund confirmed");
-                          });
+                          Get.find<SetUpPinController>().showPinDialog(
+                            context,
+                            onSuccess: () {
+                              refundProcess(
+                                endPoint: endPoint,
+                                targetId: targetId,
+                              );
+                              debugPrint("Refund confirmed");
+                            },
+                          );
                         },
                         title: Strings.refund,
                       ),

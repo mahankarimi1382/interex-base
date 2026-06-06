@@ -9,20 +9,17 @@ class DashboardModel {
   Message message;
   Data data;
 
-  DashboardModel({
-    required this.message,
-    required this.data,
-  });
+  DashboardModel({required this.message, required this.data});
 
   factory DashboardModel.fromJson(Map<String, dynamic> json) => DashboardModel(
-        message: Message.fromJson(json["message"]),
-        data: Data.fromJson(json["data"]),
-      );
+    message: Message.fromJson(json["message"]),
+    data: Data.fromJson(json["data"]),
+  );
 
   Map<String, dynamic> toJson() => {
-        "message": message.toJson(),
-        "data": data.toJson(),
-      };
+    "message": message.toJson(),
+    "data": data.toJson(),
+  };
 }
 
 class Data {
@@ -55,36 +52,37 @@ class Data {
   });
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
-        pusherCredentials:
-            PusherCredentials.fromJson(json["pusher_credentials"]),
-        baseCurr: json["base_curr"],
-        moduleAccess: ModuleAccess.fromJson(json["module_access"]),
-        userWallets: List<UserWallet>.from(
-            json["userWallets"].map((x) => UserWallet.fromJson(x))),
-        defaultImage: json["default_image"],
-        imagePath: json["image_path"],
-        merchant: Merchant.fromJson(json["merchant"]),
-        totalMoneyOut: json["totalMoneyOut"],
-        pinVerification: json["pin_verification"],
-        receiveMoney: json["receiveMoney"],
-        gatewayAmount: json["gateway_amount"],
-        transactions: List<Transaction>.from(
-            json["transactions"].map((x) => Transaction.fromJson(x))),
-      );
+    pusherCredentials: PusherCredentials.fromJson(json["pusher_credentials"]),
+    baseCurr: json["base_curr"],
+    moduleAccess: ModuleAccess.fromJson(json["module_access"]),
+    userWallets: List<UserWallet>.from(
+      json["userWallets"].map((x) => UserWallet.fromJson(x)),
+    ),
+    defaultImage: json["default_image"],
+    imagePath: json["image_path"],
+    merchant: Merchant.fromJson(json["merchant"]),
+    totalMoneyOut: json["totalMoneyOut"],
+    pinVerification: json["pin_verification"],
+    receiveMoney: json["receiveMoney"],
+    gatewayAmount: json["gateway_amount"],
+    transactions: List<Transaction>.from(
+      json["transactions"].map((x) => Transaction.fromJson(x)),
+    ),
+  );
 
   Map<String, dynamic> toJson() => {
-        "pusher_credentials": pusherCredentials.toJson(),
-        "base_curr": baseCurr,
-        "module_access": moduleAccess.toJson(),
-        "userWallets": List<dynamic>.from(userWallets.map((x) => x.toJson())),
-        "default_image": defaultImage,
-        "image_path": imagePath,
-        "merchant": merchant.toJson(),
-        "totalMoneyOut": totalMoneyOut,
-        "receiveMoney": receiveMoney,
-        "gateway_amount": gatewayAmount,
-        "transactions": List<dynamic>.from(transactions.map((x) => x.toJson())),
-      };
+    "pusher_credentials": pusherCredentials.toJson(),
+    "base_curr": baseCurr,
+    "module_access": moduleAccess.toJson(),
+    "userWallets": List<dynamic>.from(userWallets.map((x) => x.toJson())),
+    "default_image": defaultImage,
+    "image_path": imagePath,
+    "merchant": merchant.toJson(),
+    "totalMoneyOut": totalMoneyOut,
+    "receiveMoney": receiveMoney,
+    "gateway_amount": gatewayAmount,
+    "transactions": List<dynamic>.from(transactions.map((x) => x.toJson())),
+  };
 }
 
 class Merchant {
@@ -136,50 +134,50 @@ class Merchant {
   });
 
   factory Merchant.fromJson(Map<String, dynamic> json) => Merchant(
-        id: json["id"],
-        firstname: json["firstname"],
-        lastname: json["lastname"],
-        businessName: json["business_name"],
-        username: json["username"],
-        email: json["email"],
-        mobileCode: json["mobile_code"],
-        mobile: json["mobile"],
-        fullMobile: json["full_mobile"],
-        image: json["image"] ?? '',
-        status: json["status"],
-        pinStatus: json["pin_status"],
-        pinCode: json["pin_code"] ?? 0,
-        address: Address.fromJson(json["address"]),
-        emailVerified: json["email_verified"],
-        smsVerified: json["sms_verified"],
-        kycVerified: json["kyc_verified"],
-        twoFactorVerified: json["two_factor_verified"],
-        twoFactorStatus: json["two_factor_status"],
-        fullname: json["fullname"],
-        userImage: json["userImage"],
-      );
+    id: json["id"],
+    firstname: json["firstname"],
+    lastname: json["lastname"],
+    businessName: json["business_name"],
+    username: json["username"],
+    email: json["email"],
+    mobileCode: json["mobile_code"],
+    mobile: json["mobile"],
+    fullMobile: json["full_mobile"],
+    image: json["image"] ?? '',
+    status: json["status"],
+    pinStatus: json["pin_status"],
+    pinCode: json["pin_code"] ?? 0,
+    address: Address.fromJson(json["address"]),
+    emailVerified: json["email_verified"],
+    smsVerified: json["sms_verified"],
+    kycVerified: json["kyc_verified"],
+    twoFactorVerified: json["two_factor_verified"],
+    twoFactorStatus: json["two_factor_status"],
+    fullname: json["fullname"],
+    userImage: json["userImage"],
+  );
 
   Map<String, dynamic> toJson() => {
-        "id": id,
-        "firstname": firstname,
-        "lastname": lastname,
-        "business_name": businessName,
-        "username": username,
-        "email": email,
-        "mobile_code": mobileCode,
-        "mobile": mobile,
-        "full_mobile": fullMobile,
-        "image": image,
-        "status": status,
-        "address": address.toJson(),
-        "email_verified": emailVerified,
-        "sms_verified": smsVerified,
-        "kyc_verified": kycVerified,
-        "two_factor_verified": twoFactorVerified,
-        "two_factor_status": twoFactorStatus,
-        "fullname": fullname,
-        "userImage": userImage,
-      };
+    "id": id,
+    "firstname": firstname,
+    "lastname": lastname,
+    "business_name": businessName,
+    "username": username,
+    "email": email,
+    "mobile_code": mobileCode,
+    "mobile": mobile,
+    "full_mobile": fullMobile,
+    "image": image,
+    "status": status,
+    "address": address.toJson(),
+    "email_verified": emailVerified,
+    "sms_verified": smsVerified,
+    "kyc_verified": kycVerified,
+    "two_factor_verified": twoFactorVerified,
+    "two_factor_status": twoFactorStatus,
+    "fullname": fullname,
+    "userImage": userImage,
+  };
 }
 
 class Address {
@@ -198,20 +196,20 @@ class Address {
   });
 
   factory Address.fromJson(Map<String, dynamic> json) => Address(
-        address: json["address"],
-        city: json["city"],
-        zip: json["zip"],
-        country: json["country"],
-        state: json["state"],
-      );
+    address: json["address"],
+    city: json["city"],
+    zip: json["zip"],
+    country: json["country"],
+    state: json["state"],
+  );
 
   Map<String, dynamic> toJson() => {
-        "address": address,
-        "city": city,
-        "zip": zip,
-        "country": country,
-        "state": state,
-      };
+    "address": address,
+    "city": city,
+    "zip": zip,
+    "country": country,
+    "state": state,
+  };
 }
 
 class Transaction {
@@ -238,28 +236,28 @@ class Transaction {
   });
 
   factory Transaction.fromJson(Map<String, dynamic> json) => Transaction(
-        id: json["id"],
-        type: json["type"],
-        trx: json["trx"],
-        transactionType: json["transaction_type"],
-        requestAmount: json["request_amount"],
-        payable: json["payable"],
-        status: json["status"],
-        remark: json["remark"],
-        dateTime: DateTime.parse(json["date_time"]),
-      );
+    id: json["id"],
+    type: json["type"],
+    trx: json["trx"],
+    transactionType: json["transaction_type"],
+    requestAmount: json["request_amount"],
+    payable: json["payable"],
+    status: json["status"],
+    remark: json["remark"],
+    dateTime: DateTime.parse(json["date_time"]),
+  );
 
   Map<String, dynamic> toJson() => {
-        "id": id,
-        "type": type,
-        "trx": trx,
-        "transaction_type": transactionType,
-        "request_amount": requestAmount,
-        "payable": payable,
-        "status": status,
-        "remark": remark,
-        "date_time": dateTime.toIso8601String(),
-      };
+    "id": id,
+    "type": type,
+    "trx": trx,
+    "transaction_type": transactionType,
+    "request_amount": requestAmount,
+    "payable": payable,
+    "status": status,
+    "remark": remark,
+    "date_time": dateTime.toIso8601String(),
+  };
 }
 
 class StatusInfo {
@@ -274,16 +272,16 @@ class StatusInfo {
   });
 
   factory StatusInfo.fromJson(Map<String, dynamic> json) => StatusInfo(
-        success: json["success"],
-        pending: json["pending"],
-        rejected: json["rejected"],
-      );
+    success: json["success"],
+    pending: json["pending"],
+    rejected: json["rejected"],
+  );
 
   Map<String, dynamic> toJson() => {
-        "success": success,
-        "pending": pending,
-        "rejected": rejected,
-      };
+    "success": success,
+    "pending": pending,
+    "rejected": rejected,
+  };
 }
 
 class UserWallet {
@@ -298,16 +296,16 @@ class UserWallet {
   });
 
   factory UserWallet.fromJson(Map<String, dynamic> json) => UserWallet(
-        balance: json["balance"],
-        status: json["status"],
-        currency: Currency.fromJson(json["currency"]),
-      );
+    balance: json["balance"],
+    status: json["status"],
+    currency: Currency.fromJson(json["currency"]),
+  );
 
   Map<String, dynamic> toJson() => {
-        "balance": balance,
-        "status": status,
-        "currency": currency.toJson(),
-      };
+    "balance": balance,
+    "status": status,
+    "currency": currency.toJson(),
+  };
 }
 
 class ModuleAccess {
@@ -326,46 +324,40 @@ class ModuleAccess {
   });
 
   factory ModuleAccess.fromJson(Map<String, dynamic> json) => ModuleAccess(
-        receiveMoney: json["receive_money"],
-        withdrawMoney: json["withdraw_money"],
-        developerApiKey: json["developer_api_key"],
-        gatewaySetting: json["gateway_setting"],
-        payLink: json["pay_link"],
-      );
+    receiveMoney: json["receive_money"],
+    withdrawMoney: json["withdraw_money"],
+    developerApiKey: json["developer_api_key"],
+    gatewaySetting: json["gateway_setting"],
+    payLink: json["pay_link"],
+  );
 
   Map<String, dynamic> toJson() => {
-        "receive_money": receiveMoney,
-        "withdraw_money": withdrawMoney,
-        "developer_api_key": developerApiKey,
-        "gateway_setting": gatewaySetting,
-        "pay_link": payLink,
-      };
+    "receive_money": receiveMoney,
+    "withdraw_money": withdrawMoney,
+    "developer_api_key": developerApiKey,
+    "gateway_setting": gatewaySetting,
+    "pay_link": payLink,
+  };
 }
 
 class Message {
   List<String> success;
 
-  Message({
-    required this.success,
-  });
+  Message({required this.success});
 
-  factory Message.fromJson(Map<String, dynamic> json) => Message(
-        success: List<String>.from(json["success"].map((x) => x)),
-      );
+  factory Message.fromJson(Map<String, dynamic> json) =>
+      Message(success: List<String>.from(json["success"].map((x) => x)));
 
   Map<String, dynamic> toJson() => {
-        "success": List<dynamic>.from(success.map((x) => x)),
-      };
+    "success": List<dynamic>.from(success.map((x) => x)),
+  };
 }
 
 class PusherCredentials {
   final String instanceId;
   final String secretKey;
 
-  PusherCredentials({
-    required this.instanceId,
-    required this.secretKey,
-  });
+  PusherCredentials({required this.instanceId, required this.secretKey});
 
   factory PusherCredentials.fromJson(Map<String, dynamic> json) =>
       PusherCredentials(
@@ -374,9 +366,9 @@ class PusherCredentials {
       );
 
   Map<String, dynamic> toJson() => {
-        "instanceId": instanceId,
-        "secretKey": secretKey,
-      };
+    "instanceId": instanceId,
+    "secretKey": secretKey,
+  };
 }
 
 class Currency {
@@ -411,34 +403,34 @@ class Currency {
   });
 
   factory Currency.fromJson(Map<String, dynamic> json) => Currency(
-        id: json["id"],
-        code: json["code"],
-        country: json["country"] ?? '',
-        rate: json["rate"],
-        flag: json["flag"] ?? "",
-        symbol: json["symbol"],
-        type: json["type"],
-        currencyDefault: json["default"],
-        both: json["both"],
-        senderCurrency: json["senderCurrency"],
-        receiverCurrency: json["receiverCurrency"],
-        editData: json["editData"],
-        currencyImage: json["currencyImage"],
-      );
+    id: json["id"],
+    code: json["code"],
+    country: json["country"] ?? '',
+    rate: json["rate"],
+    flag: json["flag"] ?? "",
+    symbol: json["symbol"],
+    type: json["type"],
+    currencyDefault: json["default"],
+    both: json["both"],
+    senderCurrency: json["senderCurrency"],
+    receiverCurrency: json["receiverCurrency"],
+    editData: json["editData"],
+    currencyImage: json["currencyImage"],
+  );
 
   Map<String, dynamic> toJson() => {
-        "id": id,
-        "code": code,
-        "country": country,
-        "rate": rate,
-        "flag": flag,
-        "symbol": symbol,
-        "type": type,
-        "default": currencyDefault,
-        "both": both,
-        "senderCurrency": senderCurrency,
-        "receiverCurrency": receiverCurrency,
-        "editData": editData,
-        "currencyImage": currencyImage,
-      };
+    "id": id,
+    "code": code,
+    "country": country,
+    "rate": rate,
+    "flag": flag,
+    "symbol": symbol,
+    "type": type,
+    "default": currencyDefault,
+    "both": both,
+    "senderCurrency": senderCurrency,
+    "receiverCurrency": receiverCurrency,
+    "editData": editData,
+    "currencyImage": currencyImage,
+  };
 }

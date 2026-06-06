@@ -31,16 +31,18 @@ class SettingController extends GetxController {
     _isLoading.value = true;
     update();
 
-    Map<String, dynamic> inputBody = {};
+    final Map<String, dynamic> inputBody = {};
     // delete account api from api service
-    await ApiServices.deleteAccountApi(body: inputBody).then((value) {
-      _deleteAccountModel = value!;
+    await ApiServices.deleteAccountApi(body: inputBody)
+        .then((value) {
+          _deleteAccountModel = value!;
 
-      _isLoading.value = false;
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-    });
+          _isLoading.value = false;
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+        });
 
     _isLoading.value = false;
     update();

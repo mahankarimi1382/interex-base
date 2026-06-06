@@ -36,13 +36,15 @@ class MoneyReceiverController extends GetxController {
     _isLoading.value = true;
     update();
 
-    await ApiServices.receiveMoneyApi().then((value) {
-      _receiveMoneyModel = value!;
-      inputController.text = _receiveMoneyModel.data.uniqueCode.toString();
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-    });
+    await ApiServices.receiveMoneyApi()
+        .then((value) {
+          _receiveMoneyModel = value!;
+          inputController.text = _receiveMoneyModel.data.uniqueCode.toString();
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+        });
 
     _isLoading.value = false;
     update();

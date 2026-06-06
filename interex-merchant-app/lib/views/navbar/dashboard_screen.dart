@@ -44,9 +44,8 @@ class DashboardScreen extends StatelessWidget {
       color: Colors.white,
       backgroundColor: Colors.black,
       triggerMode: RefreshIndicatorTriggerMode.anywhere,
-      strokeWidth: 2.5,
       onRefresh: () async {
-        controller.getDashboardData();
+        await controller.getDashboardData();
         return Future<void>.delayed(const Duration(seconds: 3));
       },
       child: Stack(
@@ -58,7 +57,7 @@ class DashboardScreen extends StatelessWidget {
               _topButtonWidget(context),
             ],
           ),
-          _draggableSheet(context)
+          _draggableSheet(context),
         ],
       ),
     );
@@ -71,7 +70,6 @@ class DashboardScreen extends StatelessWidget {
       },
       initialChildSize: 0.60,
       minChildSize: 0.60,
-      maxChildSize: 1,
     );
   }
 
@@ -91,9 +89,10 @@ class DashboardScreen extends StatelessWidget {
                 // Get.find<SetUpPinController>().showPinDialog(context, onSuccess: (){});
 
                 Get.find<SetUpPinController>().pinVerificationCheck(
-                    onChecked: (){
-                      Get.toNamed(Routes.withdrawScreen);
-                    });
+                  onChecked: () {
+                    Get.toNamed(Routes.withdrawScreen);
+                  },
+                );
               },
             ),
           ],
@@ -106,8 +105,8 @@ class DashboardScreen extends StatelessWidget {
 
                 // Get.find<SetUpPinController>().pinVerificationCheck(
                 //     onChecked: (){
-                      Get.toNamed(Routes.moneyReceiveScreen);
-                    // });
+                Get.toNamed(Routes.moneyReceiveScreen);
+                // });
               },
             ),
           ],
@@ -116,12 +115,13 @@ class DashboardScreen extends StatelessWidget {
               icon: Assets.icon.paylink,
               title: Strings.payLink,
               onTap: () {
-               // Get.find<SetUpPinController>().showPinDialog(context, onSuccess: (){});
+                // Get.find<SetUpPinController>().showPinDialog(context, onSuccess: (){});
 
                 Get.find<SetUpPinController>().pinVerificationCheck(
-                    onChecked: (){
-                      Get.toNamed(Routes.paymentLogScreen);
-                    });
+                  onChecked: () {
+                    Get.toNamed(Routes.paymentLogScreen);
+                  },
+                );
                 // Get.toNamed(Routes.paymentLogScreen);
               },
             ),
@@ -131,13 +131,13 @@ class DashboardScreen extends StatelessWidget {
             icon: Assets.icon.exchangeAlt,
             title: Strings.exchange,
             onTap: () {
-
               // Get.find<SetUpPinController>().showPinDialog(context, onSuccess: (){});
 
               Get.find<SetUpPinController>().pinVerificationCheck(
-              onChecked: (){
-              Get.toNamed(Routes.exchangeMoneyScreen);
-              });
+                onChecked: () {
+                  Get.toNamed(Routes.exchangeMoneyScreen);
+                },
+              );
 
               // Get.toNamed(Routes.exchangeMoneyScreen);
             },
@@ -148,12 +148,13 @@ class DashboardScreen extends StatelessWidget {
     );
   }
 
-  StatelessWidget _transactionWidget(BuildContext context, ScrollController scrollController) {
-    var data = controller.dashBoardModel.data.transactions;
+  StatelessWidget _transactionWidget(
+    BuildContext context,
+    ScrollController scrollController,
+  ) {
+    final data = controller.dashBoardModel.data.transactions;
     return data.isEmpty
-        ? NoDataWidget(
-            title: Strings.noTransaction.tr,
-          )
+        ? NoDataWidget(title: Strings.noTransaction.tr)
         : ListView(
             padding: EdgeInsets.symmetric(
               horizontal: Dimensions.paddingSize * 0.8,
@@ -177,28 +178,32 @@ class DashboardScreen extends StatelessWidget {
               SizedBox(
                 height: MediaQuery.of(context).size.height,
                 child: ListView.builder(
-                    controller: scrollController,
-                    physics: const BouncingScrollPhysics(),
-                    itemCount: data.length < 6 ? data.length : 6,
-                    itemBuilder: (context, index) {
-                      return TransactionWidget(
-                        amount: data[index].requestAmount,
-                        title: data[index].transactionType,
-                        payableAmount: data[index].payable,
-                        dateText: DateFormat.d().format(data[index].dateTime),
-                        transaction: data[index].trx,
-                        monthText:
-                            DateFormat.MMM().format(data[index].dateTime),
-                        status: data[index].status,
-                      );
-                    }),
-              ).customGlassWidget()
+                  controller: scrollController,
+                  physics: const BouncingScrollPhysics(),
+                  itemCount: data.length < 6 ? data.length : 6,
+                  itemBuilder: (context, index) {
+                    return TransactionWidget(
+                      amount: data[index].requestAmount,
+                      title: data[index].transactionType,
+                      payableAmount: data[index].payable,
+                      dateText: DateFormat.d().format(data[index].dateTime),
+                      transaction: data[index].trx,
+                      monthText: DateFormat.MMM().format(data[index].dateTime),
+                      status: data[index].status,
+                    );
+                  },
+                ),
+              ).customGlassWidget(),
             ],
           );
   }
 
   Column _walletsWidget(BuildContext context) {
-    var wallets = controller.walletsController.walletsInfoModel.data.userWallets
+    final wallets = controller
+        .walletsController
+        .walletsInfoModel
+        .data
+        .userWallets
         .where(
           (e) =>
               e.currency.type ==
@@ -212,11 +217,7 @@ class DashboardScreen extends StatelessWidget {
           padding: EdgeInsets.symmetric(
             horizontal: Dimensions.marginSizeHorizontal * 0.9,
           ),
-          child: Column(
-            children: [
-              _currencySwitchWidget(context),
-            ],
-          ),
+          child: Column(children: [_currencySwitchWidget(context)]),
         ),
         verticalSpace(Dimensions.heightSize * 0.8),
         SizedBox(
@@ -303,13 +304,14 @@ class DashboardScreen extends StatelessWidget {
           child: Chip(
             backgroundColor: controller.switchCurrency.value == 0
                 ? Get.isDarkMode
-                    ? CustomColor.primaryBGDarkColor
-                    : CustomColor.whiteColor
+                      ? CustomColor.primaryBGDarkColor
+                      : CustomColor.whiteColor
                 : Theme.of(context).scaffoldBackgroundColor,
             side: BorderSide(
-                color: controller.switchCurrency.value == 0
-                    ? Colors.transparent
-                    : Colors.grey.withValues(alpha:0.2)),
+              color: controller.switchCurrency.value == 0
+                  ? Colors.transparent
+                  : Colors.grey.withValues(alpha: 0.2),
+            ),
             label: const TitleHeading4Widget(
               text: Strings.fiatCurrency,
               fontWeight: FontWeight.w500,
@@ -327,13 +329,14 @@ class DashboardScreen extends StatelessWidget {
           child: Chip(
             backgroundColor: controller.switchCurrency.value == 1
                 ? Get.isDarkMode
-                    ? CustomColor.primaryBGDarkColor
-                    : CustomColor.whiteColor
+                      ? CustomColor.primaryBGDarkColor
+                      : CustomColor.whiteColor
                 : Theme.of(context).scaffoldBackgroundColor,
             side: BorderSide(
-                color: controller.switchCurrency.value == 1
-                    ? Colors.transparent
-                    : Colors.grey.withValues(alpha:0.2)),
+              color: controller.switchCurrency.value == 1
+                  ? Colors.transparent
+                  : Colors.grey.withValues(alpha: 0.2),
+            ),
             label: const TitleHeading4Widget(
               text: Strings.cryptoCurrency,
               fontWeight: FontWeight.w500,
@@ -347,10 +350,11 @@ class DashboardScreen extends StatelessWidget {
     );
   }
 
-  InkWell _topicWidget(
-      {required VoidCallback onTap,
-      required String title,
-      required String icon}) {
+  InkWell _topicWidget({
+    required VoidCallback onTap,
+    required String title,
+    required String icon,
+  }) {
     return InkWell(
       onTap: onTap,
       child: Column(
@@ -368,14 +372,11 @@ class DashboardScreen extends StatelessWidget {
               height: Dimensions.iconSizeDefault * 1.5,
               color: Get.isDarkMode
                   ? Colors.white
-                  : CustomColor.blackColor.withValues(alpha:0.7),
+                  : CustomColor.blackColor.withValues(alpha: 0.7),
             ),
           ),
           verticalSpace(Dimensions.heightSize * 0.4),
-          TitleHeading5Widget(
-            text: title,
-            fontWeight: FontWeight.w500,
-          )
+          TitleHeading5Widget(text: title, fontWeight: FontWeight.w500),
         ],
       ),
     );

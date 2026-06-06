@@ -61,16 +61,13 @@ class LanguageController extends GetxController {
   String getTranslation(String key) {
     final selectedLang = languages.firstWhere(
       (lang) => lang.code == selectedLanguage.value,
-      orElse: () => languages.firstWhere(
-        (lang) => lang.code == defLangKey.value,
-      ),
+      orElse: () =>
+          languages.firstWhere((lang) => lang.code == defLangKey.value),
     );
 
     final defaultLanguage = languages.firstWhere(
       (lang) => lang.code == 'en',
-      orElse: () => languages.firstWhere(
-        (lang) => lang.code == 'en',
-      ),
+      orElse: () => languages.firstWhere((lang) => lang.code == 'en'),
     );
 
     String value;
@@ -90,9 +87,8 @@ class LanguageController extends GetxController {
     try {
       final selectedLang = languages.firstWhere(
         (lang) => lang.code == selectedLanguage.value,
-        orElse: () => languages.firstWhere(
-          (lang) => lang.code == defLangKey.value,
-        ),
+        orElse: () =>
+            languages.firstWhere((lang) => lang.code == defLangKey.value),
       );
       isLoadingValue.value = false;
       update();

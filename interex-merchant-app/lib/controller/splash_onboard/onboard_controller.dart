@@ -25,18 +25,12 @@ class OnBoardController extends GetxController {
   void nextPage() {
     if (isLastPage) {
     } else {
-      pageController.nextPage(
-        duration: 300.milliseconds,
-        curve: Curves.ease,
-      );
+      pageController.nextPage(duration: 300.milliseconds, curve: Curves.ease);
     }
   }
 
   void backPage() {
-    pageController.previousPage(
-      duration: 300.milliseconds,
-      curve: Curves.ease,
-    );
+    pageController.previousPage(duration: 300.milliseconds, curve: Curves.ease);
   }
 
   void pageNavigate() {
@@ -54,7 +48,7 @@ class OnBoardController extends GetxController {
         shape: BoxShape.circle,
         color: index == selectedIndex.value
             ? CustomColor.primaryLightColor
-            : CustomColor.primaryTextColor.withValues(alpha:0.3),
+            : CustomColor.primaryTextColor.withValues(alpha: 0.3),
       ),
     );
   }
@@ -68,7 +62,7 @@ class OnBoardController extends GetxController {
         width: 7.17,
         color: index == selectedIndex.value
             ? CustomColor.blackColor
-            : CustomColor.primaryTextColor.withValues(alpha:0.5),
+            : CustomColor.primaryTextColor.withValues(alpha: 0.5),
         path: Assets.icon.rightArrow,
       ),
     );
@@ -93,7 +87,12 @@ class OnBoardController extends GetxController {
         mainAxisAlignment: MainAxisAlignment.center,
         children: List.generate(
           controller
-              .appSettingsModel.data.appSettings.agent.onboardScreen.length,
+              .appSettingsModel
+              .data
+              .appSettings
+              .agent
+              .onboardScreen
+              .length,
           (index) => buildArrow(index: index),
         ),
       ),

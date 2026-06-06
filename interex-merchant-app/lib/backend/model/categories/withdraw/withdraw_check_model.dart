@@ -1,12 +1,8 @@
-
 class BankAccountCheckModel {
   Message message;
   Data data;
 
-  BankAccountCheckModel({
-    required this.message,
-    required this.data,
-  });
+  BankAccountCheckModel({required this.message, required this.data});
 
   factory BankAccountCheckModel.fromJson(Map<String, dynamic> json) =>
       BankAccountCheckModel(
@@ -15,27 +11,25 @@ class BankAccountCheckModel {
       );
 
   Map<String, dynamic> toJson() => {
-        "message": message.toJson(),
-        "data": data.toJson(),
-      };
+    "message": message.toJson(),
+    "data": data.toJson(),
+  };
 }
 
 class Data {
   List<BankBranchInfo> bankBranches;
 
-  Data({
-    required this.bankBranches,
-  });
+  Data({required this.bankBranches});
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
-        bankBranches: List<BankBranchInfo>.from(
-            json["bank_branches"].map((x) => BankBranchInfo.fromJson(x))),
-      );
+    bankBranches: List<BankBranchInfo>.from(
+      json["bank_branches"].map((x) => BankBranchInfo.fromJson(x)),
+    ),
+  );
 
   Map<String, dynamic> toJson() => {
-        "bank_branches":
-            List<dynamic>.from(bankBranches.map((x) => x.toJson())),
-      };
+    "bank_branches": List<dynamic>.from(bankBranches.map((x) => x.toJson())),
+  };
 }
 
 class BankBranchInfo {
@@ -56,36 +50,33 @@ class BankBranchInfo {
   });
 
   factory BankBranchInfo.fromJson(Map<String, dynamic> json) => BankBranchInfo(
-        id: json["id"],
-        branchCode: json["branch_code"],
-        branchName: json["branch_name"],
-        swiftCode: json["swift_code"],
-        bic: json["bic"],
-        bankId: json["bank_id"],
-      );
+    id: json["id"],
+    branchCode: json["branch_code"],
+    branchName: json["branch_name"],
+    swiftCode: json["swift_code"],
+    bic: json["bic"],
+    bankId: json["bank_id"],
+  );
 
   Map<String, dynamic> toJson() => {
-        "id": id,
-        "branch_code": branchCode,
-        "branch_name": branchName,
-        "swift_code": swiftCode,
-        "bic": bic,
-        "bank_id": bankId,
-      };
+    "id": id,
+    "branch_code": branchCode,
+    "branch_name": branchName,
+    "swift_code": swiftCode,
+    "bic": bic,
+    "bank_id": bankId,
+  };
 }
 
 class Message {
   List<String> success;
 
-  Message({
-    required this.success,
-  });
+  Message({required this.success});
 
-  factory Message.fromJson(Map<String, dynamic> json) => Message(
-        success: List<String>.from(json["success"].map((x) => x)),
-      );
+  factory Message.fromJson(Map<String, dynamic> json) =>
+      Message(success: List<String>.from(json["success"].map((x) => x)));
 
   Map<String, dynamic> toJson() => {
-        "success": List<dynamic>.from(success.map((x) => x)),
-      };
+    "success": List<dynamic>.from(success.map((x) => x)),
+  };
 }

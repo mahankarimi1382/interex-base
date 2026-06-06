@@ -405,7 +405,8 @@ class Strings {
   static const String date = 'appldate';
   static const String chargedAmount = 'applchargedamount';
   static const String balanceBeforeTermination = 'applbalancebeforetermination';
-  static const String pleaseSubmitYourInformation = 'applpleasesubmityourinformation';
+  static const String pleaseSubmitYourInformation =
+      'applpleasesubmityourinformation';
   static const String pinSetup = 'applpinsetup';
   static const String pinUpdate = 'applpinupdate';
   static const String oldPin = 'apploldpin';
@@ -414,7 +415,8 @@ class Strings {
   static const String enterYourPinToContinue = 'applenteryourpintocontinue';
   static const String refundBalance = 'applrefundbalance';
   static const String refund = 'applrefund';
-  static const String areYouSureToRefundBalance = 'aplareyousuretorefundbalance';
+  static const String areYouSureToRefundBalance =
+      'aplareyousuretorefundbalance';
   static const String payLinkLogs = 'applpaylinklogs';
   static const String explainTrx = 'applexplaintrx';
   static const String createNewApiKey = 'applcreatenewapikey';
@@ -441,5 +443,4 @@ class Strings {
   static const String exchange = 'applexchange';
   static const String fiatCurrency = 'applfiatcurrency';
   static const String cryptoCurrency = 'applcryptocurrency';
-
 }

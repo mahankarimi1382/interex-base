@@ -40,7 +40,8 @@ class MoneyReceiveScreen extends StatelessWidget {
   ListView _bodyWidget(BuildContext context) {
     return ListView(
       padding: EdgeInsets.symmetric(
-          horizontal: Dimensions.marginSizeHorizontal * 0.9),
+        horizontal: Dimensions.marginSizeHorizontal * 0.9,
+      ),
       physics: const BouncingScrollPhysics(),
       children: [
         _imgWidget(context),
@@ -85,12 +86,11 @@ class MoneyReceiveScreen extends StatelessWidget {
           suffixIcon: Assets.icon.copy,
           onTap: () {
             Clipboard.setData(
-                    ClipboardData(text: controller.inputController.text))
-                .then((_) {
+              ClipboardData(text: controller.inputController.text),
+            ).then((_) {
+              if (!context.mounted) return;
               ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(Strings.copiedToClipBoard.tr),
-                ),
+                SnackBar(content: Text(Strings.copiedToClipBoard.tr)),
               );
             });
           },
@@ -106,10 +106,10 @@ class MoneyReceiveScreen extends StatelessWidget {
             fontSize: Dimensions.headingTextSize5,
             fontWeight: FontWeight.w500,
             color: Get.isDarkMode
-                ? CustomColor.whiteColor.withValues(alpha:0.5)
+                ? CustomColor.whiteColor.withValues(alpha: 0.5)
                 : Theme.of(context).primaryColor,
           ),
-        )
+        ),
       ],
     );
   }
@@ -121,11 +121,12 @@ class MoneyReceiveScreen extends StatelessWidget {
         bottom: Dimensions.marginSizeVertical * 0.4,
       ),
       child: PrimaryButton(
-          title: Strings.share.tr,
-          onPressed: () {
-            // ignore: deprecated_member_use
-            Share.share(controller.receiveMoneyModel.data.qrCode);
-          }),
+        title: Strings.share.tr,
+        onPressed: () {
+          // ignore: deprecated_member_use
+          Share.share(controller.receiveMoneyModel.data.qrCode);
+        },
+      ),
     );
   }
 }

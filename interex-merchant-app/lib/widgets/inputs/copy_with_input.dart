@@ -61,7 +61,6 @@ class _PrimaryInputWidgetState extends State<CopyInputWidget> {
   @override
   Widget build(BuildContext context) {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         TitleHeading4Widget(
@@ -92,7 +91,10 @@ class _PrimaryInputWidgetState extends State<CopyInputWidget> {
           },
           onFieldSubmitted: (value) {
             if (widget
-                .receiveMoneyController.copyInputController.text.isNotEmpty) {}
+                .receiveMoneyController
+                .copyInputController
+                .text
+                .isNotEmpty) {}
             setState(() {
               focusNode!.unfocus();
             });
@@ -110,18 +112,20 @@ class _PrimaryInputWidgetState extends State<CopyInputWidget> {
             hintStyle: GoogleFonts.inter(
               fontSize: Dimensions.headingTextSize3,
               fontWeight: FontWeight.w500,
-              color: CustomColor.primaryTextColor.withValues(alpha:0.2),
+              color: CustomColor.primaryTextColor.withValues(alpha: 0.2),
             ),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(Dimensions.radius * 0.5),
               borderSide: BorderSide(
-                color: Theme.of(context).primaryColor.withValues(alpha:0.2),
+                color: Theme.of(context).primaryColor.withValues(alpha: 0.2),
               ),
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(Dimensions.radius * 0.5),
-              borderSide:
-                  BorderSide(width: 2, color: Theme.of(context).primaryColor),
+              borderSide: BorderSide(
+                width: 2,
+                color: Theme.of(context).primaryColor,
+              ),
             ),
             errorBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(Dimensions.radius * 0.5),

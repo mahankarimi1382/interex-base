@@ -61,7 +61,6 @@ class _PrimaryInputWidgetState extends State<PhoneNumberInputWidget> {
   @override
   Widget build(BuildContext context) {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         TitleHeading4Widget(
@@ -86,11 +85,9 @@ class _PrimaryInputWidgetState extends State<PhoneNumberInputWidget> {
                 },
           controller: widget.controller,
           onTap: () {
-            setState(
-              () {
-                focusNode!.requestFocus();
-              },
-            );
+            setState(() {
+              focusNode!.requestFocus();
+            });
           },
           onFieldSubmitted: (value) {
             setState(() {
@@ -113,22 +110,27 @@ class _PrimaryInputWidgetState extends State<PhoneNumberInputWidget> {
             hintStyle: GoogleFonts.inter(
               fontSize: Dimensions.headingTextSize3,
               fontWeight: FontWeight.w500,
-              color: CustomColor.primaryTextColor.withValues(alpha:0.2),
+              color: CustomColor.primaryTextColor.withValues(alpha: 0.2),
             ),
             enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(Dimensions.radius * 0.7),
-                borderSide: BorderSide(
-                  color: Theme.of(context).primaryColor.withValues(alpha:0.2),
-                )),
+              borderRadius: BorderRadius.circular(Dimensions.radius * 0.7),
+              borderSide: BorderSide(
+                color: Theme.of(context).primaryColor.withValues(alpha: 0.2),
+              ),
+            ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(Dimensions.radius * 0.7),
               borderSide: const BorderSide(
-                  width: 2, color: CustomColor.primaryTextColor),
+                width: 2,
+                color: CustomColor.primaryTextColor,
+              ),
             ),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(Dimensions.radius * 0.7),
-              borderSide:
-                  const BorderSide(width: 2, color: CustomColor.whiteColor),
+              borderSide: const BorderSide(
+                width: 2,
+                color: CustomColor.whiteColor,
+              ),
             ),
             contentPadding: EdgeInsets.symmetric(
               horizontal: Dimensions.widthSize * 1.7,
@@ -139,7 +141,8 @@ class _PrimaryInputWidgetState extends State<PhoneNumberInputWidget> {
               children: [
                 Padding(
                   padding: EdgeInsets.symmetric(
-                      horizontal: Dimensions.marginSizeHorizontal * 0.5),
+                    horizontal: Dimensions.marginSizeHorizontal * 0.5,
+                  ),
                   child: Obx(
                     () => TitleHeading3Widget(
                       text: widget.countryCode.value,
@@ -150,10 +153,11 @@ class _PrimaryInputWidgetState extends State<PhoneNumberInputWidget> {
                   ),
                 ),
                 Container(
-                    width: 1.6,
-                    height: Dimensions.heightSize * 2,
-                    color: CustomColor.primaryTextColor),
-                horizontalSpace(Dimensions.widthSize)
+                  width: 1.6,
+                  height: Dimensions.heightSize * 2,
+                  color: CustomColor.primaryTextColor,
+                ),
+                horizontalSpace(Dimensions.widthSize),
               ],
             ),
           ),

@@ -23,14 +23,16 @@ class NotificationController extends GetxController {
     update();
 
     // calling  from api service
-    await ApiServices.getNotificationAPi().then((value) {
-      _notificationModelData = value!;
+    await ApiServices.getNotificationAPi()
+        .then((value) {
+          _notificationModelData = value!;
 
-      _isLoading.value = false;
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-    });
+          _isLoading.value = false;
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+        });
     update();
     return _notificationModelData;
   }

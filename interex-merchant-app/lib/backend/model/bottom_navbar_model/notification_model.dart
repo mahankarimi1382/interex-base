@@ -1,17 +1,14 @@
-
 class NotificationModel {
   Message message;
   Data data;
 
-  NotificationModel({
-    required this.message,
-    required this.data,
-  });
+  NotificationModel({required this.message, required this.data});
 
-  factory NotificationModel.fromJson(Map<String, dynamic> json) => NotificationModel(
-    message: Message.fromJson(json["message"]),
-    data: Data.fromJson(json["data"]),
-  );
+  factory NotificationModel.fromJson(Map<String, dynamic> json) =>
+      NotificationModel(
+        message: Message.fromJson(json["message"]),
+        data: Data.fromJson(json["data"]),
+      );
 
   Map<String, dynamic> toJson() => {
     "message": message.toJson(),
@@ -22,12 +19,12 @@ class NotificationModel {
 class Data {
   List<Notification> notifications;
 
-  Data({
-    required this.notifications,
-  });
+  Data({required this.notifications});
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
-    notifications: List<Notification>.from(json["notifications"].map((x) => Notification.fromJson(x))),
+    notifications: List<Notification>.from(
+      json["notifications"].map((x) => Notification.fromJson(x)),
+    ),
   );
 
   Map<String, dynamic> toJson() => {
@@ -74,13 +71,10 @@ class Notification {
 class Message {
   List<String> success;
 
-  Message({
-    required this.success,
-  });
+  Message({required this.success});
 
-  factory Message.fromJson(Map<String, dynamic> json) => Message(
-    success: List<String>.from(json["success"].map((x) => x)),
-  );
+  factory Message.fromJson(Map<String, dynamic> json) =>
+      Message(success: List<String>.from(json["success"].map((x) => x)));
 
   Map<String, dynamic> toJson() => {
     "success": List<dynamic>.from(success.map((x) => x)),

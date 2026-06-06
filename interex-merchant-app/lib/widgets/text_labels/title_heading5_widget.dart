@@ -41,9 +41,15 @@ class TitleHeading5Widget extends StatelessWidget {
             languageController.getTranslation(text),
             style: Get.isDarkMode
                 ? CustomStyle.darkHeading5TextStyle.copyWith(
-                    fontSize: fontSize, fontWeight: fontWeight, color: color)
+                    fontSize: fontSize,
+                    fontWeight: fontWeight,
+                    color: color,
+                  )
                 : CustomStyle.lightHeading5TextStyle.copyWith(
-                    fontSize: fontSize, fontWeight: fontWeight, color: color),
+                    fontSize: fontSize,
+                    fontWeight: fontWeight,
+                    color: color,
+                  ),
             textAlign: textAlign,
             overflow: textOverflow,
             maxLines: maxLines,

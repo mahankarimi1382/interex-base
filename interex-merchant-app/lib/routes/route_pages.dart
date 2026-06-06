@@ -55,30 +55,15 @@ class RoutePageList {
       binding: SplashBinding(),
     ),
 
-    GetPage(
-      name: Routes.signInScreen,
-      page: () => const SignInScreen(),
-    ),
-    GetPage(
-      name: Routes.resetOtpScreen,
-      page: () => ResetOtpScreen(),
-    ),
+    GetPage(name: Routes.signInScreen, page: () => const SignInScreen()),
+    GetPage(name: Routes.resetOtpScreen, page: () => ResetOtpScreen()),
     GetPage(
       name: Routes.resetPasswordScreen,
       page: () => ResetPasswordScreen(),
     ),
-    GetPage(
-      name: Routes.registrationScreen,
-      page: () => RegistrationScreen(),
-    ),
-    GetPage(
-      name: Routes.emailOtpScreen,
-      page: () => EmailOtpScreen(),
-    ),
-    GetPage(
-      name: Routes.kycFromScreen,
-      page: () => KycFromScreen(),
-    ),
+    GetPage(name: Routes.registrationScreen, page: () => RegistrationScreen()),
+    GetPage(name: Routes.emailOtpScreen, page: () => EmailOtpScreen()),
+    GetPage(name: Routes.kycFromScreen, page: () => KycFromScreen()),
     GetPage(
       name: Routes.waitForApprovalScreen,
       page: () => const WaitForApprovalScreen(),
@@ -90,29 +75,14 @@ class RoutePageList {
       page: () => BottomNavBarScreen(),
       binding: NavBarBinding(),
     ),
-    GetPage(
-      name: Routes.dashboardScreen,
-      page: () => DashboardScreen(),
-    ),
-    GetPage(
-      name: Routes.notificationScreen,
-      page: () => NotificationScreen(),
-    ),
+    GetPage(name: Routes.dashboardScreen, page: () => DashboardScreen()),
+    GetPage(name: Routes.notificationScreen, page: () => NotificationScreen()),
 
-    GetPage(
-      name: Routes.pinSetupScreen,
-      page: () => PinSetupScreen(),
-    ),
+    GetPage(name: Routes.pinSetupScreen, page: () => PinSetupScreen()),
 
-    GetPage(
-      name: Routes.moneyReceiveScreen,
-      page: () => MoneyReceiveScreen(),
-    ),
+    GetPage(name: Routes.moneyReceiveScreen, page: () => MoneyReceiveScreen()),
 
-    GetPage(
-      name: Routes.withdrawScreen,
-      page: () => WithdrawScreen(),
-    ),
+    GetPage(name: Routes.withdrawScreen, page: () => WithdrawScreen()),
     GetPage(
       name: Routes.withdrawPreviewScreen,
       page: () => WithdrawPreviewScreen(),
@@ -128,37 +98,22 @@ class RoutePageList {
       page: () => TransactionLogScreen(),
     ),
 
-    GetPage(
-      name: Routes.settingScreen,
-      page: () => SettingScreen(),
-    ),
+    GetPage(name: Routes.settingScreen, page: () => SettingScreen()),
     GetPage(
       name: Routes.changePasswordScreen,
       page: () => ChangePasswordScreen(),
     ),
-    GetPage(
-      name: Routes.otp2FaScreen,
-      page: () => Otp2FaScreen(),
-    ),
+    GetPage(name: Routes.otp2FaScreen, page: () => Otp2FaScreen()),
 
     //!profile screen
-    GetPage(
-      name: Routes.profileScreen,
-      page: () => ProfileScreen(),
-    ),
+    GetPage(name: Routes.profileScreen, page: () => ProfileScreen()),
 
     GetPage(
       name: Routes.updateProfileScreen,
       page: () => UpdateProfileScreen(),
     ),
-    GetPage(
-      name: Routes.updateKycScreen,
-      page: () => UpdateKycScreen(),
-    ),
-    GetPage(
-      name: Routes.enable2FaScreen,
-      page: () => Enable2FaScreen(),
-    ),
+    GetPage(name: Routes.updateKycScreen, page: () => UpdateKycScreen()),
+    GetPage(name: Routes.enable2FaScreen, page: () => Enable2FaScreen()),
 
     GetPage(
       name: Routes.withdrawManualPaymentScreen,
@@ -169,16 +124,10 @@ class RoutePageList {
       name: Routes.emailVerificationScreen,
       page: () => EmailVerificationScreen(),
     ),
-    GetPage(
-      name: Routes.aPIKeyScreen,
-      page: () => APIKeyScreen(),
-    ),
+    GetPage(name: Routes.aPIKeyScreen, page: () => APIKeyScreen()),
 
     /// Paylink
-    GetPage(
-      name: Routes.paymentsScreen,
-      page: () => const PaymentsScreen(),
-    ),
+    GetPage(name: Routes.paymentsScreen, page: () => const PaymentsScreen()),
     GetPage(
       name: Routes.paymentsEditScreen,
       page: () => const PaymentsEditScreen(),
@@ -192,18 +141,12 @@ class RoutePageList {
       name: Routes.gatewaySettingsScreen,
       page: () => GatewaySettingsScreen(),
     ),
-    GetPage(
-      name: Routes.onboardScreen,
-      page: () => OnboardScreen(),
-    ),
+    GetPage(name: Routes.onboardScreen, page: () => OnboardScreen()),
     GetPage(
       name: Routes.exchangeMoneyScreen,
       page: () => ExchangeMoneyScreen(),
     ),
-    GetPage(
-      name: Routes.walletsScreen,
-      page: () => WalletsScreen(),
-    ),
+    GetPage(name: Routes.walletsScreen, page: () => WalletsScreen()),
     GetPage(
       name: Routes.exchangeMoneyPreviewScreen,
       page: () => ExchangeMoneyPreviewScreen(),
@@ -232,11 +175,7 @@ class RoutePageList {
       ),
     ),
 
-
-       GetPage(
-      name: Routes.smsOtpScreen,
-      page: () => SmsOtpScreen(),
-    ),
+    GetPage(name: Routes.smsOtpScreen, page: () => SmsOtpScreen()),
     GetPage(
       name: Routes.phoneVerificationScreen,
       page: () => PhoneVerificationScreen(),

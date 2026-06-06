@@ -116,11 +116,8 @@ class Routes {
   /// wallets
   static const String walletsScreen = '/walletsScreen';
 
-
   static const String smsOtpScreen = '/smsOtpScreen';
   static const String phoneVerificationScreen = '/phoneVerificationScreen';
   static const String resetPhoneOtpScreen = '/resetPhoneOtpScreen';
   static const String resetPasswordPhoneScreen = '/resetPasswordPhoneScreen';
-
-
 }

@@ -17,8 +17,9 @@ class Language {
       code: json["code"],
       dir: json["dir"],
       status: json["status"],
-      translateKeyValues:
-          Map<String, String>.from(json["translate_key_values"]),
+      translateKeyValues: Map<String, String>.from(
+        json["translate_key_values"],
+      ),
     );
   }
   Map<String, dynamic> toJson() {

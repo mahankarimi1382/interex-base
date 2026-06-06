@@ -55,21 +55,22 @@ class WithdrawFlutterWaveScreen extends StatelessWidget {
                 title: Strings.confirm,
                 onPressed: () {
                   // if (formKey.currentState!.validate()) {
-                  controller.flutterwavePaymentProcess().then(
-                    (value) {
-                      if (context.mounted) {
-                        StatusScreen.show(
-                          context: context,
-                          subTitle: controller
-                              .manualPaymentConfirmModel.message.success.first,
-                          onPressed: () {
-                            controller.isButtonEnable.value = false;
-                            Get.offAllNamed(Routes.bottomNavBarScreen);
-                          },
-                        );
-                      }
-                    },
-                  );
+                  controller.flutterwavePaymentProcess().then((value) {
+                    if (context.mounted) {
+                      StatusScreen.show(
+                        context: context,
+                        subTitle: controller
+                            .manualPaymentConfirmModel
+                            .message
+                            .success
+                            .first,
+                        onPressed: () {
+                          controller.isButtonEnable.value = false;
+                          Get.offAllNamed(Routes.bottomNavBarScreen);
+                        },
+                      );
+                    }
+                  });
                   // }
                 },
               ),

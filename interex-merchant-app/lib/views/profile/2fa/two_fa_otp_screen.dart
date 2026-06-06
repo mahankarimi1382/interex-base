@@ -27,7 +27,7 @@ class Otp2FaScreen extends StatelessWidget {
     return ResponsiveLayout(
       mobileScaffold: WillPopScope(
         onWillPop: () async {
-          Get.offAllNamed(Routes.bottomNavBarScreen);
+          await Get.offAllNamed(Routes.bottomNavBarScreen);
           return false;
         },
         child: Scaffold(
@@ -60,15 +60,13 @@ class Otp2FaScreen extends StatelessWidget {
 
   Container _titleAndSubtitleWidget(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(
-        top: Dimensions.marginSizeVertical * 3,
-      ),
+      margin: EdgeInsets.only(top: Dimensions.marginSizeVertical * 3),
       child: Column(
         crossAxisAlignment: crossStart,
         children: [
           TitleHeading2Widget(text: Strings.enable2FASecurity.tr),
           verticalSpace(Dimensions.heightSize * 0.7),
-          TitleHeading4Widget(text: Strings.enterTheGoogleAuthOTPCode.tr)
+          TitleHeading4Widget(text: Strings.enterTheGoogleAuthOTPCode.tr),
         ],
       ),
     );
@@ -79,9 +77,7 @@ class Otp2FaScreen extends StatelessWidget {
       mainAxisAlignment: mainCenter,
       children: [
         Padding(
-          padding: EdgeInsets.only(
-            top: Dimensions.heightSize * 5,
-          ),
+          padding: EdgeInsets.only(top: Dimensions.heightSize * 5),
           child: OtpInputTextFieldWidget(
             controller: controller.emailOtpInputController,
           ),
@@ -94,15 +90,16 @@ class Otp2FaScreen extends StatelessWidget {
     return PrimaryButton(
       title: Strings.submit.tr,
       onPressed: () {
-        controller.twoFAEnabledProcess().then(
-              (value) => StatusScreen.show(
-                context: context,
-                subTitle: Strings.yourTwoSecurityHAsBeenActive.tr,
-                onPressed: () {
-                  Get.offAllNamed(Routes.bottomNavBarScreen);
-                },
-              ),
-            );
+        controller.twoFAEnabledProcess().then((value) {
+          if (!context.mounted) return;
+          StatusScreen.show(
+            context: context,
+            subTitle: Strings.yourTwoSecurityHAsBeenActive.tr,
+            onPressed: () {
+              Get.offAllNamed(Routes.bottomNavBarScreen);
+            },
+          );
+        });
       },
     );
   }

@@ -30,12 +30,12 @@ extension EndPointExtensions on String {
 
 extension CardFormatter on String {
   String formatCardNumber() {
-    String inputData = this;
-    StringBuffer buffer = StringBuffer();
+    final String inputData = this;
+    final StringBuffer buffer = StringBuffer();
 
     for (var i = 0; i < inputData.length; i++) {
       buffer.write(inputData[i]);
-      int index = i + 1;
+      final int index = i + 1;
 
       if (index % 4 == 0 && inputData.length != index) {
         buffer.write("   ");
@@ -45,12 +45,12 @@ extension CardFormatter on String {
   }
 
   String formatCardExpiration() {
-    String inputData = this;
-    StringBuffer buffer = StringBuffer();
+    final String inputData = this;
+    final StringBuffer buffer = StringBuffer();
 
     for (int i = 0; i < inputData.length; i++) {
       buffer.write(inputData[i]);
-      var nonZeroIndex = i + 1;
+      final nonZeroIndex = i + 1;
       if (nonZeroIndex % 2 == 0 && nonZeroIndex != inputData.length) {
         buffer.write('/');
       }

@@ -7,11 +7,12 @@ import 'package:qrpay/widgets/text_labels/title_heading5_widget.dart';
 import '../../utils/strings.dart';
 
 class LimitWithExchangeRateWidget extends StatelessWidget {
-  const LimitWithExchangeRateWidget(
-      {super.key,
-      required this.fee,
-      required this.limit,
-      required this.exchangeRate});
+  const LimitWithExchangeRateWidget({
+    super.key,
+    required this.fee,
+    required this.limit,
+    required this.exchangeRate,
+  });
   final String fee;
   final String limit;
   final String exchangeRate;
@@ -19,8 +20,9 @@ class LimitWithExchangeRateWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin:
-          EdgeInsets.symmetric(vertical: Dimensions.marginSizeVertical * 0.2),
+      margin: EdgeInsets.symmetric(
+        vertical: Dimensions.marginSizeVertical * 0.2,
+      ),
       child: Column(
         crossAxisAlignment: crossStart,
         children: [
@@ -32,14 +34,14 @@ class LimitWithExchangeRateWidget extends StatelessWidget {
                 textAlign: TextAlign.left,
                 fontSize: Dimensions.headingTextSize5,
                 fontWeight: FontWeight.w500,
-                color: Theme.of(context).primaryColor.withValues(alpha:0.6),
+                color: Theme.of(context).primaryColor.withValues(alpha: 0.6),
               ),
               TitleHeading5Widget(
                 text: ": $exchangeRate ",
                 textAlign: TextAlign.left,
                 fontSize: Dimensions.headingTextSize5,
                 fontWeight: FontWeight.w500,
-                color: Theme.of(context).primaryColor.withValues(alpha:0.6),
+                color: Theme.of(context).primaryColor.withValues(alpha: 0.6),
               ),
             ],
           ),
@@ -52,14 +54,14 @@ class LimitWithExchangeRateWidget extends StatelessWidget {
                 textAlign: TextAlign.left,
                 fontSize: Dimensions.headingTextSize5,
                 fontWeight: FontWeight.w500,
-                color: Theme.of(context).primaryColor.withValues(alpha:0.6),
+                color: Theme.of(context).primaryColor.withValues(alpha: 0.6),
               ),
               TitleHeading5Widget(
                 text: ": $fee ",
                 textAlign: TextAlign.left,
                 fontSize: Dimensions.headingTextSize5,
                 fontWeight: FontWeight.w500,
-                color: Theme.of(context).primaryColor.withValues(alpha:0.6),
+                color: Theme.of(context).primaryColor.withValues(alpha: 0.6),
               ),
             ],
           ),
@@ -72,14 +74,14 @@ class LimitWithExchangeRateWidget extends StatelessWidget {
                 textAlign: TextAlign.left,
                 fontSize: Dimensions.headingTextSize5,
                 fontWeight: FontWeight.w500,
-                color: Theme.of(context).primaryColor.withValues(alpha:0.6),
+                color: Theme.of(context).primaryColor.withValues(alpha: 0.6),
               ),
               TitleHeading5Widget(
                 text: ": $limit ",
                 textAlign: TextAlign.left,
                 fontSize: Dimensions.headingTextSize5,
                 fontWeight: FontWeight.w500,
-                color: Theme.of(context).primaryColor.withValues(alpha:0.6),
+                color: Theme.of(context).primaryColor.withValues(alpha: 0.6),
               ),
             ],
           ),

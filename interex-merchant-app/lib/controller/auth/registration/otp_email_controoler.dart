@@ -1,14 +1,14 @@
 import 'dart:async';
 
+import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:qrpay/routes/routes.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'kyc_form_controller.dart';
 
 class EmailOtpController extends GetxController {
   final basicDataController = Get.put(BasicDataController());
-  final emailOtpInputController = TextEditingController();
+  final emailOtpInputController = PinInputController();
 
   bool hasError = false;
   RxString currentText = "".obs;
@@ -36,8 +36,7 @@ class EmailOtpController extends GetxController {
 
   bool get isVerifyCode => _isVerifyCode.value;
 
-
-//timer widget
+  //timer widget
   void timerInit() {
     timer = Timer.periodic(const Duration(seconds: 1), (_) {
       if (secondsRemaining.value != 0) {

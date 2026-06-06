@@ -27,9 +27,7 @@ class APIKeyScreen extends StatelessWidget {
     return ResponsiveLayout(
       mobileScaffold: Scaffold(
         floatingActionButton: _addApiKeyButton(context),
-        appBar: AppBarWidget(
-          text: Strings.apiKey.tr,
-        ),
+        appBar: AppBarWidget(text: Strings.apiKey.tr),
         body: Obx(
           () => controller.isLoading
               ? const CustomLoadingAPI()
@@ -48,16 +46,15 @@ class APIKeyScreen extends StatelessWidget {
             ),
           )
         : ListView(
-            children: List.generate(
-              controller.apiKeyModel.data.keys.length,
-              (index) {
-                return _keyWidget(
-                  context,
-                  controller.apiKeyModel.data.keys[index],
-                  index,
-                );
-              },
-            ),
+            children: List.generate(controller.apiKeyModel.data.keys.length, (
+              index,
+            ) {
+              return _keyWidget(
+                context,
+                controller.apiKeyModel.data.keys[index],
+                index,
+              );
+            }),
           );
   }
 
@@ -70,7 +67,7 @@ class APIKeyScreen extends StatelessWidget {
             vertical: Dimensions.marginSizeVertical * 0.2,
           ),
           decoration: BoxDecoration(
-            color: Theme.of(context).primaryColor.withValues(alpha:0.09),
+            color: Theme.of(context).primaryColor.withValues(alpha: 0.09),
             borderRadius: BorderRadius.circular(Dimensions.radius * 02),
           ),
           child: Padding(
@@ -84,7 +81,7 @@ class APIKeyScreen extends StatelessWidget {
                     TitleHeading3Widget(
                       text: data.name,
                       color: !Get.isDarkMode
-                          ? CustomColor.blackColor.withValues(alpha:0.7)
+                          ? CustomColor.blackColor.withValues(alpha: 0.7)
                           : Colors.white,
                     ),
                     InkWell(
@@ -106,15 +103,16 @@ class APIKeyScreen extends StatelessWidget {
                         ),
                         decoration: BoxDecoration(
                           color: CustomColor.redColor,
-                          borderRadius:
-                              BorderRadius.circular(Dimensions.radius * 0.5),
+                          borderRadius: BorderRadius.circular(
+                            Dimensions.radius * 0.5,
+                          ),
                         ),
                         child: TitleHeading5Widget(
                           text: Strings.delete,
                           color: Colors.white,
                         ),
                       ),
-                    )
+                    ),
                   ],
                 ),
                 verticalSpace(Dimensions.heightSize * 0.5),
@@ -122,13 +120,13 @@ class APIKeyScreen extends StatelessWidget {
                   suffixIcon: Assets.icon.copy,
                   readOnly: true,
                   onTap: () {
-                    Clipboard.setData(
-                      ClipboardData(
-                        text: data.clientId,
-                      ),
-                    ).then((_) {
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                          content: Text(Strings.copiedToClipBoard.tr)));
+                    Clipboard.setData(ClipboardData(text: data.clientId)).then((
+                      _,
+                    ) {
+                      if (!context.mounted) return;
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text(Strings.copiedToClipBoard.tr)),
+                      );
                     });
                   },
                   controller: TextEditingController(text: data.clientId),
@@ -140,10 +138,13 @@ class APIKeyScreen extends StatelessWidget {
                   suffixIcon: Assets.icon.copy,
                   readOnly: true,
                   onTap: () {
-                    Clipboard.setData(ClipboardData(text: data.clientSecret))
-                        .then((_) {
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                          content: Text(Strings.copiedToClipBoard.tr)));
+                    Clipboard.setData(
+                      ClipboardData(text: data.clientSecret),
+                    ).then((_) {
+                      if (!context.mounted) return;
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text(Strings.copiedToClipBoard.tr)),
+                      );
                     });
                   },
                   controller: TextEditingController(text: data.clientSecret),
@@ -157,7 +158,7 @@ class APIKeyScreen extends StatelessWidget {
                     TitleHeading3Widget(
                       text: data.mode,
                       color: !Get.isDarkMode
-                          ? CustomColor.blackColor.withValues(alpha:0.5)
+                          ? CustomColor.blackColor.withValues(alpha: 0.5)
                           : Colors.white,
                     ),
                     controller.selectedIndex.value == index &&
@@ -179,7 +180,7 @@ class APIKeyScreen extends StatelessWidget {
                             activeThumbColor: CustomColor.primaryLightColor,
                           ),
                   ],
-                )
+                ),
               ],
             ),
           ),
@@ -202,10 +203,7 @@ class APIKeyScreen extends StatelessWidget {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(Dimensions.radius * 10),
       ),
-      child: const Icon(
-        Icons.add_rounded,
-        color: Colors.white,
-      ),
+      child: const Icon(Icons.add_rounded, color: Colors.white),
     );
   }
 
@@ -224,10 +222,7 @@ class APIKeyScreen extends StatelessWidget {
               },
               child: const CircleAvatar(
                 backgroundColor: CustomColor.primaryLightColor,
-                child: Icon(
-                  Icons.close_rounded,
-                  color: Colors.white,
-                ),
+                child: Icon(Icons.close_rounded, color: Colors.white),
               ),
             ),
           ),
@@ -266,12 +261,13 @@ class APIKeyScreen extends StatelessWidget {
                               title: Strings.create,
                               onPressed: () {
                                 if (formKey.currentState!.validate()) {
-                                  controller.createApiKeyProcess().then(
-                                    (value) {
-                                      controller.apiKeyController.clear();
-                                      Navigator.pop(context);
-                                    },
-                                  );
+                                  controller.createApiKeyProcess().then((
+                                    value,
+                                  ) {
+                                    controller.apiKeyController.clear();
+                                    if (!context.mounted) return;
+                                    Navigator.pop(context);
+                                  });
                                 }
                               },
                             ),
@@ -301,10 +297,7 @@ class APIKeyScreen extends StatelessWidget {
               },
               child: const CircleAvatar(
                 backgroundColor: CustomColor.primaryLightColor,
-                child: Icon(
-                  Icons.close_rounded,
-                  color: Colors.white,
-                ),
+                child: Icon(Icons.close_rounded, color: Colors.white),
               ),
             ),
           ),
@@ -341,11 +334,12 @@ class APIKeyScreen extends StatelessWidget {
                                 child: PrimaryButton(
                                   title: Strings.delete,
                                   onPressed: () {
-                                    controller.deleteApiKeyProcess(id).then(
-                                      (value) {
-                                        Navigator.pop(context);
-                                      },
-                                    );
+                                    controller.deleteApiKeyProcess(id).then((
+                                      value,
+                                    ) {
+                                      if (!context.mounted) return;
+                                      Navigator.pop(context);
+                                    });
                                   },
                                   borderColor: CustomColor.redColor,
                                   buttonColor: CustomColor.redColor,

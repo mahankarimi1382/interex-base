@@ -59,7 +59,7 @@ class UpdateProfileController extends GetxController {
     update();
   }
 
-//!profile view
+  //!profile view
   RxBool myWallet = false.obs;
   RxBool buyGiftCard = false.obs;
   RxBool myGiftCard = false.obs;
@@ -85,26 +85,28 @@ class UpdateProfileController extends GetxController {
     _isLoading.value = true;
     update();
 
-    await ApiServices.profileAPi().then((value) {
-      _profileModel = value!;
+    await ApiServices.profileAPi()
+        .then((value) {
+          _profileModel = value!;
 
-      var data = profileModel.data.user;
-      firstNameController.text = data.firstname;
-      lastNameController.text = data.lastname;
-      businessNameController.text = data.businessName;
-      emailController.text = data.email;
-      phoneCode.value = data.mobileCode.toString();
-      countryController.text = data.address.country;
-      phoneController.text = data.mobile;
-      cityController.text = data.address.city;
-      zipCodeController.text = data.address.zip;
-      countryName.value = data.address.country;
-      phoneCode.value = data.mobileCode;
-      //end of get data and start navigation
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-    });
+          final data = profileModel.data.user;
+          firstNameController.text = data.firstname;
+          lastNameController.text = data.lastname;
+          businessNameController.text = data.businessName;
+          emailController.text = data.email;
+          phoneCode.value = data.mobileCode.toString();
+          countryController.text = data.address.country;
+          phoneController.text = data.mobile;
+          cityController.text = data.address.city;
+          zipCodeController.text = data.address.zip;
+          countryName.value = data.address.country;
+          phoneCode.value = data.mobileCode;
+          //end of get data and start navigation
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+        });
 
     _isLoading.value = false;
     update();
@@ -123,7 +125,7 @@ class UpdateProfileController extends GetxController {
     _isUpdateLoading.value = true;
     update();
 
-    Map<String, dynamic> inputBody = {
+    final Map<String, dynamic> inputBody = {
       'firstname': firstNameController.text,
       'lastname': lastNameController.text,
       'business_name': businessNameController.text,
@@ -136,17 +138,18 @@ class UpdateProfileController extends GetxController {
 
     await ApiServices.updateProfileWithoutImageApi(body: inputBody)
         .then((value) {
-      _profileUpdateModel = value!;
-      // getProfileData();
-      // Get.offAllNamed(Routes.bottomNavBarScreen);
-      _isUpdateLoading.value = false;
-      update();
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-      _isUpdateLoading.value = false;
-      update();
-    });
+          _profileUpdateModel = value!;
+          // getProfileData();
+          // Get.offAllNamed(Routes.bottomNavBarScreen);
+          _isUpdateLoading.value = false;
+          update();
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+          _isUpdateLoading.value = false;
+          update();
+        });
 
     return _profileUpdateModel;
   }
@@ -160,7 +163,7 @@ class UpdateProfileController extends GetxController {
     _isUpdateLoading.value = true;
     update();
 
-    Map<String, String> inputBody = {
+    final Map<String, String> inputBody = {
       'firstname': firstNameController.text,
       'lastname': lastNameController.text,
       'business_name': businessNameController.text,
@@ -172,23 +175,25 @@ class UpdateProfileController extends GetxController {
     };
 
     await ApiServices.updateProfileWithImageApi(
-      body: inputBody,
-      filepath: imageController.imagePath.value,
-    ).then((value) {
-      _profileUpdateModel = value!;
-      // getProfileData();
-      // Get.offAllNamed(Routes.bottomNavBarScreen);
-      _isUpdateLoading.value = false;
-      update();
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-      _isUpdateLoading.value = false;
-      update();
-    });
+          body: inputBody,
+          filepath: imageController.imagePath.value,
+        )
+        .then((value) {
+          _profileUpdateModel = value!;
+          // getProfileData();
+          // Get.offAllNamed(Routes.bottomNavBarScreen);
+          _isUpdateLoading.value = false;
+          update();
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+          _isUpdateLoading.value = false;
+          update();
+        });
 
     return _profileUpdateModel;
   }
 
-//
+  //
 }

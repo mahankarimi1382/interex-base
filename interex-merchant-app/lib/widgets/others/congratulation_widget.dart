@@ -12,12 +12,13 @@ import '../buttons/primary_button.dart';
 import '../text_labels/title_subtitle_widget.dart';
 
 class StatusScreen {
-  static void show(
-      {required BuildContext context,
-      required String subTitle,
-      required VoidCallback onPressed,
-      bool ifSuccess = true}) {
-    var widget = WillPopScope(
+  static void show({
+    required BuildContext context,
+    required String subTitle,
+    required VoidCallback onPressed,
+    bool ifSuccess = true,
+  }) {
+    final widget = WillPopScope(
       onWillPop: () async {
         return false;
       },
@@ -26,16 +27,17 @@ class StatusScreen {
         body: Center(
           child: Container(
             decoration: BoxDecoration(
-                color: Theme.of(context).scaffoldBackgroundColor,
-                borderRadius: BorderRadius.circular(Dimensions.radius)),
+              color: Theme.of(context).scaffoldBackgroundColor,
+              borderRadius: BorderRadius.circular(Dimensions.radius),
+            ),
             height: MediaQuery.of(context).size.height * 0.6,
             margin: EdgeInsets.all(Dimensions.paddingSize),
             child: Padding(
               padding: EdgeInsets.symmetric(
-                  horizontal: Dimensions.marginSizeHorizontal),
+                horizontal: Dimensions.marginSizeHorizontal,
+              ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   CustomImageWidget(
                     path: ifSuccess
@@ -58,7 +60,7 @@ class StatusScreen {
                     onPressed: onPressed,
                     borderColor: Theme.of(context).primaryColor,
                     buttonColor: Theme.of(context).primaryColor,
-                  )
+                  ),
                 ],
               ),
             ),
@@ -68,9 +70,10 @@ class StatusScreen {
     );
 
     showDialog(
-        context: context,
-        builder: (context) {
-          return widget;
-        });
+      context: context,
+      builder: (context) {
+        return widget;
+      },
+    );
   }
 }

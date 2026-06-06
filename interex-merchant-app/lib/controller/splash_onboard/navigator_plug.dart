@@ -8,25 +8,19 @@ class NavigatorPlug {
   StreamSubscription<bool>? _subscription;
   StreamSubscription<bool>? _maintenanceSubscription;
   bool _timerStarted = false;
-   
-     
-     
-  void startListening({
-    required int seconds,
-    required VoidCallback onChanged,
-  }) {
+
+  void startListening({required int seconds, required VoidCallback onChanged}) {
     _subscription = Get.find<LanguageController>().isLoadingValue.stream.listen(
       (isLoading) {
         _checkStatus(seconds, onChanged);
       },
     );
 
-    _maintenanceSubscription =
-        Get.find<SystemMaintenanceController>().maintenanceStatus.listen(
-      (inMaintenance) {
-        _checkStatus(seconds, onChanged);
-      },
-    );
+    _maintenanceSubscription = Get.find<SystemMaintenanceController>()
+        .maintenanceStatus
+        .listen((inMaintenance) {
+          _checkStatus(seconds, onChanged);
+        });
   }
 
   void _checkStatus(int seconds, VoidCallback onChanged) {
@@ -36,20 +30,17 @@ class NavigatorPlug {
             false) {
       _timerStarted = true;
 
-      Timer(
-        Duration(seconds: seconds),
-        () {
-          if (!Get.find<LanguageController>().isLoadingValue.value &&
-              Get.find<SystemMaintenanceController>().maintenanceStatus.value ==
-                  false) {
-            _subscription?.cancel();
-            _maintenanceSubscription?.cancel();
-            onChanged();
-          } else {
-            _timerStarted = false;
-          }
-        },
-      );
+      Timer(Duration(seconds: seconds), () {
+        if (!Get.find<LanguageController>().isLoadingValue.value &&
+            Get.find<SystemMaintenanceController>().maintenanceStatus.value ==
+                false) {
+          _subscription?.cancel();
+          _maintenanceSubscription?.cancel();
+          onChanged();
+        } else {
+          _timerStarted = false;
+        }
+      });
     }
   }
 

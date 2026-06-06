@@ -41,7 +41,7 @@ class PaymentLogWidget extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(Dimensions.radius * 0.5),
-          color: Theme.of(context).primaryColor.withValues(alpha:0.05),
+          color: Theme.of(context).primaryColor.withValues(alpha: 0.05),
         ),
         padding: EdgeInsets.only(right: Dimensions.paddingHorizontalSize * 0.2),
         child: Row(
@@ -62,7 +62,7 @@ class PaymentLogWidget extends StatelessWidget {
                   horizontal: Dimensions.paddingHorizontalSize * 0.2,
                 ),
                 decoration: BoxDecoration(
-                  color: Theme.of(context).primaryColor.withValues(alpha:0.05),
+                  color: Theme.of(context).primaryColor.withValues(alpha: 0.05),
                   borderRadius: BorderRadius.circular(Dimensions.radius),
                 ),
                 alignment: Alignment.center,
@@ -130,10 +130,10 @@ class PaymentLogWidget extends StatelessWidget {
               child: PopupMenuButton(
                 elevation: Dimensions.widthSize * 2,
                 color: Get.isDarkMode
-                    ? CustomColor.blackColor.withValues(alpha:0.5)
+                    ? CustomColor.blackColor.withValues(alpha: 0.5)
                     : CustomColor.whiteColor,
                 surfaceTintColor: Get.isDarkMode
-                    ? CustomColor.blackColor.withValues(alpha:0.5)
+                    ? CustomColor.blackColor.withValues(alpha: 0.5)
                     : CustomColor.whiteColor,
                 icon: Icon(
                   Icons.more_vert_outlined,
@@ -142,12 +142,15 @@ class PaymentLogWidget extends StatelessWidget {
                       : Dimensions.heightSize * 1.5,
                   color: Get.isDarkMode
                       ? CustomColor.whiteColor
-                      : CustomColor.primaryLightTextColor.withValues(alpha:.20),
+                      : CustomColor.primaryLightTextColor.withValues(
+                          alpha: .20,
+                        ),
                 ),
                 itemBuilder: (BuildContext context) => [
                   PopupMenuItem(
                     padding: EdgeInsets.only(
-                        right: Dimensions.paddingHorizontalSize * .20),
+                      right: Dimensions.paddingHorizontalSize * .20,
+                    ),
                     child: Column(
                       mainAxisAlignment: mainCenter,
                       children: [
@@ -189,7 +192,7 @@ class PaymentLogWidget extends StatelessWidget {
                                   color: Get.isDarkMode
                                       ? CustomColor.whiteColor
                                       : CustomColor.primaryLightTextColor
-                                          .withValues(alpha:.5),
+                                            .withValues(alpha: .5),
                                 ),
                                 horizontalSpace(Dimensions.widthSize * .5),
                                 TitleHeading5Widget(
@@ -199,7 +202,7 @@ class PaymentLogWidget extends StatelessWidget {
                                       ? CustomColor.whiteColor
                                       : CustomColor.primaryLightTextColor,
                                   opacity: .5,
-                                )
+                                ),
                               ],
                             ),
                           ),
@@ -221,7 +224,7 @@ class PaymentLogWidget extends StatelessWidget {
                                   color: Get.isDarkMode
                                       ? CustomColor.whiteColor
                                       : CustomColor.primaryLightTextColor
-                                          .withValues(alpha:.5),
+                                            .withValues(alpha: .5),
                                 ),
                                 horizontalSpace(Dimensions.widthSize * .5),
                                 TitleHeading5Widget(
@@ -231,17 +234,17 @@ class PaymentLogWidget extends StatelessWidget {
                                       ? CustomColor.whiteColor
                                       : CustomColor.primaryLightTextColor,
                                   opacity: .5,
-                                )
+                                ),
                               ],
                             ),
                           ),
                         ),
                       ],
                     ),
-                  )
+                  ),
                 ],
               ),
-            )
+            ),
           ],
         ),
       ),

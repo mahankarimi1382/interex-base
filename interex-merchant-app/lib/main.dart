@@ -21,14 +21,14 @@ void main() async {
   await ScreenUtil.ensureScreenSize();
   NotificationService.init();
   // Locking Device Orientation
-  SystemChrome.setPreferredOrientations([
+  await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
 
   InternetCheckDependencyInjection.init();
 
-  GetStorage.init();
+  await GetStorage.init();
   // main app
   runApp(const MyApp());
 }
@@ -48,14 +48,15 @@ class _MyAppState extends State<MyApp> {
     super.initState();
   }
 
- Future<void>  initPusherBeams() async {
+  Future<void> initPusherBeams() async {
     if (!kIsWeb) {
-  await PusherBeams.instance.onInterestChanges(
-    (interests) => {debugPrint('Interests: $interests')},
-  );
+      await PusherBeams.instance.onInterestChanges(
+        (interests) => {debugPrint('Interests: $interests')},
+      );
 
-  await PusherBeams.instance
-      .onMessageReceivedInTheForeground(_onMessageReceivedInTheForeground);
+      await PusherBeams.instance.onMessageReceivedInTheForeground(
+        _onMessageReceivedInTheForeground,
+      );
     }
     await _checkForInitialMessage();
   }

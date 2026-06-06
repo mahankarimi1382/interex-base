@@ -80,7 +80,8 @@ class ExchangeMoneyScreen extends StatelessWidget {
   }
 
   LimitInformationWidget _limitInformation(BuildContext context) {
-    int precision = controller.selectFromWallet.value!.currency.type == 'FIAT'
+    final int precision =
+        controller.selectFromWallet.value!.currency.type == 'FIAT'
         ? LocalStorages.getFiatPrecision()
         : LocalStorages.getCryptoPrecision();
 
@@ -111,29 +112,37 @@ class ExchangeMoneyScreen extends StatelessWidget {
             ? const CustomLoadingAPI()
             : PrimaryButton(
                 title: Strings.moneyExchange,
-                buttonColor: double.parse(controller
-                                .remainingController.senderAmount.value) >
+                buttonColor:
+                    double.parse(
+                              controller.remainingController.senderAmount.value,
+                            ) >
                             0 &&
-                        double.parse(controller
-                                .remainingController.senderAmount.value) <
+                        double.parse(
+                              controller.remainingController.senderAmount.value,
+                            ) <
                             controller.dailyLimit.value &&
-                        double.parse(controller
-                                .remainingController.senderAmount.value) <
+                        double.parse(
+                              controller.remainingController.senderAmount.value,
+                            ) <
                             controller.monthlyLimit.value
                     ? CustomColor.primaryLightColor
-                    : CustomColor.primaryLightColor.withValues(alpha:0.3),
+                    : CustomColor.primaryLightColor.withValues(alpha: 0.3),
                 onPressed: () {
                   if (dashboardController.kycStatus.value == 1) {
-                    if (double.parse(controller
-                                .remainingController.senderAmount.value) <
+                    if (double.parse(
+                              controller.remainingController.senderAmount.value,
+                            ) <
                             controller.dailyLimit.value &&
-                        double.parse(controller
-                                .remainingController.senderAmount.value) <
+                        double.parse(
+                              controller.remainingController.senderAmount.value,
+                            ) <
                             controller.monthlyLimit.value) {
-                      Get.find<SetUpPinController>().showPinDialog(context, onSuccess: (){
-                        Get.toNamed(Routes.exchangeMoneyPreviewScreen);
-                      });
-
+                      Get.find<SetUpPinController>().showPinDialog(
+                        context,
+                        onSuccess: () {
+                          Get.toNamed(Routes.exchangeMoneyPreviewScreen);
+                        },
+                      );
                     }
                   } else {
                     CustomSnackBar.error(Strings.pleaseSubmitYourInformation);
@@ -141,18 +150,21 @@ class ExchangeMoneyScreen extends StatelessWidget {
                       Get.toNamed(Routes.updateKycScreen);
                     });
                   }
-                }),
+                },
+              ),
       ),
     );
   }
 
   Container _exchangeRate(BuildContext context) {
-    int precision = controller.selectFromWallet.value!.currency.type == 'FIAT'
+    final int precision =
+        controller.selectFromWallet.value!.currency.type == 'FIAT'
         ? LocalStorages.getFiatPrecision()
         : LocalStorages.getCryptoPrecision();
-    double fromRate =
-        double.parse(controller.selectFromWallet.value!.currency.rate);
-    double totalCharge = (fromRate + controller.totalFee.value);
+    final double fromRate = double.parse(
+      controller.selectFromWallet.value!.currency.rate,
+    );
+    final double totalCharge = (fromRate + controller.totalFee.value);
 
     return Container(
       margin: EdgeInsets.only(top: Dimensions.marginSizeVertical * 0.2),
@@ -165,8 +177,8 @@ class ExchangeMoneyScreen extends StatelessWidget {
                 textAlign: TextAlign.left,
                 fontWeight: FontWeight.w500,
                 color: Get.isDarkMode
-                    ? CustomColor.primaryDarkTextColor.withValues(alpha:0.8)
-                    : CustomColor.primaryLightColor.withValues(alpha:0.6),
+                    ? CustomColor.primaryDarkTextColor.withValues(alpha: 0.8)
+                    : CustomColor.primaryLightColor.withValues(alpha: 0.6),
               ),
               TitleHeading5Widget(
                 text:
@@ -174,8 +186,8 @@ class ExchangeMoneyScreen extends StatelessWidget {
                 textAlign: TextAlign.left,
                 fontWeight: FontWeight.w500,
                 color: Get.isDarkMode
-                    ? CustomColor.primaryDarkTextColor.withValues(alpha:0.8)
-                    : CustomColor.primaryLightColor.withValues(alpha:0.6),
+                    ? CustomColor.primaryDarkTextColor.withValues(alpha: 0.8)
+                    : CustomColor.primaryLightColor.withValues(alpha: 0.6),
               ),
             ],
           ),
@@ -188,8 +200,8 @@ class ExchangeMoneyScreen extends StatelessWidget {
                   textAlign: TextAlign.left,
                   fontWeight: FontWeight.w500,
                   color: Get.isDarkMode
-                      ? CustomColor.primaryDarkTextColor.withValues(alpha:0.8)
-                      : CustomColor.primaryLightColor.withValues(alpha:0.6),
+                      ? CustomColor.primaryDarkTextColor.withValues(alpha: 0.8)
+                      : CustomColor.primaryLightColor.withValues(alpha: 0.6),
                 ),
                 TitleHeading5Widget(
                   text:
@@ -197,8 +209,8 @@ class ExchangeMoneyScreen extends StatelessWidget {
                   textAlign: TextAlign.left,
                   fontWeight: FontWeight.w500,
                   color: Get.isDarkMode
-                      ? CustomColor.primaryDarkTextColor.withValues(alpha:0.8)
-                      : CustomColor.primaryLightColor.withValues(alpha:0.6),
+                      ? CustomColor.primaryDarkTextColor.withValues(alpha: 0.8)
+                      : CustomColor.primaryLightColor.withValues(alpha: 0.6),
                 ),
               ],
             ),

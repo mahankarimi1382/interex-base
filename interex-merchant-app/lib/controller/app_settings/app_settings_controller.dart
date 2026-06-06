@@ -41,61 +41,83 @@ class AppSettingsController extends GetxController {
     _isLoading.value = true;
     update();
 
-    await ApiServices.appSettingsApi().then((value) {
-      _appSettingsModel = value!;
-      splashImagePath.value =
-          "${Get.find<AppSettingsController>().baseUrl.value}/${_appSettingsModel.data.screenImagePath}/${_appSettingsModel.data.appSettings.merchant.splashScreen.splashScreenImage}";
+    await ApiServices.appSettingsApi()
+        .then((value) {
+          _appSettingsModel = value!;
+          splashImagePath.value =
+              "${Get.find<AppSettingsController>().baseUrl.value}/${_appSettingsModel.data.screenImagePath}/${_appSettingsModel.data.appSettings.merchant.splashScreen.splashScreenImage}";
 
-      for (var element
-          in _appSettingsModel.data.appSettings.merchant.onboardScreen) {
-        onboardScreen.add(
-          OnboardScreen(
-            id: element.id,
-            title: element.title,
-            subTitle: element.subTitle,
-            image: element.image,
-            status: element.status,
-            createdAt: element.createdAt,
-            updatedAt: element.updatedAt,
-          ),
-        );
-      }
+          for (var element
+              in _appSettingsModel.data.appSettings.merchant.onboardScreen) {
+            onboardScreen.add(
+              OnboardScreen(
+                id: element.id,
+                title: element.title,
+                subTitle: element.subTitle,
+                image: element.image,
+                status: element.status,
+                createdAt: element.createdAt,
+                updatedAt: element.updatedAt,
+              ),
+            );
+          }
 
-      baseUrl.value = _appSettingsModel.data.baseUrl;
+          baseUrl.value = _appSettingsModel.data.baseUrl;
 
-      path.value =
-          "${baseUrl.value}/${_appSettingsModel.data.logoImagePath}/";
+          path.value =
+              "${baseUrl.value}/${_appSettingsModel.data.logoImagePath}/";
 
-      if (_appSettingsModel.data.appSettings.merchant.basicSettings.siteLogo ==
-          '') {
-        appBasicLogoWhite.value =
-            "${baseUrl.value}/${_appSettingsModel.data.defaultImage}";
-        appBasicLogoDark.value = appBasicLogoWhite.value;
-      } else {
-        appBasicLogoWhite.value =
-            "${baseUrl.value}/${_appSettingsModel.data.logoImagePath}/${_appSettingsModel.data.appSettings.merchant.basicSettings.siteLogo}";
-        appBasicLogoDark.value =
-            "${baseUrl.value}/${_appSettingsModel.data.logoImagePath}/${_appSettingsModel.data.appSettings.merchant.basicSettings.siteLogoDark}";
-      }
-      var data = _appSettingsModel.data.appSettings.merchant.basicSettings;
-      cryptoValue.value = data.cryptoPrecisionValue;
-      fiatValue.value = data.fiatPrecisionValue;
-      Strings.appName =
-          _appSettingsModel.data.appSettings.merchant.basicSettings.siteName;
+          if (_appSettingsModel
+                  .data
+                  .appSettings
+                  .merchant
+                  .basicSettings
+                  .siteLogo ==
+              '') {
+            appBasicLogoWhite.value =
+                "${baseUrl.value}/${_appSettingsModel.data.defaultImage}";
+            appBasicLogoDark.value = appBasicLogoWhite.value;
+          } else {
+            appBasicLogoWhite.value =
+                "${baseUrl.value}/${_appSettingsModel.data.logoImagePath}/${_appSettingsModel.data.appSettings.merchant.basicSettings.siteLogo}";
+            appBasicLogoDark.value =
+                "${baseUrl.value}/${_appSettingsModel.data.logoImagePath}/${_appSettingsModel.data.appSettings.merchant.basicSettings.siteLogoDark}";
+          }
+          final data =
+              _appSettingsModel.data.appSettings.merchant.basicSettings;
+          cryptoValue.value = data.cryptoPrecisionValue;
+          fiatValue.value = data.fiatPrecisionValue;
+          Strings.appName = _appSettingsModel
+              .data
+              .appSettings
+              .merchant
+              .basicSettings
+              .siteName;
 
-      LocalStorages.saveFiatPrecision(
-          value: _appSettingsModel
-              .data.appSettings.merchant.basicSettings.fiatPrecisionValue);
-      LocalStorages.saveCryptoPrecision(
-          value: _appSettingsModel
-              .data.appSettings.merchant.basicSettings.cryptoPrecisionValue);
-      update();
-      _isLoading.value = false;
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-      _isLoading.value = false;
-    });
+          LocalStorages.saveFiatPrecision(
+            value: _appSettingsModel
+                .data
+                .appSettings
+                .merchant
+                .basicSettings
+                .fiatPrecisionValue,
+          );
+          LocalStorages.saveCryptoPrecision(
+            value: _appSettingsModel
+                .data
+                .appSettings
+                .merchant
+                .basicSettings
+                .cryptoPrecisionValue,
+          );
+          update();
+          _isLoading.value = false;
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+          _isLoading.value = false;
+        });
     _isLoading.value = false;
     update();
     return _appSettingsModel;

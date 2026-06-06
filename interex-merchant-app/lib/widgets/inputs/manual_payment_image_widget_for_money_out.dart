@@ -33,7 +33,7 @@ class ManualPaymentImageWidgetForMoneyOut extends StatelessWidget {
 
       if (controller.listFieldName.isNotEmpty) {
         if (controller.listFieldName.contains(fieldName)) {
-          int itemIndex = controller.listFieldName.indexOf(fieldName);
+          final int itemIndex = controller.listFieldName.indexOf(fieldName);
           controller.listFieldName[itemIndex] = fieldName;
           controller.listImagePath[itemIndex] = imageFile!.path;
         } else {
@@ -66,7 +66,7 @@ class ManualPaymentImageWidgetForMoneyOut extends StatelessWidget {
         padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(Dimensions.radius * 2),
-          border: Border.all(width: 1, color: Theme.of(context).primaryColor),
+          border: Border.all(color: Theme.of(context).primaryColor),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,

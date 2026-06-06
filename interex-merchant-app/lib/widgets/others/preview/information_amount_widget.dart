@@ -52,7 +52,7 @@ extension AmountInformation on Widget {
           ),
           Divider(
             thickness: 1,
-            color: CustomColor.primaryLightColor.withValues(alpha:0.2),
+            color: CustomColor.primaryLightColor.withValues(alpha: 0.2),
           ),
           Padding(
             padding: EdgeInsets.only(
@@ -63,26 +63,28 @@ extension AmountInformation on Widget {
             ),
             child: Column(
               children: [
-                ...[
-                  Container(child: children),
-                ],
+                ...[Container(child: children)],
                 Row(
                   mainAxisAlignment: mainSpaceBet,
                   children: [
                     TitleHeading4Widget(
                       text: enterAmount,
                       color: Get.isDarkMode
-                          ? CustomColor.primaryDarkTextColor.withValues(alpha:0.6)
-                          : CustomColor.primaryLightColor.withValues(alpha:
-                              0.4,
+                          ? CustomColor.primaryDarkTextColor.withValues(
+                              alpha: 0.6,
+                            )
+                          : CustomColor.primaryLightColor.withValues(
+                              alpha: 0.4,
                             ),
                     ),
                     TitleHeading3Widget(
                       text: enterAmountRow,
                       color: Get.isDarkMode
-                          ? CustomColor.primaryDarkTextColor.withValues(alpha:0.6)
-                          : CustomColor.primaryLightColor.withValues(alpha:
-                              0.6,
+                          ? CustomColor.primaryDarkTextColor.withValues(
+                              alpha: 0.6,
+                            )
+                          : CustomColor.primaryLightColor.withValues(
+                              alpha: 0.6,
                             ),
                       fontWeight: FontWeight.w600,
                     ),
@@ -95,17 +97,21 @@ extension AmountInformation on Widget {
                     TitleHeading4Widget(
                       text: fee,
                       color: Get.isDarkMode
-                          ? CustomColor.primaryDarkTextColor.withValues(alpha:0.6)
-                          : CustomColor.primaryLightColor.withValues(alpha:
-                              0.4,
+                          ? CustomColor.primaryDarkTextColor.withValues(
+                              alpha: 0.6,
+                            )
+                          : CustomColor.primaryLightColor.withValues(
+                              alpha: 0.4,
                             ),
                     ),
                     TitleHeading3Widget(
                       text: feeRow,
                       color: Get.isDarkMode
-                          ? CustomColor.primaryDarkTextColor.withValues(alpha:0.6)
-                          : CustomColor.primaryLightColor.withValues(alpha:
-                              0.6,
+                          ? CustomColor.primaryDarkTextColor.withValues(
+                              alpha: 0.6,
+                            )
+                          : CustomColor.primaryLightColor.withValues(
+                              alpha: 0.6,
                             ),
                       fontWeight: FontWeight.w600,
                     ),
@@ -118,17 +124,21 @@ extension AmountInformation on Widget {
                     TitleHeading4Widget(
                       text: received,
                       color: Get.isDarkMode
-                          ? CustomColor.primaryDarkTextColor.withValues(alpha:0.6)
-                          : CustomColor.primaryLightColor.withValues(alpha:
-                              0.4,
+                          ? CustomColor.primaryDarkTextColor.withValues(
+                              alpha: 0.6,
+                            )
+                          : CustomColor.primaryLightColor.withValues(
+                              alpha: 0.4,
                             ),
                     ),
                     TitleHeading3Widget(
                       text: receivedRow,
                       color: Get.isDarkMode
-                          ? CustomColor.primaryDarkTextColor.withValues(alpha:0.6)
-                          : CustomColor.primaryLightColor.withValues(alpha:
-                              0.6,
+                          ? CustomColor.primaryDarkTextColor.withValues(
+                              alpha: 0.6,
+                            )
+                          : CustomColor.primaryLightColor.withValues(
+                              alpha: 0.6,
                             ),
                       fontWeight: FontWeight.w600,
                     ),
@@ -141,17 +151,21 @@ extension AmountInformation on Widget {
                     TitleHeading4Widget(
                       text: total,
                       color: Get.isDarkMode
-                          ? CustomColor.primaryDarkTextColor.withValues(alpha:0.6)
-                          : CustomColor.primaryLightColor.withValues(alpha:
-                              0.4,
+                          ? CustomColor.primaryDarkTextColor.withValues(
+                              alpha: 0.6,
+                            )
+                          : CustomColor.primaryLightColor.withValues(
+                              alpha: 0.4,
                             ),
                     ),
                     TitleHeading3Widget(
                       text: totalRow,
                       color: Get.isDarkMode
-                          ? CustomColor.primaryDarkTextColor.withValues(alpha:0.6)
-                          : CustomColor.primaryLightColor.withValues(alpha:
-                              0.6,
+                          ? CustomColor.primaryDarkTextColor.withValues(
+                              alpha: 0.6,
+                            )
+                          : CustomColor.primaryLightColor.withValues(
+                              alpha: 0.6,
                             ),
                       fontWeight: FontWeight.w600,
                     ),
@@ -159,7 +173,7 @@ extension AmountInformation on Widget {
                 ),
               ],
             ),
-          )
+          ),
         ],
       ),
     );

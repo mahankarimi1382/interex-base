@@ -9,9 +9,7 @@ import '../../../utils/size.dart';
 import '../../text_labels/custom_title_heading_widget.dart';
 
 extension PreviewAmount on Widget {
-  Widget previewAmount({
-    required String amount,
-  }) {
+  Widget previewAmount({required String amount}) {
     return Container(
       decoration: BoxDecoration(
         color: Get.isDarkMode
@@ -23,9 +21,7 @@ extension PreviewAmount on Widget {
         vertical: Dimensions.marginSizeVertical * 0.2,
       ),
       child: Padding(
-        padding: EdgeInsets.symmetric(
-          vertical: Dimensions.marginSizeVertical,
-        ),
+        padding: EdgeInsets.symmetric(vertical: Dimensions.marginSizeVertical),
         child: Column(
           mainAxisAlignment: mainCenter,
           children: [
@@ -44,7 +40,7 @@ extension PreviewAmount on Widget {
               style: CustomStyle.darkHeading4TextStyle.copyWith(
                 color: Get.isDarkMode
                     ? CustomColor.primaryBGLightColor
-                    : CustomColor.primaryDarkColor.withValues(alpha:0.6),
+                    : CustomColor.primaryDarkColor.withValues(alpha: 0.6),
               ),
             ),
           ],

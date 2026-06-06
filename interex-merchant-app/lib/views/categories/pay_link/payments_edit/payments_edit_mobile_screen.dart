@@ -34,7 +34,7 @@ class PaymentsEditScreenMobile extends StatelessWidget {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        Get.offAllNamed(Routes.paymentLogScreen);
+        await Get.offAllNamed(Routes.paymentLogScreen);
         return false;
       },
       child: Scaffold(
@@ -94,7 +94,6 @@ class PaymentsEditScreenMobile extends StatelessWidget {
         onChanged: (value) {
           controller.typeSelection.value = value!.title;
         },
-        isExpanded: true,
         hint: controller.typeSelection.value,
         padding: EdgeInsets.only(left: Dimensions.paddingHorizontalSize * 0.25),
         titleTextColor: CustomColor.primaryLightTextColor.withValues(
@@ -184,7 +183,6 @@ class PaymentsEditScreenMobile extends StatelessWidget {
         controller.currencySymbol.value = value.currencySymbol;
         controller.currencyCountry.value = value.country;
       },
-      isExpanded: true,
       padding: EdgeInsets.only(left: Dimensions.paddingHorizontalSize * 0.25),
       titleTextColor: CustomColor.primaryLightTextColor.withValues(alpha: .30),
       titleStyle: CustomStyle.darkHeading3TextStyle.copyWith(

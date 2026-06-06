@@ -30,8 +30,13 @@ class $AssetsClipartGen {
   String get waitForApproval => 'assets/clipart/wait_for_approval.svg';
 
   /// List of all assets
-  List<dynamic> get values =>
-      [confirmation, idcardBack, uploadImage, user, waitForApproval];
+  List<dynamic> get values => [
+    confirmation,
+    idcardBack,
+    uploadImage,
+    user,
+    waitForApproval,
+  ];
 }
 
 class $AssetsIconGen {
@@ -192,58 +197,58 @@ class $AssetsIconGen {
 
   /// List of all assets
   List<String> get values => [
-        paylink,
-        about,
-        america,
-        api,
-        backward,
-        billLog,
-        billPay,
-        buyGift,
-        camera,
-        copy,
-        cross,
-        deposit,
-        details,
-        drawerMenu,
-        dropdown,
-        edit,
-        exchangeAlt,
-        eyeOff,
-        facelock,
-        finger,
-        fund,
-        gateway,
-        giftLog,
-        helpCenter,
-        home,
-        kycUpdate,
-        mobileTopUp,
-        myGift,
-        myWallet,
-        paypal,
-        privacy,
-        profile,
-        receipient,
-        receipt,
-        receive,
-        remittance,
-        rightArrow,
-        saved,
-        scan,
-        send,
-        settings,
-        signout,
-        tLog,
-        topUpLog,
-        torch,
-        transaction,
-        twoFa,
-        upload,
-        virtualCard,
-        wallet,
-        withdraw
-      ];
+    paylink,
+    about,
+    america,
+    api,
+    backward,
+    billLog,
+    billPay,
+    buyGift,
+    camera,
+    copy,
+    cross,
+    deposit,
+    details,
+    drawerMenu,
+    dropdown,
+    edit,
+    exchangeAlt,
+    eyeOff,
+    facelock,
+    finger,
+    fund,
+    gateway,
+    giftLog,
+    helpCenter,
+    home,
+    kycUpdate,
+    mobileTopUp,
+    myGift,
+    myWallet,
+    paypal,
+    privacy,
+    profile,
+    receipient,
+    receipt,
+    receive,
+    remittance,
+    rightArrow,
+    saved,
+    scan,
+    send,
+    settings,
+    signout,
+    tLog,
+    topUpLog,
+    torch,
+    transaction,
+    twoFa,
+    upload,
+    virtualCard,
+    wallet,
+    withdraw,
+  ];
 }
 
 class $AssetsLogoGen {
@@ -287,11 +292,7 @@ class Assets {
 }
 
 class AssetGenImage {
-  const AssetGenImage(
-    this._assetName, {
-    this.size,
-    this.flavors = const {},
-  });
+  const AssetGenImage(this._assetName, {this.size, this.flavors = const {}});
 
   final String _assetName;
 
@@ -351,15 +352,8 @@ class AssetGenImage {
     );
   }
 
-  ImageProvider provider({
-    AssetBundle? bundle,
-    String? package,
-  }) {
-    return AssetImage(
-      _assetName,
-      bundle: bundle,
-      package: package,
-    );
+  ImageProvider provider({AssetBundle? bundle, String? package}) {
+    return AssetImage(_assetName, bundle: bundle, package: package);
   }
 
   String get path => _assetName;

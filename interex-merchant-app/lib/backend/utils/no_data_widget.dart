@@ -14,7 +14,6 @@ class NoDataWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Align(
-      alignment: Alignment.center,
       child: Container(
         width: double.infinity,
         height: double.infinity,
@@ -40,7 +39,7 @@ class NoDataWidget extends StatelessWidget {
                 color: Get.isDarkMode
                     ? CustomColor.primaryDarkTextColor
                     : CustomColor.primaryLightTextColor,
-              )
+              ),
             ],
           ),
         ),

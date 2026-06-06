@@ -26,9 +26,7 @@ class WaitForApprovalScreen extends StatelessWidget {
             return;
           }
         },
-        child: Scaffold(
-          body: _bodyWidget(context),
-        ),
+        child: Scaffold(body: _bodyWidget(context)),
       ),
     );
   }

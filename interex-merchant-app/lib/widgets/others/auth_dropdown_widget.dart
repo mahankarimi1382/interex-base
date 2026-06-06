@@ -65,20 +65,22 @@ class _CustomDropdownMenuState<T> extends State<AuthDropdown<T>>
   }
 
   void _openDropdown() {
-    RenderBox renderBox = context.findRenderObject() as RenderBox;
-    var size = renderBox.size;
-    var screenHeight = MediaQuery.of(context).size.height;
-    var spaceBelow =
+    final RenderBox renderBox = context.findRenderObject() as RenderBox;
+    final size = renderBox.size;
+    final screenHeight = MediaQuery.of(context).size.height;
+    final spaceBelow =
         screenHeight - renderBox.localToGlobal(Offset.zero).dy - size.height;
-    var spaceAbove = renderBox.localToGlobal(Offset.zero).dy;
+    final spaceAbove = renderBox.localToGlobal(Offset.zero).dy;
 
-    double itemHeight = 48.0;
-    int maxVisibleItems = 6;
-    double dropdownHeight =
-        _calculateDropdownHeight(itemHeight, maxVisibleItems);
+    const double itemHeight = 48.0;
+    const int maxVisibleItems = 6;
+    double dropdownHeight = _calculateDropdownHeight(
+      itemHeight,
+      maxVisibleItems,
+    );
 
-    double spaceThresholdAbove = dropdownHeight - 20.0;
-    bool openUpwards =
+    final double spaceThresholdAbove = dropdownHeight - 20.0;
+    final bool openUpwards =
         spaceBelow < dropdownHeight && spaceAbove > spaceThresholdAbove;
 
     if (openUpwards && spaceAbove < dropdownHeight) {
@@ -86,7 +88,9 @@ class _CustomDropdownMenuState<T> extends State<AuthDropdown<T>>
     }
 
     _overlayEntry = _createOverlayEntry(
-        openUpwards: openUpwards, dropdownHeight: dropdownHeight);
+      openUpwards: openUpwards,
+      dropdownHeight: dropdownHeight,
+    );
     Overlay.of(context).insert(_overlayEntry!);
 
     setState(() {
@@ -103,10 +107,12 @@ class _CustomDropdownMenuState<T> extends State<AuthDropdown<T>>
     });
   }
 
-  OverlayEntry _createOverlayEntry(
-      {bool openUpwards = false, double dropdownHeight = 200.0}) {
-    RenderBox renderBox = context.findRenderObject() as RenderBox;
-    var size = renderBox.size;
+  OverlayEntry _createOverlayEntry({
+    bool openUpwards = false,
+    double dropdownHeight = 200.0,
+  }) {
+    final RenderBox renderBox = context.findRenderObject() as RenderBox;
+    final size = renderBox.size;
 
     return OverlayEntry(
       builder: (context) => GestureDetector(
@@ -178,28 +184,28 @@ class _CustomDropdownMenuState<T> extends State<AuthDropdown<T>>
   Widget _buildSearchField() {
     return Padding(
       padding: EdgeInsets.symmetric(
-          horizontal: Dimensions.paddingHorizontalSize * 0.5),
+        horizontal: Dimensions.paddingHorizontalSize * 0.5,
+      ),
       child: TextField(
         controller: searchController,
         onChanged: (value) {
           setState(() {
             filteredItems = widget.itemsList
-                .where((item) => _getItemTitle(item)
-                    .toLowerCase()
-                    .contains(value.toLowerCase()))
+                .where(
+                  (item) => _getItemTitle(
+                    item,
+                  ).toLowerCase().contains(value.toLowerCase()),
+                )
                 .toList();
           });
         },
         cursorColor: CustomColor.primaryLightColor,
         decoration: InputDecoration(
           hintText: 'Search',
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(8),
-          ),
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(8),
-            borderSide:
-                const BorderSide(width: 1, color: CustomColor.whiteColor),
+            borderSide: const BorderSide(color: CustomColor.whiteColor),
           ),
         ),
       ),
@@ -249,12 +255,13 @@ class _CustomDropdownMenuState<T> extends State<AuthDropdown<T>>
   }
 
   Widget _buildDropdownButton(BuildContext context) {
-    var screenSize = MediaQuery.of(context).size;
+    final screenSize = MediaQuery.of(context).size;
     return GestureDetector(
       onTap: _toggleDropdown,
       child: Container(
         height: Dimensions.inputBoxHeight * 0.75,
-        decoration: widget.decoration ??
+        decoration:
+            widget.decoration ??
             BoxDecoration(
               border: Border.all(
                 color: CustomColor.primaryLightColor,
@@ -267,21 +274,20 @@ class _CustomDropdownMenuState<T> extends State<AuthDropdown<T>>
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              if (widget.leading != null)
-                Container(
-                  child: widget.leading,
-                ),
+              if (widget.leading != null) Container(child: widget.leading),
               Padding(
                 padding: EdgeInsets.only(
-                    left: widget.leading == null
-                        ? Dimensions.paddingSize * 0.4
-                        : Dimensions.paddingSize * 0.1),
+                  left: widget.leading == null
+                      ? Dimensions.paddingSize * 0.4
+                      : Dimensions.paddingSize * 0.1,
+                ),
                 child: Text(
                   widget.selectMethod.value,
                   style: GoogleFonts.inter(
                     fontSize: screenSize.width * 0.04,
                     fontWeight: FontWeight.w600,
-                    color: widget.labelColor ??
+                    color:
+                        widget.labelColor ??
                         (isDropdownOpened
                             ? CustomColor.blackColor
                             : CustomColor.blackColor),
@@ -290,7 +296,8 @@ class _CustomDropdownMenuState<T> extends State<AuthDropdown<T>>
               ),
               Icon(
                 isDropdownOpened ? Icons.arrow_drop_up : Icons.arrow_drop_down,
-                color: widget.dropdownIconColor ??
+                color:
+                    widget.dropdownIconColor ??
                     (isDropdownOpened
                         ? CustomColor.primaryLightColor
                         : CustomColor.primaryTextColor),

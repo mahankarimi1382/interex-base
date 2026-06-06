@@ -22,9 +22,7 @@ class Enable2FaScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const AppBarWidget(
-        text: Strings.fA2Security,
-      ),
+      appBar: const AppBarWidget(text: Strings.fA2Security),
       body: Obx(
         () => controller.isLoading
             ? const CustomLoadingAPI()
@@ -75,13 +73,8 @@ class Enable2FaScreen extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(15),
       decoration: BoxDecoration(
-        border: Border.all(
-          width: 2,
-          color: CustomColor.primaryLightColor,
-        ),
-        borderRadius: BorderRadius.circular(
-          10,
-        ),
+        border: Border.all(width: 2, color: CustomColor.primaryLightColor),
+        borderRadius: BorderRadius.circular(10),
       ),
       margin: EdgeInsets.all(Dimensions.paddingSize * 0.4),
       child: Image.network(
@@ -106,10 +99,13 @@ class Enable2FaScreen extends StatelessWidget {
           suffixIcon: InkWell(
             onTap: () {
               Clipboard.setData(
-                      ClipboardData(text: controller.qrSecretController.text))
-                  .then((_) {
-                CustomSnackBar.success(Get.find<LanguageController>()
-                    .getTranslation(Strings.addressCopyTo));
+                ClipboardData(text: controller.qrSecretController.text),
+              ).then((_) {
+                CustomSnackBar.success(
+                  Get.find<LanguageController>().getTranslation(
+                    Strings.addressCopyTo,
+                  ),
+                );
               });
             },
             child: Container(
@@ -124,15 +120,12 @@ class Enable2FaScreen extends StatelessWidget {
                 ),
                 color: CustomColor.primaryLightColor,
               ),
-              child: const Icon(
-                Icons.copy,
-                color: Colors.white,
-              ),
+              child: const Icon(Icons.copy, color: Colors.white),
             ),
           ),
           label: Strings.address,
         ),
-        verticalSpace(Dimensions.paddingVerticalSize * 0.5)
+        verticalSpace(Dimensions.paddingVerticalSize * 0.5),
       ],
     );
   }

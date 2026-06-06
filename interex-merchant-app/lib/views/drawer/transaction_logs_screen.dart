@@ -54,61 +54,61 @@ class TransactionLogScreen extends StatelessWidget {
   TabBar get _tabBarWidget => TabBar(
     automaticIndicatorColorAdjustment: false,
     dividerColor: CustomColor.transparent,
-        isScrollable: true,
-        labelColor: Colors.white,
-        unselectedLabelColor: CustomColor.primaryLightTextColor,
-        indicatorSize: TabBarIndicatorSize.tab,
-        labelStyle: CustomStyle.lightHeading4TextStyle.copyWith(
-          color: CustomColor.primaryLightColor,
-          fontSize: Dimensions.headingTextSize4,
+    isScrollable: true,
+    labelColor: Colors.white,
+    unselectedLabelColor: CustomColor.primaryLightTextColor,
+    indicatorSize: TabBarIndicatorSize.tab,
+    labelStyle: CustomStyle.lightHeading4TextStyle.copyWith(
+      color: CustomColor.primaryLightColor,
+      fontSize: Dimensions.headingTextSize4,
+    ),
+    unselectedLabelStyle: CustomStyle.lightHeading4TextStyle.copyWith(
+      color: CustomColor.primaryLightTextColor,
+      fontSize: Dimensions.headingTextSize4,
+    ),
+    indicator: BoxDecoration(
+      borderRadius: BorderRadius.circular(Dimensions.radius * 5),
+      color: CustomColor.primaryLightColor,
+    ),
+    tabs: [
+      Tab(
+        child: Text(
+          Get.find<LanguageController>().getTranslation(Strings.withdrawLog),
+          textAlign: TextAlign.center,
         ),
-        unselectedLabelStyle: CustomStyle.lightHeading4TextStyle.copyWith(
-          color: CustomColor.primaryLightTextColor,
-          fontSize: Dimensions.headingTextSize4,
+      ),
+      Tab(
+        child: Text(
+          Get.find<LanguageController>().getTranslation(
+            Strings.merchantPaymentLog,
+          ),
+          textAlign: TextAlign.center,
         ),
-        indicator: BoxDecoration(
-          shape: BoxShape.rectangle,
-          borderRadius: BorderRadius.circular(Dimensions.radius * 5),
-          color: CustomColor.primaryLightColor,
+      ),
+      Tab(
+        child: Text(
+          Get.find<LanguageController>().getTranslation(
+            Strings.receivedPaymentLog,
+          ),
+          textAlign: TextAlign.center,
         ),
-        tabs: [
-          Tab(
-            child: Text(
-              Get.find<LanguageController>()
-                  .getTranslation(Strings.withdrawLog),
-              textAlign: TextAlign.center,
-            ),
+      ),
+      Tab(
+        child: Text(
+          Get.find<LanguageController>().getTranslation(
+            Strings.addSubBalanceLog,
           ),
-          Tab(
-            child: Text(
-              Get.find<LanguageController>()
-                  .getTranslation(Strings.merchantPaymentLog),
-              textAlign: TextAlign.center,
-            ),
-          ),
-          Tab(
-            child: Text(
-              Get.find<LanguageController>()
-                  .getTranslation(Strings.receivedPaymentLog),
-              textAlign: TextAlign.center,
-            ),
-          ),
-          Tab(
-            child: Text(
-              Get.find<LanguageController>()
-                  .getTranslation(Strings.addSubBalanceLog),
-              textAlign: TextAlign.center,
-            ),
-          ),
-          Tab(
-            child: Text(
-              Get.find<LanguageController>()
-                  .getTranslation(Strings.payLinkLogs),
-              textAlign: TextAlign.center,
-            ),
-          ),
-        ],
-      );
+          textAlign: TextAlign.center,
+        ),
+      ),
+      Tab(
+        child: Text(
+          Get.find<LanguageController>().getTranslation(Strings.payLinkLogs),
+          textAlign: TextAlign.center,
+        ),
+      ),
+    ],
+  );
 
   Container _bodyWidget(BuildContext context) {
     return Container(

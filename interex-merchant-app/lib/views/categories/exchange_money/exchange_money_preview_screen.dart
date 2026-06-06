@@ -46,37 +46,31 @@ class ExchangeMoneyPreviewScreen extends StatelessWidget {
 
   Widget _amountWidget(BuildContext context) {
     return previewAmount(
-        amount:
-            '${controller.exchangeFromAmountController.text} ${controller.selectFromWallet.value!.currency.code}');
+      amount:
+          '${controller.exchangeFromAmountController.text} ${controller.selectFromWallet.value!.currency.code}',
+    );
   }
 
   Widget _amountInformationWidget(BuildContext context) {
-    var senderCurrency = controller.selectFromWallet.value!.currency;
-    var receiverCurrency = controller.selectToWallet.value!.currency;
+    final senderCurrency = controller.selectFromWallet.value!.currency;
+    final receiverCurrency = controller.selectToWallet.value!.currency;
     return amountInformationWidget(
       children: Column(
         children: [
-          _rowWidget(
-            title: Strings.fromWallet,
-            subTitle: senderCurrency.code,
-          ),
-          _rowWidget(
-            title: Strings.toWallet,
-            subTitle: receiverCurrency.code,
-          ),
+          _rowWidget(title: Strings.fromWallet, subTitle: senderCurrency.code),
+          _rowWidget(title: Strings.toWallet, subTitle: receiverCurrency.code),
         ],
-      ), 
-       
-                        
+      ),
+
       information: Strings.amountInformation,
       enterAmount: Strings.totalExchangeAmount,
       enterAmountRow:
           '${controller.exchangeFromAmountController.text} ${controller.selectFromWallet.value!.currency.code}',
       fee: Strings.totalCharge,
-      feeRow: 
+      feeRow:
           '${controller.totalFee.value.toStringAsFixed(2)} ${controller.selectFromWallet.value!.currency.code}',
       received: Strings.convertedAmount,
-      receivedRow:  
+      receivedRow:
           '${controller.exchangeToAmountController.text} ${controller.selectToWallet.value!.currency.code}',
       total: Strings.totalPayable,
       totalRow:
@@ -86,24 +80,23 @@ class ExchangeMoneyPreviewScreen extends StatelessWidget {
 
   Container _buttonWidget(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(
-        top: Dimensions.marginSizeVertical * 2,
-      ),
+      margin: EdgeInsets.only(top: Dimensions.marginSizeVertical * 2),
       child: Obx(
         () => controller.isMoneyExchangeLoading
             ? const CustomLoadingAPI()
             : PrimaryButton(
                 title: Strings.confirm,
                 onPressed: () {
-                  controller.moneyExchangeProcess(context).then(
-                        (value) => StatusScreen.show(
-                          context: context,
-                          subTitle: value.message.success.first,
-                          onPressed: () {
-                            Get.offAllNamed(Routes.bottomNavBarScreen);
-                          },
-                        ),
-                      );
+                  controller.moneyExchangeProcess(context).then((value) {
+                    if (!context.mounted) return;
+                    StatusScreen.show(
+                      context: context,
+                      subTitle: value.message.success.first,
+                      onPressed: () {
+                        Get.offAllNamed(Routes.bottomNavBarScreen);
+                      },
+                    );
+                  });
                 },
               ),
       ),
@@ -119,18 +112,14 @@ class ExchangeMoneyPreviewScreen extends StatelessWidget {
             TitleHeading4Widget(
               text: title,
               color: Get.isDarkMode
-                  ? CustomColor.primaryDarkTextColor.withValues(alpha:0.6)
-                  : CustomColor.primaryLightColor.withValues(alpha:
-                      0.4,
-                    ),
+                  ? CustomColor.primaryDarkTextColor.withValues(alpha: 0.6)
+                  : CustomColor.primaryLightColor.withValues(alpha: 0.4),
             ),
             TitleHeading3Widget(
               text: subTitle,
               color: Get.isDarkMode
-                  ? CustomColor.primaryDarkTextColor.withValues(alpha:0.6)
-                  : CustomColor.primaryLightColor.withValues(alpha:
-                      0.6,
-                    ),
+                  ? CustomColor.primaryDarkTextColor.withValues(alpha: 0.6)
+                  : CustomColor.primaryLightColor.withValues(alpha: 0.6),
               fontWeight: FontWeight.w600,
             ),
           ],

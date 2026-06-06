@@ -15,7 +15,6 @@ class StatusDataWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Align(
-      alignment: Alignment.center,
       child: Container(
         width: double.infinity,
         height: double.infinity,
@@ -28,19 +27,19 @@ class StatusDataWidget extends StatelessWidget {
               Icon(
                 icon,
                 color: Get.isDarkMode
-                    ? CustomColor.primaryDarkTextColor.withValues(alpha:0.5)
-                    : CustomColor.blackColor.withValues(alpha:0.4),
+                    ? CustomColor.primaryDarkTextColor.withValues(alpha: 0.5)
+                    : CustomColor.blackColor.withValues(alpha: 0.4),
                 size: Dimensions.iconSizeLarge * 1.5,
               ),
               verticalSpace(Dimensions.paddingSize * 0.3),
               TitleHeading1Widget(
                 text: text,
                 color: Get.isDarkMode
-                    ? CustomColor.primaryDarkTextColor.withValues(alpha:0.5)
-                    : CustomColor.blackColor.withValues(alpha:0.4),
+                    ? CustomColor.primaryDarkTextColor.withValues(alpha: 0.5)
+                    : CustomColor.blackColor.withValues(alpha: 0.4),
                 textAlign: TextAlign.center,
                 fontSize: Dimensions.headingTextSize3,
-              )
+              ),
             ],
           ),
         ),

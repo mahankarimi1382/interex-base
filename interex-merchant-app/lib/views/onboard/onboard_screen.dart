@@ -23,8 +23,9 @@ class OnboardScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return ResponsiveLayout(
       mobileScaffold: Scaffold(
-          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-          body: Column(children: [
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        body: Column(
+          children: [
             SizedBox(
               height: MediaQuery.of(context).size.height,
               child: PageView.builder(
@@ -33,7 +34,7 @@ class OnboardScreen extends StatelessWidget {
                 onPageChanged: controller.selectedIndex.call,
                 itemCount: appSettingsController.onboardScreen.length,
                 itemBuilder: (context, index) {
-                  var data = appSettingsController.onboardScreen[index];
+                  final data = appSettingsController.onboardScreen[index];
                   return Stack(
                     children: [
                       Positioned(
@@ -49,26 +50,28 @@ class OnboardScreen extends StatelessWidget {
                       Column(
                         mainAxisAlignment: mainEnd,
                         children: [
-                          _bottomContainerWidget(context,
-                              child: Column(
-                                children: [
-                                  _titleAndSubTitleWidget(context, index, data),
-                                  Padding(
-                                    padding: EdgeInsets.symmetric(
-                                      vertical:
-                                          Dimensions.marginSizeVertical * 0.35,
-                                    ),
-                                    child: Row(
-                                      mainAxisAlignment: mainSpaceBet,
-                                      children: [
-                                        _skipButtonWidget(context),
-                                        Obx(() => controller.dotWidget()),
-                                        Obx(() => controller.arrowWidget()),
-                                      ],
-                                    ),
-                                  )
-                                ],
-                              )),
+                          _bottomContainerWidget(
+                            context,
+                            child: Column(
+                              children: [
+                                _titleAndSubTitleWidget(context, index, data),
+                                Padding(
+                                  padding: EdgeInsets.symmetric(
+                                    vertical:
+                                        Dimensions.marginSizeVertical * 0.35,
+                                  ),
+                                  child: Row(
+                                    mainAxisAlignment: mainSpaceBet,
+                                    children: [
+                                      _skipButtonWidget(context),
+                                      Obx(() => controller.dotWidget()),
+                                      Obx(() => controller.arrowWidget()),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
                         ],
                       ),
                     ],
@@ -76,45 +79,55 @@ class OnboardScreen extends StatelessWidget {
                 },
               ),
             ),
-          ])),
+          ],
+        ),
+      ),
     );
   }
 }
 
-Container _bottomContainerWidget(BuildContext context, {required Widget child}) {
-  Radius borderRadius = const Radius.circular(20);
+Container _bottomContainerWidget(
+  BuildContext context, {
+  required Widget child,
+}) {
+  const Radius borderRadius = Radius.circular(20);
   return Container(
-      margin: EdgeInsets.symmetric(
-          horizontal: Dimensions.marginSizeHorizontal * 0.5),
-      decoration: BoxDecoration(
-        color: CustomColor.whiteColor,
-        borderRadius:
-            BorderRadius.only(topLeft: borderRadius, topRight: borderRadius),
-        boxShadow: [
-          BoxShadow(
-            color: Theme.of(context).primaryColor.withValues(alpha:0.015),
-            spreadRadius: 7,
-            blurRadius: 5,
-            offset: const Offset(0, 0), // changes position of shadow
-          ),
-        ],
+    margin: EdgeInsets.symmetric(
+      horizontal: Dimensions.marginSizeHorizontal * 0.5,
+    ),
+    decoration: BoxDecoration(
+      color: CustomColor.whiteColor,
+      borderRadius: const BorderRadius.only(
+        topLeft: borderRadius,
+        topRight: borderRadius,
       ),
-      padding: EdgeInsets.all(Dimensions.paddingSize),
-      child: child);
+      boxShadow: [
+        BoxShadow(
+          color: Theme.of(context).primaryColor.withValues(alpha: 0.015),
+          spreadRadius: 7,
+          blurRadius: 5,
+        ),
+      ],
+    ),
+    padding: EdgeInsets.all(Dimensions.paddingSize),
+    child: child,
+  );
 }
 
 Column _titleAndSubTitleWidget(BuildContext context, int index, data) {
   return Column(
     children: [
-      Builder(builder: (context) {
-        return CustomTitleHeadingWidget(
-          text: data.title,
-          textAlign: TextAlign.start,
-          maxLines: 2,
-          textOverflow: TextOverflow.ellipsis,
-          style: CustomStyle.onboardTitleStyle,
-        );
-      }),
+      Builder(
+        builder: (context) {
+          return CustomTitleHeadingWidget(
+            text: data.title,
+            textAlign: TextAlign.start,
+            maxLines: 2,
+            textOverflow: TextOverflow.ellipsis,
+            style: CustomStyle.onboardTitleStyle,
+          );
+        },
+      ),
       verticalSpace(Dimensions.heightSize),
       Padding(
         padding: EdgeInsets.all(Dimensions.paddingSize * 0.04),
@@ -126,7 +139,7 @@ Column _titleAndSubTitleWidget(BuildContext context, int index, data) {
           style: CustomStyle.onboardSubTitleStyle,
         ),
       ),
-      verticalSpace(Dimensions.heightSize * 1.8)
+      verticalSpace(Dimensions.heightSize * 1.8),
     ],
   );
 }

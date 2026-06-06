@@ -10,7 +10,6 @@ import '../../utils/dimensions.dart';
 import '../../utils/strings.dart';
 import '../text_labels/title_heading4_widget.dart';
 
-
 class PrimaryInputWidget extends StatefulWidget {
   final String hint, icon, label;
   final int maxLines;
@@ -73,7 +72,6 @@ class _PrimaryInputWidgetState extends State<PrimaryInputWidget> {
   @override
   Widget build(BuildContext context) {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         if (widget.label != '')
@@ -81,17 +79,18 @@ class _PrimaryInputWidgetState extends State<PrimaryInputWidget> {
             children: [
               TitleHeading4Widget(
                 text: widget.label,
-                fontWeight:
-                    widget.isTrxHash ? FontWeight.w400 : FontWeight.w600,
+                fontWeight: widget.isTrxHash
+                    ? FontWeight.w400
+                    : FontWeight.w600,
                 color: widget.isTrxHash
-                    ? CustomColor.whiteColor.withValues(alpha:0.5)
+                    ? CustomColor.whiteColor.withValues(alpha: 0.5)
                     : null,
               ),
               TitleHeading4Widget(
                 text: widget.optionalLabel ?? "",
                 fontWeight: FontWeight.w600,
                 fontSize: Dimensions.headingTextSize4,
-                color: CustomColor.primaryLightColor.withValues(alpha:.8),
+                color: CustomColor.primaryLightColor.withValues(alpha: .8),
               ),
             ],
           ),
@@ -115,7 +114,8 @@ class _PrimaryInputWidgetState extends State<PrimaryInputWidget> {
                 focusNode!.requestFocus();
               });
             },
-            onFieldSubmitted: widget.onFieldSubmitted ??
+            onFieldSubmitted:
+                widget.onFieldSubmitted ??
                 (value) {
                   setState(() {
                     focusNode!.unfocus();
@@ -136,14 +136,15 @@ class _PrimaryInputWidgetState extends State<PrimaryInputWidget> {
                 fontSize: Dimensions.headingTextSize3,
                 fontWeight: FontWeight.w500,
                 color: widget.isTrxHash
-                    ? CustomColor.primaryDarkTextColor.withValues(alpha:0.2)
+                    ? CustomColor.primaryDarkTextColor.withValues(alpha: 0.2)
                     : Get.isDarkMode
-                        ? CustomColor.primaryDarkTextColor.withValues(alpha:0.2)
-                        : CustomColor.primaryLightTextColor.withValues(alpha:0.2),
+                    ? CustomColor.primaryDarkTextColor.withValues(alpha: 0.2)
+                    : CustomColor.primaryLightTextColor.withValues(alpha: 0.2),
               ),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(
-                    widget.radius ?? Dimensions.radius * 0.5),
+                  widget.radius ?? Dimensions.radius * 0.5,
+                ),
                 borderSide: BorderSide(
                   color: widget.isTrxHash
                       ? CustomColor.whiteColor
@@ -152,21 +153,24 @@ class _PrimaryInputWidgetState extends State<PrimaryInputWidget> {
               ),
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(
-                    widget.radius ?? Dimensions.radius * 0.5),
+                  widget.radius ?? Dimensions.radius * 0.5,
+                ),
                 borderSide: BorderSide(
                   color: widget.isTrxHash
                       ? CustomColor.whiteColor
-                      : CustomColor.primaryLightColor.withValues(alpha:0.2),
+                      : CustomColor.primaryLightColor.withValues(alpha: 0.2),
                 ),
               ),
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(
-                    widget.radius ?? Dimensions.radius * 0.5),
+                  widget.radius ?? Dimensions.radius * 0.5,
+                ),
                 borderSide: BorderSide(
-                    width: 2,
-                    color: widget.isTrxHash
-                        ? CustomColor.whiteColor
-                        : CustomColor.primaryLightColor),
+                  width: 2,
+                  color: widget.isTrxHash
+                      ? CustomColor.whiteColor
+                      : CustomColor.primaryLightColor,
+                ),
               ),
               contentPadding: EdgeInsets.symmetric(
                 horizontal: Dimensions.widthSize * 1.7,

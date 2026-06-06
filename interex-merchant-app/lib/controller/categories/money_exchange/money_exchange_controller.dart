@@ -63,64 +63,72 @@ class MoneyExchangeController extends GetxController
     _isLoading.value = true;
     update();
 
-    await getMoneyExchangeInfoProcessApi().then((value) {
-      _moneyExchangeInfoModel = value!;
-      // Get wallet information
-      selectFromWallet.value =
-          walletsController.walletsInfoModel.data.userWallets.first;
+    await getMoneyExchangeInfoProcessApi()
+        .then((value) {
+          _moneyExchangeInfoModel = value!;
+          // Get wallet information
+          selectFromWallet.value =
+              walletsController.walletsInfoModel.data.userWallets.first;
 
-      // Automatically select a different wallet for selectToWallet
-      selectToWallet.value = walletsController.walletsInfoModel.data.userWallets
-          .firstWhere((wallet) => wallet != selectFromWallet.value);
+          // Automatically select a different wallet for selectToWallet
+          selectToWallet.value = walletsController
+              .walletsInfoModel
+              .data
+              .userWallets
+              .firstWhere((wallet) => wallet != selectFromWallet.value);
 
-      for (var element in walletsController.walletsInfoModel.data.userWallets) {
-        walletsList.add(
-          UserWallet(
-            balance: element.balance,
-            currency: element.currency,
-            status: element.status,
-          ),
-        );
-      }
+          for (var element
+              in walletsController.walletsInfoModel.data.userWallets) {
+            walletsList.add(
+              UserWallet(
+                balance: element.balance,
+                currency: element.currency,
+                status: element.status,
+              ),
+            );
+          }
 
-      limitMin.value =
-          double.parse(_moneyExchangeInfoModel.data.charges.minLimit);
-      limitMax.value =
-          double.parse(_moneyExchangeInfoModel.data.charges.maxLimit);
+          limitMin.value = double.parse(
+            _moneyExchangeInfoModel.data.charges.minLimit,
+          );
+          limitMax.value = double.parse(
+            _moneyExchangeInfoModel.data.charges.maxLimit,
+          );
 
-      percentCharge.value =
-          double.parse(_moneyExchangeInfoModel.data.charges.percentCharge);
-      rate.value = double.parse(_moneyExchangeInfoModel.data.baseCurrRate);
+          percentCharge.value = double.parse(
+            _moneyExchangeInfoModel.data.charges.percentCharge,
+          );
+          rate.value = double.parse(_moneyExchangeInfoModel.data.baseCurrRate);
 
-      fixedCharge.value =
-          double.parse(_moneyExchangeInfoModel.data.charges.fixedCharge);
+          fixedCharge.value = double.parse(
+            _moneyExchangeInfoModel.data.charges.fixedCharge,
+          );
 
-      //start remaing get
-      remainingController.transactionType.value =
-          _moneyExchangeInfoModel.data.getRemainingFields.transactionType;
-      remainingController.attribute.value =
-          _moneyExchangeInfoModel.data.getRemainingFields.attribute;
-      remainingController.cardId.value =
-          _moneyExchangeInfoModel.data.charges.id;
-      remainingController.senderAmount.value =
-          exchangeFromAmountController.text;
-      remainingController.senderCurrency.value =
-          selectFromWallet.value!.currency.code;
+          //start remaing get
+          remainingController.transactionType.value =
+              _moneyExchangeInfoModel.data.getRemainingFields.transactionType;
+          remainingController.attribute.value =
+              _moneyExchangeInfoModel.data.getRemainingFields.attribute;
+          remainingController.cardId.value =
+              _moneyExchangeInfoModel.data.charges.id;
+          remainingController.senderAmount.value =
+              exchangeFromAmountController.text;
+          remainingController.senderCurrency.value =
+              selectFromWallet.value!.currency.code;
 
-      remainingController.getRemainingBalanceProcess();
-      updateExchangeRateWithToAmount();
+          remainingController.getRemainingBalanceProcess();
+          updateExchangeRateWithToAmount();
 
-      update();
-    }).catchError((onError) {
-      // log.e(onError);
-    });
+          update();
+        })
+        .catchError((onError) {
+          // log.e(onError);
+        });
 
     _isLoading.value = false;
     update();
     return _moneyExchangeInfoModel;
   }
-  
-   
 
   late CommonSuccessModel _sendMoneyModel;
   CommonSuccessModel get sendMoneyModel => _sendMoneyModel;
@@ -128,7 +136,7 @@ class MoneyExchangeController extends GetxController
   // ------------------------------API Function---------------------------------
   Future<CommonSuccessModel> moneyExchangeProcess(BuildContext context) async {
     _isMoneyExchangeLoading.value = true;
-    Map<String, dynamic> inputBody = {
+    final Map<String, dynamic> inputBody = {
       'exchange_from_amount': exchangeFromAmountController.text,
       'exchange_from_currency': selectFromWallet.value!.currency.code,
       'exchange_to_amount': exchangeToAmountController.text,
@@ -136,13 +144,15 @@ class MoneyExchangeController extends GetxController
     };
     update();
 
-    await moneyExchangeSubmitProcess(body: inputBody).then((value) {
-      _sendMoneyModel = value!;
-      update();
-    }).catchError((onError) {
-      isValidUser.value = false;
-      log.e(onError);
-    });
+    await moneyExchangeSubmitProcess(body: inputBody)
+        .then((value) {
+          _sendMoneyModel = value!;
+          update();
+        })
+        .catchError((onError) {
+          isValidUser.value = false;
+          log.e(onError);
+        });
 
     _isMoneyExchangeLoading.value = false;
     update();
@@ -153,10 +163,13 @@ class MoneyExchangeController extends GetxController
     double value =
         fixedCharge.value * double.parse(selectFromWallet.value!.currency.rate);
     _updateLimit();
-    value = value +
-        (double.parse(exchangeFromAmountController.text.isEmpty
-                ? '0.0'
-                : exchangeFromAmountController.text) *
+    value =
+        value +
+        (double.parse(
+              exchangeFromAmountController.text.isEmpty
+                  ? '0.0'
+                  : exchangeFromAmountController.text,
+            ) *
             (percentCharge.value / 100));
 
     if (exchangeFromAmountController.text.isEmpty) {
@@ -169,20 +182,22 @@ class MoneyExchangeController extends GetxController
   }
 
   void updateExchangeRateWithToAmount() {
-    exchangeRate.value = double.parse(selectToWallet.value!.currency.rate) /
+    exchangeRate.value =
+        double.parse(selectToWallet.value!.currency.rate) /
         double.parse(selectFromWallet.value!.currency.rate);
 
-    double exchangeFromAmount = double.parse(
-        exchangeFromAmountController.text.isEmpty
-            ? "0.0"
-            : exchangeFromAmountController.text);
+    final double exchangeFromAmount = double.parse(
+      exchangeFromAmountController.text.isEmpty
+          ? "0.0"
+          : exchangeFromAmountController.text,
+    );
 
-    int precision = selectToWallet.value!.currency.type == 'FIAT'
+    final int precision = selectToWallet.value!.currency.type == 'FIAT'
         ? LocalStorages.getFiatPrecision()
         : LocalStorages.getCryptoPrecision();
 
-    String amount =
-        (exchangeFromAmount * exchangeRate.value).toStringAsFixed(precision);
+    final String amount = (exchangeFromAmount * exchangeRate.value)
+        .toStringAsFixed(precision);
 
     exchangeToAmountController.text = amount;
 
@@ -190,33 +205,40 @@ class MoneyExchangeController extends GetxController
   }
 
   void updateExchangeRateWithFromAmount() {
-    double exchangeRate = double.parse(selectFromWallet.value!.currency.rate) /
+    final double exchangeRate =
+        double.parse(selectFromWallet.value!.currency.rate) /
         double.parse(selectToWallet.value!.currency.rate);
 
-    double exchangeToAmount = double.parse(
-        exchangeToAmountController.text.isEmpty
-            ? "0.0"
-            : exchangeToAmountController.text);
-    int precision = selectFromWallet.value!.currency.type == 'FIAT'
+    final double exchangeToAmount = double.parse(
+      exchangeToAmountController.text.isEmpty
+          ? "0.0"
+          : exchangeToAmountController.text,
+    );
+    final int precision = selectFromWallet.value!.currency.type == 'FIAT'
         ? LocalStorages.getFiatPrecision()
         : LocalStorages.getCryptoPrecision();
-    String amount =
-        (exchangeToAmount * exchangeRate).toStringAsFixed(precision);
+    final String amount = (exchangeToAmount * exchangeRate).toStringAsFixed(
+      precision,
+    );
 
     exchangeFromAmountController.text = amount;
     getFee();
   }
 
   void _updateLimit() {
-    var limit = _moneyExchangeInfoModel.data.charges;
-    limitMin.value = double.parse(limit.minLimit) *
+    final limit = _moneyExchangeInfoModel.data.charges;
+    limitMin.value =
+        double.parse(limit.minLimit) *
         double.parse(selectFromWallet.value!.currency.rate);
-    limitMax.value = double.parse(limit.maxLimit) *
+    limitMax.value =
+        double.parse(limit.maxLimit) *
         double.parse(selectFromWallet.value!.currency.rate);
 
-    dailyLimit.value = double.parse(limit.dailyLimit) *
+    dailyLimit.value =
+        double.parse(limit.dailyLimit) *
         double.parse(selectFromWallet.value!.currency.rate);
-    monthlyLimit.value = double.parse(limit.monthlyLimit) *
+    monthlyLimit.value =
+        double.parse(limit.monthlyLimit) *
         double.parse(selectFromWallet.value!.currency.rate);
   }
 }

@@ -19,7 +19,7 @@ class MaintenanceDialog {
       // ignore: deprecated_member_use
       WillPopScope(
         onWillPop: () async {
-          Restart.restartApp();
+          await Restart.restartApp();
           return false;
         },
         child: Dialog(
@@ -28,8 +28,8 @@ class MaintenanceDialog {
             width: double.infinity,
             height: double.infinity,
             color: Get.isDarkMode
-                ? CustomColor.primaryDarkTextColor.withValues(alpha:0.2)
-                : CustomColor.primaryTextColor.withValues(alpha:0.2),
+                ? CustomColor.primaryDarkTextColor.withValues(alpha: 0.2)
+                : CustomColor.primaryTextColor.withValues(alpha: 0.2),
             padding: EdgeInsets.symmetric(
               horizontal: Dimensions.paddingHorizontalSize * 0.8,
             ),
@@ -44,30 +44,30 @@ class MaintenanceDialog {
                     "${maintenanceModel.data.baseUrl}/${maintenanceModel.data.imagePath}/${maintenanceModel.data.image}",
                   ),
                 ),
-                
+
                 TitleHeading3Widget(
                   text: maintenanceModel.data.title,
-                  textAlign: TextAlign.center, 
+                  textAlign: TextAlign.center,
                 ),
                 Container(
                   margin: EdgeInsets.symmetric(
                     vertical: Dimensions.paddingVerticalSize * 0.5,
                   ),
                   child: TitleHeading4Widget(
-                    text: maintenanceModel.data.details, 
-                    textAlign: TextAlign.center, 
-                  ), 
-                ),              
-                PrimaryButton(             
-                  title: Strings.restart, 
-                  onPressed: () {              
+                    text: maintenanceModel.data.details,
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                PrimaryButton(
+                  title: Strings.restart,
+                  onPressed: () {
                     Restart.restartApp();
                   },
-                )
+                ),
               ],
             ),
           ),
-        ), 
+        ),
       ),
       barrierDismissible: false,
     );

@@ -29,7 +29,8 @@ class SplashScreen extends StatelessWidget {
                         errorWidget: (context, url, error) => const Text(''),
                       ),
                       Visibility(
-                        visible: languageController.isLoading &&
+                        visible:
+                            languageController.isLoading &&
                             controller.isVisible.value,
                         child: Padding(
                           padding: EdgeInsets.only(
@@ -38,8 +39,9 @@ class SplashScreen extends StatelessWidget {
                             right: MediaQuery.sizeOf(context).width * 0.15,
                           ),
                           child: LinearProgressIndicator(
-                            color:
-                                Theme.of(context).primaryColor.withValues(alpha:0.8),
+                            color: Theme.of(
+                              context,
+                            ).primaryColor.withValues(alpha: 0.8),
                             backgroundColor: Colors.transparent,
                           ),
                         ),

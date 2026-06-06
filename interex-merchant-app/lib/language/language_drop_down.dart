@@ -14,20 +14,19 @@ class ChangeLanguageWidget extends StatelessWidget {
       () => _languageController.isLoading
           ? const Text('')
           : !isOnboard
-              ? _dropDown(context)
-              : Container(
-                  alignment: Alignment.center,
-                  padding: EdgeInsets.symmetric(
-                    vertical: Dimensions.paddingSize * 0.15,
-                    horizontal: Dimensions.paddingSize * 0.5,
-                  ),
-                  decoration: BoxDecoration(
-                    color: CustomColor.whiteColor.withValues(alpha:0.1),
-                    borderRadius:
-                        BorderRadius.circular(Dimensions.radius * 0.6),
-                  ),
-                  child: _dropDown(context),
-                ),
+          ? _dropDown(context)
+          : Container(
+              alignment: Alignment.center,
+              padding: EdgeInsets.symmetric(
+                vertical: Dimensions.paddingSize * 0.15,
+                horizontal: Dimensions.paddingSize * 0.5,
+              ),
+              decoration: BoxDecoration(
+                color: CustomColor.whiteColor.withValues(alpha: 0.1),
+                borderRadius: BorderRadius.circular(Dimensions.radius * 0.6),
+              ),
+              child: _dropDown(context),
+            ),
     );
   }
 
@@ -46,21 +45,21 @@ class ChangeLanguageWidget extends StatelessWidget {
             _languageController.changeLanguage(newValue);
           }
         },
-        items: _languageController.languages.map<DropdownMenuItem<String>>(
-          (language) {
-            return DropdownMenuItem<String>(
-              value: language.code,
-              child: Text(
-                isOnboard ? language.code.toUpperCase() : language.name,
-                style: TextStyle(
-                  color: Get.isDarkMode
-                      ? CustomColor.primaryDarkTextColor
-                      : CustomColor.primaryLightTextColor,
-                ),
+        items: _languageController.languages.map<DropdownMenuItem<String>>((
+          language,
+        ) {
+          return DropdownMenuItem<String>(
+            value: language.code,
+            child: Text(
+              isOnboard ? language.code.toUpperCase() : language.name,
+              style: TextStyle(
+                color: Get.isDarkMode
+                    ? CustomColor.primaryDarkTextColor
+                    : CustomColor.primaryLightTextColor,
               ),
-            );
-          },
-        ).toList(),
+            ),
+          );
+        }).toList(),
       ),
     );
   }

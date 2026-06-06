@@ -52,7 +52,6 @@ class _PrimaryInputWidgetState extends State<PasswordInputWidget> {
   @override
   Widget build(BuildContext context) {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         TitleHeading4Widget(
@@ -99,24 +98,28 @@ class _PrimaryInputWidgetState extends State<PasswordInputWidget> {
                 fontSize: Dimensions.headingTextSize3,
                 fontWeight: FontWeight.w500,
                 color: Get.isDarkMode
-                    ? CustomColor.primaryDarkTextColor.withValues(alpha:0.2)
-                    : CustomColor.primaryLightTextColor.withValues(alpha:0.2),
+                    ? CustomColor.primaryDarkTextColor.withValues(alpha: 0.2)
+                    : CustomColor.primaryLightTextColor.withValues(alpha: 0.2),
               ),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(Dimensions.radius * 0.7),
-                borderSide:
-                    const BorderSide(width: 2, color: CustomColor.whiteColor),
+                borderSide: const BorderSide(
+                  width: 2,
+                  color: CustomColor.whiteColor,
+                ),
               ),
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(Dimensions.radius * 0.5),
                 borderSide: BorderSide(
-                  color: Theme.of(context).primaryColor.withValues(alpha:0.2),
+                  color: Theme.of(context).primaryColor.withValues(alpha: 0.2),
                 ),
               ),
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(Dimensions.radius * 0.5),
-                borderSide:
-                    BorderSide(width: 2, color: Theme.of(context).primaryColor),
+                borderSide: BorderSide(
+                  width: 2,
+                  color: Theme.of(context).primaryColor,
+                ),
               ),
               contentPadding: EdgeInsets.symmetric(
                 horizontal: Dimensions.widthSize * 1.7,
@@ -133,13 +136,15 @@ class _PrimaryInputWidgetState extends State<PasswordInputWidget> {
                   color: focusNode!.hasFocus
                       ? CustomColor.primaryDarkColor
                       : Get.isDarkMode
-                          ? CustomColor.primaryDarkTextColor.withValues(alpha:0.2)
-                          : CustomColor.primaryLightTextColor.withValues(alpha:0.2),
+                      ? CustomColor.primaryDarkTextColor.withValues(alpha: 0.2)
+                      : CustomColor.primaryLightTextColor.withValues(
+                          alpha: 0.2,
+                        ),
                 ),
               ),
             ),
           ),
-        )
+        ),
       ],
     );
   }

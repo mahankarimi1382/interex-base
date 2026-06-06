@@ -2,10 +2,7 @@ class PaymentLinkStoreModel {
   final Message message;
   final Data data;
 
-  PaymentLinkStoreModel({
-    required this.message,
-    required this.data,
-  });
+  PaymentLinkStoreModel({required this.message, required this.data});
 
   factory PaymentLinkStoreModel.fromJson(Map<String, dynamic> json) =>
       PaymentLinkStoreModel(
@@ -14,25 +11,20 @@ class PaymentLinkStoreModel {
       );
 
   Map<String, dynamic> toJson() => {
-        "message": message.toJson(),
-        "data": data.toJson(),
-      };
+    "message": message.toJson(),
+    "data": data.toJson(),
+  };
 }
 
 class Data {
   final PaymentLink paymentLink;
 
-  Data({
-    required this.paymentLink,
-  });
+  Data({required this.paymentLink});
 
-  factory Data.fromJson(Map<String, dynamic> json) => Data(
-        paymentLink: PaymentLink.fromJson(json["payment_link"]),
-      );
+  factory Data.fromJson(Map<String, dynamic> json) =>
+      Data(paymentLink: PaymentLink.fromJson(json["payment_link"]));
 
-  Map<String, dynamic> toJson() => {
-        "payment_link": paymentLink.toJson(),
-      };
+  Map<String, dynamic> toJson() => {"payment_link": paymentLink.toJson()};
 }
 
 class PaymentLink {
@@ -80,82 +72,71 @@ class PaymentLink {
   });
 
   factory PaymentLink.fromJson(Map<String, dynamic> json) => PaymentLink(
-        currency: json["currency"],
-        currencySymbol: json["currency_symbol"],
-        country: json["country"],
-        currencyName: json["currency_name"],
-        title: json["title"],
-        type: json["type"],
-        details: json["details"] ?? '',
-        limit: json["limit"] ?? '',
-        minAmount: json["min_amount"] ?? '',
-        maxAmount: json["max_amount"] ?? '',
-        token: json["token"],
-        status: json["status"],
-        updatedAt: DateTime.parse(json["updated_at"]),
-        createdAt: DateTime.parse(json["created_at"]),
-        id: json["id"],
-        amountCalculation: json["amountCalculation"],
-        stringStatus: StringStatus.fromJson(json["stringStatus"]),
-        linkType: json["linkType"],
-        shareLink: json["shareLink"],
-      );
+    currency: json["currency"],
+    currencySymbol: json["currency_symbol"],
+    country: json["country"],
+    currencyName: json["currency_name"],
+    title: json["title"],
+    type: json["type"],
+    details: json["details"] ?? '',
+    limit: json["limit"] ?? '',
+    minAmount: json["min_amount"] ?? '',
+    maxAmount: json["max_amount"] ?? '',
+    token: json["token"],
+    status: json["status"],
+    updatedAt: DateTime.parse(json["updated_at"]),
+    createdAt: DateTime.parse(json["created_at"]),
+    id: json["id"],
+    amountCalculation: json["amountCalculation"],
+    stringStatus: StringStatus.fromJson(json["stringStatus"]),
+    linkType: json["linkType"],
+    shareLink: json["shareLink"],
+  );
 
   Map<String, dynamic> toJson() => {
-        "currency": currency,
-        "currency_symbol": currencySymbol,
-        "country": country,
-        "currency_name": currencyName,
-        "title": title,
-        "type": type,
-        "details": details,
-        "limit": limit,
-        "min_amount": minAmount,
-        "max_amount": maxAmount,
-        "token": token,
-        "status": status,
-        "updated_at": updatedAt.toIso8601String(),
-        "created_at": createdAt.toIso8601String(),
-        "id": id,
-        "amountCalculation": amountCalculation,
-        "stringStatus": stringStatus.toJson(),
-        "linkType": linkType,
-        "shareLink": shareLink,
-      };
+    "currency": currency,
+    "currency_symbol": currencySymbol,
+    "country": country,
+    "currency_name": currencyName,
+    "title": title,
+    "type": type,
+    "details": details,
+    "limit": limit,
+    "min_amount": minAmount,
+    "max_amount": maxAmount,
+    "token": token,
+    "status": status,
+    "updated_at": updatedAt.toIso8601String(),
+    "created_at": createdAt.toIso8601String(),
+    "id": id,
+    "amountCalculation": amountCalculation,
+    "stringStatus": stringStatus.toJson(),
+    "linkType": linkType,
+    "shareLink": shareLink,
+  };
 }
 
 class StringStatus {
   final String stringStatusClass;
   final String value;
 
-  StringStatus({
-    required this.stringStatusClass,
-    required this.value,
-  });
+  StringStatus({required this.stringStatusClass, required this.value});
 
-  factory StringStatus.fromJson(Map<String, dynamic> json) => StringStatus(
-        stringStatusClass: json["class"],
-        value: json["value"],
-      );
+  factory StringStatus.fromJson(Map<String, dynamic> json) =>
+      StringStatus(stringStatusClass: json["class"], value: json["value"]);
 
-  Map<String, dynamic> toJson() => {
-        "class": stringStatusClass,
-        "value": value,
-      };
+  Map<String, dynamic> toJson() => {"class": stringStatusClass, "value": value};
 }
 
 class Message {
   final List<String> success;
 
-  Message({
-    required this.success,
-  });
+  Message({required this.success});
 
-  factory Message.fromJson(Map<String, dynamic> json) => Message(
-        success: List<String>.from(json["success"].map((x) => x)),
-      );
+  factory Message.fromJson(Map<String, dynamic> json) =>
+      Message(success: List<String>.from(json["success"].map((x) => x)));
 
   Map<String, dynamic> toJson() => {
-        "success": List<dynamic>.from(success.map((x) => x)),
-      };
+    "success": List<dynamic>.from(success.map((x) => x)),
+  };
 }

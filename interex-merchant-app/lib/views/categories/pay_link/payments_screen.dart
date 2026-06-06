@@ -8,8 +8,6 @@ class PaymentsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ResponsiveLayout(
-      mobileScaffold: PaymentsScreenMobile(),
-    );
+    return ResponsiveLayout(mobileScaffold: PaymentsScreenMobile());
   }
 }

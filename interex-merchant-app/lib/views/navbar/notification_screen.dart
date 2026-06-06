@@ -14,9 +14,7 @@ class NotificationScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ResponsiveLayout(
-      mobileScaffold: Scaffold(
-        body: _bodyWidget(context),
-      ),
+      mobileScaffold: Scaffold(body: _bodyWidget(context)),
     );
   }
 
@@ -25,23 +23,24 @@ class NotificationScreen extends StatelessWidget {
         ? RefreshIndicator(
             color: Theme.of(context).primaryColor,
             onRefresh: () async {
-              controller.getNotificationData();
+              await controller.getNotificationData();
             },
             child: ListView.builder(
-                physics: const BouncingScrollPhysics(),
-                itemCount:
-                    controller.notificationModelData.data.notifications.length,
-                itemBuilder: (context, index) {
-                  var data = controller
-                      .notificationModelData.data.notifications[index];
+              physics: const BouncingScrollPhysics(),
+              itemCount:
+                  controller.notificationModelData.data.notifications.length,
+              itemBuilder: (context, index) {
+                final data =
+                    controller.notificationModelData.data.notifications[index];
 
-                  return NotificationWidget(
-                    subtitle: data.message,
-                    title: data.type,
-                    dateText: DateFormat.d().format(data.createdAt),
-                    monthText: DateFormat.MMM().format(data.createdAt),
-                  );
-                }),
+                return NotificationWidget(
+                  subtitle: data.message,
+                  title: data.type,
+                  dateText: DateFormat.d().format(data.createdAt),
+                  monthText: DateFormat.MMM().format(data.createdAt),
+                );
+              },
+            ),
           )
         : const NoDataWidget();
   }

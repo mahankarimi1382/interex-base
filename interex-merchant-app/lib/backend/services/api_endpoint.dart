@@ -9,48 +9,48 @@ class ApiEndpoint {
   static String sendOTPEmailURL = '/merchant/send-code'.addBaseURl();
   static String sendOTPSmsURL = '/merchant/send/code/phone'.addBaseURl();
   static String verifyPhoneOTPURL = '/merchant/phone-verify'.addBaseURl();
-  static String sendForgotOTPEmailURL =
-      '/merchant/forget/password'.addBaseURl();
+  static String sendForgotOTPEmailURL = '/merchant/forget/password'
+      .addBaseURl();
 
-  static String verifyForgotOTPEmailURL =
-      '/merchant/forget/verify/otp'.addBaseURl();
+  static String verifyForgotOTPEmailURL = '/merchant/forget/verify/otp'
+      .addBaseURl();
   static String verifyEmailURL = '/merchant/email-verify'.addBaseURl();
-  static String checkingUserURL =
-      '/merchant/forget/password/check/merchant'.addBaseURl();
-  static String resetPasswordURL =
-      '/merchant/forget/reset/password'.addBaseURl();
-  static String resetPasswordSmsURL =
-      '/merchant/forget/sms/reset/password'.addBaseURl();
+  static String checkingUserURL = '/merchant/forget/password/check/merchant'
+      .addBaseURl();
+  static String resetPasswordURL = '/merchant/forget/reset/password'
+      .addBaseURl();
+  static String resetPasswordSmsURL = '/merchant/forget/sms/reset/password'
+      .addBaseURl();
   // register
-  static String checkRegisterURL =
-      '/merchant/register/check/exist'.addBaseURl();
+  static String checkRegisterURL = '/merchant/register/check/exist'
+      .addBaseURl();
   static String basicDataURL = '/merchant/get/basic/data'.addBaseURl();
   static String merchantKycURL = '/merchant/kyc'.addBaseURl();
   static String registerURL = '/merchant/register'.addBaseURl();
-  static String sendRegisterEmailOTPURL =
-      '/merchant/register/send/otp'.addBaseURl();
-  static String verifyRegisterEmailOTPURL =
-      '/merchant/register/verify/otp'.addBaseURl();
+  static String sendRegisterEmailOTPURL = '/merchant/register/send/otp'
+      .addBaseURl();
+  static String verifyRegisterEmailOTPURL = '/merchant/register/verify/otp'
+      .addBaseURl();
   static String verifyBeforeRegisterEmailOTPURL =
       '/merchant/register/email/verify/otp'.addBaseURl();
 
   // phone verification
-  static String verifyRegisterPhoneOTPURL =
-      '/merchant/register/sms/verify/otp'.addBaseURl();
-  static String resendRegisterPhoneOTPURL =
-      '/merchant/register/sms/resend/otp'.addBaseURl();
+  static String verifyRegisterPhoneOTPURL = '/merchant/register/sms/verify/otp'
+      .addBaseURl();
+  static String resendRegisterPhoneOTPURL = '/merchant/register/sms/resend/otp'
+      .addBaseURl();
 
   // Forgot password using phone otp
-  static String resendForgotPhoneOTPURL =
-      '/merchant/forget/sms/resend'.addBaseURl();
-  static String verifyForgotPhoneOTPURL =
-      '/merchant/forget/sms/verify/otp'.addBaseURl();
+  static String resendForgotPhoneOTPURL = '/merchant/forget/sms/resend'
+      .addBaseURl();
+  static String verifyForgotPhoneOTPURL = '/merchant/forget/sms/verify/otp'
+      .addBaseURl();
 
   // navbar
   static String dashboardURL = '/merchant/dashboard'.addBaseURl();
   static String notificationsURL = '/merchant/notifications'.addBaseURl();
 
-//! Pin Code
+  //! Pin Code
   static String setupPinURL = '/merchant/setup/pin/store'.addBaseURl();
   static String upDatePinURL = '/merchant/setup/pin/update'.addBaseURl();
   static String verifyPinURL = '/merchant/verify/pin'.addBaseURl();
@@ -61,16 +61,16 @@ class ApiEndpoint {
   static String updateKYCApi = '/merchant/kyc/submit'.addBaseURl();
 
   // categories
-  static String addMoneyInfoURL =
-      '/merchant/add-money/information'.addBaseURl();
+  static String addMoneyInfoURL = '/merchant/add-money/information'
+      .addBaseURl();
 
   // drawer
   static String passwordUpdate = '/merchant/password/update'.addBaseURl();
   static String logout = '/merchant/logout'.addBaseURl();
 
   // send money
-  static String sendMoneyInsertURL =
-      '/merchant/add-money/submit-data'.addBaseURl();
+  static String sendMoneyInsertURL = '/merchant/add-money/submit-data'
+      .addBaseURl();
   static String sendMoneyStripeConfirmURL =
       '/merchant/add-money/stripe/payment/confirm'.addBaseURl();
   static String sendMoneyManualConfirmURL =
@@ -79,15 +79,15 @@ class ApiEndpoint {
   static String receiveMoneyURL = '/merchant/receive-money'.addBaseURl();
   static String sendMoneyInfoURL = '/merchant/send-money/info'.addBaseURl();
   static String checkUserExistURL = '/merchant/send-money/exist'.addBaseURl();
-  static String checkUserWithQeCodeURL =
-      '/merchant/send-money/qr/scan'.addBaseURl();
+  static String checkUserWithQeCodeURL = '/merchant/send-money/qr/scan'
+      .addBaseURl();
   static String sendMoneyURL = '/merchant/send-money/confirmed'.addBaseURl();
 
   // money_out
   static String withdrawInfoURL = '/merchant/withdraw/info'.addBaseURl();
   static String withdrawInsertURL = '/merchant/withdraw/insert'.addBaseURl();
-  static String manualWithdrawConfirmURL =
-      '/merchant/withdraw/manual/confirmed'.addBaseURl();
+  static String manualWithdrawConfirmURL = '/merchant/withdraw/manual/confirmed'
+      .addBaseURl();
   static String checkFlutterwaveAccountURL =
       '/merchant/withdraw/check/flutterwave/bank'.addBaseURl();
   static String automaticWithdrawConfirmURL =
@@ -101,20 +101,20 @@ class ApiEndpoint {
 
   // 2 fa security
   static String makePaymentInfoURL = '/merchant/make-payment/info'.addBaseURl();
-  static String checkMerchantExistURL =
-      '/merchant/make-payment/check/merchant'.addBaseURl();
+  static String checkMerchantExistURL = '/merchant/make-payment/check/merchant'
+      .addBaseURl();
   static String checkMerchantWithQeCodeURL =
       '/merchant/make-payment/merchants/scan'.addBaseURl();
-  static String makePaymentURL =
-      '/merchant/make-payment/confirmed'.addBaseURl();
+  static String makePaymentURL = '/merchant/make-payment/confirmed'
+      .addBaseURl();
 
   static String smsVerifyURL = '/merchant/sms/verify'.addBaseURl();
   static String deleteAccountURL = '/merchant/delete/account'.addBaseURl();
 
   //api key
   static String apiKeyURL = '/merchant/developer/api'.addBaseURl();
-  static String apiKeyProductionURL =
-      '/merchant/developer/api/mode/update'.addBaseURl();
+  static String apiKeyProductionURL = '/merchant/developer/api/mode/update'
+      .addBaseURl();
 
   // gateway settings
   static String gatewaySettingsURL = '/merchant/gateway-settings'.addBaseURl();
@@ -132,31 +132,31 @@ class ApiEndpoint {
 
   //-> payments
   static String paymentLinkGetURL = '/merchant/payment-links'.addBaseURl();
-  static String paymentLinkEditGetURL =
-      '/merchant/payment-links/edit?target='.addDefaultBaseURL();
-  static String paymentLinkStoreURL =
-      '/merchant/payment-links/store'.addBaseURl();
-  static String paymentLinkUpdateURL =
-      '/merchant/payment-links/update'.addBaseURl();
+  static String paymentLinkEditGetURL = '/merchant/payment-links/edit?target='
+      .addDefaultBaseURL();
+  static String paymentLinkStoreURL = '/merchant/payment-links/store'
+      .addBaseURl();
+  static String paymentLinkUpdateURL = '/merchant/payment-links/update'
+      .addBaseURl();
   static String statusURL = '/merchant/payment-links/status'.addBaseURl();
-  static String apiKeyCreateURL =
-      '/merchant/developer/api/key/generate'.addBaseURl();
-  static String apiKeyDeleteURL =
-      '/merchant/developer/api/key/delete'.addBaseURl();
+  static String apiKeyCreateURL = '/merchant/developer/api/key/generate'
+      .addBaseURl();
+  static String apiKeyDeleteURL = '/merchant/developer/api/key/delete'
+      .addBaseURl();
 
   ///->>>>  Pusher
-  static String pusherBeamsAuthURL =
-      '/merchant/pusher/beams-auth?user_id='.addDefaultBaseURL();
-  static String pusherBeamsAuthMain =
-      '/merchant/pusher/beams-auth'.addDefaultBaseURL();
+  static String pusherBeamsAuthURL = '/merchant/pusher/beams-auth?user_id='
+      .addDefaultBaseURL();
+  static String pusherBeamsAuthMain = '/merchant/pusher/beams-auth'
+      .addDefaultBaseURL();
 
   // Wallets
   static String walletsURL = '/merchant/wallets'.addBaseURl();
 
   // Money Exchange
   static String moneyExchangeInfoURL = '/merchant/money-exchange'.addBaseURl();
-  static String moneyExchangeSubmitURL =
-      '/merchant/money-exchange/submit'.addBaseURl();
+  static String moneyExchangeSubmitURL = '/merchant/money-exchange/submit'
+      .addBaseURl();
   static String flutterWaveBanksBranchURL =
       '/merchant/withdraw/get/flutterwave/bank/branches?'.addDefaultBaseURL();
   static String flutterWaveBanksURL =
@@ -167,6 +167,6 @@ class ApiEndpoint {
   // 2 fa security
   static String twoFAInfoURL = '/merchant/security/google-2fa'.addBaseURl();
   static String twoFAVerifyURL = '/merchant/google-2fa/otp/verify'.addBaseURl();
-  static String twoFaSubmitURL =
-      '/merchant/security/google-2fa/status/update'.addBaseURl();
+  static String twoFaSubmitURL = '/merchant/security/google-2fa/status/update'
+      .addBaseURl();
 }

@@ -43,12 +43,8 @@ class PaymentsEditController extends GetxController
   RxString currencyCountry = ''.obs;
   RxString currencyName = ''.obs;
   List<TypeSelectionModel> typeSelectionList = [
-    TypeSelectionModel(
-      Strings.customerChoose,
-    ),
-    TypeSelectionModel(
-      Strings.productsOrSubscriptions,
-    ),
+    TypeSelectionModel(Strings.customerChoose),
+    TypeSelectionModel(Strings.productsOrSubscriptions),
   ];
 
   @override
@@ -73,14 +69,14 @@ class PaymentsEditController extends GetxController
   Future<PaymentLinkEditModel> getPaymentLinkEditProcess() async {
     _isEditLoading.value = true;
     update();
-    await getPaymentEditLinkProcessApi(
-      selectedLinkId.value,
-    ).then((value) {
-      _paymentLinkEditModel = value!;
-      _isEditLoading.value = false;
-      _setData(_paymentLinkEditModel);
-      update();
-    }).catchError((onError) {});
+    await getPaymentEditLinkProcessApi(selectedLinkId.value)
+        .then((value) {
+          _paymentLinkEditModel = value!;
+          _isEditLoading.value = false;
+          _setData(_paymentLinkEditModel);
+          update();
+        })
+        .catchError((onError) {});
     _isEditLoading.value = false;
     update();
     return _paymentLinkEditModel;
@@ -90,14 +86,16 @@ class PaymentsEditController extends GetxController
     defaultImage.value =
         "${_paymentLinkEditModel.data.baseUrl}/${_paymentLinkEditModel.data.defaultImage}";
     _paymentLinkEditModel.data.currencyData.forEach((element) {
-      currencyList.add(CurrencyDatum(
-        currencyName: element.currencyName,
-        currencyCode: element.currencyCode,
-        country: element.country,
-        currencySymbol: element.currencySymbol,
-      ));
+      currencyList.add(
+        CurrencyDatum(
+          currencyName: element.currencyName,
+          currencyCode: element.currencyCode,
+          country: element.country,
+          currencySymbol: element.currencySymbol,
+        ),
+      );
     });
-    var data = paymentLinkEdit.data.paymentLink;
+    final data = paymentLinkEdit.data.paymentLink;
     typeSelection.value = data.type == "pay"
         ? Strings.customerChoose
         : Strings.productsOrSubscriptions;
@@ -131,7 +129,7 @@ class PaymentsEditController extends GetxController
   Future<PaymentLinkUpdateModel> paymentLinkUpdateWithImageProcess() async {
     _isEditLoading.value = true;
     update();
-    Map<String, String> payInputBody = {
+    final Map<String, String> payInputBody = {
       'target': selectedLinkId.value.toString(),
       'currency': currencyCode.value,
       'currency_name': currencyName.value,
@@ -145,7 +143,7 @@ class PaymentsEditController extends GetxController
       'max_amount': setLimit.value == true ? maximumAmountController.text : '',
       'image': imageController.userImagePath.value,
     };
-    Map<String, String> subInputBody = {
+    final Map<String, String> subInputBody = {
       'target': selectedLinkId.value.toString(),
       'sub_currency': currencyCode.value,
       'currency_name': currencyName.value,
@@ -158,17 +156,19 @@ class PaymentsEditController extends GetxController
     };
 
     await updatePaymentWithImageApi(
-      body: typeSelection.value == Strings.customerChoose
-          ? payInputBody
-          : subInputBody,
-      filepath: imageController.userImagePath.value,
-    ).then((value) {
-      _paymentLinkUpdateModel = value!;
-      createNewLinkController.text =
-          _paymentLinkUpdateModel.data.paymentLink.shareLink;
-      _onEditCongratulationLink();
-      update();
-    }).catchError((onError) {});
+          body: typeSelection.value == Strings.customerChoose
+              ? payInputBody
+              : subInputBody,
+          filepath: imageController.userImagePath.value,
+        )
+        .then((value) {
+          _paymentLinkUpdateModel = value!;
+          createNewLinkController.text =
+              _paymentLinkUpdateModel.data.paymentLink.shareLink;
+          _onEditCongratulationLink();
+          update();
+        })
+        .catchError((onError) {});
 
     _isEditUpdateLoading.value = false;
     update();
@@ -180,7 +180,7 @@ class PaymentsEditController extends GetxController
     _isEditUpdateLoading.value = true;
     update();
 
-    Map<String, String> payInputBody = {
+    final Map<String, String> payInputBody = {
       'target': selectedLinkId.value.toString(),
       'currency': currencyCode.value,
       'currency_name': currencyName.value,
@@ -193,7 +193,7 @@ class PaymentsEditController extends GetxController
       'min_amount': setLimit.value == true ? minimumAmountController.text : '',
       'max_amount': setLimit.value == true ? maximumAmountController.text : '',
     };
-    Map<String, String> subInputBody = {
+    final Map<String, String> subInputBody = {
       'target': selectedLinkId.value.toString(),
       'sub_currency': currencyCode.value,
       'currency_name': currencyName.value,
@@ -206,16 +206,18 @@ class PaymentsEditController extends GetxController
     };
 
     await updatePaymentWithoutImageApi(
-      body: typeSelection.value == Strings.customerChoose
-          ? payInputBody
-          : subInputBody,
-    ).then((value) {
-      _paymentLinkUpdateModel = value!;
-      createNewLinkController.text =
-          _paymentLinkUpdateModel.data.paymentLink.shareLink;
-      _onEditCongratulationLink();
-      update();
-    }).catchError((onError) {});
+          body: typeSelection.value == Strings.customerChoose
+              ? payInputBody
+              : subInputBody,
+        )
+        .then((value) {
+          _paymentLinkUpdateModel = value!;
+          createNewLinkController.text =
+              _paymentLinkUpdateModel.data.paymentLink.shareLink;
+          _onEditCongratulationLink();
+          update();
+        })
+        .catchError((onError) {});
 
     _isEditUpdateLoading.value = false;
     update();

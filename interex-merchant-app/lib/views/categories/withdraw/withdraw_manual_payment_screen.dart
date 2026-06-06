@@ -23,7 +23,7 @@ class WithdrawManualPaymentScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        Get.offAllNamed(Routes.bottomNavBarScreen);
+        await Get.offAllNamed(Routes.bottomNavBarScreen);
         return true;
       },
       child: Scaffold(
@@ -48,7 +48,7 @@ class WithdrawManualPaymentScreen extends StatelessWidget {
             ...controller.inputFields.map((element) {
               return element;
             }),
-            _buttonWidget(context)
+            _buttonWidget(context),
           ],
         ),
       ),
@@ -58,23 +58,27 @@ class WithdrawManualPaymentScreen extends StatelessWidget {
   Container _buttonWidget(BuildContext context) {
     return Container(
       margin: EdgeInsets.symmetric(vertical: Dimensions.marginSizeVertical),
-      child: Obx(() => controller.isConfirmManualLoading
-          ? const CustomLoadingAPI()
-          : PrimaryButton(
-              title: Strings.payNow.tr,
-              onPressed: () {
-                if (formKey.currentState!.validate()) {
-                  controller
-                      .manualPaymentProcess()
-                      .then((value) => StatusScreen.show(
-                          context: context,
-                          subTitle: Strings.yourMoneyWithdrawSuccess.tr,
-                          onPressed: () {
-                            Get.offAllNamed(Routes.bottomNavBarScreen);
-                          }));
-                }
-              },
-            )),
+      child: Obx(
+        () => controller.isConfirmManualLoading
+            ? const CustomLoadingAPI()
+            : PrimaryButton(
+                title: Strings.payNow.tr,
+                onPressed: () {
+                  if (formKey.currentState!.validate()) {
+                    controller.manualPaymentProcess().then((value) {
+                      if (!context.mounted) return;
+                      StatusScreen.show(
+                        context: context,
+                        subTitle: Strings.yourMoneyWithdrawSuccess.tr,
+                        onPressed: () {
+                          Get.offAllNamed(Routes.bottomNavBarScreen);
+                        },
+                      );
+                    });
+                  }
+                },
+              ),
+      ),
     );
   }
 
@@ -84,19 +88,17 @@ class WithdrawManualPaymentScreen extends StatelessWidget {
       visible: data.details != '',
       child: Container(
         padding: EdgeInsets.symmetric(
-            vertical: Dimensions.paddingSize * 0.5,
-            horizontal: Dimensions.paddingSize * 0.2),
-        margin:
-            EdgeInsets.symmetric(vertical: Dimensions.marginSizeVertical * 0.4),
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(Dimensions.radius),
-            border: Border.all(
-              width: 0.8,
-              color: Theme.of(context).primaryColor,
-            )),
-        child: Html(
-          data: data.details,
+          vertical: Dimensions.paddingSize * 0.5,
+          horizontal: Dimensions.paddingSize * 0.2,
         ),
+        margin: EdgeInsets.symmetric(
+          vertical: Dimensions.marginSizeVertical * 0.4,
+        ),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(Dimensions.radius),
+          border: Border.all(width: 0.8, color: Theme.of(context).primaryColor),
+        ),
+        child: Html(data: data.details),
       ),
     );
   }

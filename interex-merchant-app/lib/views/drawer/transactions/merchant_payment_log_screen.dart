@@ -20,15 +20,13 @@ class MerchantPaymentLogScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var data = controller.transactionModel.data.transactions.merchantPayment;
+    final data = controller.transactionModel.data.transactions.merchantPayment;
     return SizedBox(
       height: MediaQuery.of(context).size.height,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(
-            height: Dimensions.heightSize * 1.5,
-          ),
+          SizedBox(height: Dimensions.heightSize * 1.5),
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.78,
             child: data.isNotEmpty
@@ -43,17 +41,19 @@ class MerchantPaymentLogScreen extends StatelessWidget {
                       return _mainListWidget(i, data, context);
                     },
                   )
-                : NoDataWidget(
-                    title: Strings.noTransaction.tr,
-                  ),
+                : NoDataWidget(title: Strings.noTransaction.tr),
           ),
         ],
       ),
     );
   }
 
-  GestureDetector _mainListWidget(int i, List<MerchantPayment> data, BuildContext context) {
-    RxBool isExpansion = false.obs;
+  GestureDetector _mainListWidget(
+    int i,
+    List<MerchantPayment> data,
+    BuildContext context,
+  ) {
+    final RxBool isExpansion = false.obs;
     return GestureDetector(
       onTap: () {
         isExpansion.value = !isExpansion.value;
@@ -69,57 +69,66 @@ class MerchantPaymentLogScreen extends StatelessWidget {
             transaction: data[i].trx,
             monthText: DateFormat.MMM().format(data[i].dateTime),
           ),
-          Obx(() => Visibility(
-                visible: isExpansion.value,
-                child: Container(
-                  padding: EdgeInsets.all(Dimensions.paddingSize * .6),
-                  decoration: BoxDecoration(
-                    color: CustomColor.primaryLightColor.withValues(alpha:0.9),
-                    borderRadius: BorderRadius.circular(Dimensions.radius),
-                  ),
-                  child: Column(
-                    children: [
-                      ExpendedItemWidget(
-                        title: Strings.transactionId.tr,
-                        value: data[i].trx,
-                      ),
-                      ExpendedItemWidget(
-                        title: Strings.businessName.tr,
-                        value: data[i].businessName,
-                      ),
-                      ExpendedItemWidget(
-                        title: Strings.sender.tr,
-                        value: data[i].sender,
-                      ),
-                      ExpendedItemWidget(
-                        title: Strings.paymentAmount.tr,
-                        value: data[i].paymentAmount,
-                      ),
-                      ExpendedItemWidget(
-                        title: Strings.timeAndDate.tr,
-                        value:
-                            DateFormat('yyyy-MM-dd').format(data[i].dateTime),
-                      ),
-
-                      verticalSpace(Dimensions.paddingVerticalSize * .3),
-                      data[i].refundActionStatus
-                          ? controller.isRefundLoading ? CustomLoadingAPI(color: CustomColor.whiteColor,): PrimaryButton(
-                          buttonColor:
-                          Theme.of(context).scaffoldBackgroundColor,
-                          buttonTextColor: Get.isDarkMode
-                              ? CustomColor.whiteColor
-                              : CustomColor.primaryTextColor,
-                          title: Strings.refundBalance,
-                          onPressed: () {
-                            controller.showRefundConfirmationDialog(context,
-                                endPoint: data[i].refundActionUrl,
-                                targetId: data[i].id.toString());
-                          })
-                          : SizedBox.shrink()
-                    ],
-                  ),
+          Obx(
+            () => Visibility(
+              visible: isExpansion.value,
+              child: Container(
+                padding: EdgeInsets.all(Dimensions.paddingSize * .6),
+                decoration: BoxDecoration(
+                  color: CustomColor.primaryLightColor.withValues(alpha: 0.9),
+                  borderRadius: BorderRadius.circular(Dimensions.radius),
                 ),
-              ))
+                child: Column(
+                  children: [
+                    ExpendedItemWidget(
+                      title: Strings.transactionId.tr,
+                      value: data[i].trx,
+                    ),
+                    ExpendedItemWidget(
+                      title: Strings.businessName.tr,
+                      value: data[i].businessName,
+                    ),
+                    ExpendedItemWidget(
+                      title: Strings.sender.tr,
+                      value: data[i].sender,
+                    ),
+                    ExpendedItemWidget(
+                      title: Strings.paymentAmount.tr,
+                      value: data[i].paymentAmount,
+                    ),
+                    ExpendedItemWidget(
+                      title: Strings.timeAndDate.tr,
+                      value: DateFormat('yyyy-MM-dd').format(data[i].dateTime),
+                    ),
+
+                    verticalSpace(Dimensions.paddingVerticalSize * .3),
+                    data[i].refundActionStatus
+                        ? controller.isRefundLoading
+                              ? const CustomLoadingAPI(
+                                  color: CustomColor.whiteColor,
+                                )
+                              : PrimaryButton(
+                                  buttonColor: Theme.of(
+                                    context,
+                                  ).scaffoldBackgroundColor,
+                                  buttonTextColor: Get.isDarkMode
+                                      ? CustomColor.whiteColor
+                                      : CustomColor.primaryTextColor,
+                                  title: Strings.refundBalance,
+                                  onPressed: () {
+                                    controller.showRefundConfirmationDialog(
+                                      context,
+                                      endPoint: data[i].refundActionUrl,
+                                      targetId: data[i].id.toString(),
+                                    );
+                                  },
+                                )
+                        : const SizedBox.shrink(),
+                  ],
+                ),
+              ),
+            ),
+          ),
         ],
       ),
     );

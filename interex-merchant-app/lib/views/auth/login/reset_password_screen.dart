@@ -28,7 +28,7 @@ class ResetPasswordScreen extends StatelessWidget {
     return ResponsiveLayout(
       mobileScaffold: WillPopScope(
         onWillPop: () async {
-          Get.offAllNamed(Routes.signInScreen);
+          await Get.offAllNamed(Routes.signInScreen);
           return true;
         },
         child: Scaffold(
@@ -61,17 +61,13 @@ class ResetPasswordScreen extends StatelessWidget {
 
   Container _titleAndSubtitleWidget(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(
-        top: Dimensions.marginSizeVertical * 0.1,
-      ),
+      margin: EdgeInsets.only(top: Dimensions.marginSizeVertical * 0.1),
       child: Column(
         crossAxisAlignment: crossStart,
         children: [
           TitleHeading2Widget(text: Strings.resetPassword.tr),
           verticalSpace(Dimensions.heightSize * 0.7),
-          TitleHeading4Widget(
-            text: Strings.resetPasswordDetails.tr,
-          )
+          TitleHeading4Widget(text: Strings.resetPasswordDetails.tr),
         ],
       ),
     );
@@ -79,8 +75,9 @@ class ResetPasswordScreen extends StatelessWidget {
 
   Container _inputWidget(BuildContext context) {
     return Container(
-      margin:
-          EdgeInsets.symmetric(vertical: Dimensions.marginSizeVertical * 1.4),
+      margin: EdgeInsets.symmetric(
+        vertical: Dimensions.marginSizeVertical * 1.4,
+      ),
       child: Form(
         key: _resetFormKey,
         child: Column(
@@ -106,23 +103,26 @@ class ResetPasswordScreen extends StatelessWidget {
   Column _continueButtonWidget(BuildContext context) {
     return Column(
       children: [
-        Obx(() => controller.isLoading
-            ? const CustomLoadingAPI()
-            : PrimaryButton(
-                title: Strings.resetPassword.tr,
-                onPressed: () {
-                  if (_resetFormKey.currentState!.validate()) {
-                    controller.resetApiProcess().then(
-                          (value) => StatusScreen.show(
-                              context: context,
-                              subTitle: Strings.yourPasswordHasBeen.tr,
-                              onPressed: () {
-                                Get.offAllNamed(Routes.signInScreen);
-                              }),
-                        );
-                  }
-                },
-              )),
+        Obx(
+          () => controller.isLoading
+              ? const CustomLoadingAPI()
+              : PrimaryButton(
+                  title: Strings.resetPassword.tr,
+                  onPressed: () {
+                    if (_resetFormKey.currentState!.validate()) {
+                      controller.resetApiProcess().then(
+                        (value) => StatusScreen.show(
+                          context: context,
+                          subTitle: Strings.yourPasswordHasBeen.tr,
+                          onPressed: () {
+                            Get.offAllNamed(Routes.signInScreen);
+                          },
+                        ),
+                      );
+                    }
+                  },
+                ),
+        ),
         verticalSpace(Dimensions.heightSize * 2),
       ],
     );

@@ -61,13 +61,9 @@ class _PrimaryInputWidgetState extends State<ExchangeMoneyInputWithDropdown> {
     }
 
     return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        TitleHeading4Widget(
-          text: widget.label,
-          fontWeight: FontWeight.w600,
-        ),
+        TitleHeading4Widget(text: widget.label, fontWeight: FontWeight.w600),
         verticalSpace(Dimensions.marginBetweenInputTitleAndBox),
         Row(
           children: [
@@ -95,11 +91,15 @@ class _PrimaryInputWidgetState extends State<ExchangeMoneyInputWithDropdown> {
                   if (widget.label == Strings.exchangeFrom) {
                     currencyController.updateExchangeRateWithToAmount();
                     if (currencyController
-                        .exchangeFromAmountController.text.isEmpty) {
+                        .exchangeFromAmountController
+                        .text
+                        .isEmpty) {
                       currencyController.exchangeFromAmountController.text = "";
                     } else {
                       currencyController
-                              .remainingController.senderAmount.value =
+                              .remainingController
+                              .senderAmount
+                              .value =
                           currencyController.exchangeFromAmountController.text;
                       currencyController.remainingController
                           .getRemainingBalanceProcess();
@@ -109,11 +109,9 @@ class _PrimaryInputWidgetState extends State<ExchangeMoneyInputWithDropdown> {
                   }
                 },
                 onFieldSubmitted: (value) {
-                  setState(
-                    () {
-                      focusNode!.unfocus();
-                    },
-                  );
+                  setState(() {
+                    focusNode!.unfocus();
+                  });
                 },
                 focusNode: focusNode,
                 textAlign: TextAlign.left,
@@ -128,30 +126,40 @@ class _PrimaryInputWidgetState extends State<ExchangeMoneyInputWithDropdown> {
                     fontSize: Dimensions.headingTextSize3,
                     fontWeight: FontWeight.w500,
                     color: Get.isDarkMode
-                        ? CustomColor.primaryDarkTextColor.withValues(alpha:0.2)
-                        : CustomColor.primaryTextColor.withValues(alpha:0.2),
+                        ? CustomColor.primaryDarkTextColor.withValues(
+                            alpha: 0.2,
+                          )
+                        : CustomColor.primaryTextColor.withValues(alpha: 0.2),
                   ),
                   enabledBorder: OutlineInputBorder(
-                    borderRadius:
-                        BorderRadius.circular(Dimensions.radius * 0.5),
+                    borderRadius: BorderRadius.circular(
+                      Dimensions.radius * 0.5,
+                    ),
                     borderSide: BorderSide(
-                      color: CustomColor.primaryLightColor.withValues(alpha:0.2),
+                      color: CustomColor.primaryLightColor.withValues(
+                        alpha: 0.2,
+                      ),
                     ),
                   ),
                   focusedBorder: OutlineInputBorder(
-                    borderRadius:
-                        BorderRadius.circular(Dimensions.radius * 0.5),
+                    borderRadius: BorderRadius.circular(
+                      Dimensions.radius * 0.5,
+                    ),
                     borderSide: const BorderSide(
-                        width: 2, color: CustomColor.primaryLightColor),
+                      width: 2,
+                      color: CustomColor.primaryLightColor,
+                    ),
                   ),
                   errorBorder: OutlineInputBorder(
-                    borderRadius:
-                        BorderRadius.circular(Dimensions.radius * 0.5),
+                    borderRadius: BorderRadius.circular(
+                      Dimensions.radius * 0.5,
+                    ),
                     borderSide: const BorderSide(color: Colors.red, width: 2),
                   ),
                   focusedErrorBorder: OutlineInputBorder(
-                    borderRadius:
-                        BorderRadius.circular(Dimensions.radius * 0.5),
+                    borderRadius: BorderRadius.circular(
+                      Dimensions.radius * 0.5,
+                    ),
                     borderSide: const BorderSide(color: Colors.red, width: 2),
                   ),
                   contentPadding: EdgeInsets.symmetric(
@@ -191,21 +199,20 @@ class _PrimaryInputWidgetState extends State<ExchangeMoneyInputWithDropdown> {
                           dropdownColor: CustomColor.primaryLightColor,
                           underline: Container(),
                           items: currencyController.walletsList
-                              .map<DropdownMenuItem<UserWallet>>(
-                            (value) {
-                              return DropdownMenuItem<UserWallet>(
-                                value: value,
-                                child: Text(
-                                  value.currency.code,
-                                  style: GoogleFonts.inter(
-                                    color: CustomColor.whiteColor,
-                                    fontSize: Dimensions.headingTextSize4,
-                                    fontWeight: FontWeight.w500,
+                              .map<DropdownMenuItem<UserWallet>>((value) {
+                                return DropdownMenuItem<UserWallet>(
+                                  value: value,
+                                  child: Text(
+                                    value.currency.code,
+                                    style: GoogleFonts.inter(
+                                      color: CustomColor.whiteColor,
+                                      fontSize: Dimensions.headingTextSize4,
+                                      fontWeight: FontWeight.w500,
+                                    ),
                                   ),
-                                ),
-                              );
-                            },
-                          ).toList(),
+                                );
+                              })
+                              .toList(),
                           onChanged: (UserWallet? value) {
                             if (widget.label == Strings.exchangeFrom) {
                               if (value !=
@@ -214,9 +221,10 @@ class _PrimaryInputWidgetState extends State<ExchangeMoneyInputWithDropdown> {
                                 currencyController
                                     .updateExchangeRateWithToAmount();
                                 currencyController
-                                    .remainingController
-                                    .senderCurrency
-                                    .value = value!.currency.code;
+                                        .remainingController
+                                        .senderCurrency
+                                        .value =
+                                    value!.currency.code;
                                 currencyController.remainingController
                                     .getRemainingBalanceProcess();
                               } else {
@@ -241,7 +249,7 @@ class _PrimaryInputWidgetState extends State<ExchangeMoneyInputWithDropdown> {
               ),
             ),
           ],
-        )
+        ),
       ],
     );
   }

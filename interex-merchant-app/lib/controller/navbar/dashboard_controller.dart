@@ -41,30 +41,32 @@ class DashBoardController extends GetxController {
     update();
 
     // calling  from api service
-    await ApiServices.dashboardApi().then((value) async {
-      _dashboardModel = value!;
+    await ApiServices.dashboardApi()
+        .then((value) async {
+          _dashboardModel = value!;
 
-      pinStatus.value = _dashboardModel.data.merchant.pinStatus;
-      pinVerification.value = _dashboardModel.data.pinVerification;
-      pinCode.value = _dashboardModel.data.merchant.pinCode.toString();
+          pinStatus.value = _dashboardModel.data.merchant.pinStatus;
+          pinVerification.value = _dashboardModel.data.pinVerification;
+          pinCode.value = _dashboardModel.data.merchant.pinCode.toString();
 
-      // print("${pinStatus.value} - ${pinVerification.value}");
-      // print("${pinStatus.value} - ${pinVerification.value}");
+          // print("${pinStatus.value} - ${pinVerification.value}");
+          // print("${pinStatus.value} - ${pinVerification.value}");
 
-      kycStatus.value = _dashboardModel.data.merchant.kycVerified;
-      var moduleAccess = _dashboardModel.data.moduleAccess;
-      receiveMoney.value = moduleAccess.receiveMoney;
-      withdrawMoney.value = moduleAccess.withdrawMoney;
-      developerApiKey.value = moduleAccess.developerApiKey;
-      gatewaySetting.value = moduleAccess.gatewaySetting;
-      payLink.value = moduleAccess.payLink;
-      walletsController.getWalletsInfoProcess();
-      getPusherAuth();
-      _isLoading.value = false;
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-    });
+          kycStatus.value = _dashboardModel.data.merchant.kycVerified;
+          final moduleAccess = _dashboardModel.data.moduleAccess;
+          receiveMoney.value = moduleAccess.receiveMoney;
+          withdrawMoney.value = moduleAccess.withdrawMoney;
+          developerApiKey.value = moduleAccess.developerApiKey;
+          gatewaySetting.value = moduleAccess.gatewaySetting;
+          payLink.value = moduleAccess.payLink;
+          await walletsController.getWalletsInfoProcess();
+          await getPusherAuth();
+          _isLoading.value = false;
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+        });
     update();
     return _dashboardModel;
   }
@@ -74,17 +76,19 @@ class DashBoardController extends GetxController {
     update();
 
     // calling  from api service
-    await ApiServices.dashboardApi().then((value) async {
-      _dashboardModel = value!;
-      kycStatus.value = _dashboardModel.data.merchant.kycVerified;
-      pinStatus.value = _dashboardModel.data.merchant.pinStatus;
-      pinVerification.value = _dashboardModel.data.pinVerification;
-      pinCode.value = _dashboardModel.data.merchant.pinCode.toString();
-      // _isLoading.value = false;
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-    });
+    await ApiServices.dashboardApi()
+        .then((value) async {
+          _dashboardModel = value!;
+          kycStatus.value = _dashboardModel.data.merchant.kycVerified;
+          pinStatus.value = _dashboardModel.data.merchant.pinStatus;
+          pinVerification.value = _dashboardModel.data.pinVerification;
+          pinCode.value = _dashboardModel.data.merchant.pinCode.toString();
+          // _isLoading.value = false;
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+        });
     update();
     return _dashboardModel;
   }
@@ -102,13 +106,14 @@ class DashBoardController extends GetxController {
     update();
     await PusherApiServices.getPusherBeamsAuth(LocalStorages.getId() ?? '')
         .then((value) {
-      _pusherBeamsModel = value!;
-      // getSecure();
-      _isPusherBeamsLoading.value = false;
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-    });
+          _pusherBeamsModel = value!;
+          // getSecure();
+          _isPusherBeamsLoading.value = false;
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+        });
     update();
     return _pusherBeamsModel;
   }

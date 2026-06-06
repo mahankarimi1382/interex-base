@@ -13,7 +13,7 @@ import '../../widgets/drawer/drawer_widget.dart';
 import '../../widgets/text_labels/title_heading4_widget.dart';
 
 class BottomNavBarScreen extends StatelessWidget {
-  final bottomNavBarController = Get.put(NavbarController(), permanent: false);
+  final bottomNavBarController = Get.put(NavbarController());
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey();
 
   BottomNavBarScreen({super.key});
@@ -27,8 +27,10 @@ class BottomNavBarScreen extends StatelessWidget {
         appBar: appBarWidget(context),
         extendBody: true,
         backgroundColor: Theme.of(context).primaryColor,
-        bottomNavigationBar:
-            buildBottomNavigationMenu(context, bottomNavBarController),
+        bottomNavigationBar: buildBottomNavigationMenu(
+          context,
+          bottomNavBarController,
+        ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         body: bottomNavBarController
             .page[bottomNavBarController.selectedIndex.value],

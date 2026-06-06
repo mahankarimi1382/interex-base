@@ -41,10 +41,13 @@ class PrimaryButton extends StatelessWidget {
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
           elevation: 0,
-          shape: shape ??
+          shape:
+              shape ??
               RoundedRectangleBorder(
-                  borderRadius:
-                      BorderRadius.circular(radius ?? Dimensions.radius * 0.7)),
+                borderRadius: BorderRadius.circular(
+                  radius ?? Dimensions.radius * 0.7,
+                ),
+              ),
           backgroundColor: buttonColor ?? Theme.of(context).primaryColor,
           side: BorderSide(
             width: borderWidth,

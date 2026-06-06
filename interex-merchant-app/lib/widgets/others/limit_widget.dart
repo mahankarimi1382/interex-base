@@ -15,8 +15,9 @@ class LimitWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin:
-          EdgeInsets.symmetric(vertical: Dimensions.marginSizeVertical * 0.2),
+      margin: EdgeInsets.symmetric(
+        vertical: Dimensions.marginSizeVertical * 0.2,
+      ),
       child: Column(
         crossAxisAlignment: crossStart,
         children: [
@@ -27,16 +28,16 @@ class LimitWidget extends StatelessWidget {
                 textAlign: TextAlign.left,
                 fontWeight: FontWeight.w500,
                 color: Get.isDarkMode
-                    ? CustomColor.primaryDarkTextColor.withValues(alpha:0.8)
-                    : CustomColor.primaryLightColor.withValues(alpha:0.6),
+                    ? CustomColor.primaryDarkTextColor.withValues(alpha: 0.8)
+                    : CustomColor.primaryLightColor.withValues(alpha: 0.6),
               ),
               TitleHeading5Widget(
                 text: ": $fee",
                 textAlign: TextAlign.left,
                 fontWeight: FontWeight.w500,
                 color: Get.isDarkMode
-                    ? CustomColor.primaryDarkTextColor.withValues(alpha:0.8)
-                    : CustomColor.primaryLightColor.withValues(alpha:0.6),
+                    ? CustomColor.primaryDarkTextColor.withValues(alpha: 0.8)
+                    : CustomColor.primaryLightColor.withValues(alpha: 0.6),
               ),
             ],
           ),
@@ -48,16 +49,16 @@ class LimitWidget extends StatelessWidget {
                 textAlign: TextAlign.left,
                 fontWeight: FontWeight.w500,
                 color: Get.isDarkMode
-                    ? CustomColor.primaryDarkTextColor.withValues(alpha:0.8)
-                    : CustomColor.primaryLightColor.withValues(alpha:0.6),
+                    ? CustomColor.primaryDarkTextColor.withValues(alpha: 0.8)
+                    : CustomColor.primaryLightColor.withValues(alpha: 0.6),
               ),
               TitleHeading5Widget(
                 text: ": $limit",
                 textAlign: TextAlign.left,
                 fontWeight: FontWeight.w500,
                 color: Get.isDarkMode
-                    ? CustomColor.primaryDarkTextColor.withValues(alpha:0.8)
-                    : CustomColor.primaryLightColor.withValues(alpha:0.6),
+                    ? CustomColor.primaryDarkTextColor.withValues(alpha: 0.8)
+                    : CustomColor.primaryLightColor.withValues(alpha: 0.6),
               ),
             ],
           ),

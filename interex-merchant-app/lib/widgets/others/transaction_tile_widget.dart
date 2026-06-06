@@ -9,17 +9,18 @@ import '../../utils/size.dart';
 import '../text_labels/custom_title_heading_widget.dart';
 
 class TransactionItemTileWidget extends StatelessWidget {
-  const TransactionItemTileWidget(
-      {super.key,
-      required this.title,
-      this.value = "",
-      this.richText = "",
-      this.statusText = "",
-      this.color,
-      this.richText2 = "",
-      this.onTap,
-      this.valueColor,
-      this.textWrap = false});
+  const TransactionItemTileWidget({
+    super.key,
+    required this.title,
+    this.value = "",
+    this.richText = "",
+    this.statusText = "",
+    this.color,
+    this.richText2 = "",
+    this.onTap,
+    this.valueColor,
+    this.textWrap = false,
+  });
 
   final String title, value, richText, richText2, statusText;
   final Color? color;
@@ -39,11 +40,13 @@ class TransactionItemTileWidget extends StatelessWidget {
           mainAxisSize: mainMin,
           children: [
             CustomTitleHeadingWidget(
-                text: title,
-                style: CustomStyle.whiteTextStyle.copyWith(
-                    color: CustomColor.whiteColor.withValues(alpha:.4),
-                    fontSize: Dimensions.headingTextSize4,
-                    fontWeight: FontWeight.w400)),
+              text: title,
+              style: CustomStyle.whiteTextStyle.copyWith(
+                color: CustomColor.whiteColor.withValues(alpha: .4),
+                fontSize: Dimensions.headingTextSize4,
+                fontWeight: FontWeight.w400,
+              ),
+            ),
             horizontalSpace(Dimensions.marginBetweenInputTitleAndBox),
             Visibility(
               visible: richText2.isNotEmpty,
@@ -53,15 +56,17 @@ class TransactionItemTileWidget extends StatelessWidget {
                   vertical: Dimensions.paddingSize * .1,
                 ),
                 decoration: BoxDecoration(
-                    color: CustomColor.yellowColor,
-                    borderRadius:
-                        BorderRadius.circular(Dimensions.radius * .4)),
+                  color: CustomColor.yellowColor,
+                  borderRadius: BorderRadius.circular(Dimensions.radius * .4),
+                ),
                 child: CustomTitleHeadingWidget(
-                    text: richText2,
-                    style: CustomStyle.yellowTextStyle
-                        .copyWith(color: CustomColor.primaryTextColor)),
+                  text: richText2,
+                  style: CustomStyle.yellowTextStyle.copyWith(
+                    color: CustomColor.primaryTextColor,
+                  ),
+                ),
               ),
-            )
+            ),
           ],
         ),
         Row(
@@ -70,10 +75,12 @@ class TransactionItemTileWidget extends StatelessWidget {
           mainAxisSize: mainMin,
           children: [
             CustomTitleHeadingWidget(
-                text: richText,
-                style: CustomStyle.yellowTextStyle.copyWith(
-                    fontSize: Dimensions.headingTextSize4,
-                    fontWeight: FontWeight.w500)),
+              text: richText,
+              style: CustomStyle.yellowTextStyle.copyWith(
+                fontSize: Dimensions.headingTextSize4,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
             value.isNotEmpty
                 ? GestureDetector(
                     onTap: onTap,
@@ -85,10 +92,14 @@ class TransactionItemTileWidget extends StatelessWidget {
                                 text: value,
                                 textAlign: TextAlign.right,
                                 style: CustomStyle.whiteTextStyle.copyWith(
-                                    color: valueColor ??
-                                        CustomColor.whiteColor.withValues(alpha:.6),
-                                    fontSize: Dimensions.headingTextSize3,
-                                    fontWeight: FontWeight.w600),
+                                  color:
+                                      valueColor ??
+                                      CustomColor.whiteColor.withValues(
+                                        alpha: .6,
+                                      ),
+                                  fontSize: Dimensions.headingTextSize3,
+                                  fontWeight: FontWeight.w600,
+                                ),
                                 textOverflow: TextOverflow.ellipsis,
                               ),
                             ),
@@ -97,10 +108,13 @@ class TransactionItemTileWidget extends StatelessWidget {
                             text: value,
                             textAlign: TextAlign.right,
                             style: CustomStyle.whiteTextStyle.copyWith(
-                                color: valueColor ??
-                                    CustomColor.whiteColor.withValues(alpha:.6),
-                                fontSize: Dimensions.headingTextSize3,
-                                fontWeight: FontWeight.w600)),
+                              color:
+                                  valueColor ??
+                                  CustomColor.whiteColor.withValues(alpha: .6),
+                              fontSize: Dimensions.headingTextSize3,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
                   )
                 : Container(
                     padding: EdgeInsets.symmetric(
@@ -108,13 +122,17 @@ class TransactionItemTileWidget extends StatelessWidget {
                       vertical: Dimensions.heightSize * .2,
                     ),
                     decoration: BoxDecoration(
-                        color: color != null ? color!.withValues(alpha:.15) : null,
-                        borderRadius:
-                            BorderRadius.circular(Dimensions.radius * .4)),
+                      color: color != null
+                          ? color!.withValues(alpha: .15)
+                          : null,
+                      borderRadius: BorderRadius.circular(
+                        Dimensions.radius * .4,
+                      ),
+                    ),
                     child: CustomTitleHeadingWidget(
-                        text: statusText,
-                        style:
-                            CustomStyle.statusTextStyle.copyWith(color: color)),
+                      text: statusText,
+                      style: CustomStyle.statusTextStyle.copyWith(color: color),
+                    ),
                   ),
           ],
         ),

@@ -29,14 +29,16 @@ class ApiKeyController extends GetxController {
     update();
 
     // calling  from api service
-    await ApiServices.apiKeyApi().then((value) {
-      _apiKeyModel = value!;
+    await ApiServices.apiKeyApi()
+        .then((value) {
+          _apiKeyModel = value!;
 
-      _isLoading.value = false;
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-    });
+          _isLoading.value = false;
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+        });
     update();
     return _apiKeyModel;
   }
@@ -51,18 +53,18 @@ class ApiKeyController extends GetxController {
 
   Future<CommonSuccessModel> changeProductionModeProcess(String id) async {
     _isConfirmLoading.value = true;
-    Map<String, String> inputBody = {
-      "target": id,
-    };
+    final Map<String, String> inputBody = {"target": id};
 
-    await ApiServices.productionModeApi(body: inputBody).then((value) {
-      _productionModeModel = value!;
-      getApiKeyData();
-      _isConfirmLoading.value = false;
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-    });
+    await ApiServices.productionModeApi(body: inputBody)
+        .then((value) {
+          _productionModeModel = value!;
+          getApiKeyData();
+          _isConfirmLoading.value = false;
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+        });
     _isConfirmLoading.value = false;
     update();
     return _productionModeModel;
@@ -78,18 +80,18 @@ class ApiKeyController extends GetxController {
 
   Future<CommonSuccessModel> createApiKeyProcess() async {
     _isCreateLoading.value = true;
-    Map<String, String> inputBody = {
-      "name": apiKeyController.text,
-    };
+    final Map<String, String> inputBody = {"name": apiKeyController.text};
 
-    await ApiServices.createApiKeyApi(body: inputBody).then((value) {
-      _createApiKeyModel = value!;
-      getApiKeyData();
-      _isCreateLoading.value = false;
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-    });
+    await ApiServices.createApiKeyApi(body: inputBody)
+        .then((value) {
+          _createApiKeyModel = value!;
+          getApiKeyData();
+          _isCreateLoading.value = false;
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+        });
     _isCreateLoading.value = false;
     update();
     return _createApiKeyModel;
@@ -105,18 +107,18 @@ class ApiKeyController extends GetxController {
 
   Future<CommonSuccessModel> deleteApiKeyProcess(String target) async {
     _isDeleteLoading.value = true;
-    Map<String, String> inputBody = {
-      "target": target,
-    };
+    final Map<String, String> inputBody = {"target": target};
 
-    await ApiServices.deleteApiKeyApi(body: inputBody).then((value) {
-      _deleteApiKeyModel = value!;
-      getApiKeyData();
-      _isDeleteLoading.value = false;
-      update();
-    }).catchError((onError) {
-      log.e(onError);
-    });
+    await ApiServices.deleteApiKeyApi(body: inputBody)
+        .then((value) {
+          _deleteApiKeyModel = value!;
+          getApiKeyData();
+          _isDeleteLoading.value = false;
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+        });
     _isDeleteLoading.value = false;
     update();
     return _deleteApiKeyModel;

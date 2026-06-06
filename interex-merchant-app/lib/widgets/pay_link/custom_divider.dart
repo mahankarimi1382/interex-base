@@ -9,18 +9,15 @@ class CustomDivider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin:
-          EdgeInsets.symmetric(vertical: Dimensions.marginSizeVertical * .25),
+      margin: EdgeInsets.symmetric(
+        vertical: Dimensions.marginSizeVertical * .25,
+      ),
       height: Dimensions.heightSize * .17,
       decoration: BoxDecoration(
-        color: CustomColor.primaryLightTextColor.withValues(alpha:
-          .1,
-        ),
+        color: CustomColor.primaryLightTextColor.withValues(alpha: .1),
         borderRadius: BorderRadius.horizontal(
           left: Radius.circular(Dimensions.radius),
-          right: Radius.circular(
-            Dimensions.radius,
-          ),
+          right: Radius.circular(Dimensions.radius),
         ),
       ),
     );

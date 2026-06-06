@@ -1,14 +1,13 @@
 import 'dart:async';
 import 'dart:math';
 
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:pin_code_fields/pin_code_fields.dart';
 
 import '../../../routes/routes.dart';
 
 class SMSVerificationController extends GetxController {
-  final otpController = TextEditingController();
-
+  final otpController = PinInputController();
 
   bool hasError = false;
   RxString currentText = "".obs;
@@ -33,17 +32,13 @@ class SMSVerificationController extends GetxController {
 
   void timerInit() {
     timer = Timer.periodic(const Duration(seconds: 1), (_) {
-
-      if ( secondsRemaining.value != 0) {
+      if (secondsRemaining.value != 0) {
         secondsRemaining.value--;
       } else {
         enableResend.value = true;
       }
-
     });
   }
-
-
 
   RxInt secondsRemaining = 59.obs;
   RxInt minuteRemaining = 00.obs;
@@ -56,9 +51,8 @@ class SMSVerificationController extends GetxController {
   }
 
   void onPressedSigninOtpSubmit() {
-    Get.toNamed(Routes.resetPasswordScreen);              
+    Get.toNamed(Routes.resetPasswordScreen);
   }
-
 
   final emailMaskRegExp = RegExp('^(.)(.*?)([^@]?)(?=@[^@]+\$)');
 
@@ -66,9 +60,9 @@ class SMSVerificationController extends GetxController {
     minFill == 4;
     fillChar == '*';
     return input.replaceFirstMapped(emailMaskRegExp, (m) {
-      var start = m.group(1);
-      var middle = fillChar * max(minFill, m.group(2)!.length);
-      var end = m.groupCount >= 3 ? m.group(3) : start;
+      final start = m.group(1);
+      final middle = fillChar * max(minFill, m.group(2)!.length);
+      final end = m.groupCount >= 3 ? m.group(3) : start;
       return start! + middle + end!;
     });
   }
