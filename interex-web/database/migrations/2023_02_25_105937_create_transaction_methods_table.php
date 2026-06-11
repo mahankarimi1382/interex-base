@@ -16,12 +16,12 @@ return new class extends Migration
         Schema::create('transaction_methods', function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique();
-            $table->string('slug')->unique();
-            $table->unsignedBigInteger('last_edit_by')->nullable();
-            $table->boolean('status')->default(true);
+            $table->string("slug")->unique();
+            $table->unsignedBigInteger("last_edit_by")->nullable();
+            $table->boolean("status")->default(true);
             $table->timestamps();
 
-            $table->foreign('last_edit_by')->references('id')->on('admins')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign("last_edit_by")->references("id")->on("admins")->onDelete("cascade")->onUpdate("cascade");
         });
     }
 

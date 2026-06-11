@@ -23,6 +23,15 @@ extension EndPointExtensions on String {
     return "${ApiEndpoint.baseUrl}$this";
   }
 
+  /// Rewrites loopback hosts (127.0.0.1 / localhost) that the backend returns
+  /// in its `base_url` to the host this build actually reaches (e.g. 10.0.2.2
+  /// for the Android emulator). Without this, images served by the local
+  /// server are unreachable from the emulator/device.
+  String resolveBackendHost() {
+    return replaceAll('127.0.0.1', ApiEndpoint.host)
+        .replaceAll('localhost', ApiEndpoint.host);
+  }
+
   double parseDouble() {
     return double.parse(this);
   }

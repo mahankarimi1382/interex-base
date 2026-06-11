@@ -14,12 +14,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('users', function (Blueprint $table) {
+        Schema::table('users',function(Blueprint $table){
             $table->dropColumn('refferal_user_id');
             $table->string('referral_id')->nullable()->after('password');
             $table->unsignedBigInteger('current_referral_level_id')->nullable()->after('referral_id');
             $table->string('email')->nullable()->change();
-            $table->enum('registered_by', [
+            $table->enum("registered_by",[
                 GlobalConst::EMAIL,
                 GlobalConst::PHONE,
             ]);

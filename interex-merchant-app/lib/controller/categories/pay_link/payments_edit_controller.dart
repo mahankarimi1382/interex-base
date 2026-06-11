@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:qrpay/backend/extentions/custom_extentions.dart';
 import 'package:qrpay/backend/model/pay_link/payment_edit_link_model.dart';
 import '../../../backend/model/pay_link/payment_update_model.dart';
 import '../../../backend/model/pay_link/type_selection_drop_down.dart';
@@ -58,22 +59,23 @@ class PaymentsEditController extends GetxController
 
   //=> set loading process & payment link Model
   final _isEditLoading = false.obs;
-  late PaymentLinkEditModel _paymentLinkEditModel;
+  PaymentLinkEditModel? _paymentLinkEditModel;
 
   //=> get loading process & payment link Model
   bool get isEditLoading => _isEditLoading.value;
 
-  PaymentLinkEditModel get paymentLinkEditModel => _paymentLinkEditModel;
+  PaymentLinkEditModel? get paymentLinkEditModel => _paymentLinkEditModel;
 
   //=> get payment link edit api Process
-  Future<PaymentLinkEditModel> getPaymentLinkEditProcess() async {
+  Future<PaymentLinkEditModel?> getPaymentLinkEditProcess() async {
     _isEditLoading.value = true;
     update();
     await getPaymentEditLinkProcessApi(selectedLinkId.value)
         .then((value) {
-          _paymentLinkEditModel = value!;
+          final model = value!;
+          _paymentLinkEditModel = model;
           _isEditLoading.value = false;
-          _setData(_paymentLinkEditModel);
+          _setData(model);
           update();
         })
         .catchError((onError) {});
@@ -84,8 +86,8 @@ class PaymentsEditController extends GetxController
 
   void _setData(PaymentLinkEditModel paymentLinkEdit) {
     defaultImage.value =
-        "${_paymentLinkEditModel.data.baseUrl}/${_paymentLinkEditModel.data.defaultImage}";
-    _paymentLinkEditModel.data.currencyData.forEach((element) {
+        "${paymentLinkEdit.data.baseUrl.resolveBackendHost()}/${paymentLinkEdit.data.defaultImage}";
+    paymentLinkEdit.data.currencyData.forEach((element) {
       currencyList.add(
         CurrencyDatum(
           currencyName: element.currencyName,
@@ -113,20 +115,20 @@ class PaymentsEditController extends GetxController
     currencySymbol.value = data.currencySymbol;
     currencySelection.value = '${data.currency}-${data.currencyName}';
     networkImage.value =
-        '${paymentLinkEdit.data.baseUrl}/${paymentLinkEdit.data.imagePath}/${data.image}';
+        '${paymentLinkEdit.data.baseUrl.resolveBackendHost()}/${paymentLinkEdit.data.imagePath}/${data.image}';
   }
 
   /// >> set loading process & Payment LinkStore Model
   final _isEditUpdateLoading = false.obs;
-  late PaymentLinkUpdateModel _paymentLinkUpdateModel;
+  PaymentLinkUpdateModel? _paymentLinkUpdateModel;
 
   /// >> get loading process & Payment LinkStore Model
   bool get isEditUpdateLoading => _isEditUpdateLoading.value;
 
-  PaymentLinkUpdateModel get paymentLinkUpdateModel => _paymentLinkUpdateModel;
+  PaymentLinkUpdateModel? get paymentLinkUpdateModel => _paymentLinkUpdateModel;
 
   /// >> Payment Link update  with image process api
-  Future<PaymentLinkUpdateModel> paymentLinkUpdateWithImageProcess() async {
+  Future<PaymentLinkUpdateModel?> paymentLinkUpdateWithImageProcess() async {
     _isEditLoading.value = true;
     update();
     final Map<String, String> payInputBody = {
@@ -162,9 +164,9 @@ class PaymentsEditController extends GetxController
           filepath: imageController.userImagePath.value,
         )
         .then((value) {
-          _paymentLinkUpdateModel = value!;
-          createNewLinkController.text =
-              _paymentLinkUpdateModel.data.paymentLink.shareLink;
+          final model = value!;
+          _paymentLinkUpdateModel = model;
+          createNewLinkController.text = model.data.paymentLink.shareLink;
           _onEditCongratulationLink();
           update();
         })
@@ -176,7 +178,7 @@ class PaymentsEditController extends GetxController
   }
 
   /// >> Payment Link update  without image process api
-  Future<PaymentLinkUpdateModel> paymentLinkUpdateWithOutImageProcess() async {
+  Future<PaymentLinkUpdateModel?> paymentLinkUpdateWithOutImageProcess() async {
     _isEditUpdateLoading.value = true;
     update();
 
@@ -211,9 +213,9 @@ class PaymentsEditController extends GetxController
               : subInputBody,
         )
         .then((value) {
-          _paymentLinkUpdateModel = value!;
-          createNewLinkController.text =
-              _paymentLinkUpdateModel.data.paymentLink.shareLink;
+          final model = value!;
+          _paymentLinkUpdateModel = model;
+          createNewLinkController.text = model.data.paymentLink.shareLink;
           _onEditCongratulationLink();
           update();
         })

@@ -75,9 +75,9 @@ class RemittanceController extends GetxController {
 
   bool get isLoading => _isLoading.value;
 
-  late RemittanceInfoModel _remittanceInfoModel;
+  RemittanceInfoModel? _remittanceInfoModel;
 
-  RemittanceInfoModel get remittanceInfoModel => _remittanceInfoModel;
+  RemittanceInfoModel get remittanceInfoModel => _remittanceInfoModel!;
 
   // --------------------------- Api function ----------------------------------
   // get RemittanceInfo function
@@ -88,7 +88,7 @@ class RemittanceController extends GetxController {
     await ApiServices.remittanceInfoAPi()
         .then((value) {
           _remittanceInfoModel = value!;
-          final data = _remittanceInfoModel.data;
+          final data = _remittanceInfoModel!.data;
 
           sendingCountryCurrencyList = data.fromCountry;
           receivingCountryCurrencyList = data.toCountries;
@@ -154,7 +154,7 @@ class RemittanceController extends GetxController {
 
     _isLoading.value = false;
     update();
-    return _remittanceInfoModel;
+    return _remittanceInfoModel!;
   }
 
   //  remittance confirm function
@@ -163,9 +163,9 @@ class RemittanceController extends GetxController {
 
   bool get isRemittanceConfirm => _isRemittanceConfirm.value;
 
-  late CommonSuccessModel _remittanceConfirmModel;
+  CommonSuccessModel? _remittanceConfirmModel;
 
-  CommonSuccessModel get remittanceConfirmModel => _remittanceConfirmModel;
+  CommonSuccessModel get remittanceConfirmModel => _remittanceConfirmModel!;
 
   Future<CommonSuccessModel> remittanceConfirmProcess(
     BuildContext context,
@@ -208,7 +208,7 @@ class RemittanceController extends GetxController {
         });
     _isRemittanceConfirm.value = false;
     update();
-    return _remittanceConfirmModel;
+    return _remittanceConfirmModel!;
   }
 
   // Remittance Get Recipient function
@@ -217,9 +217,9 @@ class RemittanceController extends GetxController {
 
   bool get isGetRemittance => _isGetRemittance.value;
 
-  late RemittanceSenderRecipientModel _getRemittanceModel;
+  RemittanceSenderRecipientModel? _getRemittanceModel;
 
-  RemittanceSenderRecipientModel get getRemittanceModel => _getRemittanceModel;
+  RemittanceSenderRecipientModel get getRemittanceModel => _getRemittanceModel!;
 
   Future<RemittanceSenderRecipientModel> remittanceGetRecipientProcess() async {
     _isGetRemittance.value = true;
@@ -235,19 +235,19 @@ class RemittanceController extends GetxController {
     await ApiServices.remittanceGetRecipientAPi(body: inputBody)
         .then((value) {
           _getRemittanceModel = value!;
-          final name = _getRemittanceModel.data.senderRecipient.first;
+          final name = _getRemittanceModel!.data.senderRecipient.first;
 
-          recipientList.value = _getRemittanceModel.data.senderRecipient;
+          recipientList.value = _getRemittanceModel!.data.senderRecipient;
           selectedRecipient.value = "${name.firstname} ${name.lastname}";
           selectedRecipientId.value =
-              _getRemittanceModel.data.senderRecipient.first.id;
+              _getRemittanceModel!.data.senderRecipient.first.id;
 
           /// sender recipient
-          /// senderRecipientList.value = _getRemittanceModel.data.senderRecipient;
+          /// senderRecipientList.value = _getRemittanceModel!.data.senderRecipient;
 
           selectedRecipient.value = "${name.firstname} ${name.lastname}";
           selectedRecipientId.value =
-              _getRemittanceModel.data.senderRecipient.first.id;
+              _getRemittanceModel!.data.senderRecipient.first.id;
           update();
         })
         .catchError((onError) {
@@ -256,17 +256,17 @@ class RemittanceController extends GetxController {
         });
     _isGetRemittance.value = false;
     update();
-    return _getRemittanceModel;
+    return _getRemittanceModel!;
   }
 
   /// Sender Remittance Info
   RxBool isCrypto1 = false.obs;
   RxBool isCrypto2 = false.obs;
 
-  late RemittanceSenderRecipientModel _remittanceSenderRecipientModel;
+  RemittanceSenderRecipientModel? _remittanceSenderRecipientModel;
 
   RemittanceSenderRecipientModel get remittanceSenderRecipientModel =>
-      _remittanceSenderRecipientModel;
+      _remittanceSenderRecipientModel!;
 
   Future<RemittanceSenderRecipientModel>
   remittanceSenderRecipientProcess() async {
@@ -284,14 +284,14 @@ class RemittanceController extends GetxController {
         .then((value) {
           _remittanceSenderRecipientModel = value!;
           final name =
-              _remittanceSenderRecipientModel.data.senderRecipient.first;
+              _remittanceSenderRecipientModel!.data.senderRecipient.first;
 
           /// sender recipient
           senderRecipientList.value =
-              _remittanceSenderRecipientModel.data.senderRecipient;
+              _remittanceSenderRecipientModel!.data.senderRecipient;
           selectedSenderRecipient.value = "${name.firstname} ${name.lastname}";
           selectedSenderRecipientId.value =
-              _remittanceSenderRecipientModel.data.senderRecipient.first.id;
+              _remittanceSenderRecipientModel!.data.senderRecipient.first.id;
 
           update();
         })
@@ -301,7 +301,7 @@ class RemittanceController extends GetxController {
         });
     _isGetRemittance.value = false;
     update();
-    return _remittanceSenderRecipientModel;
+    return _remittanceSenderRecipientModel!;
   }
 
   // Currency exchange method
@@ -364,7 +364,7 @@ class RemittanceController extends GetxController {
   }
 
   void updateLimit() {
-    final limit = _remittanceInfoModel.data.remittanceCharge;
+    final limit = _remittanceInfoModel!.data.remittanceCharge;
     minLimit.value = limit.minLimit! * fromCountriesRate.value;
     maxLimit.value = limit.maxLimit! * fromCountriesRate.value;
 

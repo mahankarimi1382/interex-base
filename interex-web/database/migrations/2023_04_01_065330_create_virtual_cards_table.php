@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('virtual_cards', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger("user_id");
             $table->string('card_id')->nullable();
             $table->string('name')->nullable();
             $table->string('account_id')->nullable();
@@ -33,8 +33,8 @@ return new class extends Migration
             $table->string('state')->nullable();
             $table->string('zip_code')->nullable();
             $table->string('address')->nullable();
-            $table->string('amount', 28, 8)->default(0.00000000);
-            $table->string('charge', 28, 8)->default(0.00000000);
+            $table->string('amount',28,8)->default(0.00000000);
+            $table->string('charge',28,8)->default(0.00000000);
             $table->string('currency')->nullable();
             $table->string('bg')->nullable();
             $table->boolean('is_active')->default(1);

@@ -1,3 +1,4 @@
+import 'package:qrpay/extentions/custom_extentions.dart';
 import 'package:qrpay/utils/basic_screen_imports.dart';
 import 'package:restart_app/restart_app.dart';
 
@@ -35,7 +36,8 @@ class MaintenanceDialog {
                     vertical: Dimensions.paddingVerticalSize * 0.5,
                   ),
                   child: Image.network(
-                    "${maintenanceModel.data.baseUrl}/${maintenanceModel.data.imagePath}/${maintenanceModel.data.image}",
+                    "${maintenanceModel.data.baseUrl}/${maintenanceModel.data.imagePath}/${maintenanceModel.data.image}"
+                        .fixHost(),
                   ),
                 ),
                 TitleHeading3Widget(

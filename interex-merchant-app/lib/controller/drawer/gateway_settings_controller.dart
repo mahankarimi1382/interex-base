@@ -23,28 +23,25 @@ class GatewaySettingsController extends GetxController {
   final _isLoading = false.obs;
 
   bool get isLoading => _isLoading.value;
-  late GatewaySettingsModel _gatewaySettingsModel;
+  GatewaySettingsModel? _gatewaySettingsModel;
 
-  GatewaySettingsModel get gatewaySettingsModel => _gatewaySettingsModel;
+  GatewaySettingsModel? get gatewaySettingsModel => _gatewaySettingsModel;
 
-  Future<GatewaySettingsModel> getGatewaySettingsData() async {
+  Future<GatewaySettingsModel?> getGatewaySettingsData() async {
     _isLoading.value = true;
     update();
 
     // calling  from api service
     await ApiServices.gatewaySettingsApi()
         .then((value) {
-          _gatewaySettingsModel = value!;
-          walletBalanceEnable.value = _gatewaySettingsModel.data.walletStatus;
-          virtualCardEnable.value =
-              _gatewaySettingsModel.data.virtualCardStatus;
-          masterCardOrVisaCardEnable.value =
-              _gatewaySettingsModel.data.masterVisaStatus;
+          final model = value!;
+          _gatewaySettingsModel = model;
+          walletBalanceEnable.value = model.data.walletStatus;
+          virtualCardEnable.value = model.data.virtualCardStatus;
+          masterCardOrVisaCardEnable.value = model.data.masterVisaStatus;
 
-          primaryKeyController.text =
-              _gatewaySettingsModel.data.credentials.primaryKey;
-          secretKeyController.text =
-              _gatewaySettingsModel.data.credentials.secretKey;
+          primaryKeyController.text = model.data.credentials.primaryKey;
+          secretKeyController.text = model.data.credentials.secretKey;
 
           _isLoading.value = false;
           update();
@@ -60,11 +57,11 @@ class GatewaySettingsController extends GetxController {
 
   bool get isChangeLoading => _isChangeLoading.value;
 
-  late CommonSuccessModel _walletBalanceModel;
+  CommonSuccessModel? _walletBalanceModel;
 
-  CommonSuccessModel get walletBalanceModel => _walletBalanceModel;
+  CommonSuccessModel? get walletBalanceModel => _walletBalanceModel;
 
-  Future<CommonSuccessModel> updateWalletStatusProcess({
+  Future<CommonSuccessModel?> updateWalletStatusProcess({
     required String value,
   }) async {
     _isLoading.value = true;
@@ -84,11 +81,11 @@ class GatewaySettingsController extends GetxController {
     return _walletBalanceModel;
   }
 
-  late CommonSuccessModel _virtualCardModel;
+  CommonSuccessModel? _virtualCardModel;
 
-  CommonSuccessModel get virtualCardModel => _virtualCardModel;
+  CommonSuccessModel? get virtualCardModel => _virtualCardModel;
 
-  Future<CommonSuccessModel> updateVirtualCardStatusProcess({
+  Future<CommonSuccessModel?> updateVirtualCardStatusProcess({
     required String value,
   }) async {
     _isLoading.value = true;
@@ -108,11 +105,11 @@ class GatewaySettingsController extends GetxController {
     return _virtualCardModel;
   }
 
-  late CommonSuccessModel _masterCardModel;
+  CommonSuccessModel? _masterCardModel;
 
-  CommonSuccessModel get masterCardModel => _masterCardModel;
+  CommonSuccessModel? get masterCardModel => _masterCardModel;
 
-  Future<CommonSuccessModel> updateMasterCardStatusProcess({
+  Future<CommonSuccessModel?> updateMasterCardStatusProcess({
     required String value,
   }) async {
     _isLoading.value = true;
@@ -132,11 +129,11 @@ class GatewaySettingsController extends GetxController {
     return _masterCardModel;
   }
 
-  late CommonSuccessModel _updateKeyModel;
+  CommonSuccessModel? _updateKeyModel;
 
-  CommonSuccessModel get updateKeyModel => _updateKeyModel;
+  CommonSuccessModel? get updateKeyModel => _updateKeyModel;
 
-  Future<CommonSuccessModel> updateKeyProcess({
+  Future<CommonSuccessModel?> updateKeyProcess({
     required String pk,
     required String sk,
   }) async {

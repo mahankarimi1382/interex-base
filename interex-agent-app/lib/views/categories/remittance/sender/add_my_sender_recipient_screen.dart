@@ -56,7 +56,7 @@ class AddMySenderRecipientScreen extends StatelessWidget {
           _countryWidget(),
           _emailWidget(),
           if (controller.transactionTypeSelectedMethod.value ==
-              controller.transactionTypeList[0].labelName) ...[
+              controller.transactionTypeList![0].labelName) ...[
             _accountNumberWidget(context),
           ],
           _phoneNumerWidget(),
@@ -136,7 +136,7 @@ class AddMySenderRecipientScreen extends StatelessWidget {
         verticalSpace(Dimensions.heightSize * 0.5),
         TransactionTypeDropDown(
           selectMethod: controller.transactionTypeSelectedMethod,
-          itemsList: controller.transactionTypeList,
+          itemsList: controller.transactionTypeList!,
           onChanged: (value) {
             controller.transactionTypeSelectedMethod.value = value!.labelName;
             controller.transactionTypeFieldName.value = value.fieldName;
@@ -222,7 +222,7 @@ class AddMySenderRecipientScreen extends StatelessWidget {
           () => Visibility(
             visible:
                 controller.transactionTypeSelectedMethod.value ==
-                controller.transactionTypeList[2].labelName,
+                controller.transactionTypeList![2].labelName,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -235,7 +235,7 @@ class AddMySenderRecipientScreen extends StatelessWidget {
                 verticalSpace(Dimensions.heightSize * 0.5),
                 ReceiverBankDropDown(
                   selectMethod: controller.pickupPointMethod,
-                  itemsList: controller.pickupPointList,
+                  itemsList: controller.pickupPointList!,
                   onChanged: (value) {
                     controller.pickupPointMethod.value = value!.name;
                     controller.pickupPoint = value;
@@ -249,7 +249,7 @@ class AddMySenderRecipientScreen extends StatelessWidget {
           () => Visibility(
             visible:
                 controller.transactionTypeSelectedMethod.value ==
-                controller.transactionTypeList[0].labelName,
+                controller.transactionTypeList![0].labelName,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -264,7 +264,7 @@ class AddMySenderRecipientScreen extends StatelessWidget {
                 verticalSpace(Dimensions.heightSize * 0.5),
                 ReceiverBankDropDown(
                   selectMethod: controller.receiverBankSelectedMethod,
-                  itemsList: controller.receiverBankList,
+                  itemsList: controller.receiverBankList!,
                   onChanged: (value) {
                     controller.receiverBankSelectedMethod.value = value!.name;
                     controller.receiverBank = value;

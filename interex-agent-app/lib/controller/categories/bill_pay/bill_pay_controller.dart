@@ -65,9 +65,9 @@ class BillPayController extends GetxController {
 
   bool get isInsertLoading => _isInsertLoading.value;
 
-  late BillPayInfoModel _billPayInfoData;
+  BillPayInfoModel? _billPayInfoData;
 
-  BillPayInfoModel get billPayInfoData => _billPayInfoData;
+  BillPayInfoModel get billPayInfoData => _billPayInfoData!;
 
   // --------------------------- Api function ----------------------------------
   // get bill pay data function
@@ -78,7 +78,7 @@ class BillPayController extends GetxController {
     await ApiServices.billPayInfoAPi()
         .then((value) {
           _billPayInfoData = value!;
-          final data = _billPayInfoData.data;
+          final data = _billPayInfoData!.data;
           baseCurrency.value = data.baseCurr;
           limitMin.value = data.billPayCharge.minLimit;
           limitMax.value = data.billPayCharge.maxLimit;
@@ -145,19 +145,19 @@ class BillPayController extends GetxController {
 
           //start remaing get
           remainingController.transactionType.value =
-              _billPayInfoData.data.getRemainingFields.transactionType;
+              _billPayInfoData!.data.getRemainingFields.transactionType;
           remainingController.attribute.value =
-              _billPayInfoData.data.getRemainingFields.attribute;
+              _billPayInfoData!.data.getRemainingFields.attribute;
           remainingController.cardId.value =
-              _billPayInfoData.data.billPayCharge.id;
+              _billPayInfoData!.data.billPayCharge.id;
           remainingController.senderAmount.value = amountController.text;
           remainingController.senderCurrency.value =
               selectMainWallet.value!.currency.code;
 
           remainingController.getRemainingBalanceProcess();
           selectedBillMonths.value =
-              _billPayInfoData.data.billMonths.first.fieldName;
-          for (var element in _billPayInfoData.data.billMonths) {
+              _billPayInfoData!.data.billMonths.first.fieldName;
+          for (var element in _billPayInfoData!.data.billMonths) {
             billMonthsList.add(element.fieldName);
           }
 
@@ -180,12 +180,12 @@ class BillPayController extends GetxController {
 
     _isLoading.value = false;
     update();
-    return _billPayInfoData;
+    return _billPayInfoData!;
   }
 
-  late CommonSuccessModel _successDatya;
+  CommonSuccessModel? _successDatya;
 
-  CommonSuccessModel get successDatya => _successDatya;
+  CommonSuccessModel get successDatya => _successDatya!;
 
   // Login process function
   Future<CommonSuccessModel> billPayApiProcess({
@@ -217,7 +217,7 @@ class BillPayController extends GetxController {
 
     _isInsertLoading.value = false;
     update();
-    return _successDatya;
+    return _successDatya!;
   }
 
   void gotoBillPreview(BuildContext context) {

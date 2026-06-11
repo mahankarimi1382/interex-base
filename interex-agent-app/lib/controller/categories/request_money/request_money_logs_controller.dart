@@ -21,8 +21,8 @@ class RequestMoneyLogsController extends GetxController
   bool get isApproveLoading => _isApproveLoading.value;
 
   /// Request money logs process api
-  late RequestMoneyLogModel _requestMoneyLogModel;
-  RequestMoneyLogModel get requestMoneyInfoModel => _requestMoneyLogModel;
+  RequestMoneyLogModel? _requestMoneyLogModel;
+  RequestMoneyLogModel get requestMoneyInfoModel => _requestMoneyLogModel!;
   Future<RequestMoneyLogModel> getRequestMoneyLogData() async {
     _isLoading.value = true;
     update();
@@ -37,12 +37,12 @@ class RequestMoneyLogsController extends GetxController
 
     _isLoading.value = false;
     update();
-    return _requestMoneyLogModel;
+    return _requestMoneyLogModel!;
   }
 
   /// Request money logs reject process
-  late CommonSuccessModel _logRejectModel;
-  CommonSuccessModel get logRejectModel => _logRejectModel;
+  CommonSuccessModel? _logRejectModel;
+  CommonSuccessModel get logRejectModel => _logRejectModel!;
   Future<CommonSuccessModel> logRejectProcessApi() async {
     _isRejectLoading.value = true;
     final Map<String, dynamic> inputBody = {'target': target.value};
@@ -57,12 +57,12 @@ class RequestMoneyLogsController extends GetxController
 
     _isRejectLoading.value = false;
     update();
-    return _logRejectModel;
+    return _logRejectModel!;
   }
 
   /// Request money logs reject process
-  late CommonSuccessModel _logApproveModel;
-  CommonSuccessModel get logApproveModel => _logApproveModel;
+  CommonSuccessModel? _logApproveModel;
+  CommonSuccessModel get logApproveModel => _logApproveModel!;
   Future<CommonSuccessModel> logApproveProcessApi() async {
     _isApproveLoading.value = true;
     final Map<String, dynamic> inputBody = {'target': target.value};
@@ -77,6 +77,6 @@ class RequestMoneyLogsController extends GetxController
 
     _isApproveLoading.value = false;
     update();
-    return _logApproveModel;
+    return _logApproveModel!;
   }
 }

@@ -45,11 +45,11 @@ class RegistrationController extends GetxController {
 
   bool get isLoading => _isLoading.value;
 
-  late CheckRegisterUserModel _checkRegisterUserModel;
+  CheckRegisterUserModel? _checkRegisterUserModel;
 
-  CheckRegisterUserModel get checkRegisterUserModel => _checkRegisterUserModel;
+  CheckRegisterUserModel? get checkRegisterUserModel => _checkRegisterUserModel;
 
-  Future<CheckRegisterUserModel> checkExistUserProcess() async {
+  Future<CheckRegisterUserModel?> checkExistUserProcess() async {
     _isLoading.value = true;
     update();
     final Map<String, dynamic> inputBody = {
@@ -62,7 +62,10 @@ class RegistrationController extends GetxController {
 
     await ApiServices.checkRegisterApi(body: inputBody)
         .then((value) {
-          _checkRegisterUserModel = value!;
+          // On failure the API layer already shows the error snackbar and
+          // returns null, so bail out without navigating.
+          if (value == null) return;
+          _checkRegisterUserModel = value;
 
           if (selectedRegID.value == 0) {
             if (LocalStorages.isEmailVerification()) {
@@ -97,11 +100,11 @@ class RegistrationController extends GetxController {
 
   bool get isSendOTPLoading => _isSendOTPLoading.value;
 
-  late CommonSuccessModel _sendOTPEmailModel;
+  CommonSuccessModel? _sendOTPEmailModel;
 
-  CommonSuccessModel get sendOTPEmailModel => _sendOTPEmailModel;
+  CommonSuccessModel? get sendOTPEmailModel => _sendOTPEmailModel;
 
-  Future<CommonSuccessModel> sendOTPEmailProcess() async {
+  Future<CommonSuccessModel?> sendOTPEmailProcess() async {
     _isSendOTPLoading.value = true;
     update();
 
@@ -116,7 +119,10 @@ class RegistrationController extends GetxController {
 
     await ApiServices.sendRegisterOTPEmailApi(body: inputBody)
         .then((value) {
-          _sendOTPEmailModel = value!;
+          // On failure the API layer already shows the error snackbar and
+          // returns null, so just bail out without touching the model.
+          if (value == null) return;
+          _sendOTPEmailModel = value;
 
           _isSendOTPLoading.value = false;
           update();
@@ -134,12 +140,12 @@ class RegistrationController extends GetxController {
 
   bool get isLoading2 => _isLoading2.value;
 
-  late CommonSuccessModel _verifyEmailModel;
+  CommonSuccessModel? _verifyEmailModel;
 
-  CommonSuccessModel get verifyEmailModel => _verifyEmailModel;
+  CommonSuccessModel? get verifyEmailModel => _verifyEmailModel;
 
   // Verify email process function
-  Future<CommonSuccessModel> verifyEmailProcess({
+  Future<CommonSuccessModel?> verifyEmailProcess({
     required String otpCode,
   }) async {
     _isLoading2.value = true;
@@ -152,7 +158,8 @@ class RegistrationController extends GetxController {
 
     await ApiServices.verifyRegisterEmailApi(body: inputBody)
         .then((value) {
-          _verifyEmailModel = value!;
+          if (value == null) return;
+          _verifyEmailModel = value;
           _isLoading2.value = false;
 
           update();
@@ -169,11 +176,11 @@ class RegistrationController extends GetxController {
   }
 
   // For Sms section
-  late CommonSuccessModel _verifyPhoneModel;
+  CommonSuccessModel? _verifyPhoneModel;
 
-  CommonSuccessModel get verifyPhoneModel => _verifyPhoneModel;
+  CommonSuccessModel? get verifyPhoneModel => _verifyPhoneModel;
 
-  Future<CommonSuccessModel> verifyPhoneOtpProcess({
+  Future<CommonSuccessModel?> verifyPhoneOtpProcess({
     required String otpCode,
   }) async {
     _isLoading2.value = true;
@@ -187,7 +194,8 @@ class RegistrationController extends GetxController {
 
     await ApiServices.verifyRegisterPhoneApi(body: inputBody)
         .then((value) {
-          _verifyPhoneModel = value!;
+          if (value == null) return;
+          _verifyPhoneModel = value;
           _isLoading2.value = false;
 
           update();

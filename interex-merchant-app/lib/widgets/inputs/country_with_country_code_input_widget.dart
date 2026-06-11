@@ -169,16 +169,16 @@ class _PrimaryInputWidgetState extends State<CountryInputWidget> {
               width: MediaQuery.of(context).size.width * 0.8,
               alignment: Alignment.bottomCenter,
               child: ListView.builder(
-                itemCount: basicController.basicDataModel.data.countries.length,
+                itemCount: basicController.basicDataModel!.data.countries.length,
                 itemBuilder: (BuildContext context, int index) {
-                  final data = basicController.basicDataModel.data.countries;
+                  final data = basicController.basicDataModel!.data.countries;
                   final code = basicController
-                      .basicDataModel
+                      .basicDataModel!
                       .data
                       .countries[index]
                       .mobileCode;
                   final country =
-                      basicController.basicDataModel.data.countries[index].name;
+                      basicController.basicDataModel!.data.countries[index].name;
                   return InkWell(
                     highlightColor: Colors.yellow.withValues(alpha: 0.9),
                     splashColor: Colors.red.withValues(alpha: 0.8),

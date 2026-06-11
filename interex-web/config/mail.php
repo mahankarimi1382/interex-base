@@ -45,6 +45,10 @@ return [
             'local_domain' => env('MAIL_EHLO_DOMAIN'),
         ],
 
+        'mailtrap' => [
+            'transport' => 'mailtrap',
+        ],
+
         'ses' => [
             'transport' => 'ses',
         ],

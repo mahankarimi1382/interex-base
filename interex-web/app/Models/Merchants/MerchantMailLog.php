@@ -8,11 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class MerchantMailLog extends Model
 {
     use HasFactory;
-
     protected $guarded = ['id'];
 
-    public function merchant()
-    {
+    public function merchant() {
         return $this->belongsTo(Merchant::class);
     }
 }

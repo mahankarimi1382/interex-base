@@ -11,8 +11,9 @@ class AdminRoleHasPermission extends Model
 
     protected $guarded = ['id'];
 
-    public function permission()
-    {
-        return $this->belongsTo(AdminRolePermission::class, 'admin_role_permission_id');
+    public function permission() {
+        return $this->belongsTo(AdminRolePermission::class,"admin_role_permission_id");
     }
+
+
 }

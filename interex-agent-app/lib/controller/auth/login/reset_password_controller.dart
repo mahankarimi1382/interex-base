@@ -21,9 +21,9 @@ class ResetPasswordController extends GetxController {
     super.dispose();
   }
 
-  late ResetPasswordModel _resetPasswordModel;
+  ResetPasswordModel? _resetPasswordModel;
 
-  ResetPasswordModel get resetPasswordModel => _resetPasswordModel;
+  ResetPasswordModel get resetPasswordModel => _resetPasswordModel!;
 
   // Login process function
   Future<ResetPasswordModel> resetApiProcess() async {
@@ -50,6 +50,6 @@ class ResetPasswordController extends GetxController {
 
     _isLoading.value = false;
     update();
-    return _resetPasswordModel;
+    return _resetPasswordModel!;
   }
 }

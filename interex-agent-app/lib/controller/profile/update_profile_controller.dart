@@ -64,8 +64,8 @@ class UpdateProfileController extends GetxController {
 
   bool get isLoading => _isLoading.value;
 
-  late ProfileModel _profileModel;
-  ProfileModel get profileModel => _profileModel;
+  ProfileModel? _profileModel;
+  ProfileModel get profileModel => _profileModel!;
 
   Future<ProfileModel> getProfileData() async {
     _isLoading.value = true;
@@ -96,7 +96,7 @@ class UpdateProfileController extends GetxController {
 
     _isLoading.value = false;
     update();
-    return _profileModel;
+    return _profileModel!;
   }
 
   // api loading process indicator variable
@@ -137,12 +137,12 @@ class UpdateProfileController extends GetxController {
           update();
         });
 
-    return _profileUpdateModel;
+    return _profileUpdateModel!;
   }
 
-  late CommonSuccessModel _profileUpdateModel;
+  CommonSuccessModel? _profileUpdateModel;
 
-  CommonSuccessModel get profileUpdateModel => _profileUpdateModel;
+  CommonSuccessModel get profileUpdateModel => _profileUpdateModel!;
   // Profile update process with image
   Future<CommonSuccessModel> profileUpdateWithImageProcess() async {
     _isUpdateLoading.value = true;
@@ -177,7 +177,7 @@ class UpdateProfileController extends GetxController {
           update();
         });
 
-    return _profileUpdateModel;
+    return _profileUpdateModel!;
   }
 
   //

@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class MerchantLoginLog extends Model
 {
     use HasFactory;
-
     protected $fillable = [
         'merchant_id',
         'ip',
@@ -20,6 +19,6 @@ class MerchantLoginLog extends Model
         'browser',
         'os',
         'timezone',
-        'first_name', 'created_at',
+        'first_name','created_at'
     ];
 }

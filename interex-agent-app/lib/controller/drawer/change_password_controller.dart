@@ -19,9 +19,9 @@ class PasswordController extends GetxController {
 
   bool get isLoading => _isLoading.value;
 
-  late CommonSuccessModel _commonSuccessModel;
+  CommonSuccessModel? _commonSuccessModel;
 
-  CommonSuccessModel get commonSuccessModel => _commonSuccessModel;
+  CommonSuccessModel get commonSuccessModel => _commonSuccessModel!;
 
   // Login process function
   Future<CommonSuccessModel> updatePasswordProcess() async {
@@ -45,6 +45,6 @@ class PasswordController extends GetxController {
 
     _isLoading.value = false;
     update();
-    return _commonSuccessModel;
+    return _commonSuccessModel!;
   }
 }

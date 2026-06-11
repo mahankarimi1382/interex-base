@@ -20,7 +20,7 @@ class MerchantPaymentLogScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final data = controller.transactionModel.data.transactions.merchantPayment;
+    final data = controller.transactionModel!.data.transactions.merchantPayment;
     return SizedBox(
       height: MediaQuery.of(context).size.height,
       child: Column(

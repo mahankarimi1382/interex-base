@@ -15,9 +15,9 @@ class AdminHasRoleSeeder extends Seeder
     public function run()
     {
         $data = [
-            'admin_id' => 1,
+            'admin_id'      => 1,
             'admin_role_id' => 1,
-            'last_edit_by' => 1,
+            'last_edit_by'  => 1,
         ];
 
         AdminHasRole::create($data);

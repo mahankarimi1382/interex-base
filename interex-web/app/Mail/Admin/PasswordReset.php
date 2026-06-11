@@ -3,6 +3,7 @@
 namespace App\Mail\Admin;
 
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
@@ -25,7 +26,7 @@ class PasswordReset extends Mailable
     /**
      * Get the message envelope.
      *
-     * @return Envelope
+     * @return \Illuminate\Mail\Mailables\Envelope
      */
     public function envelope()
     {
@@ -37,7 +38,7 @@ class PasswordReset extends Mailable
     /**
      * Get the message content definition.
      *
-     * @return Content
+     * @return \Illuminate\Mail\Mailables\Content
      */
     public function content()
     {

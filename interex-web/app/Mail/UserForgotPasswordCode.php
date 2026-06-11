@@ -1,7 +1,5 @@
 <?php
-
 namespace App\Mail;
-
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
@@ -11,9 +9,7 @@ class UserForgotPasswordCode extends Mailable
     use Queueable, SerializesModels;
 
     public $username;
-
     public $pwdCode;
-
     /**
      * Create a new message instance.
      *
@@ -27,6 +23,6 @@ class UserForgotPasswordCode extends Mailable
 
     public function build()
     {
-        return $this->view('mail-templates.user._forgot_password')->with(['username' => $this->username, 'code' => $this->pwdCode]);
+        return $this->view('mail-templates.user._forgot_password')->with(['username' =>  $this->username, 'code' => $this->pwdCode]);
     }
 }

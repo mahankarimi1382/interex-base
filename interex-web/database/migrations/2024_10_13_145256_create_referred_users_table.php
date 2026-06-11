@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('referred_users', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('refer_user_id')->comment('Who own the refer or parent');
-            $table->unsignedBigInteger('new_user_id')->comment('who use a referral id when registering');
+            $table->unsignedBigInteger('refer_user_id')->comment("Who own the refer or parent");
+            $table->unsignedBigInteger('new_user_id')->comment("who use a referral id when registering");
             $table->timestamps();
 
             $table->foreign('new_user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');

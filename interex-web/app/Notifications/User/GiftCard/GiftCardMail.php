@@ -3,6 +3,7 @@
 namespace App\Notifications\User\GiftCard;
 
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Carbon;
@@ -12,7 +13,6 @@ class GiftCardMail extends Notification
     use Queueable;
 
     public $user;
-
     public $data;
 
     /**
@@ -20,7 +20,7 @@ class GiftCardMail extends Notification
      *
      * @return void
      */
-    public function __construct($user, $data)
+    public function __construct($user,$data)
     {
         $this->user = $user;
         $this->data = $data;
@@ -41,7 +41,7 @@ class GiftCardMail extends Notification
      * Get the mail representation of the notification.
      *
      * @param  mixed  $notifiable
-     * @return MailMessage
+     * @return \Illuminate\Notifications\Messages\MailMessage
      */
     public function toMail($notifiable)
     {
@@ -52,23 +52,23 @@ class GiftCardMail extends Notification
         $dateTime = $date->format('Y-m-d h:i:s A');
 
         return (new MailMessage)
-            ->greeting(__('Hello').' '.$user->fullname.' !')
-            ->subject($data['title'] ?? __('Gift Card Order'))
-            ->line(__('Your Gift Card Email Details').' :')
-            ->line(__('TRX ID').' : '.$trx_id)
-            ->line(__('Card Name').' : '.$data['giftCard']['card_name'])
-            ->line(__('receiver Email').' : '.$data['giftCard']['recipient_email'])
-            ->line(__('Receiver Phone').' : '.'+'.$data['giftCard']['recipient_phone'])
-            ->line(__('Card Unit Price').' : '.get_amount($data['charge_info']['card_unit_price'], $data['charge_info']['card_currency'], $data['charge_info']['precision_digit']))
-            ->line(__('Card Quantity').' : '.$data['charge_info']['qty'])
-            ->line(__('Card Total Price').' : '.get_amount($data['charge_info']['total_receiver_amount'], $data['charge_info']['card_currency'], $data['charge_info']['precision_digit']))
-            ->line(__('Exchange Rate').' : '.get_amount(1, $data['charge_info']['card_currency']).' = '.get_amount($data['charge_info']['exchange_rate'], $data['charge_info']['card_currency'], $data['charge_info']['precision_digit']))
-            ->line(__('Payable Unit Price').' : '.get_amount($data['charge_info']['sender_unit_price'], $data['charge_info']['wallet_currency'], $data['charge_info']['precision_digit']))
-            ->line(__('Payable Amount').' : '.get_amount($data['charge_info']['conversion_amount'], $data['charge_info']['wallet_currency'], $data['charge_info']['precision_digit']))
-            ->line(__('Total Charge').' : '.get_amount($data['charge_info']['total_charge'], $data['charge_info']['wallet_currency'], $data['charge_info']['precision_digit']))
-            ->line(__('Total Payable Amount').' : '.get_amount($data['charge_info']['payable'], $data['charge_info']['wallet_currency'], $data['charge_info']['precision_digit']))
-            ->line(__('Time & Date').' : '.$dateTime)
-            ->line(__('Thank you for using our application!'));
+                    ->greeting(__("Hello")." ".$user->fullname." !")
+                    ->subject($data['title']??__("Gift Card Order"))
+                    ->line(__("Your Gift Card Email Details")." :")
+                    ->line(__("TRX ID")." : " .$trx_id)
+                    ->line(__("Card Name")." : " .$data['giftCard']['card_name'])
+                    ->line(__("receiver Email")." : " .$data['giftCard']['recipient_email'])
+                    ->line(__("Receiver Phone")." : " ."+".$data['giftCard']['recipient_phone'])
+                    ->line(__("Card Unit Price")." : " .get_amount($data['charge_info']['card_unit_price'],$data['charge_info']['card_currency'],$data['charge_info']['precision_digit']))
+                    ->line(__("Card Quantity")." : " .$data['charge_info']['qty'])
+                    ->line(__("Card Total Price")." : " .get_amount($data['charge_info']['total_receiver_amount'],$data['charge_info']['card_currency'],$data['charge_info']['precision_digit']))
+                    ->line(__("Exchange Rate")." : " .get_amount(1,$data['charge_info']['card_currency'])." = ".get_amount($data['charge_info']['exchange_rate'],$data['charge_info']['card_currency'],$data['charge_info']['precision_digit']))
+                    ->line(__("Payable Unit Price")." : " .get_amount($data['charge_info']['sender_unit_price'],$data['charge_info']['wallet_currency'],$data['charge_info']['precision_digit']))
+                    ->line(__("Payable Amount")." : " .get_amount($data['charge_info']['conversion_amount'],$data['charge_info']['wallet_currency'],$data['charge_info']['precision_digit']))
+                    ->line(__("Total Charge")." : " .get_amount($data['charge_info']['total_charge'],$data['charge_info']['wallet_currency'],$data['charge_info']['precision_digit']))
+                    ->line(__("Total Payable Amount")." : " .get_amount($data['charge_info']['payable'],$data['charge_info']['wallet_currency'],$data['charge_info']['precision_digit']))
+                    ->line(__("Time & Date")." : " .$dateTime)
+                    ->line(__('Thank you for using our application!'));
     }
 
     /**

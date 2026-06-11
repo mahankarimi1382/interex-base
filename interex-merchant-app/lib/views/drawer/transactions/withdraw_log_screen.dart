@@ -18,7 +18,7 @@ class WithdrawLogScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final data = controller.transactionModel.data.transactions.moneyOut;
+    final data = controller.transactionModel!.data.transactions.moneyOut;
     return SizedBox(
       height: MediaQuery.of(context).size.height,
       child: Column(

@@ -16,14 +16,14 @@ return new class extends Migration
         Schema::create('agent_profits', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('agent_id');
-            $table->unsignedBigInteger('transaction_id');
+            $table->unsignedBigInteger("transaction_id");
             $table->decimal('percent_charge', 28, 8)->default(0);
             $table->decimal('fixed_charge', 28, 8)->default(0);
             $table->decimal('total_charge', 28, 8)->default(0);
             $table->timestamps();
 
-            $table->foreign('agent_id')->references('id')->on('agents')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('transaction_id')->references('id')->on('transactions')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign("agent_id")->references("id")->on("agents")->onDelete("cascade")->onUpdate("cascade");
+            $table->foreign("transaction_id")->references("id")->on("transactions")->onDelete("cascade")->onUpdate("cascade");
         });
     }
 

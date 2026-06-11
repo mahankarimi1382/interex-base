@@ -60,7 +60,7 @@ class WithdrawFlutterWaveScreen extends StatelessWidget {
                       StatusScreen.show(
                         context: context,
                         subTitle: controller
-                            .manualPaymentConfirmModel
+                            .manualPaymentConfirmModel!
                             .message
                             .success
                             .first,

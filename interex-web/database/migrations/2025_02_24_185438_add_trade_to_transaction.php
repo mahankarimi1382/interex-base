@@ -14,8 +14,8 @@ return new class extends Migration
     public function up()
     {
         Schema::table('transactions', function (Blueprint $table) {
-            $table->unsignedBigInteger('trade_id')->after('payment_link_id')->nullable();
-            $table->foreign('trade_id')->references('id')->on('trades')->onDelete('cascade')->onUpdate('cascade');
+            $table->unsignedBigInteger("trade_id")->after("payment_link_id")->nullable();
+            $table->foreign("trade_id")->references("id")->on("trades")->onDelete("cascade")->onUpdate("cascade");
         });
     }
 

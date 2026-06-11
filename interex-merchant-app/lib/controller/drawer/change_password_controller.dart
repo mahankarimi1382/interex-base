@@ -19,12 +19,12 @@ class PasswordController extends GetxController {
 
   bool get isLoading => _isLoading.value;
 
-  late CommonSuccessModel _commonSuccessModel;
+  CommonSuccessModel? _commonSuccessModel;
 
-  CommonSuccessModel get commonSuccessModel => _commonSuccessModel;
+  CommonSuccessModel? get commonSuccessModel => _commonSuccessModel;
 
   // Login process function
-  Future<CommonSuccessModel> updatePasswordProcess() async {
+  Future<CommonSuccessModel?> updatePasswordProcess() async {
     _isLoading.value = true;
     update();
     final Map<String, dynamic> inputBody = {

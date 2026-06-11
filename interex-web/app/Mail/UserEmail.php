@@ -11,11 +11,8 @@ class UserEmail extends Mailable
     use Queueable, SerializesModels;
 
     public $first_name;
-
     public $email;
-
     public $mail_body;
-
     /**
      * Create a new message instance.
      *
@@ -30,6 +27,6 @@ class UserEmail extends Mailable
 
     public function build()
     {
-        return $this->view('mail-templates.user._user_mail')->with(['name' => $this->first_name, $this->subject, $this->mail_body]);
+        return $this->view('mail-templates.user._user_mail')->with(['name' =>  $this->first_name, $this->subject, $this->mail_body]);
     }
 }

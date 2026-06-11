@@ -3,19 +3,15 @@
 namespace App\Http\Controllers\Admin\Auth;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Contracts\Auth\PasswordBroker;
-use Illuminate\Contracts\Auth\StatefulGuard;
-use Illuminate\Contracts\View\Factory;
-use Illuminate\Foundation\Auth\ResetsPasswords;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Foundation\Auth\ResetsPasswords;
 use Illuminate\Support\Facades\Password;
-use Illuminate\View\View;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Auth;
 
 class ResetPasswordController extends Controller
 {
+
     use ResetsPasswords;
 
     /**
@@ -23,7 +19,8 @@ class ResetPasswordController extends Controller
      *
      * If no token is present, display the link request form.
      *
-     * @return Factory|View
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function showResetForm(Request $request)
     {
@@ -33,6 +30,7 @@ class ResetPasswordController extends Controller
             ['token' => $token, 'email' => $request->email]
         );
     }
+
 
     /**
      * Get the password reset validation rules.
@@ -48,34 +46,40 @@ class ResetPasswordController extends Controller
         ];
     }
 
+
+
     /**
      * Get the broker to be used during password reset.
      *
-     * @return PasswordBroker
+     * @return \Illuminate\Contracts\Auth\PasswordBroker
      */
     public function broker()
     {
         return Password::broker('admins');
     }
 
+
     /**
      * Get the guard to be used during password reset.
      *
-     * @return StatefulGuard
+     * @return \Illuminate\Contracts\Auth\StatefulGuard
      */
     protected function guard()
     {
         return Auth::guard('admin');
     }
 
+
     /**
      * Get the response for a successful password reset.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @param  string  $response
-     * @return RedirectResponse|JsonResponse
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse
      */
     protected function sendResetResponse(Request $request, $response)
     {
-        return redirect()->route('admin.login')->with(['success' => [__('Successfully updated password. Please login')]]);
+        return redirect()->route('admin.login')->with(['success' => [__("Successfully updated password. Please login")]]);
     }
+
 }

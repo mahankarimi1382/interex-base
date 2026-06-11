@@ -40,9 +40,9 @@ class SignInController extends GetxController {
 
   bool get isLoading => _isLoading.value;
 
-  late LoginModel _loginModel;
+  LoginModel? _loginModel;
 
-  LoginModel get loginModel => _loginModel;
+  LoginModel get loginModel => _loginModel!;
 
   // Login process function
   Future<LoginModel> loginProcess() async {
@@ -61,18 +61,18 @@ class SignInController extends GetxController {
         .then((value) {
           _loginModel = value!;
 
-          twoFaStatus.value = _loginModel.data.agent.twoFactorStatus;
-          twoFaVerified.value = _loginModel.data.agent.twoFactorVerified;
+          twoFaStatus.value = _loginModel!.data.agent.twoFactorStatus;
+          twoFaVerified.value = _loginModel!.data.agent.twoFactorVerified;
 
-          if (_loginModel.data.agent.emailVerified == 0) {
+          if (_loginModel!.data.agent.emailVerified == 0) {
             isEmailVerification.value = false;
             LocalStorage.saveToken(token: loginModel.data.token.toString());
             _goToEmailVerification();
-          } else if (_loginModel.data.agent.smsVerified == 0) {
+          } else if (_loginModel!.data.agent.smsVerified == 0) {
             LocalStorage.saveToken(token: loginModel.data.token.toString());
             _goToPhoneVerification();
           } else {
-            _goToSavedUser(_loginModel);
+            _goToSavedUser(_loginModel!);
             if (twoFaStatus.value == 1 && twoFaVerified.value == 0) {
               Get.toNamed(Routes.otp2FaScreen);
             } else {
@@ -92,16 +92,16 @@ class SignInController extends GetxController {
 
     _isLoading.value = false;
     update();
-    return _loginModel;
+    return _loginModel!;
   }
 
   //! Send OTP Email Process
   final _isSendOTPLoading = false.obs;
 
   bool get isSendOTPLoading => _isSendOTPLoading.value;
-  late CommonSuccessModel _sendOTPEmailModel;
+  CommonSuccessModel? _sendOTPEmailModel;
 
-  CommonSuccessModel get sendOTPEmailModel => _sendOTPEmailModel;
+  CommonSuccessModel get sendOTPEmailModel => _sendOTPEmailModel!;
   Future<CommonSuccessModel> sendOTPEmailProcess() async {
     _isSendOTPLoading.value = true;
     update();
@@ -121,14 +121,14 @@ class SignInController extends GetxController {
 
     _isSendOTPLoading.value = false;
     update();
-    return _sendOTPEmailModel;
+    return _sendOTPEmailModel!;
   }
 
   // Forget Password Email Process
   final _isLoading2 = false.obs;
   bool get isLoading2 => _isLoading2.value;
-  late CommonSuccessModel _verifyEmailModel;
-  CommonSuccessModel get verifyEmailModel => _verifyEmailModel;
+  CommonSuccessModel? _verifyEmailModel;
+  CommonSuccessModel get verifyEmailModel => _verifyEmailModel!;
 
   Future<CommonSuccessModel> verifyEmailProcess({
     required String otpCode,
@@ -161,7 +161,7 @@ class SignInController extends GetxController {
 
     _isLoading2.value = false;
     update();
-    return _verifyEmailModel;
+    return _verifyEmailModel!;
   }
 
   RxBool isVerifyCode = false.obs;
@@ -198,8 +198,8 @@ class SignInController extends GetxController {
   final _isSmsOtpLoading = false.obs;
   bool get isSmsOtpLoading => _isSmsOtpLoading.value;
 
-  late CommonSuccessModel _commonSuccessModel;
-  CommonSuccessModel get commonSuccessModel => _commonSuccessModel;
+  CommonSuccessModel? _commonSuccessModel;
+  CommonSuccessModel get commonSuccessModel => _commonSuccessModel!;
   Future<CommonSuccessModel?> smsOtpProcess() async {
     final Map<String, dynamic> inputBody = {};
 
@@ -240,8 +240,8 @@ class SignInController extends GetxController {
   // For got password
   final _isSendForgotOTPLoading = false.obs;
   bool get isSendForgotOTPLoading => _isSendForgotOTPLoading.value;
-  late CommonSuccessModel _sendForgotOTPEmailModel;
-  CommonSuccessModel get sendForgotOTPEmailModel => _sendForgotOTPEmailModel;
+  CommonSuccessModel? _sendForgotOTPEmailModel;
+  CommonSuccessModel get sendForgotOTPEmailModel => _sendForgotOTPEmailModel!;
 
   Future<CommonSuccessModel> sendForgotOTPEmailProcess() async {
     _isSendForgotOTPLoading.value = true;
@@ -273,12 +273,12 @@ class SignInController extends GetxController {
 
     _isSendForgotOTPLoading.value = false;
     update();
-    return _sendForgotOTPEmailModel;
+    return _sendForgotOTPEmailModel!;
   }
 
   // Forget Password Email Process
-  late CommonSuccessModel _verifyForgotEmailModel;
-  CommonSuccessModel get verifyForgotEmailModel => _verifyForgotEmailModel;
+  CommonSuccessModel? _verifyForgotEmailModel;
+  CommonSuccessModel get verifyForgotEmailModel => _verifyForgotEmailModel!;
 
   Future<CommonSuccessModel> verifyForgotEmailProcess({
     required String otpCode,
@@ -307,7 +307,7 @@ class SignInController extends GetxController {
 
     _isLoading2.value = false;
     update();
-    return _verifyForgotEmailModel;
+    return _verifyForgotEmailModel!;
   }
 
   // Forgot password phone

@@ -15,9 +15,9 @@ return new class extends Migration
     {
         Schema::create('topup_categories', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('admin_id');
-            $table->string('name', 100)->nullable();
-            $table->string('slug', 200)->nullable();
+            $table->unsignedBigInteger("admin_id");
+            $table->string('name',100)->nullable();
+            $table->string('slug',200)->nullable();
             $table->boolean('status')->default(1);
             $table->timestamps();
 

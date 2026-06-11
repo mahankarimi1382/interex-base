@@ -15,7 +15,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('stripe_virtual_cards', function (Blueprint $table) {
-            $table->enum('mode', [
+            $table->enum("mode",[
                 GlobalConst::SANDBOX,
                 GlobalConst::LIVE,
             ]);

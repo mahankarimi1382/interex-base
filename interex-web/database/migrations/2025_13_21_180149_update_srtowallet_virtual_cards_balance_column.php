@@ -1,9 +1,10 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
+use App\Constants\GlobalConst;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
 
 return new class extends Migration
 {
@@ -17,10 +18,10 @@ return new class extends Migration
         Schema::table('strowallet_virtual_cards', function (Blueprint $table) {
 
             DB::statement("UPDATE strowallet_virtual_cards SET balance = REPLACE(balance, ',', '')");
-            DB::statement('
+            DB::statement("
                 ALTER TABLE strowallet_virtual_cards
                 MODIFY balance DECIMAL(28,8) UNSIGNED NOT NULL DEFAULT 0.00000000
-            ');
+            ");
 
         });
     }
@@ -32,9 +33,9 @@ return new class extends Migration
      */
     public function down()
     {
-        DB::statement('
+        DB::statement("
             ALTER TABLE strowallet_virtual_cards
             MODIFY balance VARCHAR(255) NOT NULL
-        ');
+        ");
     }
 };

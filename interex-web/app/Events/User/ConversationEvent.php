@@ -2,8 +2,8 @@
 
 namespace App\Events\User;
 
+use App\Models\Admin\Property;
 use App\Models\Chatbox;
-use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Foundation\Events\Dispatchable;
@@ -14,13 +14,9 @@ class ConversationEvent implements ShouldBroadcastNow
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public $chatBox;
-
     public $conversation;
-
     public $senderImage;
-
     public $attachments;
-
     /**
      * Create a new event instance.
      *
@@ -37,13 +33,12 @@ class ConversationEvent implements ShouldBroadcastNow
     /**
      * Get the channels the event should broadcast on.
      *
-     * @return Channel|array
+     * @return \Illuminate\Broadcasting\Channel|array
      */
     public function broadcastOn()
     {
-        return ['support.conversation.'.$this->chatBox->id];
+        return ["support.conversation.".$this->chatBox->id];
     }
-
     public function broadcastAs()
     {
         return 'conversation';

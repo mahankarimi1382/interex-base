@@ -7,6 +7,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Helpers\Api\Helpers;
 use App\Models\Admin\BasicSettings;
 use App\Models\Admin\Currency;
+use App\Models\Admin\ReceiverCounty;
+use App\Models\Agent;
 use App\Models\AgentRecipient;
 use App\Models\RemitanceBankDeposit;
 use App\Models\RemitanceCashPickup;
@@ -18,66 +20,65 @@ use Illuminate\Support\Str;
 
 class RecipientController extends Controller
 {
-    // =============================Basic Endpoints Recipient Start================================================
-    public function dynamicFields()
-    {
+//=============================Basic Endpoints Recipient Start================================================
+    public function dynamicFields(){
         $bank_deposit = [
             [
-                'field_name' => 'transaction_type',
-                'label_name' => 'Transaction Type',
+                'field_name' => "transaction_type",
+                'label_name' => "Transaction Type",
             ],
             [
-                'field_name' => 'recipient_type',
-                'label_name' => 'Transaction Type',
+                'field_name' => "recipient_type",
+                'label_name' => "Transaction Type",
             ],
             [
-                'field_name' => 'firstname',
-                'label_name' => 'First Name',
+                'field_name' => "firstname",
+                'label_name' => "First Name",
             ],
             [
-                'field_name' => 'lastname',
-                'label_name' => 'Last Name',
+                'field_name' => "lastname",
+                'label_name' => "Last Name",
             ],
             [
-                'field_name' => 'email',
-                'label_name' => 'Email',
+                'field_name' => "email",
+                'label_name' => "Email",
             ],
 
             [
-                'field_name' => 'country',
-                'label_name' => 'Country',
+                'field_name' => "country",
+                'label_name' => "Country",
             ],
             [
-                'field_name' => 'address',
-                'label_name' => 'Address ',
+                'field_name' => "address",
+                'label_name' => "Address ",
             ],
             [
-                'field_name' => 'state',
-                'label_name' => 'State',
+                'field_name' => "state",
+                'label_name' => "State",
             ],
             [
-                'field_name' => 'city',
-                'label_name' => 'City',
+                'field_name' => "city",
+                'label_name' => "City",
             ],
             [
-                'field_name' => 'zip',
-                'label_name' => 'Zip Code',
+                'field_name' => "zip",
+                'label_name' => "Zip Code",
             ],
             [
-                'field_name' => 'mobile_code',
-                'label_name' => 'Dial Code',
+                'field_name' => "mobile_code",
+                'label_name' => "Dial Code",
             ],
             [
-                'field_name' => 'mobile',
-                'label_name' => 'Phone Number',
+                'field_name' => "mobile",
+                'label_name' => "Phone Number",
             ],
             [
-                'field_name' => 'bank',
-                'label_name' => 'Select Bank',
+                'field_name' => "bank",
+                'label_name' => "Select Bank",
             ],
             [
-                'field_name' => 'account_number',
-                'label_name' => 'Account Number',
+                'field_name' => "account_number",
+                'label_name' => "Account Number",
             ],
 
         ];
@@ -85,224 +86,213 @@ class RecipientController extends Controller
 
         $wallet_to_wallet = [
             [
-                'field_name' => 'transaction_type',
-                'label_name' => 'Transaction Type',
+                'field_name' => "transaction_type",
+                'label_name' => "Transaction Type",
             ],
             [
-                'field_name' => 'country',
-                'label_name' => 'Country',
+                'field_name' => "country",
+                'label_name' => "Country",
             ],
             [
-                'field_name' => 'mobile_code',
-                'label_name' => 'Dial Code',
+                'field_name' => "mobile_code",
+                'label_name' => "Dial Code",
             ],
             [
-                'field_name' => 'mobile',
-                'label_name' => 'Phone Number',
+                'field_name' => "mobile",
+                'label_name' => "Phone Number",
             ],
 
             [
-                'field_name' => 'firstname',
-                'label_name' => 'First Name',
+                'field_name' => "firstname",
+                'label_name' => "First Name",
             ],
             [
-                'field_name' => 'lastname',
-                'label_name' => 'Last Name',
+                'field_name' => "lastname",
+                'label_name' => "Last Name",
             ],
             [
-                'field_name' => 'email',
-                'label_name' => 'Email',
+                'field_name' => "email",
+                'label_name' => "Email",
             ],
 
             [
-                'field_name' => 'address',
-                'label_name' => 'Address ',
+                'field_name' => "address",
+                'label_name' => "Address ",
             ],
             [
-                'field_name' => 'state',
-                'label_name' => 'State',
+                'field_name' => "state",
+                'label_name' => "State",
             ],
             [
-                'field_name' => 'city',
-                'label_name' => 'City',
+                'field_name' => "city",
+                'label_name' => "City",
             ],
             [
-                'field_name' => 'zip',
-                'label_name' => 'Zip Code',
-            ],
+                'field_name' => "zip",
+                'label_name' => "Zip Code",
+            ]
+
 
         ];
         $wallet_to_wallet = (array) $wallet_to_wallet;
 
         $cash_pickup = [
             [
-                'field_name' => 'transaction_type',
-                'label_name' => 'Transaction Type',
+                'field_name' => "transaction_type",
+                'label_name' => "Transaction Type",
             ],
             [
-                'field_name' => 'firstname',
-                'label_name' => 'First Name',
+                'field_name' => "firstname",
+                'label_name' => "First Name",
             ],
             [
-                'field_name' => 'lastname',
-                'label_name' => 'Last Name',
+                'field_name' => "lastname",
+                'label_name' => "Last Name",
             ],
             [
-                'field_name' => 'email',
-                'label_name' => 'Email',
+                'field_name' => "email",
+                'label_name' => "Email",
             ],
             [
-                'field_name' => 'country',
-                'label_name' => 'Country',
+                'field_name' => "country",
+                'label_name' => "Country",
             ],
             [
-                'field_name' => 'address',
-                'label_name' => 'Address ',
+                'field_name' => "address",
+                'label_name' => "Address ",
             ],
             [
-                'field_name' => 'state',
-                'label_name' => 'State',
+                'field_name' => "state",
+                'label_name' => "State",
             ],
             [
-                'field_name' => 'city',
-                'label_name' => 'City',
+                'field_name' => "city",
+                'label_name' => "City",
             ],
             [
-                'field_name' => 'zip',
-                'label_name' => 'Zip Code',
+                'field_name' => "zip",
+                'label_name' => "Zip Code",
             ],
             [
-                'field_name' => 'mobile_code',
-                'label_name' => 'Dial Code',
+                'field_name' => "mobile_code",
+                'label_name' => "Dial Code",
             ],
             [
-                'field_name' => 'mobile',
-                'label_name' => 'Phone Number',
+                'field_name' => "mobile",
+                'label_name' => "Phone Number",
             ],
             [
-                'field_name' => 'cash_pickup',
-                'label_name' => 'Pickup Point',
+                'field_name' => "cash_pickup",
+                'label_name' => "Pickup Point",
             ],
 
         ];
         $cash_pickup = (array) $cash_pickup;
-        $message = ['success' => [__('Recipient Store/Update Fields Name')]];
+        $message =  ['success'=>[__('Recipient Store/Update Fields Name')]];
         $data = [
             Str::slug(GlobalConst::TRX_BANK_TRANSFER) => $bank_deposit,
             Str::slug(GlobalConst::TRX_WALLET_TO_WALLET_TRANSFER) => $wallet_to_wallet,
             Str::slug(GlobalConst::TRX_CASH_PICKUP) => $cash_pickup,
         ];
-
-        return Helpers::success($data, $message);
+        return Helpers::success($data,$message);
 
     }
-
-    public function saveRecipientInfo()
-    {
+    public function saveRecipientInfo(){
         $basic_settings = BasicSettings::first();
         $transactionType = [
             [
-                'id' => 1,
+                'id'    => 1,
                 'field_name' => Str::slug(GlobalConst::TRX_BANK_TRANSFER),
-                'label_name' => 'Bank Transfer',
+                'label_name' => "Bank Transfer",
             ],
             [
-                'id' => 2,
-                'field_name' => Str::slug(GlobalConst::TRX_WALLET_TO_WALLET_TRANSFER),
+                'id'    => 2,
+                'field_name' =>Str::slug(GlobalConst::TRX_WALLET_TO_WALLET_TRANSFER),
                 'label_name' => $basic_settings->site_name.' Wallet',
             ],
 
             [
-                'id' => 3,
+                'id'    => 3,
                 'field_name' => Str::slug(GlobalConst::TRX_CASH_PICKUP),
-                'label_name' => 'Cash Pickup',
-            ],
-        ];
+                'label_name' => "Cash Pickup",
+            ]
+         ];
         $transaction_type = (array) $transactionType;
 
-        $receiverCountries = Currency::receiver()->active()->orderBy('id', 'DESC')->get()->map(function ($item) {
-            return [
-                'id' => $item->id,
-                'country' => $item->country,
+        $receiverCountries = Currency::receiver()->active()->orderBy('id',"DESC")->get()->map(function($item){
+            return[
+                'id' =>$item->id,
+                'country' =>$item->country,
                 'mobile_code' => remove_special_char(get_country_phone_code($item->country)),
-                'name' => $item->name,
-                'code' => $item->code,
-                'symbol' => $item->symbol,
-                'type' => $item->type,
-                'flag' => $item->flag,
-                'rate' => $item->rate,
-                'default' => $item->default,
-                'status' => $item->status,
-                'currencyImage' => $item->currencyImage,
-                'created_at' => $item->created_at,
+                'name' =>$item->name,
+                'code' =>$item->code,
+                'symbol' =>$item->symbol,
+                'type' =>$item->type,
+                'flag' =>$item->flag,
+                'rate' =>$item->rate,
+                'default' =>$item->default,
+                'status' =>$item->status,
+                'currencyImage' =>$item->currencyImage,
+                'created_at' =>$item->created_at,
             ];
 
         });
         $banks = RemitanceBankDeposit::active()->latest()->get();
         $cashPickups = RemitanceCashPickup::active()->latest()->get();
-        $data = [
+        $data =[
             'base_curr' => get_default_currency_code(),
-            'countryFlugPath' => 'backend/images/country-flag',
-            'default_image' => 'backend/images/default/default.webp',
-            'transactionTypes' => $transaction_type,
-            'receiverCountries' => $receiverCountries,
-            'banks' => $banks,
-            'cashPickupsPoints' => $cashPickups,
+            'countryFlugPath'       => 'backend/images/country-flag',
+            'default_image'         => "backend/images/default/default.webp",
+            'transactionTypes'      => $transaction_type,
+            'receiverCountries'     => $receiverCountries,
+            'banks'                 => $banks,
+            'cashPickupsPoints'     => $cashPickups,
         ];
-        $message = ['success' => ['Save Recipient Information']];
-
-        return Helpers::success($data, $message);
+        $message =  ['success'=>['Save Recipient Information']];
+        return Helpers::success($data,$message);
     }
-
-    public function checkUser(Request $request)
-    {
+    public function checkUser(Request $request){
         $validator = Validator::make(request()->all(), [
             'email' => 'required|email',
         ]);
-        if ($validator->fails()) {
-            $error = ['error' => $validator->errors()->all()];
-
+        if($validator->fails()){
+            $error =  ['error'=>$validator->errors()->all()];
             return Helpers::validation($error);
         }
         $validated = $validator->validate();
-        $field_name = 'email';
+        $field_name = "email";
 
-        try {
-            $user = User::where($field_name, $validated['email'])->first();
-            if ($user != null) {
-                if (authGuardApi()['user']->email === $user->email) {
-                    $error = ['error' => [__("Can't send remittance to your own")]];
-
+        try{
+            $user = User::where($field_name,$validated['email'])->first();
+            if($user != null) {
+                if(authGuardApi()['user']->email ===  $user->email){
+                    $error = ['error'=>[__("Can't send remittance to your own")]];
                     return Helpers::error($error);
                 }
             }
-            if (! $user) {
-                $error = ['error' => [__('User not found')]];
-
+            if(!$user){
+                $error = ['error'=>[__("User not found")]];
                 return Helpers::error($error);
             }
-            $data = [
+            $data =[
                 'user' => $user,
             ];
-            $message = ['success' => [__('Successfully get user')]];
-
-            return Helpers::success($data, $message);
-        } catch (Exception $e) {
-            $error = ['error' => [__('Something went wrong! Please try again.')]];
-
+            $message =  ['success'=>[__('Successfully get user')]];
+            return Helpers::success($data,$message);
+        }catch(Exception $e) {
+            $error = ['error'=>[__("Something went wrong! Please try again.")]];
             return Helpers::error($error);
         }
     }
-    // =============================Basic Endpoints Recipient Ended================================================
+//=============================Basic Endpoints Recipient Ended================================================
 
-    // =============================Sender Recipient Start================================================
-    public function recipientList()
-    {
+//=============================Sender Recipient Start================================================
+    public function recipientList(){
 
-        $recipients = AgentRecipient::auth()->sender()->orderByDesc('id')->get()->map(function ($data) {
+        $recipients = AgentRecipient::auth()->sender()->orderByDesc("id")->get()->map(function($data){
             $basic_settings = BasicSettings::first();
-            if ($data->type == Str::slug(GlobalConst::TRX_WALLET_TO_WALLET_TRANSFER)) {
-                return [
+            if($data->type == Str::slug(GlobalConst::TRX_WALLET_TO_WALLET_TRANSFER)){
+                return[
                     'id' => $data->id,
                     'country' => $data->country,
                     'country_name' => $data->receiver_country->country,
@@ -313,7 +303,7 @@ class RecipientController extends Controller
                     'firstname' => $data->firstname,
                     'lastname' => $data->lastname,
                     'email' => $data->email,
-                    'account_number' => $data->account_number ?? '',
+                    'account_number' => $data->account_number??'',
                     'mobile_code' => $data->mobile_code,
                     'mobile' => $data->mobile,
                     'city' => $data->city,
@@ -324,8 +314,8 @@ class RecipientController extends Controller
                     'updated_at' => $data->updated_at,
 
                 ];
-            } else {
-                return [
+            }else{
+                return[
                     'id' => $data->id,
                     'country' => $data->country,
                     'country_name' => $data->receiver_country->country,
@@ -338,7 +328,7 @@ class RecipientController extends Controller
                     'email' => $data->email,
                     'mobile_code' => $data->mobile_code,
                     'mobile' => $data->mobile,
-                    'account_number' => $data->account_number ?? '',
+                    'account_number' => $data->account_number??'',
                     'city' => $data->city,
                     'state' => $data->state,
                     'address' => $data->address,
@@ -351,129 +341,116 @@ class RecipientController extends Controller
             }
 
         });
-        $data = [
-            'sender_recipients' => $recipients,
+        $data =[
+            'sender_recipients'   => $recipients,
         ];
-        $message = ['success' => [__('My Sender Recipients')]];
-
-        return Helpers::success($data, $message);
+        $message =  ['success'=>[__('My Sender Recipients')]];
+        return Helpers::success($data,$message);
     }
-
-    public function storeRecipient(Request $request)
-    {
+    public function storeRecipient(Request $request){
         $user = authGuardApi()['user'];
-        if ($request->transaction_type == 'bank-transfer') {
+        if($request->transaction_type == 'bank-transfer') {
             $bankRules = 'required|string';
             $account_number = 'required|string|min:10|max:16';
-        } else {
+        }else {
             $bankRules = 'nullable|string';
             $account_number = 'nullable|string';
         }
 
-        if ($request->transaction_type == 'cash-pickup') {
-            $cashPickupRules = 'required|string';
-        } else {
-            $cashPickupRules = 'nullable';
+        if($request->transaction_type == 'cash-pickup') {
+            $cashPickupRules = "required|string";
+        }else {
+            $cashPickupRules = "nullable";
         }
 
         $validator = Validator::make(request()->all(), [
-            'transaction_type' => 'required|string',
-            'country' => 'required',
-            'firstname' => 'required|string',
-            'lastname' => 'required|string',
-            'email' => 'required|email',
-            'mobile' => 'required',
-            'mobile_code' => 'required',
-            'city' => 'required|string',
-            'address' => 'required|string',
-            'state' => 'required|string',
-            'zip' => 'required|string',
-            'bank' => $bankRules,
-            'cash_pickup' => $cashPickupRules,
-            'account_number' => $account_number,
+            'transaction_type'              =>'required|string',
+            'country'                      =>'required',
+            'firstname'                      =>'required|string',
+            'lastname'                      =>'required|string',
+            'email'                      =>"required|email",
+            'mobile'                      =>"required",
+            'mobile_code'                      =>'required',
+            'city'                      =>'required|string',
+            'address'                      =>'required|string',
+            'state'                      =>'required|string',
+            'zip'                      =>'required|string',
+            'bank'                      => $bankRules,
+            'cash_pickup'               => $cashPickupRules,
+            'account_number'            => $account_number,
         ]);
-        if ($validator->fails()) {
-            $error = ['error' => $validator->errors()->all()];
-
+        if($validator->fails()){
+            $error =  ['error'=>$validator->errors()->all()];
             return Helpers::validation($error);
         }
 
-        $country = Currency::where('id', $request->country)->first();
-        if (! $country) {
-            $error = ['error' => [__('Please select a valid country')]];
-
+        $country = Currency::where('id',$request->country)->first();
+        if(!$country){
+            $error = ['error'=>[__('Please select a valid country')]];
             return Helpers::error($error);
         }
         $countryId = $country->id;
 
-        if ($request->transaction_type == 'bank-transfer') {
-            $alias = $request->bank;
-            $details = RemitanceBankDeposit::where('alias', $alias)->first();
-            if (! $details) {
-                $error = ['error' => [__('Please select a valid bank')]];
-
+        if($request->transaction_type == 'bank-transfer') {
+            $alias  = $request->bank;
+            $details = RemitanceBankDeposit::where('alias',$alias)->first();
+            if( !$details){
+                $error = ['error'=>[__('Please select a valid bank')]];
                 return Helpers::error($error);
             }
-        } elseif ($request->transaction_type == 'cash-pickup') {
-            $alias = $request->cash_pickup;
-            $details = RemitanceCashPickup::where('alias', $alias)->first();
-            if (! $details) {
-                $error = ['error' => [__('Please select a valid cash pickup')]];
-
+        }elseif($request->transaction_type == 'cash-pickup'){
+            $alias  = $request->cash_pickup;
+            $details = RemitanceCashPickup::where('alias',$alias)->first();
+            if( !$details){
+                $error = ['error'=>[__('Please select a valid cash pickup')]];
                 return Helpers::error($error);
             }
-        } elseif ($request->transaction_type == 'wallet-to-wallet-transfer') {
-            $receiver = User::where('email', $request->email)->first();
-            if (! $receiver) {
-                $error = ['error' => [__('User not found')]];
-
+        }elseif($request->transaction_type == "wallet-to-wallet-transfer"){
+            $receiver = User::where('email',$request->email)->first();
+            if( !$receiver){
+                $error = ['error'=>[__('User not found')]];
                 return Helpers::error($error);
             }
             $details = $receiver;
-            $alias = $request->transaction_type;
+            $alias  = $request->transaction_type;
         }
 
-        $in['agent_id'] = $user->id;
-        $in['country'] = $countryId;
+        $in['agent_id'] =  $user->id;
+        $in['country'] =   $countryId;
         $in['type'] = $request->transaction_type;
         $in['recipient_type'] = GlobalConst::SENDER;
-        $in['alias'] = $alias;
+        $in['alias'] =   $alias;
         $in['firstname'] = $request->firstname;
         $in['lastname'] = $request->lastname;
         $in['state'] = $request->state;
         $in['email'] = $request->email;
         $in['mobile_code'] = remove_speacial_char($request->mobile_code);
-        $in['mobile'] = remove_speacial_char($request->mobile_code) == '880' ? (int) remove_speacial_char($request->mobile) : remove_speacial_char($request->mobile);
+        $in['mobile'] = remove_speacial_char($request->mobile_code) == "880"?(int)remove_speacial_char($request->mobile):remove_speacial_char($request->mobile) ;
         $in['city'] = $request->city;
         $in['address'] = $request->address;
         $in['zip_code'] = $request->zip;
-        $in['account_number'] = $request->account_number ?? null;
+        $in['account_number'] = $request->account_number??null;
         $in['details'] = json_encode($details);
-        try {
+        try{
             AgentRecipient::create($in);
-            $message = ['success' => [__('Sender recipient save successfully')]];
-
+            $message =  ['success'=>[__('Sender recipient save successfully')]];
             return Helpers::onlysuccess($message);
-        } catch (Exception $e) {
-            $error = ['error' => [__('Something went wrong! Please try again.')]];
-
+        }catch(Exception $e) {
+            $error = ['error'=>[__("Something went wrong! Please try again.")]];
             return Helpers::error($error);
         }
 
     }
-
-    public function editRecipient()
-    {
+    public function editRecipient(){
         $validator = Validator::make(request()->all(), [
-            'id' => 'required',
+            'id'              =>'required',
         ]);
-        if ($validator->fails()) {
-            $error = ['error' => $validator->errors()->all()];
-
+        if($validator->fails()){
+            $error =  ['error'=>$validator->errors()->all()];
             return Helpers::validation($error);
         }
-        $recipient = AgentRecipient::auth()->sender()->with('agent', 'receiver_country')->where('id', request()->id)->get()->map(function ($item) {
-            return [
+        $recipient = AgentRecipient::auth()->sender()->with('agent','receiver_country')->where('id',request()->id)->get()->map(function($item){
+            return[
                 'id' => $item->id,
                 'country' => $item->country,
                 'type' => $item->type,
@@ -482,7 +459,7 @@ class RecipientController extends Controller
                 'firstname' => $item->firstname,
                 'lastname' => $item->lastname,
                 'email' => $item->email,
-                'account_number' => $item->account_number ?? '',
+                'account_number' => $item->account_number??'',
                 'mobile_code' => $item->mobile_code,
                 'mobile' => $item->mobile,
                 'city' => $item->city,
@@ -494,212 +471,194 @@ class RecipientController extends Controller
 
             ];
         })->first();
-        if (! $recipient) {
-            $error = ['error' => [__('Invalid request, sender recipient not found!')]];
-
+        if( !$recipient){
+            $error = ['error'=>[__('Invalid request, sender recipient not found!')]];
             return Helpers::error($error);
         }
         $basic_settings = BasicSettings::first();
         $transactionType = [
             [
-                'id' => 1,
+                'id'    => 1,
                 'field_name' => Str::slug(GlobalConst::TRX_BANK_TRANSFER),
-                'label_name' => 'Bank Transfer',
+                'label_name' => "Bank Transfer",
             ],
             [
-                'id' => 2,
-                'field_name' => Str::slug(GlobalConst::TRX_WALLET_TO_WALLET_TRANSFER),
+                'id'    => 2,
+                'field_name' =>Str::slug(GlobalConst::TRX_WALLET_TO_WALLET_TRANSFER),
                 'label_name' => $basic_settings->site_name.' Wallet',
             ],
 
             [
-                'id' => 3,
+                'id'    => 3,
                 'field_name' => Str::slug(GlobalConst::TRX_CASH_PICKUP),
-                'label_name' => 'Cash Pickup',
-            ],
-        ];
+                'label_name' => "Cash Pickup",
+            ]
+         ];
         $transaction_type = (array) $transactionType;
 
-        $receiverCountries = Currency::receiver()->active()->orderBy('id', 'DESC')->get()->map(function ($item) {
-            return [
-                'id' => $item->id,
-                'country' => $item->country,
+        $receiverCountries = Currency::receiver()->active()->orderBy('id',"DESC")->get()->map(function($item){
+            return[
+                'id' =>$item->id,
+                'country' =>$item->country,
                 'mobile_code' => remove_special_char(get_country_phone_code($item->country)),
-                'name' => $item->name,
-                'code' => $item->code,
-                'symbol' => $item->symbol,
-                'type' => $item->type,
-                'flag' => $item->flag,
-                'rate' => $item->rate,
-                'default' => $item->default,
-                'status' => $item->status,
-                'currencyImage' => $item->currencyImage,
-                'created_at' => $item->created_at,
+                'name' =>$item->name,
+                'code' =>$item->code,
+                'symbol' =>$item->symbol,
+                'type' =>$item->type,
+                'flag' =>$item->flag,
+                'rate' =>$item->rate,
+                'default' =>$item->default,
+                'status' =>$item->status,
+                'currencyImage' =>$item->currencyImage,
+                'created_at' =>$item->created_at,
             ];
 
         });
         $banks = RemitanceBankDeposit::active()->latest()->get();
         $cashPickups = RemitanceCashPickup::active()->latest()->get();
-        $data = [
-            'recipient' => (object) $recipient,
+        $data =[
+            'recipient' => (object)$recipient,
             'base_curr' => get_default_currency_code(),
-            'countryFlugPath' => 'backend/images/country-flag',
-            'default_image' => 'backend/images/default/default.webp',
-            'transactionTypes' => $transaction_type,
-            'receiverCountries' => $receiverCountries,
-            'banks' => $banks,
-            'cashPickupsPoints' => $cashPickups,
+            'countryFlugPath'   => 'backend/images/country-flag',
+            'default_image'    => "backend/images/default/default.webp",
+            'transactionTypes'   => $transaction_type,
+            'receiverCountries'   => $receiverCountries,
+            'banks'   => $banks,
+            'cashPickupsPoints'   => $cashPickups,
         ];
-        $message = ['success' => [__('Successfully get sender recipient')]];
-
-        return Helpers::success($data, $message);
+        $message =  ['success'=>[__('Successfully get sender recipient')]];
+        return Helpers::success($data,$message);
     }
-
-    public function updateRecipient(Request $request)
-    {
-        if ($request->transaction_type == 'bank-transfer') {
+    public function updateRecipient(Request $request){
+        if($request->transaction_type == 'bank-transfer') {
             $bankRules = 'required|string';
             $account_number = 'required|string|min:10|max:16';
-        } else {
+        }else {
             $bankRules = 'nullable|string';
             $account_number = 'nullable|string';
         }
 
-        if ($request->transaction_type == 'cash-pickup') {
-            $cashPickupRules = 'required|string';
-        } else {
-            $cashPickupRules = 'nullable';
+        if($request->transaction_type == 'cash-pickup') {
+            $cashPickupRules = "required|string";
+        }else {
+            $cashPickupRules = "nullable";
         }
         $validator = Validator::make(request()->all(), [
-            'id' => 'required|string',
-            'transaction_type' => 'required|string',
-            'country' => 'required',
-            'firstname' => 'required|string',
-            'lastname' => 'required|string',
-            'email' => 'required|email',
-            'mobile' => 'required',
-            'mobile_code' => 'required',
-            'city' => 'required|string',
-            'address' => 'required|string',
-            'state' => 'required|string',
-            'zip' => 'required|string',
-            'bank' => $bankRules,
-            'cash_pickup' => $cashPickupRules,
-            'account_number' => $account_number,
+            'id'              =>'required|string',
+            'transaction_type'              =>'required|string',
+            'country'                      =>'required',
+            'firstname'                      =>'required|string',
+            'lastname'                      =>'required|string',
+            'email'                      =>"required|email",
+            'mobile'                      =>"required",
+            'mobile_code'                      =>'required',
+            'city'                      =>'required|string',
+            'address'                      =>'required|string',
+            'state'                      =>'required|string',
+            'zip'                      =>'required|string',
+            'bank'                      => $bankRules,
+            'cash_pickup'               => $cashPickupRules,
+            'account_number'             => $account_number,
         ]);
-        if ($validator->fails()) {
-            $error = ['error' => $validator->errors()->all()];
-
+        if($validator->fails()){
+            $error =  ['error'=>$validator->errors()->all()];
             return Helpers::validation($error);
         }
         $user = authGuardApi()['user'];
-        $data = AgentRecipient::auth()->sender()->with('agent', 'receiver_country')->where('id', $request->id)->first();
-        if (! $data) {
-            $error = ['error' => [__('Invalid request, sender recipient not found')]];
-
+        $data =  AgentRecipient::auth()->sender()->with('agent','receiver_country')->where('id',$request->id)->first();
+        if( !$data){
+            $error = ['error'=>[__('Invalid request, sender recipient not found')]];
             return Helpers::error($error);
         }
 
-        $country = Currency::where('id', $request->country)->first();
-        if (! $country) {
-            $error = ['error' => [__('Please select a valid country')]];
 
+        $country = Currency::where('id',$request->country)->first();
+        if(!$country){
+            $error = ['error'=>[__('Please select a valid country')]];
             return Helpers::error($error);
         }
         $countryId = $country->id;
-        if ($request->transaction_type == 'bank-transfer') {
-            $alias = $request->bank;
-            $details = RemitanceBankDeposit::where('alias', $alias)->first();
-            if (! $details) {
-                $error = ['error' => [__('Please select a valid bank')]];
-
+        if($request->transaction_type == 'bank-transfer') {
+            $alias  = $request->bank;
+            $details = RemitanceBankDeposit::where('alias',$alias)->first();
+            if( !$details){
+                $error = ['error'=>[__('Please select a valid bank')]];
                 return Helpers::error($error);
             }
-        } elseif ($request->transaction_type == 'cash-pickup') {
-            $alias = $request->cash_pickup;
-            $details = RemitanceCashPickup::where('alias', $alias)->first();
-            if (! $details) {
-                $error = ['error' => [__('Please select a valid cash pickup')]];
-
+        }elseif($request->transaction_type == 'cash-pickup'){
+            $alias  = $request->cash_pickup;
+            $details = RemitanceCashPickup::where('alias',$alias)->first();
+            if( !$details){
+                $error = ['error'=>[__('Please select a valid cash pickup')]];
                 return Helpers::error($error);
             }
-        } elseif ($request->transaction_type == 'wallet-to-wallet-transfer') {
-            $receiver = User::where('email', $request->email)->first();
-            if (! $receiver) {
-                $error = ['error' => [__('User not found!')]];
-
+        }elseif($request->transaction_type == "wallet-to-wallet-transfer"){
+            $receiver = User::where('email',$request->email)->first();
+            if( !$receiver){
+                $error = ['error'=>[__('User not found!')]];
                 return Helpers::error($error);
             }
             $details = $receiver;
-            $alias = $request->transaction_type;
+            $alias  = $request->transaction_type;
         }
 
-        $in['agent_id'] = $user->id;
-        $in['country'] = $countryId;
+        $in['agent_id'] =  $user->id;
+        $in['country'] =   $countryId;
         $in['type'] = $request->transaction_type;
         $in['recipient_type'] = GlobalConst::SENDER;
-        $in['alias'] = $alias;
+        $in['alias'] =   $alias;
         $in['firstname'] = $request->firstname;
         $in['lastname'] = $request->lastname;
         $in['state'] = $request->state;
         $in['email'] = $request->email;
         $in['mobile_code'] = remove_speacial_char($request->mobile_code);
-        $in['mobile'] = remove_speacial_char($request->mobile_code) == '880' ? (int) remove_speacial_char($request->mobile) : remove_speacial_char($request->mobile);
+        $in['mobile'] = remove_speacial_char($request->mobile_code) == "880"?(int)remove_speacial_char($request->mobile):remove_speacial_char($request->mobile) ;
         $in['city'] = $request->city;
         $in['address'] = $request->address;
         $in['zip_code'] = $request->zip;
-        $in['account_number'] = $request->account_number ?? null;
+        $in['account_number'] = $request->account_number??null;
         $in['details'] = json_encode($details);
-        try {
+        try{
             $data->fill($in)->save();
-            $message = ['success' => [__('Sender recipient updated successfully')]];
-
+            $message =  ['success'=>[__('Sender recipient updated successfully')]];
             return Helpers::onlysuccess($message);
-        } catch (Exception $e) {
-            $error = ['error' => [__('Something went wrong! Please try again.')]];
-
+        }catch(Exception $e) {
+            $error = ['error'=>[__("Something went wrong! Please try again.")]];
             return Helpers::error($error);
         }
 
     }
-
-    public function deleteRecipient(Request $request)
-    {
+    public function deleteRecipient(Request $request){
         $validator = Validator::make(request()->all(), [
-            'id' => 'required',
+            'id'              =>'required',
         ]);
-        if ($validator->fails()) {
-            $error = ['error' => $validator->errors()->all()];
-
+        if($validator->fails()){
+            $error =  ['error'=>$validator->errors()->all()];
             return Helpers::validation($error);
         }
-        $recipient = AgentRecipient::auth()->sender()->where('id', $request->id)->first();
-        if (! $recipient) {
-            $error = ['error' => [__('Invalid request')]];
-
+        $recipient = AgentRecipient::auth()->sender()->where('id',$request->id)->first();
+        if(!$recipient){
+            $error = ['error'=>[__('Invalid request')]];
             return Helpers::error($error);
         }
-        try {
+        try{
             $recipient->delete();
-            $message = ['success' => [__('Recipient deleted successfully')]];
-
+            $message =  ['success'=>[__('Recipient deleted successfully')]];
             return Helpers::onlysuccess($message);
-        } catch (Exception $e) {
-            $error = ['error' => [__('Something went wrong! Please try again.')]];
-
+        }catch(Exception $e) {
+            $error = ['error'=>[__("Something went wrong! Please try again.")]];
             return Helpers::error($error);
         }
 
     }
-    // =============================Sender Recipient End==================================================
+   //=============================Sender Recipient End==================================================
 
-    // =============================Receiver Recipient Start================================================
-    public function recipientListReceiver()
-    {
-        $recipients = AgentRecipient::auth()->receiver()->orderByDesc('id')->get()->map(function ($data) {
+   //=============================Receiver Recipient Start================================================
+    public function recipientListReceiver(){
+        $recipients = AgentRecipient::auth()->receiver()->orderByDesc("id")->get()->map(function($data){
             $basic_settings = BasicSettings::first();
-            if ($data->type == Str::slug(GlobalConst::TRX_WALLET_TO_WALLET_TRANSFER)) {
-                return [
+            if($data->type == Str::slug(GlobalConst::TRX_WALLET_TO_WALLET_TRANSFER)){
+                return[
                     'id' => $data->id,
                     'country' => $data->country,
                     'country_name' => $data->receiver_country->country,
@@ -710,7 +669,7 @@ class RecipientController extends Controller
                     'firstname' => $data->firstname,
                     'lastname' => $data->lastname,
                     'email' => $data->email,
-                    'account_number' => $data->account_number ?? '',
+                    'account_number' => $data->account_number??'',
                     'mobile_code' => $data->mobile_code,
                     'mobile' => $data->mobile,
                     'city' => $data->city,
@@ -721,8 +680,8 @@ class RecipientController extends Controller
                     'updated_at' => $data->updated_at,
 
                 ];
-            } else {
-                return [
+            }else{
+                return[
                     'id' => $data->id,
                     'country' => $data->country,
                     'country_name' => $data->receiver_country->country,
@@ -733,7 +692,7 @@ class RecipientController extends Controller
                     'firstname' => $data->firstname,
                     'lastname' => $data->lastname,
                     'email' => $data->email,
-                    'account_number' => $data->account_number ?? '',
+                    'account_number' => $data->account_number??'',
                     'mobile_code' => $data->mobile_code,
                     'mobile' => $data->mobile,
                     'city' => $data->city,
@@ -748,130 +707,117 @@ class RecipientController extends Controller
             }
 
         });
-        $data = [
-            'receiver_recipients' => $recipients,
+        $data =[
+            'receiver_recipients'   => $recipients,
         ];
-        $message = ['success' => [__('My Receiver Recipients')]];
-
-        return Helpers::success($data, $message);
+        $message =  ['success'=>[__('My Receiver Recipients')]];
+        return Helpers::success($data,$message);
     }
-
-    public function storeRecipientReceiver(Request $request)
-    {
+    public function storeRecipientReceiver(Request $request){
         $user = authGuardApi()['user'];
-        if ($request->transaction_type == 'bank-transfer') {
+        if($request->transaction_type == 'bank-transfer') {
             $bankRules = 'required|string';
             $account_number = 'required|string|min:10|max:16';
-        } else {
+        }else {
             $bankRules = 'nullable|string';
             $account_number = 'nullable|string';
         }
 
-        if ($request->transaction_type == 'cash-pickup') {
-            $cashPickupRules = 'required|string';
-        } else {
-            $cashPickupRules = 'nullable';
+        if($request->transaction_type == 'cash-pickup') {
+            $cashPickupRules = "required|string";
+        }else {
+            $cashPickupRules = "nullable";
         }
 
         $validator = Validator::make(request()->all(), [
-            'transaction_type' => 'required|string',
-            'country' => 'required',
-            'firstname' => 'required|string',
-            'lastname' => 'required|string',
-            'email' => 'required|email',
-            'mobile' => 'required',
-            'mobile_code' => 'required',
-            'city' => 'required|string',
-            'address' => 'required|string',
-            'state' => 'required|string',
-            'zip' => 'required|string',
-            'bank' => $bankRules,
-            'cash_pickup' => $cashPickupRules,
-            'account_number' => $account_number,
+            'transaction_type'              =>'required|string',
+            'country'                      =>'required',
+            'firstname'                      =>'required|string',
+            'lastname'                      =>'required|string',
+            'email'                      =>"required|email",
+            'mobile'                      =>"required",
+            'mobile_code'                      =>'required',
+            'city'                      =>'required|string',
+            'address'                      =>'required|string',
+            'state'                      =>'required|string',
+            'zip'                      =>'required|string',
+            'bank'                      => $bankRules,
+            'cash_pickup'               => $cashPickupRules,
+            'account_number'             => $account_number,
 
         ]);
-        if ($validator->fails()) {
-            $error = ['error' => $validator->errors()->all()];
-
+        if($validator->fails()){
+            $error =  ['error'=>$validator->errors()->all()];
             return Helpers::validation($error);
         }
 
-        $country = Currency::where('id', $request->country)->first();
-        if (! $country) {
-            $error = ['error' => [__('Please select a valid country')]];
-
+        $country = Currency::where('id',$request->country)->first();
+        if(!$country){
+            $error = ['error'=>[__('Please select a valid country')]];
             return Helpers::error($error);
         }
         $countryId = $country->id;
 
-        if ($request->transaction_type == 'bank-transfer') {
-            $alias = $request->bank;
-            $details = RemitanceBankDeposit::where('alias', $alias)->first();
-            if (! $details) {
-                $error = ['error' => [__('Please select a valid bank')]];
-
+        if($request->transaction_type == 'bank-transfer') {
+            $alias  = $request->bank;
+            $details = RemitanceBankDeposit::where('alias',$alias)->first();
+            if( !$details){
+                $error = ['error'=>[__('Please select a valid bank')]];
                 return Helpers::error($error);
             }
-        } elseif ($request->transaction_type == 'cash-pickup') {
-            $alias = $request->cash_pickup;
-            $details = RemitanceCashPickup::where('alias', $alias)->first();
-            if (! $details) {
-                $error = ['error' => [__('Please select a valid cash pickup')]];
-
+        }elseif($request->transaction_type == 'cash-pickup'){
+            $alias  = $request->cash_pickup;
+            $details = RemitanceCashPickup::where('alias',$alias)->first();
+            if( !$details){
+                $error = ['error'=>[__('Please select a valid cash pickup')]];
                 return Helpers::error($error);
             }
-        } elseif ($request->transaction_type == 'wallet-to-wallet-transfer') {
-            $receiver = User::where('email', $request->email)->first();
-            if (! $receiver) {
-                $error = ['error' => [__('User not found!')]];
-
+        }elseif($request->transaction_type == "wallet-to-wallet-transfer"){
+            $receiver = User::where('email',$request->email)->first();
+            if( !$receiver){
+                $error = ['error'=>[__('User not found!')]];
                 return Helpers::error($error);
             }
             $details = $receiver;
-            $alias = $request->transaction_type;
+            $alias  = $request->transaction_type;
         }
 
-        $in['agent_id'] = $user->id;
-        $in['country'] = $countryId;
+        $in['agent_id'] =  $user->id;
+        $in['country'] =   $countryId;
         $in['type'] = $request->transaction_type;
         $in['recipient_type'] = GlobalConst::RECEIVER;
-        $in['alias'] = $alias;
+        $in['alias'] =   $alias;
         $in['firstname'] = $request->firstname;
         $in['lastname'] = $request->lastname;
         $in['state'] = $request->state;
         $in['email'] = $request->email;
         $in['mobile_code'] = remove_speacial_char($request->mobile_code);
-        $in['mobile'] = remove_speacial_char($request->mobile_code) == '880' ? (int) remove_speacial_char($request->mobile) : remove_speacial_char($request->mobile);
+        $in['mobile'] = remove_speacial_char($request->mobile_code) == "880"?(int)remove_speacial_char($request->mobile):remove_speacial_char($request->mobile) ;
         $in['city'] = $request->city;
         $in['address'] = $request->address;
         $in['zip_code'] = $request->zip;
-        $in['account_number'] = $request->account_number ?? null;
+        $in['account_number'] = $request->account_number??null;
         $in['details'] = json_encode($details);
-        try {
+        try{
             AgentRecipient::create($in);
-            $message = ['success' => [__('Receiver recipient save successfully')]];
-
+            $message =  ['success'=>[__('Receiver recipient save successfully')]];
             return Helpers::onlysuccess($message);
-        } catch (Exception $e) {
-            $error = ['error' => [__('Something went wrong! Please try again.')]];
-
+        }catch(Exception $e) {
+            $error = ['error'=>[__("Something went wrong! Please try again.")]];
             return Helpers::error($error);
         }
 
     }
-
-    public function editRecipientReceiver()
-    {
+    public function editRecipientReceiver(){
         $validator = Validator::make(request()->all(), [
-            'id' => 'required',
+            'id'              =>'required',
         ]);
-        if ($validator->fails()) {
-            $error = ['error' => $validator->errors()->all()];
-
+        if($validator->fails()){
+            $error =  ['error'=>$validator->errors()->all()];
             return Helpers::validation($error);
         }
-        $recipient = AgentRecipient::auth()->receiver()->with('agent', 'receiver_country')->where('id', request()->id)->get()->map(function ($item) {
-            return [
+        $recipient = AgentRecipient::auth()->receiver()->with('agent','receiver_country')->where('id',request()->id)->get()->map(function($item){
+            return[
                 'id' => $item->id,
                 'country' => $item->country,
                 'type' => $item->type,
@@ -880,7 +826,7 @@ class RecipientController extends Controller
                 'firstname' => $item->firstname,
                 'lastname' => $item->lastname,
                 'email' => $item->email,
-                'account_number' => $item->account_number ?? '',
+                'account_number' => $item->account_number??'',
                 'mobile_code' => $item->mobile_code,
                 'mobile' => $item->mobile,
                 'city' => $item->city,
@@ -892,203 +838,185 @@ class RecipientController extends Controller
 
             ];
         })->first();
-        if (! $recipient) {
-            $error = ['error' => [__('Invalid request, sender recipient not found!')]];
-
+        if( !$recipient){
+            $error = ['error'=>[__('Invalid request, sender recipient not found!')]];
             return Helpers::error($error);
         }
         $basic_settings = BasicSettings::first();
         $transactionType = [
             [
-                'id' => 1,
+                'id'    => 1,
                 'field_name' => Str::slug(GlobalConst::TRX_BANK_TRANSFER),
-                'label_name' => 'Bank Transfer',
+                'label_name' => "Bank Transfer",
             ],
             [
-                'id' => 2,
-                'field_name' => Str::slug(GlobalConst::TRX_WALLET_TO_WALLET_TRANSFER),
+                'id'    => 2,
+                'field_name' =>Str::slug(GlobalConst::TRX_WALLET_TO_WALLET_TRANSFER),
                 'label_name' => $basic_settings->site_name.' Wallet',
             ],
 
             [
-                'id' => 3,
+                'id'    => 3,
                 'field_name' => Str::slug(GlobalConst::TRX_CASH_PICKUP),
-                'label_name' => 'Cash Pickup',
-            ],
+                'label_name' => "Cash Pickup",
+            ]
         ];
         $transaction_type = (array) $transactionType;
 
-        $receiverCountries = Currency::receiver()->active()->orderBy('id', 'DESC')->get()->map(function ($item) {
-            return [
-                'id' => $item->id,
-                'country' => $item->country,
+        $receiverCountries = Currency::receiver()->active()->orderBy('id',"DESC")->get()->map(function($item){
+            return[
+                'id' =>$item->id,
+                'country' =>$item->country,
                 'mobile_code' => remove_special_char(get_country_phone_code($item->country)),
-                'name' => $item->name,
-                'code' => $item->code,
-                'symbol' => $item->symbol,
-                'type' => $item->type,
-                'flag' => $item->flag,
-                'rate' => $item->rate,
-                'default' => $item->default,
-                'status' => $item->status,
-                'currencyImage' => $item->currencyImage,
-                'created_at' => $item->created_at,
+                'name' =>$item->name,
+                'code' =>$item->code,
+                'symbol' =>$item->symbol,
+                'type' =>$item->type,
+                'flag' =>$item->flag,
+                'rate' =>$item->rate,
+                'default' =>$item->default,
+                'status' =>$item->status,
+                'currencyImage' =>$item->currencyImage,
+                'created_at' =>$item->created_at,
             ];
 
         });
 
         $banks = RemitanceBankDeposit::active()->latest()->get();
         $cashPickups = RemitanceCashPickup::active()->latest()->get();
-        $data = [
-            'recipient' => (object) $recipient,
+        $data =[
+            'recipient' => (object)$recipient,
             'base_curr' => get_default_currency_code(),
-            'countryFlugPath' => 'backend/images/country-flag',
-            'default_image' => 'backend/images/default/default.webp',
-            'transactionTypes' => $transaction_type,
-            'receiverCountries' => $receiverCountries,
-            'banks' => $banks,
-            'cashPickupsPoints' => $cashPickups,
+            'countryFlugPath'   => 'backend/images/country-flag',
+            'default_image'    => "backend/images/default/default.webp",
+            'transactionTypes'   => $transaction_type,
+            'receiverCountries'   => $receiverCountries,
+            'banks'   => $banks,
+            'cashPickupsPoints'   => $cashPickups,
         ];
-        $message = ['success' => [__('Successfully get receiver recipient')]];
-
-        return Helpers::success($data, $message);
+        $message =  ['success'=>[__('Successfully get receiver recipient')]];
+        return Helpers::success($data,$message);
     }
-
-    public function updateRecipientReceiver(Request $request)
-    {
-        if ($request->transaction_type == 'bank-transfer') {
+    public function updateRecipientReceiver(Request $request){
+        if($request->transaction_type == 'bank-transfer') {
             $bankRules = 'required|string';
             $account_number = 'required|string|min:10|max:16';
-        } else {
+        }else {
             $bankRules = 'nullable|string';
             $account_number = 'nullable|string';
         }
 
-        if ($request->transaction_type == 'cash-pickup') {
-            $cashPickupRules = 'required|string';
-        } else {
-            $cashPickupRules = 'nullable';
+        if($request->transaction_type == 'cash-pickup') {
+            $cashPickupRules = "required|string";
+        }else {
+            $cashPickupRules = "nullable";
         }
         $validator = Validator::make(request()->all(), [
-            'id' => 'required|string',
-            'transaction_type' => 'required|string',
-            'country' => 'required',
-            'firstname' => 'required|string',
-            'lastname' => 'required|string',
-            'email' => 'required|email',
-            'mobile' => 'required',
-            'mobile_code' => 'required',
-            'city' => 'required|string',
-            'address' => 'required|string',
-            'state' => 'required|string',
-            'zip' => 'required|string',
-            'bank' => $bankRules,
-            'cash_pickup' => $cashPickupRules,
-            'account_number' => $account_number,
+            'id'              =>'required|string',
+            'transaction_type'              =>'required|string',
+            'country'                      =>'required',
+            'firstname'                      =>'required|string',
+            'lastname'                      =>'required|string',
+            'email'                      =>"required|email",
+            'mobile'                      =>"required",
+            'mobile_code'                      =>'required',
+            'city'                      =>'required|string',
+            'address'                      =>'required|string',
+            'state'                      =>'required|string',
+            'zip'                      =>'required|string',
+            'bank'                      => $bankRules,
+            'cash_pickup'               => $cashPickupRules,
+            'account_number'             => $account_number,
         ]);
-        if ($validator->fails()) {
-            $error = ['error' => $validator->errors()->all()];
-
+        if($validator->fails()){
+            $error =  ['error'=>$validator->errors()->all()];
             return Helpers::validation($error);
         }
         $user = authGuardApi()['user'];
-        $data = AgentRecipient::auth()->receiver()->with('agent', 'receiver_country')->where('id', $request->id)->first();
-        if (! $data) {
-            $error = ['error' => [__('Invalid request, receiver recipient not found!')]];
-
+        $data =  AgentRecipient::auth()->receiver()->with('agent','receiver_country')->where('id',$request->id)->first();
+        if( !$data){
+            $error = ['error'=>[__('Invalid request, receiver recipient not found!')]];
             return Helpers::error($error);
         }
 
-        $country = Currency::where('id', $request->country)->first();
-        if (! $country) {
-            $error = ['error' => [__('Please select a valid country')]];
-
+        $country = Currency::where('id',$request->country)->first();
+        if(!$country){
+            $error = ['error'=>[__('Please select a valid country')]];
             return Helpers::error($error);
         }
         $countryId = $country->id;
-        if ($request->transaction_type == 'bank-transfer') {
-            $alias = $request->bank;
-            $details = RemitanceBankDeposit::where('alias', $alias)->first();
-            if (! $details) {
-                $error = ['error' => [__('Please select a valid bank')]];
-
+        if($request->transaction_type == 'bank-transfer') {
+            $alias  = $request->bank;
+            $details = RemitanceBankDeposit::where('alias',$alias)->first();
+            if( !$details){
+                $error = ['error'=>[__('Please select a valid bank')]];
                 return Helpers::error($error);
             }
-        } elseif ($request->transaction_type == 'cash-pickup') {
-            $alias = $request->cash_pickup;
-            $details = RemitanceCashPickup::where('alias', $alias)->first();
-            if (! $details) {
-                $error = ['error' => [__('Please select a valid cash pickup')]];
-
+        }elseif($request->transaction_type == 'cash-pickup'){
+            $alias  = $request->cash_pickup;
+            $details = RemitanceCashPickup::where('alias',$alias)->first();
+            if( !$details){
+                $error = ['error'=>[__('Please select a valid cash pickup')]];
                 return Helpers::error($error);
             }
-        } elseif ($request->transaction_type == 'wallet-to-wallet-transfer') {
-            $receiver = User::where('email', $request->email)->first();
-            if (! $receiver) {
-                $error = ['error' => [__('User not found!')]];
-
+        }elseif($request->transaction_type == "wallet-to-wallet-transfer"){
+            $receiver = User::where('email',$request->email)->first();
+            if( !$receiver){
+                $error = ['error'=>[__('User not found!')]];
                 return Helpers::error($error);
             }
             $details = $receiver;
-            $alias = $request->transaction_type;
+            $alias  = $request->transaction_type;
         }
 
-        $in['agent_id'] = $user->id;
-        $in['country'] = $countryId;
+        $in['agent_id'] =  $user->id;
+        $in['country'] =   $countryId;
         $in['type'] = $request->transaction_type;
         $in['recipient_type'] = GlobalConst::RECEIVER;
-        $in['alias'] = $alias;
+        $in['alias'] =   $alias;
         $in['firstname'] = $request->firstname;
         $in['lastname'] = $request->lastname;
         $in['state'] = $request->state;
         $in['email'] = $request->email;
         $in['mobile_code'] = remove_speacial_char($request->mobile_code);
-        $in['mobile'] = remove_speacial_char($request->mobile_code) == '880' ? (int) remove_speacial_char($request->mobile) : remove_speacial_char($request->mobile);
+        $in['mobile'] = remove_speacial_char($request->mobile_code) == "880"?(int)remove_speacial_char($request->mobile):remove_speacial_char($request->mobile) ;
         $in['city'] = $request->city;
         $in['address'] = $request->address;
         $in['zip_code'] = $request->zip;
-        $in['account_number'] = $request->account_number ?? null;
+        $in['account_number'] = $request->account_number??null;
         $in['details'] = json_encode($details);
-        try {
+        try{
             $data->fill($in)->save();
-            $message = ['success' => [__('Receiver recipient updated successfully')]];
-
+            $message =  ['success'=>[__('Receiver recipient updated successfully')]];
             return Helpers::onlysuccess($message);
-        } catch (Exception $e) {
-            $error = ['error' => [__('Something went wrong! Please try again.')]];
-
+        }catch(Exception $e) {
+            $error = ['error'=>[__("Something went wrong! Please try again.")]];
             return Helpers::error($error);
         }
 
     }
-
-    public function deleteRecipientReceiver(Request $request)
-    {
+    public function deleteRecipientReceiver(Request $request){
         $validator = Validator::make(request()->all(), [
-            'id' => 'required',
+            'id'              =>'required',
         ]);
-        if ($validator->fails()) {
-            $error = ['error' => $validator->errors()->all()];
-
+        if($validator->fails()){
+            $error =  ['error'=>$validator->errors()->all()];
             return Helpers::validation($error);
         }
-        $recipient = AgentRecipient::auth()->receiver()->where('id', $request->id)->first();
-        if (! $recipient) {
-            $error = ['error' => ['Invalid request!']];
-
+        $recipient = AgentRecipient::auth()->receiver()->where('id',$request->id)->first();
+        if(!$recipient){
+            $error = ['error'=>['Invalid request!']];
             return Helpers::error($error);
         }
-        try {
+        try{
             $recipient->delete();
-            $message = ['success' => [__('Recipient deleted successfully')]];
-
+            $message =  ['success'=>[__('Recipient deleted successfully')]];
             return Helpers::onlysuccess($message);
-        } catch (Exception $e) {
-            $error = ['error' => [__('Something went wrong! Please try again.')]];
-
+        }catch(Exception $e) {
+            $error = ['error'=>[__("Something went wrong! Please try again.")]];
             return Helpers::error($error);
         }
 
     }
-    // =============================Receiver Recipient End==================================================
+//=============================Receiver Recipient End==================================================
 }

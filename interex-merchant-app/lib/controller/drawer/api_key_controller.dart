@@ -20,11 +20,11 @@ class ApiKeyController extends GetxController {
   final _isLoading = false.obs;
 
   bool get isLoading => _isLoading.value;
-  late ApiKeyModel _apiKeyModel;
+  ApiKeyModel? _apiKeyModel;
 
-  ApiKeyModel get apiKeyModel => _apiKeyModel;
+  ApiKeyModel? get apiKeyModel => _apiKeyModel;
 
-  Future<ApiKeyModel> getApiKeyData() async {
+  Future<ApiKeyModel?> getApiKeyData() async {
     _isLoading.value = true;
     update();
 
@@ -47,11 +47,11 @@ class ApiKeyController extends GetxController {
 
   bool get isConfirmLoading => _isConfirmLoading.value;
 
-  late CommonSuccessModel _productionModeModel;
+  CommonSuccessModel? _productionModeModel;
 
-  CommonSuccessModel get productionModeModel => _productionModeModel;
+  CommonSuccessModel? get productionModeModel => _productionModeModel;
 
-  Future<CommonSuccessModel> changeProductionModeProcess(String id) async {
+  Future<CommonSuccessModel?> changeProductionModeProcess(String id) async {
     _isConfirmLoading.value = true;
     final Map<String, String> inputBody = {"target": id};
 
@@ -74,11 +74,11 @@ class ApiKeyController extends GetxController {
 
   bool get isCreateLoading => _isCreateLoading.value;
 
-  late CommonSuccessModel _createApiKeyModel;
+  CommonSuccessModel? _createApiKeyModel;
 
-  CommonSuccessModel get createApiKeyModel => _createApiKeyModel;
+  CommonSuccessModel? get createApiKeyModel => _createApiKeyModel;
 
-  Future<CommonSuccessModel> createApiKeyProcess() async {
+  Future<CommonSuccessModel?> createApiKeyProcess() async {
     _isCreateLoading.value = true;
     final Map<String, String> inputBody = {"name": apiKeyController.text};
 
@@ -101,11 +101,11 @@ class ApiKeyController extends GetxController {
 
   bool get isDeleteLoading => _isDeleteLoading.value;
 
-  late CommonSuccessModel _deleteApiKeyModel;
+  CommonSuccessModel? _deleteApiKeyModel;
 
-  CommonSuccessModel get deleteApiKeyModel => _deleteApiKeyModel;
+  CommonSuccessModel? get deleteApiKeyModel => _deleteApiKeyModel;
 
-  Future<CommonSuccessModel> deleteApiKeyProcess(String target) async {
+  Future<CommonSuccessModel?> deleteApiKeyProcess(String target) async {
     _isDeleteLoading.value = true;
     final Map<String, String> inputBody = {"target": target};
 

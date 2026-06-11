@@ -3,16 +3,16 @@
 namespace App\Notifications\User\Trade;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Messages\MailMessage;
-use Illuminate\Notifications\Notification;
 use Illuminate\Support\Carbon;
+use Illuminate\Notifications\Notification;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Notifications\Messages\MailMessage;
 
 class TradeOfferMail extends Notification
 {
     use Queueable;
 
     public $user;
-
     public $data;
 
     // public $trx_id;
@@ -44,7 +44,7 @@ class TradeOfferMail extends Notification
      * Get the mail representation of the notification.
      *
      * @param  mixed  $notifiable
-     * @return MailMessage
+     * @return \Illuminate\Notifications\Messages\MailMessage
      */
     public function toMail($notifiable)
     {
@@ -55,17 +55,16 @@ class TradeOfferMail extends Notification
 
         $date = Carbon::now();
         $datetime = dateFormat('Y-m-d h:i:s A', $date);
-
         return (new MailMessage)
 
-            ->greeting(__('Hello').' '.$user->fullname.' !')
+            ->greeting(__("Hello")." ".$user->fullname." !")
             ->subject($data->title)
             ->line($data->title)
-            ->line(__('web_trx_id').': '.$trx_id)
-            ->line(__('Selling Amount').': '.$data->sellingAmount)
-            ->line(__('Asking Amount').': '.$data->askingAmount)
-            ->line(__('Exchange Rate').': '.$data->exchange_rate)
-            ->line(__('Date And Time').': '.$datetime)
+            ->line(__("web_trx_id").": " .$trx_id)
+            ->line(__("Selling Amount").": " .$data->sellingAmount)
+            ->line(__("Asking Amount").": " .$data->askingAmount)
+            ->line(__("Exchange Rate").": " .$data->exchange_rate)
+            ->line(__("Date And Time").": " .$datetime)
             ->line(__('Thank you for using our application!'));
     }
 

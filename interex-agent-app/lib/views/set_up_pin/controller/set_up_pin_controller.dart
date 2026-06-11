@@ -28,8 +28,8 @@ class SetUpPinController extends GetxController {
   final _isLoading = false.obs;
   bool get isLoading => _isLoading.value;
 
-  late PinVerifyModel _pinVerifyModel;
-  PinVerifyModel get pinVerifyModel => _pinVerifyModel;
+  PinVerifyModel? _pinVerifyModel;
+  PinVerifyModel get pinVerifyModel => _pinVerifyModel!;
 
   Future<PinVerifyModel> pinVerifyProcess(VoidCallback onSuccess) async {
     final Map<String, dynamic> body = {"pin": pinController.text};
@@ -48,7 +48,7 @@ class SetUpPinController extends GetxController {
           Get.close(1);
           onSuccess();
 
-          CustomSnackBar.success(_pinVerifyModel.message.success.first);
+          CustomSnackBar.success(_pinVerifyModel!.message.success.first);
 
           _isLoading.value = false;
           update();
@@ -59,13 +59,13 @@ class SetUpPinController extends GetxController {
           _isLoading.value = false;
         });
     update();
-    return _pinVerifyModel;
+    return _pinVerifyModel!;
   }
 
   ///---------
 
-  late CommonSuccessModel _pinSetupModel;
-  CommonSuccessModel get pinSetupModel => _pinSetupModel;
+  CommonSuccessModel? _pinSetupModel;
+  CommonSuccessModel get pinSetupModel => _pinSetupModel!;
 
   Future<CommonSuccessModel> pinSetupProcess() async {
     final Map<String, dynamic> body = {
@@ -96,13 +96,13 @@ class SetUpPinController extends GetxController {
           log.e(onError);
         });
     update();
-    return _pinSetupModel;
+    return _pinSetupModel!;
   }
 
   ///---------
 
-  late CommonSuccessModel _pinUpdateModel;
-  CommonSuccessModel get pinUpdateModel => _pinUpdateModel;
+  CommonSuccessModel? _pinUpdateModel;
+  CommonSuccessModel get pinUpdateModel => _pinUpdateModel!;
 
   Future<CommonSuccessModel> pinUpdateProcess() async {
     final Map<String, dynamic> body = {
@@ -132,7 +132,7 @@ class SetUpPinController extends GetxController {
           _isLoading.value = false;
         });
     update();
-    return _pinUpdateModel;
+    return _pinUpdateModel!;
   }
 
   void showPinDialog(BuildContext context, {required VoidCallback onSuccess}) {

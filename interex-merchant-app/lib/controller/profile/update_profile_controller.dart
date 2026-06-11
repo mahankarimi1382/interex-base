@@ -77,19 +77,20 @@ class UpdateProfileController extends GetxController {
 
   bool get isLoading => _isLoading.value;
 
-  late ProfileModel _profileModel;
+  ProfileModel? _profileModel;
 
-  ProfileModel get profileModel => _profileModel;
+  ProfileModel? get profileModel => _profileModel;
 
-  Future<ProfileModel> getProfileData() async {
+  Future<ProfileModel?> getProfileData() async {
     _isLoading.value = true;
     update();
 
     await ApiServices.profileAPi()
         .then((value) {
-          _profileModel = value!;
+          final model = value!;
+          _profileModel = model;
 
-          final data = profileModel.data.user;
+          final data = model.data.user;
           firstNameController.text = data.firstname;
           lastNameController.text = data.lastname;
           businessNameController.text = data.businessName;
@@ -121,7 +122,7 @@ class UpdateProfileController extends GetxController {
 
   // --------------------------- Api function ----------------------------------
   // Profile update process without image
-  Future<CommonSuccessModel> profileUpdateWithOutImageProcess() async {
+  Future<CommonSuccessModel?> profileUpdateWithOutImageProcess() async {
     _isUpdateLoading.value = true;
     update();
 
@@ -154,12 +155,12 @@ class UpdateProfileController extends GetxController {
     return _profileUpdateModel;
   }
 
-  late CommonSuccessModel _profileUpdateModel;
+  CommonSuccessModel? _profileUpdateModel;
 
-  CommonSuccessModel get profileUpdateModel => _profileUpdateModel;
+  CommonSuccessModel? get profileUpdateModel => _profileUpdateModel;
 
   // Profile update process with image
-  Future<CommonSuccessModel> profileUpdateWithImageProcess() async {
+  Future<CommonSuccessModel?> profileUpdateWithImageProcess() async {
     _isUpdateLoading.value = true;
     update();
 

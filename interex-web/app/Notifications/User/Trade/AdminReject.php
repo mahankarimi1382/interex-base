@@ -3,18 +3,17 @@
 namespace App\Notifications\User\Trade;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Messages\MailMessage;
-use Illuminate\Notifications\Notification;
 use Illuminate\Support\Carbon;
+use Illuminate\Notifications\Notification;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Notifications\Messages\MailMessage;
 
 class AdminReject extends Notification
 {
     use Queueable;
 
     public $user;
-
     public $data;
-
     public $trx_id;
 
     /**
@@ -43,7 +42,7 @@ class AdminReject extends Notification
      * Get the mail representation of the notification.
      *
      * @param  mixed  $notifiable
-     * @return MailMessage
+     * @return \Illuminate\Notifications\Messages\MailMessage
      */
     public function toMail($notifiable)
     {
@@ -54,18 +53,18 @@ class AdminReject extends Notification
         $datetime = dateFormat('Y-m-d h:i:s A', $date);
 
         return (new MailMessage)
-            ->greeting(__('Hello').' '.$user->fullname.' !')
-            ->subject(__('Trade Request Rejected'))
+            ->greeting(__("Hello")." ".$user->fullname." !")
+            ->subject( __("Trade Request Rejected"))
             ->line($data->title)
-            ->line(__('web_trx_id').': '.$data->trx_id)
-            ->line(__('Reject Reason').': '.$data->reject_reason)
-            ->line(__('request Amount').': '.$data->request_amount)
-            ->line(__('Fees & Charges').': '.$data->charges)
-            ->line(__('Total Payable Amount').': '.$data->payable)
-            ->line(__('Exchange Rate').': '.$data->exchange_rate)
-            ->line(__('Recipient Received').': '.$data->received_amount)
-            ->line(__('Status').': '.$data->status)
-            ->line(__('Date And Time').': '.$datetime)
+            ->line(__("web_trx_id").": " .$data->trx_id)
+            ->line(__("Reject Reason").": " .$data->reject_reason)
+            ->line(__("request Amount").": " .$data->request_amount)
+            ->line(__("Fees & Charges").": " .$data->charges)
+            ->line(__("Total Payable Amount").": " .$data->payable)
+            ->line(__("Exchange Rate").": " .$data->exchange_rate)
+            ->line(__("Recipient Received").": " .$data->received_amount)
+            ->line(__("Status").": " .$data->status)
+            ->line(__("Date And Time").": " .$datetime)
             ->line(__('Thank you for using our application!'));
     }
 

@@ -1,324 +1,395 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
 import 'package:qrpaypro/backend/local_storage/local_storage.dart';
-import 'package:qrpaypro/backend/utils/custom_loading_api.dart';
-import 'package:qrpaypro/utils/dimensions.dart';
+import 'package:qrpaypro/backend/model/remittance/remittance_get_recipient_model.dart';
+import 'package:qrpaypro/backend/model/remittance/remittance_info_model.dart';
+import 'package:qrpaypro/routes/routes.dart';
 import 'package:qrpaypro/utils/responsive_layout.dart';
-import 'package:qrpaypro/utils/size.dart';
-import 'package:qrpaypro/widgets/appbar/appbar_widget.dart';
-import 'package:qrpaypro/widgets/buttons/primary_button.dart';
+import 'package:qrpaypro/widgets/inputs/input_formater.dart';
 
 import '../../../controller/categories/remittance/remitance_controller.dart';
 import '../../../language/english.dart';
-import '../../../routes/routes.dart';
-import '../../../utils/custom_color.dart';
-import '../../../utils/custom_style.dart';
-import '../../../widgets/inputs/country_dropdown.dart';
-import '../../../widgets/inputs/input_with_text.dart';
-import '../../../widgets/inputs/receiving_method_drop_down.dart';
-import '../../../widgets/inputs/recipient_drop_down.dart';
-import '../../../widgets/others/limit_information_widget.dart';
-import '../../../widgets/others/limit_widget.dart';
-import '../../../widgets/text_labels/custom_title_heading_widget.dart';
 import '../../set_up_pin/controller/set_up_pin_controller.dart';
+import '../transfer/transfer_ui_kit.dart';
 
 class RemittanceScreen extends StatelessWidget {
   RemittanceScreen({super.key});
 
   final controller = Get.put(RemittanceController());
-  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     return ResponsiveLayout(
       mobileScaffold: Scaffold(
-        appBar: const AppBarWidget(text: Strings.remittance),
+        backgroundColor: TransferTokens.scaffoldBg,
+        appBar: const TransferAppBar(
+          titleKey: Strings.remittance,
+          subtitleKey: Strings.receivingMethod,
+        ),
         body: Obx(
           () => controller.isLoading
-              ? const CustomLoadingAPI()
-              : _bodyWidget(context),
+              ? const _LoadingState()
+              : _body(context),
+        ),
+        bottomNavigationBar: Obx(
+          () => controller.isLoading
+              ? const SizedBox.shrink()
+              : _bottomBar(context),
         ),
       ),
     );
   }
 
-  Form _bodyWidget(BuildContext context) {
-    return Form(
-      key: _formKey,
-      child: ListView(
-        physics: const BouncingScrollPhysics(),
-        padding: EdgeInsets.symmetric(
-          horizontal: Dimensions.marginSizeHorizontal * 0.9,
-        ),
-        children: [
-          _countryInput(context),
-          _dropdownInput(context),
-          _selectedInputWidget(context),
-          _buttonWidget(context),
-        ],
-      ),
-    );
-  }
-
-  Container _countryInput(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(top: Dimensions.marginSizeVertical),
-      child: Column(
-        crossAxisAlignment: crossStart,
-        children: [
-          CustomTitleHeadingWidget(
-            text: Strings.sendingCountry,
-            style: CustomStyle.darkHeading4TextStyle.copyWith(
-              fontWeight: FontWeight.w600,
-              color: Get.isDarkMode
-                  ? CustomColor.primaryDarkTextColor
-                  : CustomColor.primaryTextColor,
-            ),
-          ),
-          verticalSpace(Dimensions.heightSize * 0.8),
-          CountryDropDown(
-            selectMethod: controller.selectedSendingCountry,
-            itemsList: controller.sendingCountryList,
-            onChanged: (value) {
-              controller.selectedSendingCountry.value = value!.country;
-              controller.sendingCountryId.value = value.id;
-              controller.selectedSendingCountryCode.value = value.code;
-              controller.fromCountriesRate.value = value.rate;
-              controller.fromCountriesType.value = value.type;
-              controller.recipientGet;
-              controller.getRate();
-            },
-          ),
-          verticalSpace(Dimensions.heightSize * 0.5),
-          CustomTitleHeadingWidget(
-            text: Strings.receivingCountry,
-            style: CustomStyle.darkHeading4TextStyle.copyWith(
-              fontWeight: FontWeight.w600,
-              color: Get.isDarkMode
-                  ? CustomColor.primaryDarkTextColor
-                  : CustomColor.primaryTextColor,
-            ),
-          ),
-          verticalSpace(Dimensions.heightSize * 0.8),
-          CountryDropDown(
-            selectMethod: controller.selectedReceivingCountry,
-            itemsList: controller.receivingCountryList,
-            onChanged: (value) {
-              controller.selectedReceivingCountry.value = value!.country;
-              controller.receivingCountryId.value = value.id;
-              controller.selectedReceivingCountryCode.value = value.code;
-              controller.toCountriesRate.value = value.rate;
-              controller.recipientGet;
-              controller.remittanceGetRecipientProcess();
-              controller.getRate();
-            },
-          ),
-        ],
-      ),
-    );
-  }
-
-  Column _dropdownInput(BuildContext context) {
-    return Column(
-      crossAxisAlignment: crossStart,
+  Widget _body(BuildContext context) {
+    return ListView(
+      padding: const EdgeInsets.fromLTRB(20, 6, 20, 28),
+      physics: const BouncingScrollPhysics(),
       children: [
-        verticalSpace(Dimensions.heightSize * 0.5),
-        //!receiving method
-        CustomTitleHeadingWidget(
-          text: Strings.receivingMethod,
-          style: CustomStyle.labelTextStyle.copyWith(
-            color: Get.isDarkMode
-                ? CustomColor.primaryDarkTextColor
-                : CustomColor.primaryTextColor,
-          ),
-        ),
-        verticalSpace(Dimensions.heightSize * 0.5),
-        ReceivingMethodDropDown(
-          onChanged: (value) {
-            controller.selectedMethod.value = value!.labelName;
-            controller.selectedTrxType.value = value.fieldName;
-            controller.remittanceGetRecipientProcess();
-          },
-          itemsList: controller.transactionTypeList,
-          selectMethod: controller.selectedMethod,
-        ),
-        verticalSpace(Dimensions.heightSize * 0.8),
+        _countryCard(context),
+        _detailsCard(context),
+        _amountCard(context),
+        _limitsCard(),
+      ],
+    );
+  }
 
-        CustomTitleHeadingWidget(
-          text: Strings.recipient,
-          style: CustomStyle.labelTextStyle.copyWith(
-            color: Get.isDarkMode
-                ? CustomColor.primaryDarkTextColor
-                : CustomColor.primaryTextColor,
-          ),
-        ),
-        verticalSpace(Dimensions.heightSize * 0.5),
-
-        Row(
-          children: [
-            Expanded(
-              flex: 9,
-              child: RecipientDropDown(
-                onChanged: (value) {
-                  controller.selectedRecipient.value =
-                      "${value!.firstname} ${value.lastname}";
-                  controller.selectedRecipientId.value = value.id;
-                },
-                itemsList: controller.recipientList,
-                selectMethod: controller.selectedRecipient,
-              ),
+  //! ─────────────────────────────  Countries  ─────────────────────────────
+  Widget _countryCard(BuildContext context) {
+    return SectionCard(
+      titleKey: Strings.selectCountry,
+      icon: Icons.public_rounded,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const FieldLabel(Strings.sendingCountry),
+          Obx(
+            () => SelectorField(
+              leadingIcon: Icons.flight_takeoff_rounded,
+              value: controller.selectedSendingCountry.value,
+              badge: controller.selectedSendingCountryCode.value,
+              onTap: () => _pickSendingCountry(context),
             ),
-            horizontalSpace(Dimensions.widthSize * 0.5),
-            Expanded(
-              flex: 3,
-              child: GestureDetector(
-                onTap: (() {
-                  Get.toNamed(Routes.addRecipientScreen);
-                }),
-                child: Container(
-                  height: Dimensions.heightSize * 3.2,
-                  width: Dimensions.widthSize * 8.2,
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(
-                      Dimensions.radius * 0.5,
-                    ),
-                    color: CustomColor.primaryLightColor,
-                  ),
-                  child: Container(
-                    margin: EdgeInsets.symmetric(
-                      horizontal: Dimensions.marginSizeHorizontal * 0.4,
-                    ),
-                    child: FittedBox(
-                      child: CustomTitleHeadingWidget(
-                        text: Strings.addPlus,
-                        style: CustomStyle.lightHeading4TextStyle.copyWith(
-                          fontWeight: FontWeight.w500,
-                          fontSize: Dimensions.headingTextSize3,
-                          color: CustomColor.whiteColor,
-                        ),
-                      ),
-                    ),
+          ),
+          const FlowDivider(),
+          const FieldLabel(Strings.receivingCountry),
+          Obx(
+            () => SelectorField(
+              leadingIcon: Icons.flight_land_rounded,
+              value: controller.selectedReceivingCountry.value,
+              badge: controller.selectedReceivingCountryCode.value,
+              onTap: () => _pickReceivingCountry(context),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _pickSendingCountry(BuildContext context) {
+    showTransferPicker<Country>(
+      context: context,
+      titleKey: Strings.sendingCountry,
+      items: controller.sendingCountryList,
+      labelOf: (c) => c.country,
+      badgeOf: (c) => c.code,
+      onSelected: (value) {
+        controller.selectedSendingCountry.value = value.country;
+        controller.sendingCountryId.value = value.id;
+        controller.selectedSendingCountryCode.value = value.code;
+        controller.fromCountriesRate.value = value.rate;
+        controller.fromCountriesType.value = value.type;
+        controller.recipientGet;
+        controller.getRate();
+      },
+    );
+  }
+
+  void _pickReceivingCountry(BuildContext context) {
+    showTransferPicker<Country>(
+      context: context,
+      titleKey: Strings.receivingCountry,
+      items: controller.receivingCountryList,
+      labelOf: (c) => c.country,
+      badgeOf: (c) => c.code,
+      onSelected: (value) {
+        controller.selectedReceivingCountry.value = value.country;
+        controller.receivingCountryId.value = value.id;
+        controller.selectedReceivingCountryCode.value = value.code;
+        controller.toCountriesRate.value = value.rate;
+        controller.recipientGet;
+        controller.remittanceGetRecipientProcess();
+        controller.getRate();
+      },
+    );
+  }
+
+  //! ─────────────────────────  Method + Recipient  ────────────────────────
+  Widget _detailsCard(BuildContext context) {
+    return SectionCard(
+      titleKey: Strings.receivingMethod,
+      icon: Icons.tune_rounded,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const FieldLabel(Strings.receivingMethod),
+          Obx(
+            () => SelectorField(
+              leadingIcon: Icons.account_balance_rounded,
+              value: controller.selectedMethod.value,
+              onTap: () => _pickMethod(context),
+            ),
+          ),
+          const SizedBox(height: 16),
+          const FieldLabel(Strings.recipient),
+          Row(
+            children: [
+              Expanded(
+                child: Obx(
+                  () => SelectorField(
+                    leadingIcon: Icons.person_outline_rounded,
+                    value: controller.selectedRecipient.value,
+                    onTap: () => _pickRecipient(context),
                   ),
                 ),
               ),
+              const SizedBox(width: 10),
+              _addRecipientButton(),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _pickMethod(BuildContext context) {
+    showTransferPicker<TransactionType>(
+      context: context,
+      titleKey: Strings.receivingMethod,
+      items: controller.transactionTypeList,
+      labelOf: (t) => t.labelName,
+      onSelected: (value) {
+        controller.selectedMethod.value = value.labelName;
+        controller.selectedTrxType.value = value.fieldName;
+        controller.remittanceGetRecipientProcess();
+      },
+    );
+  }
+
+  void _pickRecipient(BuildContext context) {
+    showTransferPicker<RecipientInfo>(
+      context: context,
+      titleKey: Strings.recipient,
+      items: controller.recipientList,
+      labelOf: (r) => "${r.firstname} ${r.lastname}",
+      subtitleOf: (r) => r.mobile,
+      onSelected: (value) {
+        controller.selectedRecipient.value =
+            "${value.firstname} ${value.lastname}";
+        controller.selectedRecipientId.value = value.id;
+      },
+    );
+  }
+
+  Widget _addRecipientButton() {
+    return GestureDetector(
+      onTap: () => Get.toNamed(Routes.addRecipientScreen),
+      child: Container(
+        height: 52,
+        width: 52,
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          gradient: TransferTokens.brand,
+          borderRadius: BorderRadius.circular(TransferTokens.radius),
+        ),
+        child: const Icon(
+          Icons.person_add_alt_1_rounded,
+          color: Colors.white,
+          size: 22,
+        ),
+      ),
+    );
+  }
+
+  //! ──────────────────────────────  Amount  ───────────────────────────────
+  Widget _amountCard(BuildContext context) {
+    return SectionCard(
+      titleKey: Strings.amount,
+      icon: Icons.payments_outlined,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const FieldLabel(Strings.amount),
+          TransferTextField(
+            controller: controller.amountController,
+            hintKey: Strings.zero00,
+            bigText: true,
+            keyboardType: const TextInputType.numberWithOptions(decimal: true),
+            inputFormatters: [DecimalTextInputFormatter()],
+            onChanged: (_) => _onAmountChanged(),
+            suffix: Obx(
+              () => CurrencyPill(
+                code: controller.selectedSendingCountryCode.value,
+              ),
+            ),
+          ),
+          const SizedBox(height: 14),
+          _feeSummary(),
+          const FlowDivider(),
+          const FieldLabel(Strings.recipientGet),
+          TransferTextField(
+            controller: controller.recipientGetController,
+            hintKey: Strings.zero00,
+            bigText: true,
+            keyboardType: const TextInputType.numberWithOptions(decimal: true),
+            inputFormatters: [DecimalTextInputFormatter()],
+            onChanged: (_) => controller.senderSendAmount,
+            suffix: Obx(
+              () => CurrencyPill(
+                code: controller.selectedReceivingCountryCode.value,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _onAmountChanged() {
+    if (controller.amountController.text.isEmpty) {
+      controller.amountController.text = "";
+    } else {
+      controller.remainingController.senderAmount.value =
+          controller.amountController.text;
+      controller.remainingController.getRemainingBalanceProcess();
+    }
+    controller.recipientGet;
+    controller.getFee(rate: controller.fromCountriesRate.value);
+  }
+
+  Widget _feeSummary() {
+    return Obx(() {
+      final currency = controller.selectedSendingCountryCode.value;
+      final precision = controller.fromCountriesType.value == 'FIAT'
+          ? LocalStorages.getFiatPrecision()
+          : LocalStorages.getCryptoPrecision();
+      return Container(
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+        decoration: BoxDecoration(
+          color: TransferTokens.field,
+          borderRadius: BorderRadius.circular(TransferTokens.radius),
+          border: Border.all(color: TransferTokens.border),
+        ),
+        child: Column(
+          children: [
+            if (controller.selectedTrxType.value == 'bank-transfer')
+              StatRow(
+                labelKey: Strings.exchangeRate,
+                value:
+                    "1 $currency = ${controller.exchangeRate.value.toStringAsFixed(precision)} ${controller.selectedReceivingCountryCode.value}",
+              ),
+            StatRow(
+              labelKey: Strings.totalFee,
+              value:
+                  "${controller.totalFee.value.toStringAsFixed(precision)} $currency",
+              emphasize: true,
+            ),
+            StatRow(
+              labelKey: Strings.transactionLimit,
+              value:
+                  "${controller.minLimit.value.toStringAsFixed(precision)} - ${controller.maxLimit.value.toStringAsFixed(precision)} $currency",
             ),
           ],
         ),
-        verticalSpace(Dimensions.heightSize * 0.9),
-      ],
-    );
+      );
+    });
   }
 
-  Column _selectedInputWidget(BuildContext context) {
-    var currency = controller.selectedSendingCountryCode.value;
-    int precision = controller.fromCountriesType.value == 'FIAT'
-        ? LocalStorages.getFiatPrecision()
-        : LocalStorages.getCryptoPrecision();
-    return Column(
-      crossAxisAlignment: crossStart,
-      children: [
-        InputWithText(
-          hint: Strings.zero00,
-          suffixText: controller.selectedSendingCountryCode.value.toString(),
-          controller: controller.amountController,
-          label: Strings.amount,
-          onChanged: (amount) {
-            if (controller.amountController.text.isEmpty) {
-              controller.amountController.text = "";
-            } else {
-              controller.remainingController.senderAmount.value =
-                  controller.amountController.text;
-              controller.remainingController.getRemainingBalanceProcess();
-            }
-            controller.recipientGet;
-            controller.getFee(rate: controller.fromCountriesRate.value);
-          },
-        ),
-        verticalSpace(Dimensions.heightSize * 0.3),
-        if (controller.selectedTrxType.value == 'bank-transfer') ...[
-          LimitWidget(
-            showExchangeRate: true,
-            exchangeRate:
-                "1 ${controller.selectedSendingCountryCode.value} - ${controller.exchangeRate.value.toStringAsFixed(precision)} ${controller.selectedReceivingCountryCode.value} ",
+  //! ──────────────────────────────  Limits  ───────────────────────────────
+  Widget _limitsCard() {
+    return Obx(() {
+      final currency = controller.selectedSendingCountryCode.value;
+      final precision = controller.fromCountriesType.value == 'FIAT'
+          ? LocalStorages.getFiatPrecision()
+          : LocalStorages.getCryptoPrecision();
+      final showDaily = controller.dailyLimit.value != 0.0;
+      final showMonthly = controller.monthlyLimit.value != 0.0;
+      if (!showDaily && !showMonthly) return const SizedBox.shrink();
 
-            fee:
-                "${controller.totalFee.value.toStringAsFixed(precision)} $currency",
-            limit:
-                "${controller.minLimit.value.toStringAsFixed(precision)} $currency - ${controller.maxLimit.value.toStringAsFixed(precision)} $currency ",
-          ),
-        ] else ...[
-          LimitWidget(
-            fee:
-                "${controller.totalFee.value.toStringAsFixed(precision)} $currency",
-            limit:
-                "${controller.minLimit.value.toStringAsFixed(precision)} $currency - ${controller.maxLimit.value.toStringAsFixed(precision)} $currency ",
-          ),
-        ],
+      String fmt(double v) => '${v.toStringAsFixed(precision)} $currency';
 
-        verticalSpace(Dimensions.heightSize * 0.3),
-        LimitInformationWidget(
-          showDailyLimit: controller.dailyLimit.value == 0.0 ? false : true,
-          showMonthlyLimit: controller.monthlyLimit.value == 0.0 ? false : true,
-          transactionLimit:
-              '${controller.minLimit.value.toStringAsFixed(precision)} - ${controller.maxLimit.value.toStringAsFixed(precision)} $currency',
-          dailyLimit:
-              '${controller.dailyLimit.value.toStringAsFixed(precision)} $currency',
-          remainingDailyLimit:
-              '${controller.remainingController.remainingDailyLimit.value.toStringAsFixed(precision)} $currency',
-          monthlyLimit:
-              '${controller.monthlyLimit.value.toStringAsFixed(precision)} $currency',
-          remainingMonthLimit:
-              '${controller.remainingController.remainingMonthLyLimit.value.toStringAsFixed(precision)} $currency',
+      return SectionCard(
+        titleKey: Strings.limitInformation,
+        icon: Icons.shield_outlined,
+        child: Column(
+          children: [
+            if (showDaily) ...[
+              StatRow(
+                labelKey: Strings.dailyLimit,
+                value: fmt(controller.dailyLimit.value),
+              ),
+              StatRow(
+                labelKey: Strings.remainingDailyLimit,
+                value: fmt(
+                  controller.remainingController.remainingDailyLimit.value,
+                ),
+              ),
+            ],
+            if (showMonthly) ...[
+              if (showDaily) const Divider(height: 18),
+              StatRow(
+                labelKey: Strings.monthlyLimit,
+                value: fmt(controller.monthlyLimit.value),
+              ),
+              StatRow(
+                labelKey: Strings.remainingMonthlyLimit,
+                value: fmt(
+                  controller.remainingController.remainingMonthLyLimit.value,
+                ),
+              ),
+            ],
+          ],
         ),
-        verticalSpace(Dimensions.heightSize * 0.5),
-        InputWithText(
-          hint: Strings.zero00,
-          suffixText: controller.selectedReceivingCountryCode.value.toString(),
-          controller: controller.recipientGetController,
-          label: Strings.recipientGet,
-          onChanged: (amount) {
-            controller.senderSendAmount;
-          },
-        ),
-      ],
-    );
+      );
+    });
   }
 
-  Container _buttonWidget(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.symmetric(vertical: Dimensions.marginSizeVertical),
-      child: PrimaryButton(
-        buttonColor:
-            double.parse(controller.remainingController.senderAmount.value) >
-                    0 &&
-                double.parse(
-                      controller.remainingController.senderAmount.value,
-                    ) <=
-                    controller.dailyLimit.value &&
-                double.parse(
-                      controller.remainingController.senderAmount.value,
-                    ) <=
-                    controller.monthlyLimit.value
-            ? CustomColor.primaryLightColor
-            : CustomColor.primaryLightColor.withValues(alpha: 0.3),
-        title: Strings.send,
-        onPressed: () {
-          if (double.parse(controller.remainingController.senderAmount.value) >
-                  0 &&
-              double.parse(controller.remainingController.senderAmount.value) <=
-                  controller.dailyLimit.value &&
-              double.parse(controller.remainingController.senderAmount.value) <=
-                  controller.monthlyLimit.value) {
+  //! ────────────────────────────  Bottom CTA  ─────────────────────────────
+  bool get _canSend {
+    final amount =
+        double.tryParse(controller.remainingController.senderAmount.value) ?? 0;
+    return amount > 0 &&
+        amount <= controller.dailyLimit.value &&
+        amount <= controller.monthlyLimit.value;
+  }
+
+  Widget _bottomBar(BuildContext context) {
+    return StickyBottomBar(
+      child: Obx(
+        () => GradientButton(
+          labelKey: Strings.send,
+          enabled: _canSend,
+          onTap: () {
             Get.find<SetUpPinController>().showPinDialog(
               context,
               onSuccess: () {
                 controller.togoRemittancePreview();
               },
             );
-          }
-        },
+          },
+        ),
       ),
+    );
+  }
+}
+
+class _LoadingState extends StatelessWidget {
+  const _LoadingState();
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: CircularProgressIndicator(color: TransferTokens.primary),
     );
   }
 }

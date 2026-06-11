@@ -10,8 +10,8 @@ class MobileTopLogUpController extends GetxController {
   final _isLoading = false.obs;
   bool get isLoading => _isLoading.value;
 
-  late TransactionLogModel _transactioData;
-  TransactionLogModel get transactioData => _transactioData;
+  TransactionLogModel? _transactioData;
+  TransactionLogModel get transactioData => _transactioData!;
 
   @override
   void onInit() {
@@ -35,6 +35,6 @@ class MobileTopLogUpController extends GetxController {
 
     _isLoading.value = false;
     update();
-    return _transactioData;
+    return _transactioData!;
   }
 }

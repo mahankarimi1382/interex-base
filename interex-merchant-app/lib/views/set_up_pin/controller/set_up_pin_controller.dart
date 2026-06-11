@@ -33,10 +33,10 @@ class SetUpPinController extends GetxController {
   final _isLoading = false.obs;
   bool get isLoading => _isLoading.value;
 
-  late PinVerifyModel _pinVerifyModel;
-  PinVerifyModel get pinVerifyModel => _pinVerifyModel;
+  PinVerifyModel? _pinVerifyModel;
+  PinVerifyModel? get pinVerifyModel => _pinVerifyModel;
 
-  Future<PinVerifyModel> pinVerifyProcess(VoidCallback onSuccess) async {
+  Future<PinVerifyModel?> pinVerifyProcess(VoidCallback onSuccess) async {
     final Map<String, dynamic> body = {"pin": pinController.text};
 
     _isLoading.value = true;
@@ -45,7 +45,8 @@ class SetUpPinController extends GetxController {
     // calling  from api service
     await PinSetupServices.pinVerifyApi(body: body)
         .then((value) async {
-          _pinVerifyModel = value!;
+          final model = value!;
+          _pinVerifyModel = model;
           pinController.clear();
           oldPinController.clear();
           newPinController.clear();
@@ -53,7 +54,7 @@ class SetUpPinController extends GetxController {
           Get.close(1);
           onSuccess();
 
-          CustomSnackBar.success(_pinVerifyModel.message.success.first);
+          CustomSnackBar.success(model.message.success.first);
 
           _isLoading.value = false;
           update();
@@ -69,10 +70,10 @@ class SetUpPinController extends GetxController {
 
   ///---------
 
-  late CommonSuccessModel _pinSetupModel;
-  CommonSuccessModel get pinSetupModel => _pinSetupModel;
+  CommonSuccessModel? _pinSetupModel;
+  CommonSuccessModel? get pinSetupModel => _pinSetupModel;
 
-  Future<CommonSuccessModel> pinSetupProcess() async {
+  Future<CommonSuccessModel?> pinSetupProcess() async {
     final Map<String, dynamic> body = {
       // "pin": pinController.text,
       "pin_code": pinController.text,
@@ -106,10 +107,10 @@ class SetUpPinController extends GetxController {
 
   ///---------
 
-  late CommonSuccessModel _pinUpdateModel;
-  CommonSuccessModel get pinUpdateModel => _pinUpdateModel;
+  CommonSuccessModel? _pinUpdateModel;
+  CommonSuccessModel? get pinUpdateModel => _pinUpdateModel;
 
-  Future<CommonSuccessModel> pinUpdateProcess() async {
+  Future<CommonSuccessModel?> pinUpdateProcess() async {
     final Map<String, dynamic> body = {
       // "pin": pinController.text,
       // "pin_code": pinController.text,

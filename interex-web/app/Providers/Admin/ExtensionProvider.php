@@ -2,8 +2,9 @@
 
 namespace App\Providers\Admin;
 
-class ExtensionProvider
-{
+
+class ExtensionProvider {
+
     public $extension;
 
     public function __construct($extensions = null)
@@ -11,18 +12,16 @@ class ExtensionProvider
         $this->extension = $extensions;
     }
 
-    public function set($extensions)
-    {
+
+    public function set($extensions) {
         return $this->extension = $extensions;
     }
-
-    public function getData()
-    {
+    
+    public function getData() {
         return $this->extension;
     }
 
-    public static function get()
-    {
+    public static function get() {
         return app(ExtensionProvider::class)->getData();
     }
 }

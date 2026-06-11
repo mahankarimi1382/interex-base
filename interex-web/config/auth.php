@@ -1,10 +1,5 @@
 <?php
 
-use App\Models\Admin\Admin;
-use App\Models\Agent;
-use App\Models\Merchants\Merchant;
-use App\Models\User;
-
 return [
 
     /*
@@ -68,7 +63,7 @@ return [
         'agent_api' => [
             'driver' => 'passport',
             'provider' => 'agents',
-        ],
+        ]
 
     ],
 
@@ -92,19 +87,19 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => User::class,
+            'model' => App\Models\User::class,
         ],
         'admins' => [
             'driver' => 'eloquent',
-            'model' => Admin::class,
+            'model' => App\Models\Admin\Admin::class,
         ],
         'agents' => [
             'driver' => 'eloquent',
-            'model' => Agent::class,
+            'model' => App\Models\Agent::class,
         ],
         'merchants' => [
             'driver' => 'eloquent',
-            'model' => Merchant::class,
+            'model' => App\Models\Merchants\Merchant::class,
         ],
 
         // 'users' => [

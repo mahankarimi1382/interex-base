@@ -40,12 +40,12 @@ class SignInController extends GetxController {
 
   bool get isLoading => _isLoading.value;
 
-  late LoginModel _loginModel;
+  LoginModel? _loginModel;
 
-  LoginModel get loginModel => _loginModel;
+  LoginModel? get loginModel => _loginModel;
 
   // Login process function
-  Future<LoginModel> loginProcess() async {
+  Future<LoginModel?> loginProcess() async {
     _isLoading.value = true;
     update();
 
@@ -59,20 +59,21 @@ class SignInController extends GetxController {
     };
     await ApiServices.loginApi(body: inputBody)
         .then((value) {
-          _loginModel = value!;
+          final model = value!;
+          _loginModel = model;
 
-          twoFaStatus.value = _loginModel.data.user.twoFactorStatus;
-          twoFaVerified.value = _loginModel.data.user.twoFactorVerified;
+          twoFaStatus.value = model.data.user.twoFactorStatus;
+          twoFaVerified.value = model.data.user.twoFactorVerified;
 
-          if (_loginModel.data.user.emailVerified == 0) {
+          if (model.data.user.emailVerified == 0) {
             isEmailVerification.value = false;
-            LocalStorages.saveToken(token: loginModel.data.token.toString());
+            LocalStorages.saveToken(token: model.data.token.toString());
             _goToEmailVerification();
-          } else if (_loginModel.data.user.smsVerified == 0) {
-            LocalStorages.saveToken(token: loginModel.data.token.toString());
+          } else if (model.data.user.smsVerified == 0) {
+            LocalStorages.saveToken(token: model.data.token.toString());
             _goToPhoneVerification();
           } else {
-            _goToSavedUser(_loginModel);
+            _goToSavedUser(model);
             if (twoFaStatus.value == 1 && twoFaVerified.value == 0) {
               Get.toNamed(Routes.otp2FaScreen);
             } else {
@@ -99,10 +100,10 @@ class SignInController extends GetxController {
   final _isSendOTPLoading = false.obs;
 
   bool get isSendOTPLoading => _isSendOTPLoading.value;
-  late CommonSuccessModel _sendOTPEmailModel;
+  CommonSuccessModel? _sendOTPEmailModel;
 
-  CommonSuccessModel get sendOTPEmailModel => _sendOTPEmailModel;
-  Future<CommonSuccessModel> sendOTPEmailProcess() async {
+  CommonSuccessModel? get sendOTPEmailModel => _sendOTPEmailModel;
+  Future<CommonSuccessModel?> sendOTPEmailProcess() async {
     _isSendOTPLoading.value = true;
     update();
 
@@ -110,7 +111,10 @@ class SignInController extends GetxController {
 
     await ApiServices.sendOTPEmailApi(body: inputBody)
         .then((value) {
-          _sendOTPEmailModel = value!;
+          // On failure the API layer already shows the error snackbar and
+          // returns null, so just bail out without touching the model.
+          if (value == null) return;
+          _sendOTPEmailModel = value;
 
           _isSendOTPLoading.value = false;
           update();
@@ -127,10 +131,10 @@ class SignInController extends GetxController {
   // Forget Password Email Process
   final _isLoading2 = false.obs;
   bool get isLoading2 => _isLoading2.value;
-  late CommonSuccessModel _verifyEmailModel;
-  CommonSuccessModel get verifyEmailModel => _verifyEmailModel;
+  CommonSuccessModel? _verifyEmailModel;
+  CommonSuccessModel? get verifyEmailModel => _verifyEmailModel;
 
-  Future<CommonSuccessModel> verifyEmailProcess({
+  Future<CommonSuccessModel?> verifyEmailProcess({
     required String otpCode,
   }) async {
     _isLoading2.value = true;
@@ -198,8 +202,8 @@ class SignInController extends GetxController {
   final _isSmsOtpLoading = false.obs;
   bool get isSmsOtpLoading => _isSmsOtpLoading.value;
 
-  late CommonSuccessModel _commonSuccessModel;
-  CommonSuccessModel get commonSuccessModel => _commonSuccessModel;
+  CommonSuccessModel? _commonSuccessModel;
+  CommonSuccessModel? get commonSuccessModel => _commonSuccessModel;
   Future<CommonSuccessModel?> smsOtpProcess() async {
     final Map<String, dynamic> inputBody = {};
 
@@ -240,10 +244,10 @@ class SignInController extends GetxController {
   // For got password
   final _isSendForgotOTPLoading = false.obs;
   bool get isSendForgotOTPLoading => _isSendForgotOTPLoading.value;
-  late CommonSuccessModel _sendForgotOTPEmailModel;
-  CommonSuccessModel get sendForgotOTPEmailModel => _sendForgotOTPEmailModel;
+  CommonSuccessModel? _sendForgotOTPEmailModel;
+  CommonSuccessModel? get sendForgotOTPEmailModel => _sendForgotOTPEmailModel;
 
-  Future<CommonSuccessModel> sendForgotOTPEmailProcess() async {
+  Future<CommonSuccessModel?> sendForgotOTPEmailProcess() async {
     _isSendForgotOTPLoading.value = true;
     update();
 
@@ -277,10 +281,10 @@ class SignInController extends GetxController {
   }
 
   // Forget Password Email Process
-  late CommonSuccessModel _verifyForgotEmailModel;
-  CommonSuccessModel get verifyForgotEmailModel => _verifyForgotEmailModel;
+  CommonSuccessModel? _verifyForgotEmailModel;
+  CommonSuccessModel? get verifyForgotEmailModel => _verifyForgotEmailModel;
 
-  Future<CommonSuccessModel> verifyForgotEmailProcess({
+  Future<CommonSuccessModel?> verifyForgotEmailProcess({
     required String otpCode,
   }) async {
     _isLoading2.value = true;

@@ -27,21 +27,21 @@ class AddRecipientController extends GetxController {
 
   RxString transactionTypeSelectedMethod = "".obs;
   RxString transactionTypeFieldName = "".obs;
-  late TransactionType transactionType;
-  late List<TransactionType> transactionTypeList;
+  TransactionType? transactionType;
+  List<TransactionType>? transactionTypeList;
 
   RxInt receiverCountrySelectedMethodId = 0.obs;
   RxString receiverCountrySelectedMethod = "".obs;
-  late ReceiverCountry receiverCountry;
+  ReceiverCountry? receiverCountry;
   List<ReceiverCountry> receiverCountryList = [];
 
   RxString receiverBankSelectedMethod = "".obs;
-  late Bank receiverBank;
-  late List<Bank> receiverBankList;
+  Bank? receiverBank;
+  List<Bank>? receiverBankList;
 
   RxString pickupPointMethod = "".obs;
-  late Bank pickupPoint;
-  late List<Bank> pickupPointList;
+  Bank? pickupPoint;
+  List<Bank>? pickupPointList;
 
   @override
   void onInit() {
@@ -55,9 +55,9 @@ class AddRecipientController extends GetxController {
 
   bool get isLoading => _isLoading.value;
 
-  late SaveRecipientInfoModel _recipientInfoData;
+  SaveRecipientInfoModel? _recipientInfoData;
 
-  SaveRecipientInfoModel get recipientInfoData => _recipientInfoData;
+  SaveRecipientInfoModel get recipientInfoData => _recipientInfoData!;
 
   Future<SaveRecipientInfoModel> getRecipientInfoData() async {
     _isLoading.value = true;
@@ -67,7 +67,7 @@ class AddRecipientController extends GetxController {
         .then((value) {
           _recipientInfoData = value!;
 
-          setValues(_recipientInfoData);
+          setValues(_recipientInfoData!);
 
           update();
         })
@@ -77,7 +77,7 @@ class AddRecipientController extends GetxController {
 
     _isLoading.value = false;
     update();
-    return _recipientInfoData;
+    return _recipientInfoData!;
   }
 
   @override
@@ -94,42 +94,42 @@ class AddRecipientController extends GetxController {
   }
 
   void setValues(SaveRecipientInfoModel recipientInfoData) {
-    transactionTypeList = _recipientInfoData.data.transactionTypes;
-    receiverCountryList = _recipientInfoData.data.receiverCountries;
-    receiverBankList = _recipientInfoData.data.banks;
-    pickupPointList = _recipientInfoData.data.cashPickupsPoints;
+    transactionTypeList = _recipientInfoData!.data.transactionTypes;
+    receiverCountryList = _recipientInfoData!.data.receiverCountries;
+    receiverBankList = _recipientInfoData!.data.banks;
+    pickupPointList = _recipientInfoData!.data.cashPickupsPoints;
 
     debugPrint("Set Value in add recipient controller--------------");
 
     numberCode.value =
-        _recipientInfoData.data.receiverCountries.first.mobileCode;
-    baseCurrency.value = _recipientInfoData.data.baseCurr;
+        _recipientInfoData!.data.receiverCountries.first.mobileCode;
+    baseCurrency.value = _recipientInfoData!.data.baseCurr;
 
     transactionTypeSelectedMethod.value =
-        _recipientInfoData.data.transactionTypes.first.labelName;
+        _recipientInfoData!.data.transactionTypes.first.labelName;
     transactionTypeFieldName.value =
-        _recipientInfoData.data.transactionTypes.first.fieldName;
-    transactionType = _recipientInfoData.data.transactionTypes.first;
+        _recipientInfoData!.data.transactionTypes.first.fieldName;
+    transactionType = _recipientInfoData!.data.transactionTypes.first;
 
     receiverCountrySelectedMethod.value =
-        "${_recipientInfoData.data.receiverCountries.first.name} (${_recipientInfoData.data.receiverCountries.first.code})";
-    receiverCountry = _recipientInfoData.data.receiverCountries.first;
+        "${_recipientInfoData!.data.receiverCountries.first.name} (${_recipientInfoData!.data.receiverCountries.first.code})";
+    receiverCountry = _recipientInfoData!.data.receiverCountries.first;
 
-    receiverBankSelectedMethod.value = _recipientInfoData.data.banks.first.name;
-    receiverBank = _recipientInfoData.data.banks.first;
+    receiverBankSelectedMethod.value = _recipientInfoData!.data.banks.first.name;
+    receiverBank = _recipientInfoData!.data.banks.first;
 
     pickupPointMethod.value =
-        _recipientInfoData.data.cashPickupsPoints.first.name;
-    pickupPoint = _recipientInfoData.data.cashPickupsPoints.first;
+        _recipientInfoData!.data.cashPickupsPoints.first.name;
+    pickupPoint = _recipientInfoData!.data.cashPickupsPoints.first;
   }
 
   void addRecipient() {
     recipientStoreApiProcess();
   }
 
-  late CommonSuccessModel _successDatya;
+  CommonSuccessModel? _successDatya;
 
-  CommonSuccessModel get successDatya => _successDatya;
+  CommonSuccessModel get successDatya => _successDatya!;
 
   final basicController = Get.put(BasicDataController());
 
@@ -139,8 +139,8 @@ class AddRecipientController extends GetxController {
     update();
 
     final Map<String, dynamic> inputBody = {
-      'transaction_type': transactionType.fieldName,
-      'country': receiverCountry.id,
+      'transaction_type': transactionType!.fieldName,
+      'country': receiverCountry!.id,
       'firstname': firstNameController.text,
       'lastname': lastNameController.text,
       'mobile_code': numberCode.value,
@@ -150,8 +150,8 @@ class AddRecipientController extends GetxController {
       'address': addressController.text,
       'zip': zipController.text,
       'state': stateController.text,
-      'bank': receiverBank.alias,
-      'cash_pickup': pickupPoint.alias,
+      'bank': receiverBank!.alias,
+      'cash_pickup': pickupPoint!.alias,
       'account_number': accountNumberController.text,
     };
     // calling login api from api service
@@ -167,16 +167,16 @@ class AddRecipientController extends GetxController {
 
     _isLoading.value = false;
     update();
-    return _successDatya;
+    return _successDatya!;
   }
 
   final _isCheckLoading = false.obs;
 
   bool get isCheckLoading => _isCheckLoading.value;
 
-  late CheckRecipientModel _checkRecipientModel;
+  CheckRecipientModel? _checkRecipientModel;
 
-  CheckRecipientModel get checkRecipientModel => _checkRecipientModel;
+  CheckRecipientModel get checkRecipientModel => _checkRecipientModel!;
 
   Future<CheckRecipientModel> recipientCheckApiProcess() async {
     _isCheckLoading.value = true;
@@ -188,9 +188,9 @@ class AddRecipientController extends GetxController {
         .then((value) {
           _checkRecipientModel = value!;
 
-          checkUserMessage.value = _checkRecipientModel.message.success.first;
+          checkUserMessage.value = _checkRecipientModel!.message.success.first;
 
-          final data = _checkRecipientModel;
+          final data = _checkRecipientModel!;
           firstNameController.text = data.data.user.firstname;
           lastNameController.text = data.data.user.lastname;
           numberController.text = data.data.user.mobile;
@@ -209,7 +209,7 @@ class AddRecipientController extends GetxController {
 
     _isCheckLoading.value = false;
     update();
-    return _checkRecipientModel;
+    return _checkRecipientModel!;
   }
 
   void changeCountry(String type) {

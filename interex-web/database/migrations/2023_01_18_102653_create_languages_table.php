@@ -15,13 +15,14 @@ return new class extends Migration
     {
         Schema::create('languages', function (Blueprint $table) {
             $table->id();
-            $table->string('name', 100)->unique();
-            $table->string('code', 20)->unique();
-            $table->boolean('status')->default(true);
-            $table->unsignedBigInteger('last_edit_by');
+            $table->string("name",100)->unique();
+            $table->string("code",20)->unique();
+            $table->boolean("status")->default(true);
+            $table->unsignedBigInteger("last_edit_by");
             $table->timestamps();
 
-            $table->foreign('last_edit_by')->references('id')->on('admins')->onDelete('cascade')->onUpdate('cascade');
+
+            $table->foreign("last_edit_by")->references("id")->on("admins")->onDelete("cascade")->onUpdate("cascade");
         });
     }
 

@@ -1,7 +1,8 @@
 import 'package:qrpay/extentions/custom_extentions.dart';
 
 class ApiEndpoint {
-  static const String mainDomain = "PUT_YOUR_OWN_DOMAIN_HERE";
+  static const String host = "api.habel.ir";
+  static const String mainDomain = "https://$host";
   static const String baseUrl = "$mainDomain/agent-api";
 
   //! auth
@@ -20,7 +21,7 @@ class ApiEndpoint {
   static String resetPasswordSmsURL = '/user/forget/sms/reset/password'
       .addBaseURl();
   static String verifyEmailBeforeRegisterOTPURL =
-      '/agent/register/email/verify/otp'.addBaseURl();
+      '/agent/register/email/verify/otp'.addBaseURl(); 
 
   //! register
   static String checkRegisterURL = '/agent/register/check/exist'.addBaseURl();

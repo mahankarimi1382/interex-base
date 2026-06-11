@@ -110,10 +110,10 @@ class DepositController extends GetxController {
 
   bool get isLoading => _isLoading.value;
 
-  late AddMoneyPaymentGatewayModel _addMoneyPaymentGatewayModel;
+  AddMoneyPaymentGatewayModel? _addMoneyPaymentGatewayModel;
 
   AddMoneyPaymentGatewayModel get addMoneyPaymentGatewayModel =>
-      _addMoneyPaymentGatewayModel;
+      _addMoneyPaymentGatewayModel!;
 
   // --------------------------- Api function ----------------------------------
   // get addMoneyPaymentGateway data function
@@ -128,7 +128,7 @@ class DepositController extends GetxController {
           selectMainWallet.value =
               walletsController.walletsInfoModel.data.userWallets.first;
 
-          currencyWalletCode.value = _addMoneyPaymentGatewayModel
+          currencyWalletCode.value = _addMoneyPaymentGatewayModel!
               .data
               .gateways
               .first
@@ -136,7 +136,7 @@ class DepositController extends GetxController {
               .first
               .currencyCode;
 
-          for (var gateways in _addMoneyPaymentGatewayModel.data.gateways) {
+          for (var gateways in _addMoneyPaymentGatewayModel!.data.gateways) {
             for (var currency in gateways.currencies) {
               currencyList.add(
                 Currency(
@@ -164,9 +164,9 @@ class DepositController extends GetxController {
           }
 
           final Currency currency =
-              _addMoneyPaymentGatewayModel.data.gateways.first.currencies.first;
+              _addMoneyPaymentGatewayModel!.data.gateways.first.currencies.first;
           final Gateway gateway =
-              _addMoneyPaymentGatewayModel.data.gateways.first;
+              _addMoneyPaymentGatewayModel!.data.gateways.first;
 
           selectedCurrencyAlias.value = currency.alias;
           selectedCurrencyType.value = currency.type;
@@ -195,7 +195,7 @@ class DepositController extends GetxController {
           percentCharge.value = double.parse(currency.percentCharge.toString());
 
           // Base Currency
-          baseCurrency.value = _addMoneyPaymentGatewayModel.data.baseCurr;
+          baseCurrency.value = _addMoneyPaymentGatewayModel!.data.baseCurr;
           for (var element
               in walletsController.walletsInfoModel.data.userWallets) {
             walletsList.add(
@@ -209,13 +209,13 @@ class DepositController extends GetxController {
 
           //start remaing get
           remainingController.transactionType.value =
-              _addMoneyPaymentGatewayModel
+              _addMoneyPaymentGatewayModel!
                   .data
                   .getRemainingFields
                   .transactionType;
           remainingController.attribute.value =
-              _addMoneyPaymentGatewayModel.data.getRemainingFields.attribute;
-          remainingController.cardId.value = _addMoneyPaymentGatewayModel
+              _addMoneyPaymentGatewayModel!.data.getRemainingFields.attribute;
+          remainingController.cardId.value = _addMoneyPaymentGatewayModel!
               .data
               .gateways
               .first
@@ -243,7 +243,7 @@ class DepositController extends GetxController {
           update();
         });
 
-    return _addMoneyPaymentGatewayModel;
+    return _addMoneyPaymentGatewayModel!;
   }
 
   // ---------------------------- AddMoneyPaypalInsertModel --------------------
@@ -252,10 +252,10 @@ class DepositController extends GetxController {
 
   bool get isInsertLoading => _isInsertLoading.value;
 
-  late AddMoneyPaypalInsertModel _addMoneyInsertPaypalModel;
+  AddMoneyPaypalInsertModel? _addMoneyInsertPaypalModel;
 
   AddMoneyPaypalInsertModel get addMoneyInsertPaypalModel =>
-      _addMoneyInsertPaypalModel;
+      _addMoneyInsertPaypalModel!;
 
   // --------------------------- Api function ----------------------------------
   // add money paypal
@@ -272,7 +272,7 @@ class DepositController extends GetxController {
     await ApiServices.sendMoneyInsertPaypalApi(body: inputBody)
         .then((value) {
           _addMoneyInsertPaypalModel = value!;
-          final data = _addMoneyInsertPaypalModel.data.paymentInformation;
+          final data = _addMoneyInsertPaypalModel!.data.paymentInformation;
           enteredAmount = data.requestAmount;
           transferFeeAmount = data.totalCharge;
           totalCharge = data.totalCharge;
@@ -286,13 +286,13 @@ class DepositController extends GetxController {
         });
     _isInsertLoading.value = false;
     update();
-    return _addMoneyInsertPaypalModel;
+    return _addMoneyInsertPaypalModel!;
   }
 
-  late AddMoneyFlutterWavePaymentModel _addMoneyInsertFlutterWaveModel;
+  AddMoneyFlutterWavePaymentModel? _addMoneyInsertFlutterWaveModel;
 
   AddMoneyFlutterWavePaymentModel get addMoneyInsertFlutterWaveModel =>
-      _addMoneyInsertFlutterWaveModel;
+      _addMoneyInsertFlutterWaveModel!;
 
   // --------------------------- Api function ----------------------------------
   // add money paypal
@@ -310,7 +310,7 @@ class DepositController extends GetxController {
     await ApiServices.sendMoneyInsertFlutterWaveApi(body: inputBody)
         .then((value) {
           _addMoneyInsertFlutterWaveModel = value!;
-          final data = _addMoneyInsertFlutterWaveModel.data.paymentInformation;
+          final data = _addMoneyInsertFlutterWaveModel!.data.paymentInformation;
           enteredAmount = data.requestAmount;
           transferFeeAmount = data.totalCharge;
           totalCharge = data.totalCharge;
@@ -324,13 +324,13 @@ class DepositController extends GetxController {
         });
     _isInsertLoading.value = false;
     update();
-    return _addMoneyInsertFlutterWaveModel;
+    return _addMoneyInsertFlutterWaveModel!;
   }
 
   /// add money ssl insert process
-  late AddMoneySslInsertModel _addMoneySslInsertModel;
+  AddMoneySslInsertModel? _addMoneySslInsertModel;
 
-  AddMoneySslInsertModel get addMoneySslInsertModel => _addMoneySslInsertModel;
+  AddMoneySslInsertModel get addMoneySslInsertModel => _addMoneySslInsertModel!;
 
   // --------------------------- Api function ----------------------------------
   // add money ssl process
@@ -347,7 +347,7 @@ class DepositController extends GetxController {
     await ApiServices.addMoneySslProcessApi(body: inputBody)
         .then((value) {
           _addMoneySslInsertModel = value!;
-          final data = _addMoneySslInsertModel.data.paymentInformation;
+          final data = _addMoneySslInsertModel!.data.paymentInformation;
           enteredAmount = data.requestAmount;
           transferFeeAmount = data.totalCharge;
           totalCharge = data.totalCharge;
@@ -361,14 +361,14 @@ class DepositController extends GetxController {
         });
     _isInsertLoading.value = false;
     update();
-    return _addMoneySslInsertModel;
+    return _addMoneySslInsertModel!;
   }
 
   /// add money coinGate insert process
-  late CoinGateInsertModel _addMoneyCoinGateInsertModel;
+  CoinGateInsertModel? _addMoneyCoinGateInsertModel;
 
   CoinGateInsertModel get addMoneyCoinGateInsertModel =>
-      _addMoneyCoinGateInsertModel;
+      _addMoneyCoinGateInsertModel!;
 
   // --------------------------- Api function ----------------------------------
   // add money coinGate process
@@ -385,7 +385,7 @@ class DepositController extends GetxController {
     await ApiServices.addMoneyCoinGateProcessApi(body: inputBody)
         .then((value) {
           _addMoneyCoinGateInsertModel = value!;
-          final data = _addMoneyCoinGateInsertModel.data.paymentInformation;
+          final data = _addMoneyCoinGateInsertModel!.data.paymentInformation;
           enteredAmount = data.requestAmount;
           transferFeeAmount = data.totalCharge;
           totalCharge = data.totalCharge;
@@ -400,14 +400,14 @@ class DepositController extends GetxController {
         });
     _isInsertLoading.value = false;
     update();
-    return _addMoneyCoinGateInsertModel;
+    return _addMoneyCoinGateInsertModel!;
   }
 
   /// >>> Add Money RazorPay Insert Process
-  late AddMoneyRazorPayInsertModel _addMoneyRazorPayInsertModel;
+  AddMoneyRazorPayInsertModel? _addMoneyRazorPayInsertModel;
 
   AddMoneyRazorPayInsertModel get addMoneyRazorPayInsertModel =>
-      _addMoneyRazorPayInsertModel;
+      _addMoneyRazorPayInsertModel!;
 
   // --------------------------- Api function ----------------------------------
   // add money RazorPay
@@ -424,7 +424,7 @@ class DepositController extends GetxController {
     await ApiServices.addMoneyInsertRazorPayApi(body: inputBody)
         .then((value) {
           _addMoneyRazorPayInsertModel = value!;
-          final data = _addMoneyRazorPayInsertModel.data.paymentInformation;
+          final data = _addMoneyRazorPayInsertModel!.data.paymentInformation;
           enteredAmount = data.requestAmount;
           transferFeeAmount = data.totalCharge;
           totalCharge = data.totalCharge;
@@ -438,14 +438,14 @@ class DepositController extends GetxController {
         });
     _isInsertLoading.value = false;
     update();
-    return _addMoneyRazorPayInsertModel;
+    return _addMoneyRazorPayInsertModel!;
   }
 
   /// >>> Add Money Perfect Money Insert Process
-  late AddMoneyRazorPayInsertModel _addMoneyPerfectMoneyInsertModel;
+  AddMoneyRazorPayInsertModel? _addMoneyPerfectMoneyInsertModel;
 
   AddMoneyRazorPayInsertModel get addMoneyPerfectMoneyInsertModel =>
-      _addMoneyPerfectMoneyInsertModel;
+      _addMoneyPerfectMoneyInsertModel!;
 
   // --------------------------- Api function ----------------------------------
   // add money Perfect Money
@@ -463,7 +463,7 @@ class DepositController extends GetxController {
     await ApiServices.addMoneyInsertRazorPayApi(body: inputBody)
         .then((value) {
           _addMoneyPerfectMoneyInsertModel = value!;
-          final data = _addMoneyPerfectMoneyInsertModel.data.paymentInformation;
+          final data = _addMoneyPerfectMoneyInsertModel!.data.paymentInformation;
           enteredAmount = data.requestAmount;
           transferFeeAmount = data.totalCharge;
           totalCharge = data.totalCharge;
@@ -477,14 +477,14 @@ class DepositController extends GetxController {
         });
     _isInsertLoading.value = false;
     update();
-    return _addMoneyPerfectMoneyInsertModel;
+    return _addMoneyPerfectMoneyInsertModel!;
   }
 
   /// >>> Add Money Bikash Money Insert Process
-  late AddMoneyBkashInsertModel _addMoneyBikashInsertModel;
+  AddMoneyBkashInsertModel? _addMoneyBikashInsertModel;
 
   AddMoneyBkashInsertModel get addMoneyBikashInsertModel =>
-      _addMoneyBikashInsertModel;
+      _addMoneyBikashInsertModel!;
 
   // --------------------------- Api function ----------------------------------
   // add money Bikash Money
@@ -501,7 +501,7 @@ class DepositController extends GetxController {
     await ApiServices.addMoneyInsertBkashApi(body: inputBody)
         .then((value) {
           _addMoneyBikashInsertModel = value!;
-          final data = _addMoneyBikashInsertModel.data.paymentInformation;
+          final data = _addMoneyBikashInsertModel!.data.paymentInformation;
           enteredAmount = data.requestAmount;
           transferFeeAmount = data.totalCharge;
           totalCharge = data.totalCharge;
@@ -515,14 +515,14 @@ class DepositController extends GetxController {
         });
     _isInsertLoading.value = false;
     update();
-    return _addMoneyBikashInsertModel;
+    return _addMoneyBikashInsertModel!;
   }
 
   // ---------------------------- AddMoneyStripeInsertModel --------------------
-  late AddMoneyStripeInsertModel _addMoneyInsertStripeModel;
+  AddMoneyStripeInsertModel? _addMoneyInsertStripeModel;
 
   AddMoneyStripeInsertModel get addMoneyInsertStripeModel =>
-      _addMoneyInsertStripeModel;
+      _addMoneyInsertStripeModel!;
 
   // --------------------------- Api function ----------------------------------
   // add money stripe
@@ -539,7 +539,7 @@ class DepositController extends GetxController {
     await ApiServices.addMoneyInsertStripeApi(body: inputBody)
         .then((value) {
           _addMoneyInsertStripeModel = value!;
-          final data = _addMoneyInsertStripeModel.data.paymentInformation;
+          final data = _addMoneyInsertStripeModel!.data.paymentInformation;
           enteredAmount = data.requestAmount;
           transferFeeAmount = data.totalCharge;
           totalCharge = data.totalCharge;
@@ -553,14 +553,14 @@ class DepositController extends GetxController {
         });
     _isInsertLoading.value = false;
     update();
-    return _addMoneyInsertStripeModel;
+    return _addMoneyInsertStripeModel!;
   }
 
   // ---------------------------- AddMoneyStripeInsertModel --------------------
-  late AddMoneyAuthorizeInsertModel _addMoneyAuthorizeInsertModel;
+  AddMoneyAuthorizeInsertModel? _addMoneyAuthorizeInsertModel;
 
   AddMoneyAuthorizeInsertModel get addMoneyAuthorizeInsertModel =>
-      _addMoneyAuthorizeInsertModel;
+      _addMoneyAuthorizeInsertModel!;
 
   // --------------------------- Api function ----------------------------------
   // add money stripe
@@ -577,7 +577,7 @@ class DepositController extends GetxController {
     await ApiServices.addMoneyInsertAuthorizeApi(body: inputBody)
         .then((value) {
           _addMoneyAuthorizeInsertModel = value!;
-          final data = _addMoneyAuthorizeInsertModel.data.paymentInformation;
+          final data = _addMoneyAuthorizeInsertModel!.data.paymentInformation;
           enteredAmount = data.requestAmount;
           transferFeeAmount = data.totalCharge;
           totalCharge = data.totalCharge;
@@ -591,15 +591,15 @@ class DepositController extends GetxController {
         });
     _isInsertLoading.value = false;
     update();
-    return _addMoneyAuthorizeInsertModel;
+    return _addMoneyAuthorizeInsertModel!;
   }
 
   /// ------------------------------------- >>
   final _isAuthorizedSubmitLoading = false.obs;
   bool get isAuthorizedSubmitLoading => _isAuthorizedSubmitLoading.value;
 
-  late CommonSuccessModel _authorizedSubmitModel;
-  CommonSuccessModel get authorizedSubmitModel => _authorizedSubmitModel;
+  CommonSuccessModel? _authorizedSubmitModel;
+  CommonSuccessModel get authorizedSubmitModel => _authorizedSubmitModel!;
 
   // final cardNumberController = TextEditingController();
   // final cardExpiryController = TextEditingController();
@@ -642,14 +642,14 @@ class DepositController extends GetxController {
     _isAuthorizedSubmitLoading.value = false;
     update();
 
-    return _authorizedSubmitModel;
+    return _authorizedSubmitModel!;
   }
 
   /// >>> Add Money Pagadito Insert Process
-  late AddMoneyPagaditoInsertModel _addMoneyPagaditoInsertModel;
+  AddMoneyPagaditoInsertModel? _addMoneyPagaditoInsertModel;
 
   AddMoneyPagaditoInsertModel get addMoneyPagaditoInsertModel =>
-      _addMoneyPagaditoInsertModel;
+      _addMoneyPagaditoInsertModel!;
 
   // --------------------------- Api function ----------------------------------
   // add money Pagadito
@@ -666,7 +666,7 @@ class DepositController extends GetxController {
     await ApiServices.addMoneyInsertPagaditoApi(body: inputBody)
         .then((value) {
           _addMoneyPagaditoInsertModel = value!;
-          final data = _addMoneyPagaditoInsertModel.data.paymentInformation;
+          final data = _addMoneyPagaditoInsertModel!.data.paymentInformation;
           enteredAmount = data.requestAmount;
           transferFeeAmount = data.totalCharge;
           totalCharge = data.totalCharge;
@@ -680,7 +680,7 @@ class DepositController extends GetxController {
         });
     _isInsertLoading.value = false;
     update();
-    return _addMoneyPagaditoInsertModel;
+    return _addMoneyPagaditoInsertModel!;
   }
 
   void goToWebPaymentViewScreen() {
@@ -732,10 +732,10 @@ class DepositController extends GetxController {
   }
   // ---------------------------- AddMoneyManualInsertModel -----------------
 
-  late AddMoneyManualInsertModel _addMoneyManualInsertModel;
+  AddMoneyManualInsertModel? _addMoneyManualInsertModel;
 
   AddMoneyManualInsertModel get addMoneyManualInsertModel =>
-      _addMoneyManualInsertModel;
+      _addMoneyManualInsertModel!;
 
   // --------------------------- Api function ----------------------------------
   // Manual Payment Get Gateway process function
@@ -758,7 +758,7 @@ class DepositController extends GetxController {
           _addMoneyManualInsertModel = value!;
 
           final previewData =
-              _addMoneyManualInsertModel.data.paymentInformation;
+              _addMoneyManualInsertModel!.data.paymentInformation;
           enteredAmount = previewData.requestAmount;
           transferFeeAmount = previewData.totalCharge;
           totalCharge = previewData.totalCharge;
@@ -766,7 +766,7 @@ class DepositController extends GetxController {
           payableAmount = previewData.payableAmount;
 
           //-------------------------- Process inputs start ------------------------
-          final data = _addMoneyManualInsertModel.data.inputFields;
+          final data = _addMoneyManualInsertModel!.data.inputFields;
 
           for (int item = 0; item < data.length; item++) {
             // make the dynamic controller
@@ -862,7 +862,7 @@ class DepositController extends GetxController {
         });
 
     update();
-    return _addMoneyManualInsertModel;
+    return _addMoneyManualInsertModel!;
   }
 
   // ---------------------------- manualPaymentProcess -------------------------
@@ -871,10 +871,10 @@ class DepositController extends GetxController {
 
   bool get isConfirmManualLoading => _isConfirmManualLoading.value;
 
-  late CommonSuccessModel _manualPaymentConfirmModel;
+  CommonSuccessModel? _manualPaymentConfirmModel;
 
   CommonSuccessModel get manualPaymentConfirmModel =>
-      _manualPaymentConfirmModel;
+      _manualPaymentConfirmModel!;
 
   Future<CommonSuccessModel> manualPaymentProcess() async {
     _isConfirmManualLoading.value = true;
@@ -913,7 +913,7 @@ class DepositController extends GetxController {
         });
     _isConfirmManualLoading.value = false;
     update();
-    return _manualPaymentConfirmModel;
+    return _manualPaymentConfirmModel!;
   }
 
   // keyboard fuction
@@ -995,9 +995,9 @@ class DepositController extends GetxController {
   }
 
   /// Tatum payment gateway
-  late TatumGatewayModel _tatumGatewayModel;
+  TatumGatewayModel? _tatumGatewayModel;
 
-  TatumGatewayModel get tatumGatewayModel => _tatumGatewayModel;
+  TatumGatewayModel get tatumGatewayModel => _tatumGatewayModel!;
 
   // add money tatum
   Future<TatumGatewayModel> tatumProcess() async {
@@ -1017,9 +1017,9 @@ class DepositController extends GetxController {
           _tatumGatewayModel = value!;
 
           final data =
-              _tatumGatewayModel.data.gatewayInfo.addressInfo.inputFields;
+              _tatumGatewayModel!.data.gatewayInfo.addressInfo.inputFields;
           qrAddress.value =
-              _tatumGatewayModel.data.gatewayInfo.addressInfo.address;
+              _tatumGatewayModel!.data.gatewayInfo.addressInfo.address;
           for (int item = 0; item < data.length; item++) {
             // make the dynamic controller
             final textEditingController = TextEditingController();
@@ -1046,7 +1046,7 @@ class DepositController extends GetxController {
               );
             }
           }
-          final paymentInfo = _tatumGatewayModel.data.paymentInfo;
+          final paymentInfo = _tatumGatewayModel!.data.paymentInfo;
           enteredAmount = paymentInfo.requestAmount;
           transferFeeAmount = paymentInfo.totalCharge;
           totalCharge = paymentInfo.totalCharge;
@@ -1060,15 +1060,15 @@ class DepositController extends GetxController {
         });
     _isInsertLoading.value = false;
     update();
-    return _tatumGatewayModel;
+    return _tatumGatewayModel!;
   }
 
   final _isTatumConfirmLoading = false.obs;
 
   bool get isTatumConfirmLoading => _isTatumConfirmLoading.value;
-  late CommonSuccessModel _addMoneyConfirm;
+  CommonSuccessModel? _addMoneyConfirm;
 
-  CommonSuccessModel get addMoneyConfirm => _addMoneyConfirm;
+  CommonSuccessModel get addMoneyConfirm => _addMoneyConfirm!;
 
   // Profile TatumConfirm process with image
   Future<CommonSuccessModel> tatumConfirmProcess(BuildContext context) async {
@@ -1076,7 +1076,7 @@ class DepositController extends GetxController {
     update();
 
     final Map<String, String> inputBody = {};
-    final data = _tatumGatewayModel.data.gatewayInfo.addressInfo.inputFields;
+    final data = _tatumGatewayModel!.data.gatewayInfo.addressInfo.inputFields;
 
     for (int i = 0; i < data.length; i += 1) {
       if (data[i].type != 'file') {
@@ -1086,7 +1086,7 @@ class DepositController extends GetxController {
 
     await ApiServices.tatumConfirmApiProcess(
           body: inputBody,
-          url: _tatumGatewayModel.data.gatewayInfo.addressInfo.submitUrl,
+          url: _tatumGatewayModel!.data.gatewayInfo.addressInfo.submitUrl,
         )
         .then((value) {
           _addMoneyConfirm = value!;
@@ -1107,7 +1107,7 @@ class DepositController extends GetxController {
 
     _isTatumConfirmLoading.value = false;
     update();
-    return _addMoneyConfirm;
+    return _addMoneyConfirm!;
   }
 
   void goToTatumScreen() {
@@ -1151,9 +1151,9 @@ class DepositController extends GetxController {
 
   // Paystack
 
-  late AddMoneyPaystackInsertModel _payStackModel;
+  AddMoneyPaystackInsertModel? _payStackModel;
 
-  AddMoneyPaystackInsertModel get payStackModel => _payStackModel;
+  AddMoneyPaystackInsertModel get payStackModel => _payStackModel!;
 
   Future<AddMoneyPaystackInsertModel> addMoneyPayStackInsertProcess() async {
     _isInsertLoading.value = true;
@@ -1167,7 +1167,7 @@ class DepositController extends GetxController {
     await ApiServices.addMoneyInsertPaystackPayApi(body: inputBody)
         .then((value) {
           _payStackModel = value!;
-          final data = _payStackModel.data.paymentInformations;
+          final data = _payStackModel!.data.paymentInformations;
           enteredAmount = data.requestAmount;
           transferFeeAmount = data.totalCharge;
           totalCharge = data.totalCharge;
@@ -1181,6 +1181,6 @@ class DepositController extends GetxController {
         });
     _isInsertLoading.value = false;
     update();
-    return _payStackModel;
+    return _payStackModel!;
   }
 }

@@ -60,15 +60,22 @@ class LanguageController extends GetxController {
   }
 
   String getTranslation(String key) {
+    // Languages are fetched asynchronously; until they arrive (or if the
+    // request fails) the list is empty. Fall back to the raw key instead of
+    // letting firstWhere throw a StateError and crash the screen build.
+    if (languages.isEmpty) return key;
+
     final selectedLang = languages.firstWhere(
       (lang) => lang.code == selectedLanguage.value,
-      orElse: () =>
-          languages.firstWhere((lang) => lang.code == defLangKey.value),
+      orElse: () => languages.firstWhere(
+        (lang) => lang.code == defLangKey.value,
+        orElse: () => languages.first,
+      ),
     );
 
     final defaultLanguage = languages.firstWhere(
       (lang) => lang.code == 'en',
-      orElse: () => languages.firstWhere((lang) => lang.code == 'en'),
+      orElse: () => languages.first,
     );
 
     String value;

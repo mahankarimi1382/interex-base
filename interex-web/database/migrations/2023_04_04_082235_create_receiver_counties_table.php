@@ -16,13 +16,13 @@ return new class extends Migration
         Schema::create('receiver_counties', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('admin_id');
-            $table->string('country', 100)->index();
-            $table->string('name', 100)->index();
-            $table->string('code', 20)->index();
-            $table->string('mobile_code', 20)->nullable();
-            $table->string('symbol', 20);
-            $table->string('flag', 191)->unique()->nullable();
-            $table->decimal('rate', 28, 8)->default(1);
+            $table->string('country',100)->index();
+            $table->string('name',100)->index();
+            $table->string('code',20)->index();
+            $table->string('mobile_code',20)->nullable();
+            $table->string('symbol',20);
+            $table->string('flag',191)->unique()->nullable();
+            $table->decimal('rate',28,8)->default(1);
             $table->boolean('sender')->default(false);
             $table->boolean('receiver')->default(true);
             $table->boolean('status')->default(true);

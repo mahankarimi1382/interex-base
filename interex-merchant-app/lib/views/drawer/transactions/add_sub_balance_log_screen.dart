@@ -18,7 +18,7 @@ class AddSubBalanceLogScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final data = controller.transactionModel.data.transactions.addSubBalance;
+    final data = controller.transactionModel!.data.transactions.addSubBalance;
     return SizedBox(
       height: MediaQuery.of(context).size.height,
       child: Column(

@@ -114,21 +114,27 @@ class DBHelper
             sleep(2);
         }
 
-        // $phpBinary = PHP_BINARY;
-        $is_windows = strtoupper(substr(PHP_OS, 0, 3)) === 'WIN';
+        // Run the artisan commands in-process using the current request's working
+        // database connection and PHP runtime. Shelling out to a "php artisan"
+        // subprocess was fragile on Windows: it could fail with "'php' is not
+        // recognized" (PHP not on the web server's PATH) or a SQLSTATE[2002]
+        // connection error from the spawned process.
+        @set_time_limit(0);
 
-        if ($is_windows) {
-            // handle windows pc
-            $command_base_path = $this->resolveWindowsCommandPath();
-        } else {
-            // handle mac and other servers
-            $command_base_path = $this->resolveCommandPath();
+        Artisan::call('migrate:fresh', ['--seed' => true, '--force' => true]);
+        Artisan::call('migrate', ['--force' => true]);
+
+        // Passport's artisan commands are only registered when running in the
+        // console, so Artisan::call('passport:install') is unavailable from a
+        // web request ("command does not exist"). Replicate it in-process.
+        $this->installPassport();
+
+        try {
+            // The symlink may already exist on re-runs; that is not fatal.
+            Artisan::call('storage:link');
+        } catch (Exception $e) {
+            // ignore: storage link already present
         }
-
-        self::execute($command_base_path.' migrate:fresh --seed');
-        self::execute($command_base_path.' migrate');
-        self::execute($command_base_path.' passport:install --force');
-        self::execute($command_base_path.' storage:link');
 
         $this->setMigrateStepSession();
 
@@ -137,6 +143,55 @@ class DBHelper
             'APP_ENV' => 'production',
             'APP_URL' => rtrim(url('/'), '/'),
         ]);
+    }
+
+    /**
+     * Prepare Passport for use without invoking its console commands.
+     *
+     * Mirrors `passport:install`: generates the RSA encryption keys and creates
+     * the "personal access" grant client. Passport registers its artisan
+     * commands only when running in the console, so they cannot be reached via
+     * Artisan::call() from a web request.
+     */
+    protected function installPassport(): void
+    {
+        // 1) Encryption keys (equivalent to `passport:keys --force`)
+        $public_key = \Laravel\Passport\Passport::keyPath('oauth-public.key');
+        $private_key = \Laravel\Passport\Passport::keyPath('oauth-private.key');
+
+        $key = \phpseclib3\Crypt\RSA::createKey(4096);
+        file_put_contents($public_key, (string) $key->getPublicKey());
+        file_put_contents($private_key, (string) $key);
+
+        if (! windows_os()) {
+            @chmod($public_key, 0660);
+            @chmod($private_key, 0600);
+        }
+
+        // 2) Personal access grant clients (equivalent to `passport:client --personal`).
+        // Passport 12+ scopes personal access clients to a user provider, so we
+        // need one per provider used by a passport guard (users/merchants/agents).
+        $clients = app(\Laravel\Passport\ClientRepository::class);
+        foreach ($this->passportProviders() as $provider) {
+            $clients->createPersonalAccessGrantClient(config('app.name'), $provider);
+        }
+    }
+
+    /**
+     * Distinct user providers used by guards whose driver is "passport".
+     *
+     * @return array<int,string>
+     */
+    protected function passportProviders(): array
+    {
+        $providers = [];
+        foreach ((array) config('auth.guards') as $guard) {
+            if (($guard['driver'] ?? null) === 'passport' && ! empty($guard['provider'])) {
+                $providers[] = $guard['provider'];
+            }
+        }
+
+        return array_values(array_unique($providers));
     }
 
     /**
@@ -164,7 +219,19 @@ class DBHelper
      */
     public function resolveWindowsCommandPath(): string
     {
-        $base_path = 'php "'.base_path('artisan').'"';
+        // Use the absolute path of the running PHP binary (php.exe) instead of a
+        // bare "php", because the web server's subprocess environment may not
+        // have PHP on its PATH ("'php' is not recognized" otherwise).
+        $php_binary = PHP_BINARY;
+
+        // Under a web SAPI the binary may resolve to php-cgi/php-fpm; prefer the
+        // sibling php.exe CLI when it exists.
+        $cli_candidate = dirname($php_binary).DIRECTORY_SEPARATOR.'php.exe';
+        if (is_file($cli_candidate)) {
+            $php_binary = $cli_candidate;
+        }
+
+        $base_path = '"'.$php_binary.'" "'.base_path('artisan').'"';
 
         return $base_path;
     }

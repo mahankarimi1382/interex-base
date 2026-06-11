@@ -9,12 +9,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class UserWallet extends Model
 {
+
     use HasFactory;
-
     public $timestamps = true;
-
-    protected $fillable = ['balance', 'status', 'user_id', 'currency_id', 'created_at', 'updated_at'];
-
+    protected $fillable = ['balance', 'status','user_id','currency_id','created_at','updated_at'];
     protected $casts = [
         'user_id' => 'integer',
         'currency_id' => 'integer',
@@ -22,30 +20,29 @@ class UserWallet extends Model
         'status' => 'integer',
     ];
 
-    public function scopeAuth($query)
-    {
-        return $query->where('user_id', auth()->user()->id);
+    public function scopeAuth($query) {
+        return $query->where('user_id',auth()->user()->id);
     }
 
-    public function scopeActive($query)
-    {
-        return $query->where('status', true);
+    public function scopeActive($query) {
+        return $query->where("status",true);
     }
 
-    public function user()
-    {
+
+    public function user() {
         return $this->belongsTo(User::class);
     }
 
-    public function currency()
-    {
+    public function currency() {
         return $this->belongsTo(Currency::class);
     }
 
-    public function scopeSender($query)
-    {
-        return $query->whereHas('currency', function ($q) {
-            $q->where('sender', GlobalConst::ACTIVE);
+
+    public function scopeSender($query) {
+        return $query->whereHas('currency',function($q) {
+            $q->where("sender",GlobalConst::ACTIVE);
         });
     }
+
+
 }

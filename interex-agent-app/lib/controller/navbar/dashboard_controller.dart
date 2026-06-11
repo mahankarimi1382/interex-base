@@ -51,8 +51,8 @@ class DashBoardController extends GetxController {
   final _isLoading = false.obs;
   bool get isLoading => _isLoading.value;
 
-  late DashboardModel _dashboardModel;
-  DashboardModel get dashBoardModel => _dashboardModel;
+  DashboardModel? _dashboardModel;
+  DashboardModel get dashBoardModel => _dashboardModel!;
 
   Future<DashboardModel> getDashboardData() async {
     _isLoading.value = true;
@@ -64,17 +64,17 @@ class DashBoardController extends GetxController {
         .then((value) async {
           _dashboardModel = value!;
 
-          pinStatus.value = _dashboardModel.data.agent.pinStatus;
-          pinVerification.value = _dashboardModel.data.pinVerification;
-          // pinCode.value = _dashboardModel.data.agent.pinCode.toString();
+          pinStatus.value = _dashboardModel!.data.agent.pinStatus;
+          pinVerification.value = _dashboardModel!.data.pinVerification;
+          // pinCode.value = _dashboardModel!.data.agent.pinCode.toString();
 
-          final data = _dashboardModel.data.moduleAccess;
-          totalReceive.value = _dashboardModel.data.totalReceiveMoney;
-          profitBalance.value = _dashboardModel.data.agentProfits;
+          final data = _dashboardModel!.data.moduleAccess;
+          totalReceive.value = _dashboardModel!.data.totalReceiveMoney;
+          profitBalance.value = _dashboardModel!.data.agentProfits;
           categoriesData.clear();
           await getPusherAuth();
           // await PusherBeams.instance.start(
-          //   _dashboardModel.data.pusherCredentials.instanceId,
+          //   _dashboardModel!.data.pusherCredentials.instanceId,
           // );
           if (data.transferMoney) {
             categoriesData.add(
@@ -138,7 +138,7 @@ class DashBoardController extends GetxController {
               }),
             );
           }
-          kycStatus.value = _dashboardModel.data.agent.kycVerified;
+          kycStatus.value = _dashboardModel!.data.agent.kycVerified;
 
           _isLoading.value = false;
           update();
@@ -147,7 +147,7 @@ class DashBoardController extends GetxController {
           log.e(onError);
         });
     update();
-    return _dashboardModel;
+    return _dashboardModel!;
   }
 
   Future<DashboardModel> getDashboardData2() async {
@@ -160,11 +160,11 @@ class DashBoardController extends GetxController {
         .then((value) async {
           _dashboardModel = value!;
 
-          pinStatus.value = _dashboardModel.data.agent.pinStatus;
-          pinVerification.value = _dashboardModel.data.pinVerification;
-          // pinCode.value = _dashboardModel.data.agent.pinCode.toString();
+          pinStatus.value = _dashboardModel!.data.agent.pinStatus;
+          pinVerification.value = _dashboardModel!.data.pinVerification;
+          // pinCode.value = _dashboardModel!.data.agent.pinCode.toString();
 
-          kycStatus.value = _dashboardModel.data.agent.kycVerified;
+          kycStatus.value = _dashboardModel!.data.agent.kycVerified;
 
           _isLoading.value = false;
           update();
@@ -173,15 +173,15 @@ class DashBoardController extends GetxController {
           log.e(onError);
         });
     update();
-    return _dashboardModel;
+    return _dashboardModel!;
   }
 
   // Register Pusher Beams
   final _isPusherBeamsLoading = false.obs;
   bool get isPusherBeamsLoading => _isPusherBeamsLoading.value;
-  late PusherBeamsModel _pusherBeamsModel;
+  PusherBeamsModel? _pusherBeamsModel;
 
-  PusherBeamsModel get pusherBeamsModel => _pusherBeamsModel;
+  PusherBeamsModel get pusherBeamsModel => _pusherBeamsModel!;
 
   Future<PusherBeamsModel> getPusherAuth() async {
     _isPusherBeamsLoading.value = true;
@@ -201,7 +201,7 @@ class DashBoardController extends GetxController {
           log.e(onError);
         });
     update();
-    return _pusherBeamsModel;
+    return _pusherBeamsModel!;
   }
 
   // getSecure() async {

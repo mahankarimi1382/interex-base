@@ -3,18 +3,18 @@
 namespace App\Notifications\PaymentLink\Gateway;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Messages\MailMessage;
-use Illuminate\Notifications\Notification;
 use Illuminate\Support\Carbon;
+use App\Constants\PaymentGatewayConst;
+use Illuminate\Notifications\Notification;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Notifications\Messages\MailMessage;
 
 class BuyerNotification extends Notification
 {
     use Queueable;
 
     private $user;
-
     private $data;
-
     private $trx_id;
 
     /**
@@ -44,7 +44,7 @@ class BuyerNotification extends Notification
      * Get the mail representation of the notification.
      *
      * @param  mixed  $notifiable
-     * @return MailMessage
+     * @return \Illuminate\Notifications\Messages\MailMessage
      */
     public function toMail($notifiable)
     {
@@ -53,20 +53,20 @@ class BuyerNotification extends Notification
         $trx_id = $this->trx_id;
         $type = 'payment_link';
 
+
         $transaction_type = $data['transaction_type'] ?? $data['type'];
         $request_amount = $data['validated']['amount'];
 
         $date = Carbon::now();
         $datetime = dateFormat('Y-m-d h:i:s A', $date);
-
         return (new MailMessage)
-            ->greeting(__('Hello').' '.$user['name'].' !')
-            ->subject(__('Payment Link Transaction via').' '.$transaction_type)
-            ->line(__('Your payment request successfully via').' '.$data[$type]->currency.' ,'.__('details transactions').':')
-            ->line(__('request Amount').': '.getAmount($request_amount, 2).' '.$data[$type]->currency)
-            ->line(__('web_trx_id').': '.$trx_id)
-            ->line(__('Status').': '.__('success'))
-            ->line(__('Date And Time').': '.$datetime)
+            ->greeting(__("Hello")." ".$user['name']." !")
+            ->subject(__("Payment Link Transaction via")." ". $transaction_type)
+            ->line(__("Your payment request successfully via")." ".$data[$type]->currency." ,".__("details transactions").":")
+            ->line(__("request Amount").": " . getAmount($request_amount,2).' '. $data[$type]->currency)
+            ->line(__("web_trx_id").": " .$trx_id)
+            ->line(__("Status").": ".__("success"))
+            ->line(__("Date And Time").": " .$datetime)
             ->line(__('Thank you for using our application!'));
     }
 

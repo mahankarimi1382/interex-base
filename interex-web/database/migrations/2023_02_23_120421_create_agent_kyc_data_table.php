@@ -15,12 +15,12 @@ return new class extends Migration
     {
         Schema::create('agent_kyc_data', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('agent_id');
-            $table->text('data', 5000);
-            $table->text('reject_reason', 2000)->nullable();
+            $table->unsignedBigInteger("agent_id");
+            $table->text("data",5000);
+            $table->text("reject_reason",2000)->nullable();
             $table->timestamps();
 
-            $table->foreign('agent_id')->references('id')->on('agents')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign("agent_id")->references("id")->on("agents")->onDelete("cascade")->onUpdate("cascade");
         });
     }
 

@@ -3,6 +3,7 @@
 namespace App\Notifications\User\Auth;
 
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
@@ -11,7 +12,6 @@ class SendVerifyCode extends Notification
     use Queueable;
 
     public $email;
-
     public $code;
 
     /**
@@ -19,7 +19,7 @@ class SendVerifyCode extends Notification
      *
      * @return void
      */
-    public function __construct($email, $code)
+    public function __construct($email,$code)
     {
         $this->email = $email;
         $this->code = $code;
@@ -40,19 +40,18 @@ class SendVerifyCode extends Notification
      * Get the mail representation of the notification.
      *
      * @param  mixed  $notifiable
-     * @return MailMessage
+     * @return \Illuminate\Notifications\Messages\MailMessage
      */
     public function toMail($notifiable)
     {
         $code = $this->code;
-        $username = explode('@', $this->email);
-
+        $username  = explode('@',$this->email);
         return (new MailMessage)
-            ->greeting(__('Hello').' '.@$username[0].' !')
-            ->subject(__('Verification Code ( Register )'))
-            ->line(__('You are trying to verify code for register.'))
-            ->line(__('Here is your OTP').': '.$code)
-            ->line(__('Thank you for using our application!'));
+                    ->greeting(__("Hello")." ".@$username[0]." !")
+                    ->subject(__("Verification Code ( Register )"))
+                    ->line(__('You are trying to verify code for register.'))
+                    ->line(__("Here is your OTP").": " . $code)
+                    ->line(__('Thank you for using our application!'));
     }
 
     /**

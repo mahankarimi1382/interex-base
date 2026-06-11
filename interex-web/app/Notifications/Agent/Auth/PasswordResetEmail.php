@@ -3,6 +3,7 @@
 namespace App\Notifications\Agent\Auth;
 
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
@@ -11,7 +12,6 @@ class PasswordResetEmail extends Notification
     use Queueable;
 
     public $user;
-
     public $password_reset;
 
     /**
@@ -19,7 +19,7 @@ class PasswordResetEmail extends Notification
      *
      * @return void
      */
-    public function __construct($user, $password_reset)
+    public function __construct($user,$password_reset)
     {
         $this->user = $user;
         $this->password_reset = $password_reset;
@@ -40,7 +40,7 @@ class PasswordResetEmail extends Notification
      * Get the mail representation of the notification.
      *
      * @param  mixed  $notifiable
-     * @return MailMessage
+     * @return \Illuminate\Notifications\Messages\MailMessage
      */
     public function toMail($notifiable)
     {
@@ -48,12 +48,12 @@ class PasswordResetEmail extends Notification
         $password_reset = $this->password_reset;
 
         return (new MailMessage)
-            ->greeting(__('Hello').' '.$user->fullname.' !')
-            ->subject(__('Verification Code (Password Reset)'))
-            ->line(__('You trying to reset your password.'))
-            ->line(__('Here is your OTP').' '.$password_reset->code)
+                    ->greeting(__("Hello")." ".$user->fullname." !")
+                    ->subject(__("Verification Code (Password Reset)"))
+                    ->line(__('You trying to reset your password.'))
+                    ->line(__("Here is your OTP")." " . $password_reset->code)
                     // ->action('Verify', route('agent.password.forgot.code.verify.form',$password_reset->token))
-            ->line(__('Thank you for using our application!'));
+                    ->line(__('Thank you for using our application!'));
     }
 
     /**

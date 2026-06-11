@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::table('user_support_tickets', function (Blueprint $table) {
             $table->unsignedBigInteger('admin_id')->after('user_id')->nullable();
-            $table->string('name', 100)->nullable()->change();
+            $table->string('name')->nullable()->change();
 
             $table->foreign('admin_id')->references('id')->on('admins')->onDelete('cascade')->onUpdate('cascade');
         });

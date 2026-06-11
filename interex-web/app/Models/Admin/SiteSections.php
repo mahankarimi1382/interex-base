@@ -12,16 +12,15 @@ class SiteSections extends Model
     protected $guarded = ['id'];
 
     protected $casts = [
-        'value' => 'object',
+        'value'     => 'object',
     ];
 
-    public function scopeSiteCookie()
-    {
-        return $this->where('key', 'site_cookie')->first();
+    public function scopeSiteCookie() {
+       return $this->where('key','site_cookie')->first();
     }
 
-    public function scopeGetData($query, $slug)
-    {
-        return $this->where('key', $slug);
+    public function scopeGetData($query,$slug) {
+        return $this->where("key",$slug);
     }
+
 }

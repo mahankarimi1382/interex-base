@@ -71,7 +71,7 @@ class MoneyReceiveScreen extends StatelessWidget {
         width: Dimensions.widthSize * 24,
         height: Dimensions.heightSize * 22,
         child: CachedNetworkImage(
-          imageUrl: controller.receiveMoneyModel.data.qrCode,
+          imageUrl: controller.receiveMoneyModel!.data.qrCode,
           placeholder: (context, url) => const CustomLoadingAPI(),
         ),
       ),
@@ -124,7 +124,7 @@ class MoneyReceiveScreen extends StatelessWidget {
         title: Strings.share.tr,
         onPressed: () {
           // ignore: deprecated_member_use
-          Share.share(controller.receiveMoneyModel.data.qrCode);
+          Share.share(controller.receiveMoneyModel!.data.qrCode);
         },
       ),
     );

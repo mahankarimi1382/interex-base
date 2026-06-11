@@ -10,7 +10,6 @@ class GatewayAPi extends Model
     use HasFactory;
 
     protected $guarded = ['id'];
-
     protected $casts = [
         'admin_id' => 'integer',
         'payment_gateway_status' => 'boolean',
@@ -19,4 +18,5 @@ class GatewayAPi extends Model
         'secret_key' => 'string',
         'public_key' => 'string',
     ];
+
 }

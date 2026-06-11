@@ -1,7 +1,8 @@
 import 'package:qrpay/backend/extentions/custom_extentions.dart';
 
 class ApiEndpoint {
-  static const String mainDomain = "PUT_YOUR_OWN_DOMAIN_HERE";
+  static const String host = "api.habel.ir";
+  static const String mainDomain = "https://$host";
   static const String baseUrl = "$mainDomain/merchant-api";
   // auth
   static String loginURL = '/merchant/login'.addBaseURl();

@@ -1,9 +1,10 @@
 <?php
 
-use App\Http\Controllers\FileController;
-use App\Http\Controllers\GlobalController;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Controllers\FileController;
+use App\Http\Controllers\GlobalController;
 
 Route::controller(GlobalController::class)->prefix('global')->name('global.')->group(function () {
     Route::post('get-states', 'getStates')->name('country.states');
@@ -19,7 +20,7 @@ Route::controller(GlobalController::class)->prefix('global')->name('global.')->g
     Route::get('user/wallet/balance', 'userWalletBalance')->name('user.wallet.balance');
     Route::get('receiver/wallet/currency', 'receiverWallet')->name('receiver.wallet.currency');
     Route::post('get/total/transactions', 'getTotalTransactions')->name('get.total.transactions');
-    // webhook(Airtime(Reloadly))
+    //webhook(Airtime(Reloadly))
     Route::post('mobile-topup/webhook', 'webhookInfo')->name('mobile.topup.webhook')->withoutMiddleware(['web', 'auth', 'verification.guard', 'user.google.two.factor']);
 });
 
@@ -28,15 +29,15 @@ Route::post('/fileholder-upload', [FileController::class, 'storeFile'])->name('f
 Route::post('/fileholder-remove', [FileController::class, 'removeFile'])->name('fileholder.remove');
 
 Route::get('file/download/{path_source}/{name}', function ($path_source, $file_name) {
-    $file_link = get_files_path($path_source).'/'.$file_name;
+    $file_link = get_files_path($path_source) . '/' . $file_name;
     if (Storage::disk(Storage::getDefaultDriver())->exists($file_link)) {
-        return Storage::disk(Storage::getDefaultDriver())->download($file_link);
+    return Storage::disk(Storage::getDefaultDriver())->download($file_link);
     }
 
     return back()->with(['error' => ['File doesn\'t exists']]);
 })->name('file.download');
 
-// Flutterwave withdraw callback url
+//Flutterwave withdraw callback url
 Route::controller(GlobalController::class)->group(function () {
     Route::post('flutterwave/withdraw_webhooks', 'webHookResponse')->name('webhook.response')->withoutMiddleware(['web']);
 });

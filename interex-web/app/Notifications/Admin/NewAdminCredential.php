@@ -3,6 +3,7 @@
 namespace App\Notifications\Admin;
 
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
@@ -37,21 +38,21 @@ class NewAdminCredential extends Notification
      * Get the mail representation of the notification.
      *
      * @param  mixed  $notifiable
-     * @return MailMessage
+     * @return \Illuminate\Notifications\Messages\MailMessage
      */
     public function toMail($notifiable)
     {
         $data = $this->data;
-
+        
         return (new MailMessage)
-            ->greeting('Hello '.$data['firstname'].'!')
-            ->subject('Login Credentials')
-            ->line('Here is your login credentials:')
-            ->line('Username: '.$data['username'])
-            ->line('Email: '.$data['email'])
-            ->line('Passowrd: '.$data['password'])
-            ->line('Role: '.$data['role'])
-            ->action('Login Now', route('admin.login'));
+                    ->greeting("Hello ".$data['firstname']. "!")
+                    ->subject("Login Credentials")
+                    ->line('Here is your login credentials:')
+                    ->line('Username: ' .$data['username'])
+                    ->line('Email: '.$data['email'])
+                    ->line('Passowrd: '.$data['password'])
+                    ->line('Role: '.$data['role'])
+                    ->action('Login Now', route('admin.login'));
     }
 
     /**

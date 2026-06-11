@@ -152,7 +152,7 @@ class DashboardScreen extends StatelessWidget {
     BuildContext context,
     ScrollController scrollController,
   ) {
-    final data = controller.dashBoardModel.data.transactions;
+    final data = controller.dashBoardModel!.data.transactions;
     return data.isEmpty
         ? NoDataWidget(title: Strings.noTransaction.tr)
         : ListView(
@@ -201,7 +201,7 @@ class DashboardScreen extends StatelessWidget {
   Column _walletsWidget(BuildContext context) {
     final wallets = controller
         .walletsController
-        .walletsInfoModel
+        .walletsInfoModel!
         .data
         .userWallets
         .where(

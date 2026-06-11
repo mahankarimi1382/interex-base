@@ -43,7 +43,7 @@ class ProfileScreen extends StatelessWidget {
   }
 
   Column _userImageText(BuildContext context) {
-    final data = controller.profileModel.data;
+    final data = controller.profileModel!.data;
 
     final image =
         '${Get.find<AppSettingsController>().baseUrl.value}/${data.imagePath}/${data.user.image}';

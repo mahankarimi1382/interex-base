@@ -13,16 +13,19 @@ return [
 
     /**
      * Public Key: Your Rave publicKey. Sign up on https://dashboard.flutterwave.com/ to get one from your settings page
+     *
      */
     'publicKey' => '',
 
     /**
      * Secret Key: Your Rave secretKey. Sign up on https://dashboard.flutterwave.com/ to get one from your settings page
+     *
      */
     'secretKey' => '',
 
     /**
      * Prefix: Secret hash for webhook
+     *
      */
     'secretHash' => '',
 ];

@@ -30,8 +30,8 @@ class ValidationHelper
     }
 
     public function isLocalInstallation()
-    {
-        return true;
+    {   
+		return true;
         $url = request()->url();
         $url_path = parse_url($url);
         $host = $url_path['host'];

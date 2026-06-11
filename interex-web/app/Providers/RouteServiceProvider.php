@@ -40,35 +40,38 @@ class RouteServiceProvider extends ServiceProvider
                 $basic_settings = null;
             }
 
-            Route::middleware(['system.maintenance.api', 'api'])
+
+            Route::middleware(['system.maintenance.api','api'])
                 ->prefix('api')
                 ->group(base_path('routes/api/api.php'));
 
-            Route::middleware(['system.maintenance.api', 'api'])
-                ->prefix('merchant-api')
+            Route::middleware(['system.maintenance.api','api'])
+            ->prefix('merchant-api')
                 ->group(base_path('routes/api/merchant_api.php'));
 
-            Route::middleware(['system.maintenance.api', 'api'])
+            Route::middleware(['system.maintenance.api','api'])
                 ->prefix('agent-api')
                 ->group(base_path('routes/api/agent_api.php'));
 
-            Route::middleware(['web', 'system.maintenance'])
+
+            Route::middleware(['web','system.maintenance'])
                 ->group(base_path('routes/web.php'));
 
-            Route::middleware(['web', 'auth', 'verification.guard', 'sms.verification.guard', 'user.google.two.factor', 'system.maintenance'])
+            Route::middleware(['web','auth','verification.guard','sms.verification.guard','user.google.two.factor','system.maintenance'])
 
                 ->group(base_path('routes/user.php'));
+
 
             Route::prefix($basic_settings->admin_prefix ?? 'admin')
                 ->group(base_path('routes/admin.php'));
 
-            Route::middleware(['web', 'auth:merchant', 'verification.guard.merchant', 'merchant.sms.verification.guard', 'merchant.google.two.factor', 'system.maintenance'])
-                ->group(base_path('routes/merchant.php'));
+            Route::middleware(['web','auth:merchant','verification.guard.merchant','merchant.sms.verification.guard','merchant.google.two.factor','system.maintenance'])
+            ->group(base_path('routes/merchant.php'));
 
-            Route::middleware(['web', 'auth:agent', 'verification.guard.agent', 'agent.sms.verification.guard', 'agent.google.two.factor', 'system.maintenance'])
-                ->group(base_path('routes/agent.php'));
+            Route::middleware(['web','auth:agent','verification.guard.agent','agent.sms.verification.guard','agent.google.two.factor','system.maintenance'])
+            ->group(base_path('routes/agent.php'));
 
-            Route::middleware(['web', 'system.maintenance'])
+            Route::middleware(['web','system.maintenance'])
                 ->group(base_path('routes/auth.php'));
 
             Route::middleware(['web'])
@@ -77,9 +80,9 @@ class RouteServiceProvider extends ServiceProvider
             Route::middleware(['api'])
                 ->group(base_path('routes/payment-gateway/qr_pay/v1/routes.php'));
 
-            // demo checkout
-            Route::middleware(['web', 'system.maintenance'])
-                ->group(base_path('routes/payment-gateway/qr_pay/v1/checkout.php'));
+            //demo checkout
+            Route::middleware(['web','system.maintenance'])
+            ->group(base_path('routes/payment-gateway/qr_pay/v1/checkout.php'));
 
             $this->mapInstallerRoute();
         });
@@ -102,9 +105,8 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    protected function mapInstallerRoute()
-    {
-        if (file_exists(base_path('resources/installer/src/routes/web.php'))) {
+    protected function mapInstallerRoute() {
+        if(file_exists(base_path('resources/installer/src/routes/web.php'))) {
             Route::middleware('web')
                 ->group(base_path('resources/installer/src/routes/web.php'));
         }

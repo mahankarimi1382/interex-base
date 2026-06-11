@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Mi Tienda Pagadito 1.2 (API PHP)
  *
@@ -17,9 +16,7 @@
  *
  * @author      Pagadito.com <soporte@pagadito.com>
  * @copyright   Copyright (c) 2017, Pagadito.com
- *
  * @version     1.0
- *
  * @link        https://dev.pagadito.com/index.php?mod=docs&hac=wspg
  */
 

@@ -15,22 +15,22 @@ class MerchantSandboxWalletSeeder extends Seeder
      */
     public function run()
     {
-        $currencies_ids = Currency::roleHasOne()->active()->get()->pluck('id')->toArray();
+        $currencies_ids = Currency::roleHasOne()->active()->get()->pluck("id")->toArray();
 
         $merchant_ids = [1];
 
-        foreach ($merchant_ids as $merchant_id) {
-            foreach ($currencies_ids as $currency_id) {
+        foreach($merchant_ids as $merchant_id) {
+            foreach($currencies_ids as $currency_id) {
                 $data[] = [
-                    'merchant_id' => $merchant_id,
-                    'currency_id' => $currency_id,
-                    'balance' => 1000,
-                    'status' => true,
-                    'created_at' => now(),
+                    'merchant_id'   =>  $merchant_id,
+                    'currency_id'   => $currency_id,
+                    'balance'       => 1000,
+                    'status'        => true,
+                    'created_at'    => now(),
                 ];
             }
         }
 
-        SandboxWallet::upsert($data, ['merchant_id', 'currency_id'], ['balance']);
+        SandboxWallet::upsert($data,['merchant_id','currency_id'],['balance']);
     }
 }

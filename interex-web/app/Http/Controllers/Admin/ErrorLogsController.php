@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Session;
@@ -10,16 +11,14 @@ class ErrorLogsController extends Controller
 {
     /**
      * Method for view error logs page
-     *
      * @return view
      */
-    public function index()
-    {
-        $page_title = __('Error Logs');
+    public function index(){
+        $page_title         = __("Error Logs");
 
         $log_file = storage_path('logs/laravel.log');
 
-        if (! File::exists($log_file)) {
+        if (!File::exists($log_file)) {
             return view('admin.sections.error-logs.index', ['logs' => []]);
         }
 
@@ -27,12 +26,12 @@ class ErrorLogsController extends Controller
 
         $lines = explode("\n", $log_content);
 
-        $logs = [];
-        $entry = [];
+        $logs   = [];
+        $entry  = [];
 
         foreach ($lines as $line) {
             if (preg_match("/^\[(.*?)\].*/", $line)) {
-                if (! empty($entry)) {
+                if (!empty($entry)) {
                     $logs[] = implode("\n", $entry);
                     $entry = [];
                 }
@@ -40,16 +39,15 @@ class ErrorLogsController extends Controller
             $entry[] = $line;
         }
 
-        if (! empty($entry)) {
+        if (!empty($entry)) {
             $logs[] = implode("\n", $entry);
         }
 
         $logs = array_reverse($logs);
 
-        return view('admin.sections.error-logs.index', compact('page_title', 'logs'));
+        return view('admin.sections.error-logs.index', compact('page_title','logs'));
 
     }
-
     /**
      * Method for clear error logs
      */

@@ -20,9 +20,9 @@ return new class extends Migration
             $table->unsignedBigInteger('last_edit_by');
             $table->timestamps();
 
-            $table->foreign('admin_id')->references('id')->on('admins')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('admin_role_id')->references('id')->on('admin_roles')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('last_edit_by')->references('id')->on('admins')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign("admin_id")->references("id")->on("admins")->onDelete("cascade")->onUpdate("cascade");
+            $table->foreign("admin_role_id")->references("id")->on("admin_roles")->onDelete("cascade")->onUpdate("cascade");
+            $table->foreign("last_edit_by")->references("id")->on("admins")->onDelete("cascade")->onUpdate("cascade");
         });
     }
 

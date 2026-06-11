@@ -14,11 +14,11 @@ class NotificationController extends GetxController {
 
   bool get isLoading => _isLoading.value;
 
-  late NotificationModel _notificationModelData;
+  NotificationModel? _notificationModelData;
 
-  NotificationModel get notificationModelData => _notificationModelData;
+  NotificationModel? get notificationModelData => _notificationModelData;
 
-  Future<NotificationModel> getNotificationData() async {
+  Future<NotificationModel?> getNotificationData() async {
     _isLoading.value = true;
     update();
 

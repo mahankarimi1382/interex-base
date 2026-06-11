@@ -16,9 +16,9 @@ return new class extends Migration
     {
         Schema::create('referral_settings', function (Blueprint $table) {
             $table->id();
-            $table->decimal('bonus', 28, 8, true)->default(0);
-            $table->enum('wallet_type', [
-                GlobalConst::CURRENT_BALANCE,
+            $table->decimal('bonus',28,8,true)->default(0);
+            $table->enum('wallet_type',[
+                GlobalConst::CURRENT_BALANCE
             ]);
             $table->boolean('mail')->default(false);
             $table->boolean('sms')->default(false);

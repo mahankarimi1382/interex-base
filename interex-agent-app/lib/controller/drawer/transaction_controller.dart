@@ -17,8 +17,8 @@ class TransactionController extends GetxController {
   final _isLoading = false.obs;
   bool get isLoading => _isLoading.value;
 
-  late TransactionLogModel _transactioData;
-  TransactionLogModel get transactioData => _transactioData;
+  TransactionLogModel? _transactioData;
+  TransactionLogModel get transactioData => _transactioData!;
 
   @override
   void onInit() {
@@ -44,13 +44,13 @@ class TransactionController extends GetxController {
 
     _isLoading.value = false;
     update();
-    return _transactioData;
+    return _transactioData!;
   }
 
   final _isTatumConfirmLoading = false.obs;
   bool get isTatumConfirmLoading => _isTatumConfirmLoading.value;
-  late CommonSuccessModel _addMoneyConfirm;
-  CommonSuccessModel get addMoneyConfirm => _addMoneyConfirm;
+  CommonSuccessModel? _addMoneyConfirm;
+  CommonSuccessModel get addMoneyConfirm => _addMoneyConfirm!;
 
   // Profile TatumConfirm process with image
   Future<CommonSuccessModel> tatumConfirmProcess(
@@ -61,7 +61,7 @@ class TransactionController extends GetxController {
     update();
 
     final Map<String, String> inputBody = {};
-    final data = _transactioData.data.transactions.addMoney[1].dynamicInputs;
+    final data = _transactioData!.data.transactions.addMoney[1].dynamicInputs;
 
     for (int i = 0; i < data.length; i += 1) {
       if (data[i].type != 'file') {
@@ -87,6 +87,6 @@ class TransactionController extends GetxController {
 
     _isTatumConfirmLoading.value = false;
     update();
-    return _addMoneyConfirm;
+    return _addMoneyConfirm!;
   }
 }

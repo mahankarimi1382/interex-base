@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:qrpay/backend/local_storage/local_storage.dart';
+import 'package:qrpay/extentions/custom_extentions.dart';
 import 'package:qrpay/utils/basic_screen_imports.dart';
 
 import '../../backend/model/app_settings/app_settings_model.dart';
@@ -33,8 +34,8 @@ class AppSettingsController extends GetxController {
   final _isLoading = false.obs;
   bool get isLoading => _isLoading.value;
 
-  late AppSettingsModel _appSettingsModel;
-  AppSettingsModel get appSettingsModel => _appSettingsModel;
+  AppSettingsModel? _appSettingsModel;
+  AppSettingsModel get appSettingsModel => _appSettingsModel!;
 
   Future<AppSettingsModel> getSplashAndOnboardData() async {
     _isLoading.value = true;
@@ -44,7 +45,7 @@ class AppSettingsController extends GetxController {
         .then((value) {
           _appSettingsModel = value!;
           LocalStorage.saveFiatPrecision(
-            value: _appSettingsModel
+            value: _appSettingsModel!
                 .data
                 .appSettings
                 .agent
@@ -52,7 +53,7 @@ class AppSettingsController extends GetxController {
                 .fiatPrecisionValue,
           );
           LocalStorage.saveCryptoPrecision(
-            value: _appSettingsModel
+            value: _appSettingsModel!
                 .data
                 .appSettings
                 .agent
@@ -60,10 +61,11 @@ class AppSettingsController extends GetxController {
                 .cryptoPrecisionValue,
           );
           splashImagePath.value =
-              "${_appSettingsModel.data.baseUrl}/${_appSettingsModel.data.screenImagePath}/${_appSettingsModel.data.appSettings.agent.splashScreen.splashScreenImage}";
+              "${_appSettingsModel!.data.baseUrl}/${_appSettingsModel!.data.screenImagePath}/${_appSettingsModel!.data.appSettings.agent.splashScreen.splashScreenImage}"
+                  .fixHost();
           debugPrint(splashImagePath.value);
           for (var element
-              in _appSettingsModel.data.appSettings.agent.onboardScreen) {
+              in _appSettingsModel!.data.appSettings.agent.onboardScreen) {
             onboardScreen.add(
               OnboardScreen(
                 id: element.id,
@@ -76,25 +78,25 @@ class AppSettingsController extends GetxController {
               ),
             );
           }
-          baseUrl.value = _appSettingsModel.data.baseUrl;
+          baseUrl.value = _appSettingsModel!.data.baseUrl.fixHost();
 
           path.value =
-              "${baseUrl.value}/${_appSettingsModel.data.logoImagePath}/";
+              "${baseUrl.value}/${_appSettingsModel!.data.logoImagePath}/";
 
-          if (_appSettingsModel.data.appSettings.agent.basicSettings.siteLogo ==
+          if (_appSettingsModel!.data.appSettings.agent.basicSettings.siteLogo ==
               '') {
             appBasicLogoWhite.value =
-                "${baseUrl.value}/${_appSettingsModel.data.defaultImage}";
+                "${baseUrl.value}/${_appSettingsModel!.data.defaultImage}";
             appBasicLogoDark.value = appBasicLogoWhite.value;
           } else {
             appBasicLogoWhite.value =
-                "${baseUrl.value}/${_appSettingsModel.data.logoImagePath}/${_appSettingsModel.data.appSettings.agent.basicSettings.siteLogo}";
+                "${baseUrl.value}/${_appSettingsModel!.data.logoImagePath}/${_appSettingsModel!.data.appSettings.agent.basicSettings.siteLogo}";
             appBasicLogoDark.value =
-                "${baseUrl.value}/${_appSettingsModel.data.logoImagePath}/${_appSettingsModel.data.appSettings.agent.basicSettings.siteLogoDark}";
+                "${baseUrl.value}/${_appSettingsModel!.data.logoImagePath}/${_appSettingsModel!.data.appSettings.agent.basicSettings.siteLogoDark}";
           }
 
           Strings.appName =
-              _appSettingsModel.data.appSettings.agent.basicSettings.siteName;
+              _appSettingsModel!.data.appSettings.agent.basicSettings.siteName;
           update();
           _isLoading.value = false;
           update();
@@ -105,6 +107,6 @@ class AppSettingsController extends GetxController {
         });
     _isLoading.value = false;
     update();
-    return _appSettingsModel;
+    return _appSettingsModel!;
   }
 }

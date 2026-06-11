@@ -83,7 +83,7 @@ class WithdrawManualPaymentScreen extends StatelessWidget {
   }
 
   Visibility _descriptionWidget(BuildContext context) {
-    final data = controller.moneyOutManualInsertModel.data;
+    final data = controller.moneyOutManualInsertModel!.data;
     return Visibility(
       visible: data.details != '',
       child: Container(

@@ -131,6 +131,8 @@ class _CustomCountryDropDownState<T extends DropdownModel>
                         'https://flagcdn.com/w320/${widget.flag}.png',
                         height: 20.h,
                         width: 20.w,
+                        errorBuilder: (context, error, stackTrace) =>
+                            SizedBox.shrink(),
                       )
                     : SizedBox.shrink(),
                 Text(widget.hintTitle ?? "", style: widget.titleStyle),
@@ -179,6 +181,8 @@ class _CustomCountryDropDownState<T extends DropdownModel>
                             'https://flagcdn.com/w320/${value.iso2Used}.png',
                             height: 20.h,
                             width: 20.w,
+                            errorBuilder: (context, error, stackTrace) =>
+                                SizedBox.shrink(),
                           )
                         : SizedBox.shrink(),
                     Text(value.title, style: widget.titleStyle),

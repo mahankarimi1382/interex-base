@@ -9,11 +9,8 @@ use Illuminate\Database\Eloquent\Model;
 class SudoVirtualCard extends Model
 {
     use HasFactory;
-
     protected $guarded = ['id'];
-
-    protected $table = 'sudo_virtual_cards';
-
+    protected $table = "sudo_virtual_cards";
     protected $casts = [
         'user_id' => 'integer',
         'card_id' => 'string',
@@ -35,15 +32,14 @@ class SudoVirtualCard extends Model
         'is_default' => 'boolean',
         'billingAddress' => 'object',
 
+
     ];
 
-    public function user()
-    {
+
+    public function user() {
         return $this->belongsTo(User::class);
     }
-
-    public function card_currency()
-    {
-        return $this->belongsTo(Currency::class, 'currency', 'code');
+    public function card_currency() {
+        return $this->belongsTo(Currency::class,'currency','code');
     }
 }

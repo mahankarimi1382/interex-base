@@ -28,7 +28,7 @@ class WalletsScreen extends StatelessWidget {
 
   Widget _bodyWidget(BuildContext context) {
     final List<UserWallet> wallets =
-        controller.walletsInfoModel.data.userWallets;
+        controller.walletsInfoModel!.data.userWallets;
     return SingleChildScrollView(
       child: Padding(
         padding: EdgeInsets.symmetric(

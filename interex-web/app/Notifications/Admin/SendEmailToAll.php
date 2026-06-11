@@ -3,6 +3,7 @@
 namespace App\Notifications\Admin;
 
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\HtmlString;
@@ -38,7 +39,7 @@ class SendEmailToAll extends Notification
      * Get the mail representation of the notification.
      *
      * @param  mixed  $notifiable
-     * @return MailMessage
+     * @return \Illuminate\Notifications\Messages\MailMessage
      */
     public function toMail($notifiable)
     {
@@ -48,9 +49,9 @@ class SendEmailToAll extends Notification
         $firstname = $notifiable->firstname;
 
         return (new MailMessage)
-            ->greeting('Hey '.$firstname.'!')
-            ->subject($subject)
-            ->line(new HtmlString($message));
+                    ->greeting('Hey ' . $firstname . "!")
+                    ->subject($subject)
+                    ->line(new HtmlString($message));
     }
 
     /**

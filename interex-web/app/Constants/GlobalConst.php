@@ -2,142 +2,106 @@
 
 namespace App\Constants;
 
-class GlobalConst
-{
-    const INVEST_PROFIT_DAILY_BASIS = 'DAILY-BASIS';
 
-    const INVEST_PROFIT_ONE_TIME = 'ONE-TIME';
+class GlobalConst {
 
-    const USER_PASS_RESEND_TIME_MINUTE = '1';
+    const INVEST_PROFIT_DAILY_BASIS = "DAILY-BASIS";
+    const INVEST_PROFIT_ONE_TIME = "ONE-TIME";
 
+    const USER_PASS_RESEND_TIME_MINUTE = "1";
     const USER_VERIFY_RESEND_TIME_MINUTE = 1;
 
     const ACTIVE = true;
-
     const SUCCESS = true;
-
     const BANNED = false;
-
     const DEFAULT_TOKEN_EXP_SEC = 3600;
 
     const VERIFIED = 1;
-
     const APPROVED = 1;
-
     const PENDING = 2;
-
     const REJECTED = 3;
-
     const DEFAULT = 0;
-
     const UNVERIFIED = 0;
 
-    const ACCOUNT_TYPE_BUSINESS = 'business';
+    const ACCOUNT_TYPE_BUSINESS = "business";
 
-    const FIAT = 'FIAT';
+    const FIAT = "FIAT";
+    const CRYPTO = "CRYPTO";
 
-    const CRYPTO = 'CRYPTO';
-
-    const RUNNING = 2;
-
-    const COMPLETE = 1;
-
+    const RUNNING   = 2;
+    const COMPLETE  = 1;
     const CANCEL = 3;
 
-    const TRANSFER = 'transfer';
 
-    const EXCHANGE = 'exchange';
+    const TRANSFER  = "transfer";
+    const EXCHANGE  = "exchange";
+    const ADD       = "add";
+    const OUT       = "out";
 
-    const ADD = 'add';
+    const AGENT     = "AGENT";
+    const USER      = "USER";
+    const MERCHANT  = "MERCHANT";
+    const ADMIN     = "ADMIN";
 
-    const OUT = 'out';
+    const PERSONAL      = "personal";
+    const BUSINESS      = "business";
+    const ENTERPRISE    = "enterprise";
+    const COMPANY       = "company";
 
-    const AGENT = 'AGENT';
+    const INVESTMENT = "INVESTMENT";
+    const PROFIT     = "PROFIT";
 
-    const USER = 'USER';
-
-    const MERCHANT = 'MERCHANT';
-
-    const ADMIN = 'ADMIN';
-
-    const PERSONAL = 'personal';
-
-    const BUSINESS = 'business';
-
-    const ENTERPRISE = 'enterprise';
-
-    const COMPANY = 'company';
-
-    const INVESTMENT = 'INVESTMENT';
-
-    const PROFIT = 'PROFIT';
-
-    const TRX_CASH_PICKUP = 'Cash Pickup';
-
-    const TRX_BANK_TRANSFER = 'Bank Transfer';
-
+    const TRX_CASH_PICKUP                 = "Cash Pickup";
+    const TRX_BANK_TRANSFER               = "Bank Transfer";
     // const TRX_MOBILE_MONEY                = "Mobile Money";
-    const TRX_WALLET_TO_WALLET_TRANSFER = 'Wallet to Wallet Transfer';
+    const TRX_WALLET_TO_WALLET_TRANSFER   = "Wallet to Wallet Transfer";
 
-    const SETUP_PAGE = 'SETUP_PAGE';
+    const SETUP_PAGE    = 'SETUP_PAGE';
+    const USEFUL_LINKS  = 'USEFUL_LINKS';
 
-    const USEFUL_LINKS = 'USEFUL_LINKS';
+    const LIVE          = 'live';
+    const SANDBOX       = 'sandbox';
 
-    const LIVE = 'live';
+    const SENDER        = 'SENDER';
+    const RECEIVER      = 'RECEIVER';
+    const ENV_SANDBOX   = "sandbox";
+    const ENV_PRODUCTION = "production";
 
-    const SANDBOX = 'sandbox';
+    const TYPE_CRYPTO     = 8;
+    const TYPE_FAIT       = 4;
 
-    const SENDER = 'SENDER';
+    const CURRENCY_LAYER       = "CURRENCY-LAYER";
+    const SYSTEM_MAINTENANCE       = "system-maintenance";
 
-    const RECEIVER = 'RECEIVER';
+    const CARD_UNDER_STATUS     = "unreview kyc";
+    const CARD_LOW_KYC_STATUS   = "low kyc";
+    const CARD_HIGH_KYC_STATUS  = "high kyc";
 
-    const ENV_SANDBOX = 'sandbox';
+    const PHONE                 = "Phone";
+    const EMAIL                 = "Email";
 
-    const ENV_PRODUCTION = 'production';
+    const CURRENT_BALANCE       = "c_balance";
 
-    const TYPE_CRYPTO = 8;
+    const TERMINATED            = 'virtualcard.transaction.declined.terminated';
+    const CROSSBORDER           = 'virtualcard.transaction.crossborder';
+    const DECLINED              = 'virtualcard.transaction.declined';
 
-    const TYPE_FAIT = 4;
 
-    const CURRENCY_LAYER = 'CURRENCY-LAYER';
+     //cardyfie
 
-    const SYSTEM_MAINTENANCE = 'system-maintenance';
+    const CARD_CUSTOMER_APPROVED_STATUS = "APPROVED";
+    const CARD_CUSTOMER_PENDING_STATUS  = "PENDING";
+    const CARD_CUSTOMER_REJECTED_STATUS = "REJECTED";
 
-    const CARD_UNDER_STATUS = 'unreview kyc';
 
-    const CARD_LOW_KYC_STATUS = 'low kyc';
+    const CARD_PROCESSING_STATUS = "PROCESSING";
+    const CARD_ENABLED_STATUS = "ENABLED";
+    const CARD_FREEZE_STATUS  = "FREEZE";
+    const CARD_CLOSED_STATUS = "CLOSED";
 
-    const CARD_HIGH_KYC_STATUS = 'high kyc';
+    const UNIVERSAL_TIER = "universal";
+    const PLATINUM_TIER = "platinum";
 
-    const PHONE = 'Phone';
 
-    const EMAIL = 'Email';
 
-    const CURRENT_BALANCE = 'c_balance';
-
-    const TERMINATED = 'virtualcard.transaction.declined.terminated';
-
-    const CROSSBORDER = 'virtualcard.transaction.crossborder';
-
-    const DECLINED = 'virtualcard.transaction.declined';
-
-    // cardyfie
-
-    const CARD_CUSTOMER_APPROVED_STATUS = 'APPROVED';
-
-    const CARD_CUSTOMER_PENDING_STATUS = 'PENDING';
-
-    const CARD_CUSTOMER_REJECTED_STATUS = 'REJECTED';
-
-    const CARD_PROCESSING_STATUS = 'PROCESSING';
-
-    const CARD_ENABLED_STATUS = 'ENABLED';
-
-    const CARD_FREEZE_STATUS = 'FREEZE';
-
-    const CARD_CLOSED_STATUS = 'CLOSED';
-
-    const UNIVERSAL_TIER = 'universal';
-
-    const PLATINUM_TIER = 'platinum';
 }

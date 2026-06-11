@@ -9,9 +9,9 @@ class LogOutController extends GetxController {
   final _isLoading = false.obs;
 
   bool get isLoading => _isLoading.value;
-  late CommonSuccessModel _logOutModel;
+  CommonSuccessModel? _logOutModel;
 
-  CommonSuccessModel get dashBoardModel => _logOutModel;
+  CommonSuccessModel get dashBoardModel => _logOutModel!;
 
   Future<CommonSuccessModel> logOutProcess() async {
     _isLoading.value = true;
@@ -30,6 +30,6 @@ class LogOutController extends GetxController {
           log.e(onError);
         });
     update();
-    return _logOutModel;
+    return _logOutModel!;
   }
 }

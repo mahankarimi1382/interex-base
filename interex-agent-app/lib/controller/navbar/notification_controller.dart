@@ -13,8 +13,8 @@ class NotificationController extends GetxController {
   final _isLoading = false.obs;
   bool get isLoading => _isLoading.value;
 
-  late NotificationModel _notificationModelData;
-  NotificationModel get notificationModelData => _notificationModelData;
+  NotificationModel? _notificationModelData;
+  NotificationModel get notificationModelData => _notificationModelData!;
 
   Future<NotificationModel> getNotificationData() async {
     _isLoading.value = true;
@@ -32,6 +32,6 @@ class NotificationController extends GetxController {
           log.e(onError);
         });
     update();
-    return _notificationModelData;
+    return _notificationModelData!;
   }
 }

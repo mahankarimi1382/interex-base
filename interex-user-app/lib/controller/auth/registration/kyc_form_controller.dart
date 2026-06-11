@@ -88,9 +88,9 @@ class BasicDataController extends GetxController {
 
   bool get isLoading => _isLoading.value;
 
-  late BasicDataModel _basicDataModel;
+  BasicDataModel? _basicDataModel;
 
-  BasicDataModel get basicDataModel => _basicDataModel;
+  BasicDataModel get basicDataModel => _basicDataModel!;
 
   Future<BasicDataModel> getBasicData() async {
     inputFields.clear();
@@ -101,18 +101,18 @@ class BasicDataController extends GetxController {
     await ApiServices.basicData()
         .then((value) {
           _basicDataModel = value!;
-          final data = _basicDataModel.data.registerKycFields!.fields;
+          final data = value.data.registerKycFields!.fields;
 
           LocalStorages.saveEmailVerification(
-            isEmailVerification: _basicDataModel.data.emailVerification,
+            isEmailVerification: value.data.emailVerification,
           );
           LocalStorages.saveSmsVerification(
-            isSmsVerification: _basicDataModel.data.smsVerification,
+            isSmsVerification: value.data.smsVerification,
           );
           LocalStorages.saveKycVerification(
-            isKycVerification: _basicDataModel.data.kycVerification,
+            isKycVerification: value.data.kycVerification,
           );
-          referralSystem.value = _basicDataModel.data.referralSystem;
+          referralSystem.value = value.data.referralSystem;
           // LocalStorages.saveCountryCode(
           //     countryCodeValue:
           //         _basicDataModel.data.countries.first.mobileCode.toString());
@@ -217,13 +217,13 @@ class BasicDataController extends GetxController {
           log.e(onError);
         });
     update();
-    return _basicDataModel;
+    return _basicDataModel!;
   }
 
   //
-  late RegistrationWithKycModel _registrationModel;
+  RegistrationWithKycModel? _registrationModel;
 
-  RegistrationWithKycModel get registrationModel => _registrationModel;
+  RegistrationWithKycModel get registrationModel => _registrationModel!;
 
   Future<RegistrationWithKycModel> registrationProcess() async {
     _isLoading.value = true;
@@ -249,7 +249,7 @@ class BasicDataController extends GetxController {
       'agree': isAgree.toString(),
       'refer': referralIdController.text,
     };
-    final data = _basicDataModel.data.registerKycFields!.fields;
+    final data = _basicDataModel!.data.registerKycFields!.fields;
 
     for (int i = 0; i < data.length; i += 1) {
       if (data[i].type != 'file') {
@@ -267,14 +267,14 @@ class BasicDataController extends GetxController {
           _isLoading.value = false;
           update();
 
-          _goToSavedUser(_registrationModel);
+          _goToSavedUser(value);
         })
         .catchError((onError) {
           log.e(onError);
         });
     _isLoading.value = false;
     update();
-    return _registrationModel;
+    return _registrationModel!;
   }
 
   void _goToSavedUser(RegistrationWithKycModel loginModel) {

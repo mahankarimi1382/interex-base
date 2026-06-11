@@ -72,8 +72,8 @@ class MoneyExchangeController extends GetxController
   bool get isMoneyExchangeLoading => _isMoneyExchangeLoading.value;
 
   /// Request money info process API
-  late MoneyExchangeInfoModel _moneyExchangeInfoModel;
-  MoneyExchangeInfoModel get moneyExchangeInfoModel => _moneyExchangeInfoModel;
+  MoneyExchangeInfoModel? _moneyExchangeInfoModel;
+  MoneyExchangeInfoModel get moneyExchangeInfoModel => _moneyExchangeInfoModel!;
 
   Future<MoneyExchangeInfoModel> getMoneyExchangeInfoData() async {
     _isLoading.value = true;
@@ -104,18 +104,18 @@ class MoneyExchangeController extends GetxController
             );
           }
 
-          limitMin.value = _moneyExchangeInfoModel.data!.charges!.minLimit!;
-          limitMax.value = _moneyExchangeInfoModel.data!.charges!.maxLimit!;
-          dailyLimit.value = _moneyExchangeInfoModel.data!.charges!.dailyLimit!;
+          limitMin.value = _moneyExchangeInfoModel!.data!.charges!.minLimit!;
+          limitMax.value = _moneyExchangeInfoModel!.data!.charges!.maxLimit!;
+          dailyLimit.value = _moneyExchangeInfoModel!.data!.charges!.dailyLimit!;
           monthlyLimit.value =
-              _moneyExchangeInfoModel.data!.charges!.monthlyLimit!;
+              _moneyExchangeInfoModel!.data!.charges!.monthlyLimit!;
           //start remaing get
           remainingController.transactionType.value =
-              _moneyExchangeInfoModel.data!.getRemainingFields.transactionType;
+              _moneyExchangeInfoModel!.data!.getRemainingFields.transactionType;
           remainingController.attribute.value =
-              _moneyExchangeInfoModel.data!.getRemainingFields.attribute;
+              _moneyExchangeInfoModel!.data!.getRemainingFields.attribute;
           remainingController.cardId.value =
-              _moneyExchangeInfoModel.data!.charges!.id!;
+              _moneyExchangeInfoModel!.data!.charges!.id!;
           remainingController.senderAmount.value =
               exchangeFromAmountController.text;
           remainingController.senderCurrency.value =
@@ -123,12 +123,12 @@ class MoneyExchangeController extends GetxController
 
           remainingController.getRemainingBalanceProcess();
           percentCharge.value =
-              _moneyExchangeInfoModel.data!.charges!.percentCharge!;
-          rate.value = _moneyExchangeInfoModel.data!.baseCurrRate!;
+              _moneyExchangeInfoModel!.data!.charges!.percentCharge!;
+          rate.value = _moneyExchangeInfoModel!.data!.baseCurrRate!;
           fixedCharge.value =
-              _moneyExchangeInfoModel.data!.charges!.fixedCharge!;
+              _moneyExchangeInfoModel!.data!.charges!.fixedCharge!;
           updateExchangeRateWithToAmount();
-          // fixedCharge.value = _moneyExchangeInfoModel.data!.charges!.fixedCharge! /   /// Wrong Function
+          // fixedCharge.value = _moneyExchangeInfoModel!.data!.charges!.fixedCharge! /   /// Wrong Function
           //     exchangeRate.value;
 
           update();
@@ -139,11 +139,11 @@ class MoneyExchangeController extends GetxController
 
     _isLoading.value = false;
     update();
-    return _moneyExchangeInfoModel;
+    return _moneyExchangeInfoModel!;
   }
 
-  late CommonSuccessModel _sendMoneyModel;
-  CommonSuccessModel get sendMoneyModel => _sendMoneyModel;
+  CommonSuccessModel? _sendMoneyModel;
+  CommonSuccessModel get sendMoneyModel => _sendMoneyModel!;
 
   // ------------------------------API Function---------------------------------
   Future<CommonSuccessModel> moneyExchangeProcess(BuildContext context) async {
@@ -169,7 +169,7 @@ class MoneyExchangeController extends GetxController
 
     _isMoneyExchangeLoading.value = false;
     update();
-    return _sendMoneyModel;
+    return _sendMoneyModel!;
   }
 
   void updateExchangeRateWithToAmount() {
@@ -232,7 +232,7 @@ class MoneyExchangeController extends GetxController
   }
 
   void _updateLimit() {
-    final limit = _moneyExchangeInfoModel.data!.charges!;
+    final limit = _moneyExchangeInfoModel!.data!.charges!;
     limitMin.value =
         limit.minLimit! * double.parse(selectFromWallet.value!.currency.rate);
     limitMax.value =

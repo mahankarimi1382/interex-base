@@ -21,8 +21,8 @@ class TwoFaOtpController extends GetxController {
   final _isLoading = false.obs;
   bool get isLoading => _isLoading.value;
 
-  late CommonSuccessModel _updateTwoFAModelData;
-  CommonSuccessModel get updateTwoFAModelData => _updateTwoFAModelData;
+  CommonSuccessModel? _updateTwoFAModelData;
+  CommonSuccessModel get updateTwoFAModelData => _updateTwoFAModelData!;
 
   // --------------------------- Api function ----------------------------------
   // Profile update process without image
@@ -47,6 +47,6 @@ class TwoFaOtpController extends GetxController {
           update();
         });
 
-    return _updateTwoFAModelData;
+    return _updateTwoFAModelData!;
   }
 }

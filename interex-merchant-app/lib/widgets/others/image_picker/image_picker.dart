@@ -125,7 +125,7 @@ class ImagePickerWidget extends StatelessWidget {
   }
 
   Stack _userImageWidget(BuildContext context) {
-    final data = controller.profileModel.data;
+    final data = controller.profileModel!.data;
 
     final image =
         '${Get.find<AppSettingsController>().baseUrl.value}/${data.imagePath}/${data.user.image}';

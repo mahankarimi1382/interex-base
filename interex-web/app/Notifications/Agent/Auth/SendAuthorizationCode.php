@@ -37,19 +37,18 @@ class SendAuthorizationCode extends Notification
      * Get the mail representation of the notification.
      *
      * @param  mixed  $notifiable
-     * @return MailMessage
+     * @return \Illuminate\Notifications\Messages\MailMessage
      */
     public function toMail($notifiable)
     {
         $fullname = $notifiable->fullname;
         $data = $this->data;
-
         return (new MailMessage)
-            ->subject('Account Authorization')
-            ->greeting('Hello '.$fullname.'!')
-            ->line('Need to verify your account before access your dashboard.')
-            ->line('Your verification code: '.$data->code)
-            ->line(__('Thank you for using our application!'));
+                    ->subject("Account Authorization")
+                    ->greeting("Hello ".$fullname . "!")
+                    ->line('Need to verify your account before access your dashboard.')
+                    ->line("Your verification code: ".$data->code)
+                    ->line(__('Thank you for using our application!'));
     }
 
     /**

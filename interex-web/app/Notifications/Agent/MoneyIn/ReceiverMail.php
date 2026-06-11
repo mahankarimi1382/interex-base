@@ -12,7 +12,6 @@ class ReceiverMail extends Notification
     use Queueable;
 
     public $user;
-
     public $data;
 
     /**
@@ -20,7 +19,7 @@ class ReceiverMail extends Notification
      *
      * @return void
      */
-    public function __construct($user, $data)
+    public function __construct($user,$data)
     {
         $this->user = $user;
         $this->data = $data;
@@ -41,7 +40,7 @@ class ReceiverMail extends Notification
      * Get the mail representation of the notification.
      *
      * @param  mixed  $notifiable
-     * @return MailMessage
+     * @return \Illuminate\Notifications\Messages\MailMessage
      */
     public function toMail($notifiable)
     {
@@ -50,17 +49,16 @@ class ReceiverMail extends Notification
         $trx_id = $this->data->trx_id;
         $date = Carbon::now();
         $dateTime = $date->format('Y-m-d h:i:s A');
-
         return (new MailMessage)
-            ->greeting(__('Hello').' '.$user->fullname.' !')
-            ->subject($data->title)
-            ->line(__('Receiver Money In Email Heading').':')
-            ->line($data->title)
-            ->line(__('web_trx_id').': '.$trx_id)
-            ->line(__('received Amount').': '.$data->received_amount)
-            ->line(__('Status').': '.$data->status)
-            ->line(__('Date And Time').': '.$dateTime)
-            ->line(__('Thank you for using our application!'));
+                    ->greeting(__("Hello")." ".$user->fullname." !")
+                    ->subject($data->title)
+                    ->line(__("Receiver Money In Email Heading").":")
+                    ->line($data->title)
+                    ->line(__("web_trx_id").": " .$trx_id)
+                    ->line(__("received Amount").": " . $data->received_amount)
+                   ->line(__("Status").": " .$data->status)
+                    ->line(__("Date And Time").": " .$dateTime)
+                    ->line(__('Thank you for using our application!'));
     }
 
     /**

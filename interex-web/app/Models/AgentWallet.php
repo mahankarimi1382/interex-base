@@ -10,11 +10,8 @@ use Illuminate\Database\Eloquent\Model;
 class AgentWallet extends Model
 {
     use HasFactory;
-
     public $timestamps = true;
-
-    protected $fillable = ['balance', 'status', 'agent_id', 'currency_id', 'created_at', 'updated_at'];
-
+    protected $fillable = ['balance', 'status','agent_id','currency_id','created_at','updated_at'];
     protected $casts = [
         'agent_id' => 'integer',
         'currency_id' => 'integer',
@@ -22,30 +19,27 @@ class AgentWallet extends Model
         'status' => 'integer',
     ];
 
-    public function scopeAuth($query)
-    {
-        return $query->where('agent_id', auth()->user()->id);
+    public function scopeAuth($query) {
+        return $query->where('agent_id',auth()->user()->id);
     }
 
-    public function scopeActive($query)
-    {
-        return $query->where('status', true);
+    public function scopeActive($query) {
+        return $query->where("status",true);
     }
 
-    public function agent()
-    {
+
+    public function agent() {
         return $this->belongsTo(Agent::class);
     }
 
-    public function currency()
-    {
-        return $this->belongsTo(Currency::class, 'currency_id');
+    public function currency() {
+        return $this->belongsTo(Currency::class,'currency_id');
     }
 
-    public function scopeSender($query)
-    {
-        return $query->whereHas('currency', function ($q) {
-            $q->where('sender', GlobalConst::ACTIVE);
+
+    public function scopeSender($query) {
+        return $query->whereHas('currency',function($q) {
+            $q->where("sender",GlobalConst::ACTIVE);
         });
     }
 }

@@ -3,18 +3,18 @@
 namespace App\Notifications\PaymentLink\Gateway;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Messages\MailMessage;
-use Illuminate\Notifications\Notification;
 use Illuminate\Support\Carbon;
+use App\Constants\PaymentGatewayConst;
+use Illuminate\Notifications\Notification;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Notifications\Messages\MailMessage;
 
 class UserNotification extends Notification
 {
     use Queueable;
 
     private $user;
-
     private $data;
-
     private $trx_id;
 
     /**
@@ -44,7 +44,7 @@ class UserNotification extends Notification
      * Get the mail representation of the notification.
      *
      * @param  mixed  $notifiable
-     * @return MailMessage
+     * @return \Illuminate\Notifications\Messages\MailMessage
      */
     public function toMail($notifiable)
     {
@@ -57,21 +57,23 @@ class UserNotification extends Notification
 
         $type = 'payment_link';
 
+
+
         $transaction_type = $data['transaction_type'] ?? $data['type'];
         $request_amount = $data['amount'] ?? $data['validated']['amount'];
         $charge_calculation = $data['charge_calculation'];
 
         return (new MailMessage)
-            ->greeting(__('Hello').' '.$user->fullName.' !')
-            ->subject(__('Payment Link Transaction via').' '.$transaction_type)
-            ->line(__('Your payment request successfully via').' '.$transaction_type.' ,'.__('details transactions').':')
-            ->line(__('request Amount').': '.getAmount($request_amount, 2).' '.$data[$type]->currency)
-            ->line(__('Exchange Rate').': '.' 1 '.$charge_calculation['base_currency_code'].' = '.getAmount($charge_calculation['r_exchange_rate'], 2).' '.$charge_calculation['receiver_currency_code'])
-            ->line(__('Fees & Charges').': '.$charge_calculation['r_total_charge'].' '.$charge_calculation['receiver_currency_code'])
-            ->line(__('Will Get').': '.getAmount($charge_calculation['receiver_amount'], 2).' '.$charge_calculation['receiver_currency_code'])
-            ->line(__('web_trx_id').': '.$trx_id)
-            ->line(__('Status').': '.__('success'))
-            ->line(__('Date And Time').': '.$datetime)
+            ->greeting(__("Hello")." ".$user->fullName." !")
+            ->subject(__("Payment Link Transaction via")." ".$transaction_type)
+            ->line(__("Your payment request successfully via")." ".$transaction_type." ,".__("details transactions").":")
+            ->line(__("request Amount").": " . getAmount($request_amount,2).' '. $data[$type]->currency)
+            ->line(__("Exchange Rate").": " ." 1 ". $charge_calculation['base_currency_code'].' = '. getAmount($charge_calculation['r_exchange_rate'],2).' '.$charge_calculation['receiver_currency_code'])
+            ->line(__("Fees & Charges").": " . $charge_calculation['r_total_charge'].' '. $charge_calculation['receiver_currency_code'])
+            ->line(__("Will Get").": " . getAmount($charge_calculation['receiver_amount'],2).' '. $charge_calculation['receiver_currency_code'])
+            ->line(__("web_trx_id").": " .$trx_id)
+            ->line(__("Status").": ".__("success"))
+            ->line(__("Date And Time").": " .$datetime)
             ->line(__('Thank you for using our application!'));
     }
 

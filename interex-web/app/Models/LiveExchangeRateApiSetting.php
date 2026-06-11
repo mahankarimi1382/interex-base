@@ -12,13 +12,13 @@ class LiveExchangeRateApiSetting extends Model
     protected $guarded = ['id'];
 
     protected $casts = [
-        'slug' => 'string',
-        'provider' => 'string',
-        'value' => 'object',
-        'multiply_by' => 'decimal:16',
-        'currency_module' => 'boolean',
-        'payment_gateway_module' => 'boolean',
-        'status' => 'boolean',
+        'slug'                      => 'string',
+        'provider'                  => 'string',
+        'value'                     => 'object',
+        'multiply_by'               =>'decimal:16',
+        'currency_module'           => 'boolean',
+        'payment_gateway_module'    => 'boolean',
+        'status'                    => 'boolean',
     ];
 
     public function scopeActive($query)
@@ -30,11 +30,9 @@ class LiveExchangeRateApiSetting extends Model
     {
         return $query->where('status', false);
     }
-
-    public function scopeSearch($query, $text)
-    {
-        $query->where(function ($q) use ($text) {
-            $q->where('provider', 'like', '%'.$text.'%');
+    public function scopeSearch($query,$text) {
+        $query->where(function($q) use ($text) {
+            $q->where("provider","like","%".$text."%");
         });
     }
 }

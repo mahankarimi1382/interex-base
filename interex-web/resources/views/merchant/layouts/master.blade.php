@@ -44,7 +44,6 @@
     @include('merchant.partials.footer-assets')
     @include('merchant.partials.push-notification')
     @stack('script')
-@include('partials.jalali-datepicker')
 </body>
 
 

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:get/get.dart';
 
+import '../../backend/extentions/custom_extentions.dart';
 import '../../backend/local_storage/local_storage.dart';
 import '../../backend/model/app_settings/app_settings_model.dart';
 import '../../backend/services/api_services.dart';
@@ -34,21 +35,23 @@ class AppSettingsController extends GetxController {
   final _isLoading = false.obs;
   bool get isLoading => _isLoading.value;
 
-  late AppSettingsModel _appSettingsModel;
-  AppSettingsModel get appSettingsModel => _appSettingsModel;
+  AppSettingsModel? _appSettingsModel;
+  AppSettingsModel? get appSettingsModel => _appSettingsModel;
 
-  Future<AppSettingsModel> getSplashAndOnboardData() async {
+  Future<AppSettingsModel?> getSplashAndOnboardData() async {
     _isLoading.value = true;
     update();
 
     await ApiServices.appSettingsApi()
         .then((value) {
-          _appSettingsModel = value!;
+          final model = value!;
+          _appSettingsModel = model;
+          baseUrl.value = model.data.baseUrl.resolveBackendHost();
           splashImagePath.value =
-              "${Get.find<AppSettingsController>().baseUrl.value}/${_appSettingsModel.data.screenImagePath}/${_appSettingsModel.data.appSettings.merchant.splashScreen.splashScreenImage}";
+              "${baseUrl.value}/${model.data.screenImagePath}/${model.data.appSettings.merchant.splashScreen.splashScreenImage}";
 
           for (var element
-              in _appSettingsModel.data.appSettings.merchant.onboardScreen) {
+              in model.data.appSettings.merchant.onboardScreen) {
             onboardScreen.add(
               OnboardScreen(
                 id: element.id,
@@ -62,40 +65,26 @@ class AppSettingsController extends GetxController {
             );
           }
 
-          baseUrl.value = _appSettingsModel.data.baseUrl;
+          path.value = "${baseUrl.value}/${model.data.logoImagePath}/";
 
-          path.value =
-              "${baseUrl.value}/${_appSettingsModel.data.logoImagePath}/";
-
-          if (_appSettingsModel
-                  .data
-                  .appSettings
-                  .merchant
-                  .basicSettings
-                  .siteLogo ==
-              '') {
+          if (model.data.appSettings.merchant.basicSettings.siteLogo == '') {
             appBasicLogoWhite.value =
-                "${baseUrl.value}/${_appSettingsModel.data.defaultImage}";
+                "${baseUrl.value}/${model.data.defaultImage}";
             appBasicLogoDark.value = appBasicLogoWhite.value;
           } else {
             appBasicLogoWhite.value =
-                "${baseUrl.value}/${_appSettingsModel.data.logoImagePath}/${_appSettingsModel.data.appSettings.merchant.basicSettings.siteLogo}";
+                "${baseUrl.value}/${model.data.logoImagePath}/${model.data.appSettings.merchant.basicSettings.siteLogo}";
             appBasicLogoDark.value =
-                "${baseUrl.value}/${_appSettingsModel.data.logoImagePath}/${_appSettingsModel.data.appSettings.merchant.basicSettings.siteLogoDark}";
+                "${baseUrl.value}/${model.data.logoImagePath}/${model.data.appSettings.merchant.basicSettings.siteLogoDark}";
           }
-          final data =
-              _appSettingsModel.data.appSettings.merchant.basicSettings;
+          final data = model.data.appSettings.merchant.basicSettings;
           cryptoValue.value = data.cryptoPrecisionValue;
           fiatValue.value = data.fiatPrecisionValue;
-          Strings.appName = _appSettingsModel
-              .data
-              .appSettings
-              .merchant
-              .basicSettings
-              .siteName;
+          Strings.appName =
+              model.data.appSettings.merchant.basicSettings.siteName;
 
           LocalStorages.saveFiatPrecision(
-            value: _appSettingsModel
+            value: model
                 .data
                 .appSettings
                 .merchant
@@ -103,7 +92,7 @@ class AppSettingsController extends GetxController {
                 .fiatPrecisionValue,
           );
           LocalStorages.saveCryptoPrecision(
-            value: _appSettingsModel
+            value: model
                 .data
                 .appSettings
                 .merchant

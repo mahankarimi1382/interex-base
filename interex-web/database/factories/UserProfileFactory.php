@@ -2,11 +2,10 @@
 
 namespace Database\Factories;
 
-use App\Models\UserProfile;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends Factory<UserProfile>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\UserProfile>
  */
 class UserProfileFactory extends Factory
 {

@@ -7,12 +7,12 @@ use App\Models\Transaction;
 use Maatwebsite\Excel\Concerns\FromArray;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 
-class BillPayTrxExport implements FromArray, WithHeadings
-{
+class BillPayTrxExport implements FromArray, WithHeadings{
+
     public function headings(): array
     {
         return [
-            ['SL', 'TRX', 'TYPE', 'FULL NAME', 'USER TYPE', 'BILL TYPE NAME', 'BILL NUMBER', 'BILL AMOUNT', 'STATUS', 'TIME'],
+            ['SL', 'TRX','TYPE','FULL NAME','USER TYPE','BILL TYPE NAME','BILL NUMBER','BILL AMOUNT','STATUS','TIME'],
         ];
     }
 
@@ -20,29 +20,29 @@ class BillPayTrxExport implements FromArray, WithHeadings
     {
         return Transaction::with(
             'user:id,firstname,lastname,email,username,full_mobile',
-            'currency:id,name',
-        )->where('type', PaymentGatewayConst::BILLPAY)->latest()->get()->map(function ($item, $key) {
-            if ($item->user_id != null) {
-                $user_type = 'USER' ?? '';
-            } elseif ($item->agent_id != null) {
-                $user_type = 'AGENT' ?? '';
-            } elseif ($item->merchant_id != null) {
-                $user_type = 'MERCHANT' ?? '';
+              'currency:id,name',
+          )->where('type', PaymentGatewayConst::BILLPAY)->latest()->get()->map(function($item,$key){
+            if($item->user_id != null){
+                $user_type =  "USER"??"";
+            }elseif($item->agent_id != null){
+                $user_type =  "AGENT"??"";
+            }elseif($item->merchant_id != null){
+                $user_type =  "MERCHANT"??"";
             }
-
             return [
-                'id' => $key + 1,
-                'trx' => $item->trx_id,
-                'type' => $item->details->bill_type ?? 'MANUAL',
-                'full_name' => $item->creator->fullname,
-                'user_type' => $user_type,
-                'bill_type' => @$item->details->bill_type_name,
-                'bill_number' => @$item->details->bill_number,
-                'amount' => get_amount($item->request_amount, billPayCurrency($item)['wallet_currency'], get_wallet_precision($item->creator_wallet->currency)),
-                'status' => __($item->stringStatus->value),
-                'time' => $item->created_at->format('d-m-y h:i:s A'),
+                'id'    => $key + 1,
+                'trx'  => $item->trx_id,
+                'type'  =>  $item->details->bill_type??"MANUAL",
+                'full_name'  => $item->creator->fullname,
+                'user_type'  => $user_type,
+                'bill_type'  =>  @$item->details->bill_type_name,
+                'bill_number'  =>  @$item->details->bill_number,
+                'amount'  =>  get_amount($item->request_amount,billPayCurrency($item)['wallet_currency'],get_wallet_precision($item->creator_wallet->currency)),
+                'status'  => __( $item->stringStatus->value),
+                'time'  =>   $item->created_at->format('d-m-y h:i:s A'),
             ];
-        })->toArray();
+         })->toArray();
 
     }
 }
+

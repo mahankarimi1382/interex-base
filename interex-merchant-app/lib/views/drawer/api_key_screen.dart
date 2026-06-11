@@ -38,7 +38,7 @@ class APIKeyScreen extends StatelessWidget {
   }
 
   Widget _bodyWidget(BuildContext context) {
-    return controller.apiKeyModel.data.keys.isEmpty
+    return controller.apiKeyModel!.data.keys.isEmpty
         ? const Center(
             child: TitleHeading3Widget(
               text: Strings.noRecordFound,
@@ -46,12 +46,12 @@ class APIKeyScreen extends StatelessWidget {
             ),
           )
         : ListView(
-            children: List.generate(controller.apiKeyModel.data.keys.length, (
+            children: List.generate(controller.apiKeyModel!.data.keys.length, (
               index,
             ) {
               return _keyWidget(
                 context,
-                controller.apiKeyModel.data.keys[index],
+                controller.apiKeyModel!.data.keys[index],
                 index,
               );
             }),

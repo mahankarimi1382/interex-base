@@ -1,1 +1,1 @@
-late String languageStateName;
+String languageStateName = 'en';

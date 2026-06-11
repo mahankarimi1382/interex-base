@@ -27,6 +27,20 @@ extension EndPointExtensions on String {
   }
 }
 
+extension NetworkUrlHostFix on String {
+  /// Rewrites loopback hosts coming from the backend (e.g. the seeded
+  /// `http://127.0.0.1:8000` APP_URL) to the host the app actually talks to.
+  /// On an Android emulator `127.0.0.1` points to the device itself, so image
+  /// URLs built from the backend base url fail to load without this fix.
+  /// In production the backend returns a real domain, so this is a no-op.
+  String fixHost() {
+    return replaceAll('127.0.0.1', ApiEndpoint.host).replaceAll(
+      'localhost',
+      ApiEndpoint.host,
+    );
+  }
+}
+
 extension CardFormatter on String {
   String formatCardNumber() {
     final String inputData = this;

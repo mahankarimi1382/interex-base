@@ -2,8 +2,6 @@
 
 namespace App\Http\Resources\Agent;
 
-use Illuminate\Contracts\Support\Arrayable;
-use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class AgentProfitLogs extends JsonResource
@@ -11,16 +9,16 @@ class AgentProfitLogs extends JsonResource
     /**
      * Transform the resource into an array.
      *
-     * @param  Request  $request
-     * @return array|Arrayable|\JsonSerializable
+     * @param  \Illuminate\Http\Request  $request
+     * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
      */
     public function toArray($request)
     {
-        return [
+        return[
             'id' => $this->id,
             'trx' => $this->transactions->trx_id,
             'transaction_type' => $this->transactions->type,
-            'profit_amount' => get_amount($this->total_charge, $this->transactions->creator_wallet->currency->code, get_wallet_precision($this->transactions->creator_wallet->currency)),
+            'profit_amount' => get_amount($this->total_charge,$this->transactions->creator_wallet->currency->code,get_wallet_precision($this->transactions->creator_wallet->currency)),
             'created_at' => $this->created_at,
         ];
     }

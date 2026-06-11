@@ -47,7 +47,6 @@
     @include('user.partials.footer-assets')
     @include('user.partials.push-notification')
     @stack('script')
-@include('partials.jalali-datepicker')
 </body>
 
 </html>

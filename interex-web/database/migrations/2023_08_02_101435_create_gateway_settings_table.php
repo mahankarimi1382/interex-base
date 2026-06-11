@@ -15,14 +15,14 @@ return new class extends Migration
     {
         Schema::create('gateway_settings', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('merchant_id')->nullable();
+            $table->unsignedBigInteger("merchant_id")->nullable();
             $table->boolean('wallet_status')->default(1);
             $table->boolean('virtual_card_status')->default(1);
             $table->boolean('master_visa_status')->default(1);
             $table->text('credentials')->nullable();
             $table->timestamps();
 
-            $table->foreign('merchant_id')->references('id')->on('merchants')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign("merchant_id")->references("id")->on("merchants")->onDelete("cascade")->onUpdate("cascade");
         });
     }
 

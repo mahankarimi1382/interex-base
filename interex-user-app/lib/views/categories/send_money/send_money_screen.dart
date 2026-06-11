@@ -1,25 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
 import 'package:qrpaypro/backend/local_storage/local_storage.dart';
-import 'package:qrpaypro/backend/utils/custom_loading_api.dart';
-import 'package:qrpaypro/custom_assets/assets.gen.dart';
+import 'package:qrpaypro/backend/model/wallets/wallets_model.dart';
 import 'package:qrpaypro/routes/routes.dart';
-import 'package:qrpaypro/utils/custom_color.dart';
-import 'package:qrpaypro/utils/dimensions.dart';
 import 'package:qrpaypro/utils/responsive_layout.dart';
-import 'package:qrpaypro/utils/size.dart';
-import 'package:qrpaypro/widgets/appbar/appbar_widget.dart';
-import 'package:qrpaypro/widgets/buttons/primary_button.dart';
-import 'package:qrpaypro/widgets/inputs/input_with_dropdown.dart';
-import 'package:qrpaypro/widgets/inputs/primary_input_filed.dart';
-import 'package:qrpaypro/widgets/others/limit_information_widget.dart';
+import 'package:qrpaypro/widgets/inputs/input_formater.dart';
 
 import '../../../controller/categories/send_money/send_money_controller.dart';
 import '../../../controller/navbar/dashboard_controller.dart';
 import '../../../language/english.dart';
-import '../../../widgets/inputs/copy_with_input.dart';
-import '../../../widgets/text_labels/title_heading5_widget.dart';
 import '../../set_up_pin/controller/set_up_pin_controller.dart';
+import '../transfer/transfer_ui_kit.dart';
 
 class MoneyTransferScreen extends StatelessWidget {
   MoneyTransferScreen({super.key});
@@ -27,165 +19,303 @@ class MoneyTransferScreen extends StatelessWidget {
   final controller = Get.put(SendMoneyController());
   final kyc = Get.put(DashBoardController());
 
-  final formKey = GlobalKey<FormState>();
-
   @override
   Widget build(BuildContext context) {
     return ResponsiveLayout(
       mobileScaffold: Scaffold(
-        appBar: const AppBarWidget(text: Strings.sendMoney),
+        backgroundColor: TransferTokens.scaffoldBg,
+        appBar: const TransferAppBar(
+          titleKey: Strings.sendMoney,
+          subtitleKey: Strings.recipient,
+        ),
         body: Obx(
           () => controller.isLoading
-              ? const CustomLoadingAPI()
-              : _bodyWidget(context),
+              ? const _LoadingState()
+              : _body(context),
+        ),
+        bottomNavigationBar: Obx(
+          () => controller.isLoading
+              ? const SizedBox.shrink()
+              : _bottomBar(context),
         ),
       ),
     );
   }
 
-  ListView _bodyWidget(BuildContext context) {
+  Widget _body(BuildContext context) {
     return ListView(
-      padding: EdgeInsets.symmetric(horizontal: Dimensions.paddingSize * 0.9),
+      padding: const EdgeInsets.fromLTRB(20, 6, 20, 28),
       physics: const BouncingScrollPhysics(),
       children: [
-        _inputWidget(context),
-        _limitInformation(context),
-        _buttonWidget(context),
+        _recipientCard(context),
+        _amountCard(context),
+        _remarkCard(),
+        _limitsCard(),
       ],
     );
   }
 
-  Container _inputWidget(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(top: Dimensions.marginSizeVertical * 1.6),
-      child: Form(
-        key: formKey,
-        child: Column(
-          children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                CopyInputWidget(
-                  suffixIcon: Assets.icon.scan,
-                  suffixColor: CustomColor.whiteColor,
-                  onTap: () {
-                    Get.toNamed(Routes.qRCodeScreen);
-                  },
-                  controller: controller.copyInputController,
-                  hint: Strings.enterEmailPhone,
-                  label: Strings.phoneEmail,
-                ),
-                Obx(() {
-                  return TitleHeading5Widget(
-                    text: controller.checkUserMessage.value,
-                    color: controller.isValidUser.value
-                        ? CustomColor.greenColor
-                        : CustomColor.redColor,
-                  );
-                }),
-              ],
-            ),
-            verticalSpace(Dimensions.heightSize),
-            SendMoneyInputWithDropdown(
-              controller: controller.senderAmountController,
-              hint: Strings.zero00,
-              label: Strings.senderAmount,
-              selectWallet: controller.selectSenderWallet,
-            ),
-            verticalSpace(Dimensions.heightSize),
-            SendMoneyInputWithDropdown(
-              controller: controller.receiverAmountController,
-              hint: Strings.zero00,
-              label: Strings.receiverAmount,
-              selectWallet: controller.selectReceiverWallet,
-            ),
-            verticalSpace(Dimensions.heightSize),
-            PrimaryInputWidget(
-              controller: controller.remarkController,
-              hint: Strings.enterRemark,
-              isValidator: false,
-              label:
-                  "${Strings.remark.translation} (${Strings.optional.translation})",
-              maxLines: 5,
-            ),
-          ],
+  //! ─────────────────────────────  Recipient  ─────────────────────────────
+  Widget _recipientCard(BuildContext context) {
+    return SectionCard(
+      titleKey: Strings.recipient,
+      icon: Icons.person_outline_rounded,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const FieldLabel(Strings.phoneEmail),
+          TransferTextField(
+            controller: controller.copyInputController,
+            hintKey: Strings.enterEmailPhone,
+            prefixIcon: Icons.alternate_email_rounded,
+            onSubmitted: (_) => _verifyRecipient(),
+            onTapOutside: (_) => _verifyRecipient(),
+            suffix: _scanButton(),
+          ),
+          Obx(
+            () => controller.checkUserMessage.value.isEmpty
+                ? const SizedBox.shrink()
+                : StatusPill(
+                    valid: controller.isValidUser.value,
+                    message: controller.checkUserMessage.value,
+                  ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _verifyRecipient() {
+    if (controller.copyInputController.text.isNotEmpty) {
+      controller.getCheckUserExistDate();
+    }
+  }
+
+  Widget _scanButton() {
+    return Padding(
+      padding: const EdgeInsets.all(7),
+      child: GestureDetector(
+        onTap: () => Get.toNamed(Routes.qRCodeScreen),
+        child: Container(
+          padding: const EdgeInsets.all(11),
+          decoration: BoxDecoration(
+            gradient: TransferTokens.brand,
+            borderRadius: BorderRadius.circular(TransferTokens.radius - 4),
+          ),
+          child: const Icon(
+            Icons.qr_code_scanner_rounded,
+            color: Colors.white,
+            size: 20,
+          ),
         ),
       ),
     );
   }
 
-  Container _buttonWidget(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(
-        top: Dimensions.marginSizeVertical * 1,
-        bottom: Dimensions.marginSizeVertical,
-      ),
-      child: Obx(
-        () => controller.isSendMoneyLoading
-            ? const CustomLoadingAPI()
-            : PrimaryButton(
-                buttonColor:
-                    controller.isValidUser.value &&
-                        double.parse(
-                              controller.remainingController.senderAmount.value,
-                            ) >
-                            0 &&
-                        double.parse(
-                              controller.remainingController.senderAmount.value,
-                            ) <=
-                            controller.dailyLimit.value &&
-                        double.parse(
-                              controller.remainingController.senderAmount.value,
-                            ) <=
-                            controller.monthlyLimit.value
-                    ? CustomColor.primaryLightColor
-                    : CustomColor.primaryLightColor.withValues(alpha: 0.3),
-                title: Strings.send,
-                onPressed: () {
-                  if (controller.isValidUser.value &&
-                      double.parse(
-                            controller.remainingController.senderAmount.value,
-                          ) >
-                          0 &&
-                      double.parse(
-                            controller.remainingController.senderAmount.value,
-                          ) <=
-                          controller.dailyLimit.value &&
-                      double.parse(
-                            controller.remainingController.senderAmount.value,
-                          ) <=
-                          controller.monthlyLimit.value) {
-                    Get.find<SetUpPinController>().showPinDialog(
-                      context,
-                      onSuccess: () {
-                        Get.toNamed(Routes.sendMoneyPreviewScreen);
-                      },
-                    );
-                  }
-                },
+  //! ──────────────────────────────  Amount  ───────────────────────────────
+  Widget _amountCard(BuildContext context) {
+    return SectionCard(
+      titleKey: Strings.amount,
+      icon: Icons.swap_vert_rounded,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const FieldLabel(Strings.senderAmount),
+          TransferTextField(
+            controller: controller.senderAmountController,
+            hintKey: Strings.zero00,
+            bigText: true,
+            keyboardType: const TextInputType.numberWithOptions(decimal: true),
+            inputFormatters: [DecimalTextInputFormatter()],
+            onChanged: (_) => _onSenderChanged(),
+            suffix: Obx(
+              () => CurrencyPill(
+                code: controller.selectSenderWallet.value?.currency.code ?? '',
+                onTap: () => _pickWallet(context, isSender: true),
               ),
+            ),
+          ),
+          const FlowDivider(),
+          const FieldLabel(Strings.receiverAmount),
+          TransferTextField(
+            controller: controller.receiverAmountController,
+            hintKey: Strings.zero00,
+            bigText: true,
+            keyboardType: const TextInputType.numberWithOptions(decimal: true),
+            inputFormatters: [DecimalTextInputFormatter()],
+            onChanged: (_) => _onReceiverChanged(),
+            suffix: Obx(
+              () => CurrencyPill(
+                code:
+                    controller.selectReceiverWallet.value?.currency.code ?? '',
+                onTap: () => _pickWallet(context, isSender: false),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
 
-  LimitInformationWidget _limitInformation(BuildContext context) {
-    int precision = controller.selectSenderWallet.value!.currency.type == 'FIAT'
-        ? LocalStorages.getFiatPrecision()
-        : LocalStorages.getCryptoPrecision();
+  void _onSenderChanged() {
+    controller.getReceiverAmount();
+    if (controller.senderAmountController.text.isEmpty) {
+      controller.senderAmountController.text = "";
+    } else {
+      controller.remainingController.senderAmount.value =
+          controller.senderAmountController.text;
+      controller.remainingController.getRemainingBalanceProcess();
+    }
+    controller.getFee(
+      rate: double.parse(controller.selectSenderWallet.value!.currency.rate),
+    );
+  }
 
-    return LimitInformationWidget(
-      showDailyLimit: controller.dailyLimit.value == 0.0 ? false : true,
-      showMonthlyLimit: controller.monthlyLimit.value == 0.0 ? false : true,
-      transactionLimit:
-          '${controller.limitMin.value.toStringAsFixed(precision)} - ${controller.limitMax.value.toStringAsFixed(precision)} ${controller.selectSenderWallet.value!.currency.code}',
-      dailyLimit:
-          '${controller.dailyLimit.value.toStringAsFixed(precision)} ${controller.selectSenderWallet.value!.currency.code}',
-      monthlyLimit:
-          '${controller.monthlyLimit.value.toStringAsFixed(precision)} ${controller.selectSenderWallet.value!.currency.code}',
-      remainingMonthLimit:
-          '${controller.remainingController.remainingMonthLyLimit.value.toStringAsFixed(precision)} ${controller.selectSenderWallet.value!.currency.code}',
-      remainingDailyLimit:
-          '${controller.remainingController.remainingDailyLimit.value.toStringAsFixed(precision)} ${controller.selectSenderWallet.value!.currency.code}',
+  void _onReceiverChanged() {
+    controller.getSenderAmount();
+    controller.getFee(
+      rate: double.parse(controller.selectSenderWallet.value!.currency.rate),
+    );
+  }
+
+  void _pickWallet(BuildContext context, {required bool isSender}) {
+    showTransferPicker<MainUserWallet>(
+      context: context,
+      titleKey: Strings.amount,
+      items: controller.walletsList,
+      labelOf: (w) => w.currency.country,
+      subtitleOf: (w) =>
+          "${double.tryParse(w.balance.toString())?.toStringAsFixed(2) ?? w.balance} ${w.currency.code}",
+      badgeOf: (w) => w.currency.code,
+      onSelected: (w) {
+        if (isSender) {
+          controller.selectSenderWallet.value = w;
+          controller.updateExchangeRate();
+          controller.remainingController.senderCurrency.value =
+              w.currency.code;
+          controller.remainingController.getRemainingBalanceProcess();
+          controller.getReceiverAmount();
+        } else {
+          controller.selectReceiverWallet.value = w;
+          controller.updateExchangeRate();
+          controller.getSenderAmount();
+        }
+      },
+    );
+  }
+
+  //! ──────────────────────────────  Remark  ───────────────────────────────
+  Widget _remarkCard() {
+    return SectionCard(
+      titleKey: Strings.remark,
+      icon: Icons.sticky_note_2_outlined,
+      trailing: TText(
+        Strings.optional,
+        style: TransferTokens.body(size: 11.5, color: TransferTokens.textMuted),
+      ),
+      child: TransferTextField(
+        controller: controller.remarkController,
+        hintKey: Strings.enterRemark,
+        maxLines: 4,
+      ),
+    );
+  }
+
+  //! ──────────────────────────────  Limits  ───────────────────────────────
+  Widget _limitsCard() {
+    return Obx(() {
+      final wallet = controller.selectSenderWallet.value;
+      if (wallet == null) return const SizedBox.shrink();
+      final code = wallet.currency.code;
+      final precision = wallet.currency.type == 'FIAT'
+          ? LocalStorages.getFiatPrecision()
+          : LocalStorages.getCryptoPrecision();
+      final showDaily = controller.dailyLimit.value != 0.0;
+      final showMonthly = controller.monthlyLimit.value != 0.0;
+
+      String fmt(double v) => '${v.toStringAsFixed(precision)} $code';
+
+      return SectionCard(
+        titleKey: Strings.limitInformation,
+        icon: Icons.shield_outlined,
+        child: Column(
+          children: [
+            StatRow(
+              labelKey: Strings.transactionLimit,
+              value:
+                  '${controller.limitMin.value.toStringAsFixed(precision)} - ${controller.limitMax.value.toStringAsFixed(precision)} $code',
+              emphasize: true,
+            ),
+            if (showDaily) ...[
+              const Divider(height: 18),
+              StatRow(
+                labelKey: Strings.dailyLimit,
+                value: fmt(controller.dailyLimit.value),
+              ),
+              StatRow(
+                labelKey: Strings.remainingDailyLimit,
+                value: fmt(
+                  controller.remainingController.remainingDailyLimit.value,
+                ),
+              ),
+            ],
+            if (showMonthly) ...[
+              const Divider(height: 18),
+              StatRow(
+                labelKey: Strings.monthlyLimit,
+                value: fmt(controller.monthlyLimit.value),
+              ),
+              StatRow(
+                labelKey: Strings.remainingMonthlyLimit,
+                value: fmt(
+                  controller.remainingController.remainingMonthLyLimit.value,
+                ),
+              ),
+            ],
+          ],
+        ),
+      );
+    });
+  }
+
+  //! ────────────────────────────  Bottom CTA  ─────────────────────────────
+  bool get _canSend {
+    final amount =
+        double.tryParse(controller.remainingController.senderAmount.value) ?? 0;
+    return controller.isValidUser.value &&
+        amount > 0 &&
+        amount <= controller.dailyLimit.value &&
+        amount <= controller.monthlyLimit.value;
+  }
+
+  Widget _bottomBar(BuildContext context) {
+    return StickyBottomBar(
+      child: Obx(
+        () => GradientButton(
+          labelKey: Strings.send,
+          enabled: _canSend,
+          loading: controller.isSendMoneyLoading,
+          onTap: () {
+            Get.find<SetUpPinController>().showPinDialog(
+              context,
+              onSuccess: () {
+                Get.toNamed(Routes.sendMoneyPreviewScreen);
+              },
+            );
+          },
+        ),
+      ),
+    );
+  }
+}
+
+class _LoadingState extends StatelessWidget {
+  const _LoadingState();
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: CircularProgressIndicator(color: TransferTokens.primary),
     );
   }
 }

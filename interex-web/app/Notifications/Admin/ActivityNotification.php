@@ -38,20 +38,19 @@ class ActivityNotification extends Notification implements ShouldQueue
      * Get the mail representation of the notification.
      *
      * @param  mixed  $notifiable
-     * @return MailMessage
+     * @return \Illuminate\Notifications\Messages\MailMessage
      */
     public function toMail($notifiable)
     {
 
         $date = Carbon::now();
         $dateTime = $date->format('Y-m-d h:i:s A');
-
         return (new MailMessage)
-            ->subject($this->data['subject'])
-            ->greeting($this->data['greeting'])
-            ->line(new HtmlString($this->data['content']))
-            ->line(__('Date And Time').': '.$dateTime)
-            ->line(__('Thank you for using our application!'));
+                    ->subject($this->data['subject'])
+                    ->greeting($this->data['greeting'])
+                    ->line(new HtmlString($this->data['content']))
+                    ->line(__("Date And Time").": " .$dateTime)
+                    ->line(__('Thank you for using our application!'));
     }
 
     /**

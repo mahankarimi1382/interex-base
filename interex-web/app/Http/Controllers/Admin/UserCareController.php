@@ -2,44 +2,43 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Constants\GlobalConst;
-use App\Constants\NotificationConst;
-use App\Constants\PaymentGatewayConst;
-use App\Http\Controllers\Controller;
-use App\Http\Helpers\PushNotificationHelper;
-use App\Http\Helpers\Response;
-use App\Models\Admin\AdminNotification;
-use App\Models\Admin\BasicSettings;
-use App\Models\Agent as ModelsAgent;
-use App\Models\Merchants\Merchant;
-use App\Models\Transaction;
+use Exception;
+use Carbon\Carbon;
 use App\Models\User;
-use App\Models\UserLoginLog;
-use App\Models\UserMailLog;
-use App\Models\UserNotification;
 use App\Models\UserWallet;
-use App\Notifications\Admin\NewUserNotification;
+use App\Models\Transaction;
+use App\Models\UserMailLog;
+use Illuminate\Support\Arr;
+use Jenssegers\Agent\Agent;
+use App\Models\UserLoginLog;
+use Illuminate\Http\Request;
+use App\Constants\GlobalConst;
+use App\Http\Helpers\Response;
+use App\Models\UserNotification;
+use App\Models\Merchants\Merchant;
+use App\Traits\User\LoggedInUsers;
+use Illuminate\Support\Facades\DB;
+use App\Models\Admin\BasicSettings;
 use App\Notifications\Kyc\Approved;
 use App\Notifications\Kyc\Rejected;
+use App\Constants\NotificationConst;
+use App\Http\Controllers\Controller;
+use App\Models\Agent as ModelsAgent;
 use App\Notifications\User\SendMail;
-use App\Traits\User\LoggedInUsers;
 use App\Traits\User\RegisteredUsers;
-use Carbon\Carbon;
-use Exception;
-use Illuminate\Http\Request;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Notification;
+use App\Constants\PaymentGatewayConst;
+use App\Models\Admin\AdminNotification;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Helpers\PushNotificationHelper;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Validation\ValidationException;
-use Jenssegers\Agent\Agent;
+use App\Notifications\Admin\NewUserNotification;
 
 class UserCareController extends Controller
 {
     use LoggedInUsers,RegisteredUsers;
-
     /**
      * Display a listing of the resource.
      *
@@ -47,9 +46,8 @@ class UserCareController extends Controller
      */
     public function index()
     {
-        $page_title = __('All Users');
+        $page_title = __("All Users");
         $users = User::orderBy('id', 'desc')->paginate(12);
-
         return view('admin.sections.user-care.index', compact(
             'page_title',
             'users'
@@ -58,30 +56,27 @@ class UserCareController extends Controller
 
     /**
      * Display Active Users
-     *
      * @return view
      */
     public function active()
     {
-        $page_title = __('Active Users');
+        $page_title = __("Active Users");
         $users = User::active()->orderBy('id', 'desc')->paginate(12);
-
         return view('admin.sections.user-care.index', compact(
             'page_title',
             'users'
         ));
     }
 
+
     /**
      * Display Banned Users
-     *
      * @return view
      */
     public function banned()
     {
-        $page_title = __('Banned Users');
+        $page_title = __("Banned Users");
         $users = User::banned()->orderBy('id', 'desc')->paginate(12);
-
         return view('admin.sections.user-care.index', compact(
             'page_title',
             'users',
@@ -90,14 +85,12 @@ class UserCareController extends Controller
 
     /**
      * Display Email Unverified Users
-     *
      * @return view
      */
     public function emailUnverified()
     {
-        $page_title = __('Email Unverified Users');
+        $page_title = __("Email Unverified Users");
         $users = User::active()->orderBy('id', 'desc')->emailUnverified()->paginate(12);
-
         return view('admin.sections.user-care.index', compact(
             'page_title',
             'users'
@@ -106,29 +99,25 @@ class UserCareController extends Controller
 
     /**
      * Display SMS Unverified Users
-     *
      * @return view
      */
     public function SmsUnverified()
     {
-        $page_title = __('SMS Unverified Users');
-        $users = User::active()->orderBy('id', 'desc')->smsUnverified()->paginate(12);
-
+        $page_title = __("SMS Unverified Users");
+         $users = User::active()->orderBy('id', 'desc')->smsUnverified()->paginate(12);
         return view('admin.sections.user-care.index', compact(
-            'page_title', 'users'
+            'page_title','users'
         ));
     }
 
     /**
      * Display KYC Unverified Users
-     *
      * @return view
      */
     public function KycUnverified()
     {
-        $page_title = __('KYC Unverified Users');
+        $page_title = __("KYC Unverified Users");
         $users = User::kycUnverified()->orderBy('id', 'desc')->paginate(8);
-
         return view('admin.sections.user-care.index', compact(
             'page_title',
             'users'
@@ -137,13 +126,11 @@ class UserCareController extends Controller
 
     /**
      * Display Send Email to All Users View
-     *
      * @return view
      */
     public function emailAllUsers()
     {
-        $page_title = __('Email To Users');
-
+        $page_title = __("Email To Users");
         return view('admin.sections.user-care.email-to-users', compact(
             'page_title',
         ));
@@ -151,34 +138,30 @@ class UserCareController extends Controller
 
     /**
      * Display Specific User Information
-     *
      * @return view
      */
     public function userDetails($username)
     {
-        $page_title = __('User Details');
+        $page_title = __("User Details");
         $user = User::where('username', $username)->first();
-        if (! $user) {
-            return back()->with(['error' => [__('Oops! User not exists')]]);
-        }
+        if(!$user) return back()->with(['error' => [__('Oops! User not exists')]]);
 
         $wallets = UserWallet::where('user_id', $user->id)
-            ->whereHas('currency', function ($q) {
-                $q->where('status', GlobalConst::ACTIVE); // Ensure the currency is active
-            })
-            ->paginate(16);
+                            ->whereHas('currency', function ($q) {
+                                $q->where('status', GlobalConst::ACTIVE); // Ensure the currency is active
+                            })
+                            ->paginate(16);
 
-        $add_money_amount = amountOnBaseCurrency(Transaction::where('user_id', $user->id)->where('type', PaymentGatewayConst::TYPEADDMONEY)->where('status', 1)->get());
-        $money_out_amount = amountOnBaseCurrency(Transaction::where('user_id', $user->id)->where('type', PaymentGatewayConst::TYPEMONEYOUT)->where('status', 1)->get());
-        $total_transaction = amountOnBaseCurrency(Transaction::where('user_id', $user->id)->where('status', 1)->get());
+        $add_money_amount   = amountOnBaseCurrency(Transaction::where('user_id', $user->id)->where('type', PaymentGatewayConst::TYPEADDMONEY)->where('status', 1)->get());
+        $money_out_amount   = amountOnBaseCurrency(Transaction::where('user_id', $user->id)->where('type', PaymentGatewayConst::TYPEMONEYOUT)->where('status', 1)->get());
+        $total_transaction  = amountOnBaseCurrency(Transaction::where('user_id', $user->id)->where('status', 1)->get());
 
         $data = [
-            'wallets' => $wallets,
-            'total_transaction' => $total_transaction,
-            'add_money_amount' => $add_money_amount,
-            'money_out_amount' => $money_out_amount,
+            'wallets'               => $wallets,
+            'total_transaction'     => $total_transaction,
+            'add_money_amount'      => $add_money_amount,
+            'money_out_amount'      => $money_out_amount,
         ];
-
         return view('admin.sections.user-care.details', compact(
             'page_title',
             'user',
@@ -186,540 +169,496 @@ class UserCareController extends Controller
         ));
     }
 
-    public function sendMailUsers(Request $request)
-    {
+    public function sendMailUsers(Request $request) {
         $request->validate([
-            'user_type' => 'required|string|max:30',
-            'subject' => 'required|string|max:250',
-            'message' => 'required|string|max:2000',
+            'user_type'     => "required|string|max:30",
+            'subject'       => "required|string|max:250",
+            'message'       => "required|string|max:2000",
         ]);
         $basic_setting = BasicSettings::first();
         $users = [];
-        switch ($request->user_type) {
-            case 'active':
+        switch($request->user_type) {
+            case "active";
                 $users = User::active()->get();
                 break;
-            case 'all':
+            case "all";
                 $users = User::get();
                 break;
-            case 'email_unverified':
+            case "email_unverified";
                 $users = User::emailUnverified()->get();
                 break;
-            case 'kyc_unverified':
+            case "kyc_unverified";
                 $users = User::kycUnverified()->get();
                 break;
-            case 'banned':
+            case "banned";
                 $users = User::banned()->get();
                 break;
         }
 
-        try {
-            if ($basic_setting->email_notification == true) {
-                Notification::send($users, new SendMail((object) $request->all()));
+        try{
+            if( $basic_setting->email_notification == true){
+                Notification::send($users,new SendMail((object) $request->all()));
             }
-        } catch (Exception $e) {
-            return back()->with(['error' => [__('Something went wrong! Please try again.')]]);
+        }catch(Exception $e) {
+            return back()->with(['error' => [__("Something went wrong! Please try again.")]]);
         }
 
-        return back()->with(['success' => [__('Email successfully sended')]]);
+        return back()->with(['success' => [__("Email successfully sended")]]);
 
     }
 
     public function sendMail(Request $request, $username)
     {
         $request->merge(['username' => $username]);
-        $validator = Validator::make($request->all(), [
-            'subject' => 'required|string|max:200',
-            'message' => 'required|string|max:2000',
-            'username' => 'required|string|exists:users,username',
+        $validator = Validator::make($request->all(),[
+            'subject'       => 'required|string|max:200',
+            'message'       => 'required|string|max:2000',
+            'username'      => 'required|string|exists:users,username',
         ]);
-        if ($validator->fails()) {
-            return back()->withErrors($validator)->withInput()->with('modal', 'email-send');
+        if($validator->fails()) {
+            return back()->withErrors($validator)->withInput()->with("modal","email-send");
         }
         $validated = $validator->validate();
         $basic_setting = BasicSettings::first();
-        $user = User::where('username', $username)->first();
+        $user = User::where("username",$username)->first();
         $validated['user_id'] = $user->id;
-        $validated = Arr::except($validated, ['username']);
-        $validated['method'] = 'SMTP';
-        try {
+        $validated = Arr::except($validated,['username']);
+        $validated['method']   = "SMTP";
+        try{
             UserMailLog::create($validated);
-            try {
-                if ($basic_setting->email_notification == true) {
+            try{
+                if( $basic_setting->email_notification == true){
                     $user->notify(new SendMail((object) $validated));
                 }
-            } catch (Exception $e) {
+            }catch(Exception $e){
 
             }
-        } catch (Exception $e) {
-            return back()->with(['error' => [__('Something went wrong! Please try again.')]]);
+        }catch(Exception $e) {
+            return back()->with(['error' => [__("Something went wrong! Please try again.")]]);
         }
-
-        return back()->with(['success' => [__('Mail successfully sended')]]);
+        return back()->with(['success' => [__("Mail successfully sended")]]);
     }
 
     public function userDetailsUpdate(Request $request, $username)
     {
         $request->merge(['username' => $username]);
-        $validator = Validator::make($request->all(), [
-            'username' => 'required|exists:users,username',
-            'firstname' => 'required|string|max:60',
-            'lastname' => 'required|string|max:60',
-            'mobile_code' => 'required|string|max:10',
-            'mobile' => 'required|string|max:20',
-            'address' => 'nullable|string|max:250',
-            'country' => 'nullable|string|max:50',
-            'state' => 'nullable|string|max:50',
-            'city' => 'nullable|string|max:50',
-            'zip_code' => 'nullable|numeric|max_digits:8',
-            'email_verified' => 'required|boolean',
-            'sms_verified' => 'required|boolean',
-            'two_factor_status' => 'required|boolean',
-            'kyc_verified' => 'required|boolean',
-            'pin_status' => 'required|boolean',
-            'status' => 'required|boolean',
+        $validator = Validator::make($request->all(),[
+            'username'              => "required|exists:users,username",
+            'firstname'             => "required|string|max:60",
+            'lastname'              => "required|string|max:60",
+            'mobile_code'           => "required|string|max:10",
+            'mobile'                => "required|string|max:20",
+            'address'               => "nullable|string|max:250",
+            'country'               => "nullable|string|max:50",
+            'state'                 => "nullable|string|max:50",
+            'city'                  => "nullable|string|max:50",
+            'zip_code'              => "nullable|numeric|max_digits:8",
+            'email_verified'        => 'required|boolean',
+            'sms_verified'          => 'required|boolean',
+            'two_factor_status'     => 'required|boolean',
+            'kyc_verified'          => 'required|boolean',
+            'pin_status'            => 'required|boolean',
+            'status'                => 'required|boolean',
         ]);
         $validated = $validator->validate();
-        $validated['address'] = [
-            'country' => $validated['country'] ?? '',
-            'state' => $validated['state'] ?? '',
-            'city' => $validated['city'] ?? '',
-            'zip' => $validated['zip_code'] ?? '',
-            'address' => $validated['address'] ?? '',
+        $validated['address']  = [
+            'country'       => $validated['country'] ?? "",
+            'state'         => $validated['state'] ?? "",
+            'city'          => $validated['city'] ?? "",
+            'zip'           => $validated['zip_code'] ?? "",
+            'address'       => $validated['address'] ?? "",
         ];
-        $validated['mobile_code'] = remove_speacial_char($validated['mobile_code']);
-        $validated['mobile'] = remove_speacial_char($validated['mobile']);
-        $validated['full_mobile'] = $validated['mobile_code'].$validated['mobile'];
+        $validated['mobile_code']       = remove_speacial_char($validated['mobile_code']);
+        $validated['mobile']            = remove_speacial_char($validated['mobile']);
+        $validated['full_mobile']       = $validated['mobile_code'] . $validated['mobile'];
 
         $user = User::where('username', $username)->first();
-        if (! $user) {
-            return back()->with(['error' => [__('Oops! User not exists')]]);
-        }
+        if(!$user) return back()->with(['error' => [__("Oops! User not exists")]]);
 
-        if ($validated['pin_status'] == false) {
-            $validated['pin_code'] = null;
+        if( $validated['pin_status']  == false){
+           $validated['pin_code']   = null;
 
-        } elseif ($validated['pin_status'] == true && $user->pin_code == null) {
-            return back()->with(['error' => [__('The user has not yet submitted the PIN.')]]);
+        }elseif($validated['pin_status'] == true && $user->pin_code == null){
+            return back()->with(['error' => [__("The user has not yet submitted the PIN.")]]);
         }
 
         try {
             $user->update($validated);
         } catch (Exception $e) {
-            return back()->with(['error' => [__('Something went wrong! Please try again.')]]);
+            return back()->with(['error' => [__("Something went wrong! Please try again.")]]);
         }
 
-        return back()->with(['success' => [__('Profile Information Updated Successfully!')]]);
+        return back()->with(['success' => [__("Profile Information Updated Successfully!")]]);
     }
 
     public function loginLogs($username)
     {
-        $page_title = __('Login Logs');
-        $user = User::where('username', $username)->first();
-        if (! $user) {
-            return back()->with(['error' => [__("Ops! User doesn't exists")]]);
-        }
-        $logs = UserLoginLog::where('user_id', $user->id)->paginate(12);
-
+        $page_title = __("Login Logs");
+        $user = User::where("username",$username)->first();
+        if(!$user) return back()->with(['error' => [__("Ops! User doesn't exists")]]);
+        $logs = UserLoginLog::where('user_id',$user->id)->paginate(12);
         return view('admin.sections.user-care.login-logs', compact(
             'logs',
             'page_title',
         ));
     }
 
-    public function mailLogs($username)
-    {
-        $page_title = __('User Email Logs');
-        $user = User::where('username', $username)->first();
-        if (! $user) {
-            return back()->with(['error' => [__("Ops! User doesn't exists")]]);
-        }
-        $logs = UserMailLog::where('user_id', $user->id)->paginate(12);
-
-        return view('admin.sections.user-care.mail-logs', compact(
+    public function mailLogs($username) {
+        $page_title = __("User Email Logs");
+        $user = User::where("username",$username)->first();
+        if(!$user) return back()->with(['error' => [__("Ops! User doesn't exists")]]);
+        $logs = UserMailLog::where("user_id",$user->id)->paginate(12);
+        return view('admin.sections.user-care.mail-logs',compact(
             'page_title',
             'logs',
         ));
     }
 
-    public function loginAsMember(Request $request, $username)
-    {
+    public function loginAsMember(Request $request,$username) {
         $request->merge(['username' => $username]);
         $request->validate([
-            'target' => 'required|string|exists:users,username',
-            'username' => 'required_without:target|string|exists:users',
+            'target'            => 'required|string|exists:users,username',
+            'username'          => 'required_without:target|string|exists:users',
         ]);
 
-        try {
-            $user = User::where('username', $request->username)->first();
+        try{
+            $user = User::where("username",$request->username)->first();
             $this->refreshUserWallets($user);
-            Auth::guard('web')->login($user);
-        } catch (Exception $e) {
+            Auth::guard("web")->login($user);
+        }catch(Exception $e) {
             return back()->with(['error' => [$e->getMessage()]]);
         }
-
         return redirect()->intended(route('user.dashboard'));
     }
 
-    public function kycDetails($username)
-    {
-        $user = User::where('username', $username)->first();
-        if (! $user) {
-            return back()->with(['error' => [__("Ops! User doesn't exists")]]);
-        }
+    public function kycDetails($username) {
+        $user = User::where("username",$username)->first();
+        if(!$user) return back()->with(['error' => [__("Ops! User doesn't exists")]]);
 
-        $page_title = 'KYC Profile';
-
-        return view('admin.sections.user-care.kyc-details', compact('page_title', 'user'));
+        $page_title = "KYC Profile";
+        return view('admin.sections.user-care.kyc-details',compact("page_title","user"));
     }
 
-    public function kycApprove(Request $request, $username)
-    {
+    public function kycApprove(Request $request, $username) {
         $basic_setting = BasicSettings::first();
         $request->merge(['username' => $username]);
         $request->validate([
-            'target' => 'required|exists:users,username',
-            'username' => 'required_without:target|exists:users,username',
+            'target'        => "required|exists:users,username",
+            'username'      => "required_without:target|exists:users,username",
         ]);
-        $user = User::where('username', $request->target)->orWhere('username', $request->username)->first();
-        if ($user->kyc_verified == GlobalConst::VERIFIED) {
-            return back()->with(['warning' => ['User already KYC verified']]);
-        }
-        if ($user->kyc == null) {
-            return back()->with(['error' => ['User KYC information not found']]);
-        }
+        $user = User::where('username',$request->target)->orWhere('username',$request->username)->first();
+        if($user->kyc_verified == GlobalConst::VERIFIED) return back()->with(['warning' => ['User already KYC verified']]);
+        if($user->kyc == null) return back()->with(['error' => ['User KYC information not found']]);
 
-        try {
-            try {
-                if ($basic_setting->email_notification == true) {
+        try{
+            try{
+                if( $basic_setting->email_notification == true){
                     $user->notify(new Approved($user));
                 }
-            } catch (Exception $e) {
-            }
-            try {
-                if ($basic_setting->sms_notification == true) {
-                    sendSms($user, 'KYC_APPROVED', [
-                        'time' => now()->format('Y-m-d h:i:s A'),
+            }catch(Exception $e){}
+            try{
+                if( $basic_setting->sms_notification == true){
+                    sendSms($user,'KYC_APPROVED',[
+                        'time' =>  now()->format('Y-m-d h:i:s A')
                     ]);
                 }
-            } catch (Exception $e) {
-            }
+            }catch(Exception $e){}
 
             $user->update([
-                'kyc_verified' => GlobalConst::APPROVED,
+                'kyc_verified'  => GlobalConst::APPROVED,
             ]);
-        } catch (Exception $e) {
+        }catch(Exception $e) {
             $user->update([
-                'kyc_verified' => GlobalConst::PENDING,
+                'kyc_verified'  => GlobalConst::PENDING,
             ]);
-
-            return back()->with(['error' => [__('Something went wrong! Please try again.')]]);
+            return back()->with(['error' => [__("Something went wrong! Please try again.")]]);
         }
-
-        return back()->with(['success' => [__('User KYC successfully approved')]]);
+        return back()->with(['success' => [__("User KYC successfully approved")]]);
     }
 
-    public function kycReject(Request $request, $username)
-    {
+    public function kycReject(Request $request, $username) {
         $request->validate([
-            'target' => 'required|exists:users,username',
-            'reason' => 'required|string|max:500',
+            'target'        => "required|exists:users,username",
+            'reason'        => "required|string|max:500"
         ]);
         $basic_setting = BasicSettings::first();
-        $user = User::where('username', $request->target)->first();
-        if (! $user) {
-            return back()->with(['error' => [__("Ops! User doesn't exists")]]);
-        }
-        if ($user->kyc == null) {
-            return back()->with(['error' => [__('User KYC information not found')]]);
-        }
+        $user = User::where("username",$request->target)->first();
+        if(!$user) return back()->with(['error' => [__("Ops! User doesn't exists")]]);
+        if($user->kyc == null) return back()->with(['error' => [__("User KYC information not found")]]);
 
-        try {
-            try {
-                if ($basic_setting->email_notification == true) {
-                    $user->notify(new Rejected($user, $request->reason));
+        try{
+            try{
+                if( $basic_setting->email_notification == true){
+                    $user->notify(new Rejected($user,$request->reason));
                 }
-            } catch (Exception $e) {
-            }
+            }catch(Exception $e){}
 
-            try {
-                if ($basic_setting->sms_notification == true) {
-                    sendSms($user, 'KYC_REJECTED', [
-                        'reason' => $request->reason,
-                        'time' => now()->format('Y-m-d h:i:s A'),
+            try{
+                if( $basic_setting->sms_notification == true){
+                    sendSms($user,'KYC_REJECTED',[
+                        'reason'    =>  $request->reason,
+                        'time'      =>  now()->format('Y-m-d h:i:s A')
                     ]);
                 }
-            } catch (Exception $e) {
-            }
+            }catch(Exception $e){}
 
             $user->update([
-                'kyc_verified' => GlobalConst::REJECTED,
+                'kyc_verified'  => GlobalConst::REJECTED,
             ]);
             $user->kyc->update([
                 'reject_reason' => $request->reason,
             ]);
-        } catch (Exception $e) {
+        }catch(Exception $e) {
 
             $user->update([
-                'kyc_verified' => GlobalConst::PENDING,
+                'kyc_verified'  => GlobalConst::PENDING,
             ]);
             $user->kyc->update([
                 'reject_reason' => null,
             ]);
 
-            return back()->with(['error' => [__('Something went wrong! Please try again.')]]);
+            return back()->with(['error' => [__("Something went wrong! Please try again.")]]);
         }
 
-        return back()->with(['success' => [__('User KYC information is rejected')]]);
+        return back()->with(['success' => [__("User KYC information is rejected")]]);
     }
 
-    public function search(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'text' => 'required|string',
+
+    public function search(Request $request) {
+        $validator = Validator::make($request->all(),[
+            'text'  => 'required|string',
         ]);
 
-        if ($validator->fails()) {
+        if($validator->fails()) {
             $error = ['error' => $validator->errors()];
-
-            return Response::error($error, null, 400);
+            return Response::error($error,null,400);
         }
 
         $validated = $validator->validate();
         $users = User::search($validated['text'])->limit(10)->get();
-
-        return view('admin.components.search.user-search', compact(
+        return view('admin.components.search.user-search',compact(
             'users',
         ));
     }
-
-    public function walletBalanceUpdate(Request $request, $username)
-    {
-        $validator = Validator::make($request->all(), [
-            'type' => 'required|string|in:add,subtract',
-            'wallet' => 'required|numeric|exists:user_wallets,id',
-            'amount' => 'required|numeric',
-            'remark' => 'required|string|max:200',
+    public function walletBalanceUpdate(Request $request,$username) {
+        $validator = Validator::make($request->all(),[
+            'type'      => "required|string|in:add,subtract",
+            'wallet'    => "required|numeric|exists:user_wallets,id",
+            'amount'    => "required|numeric",
+            'remark'    => "required|string|max:200",
         ]);
 
-        if ($validator->fails()) {
-            return back()->withErrors($validator)->withInput()->with('modal', 'wallet-balance-update-modal');
+        if($validator->fails()) {
+            return back()->withErrors($validator)->withInput()->with('modal','wallet-balance-update-modal');
         }
 
         $validated = $validator->validate();
-        $user_wallet = UserWallet::whereHas('user', function ($q) use ($username) {
-            $q->where('username', $username);
+        $user_wallet = UserWallet::whereHas('user',function($q) use ($username){
+            $q->where('username',$username);
         })->find($validated['wallet']);
 
-        if (! $user_wallet) {
-            return back()->with(['error' => [__('User wallet not found!')]]);
-        }
+        if(!$user_wallet) return back()->with(['error' => [__("User wallet not found!")]]);
 
         DB::beginTransaction();
-        try {
+        try{
 
             $user_wallet_balance = 0;
 
-            switch ($validated['type']) {
-                case 'add':
-                    $type = 'Added';
+            switch($validated['type']){
+                case "add":
+                    $type = "Added";
                     $user_wallet_balance = $user_wallet->balance + $validated['amount'];
                     $user_wallet->balance += $validated['amount'];
                     break;
 
-                case 'subtract':
-                    $type = 'Subtracted';
-                    if ($user_wallet->balance >= $validated['amount']) {
+                case "subtract":
+                    $type = "Subtracted";
+                    if($user_wallet->balance >= $validated['amount']) {
                         $user_wallet_balance = $user_wallet->balance - $validated['amount'];
                         $user_wallet->balance -= $validated['amount'];
-                    } else {
-                        return back()->with(['error' => [__('User do not have sufficient balance')]]);
+                    }else {
+                        return back()->with(['error' => [__("User do not have sufficient balance")]]);
                     }
                     break;
             }
 
-            $inserted_id = DB::table('transactions')->insertGetId([
-                'admin_id' => auth()->user()->id,
-                'user_id' => $user_wallet->user->id,
-                'user_wallet_id' => $user_wallet->id,
-                'type' => PaymentGatewayConst::TYPEADDSUBTRACTBALANCE,
-                'attribute' => $validated['type'] === 'subtract' ? PaymentGatewayConst::SEND : PaymentGatewayConst::RECEIVED,
-                'trx_id' => generate_unique_string('transactions', 'trx_id', 16),
-                'request_amount' => $validated['amount'],
-                'payable' => $validated['amount'],
+            $inserted_id = DB::table("transactions")->insertGetId([
+                'admin_id'          => auth()->user()->id,
+                'user_id'           => $user_wallet->user->id,
+                'user_wallet_id'    => $user_wallet->id,
+                'type'              => PaymentGatewayConst::TYPEADDSUBTRACTBALANCE,
+                'attribute'         => $validated['type'] === 'subtract' ? PaymentGatewayConst::SEND: PaymentGatewayConst::RECEIVED,
+                'trx_id'            => generate_unique_string("transactions","trx_id",16),
+                'request_amount'    => $validated['amount'],
+                'payable'           => $validated['amount'],
                 'available_balance' => $user_wallet_balance,
-                'remark' => $validated['remark'],
-                'status' => GlobalConst::SUCCESS,
-                'created_at' => now(),
+                'remark'            => $validated['remark'],
+                'status'            => GlobalConst::SUCCESS,
+                'created_at'                    => now(),
             ]);
 
+
             DB::table('transaction_charges')->insert([
-                'transaction_id' => $inserted_id,
-                'percent_charge' => 0,
-                'fixed_charge' => 0,
-                'total_charge' => 0,
-                'created_at' => now(),
+                'transaction_id'    => $inserted_id,
+                'percent_charge'    => 0,
+                'fixed_charge'      => 0,
+                'total_charge'      => 0,
+                'created_at'        => now(),
             ]);
+
 
             $client_ip = request()->ip() ?? false;
             $location = geoip()->getLocation($client_ip);
-            $agent = new Agent;
+            $agent = new Agent();
 
             // $mac = exec('getmac');
             // $mac = explode(" ",$mac);
             // $mac = array_shift($mac);
-            $mac = '';
+            $mac = "";
 
-            DB::table('transaction_devices')->insert([
-                'transaction_id' => $inserted_id,
-                'ip' => $client_ip,
-                'mac' => $mac,
-                'city' => $location['city'] ?? '',
-                'country' => $location['country'] ?? '',
-                'longitude' => $location['lon'] ?? '',
-                'latitude' => $location['lat'] ?? '',
-                'timezone' => $location['timezone'] ?? '',
-                'browser' => $agent->browser() ?? '',
-                'os' => $agent->platform() ?? '',
+            DB::table("transaction_devices")->insert([
+                'transaction_id'=> $inserted_id,
+                'ip'            => $client_ip,
+                'mac'           => $mac,
+                'city'          => $location['city'] ?? "",
+                'country'       => $location['country'] ?? "",
+                'longitude'     => $location['lon'] ?? "",
+                'latitude'      => $location['lat'] ?? "",
+                'timezone'      => $location['timezone'] ?? "",
+                'browser'       => $agent->browser() ?? "",
+                'os'            => $agent->platform() ?? "",
             ]);
 
             $user_wallet->save();
 
             $notification_content = [
-                'type' => NotificationConst::BALANCE_UPDATE,
-                'title' => 'Update Balance',
-                'message' => 'Your Wallet ('.get_amount($validated['amount'], $user_wallet->currency->code, get_wallet_precision($user_wallet->currency)).') Balance Has Been '.$type ?? '',
-                'time' => Carbon::now()->diffForHumans(),
-                'image' => files_asset_path('profile-default'),
+                'type'          =>  NotificationConst::BALANCE_UPDATE,
+                'title'         => "Update Balance",
+                'message'       => "Your Wallet (".get_amount($validated['amount'],$user_wallet->currency->code,get_wallet_precision($user_wallet->currency)).") Balance Has Been ". $type??"",
+                'time'          => Carbon::now()->diffForHumans(),
+                'image'         => files_asset_path('profile-default'),
             ];
 
             UserNotification::create([
-                'type' => NotificationConst::BALANCE_UPDATE,
-                'user_id' => $user_wallet->user->id,
-                'message' => $notification_content,
+                'type'      => NotificationConst::BALANCE_UPDATE,
+                'user_id'  => $user_wallet->user->id,
+                'message'   => $notification_content,
             ]);
-            // push notification
-            try {
-                (new PushNotificationHelper)->prepare([$user_wallet->user->id], [
+            //push notification
+           try{
+                (new PushNotificationHelper())->prepare([$user_wallet->user->id],[
                     'title' => $notification_content['title'],
-                    'desc' => $notification_content['message'],
+                    'desc'  => $notification_content['message'],
                     'user_type' => 'user',
                 ])->send();
-            } catch (Exception $e) {
-            }
+           }catch(Exception $e) {}
 
-            // admin notification
-            $notification_content['title'] = $user_wallet->user->username."'s  Wallet (".$user_wallet->currency->code.') Balance Has Been '.$type ?? '';
+            //admin notification
+             $notification_content['title'] = $user_wallet->user->username."'s  Wallet (".$user_wallet->currency->code.") Balance Has Been ". $type??"";
             AdminNotification::create([
-                'type' => NotificationConst::BALANCE_UPDATE,
-                'admin_id' => auth()->user()->id,
-                'message' => $notification_content,
+                'type'      => NotificationConst::BALANCE_UPDATE,
+                'admin_id'  => auth()->user()->id,
+                'message'   => $notification_content,
             ]);
             DB::commit();
-        } catch (Exception $e) {
+        }catch(Exception $e) {
             DB::rollBack();
-
-            return back()->with(['error' => [__('Transaction Failed!')]]);
+            return back()->with(['error' => [__("Transaction Failed!")]]);
         }
 
-        return back()->with(['success' => [__('Transaction success')]]);
+        return back()->with(['success' => [__("Transaction success")]]);
     }
 
     /**
      * Method for view create new user page
-     *
      * @return view
      */
-    public function create()
-    {
-        $page_title = __('Create New User');
+    public function create(){
+        $page_title             = __("Create New User");
 
-        return view('admin.sections.user-care.create', compact(
+        return view('admin.sections.user-care.create',compact(
             'page_title'
         ));
     }
-
     /**
      * Method for store agent information
-     *
-     * @param  Illuminate\Http\Request  $request
+     * @param Illuminate\Http\Request $request
      */
-    public function store(Request $request)
-    {
-        $basic_settings = BasicSettings::first();
+    public function store(Request $request){
+        $basic_settings         = BasicSettings::first();
 
-        $validator = Validator::make($request->all(), [
-            'firstname' => 'required|string',
-            'lastname' => 'required|string',
-            'email' => 'required|email',
-            'mobile_code' => 'required|string|max:10',
-            'mobile' => 'required|string|max:20',
-            'password' => 'required|min:8',
-            'country' => 'required|string|max:50',
-            'email_verified' => 'required|boolean',
-            'sms_verified' => 'required|boolean',
-            'kyc_verified' => 'required|boolean',
-            'status' => 'required|boolean',
+        $validator      = Validator::make($request->all(),[
+            'firstname'   => 'required|string',
+            'lastname'    => 'required|string',
+            'email'       => 'required|email',
+            'mobile_code' => "required|string|max:10",
+            'mobile'      => "required|string|max:20",
+            'password'    => 'required|min:8',
+            'country'           => "required|string|max:50",
+            'email_verified'    => 'required|boolean',
+            'sms_verified'      => 'required|boolean',
+            'kyc_verified'      => 'required|boolean',
+            'status'            => 'required|boolean',
         ]);
-        if ($validator->fails()) {
+        if($validator->fails()){
             return back()->withErrors($validator)->withInput($request->all());
         }
-        $validated = $validator->validate();
+        $validated              = $validator->validate();
 
-        $user_name = make_username(slug($validated['firstname']), slug($validated['lastname']), 'users');
-        $validated['address'] = [
-            'country' => $validated['country'] ?? '',
-            'state' => '',
-            'city' => '',
-            'zip' => '',
-            'address' => '',
+        $user_name              = make_username(slug($validated['firstname']),slug($validated['lastname']),'users');
+        $validated['address']  = [
+            'country'       => $validated['country'] ?? "",
+            'state'         => "",
+            'city'          => "",
+            'zip'           => "",
+            'address'       => "",
         ];
-        $validated['mobile_code'] = remove_speacial_char($validated['mobile_code']);
-        $validated['mobile'] = remove_speacial_char($validated['mobile']);
-        $validated['full_mobile'] = $validated['mobile_code'].$validated['mobile'];
+        $validated['mobile_code']       = remove_speacial_char($validated['mobile_code']);
+        $validated['mobile']            = remove_speacial_char($validated['mobile']);
+        $validated['full_mobile']       = $validated['mobile_code'] . $validated['mobile'];
 
-        $validated['username'] = $user_name;
-        $validated['password'] = Hash::make($validated['password']);
+        $validated['username']      = $user_name;
+        $validated['password']      = Hash::make($validated['password']);
 
         $models = [User::class, ModelsAgent::class, Merchant::class];
 
         foreach ($models as $model) {
             if ($model::where('full_mobile', $validated['full_mobile'])
-                ->orWhere('email', $validated['email'])
-                ->exists()) {
+                    ->orWhere('email', $validated['email'])
+                    ->exists()) {
                 throw ValidationException::withMessages([
                     'phone' => __('The phone number or email address you have provided is already in use.'),
                 ]);
             }
         }
 
-        try {
+
+        try{
             $user = User::create($validated);
             $this->createUserWallets($user);
-            if ($basic_settings->email_notification) {
-                try {
-                    Notification::route('mail', $validated['email'])->notify(new NewUserNotification($data = $validated, $request->password, 'USER'));
-                } catch (Exception $e) {
+            if($basic_settings->email_notification){
+                try{
+                    Notification::route('mail',$validated['email'])->notify(new NewUserNotification($data = $validated,$request->password,"USER"));
+                }catch(Exception $e){
                 }
             }
 
-            if ($basic_settings->sms_notification) {
+            if($basic_settings->sms_notification){
 
-                try {
-                    sendSms($user, 'NEW_USER_REGISTER', [
-                        'email' => $user->email,
-                        'phone' => $user->full_mobile,
-                        'password' => $request->password,
+                try{
+                   sendSms($user,'NEW_USER_REGISTER',[
+                        'email'     => $user->email,
+                        'phone'     => $user->full_mobile,
+                        'password'  => $request->password,
                         'site_name' => $basic_settings->site_name,
-                        'time' => now()->format('Y-m-d h:i:s A'),
+                        'time'      => now()->format('Y-m-d h:i:s A'),
                     ]);
-                } catch (Exception $e) {
+                }catch(Exception $e){
                 }
             }
-        } catch (Exception $e) {
-            return back()->with(['error' => [__('Something went wrong! Please try again.')]]);
+        }catch(Exception $e){
+            return back()->with(['error' => [__("Something went wrong! Please try again.")]]);
         }
-
         return redirect()->route('admin.users.index')->with(['success' => [__('User created successfully.')]]);
     }
 }

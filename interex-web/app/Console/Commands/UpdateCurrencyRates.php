@@ -7,13 +7,12 @@ use App\Http\Helpers\CurrencyLayer;
 use App\Models\Admin\Currency;
 use App\Models\Admin\PaymentGatewayCurrency;
 use App\Models\LiveExchangeRateApiSetting;
-use Exception;
 use Illuminate\Console\Command;
+use Exception;
 
 class UpdateCurrencyRates extends Command
 {
     protected $signature = 'currency:update';
-
     protected $description = 'Update currency rates using CurrencyLayer API';
 
     public function __construct()
@@ -24,11 +23,10 @@ class UpdateCurrencyRates extends Command
     public function handle()
     {
         try {
-            $api_rates = (new CurrencyLayer)->getLiveExchangeRates();
+            $api_rates = (new CurrencyLayer())->getLiveExchangeRates();
 
             if (isset($api_rates) && $api_rates['status'] == false) {
-                info($api_rates['message'] ?? 'Something went wrong! Please try again.');
-
+                info($api_rates['message'] ?? "Something went wrong! Please try again.");
                 return;
             }
 
@@ -62,7 +60,7 @@ class UpdateCurrencyRates extends Command
             info('Currency Rate Updated Successfully by Currency Layer.');
 
         } catch (Exception $e) {
-            info($e->getMessage() ?? 'Something went wrong! Please try again.');
+            info($e->getMessage()??"Something went wrong! Please try again.");
         }
     }
 }

@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('agent_password_resets', function (Blueprint $table) {
+        Schema::table('agent_password_resets',function (Blueprint $table) {
             $table->string('phone')->nullable()->after('email');
         });
     }

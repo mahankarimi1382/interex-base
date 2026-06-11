@@ -12,7 +12,6 @@ class SenderEmail extends Notification
     use Queueable;
 
     public $user;
-
     public $data;
 
     /**
@@ -20,7 +19,7 @@ class SenderEmail extends Notification
      *
      * @return void
      */
-    public function __construct($user, $data)
+    public function __construct($user,$data)
     {
         $this->user = $user;
         $this->data = $data;
@@ -41,7 +40,7 @@ class SenderEmail extends Notification
      * Get the mail representation of the notification.
      *
      * @param  mixed  $notifiable
-     * @return MailMessage
+     * @return \Illuminate\Notifications\Messages\MailMessage
      */
     public function toMail($notifiable)
     {
@@ -50,70 +49,70 @@ class SenderEmail extends Notification
         $trx_id = $this->data->trx_id;
         $date = Carbon::now();
         $dateTime = $date->format('Y-m-d h:i:s A');
-        if ($data->transaction_type == 'bank-transfer') {
-            return (new MailMessage)
-                ->greeting(__('Hello').' '.$user->fullname.' !')
-                ->subject($data->title)
-                ->line(__('Send Remittance Email Heading').':')
-                ->line($data->title)
-                ->line(__('web_trx_id').': '.$trx_id)
-                ->line(__('Transaction Type').': '.ucwords(str_replace('-', ' ', @$data->transaction_type)))
-                ->line(__('request Amount').': '.$data->request_amount)
-                ->line(__('Exchange Rate').': '.$data->exchange_rate)
-                ->line(__('Fees & Charges').': '.$data->charges)
-                ->line(__('Total Payable Amount').': '.$data->payable)
-                ->line(__('sending Country').': '.$data->sending_country)
-                ->line(__('Receiving Country').': '.$data->receiving_country)
-                ->line(__('Sender Recipient Name').': '.$data->sender_recipient_name)
-                ->line(__('Receiver Recipient Name').': '.$data->receiver_recipient_name)
-                ->line(__('bank Name').': '.$data->alias)
-                ->line(__('Receiver Will Get').':'.$data->receiver_get)
-                ->line(__('Status').': '.$data->status)
-                ->line(__('Date And Time').': '.$dateTime)
-                ->line(__('Thank you for using our application!'));
-        } elseif ($data->transaction_type == 'wallet-to-wallet-transfer') {
+        if($data->transaction_type == 'bank-transfer') {
+            return (new MailMessage())
+                        ->greeting(__("Hello")." ".$user->fullname." !")
+                        ->subject($data->title)
+                        ->line(__("Send Remittance Email Heading").":")
+                        ->line($data->title)
+                        ->line(__("web_trx_id").": " .$trx_id)
+                        ->line(__("Transaction Type").": " . ucwords(str_replace('-', ' ', @$data->transaction_type)))
+                        ->line(__("request Amount").": " .$data->request_amount)
+                        ->line(__("Exchange Rate").": " . $data->exchange_rate)
+                         ->line(__("Fees & Charges").": " .$data->charges)
+                        ->line(__("Total Payable Amount").": " .$data->payable)
+                        ->line(__("sending Country").": " . $data->sending_country)
+                        ->line(__("Receiving Country").": " . $data->receiving_country)
+                        ->line(__("Sender Recipient Name").": " . $data->sender_recipient_name)
+                        ->line(__("Receiver Recipient Name").": " . $data->receiver_recipient_name)
+                        ->line(__("bank Name").": " . $data->alias)
+                        ->line(__("Receiver Will Get").":" . $data->receiver_get)
+                       ->line(__("Status").": " .$data->status)
+                        ->line(__("Date And Time").": " .$dateTime)
+                        ->line(__('Thank you for using our application!'));
+        }else if($data->transaction_type == 'wallet-to-wallet-transfer'){
 
-            return (new MailMessage)
-                ->greeting(__('Hello').' '.$user->fullname.' !')
-                ->subject($data->title)
-                ->line(__('Send Remittance successful, details of Send Remittance').':')
-                ->line($data->title)
-                ->line(__('web_trx_id').': '.$trx_id)
-                ->line(__('Transaction Type').': '.ucwords(str_replace('-', ' ', @$data->transaction_type)))
-                ->line(__('request Amount').': '.$data->request_amount)
-                ->line(__('Exchange Rate').': '.$data->exchange_rate)
-                ->line(__('Fees & Charges').': '.$data->charges)
-                ->line(__('Total Payable Amount').': '.$data->payable)
-                ->line(__('sending Country').': '.$data->sending_country)
-                ->line(__('Receiving Country').': '.$data->receiving_country)
-                ->line(__('Sender Recipient Name').': '.$data->sender_recipient_name)
-                ->line(__('Receiver Recipient Name').': '.$data->receiver_recipient_name)
-                ->line(__('Receiver Will Get').':'.$data->receiver_get)
-                ->line('Status: Success')
-                ->line(__('Date And Time').': '.$dateTime)
-                ->line(__('Thank you for using our application!'));
+            return (new MailMessage())
+                    ->greeting(__("Hello")." ".$user->fullname." !")
+                    ->subject($data->title)
+                    ->line(__("Send Remittance successful, details of Send Remittance").":")
+                    ->line($data->title)
+                  ->line(__("web_trx_id").": " .$trx_id)
+                    ->line(__("Transaction Type").": " . ucwords(str_replace('-', ' ', @$data->transaction_type)))
+                    ->line(__("request Amount").": " .$data->request_amount)
+                    ->line(__("Exchange Rate").": " . $data->exchange_rate)
+                     ->line(__("Fees & Charges").": " .$data->charges)
+                    ->line(__("Total Payable Amount").": " .$data->payable)
+                    ->line(__("sending Country").": " . $data->sending_country)
+                    ->line(__("Receiving Country").": " . $data->receiving_country)
+                    ->line(__("Sender Recipient Name").": " . $data->sender_recipient_name)
+                    ->line(__("Receiver Recipient Name").": " . $data->receiver_recipient_name)
+                    ->line(__("Receiver Will Get").":" . $data->receiver_get)
+                    ->line("Status: Success")
+                    ->line(__("Date And Time").": " .$dateTime)
+                    ->line(__('Thank you for using our application!'));
 
-        } else {
-            return (new MailMessage)
-                ->greeting(__('Hello').' '.$user->fullname.' !')
-                ->subject($data->title)
-                ->line(__('Send Remittance Email Heading').':')
-                ->line($data->title)
-                ->line(__('web_trx_id').': '.$trx_id)
-                ->line(__('Transaction Type').': '.ucwords(str_replace('-', ' ', @$data->transaction_type)))
-                ->line(__('request Amount').': '.$data->request_amount)
-                ->line(__('Exchange Rate').': '.$data->exchange_rate)
-                ->line(__('Fees & Charges').': '.$data->charges)
-                ->line(__('Total Payable Amount').': '.$data->payable)
-                ->line(__('sending Country').': '.$data->sending_country)
-                ->line(__('Receiving Country').': '.$data->receiving_country)
-                ->line(__('Sender Recipient Name').': '.$data->sender_recipient_name)
-                ->line(__('Receiver Recipient Name').': '.$data->receiver_recipient_name)
-                ->line(__('Pickup Point').': '.$data->alias)
-                ->line(__('Receiver Will Get').':'.$data->receiver_get)
-                ->line(__('Status').': '.$data->status)
-                ->line(__('Date And Time').': '.$dateTime)
-                ->line(__('Thank you for using our application!'));
+        }else{
+            return (new MailMessage())
+                    ->greeting(__("Hello")." ".$user->fullname." !")
+                    ->subject($data->title)
+                    ->line(__("Send Remittance Email Heading").":")
+                    ->line($data->title)
+                    ->line(__("web_trx_id").": " .$trx_id)
+                    ->line(__("Transaction Type").": " . ucwords(str_replace('-', ' ', @$data->transaction_type)))
+                    ->line(__("request Amount").": " .$data->request_amount)
+                    ->line(__("Exchange Rate").": " . $data->exchange_rate)
+                    ->line(__("Fees & Charges").": " .$data->charges)
+                    ->line(__("Total Payable Amount").": " .$data->payable)
+                    ->line(__("sending Country").": " . $data->sending_country)
+                    ->line(__("Receiving Country").": " . $data->receiving_country)
+                    ->line(__("Sender Recipient Name").": " . $data->sender_recipient_name)
+                    ->line(__("Receiver Recipient Name").": " . $data->receiver_recipient_name)
+                    ->line(__("Pickup Point").": " . $data->alias)
+                    ->line(__("Receiver Will Get").":" . $data->receiver_get)
+                    ->line(__("Status").": " .$data->status)
+                    ->line(__("Date And Time").": " .$dateTime)
+                    ->line(__('Thank you for using our application!'));
 
         }
     }

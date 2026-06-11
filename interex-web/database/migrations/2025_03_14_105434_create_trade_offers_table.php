@@ -24,7 +24,7 @@ return new class extends Migration
             $table->decimal('rate', 28, 16);
             $table->foreignId('sale_currency_id')->constrained('currencies')->cascadeOnDelete();
             $table->foreignId('rate_currency_id')->constrained('currencies')->cascadeOnDelete();
-            $table->boolean('status')->default(true);
+            $table->boolean("status")->default(true);
             $table->timestamps();
         });
     }

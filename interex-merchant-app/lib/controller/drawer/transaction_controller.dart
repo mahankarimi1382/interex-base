@@ -22,10 +22,10 @@ class TransactionController extends GetxController {
   final _isLoading = false.obs;
   bool get isLoading => _isLoading.value;
 
-  late TransactionLogModel _transactionLogModel;
-  TransactionLogModel get transactionModel => _transactionLogModel;
+  TransactionLogModel? _transactionLogModel;
+  TransactionLogModel? get transactionModel => _transactionLogModel;
 
-  Future<TransactionLogModel> getTransactionData() async {
+  Future<TransactionLogModel?> getTransactionData() async {
     _isLoading.value = true;
     update();
 
@@ -49,10 +49,10 @@ class TransactionController extends GetxController {
   final _isRefundLoading = false.obs;
   bool get isRefundLoading => _isRefundLoading.value;
 
-  late CommonSuccessModel _refundModel;
-  CommonSuccessModel get refundModel => _refundModel;
+  CommonSuccessModel? _refundModel;
+  CommonSuccessModel? get refundModel => _refundModel;
 
-  Future<CommonSuccessModel> refundProcess({
+  Future<CommonSuccessModel?> refundProcess({
     required String endPoint,
     required String targetId,
   }) async {

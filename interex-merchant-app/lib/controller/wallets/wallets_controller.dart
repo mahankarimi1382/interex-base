@@ -14,16 +14,17 @@ class WalletsController extends GetxController {
 
   final _isLoading = false.obs;
   bool get isLoading => _isLoading.value;
-  late WalletsModel _walletsInfoModel;
-  WalletsModel get walletsInfoModel => _walletsInfoModel;
-  Future<WalletsModel> getWalletsInfoProcess() async {
+  WalletsModel? _walletsInfoModel;
+  WalletsModel? get walletsInfoModel => _walletsInfoModel;
+  Future<WalletsModel?> getWalletsInfoProcess() async {
     _isLoading.value = true;
     update();
     await ApiServices.walletsInfoApi()
         .then((value) {
-          _walletsInfoModel = value!;
+          final model = value!;
+          _walletsInfoModel = model;
           final double currencyRate = double.parse(
-            _walletsInfoModel.data.userWallets.first.currency.rate,
+            model.data.userWallets.first.currency.rate,
           );
           exchangeRate.value = (currencyRate * currencyRate);
           update();

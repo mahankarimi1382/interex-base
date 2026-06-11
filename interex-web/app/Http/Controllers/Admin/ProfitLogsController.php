@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Exports\AdminProfitLogs;
 use App\Http\Controllers\Controller;
 use App\Models\TransactionCharge;
-use Illuminate\Http\Response;
 use Maatwebsite\Excel\Facades\Excel;
 
 class ProfitLogsController extends Controller
@@ -13,26 +12,24 @@ class ProfitLogsController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return Response
+     * @return \Illuminate\Http\Response
      */
     public function profitLogs()
     {
-        $page_title = __('All Profits Logs');
+        $page_title = __("All Profits Logs");
         $profits = TransactionCharge::with('transactions')
-            ->whereHas('transactions', function ($query) {
-                $query->where('status', 1);
-            })
-            ->latest()->paginate(20);
+        ->whereHas('transactions', function ($query) {
+            $query->where('status',1);
+        })
+        ->latest()->paginate(20);
 
-        return view('admin.sections.profits.index', compact(
-            'page_title', 'profits'
+
+        return view('admin.sections.profits.index',compact(
+            'page_title','profits'
         ));
     }
-
-    public function exportData()
-    {
-        $file_name = now()->format('Y-m-d_H:i:s').'_admin_profit_Logs'.'.xlsx';
-
-        return Excel::download(new AdminProfitLogs, $file_name);
+    public function exportData(){
+        $file_name = now()->format('Y-m-d_H:i:s') . "_admin_profit_Logs".'.xlsx';
+        return Excel::download(new AdminProfitLogs,$file_name);
     }
 }

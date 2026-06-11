@@ -83,9 +83,9 @@ class CustomDrawer extends StatelessWidget {
             image: controller.isLoading
                 ? AssetImage(Assets.clipart.user.path) as ImageProvider
                 : NetworkImage(
-                    controller.profileModel.data.user.image.isNotEmpty
-                        ? '${Get.find<AppSettingsController>().baseUrl.value}/${controller.profileModel.data.imagePath}/${controller.profileModel.data.user.image}'
-                        : '${Get.find<AppSettingsController>().baseUrl.value}/${controller.profileModel.data.imagePath}/${controller.profileModel.data.defaultImage}',
+                    controller.profileModel!.data.user.image.isNotEmpty
+                        ? '${Get.find<AppSettingsController>().baseUrl.value}/${controller.profileModel!.data.imagePath}/${controller.profileModel!.data.user.image}'
+                        : '${Get.find<AppSettingsController>().baseUrl.value}/${controller.profileModel!.data.imagePath}/${controller.profileModel!.data.defaultImage}',
                   ),
             placeholder: AssetImage(Assets.clipart.user.path),
             imageErrorBuilder: (context, error, stackTrace) {
@@ -109,10 +109,10 @@ class CustomDrawer extends StatelessWidget {
           TitleHeading2Widget(
             text: controller.isLoading
                 ? ''
-                : controller.profileModel.data.user.firstname +
+                : controller.profileModel!.data.user.firstname +
                       // ignore: prefer_interpolation_to_compose_strings
                       " " +
-                      controller.profileModel.data.user.lastname,
+                      controller.profileModel!.data.user.lastname,
             color: Get.isDarkMode
                 ? CustomColor.primaryDarkTextColor
                 : CustomColor.primaryDarkColor,
@@ -120,7 +120,7 @@ class CustomDrawer extends StatelessWidget {
           TitleHeading4Widget(
             text: controller.isLoading
                 ? ''
-                : controller.profileModel.data.user.email,
+                : controller.profileModel!.data.user.email,
             fontWeight: FontWeight.w500,
             color: Theme.of(context).primaryColor,
             fontSize: Dimensions.headingTextSize3,

@@ -120,50 +120,34 @@ class WithdrawController extends GetxController {
 
   bool get isLoading => _isLoading.value;
 
-  late WithdrawInfoModel _moneyOutPaymentGatewayModel;
+  WithdrawInfoModel? _moneyOutPaymentGatewayModel;
 
-  WithdrawInfoModel get moneyOutPaymentGatewayModel =>
+  WithdrawInfoModel? get moneyOutPaymentGatewayModel =>
       _moneyOutPaymentGatewayModel;
 
   // --------------------------- Api function ----------------------------------
   // get moneyOutPaymentGateway data function
-  Future<WithdrawInfoModel> getWithdrawInfoData() async {
+  Future<WithdrawInfoModel?> getWithdrawInfoData() async {
     _isLoading.value = true;
     update();
 
     await ApiServices.withdrawInfoAPi()
         .then((value) {
-          _moneyOutPaymentGatewayModel = value!;
+          final model = value!;
+          _moneyOutPaymentGatewayModel = model;
 
           // currencyCode.value =
-          //     _moneyOutPaymentGatewayModel.data.merchantWallet.currency; ??
-          currencyWalletCode.value = _moneyOutPaymentGatewayModel
-              .data
-              .gateways
-              .first
-              .currencies
-              .first
-              .currencyCode;
+          //     model.data.merchantWallet.currency; ??
+          currencyWalletCode.value =
+              model.data.gateways.first.currencies.first.currencyCode;
           dailyLimit.value = double.parse(
-            _moneyOutPaymentGatewayModel
-                .data
-                .gateways
-                .first
-                .currencies
-                .first
-                .dailyLimit,
+            model.data.gateways.first.currencies.first.dailyLimit,
           );
 
           monthlyLimit.value = double.parse(
-            _moneyOutPaymentGatewayModel
-                .data
-                .gateways
-                .first
-                .currencies
-                .first
-                .monthlyLimit,
+            model.data.gateways.first.currencies.first.monthlyLimit,
           );
-          for (var gateways in _moneyOutPaymentGatewayModel.data.gateways) {
+          for (var gateways in model.data.gateways) {
             for (var currency in gateways.currencies) {
               currencyList.add(
                 GatewayCurrency(
@@ -191,9 +175,8 @@ class WithdrawController extends GetxController {
           }
 
           final GatewayCurrency currency =
-              _moneyOutPaymentGatewayModel.data.gateways.first.currencies.first;
-          final Gateway gateway =
-              _moneyOutPaymentGatewayModel.data.gateways.first;
+              model.data.gateways.first.currencies.first;
+          final Gateway gateway = model.data.gateways.first;
 
           selectedCurrencyAlias.value = currency.alias;
           selectedCurrencyType.value = currency.type;
@@ -213,12 +196,12 @@ class WithdrawController extends GetxController {
           percentCharge.value = double.parse(currency.percentCharge);
 
           //Base Currency
-          baseCurrency.value = _moneyOutPaymentGatewayModel.data.baseCurr;
+          baseCurrency.value = model.data.baseCurr;
           //Base Currency
           selectMainWallet.value =
-              walletsController.walletsInfoModel.data.userWallets.first;
+              walletsController.walletsInfoModel!.data.userWallets.first;
           for (var element
-              in walletsController.walletsInfoModel.data.userWallets) {
+              in walletsController.walletsInfoModel!.data.userWallets) {
             walletsList.add(
               UserWallet(
                 balance: element.balance,
@@ -230,22 +213,14 @@ class WithdrawController extends GetxController {
 
           //start remaing get
           remainingController.transactionType.value =
-              _moneyOutPaymentGatewayModel
-                  .data
-                  .getRemainingFields
-                  .transactionType;
+              model.data.getRemainingFields.transactionType;
           remainingController.attribute.value =
-              _moneyOutPaymentGatewayModel.data.getRemainingFields.attribute;
-          remainingController.cardId.value = _moneyOutPaymentGatewayModel
-              .data
-              .gateways
-              .first
-              .currencies
-              .first
-              .id;
+              model.data.getRemainingFields.attribute;
+          remainingController.cardId.value =
+              model.data.gateways.first.currencies.first.id;
           remainingController.senderAmount.value = amountTextController.text;
           remainingController.senderCurrency.value = walletsController
-              .walletsInfoModel
+              .walletsInfoModel!
               .data
               .userWallets
               .first
@@ -267,31 +242,30 @@ class WithdrawController extends GetxController {
   }
 
   // ---------------------------- Get Flutterwave banks ------------------
-  late FlutterWaveBanksModel _flutterWaveBanksModel;
+  FlutterWaveBanksModel? _flutterWaveBanksModel;
 
-  FlutterWaveBanksModel get flutterWaveBanksModel => _flutterWaveBanksModel;
+  FlutterWaveBanksModel? get flutterWaveBanksModel => _flutterWaveBanksModel;
 
   // --------------------------- Api function ----------------------------------
   // get flutter Wave Banks data function
-  Future<FlutterWaveBanksModel> getFlutterWaveBanks() async {
+  Future<FlutterWaveBanksModel?> getFlutterWaveBanks() async {
     _isLoading.value = true;
     update();
 
     await ApiServices.getFlutterWaveBanksApi(
-          withdrawFlutterwaveInsertModel.data.paymentInformation.trx,
+          withdrawFlutterwaveInsertModel!.data.paymentInformation.trx,
         )
         .then((value) {
-          _flutterWaveBanksModel = value!;
-          for (var element in _flutterWaveBanksModel.data.bankInfo) {
+          final model = value!;
+          _flutterWaveBanksModel = model;
+          for (var element in model.data.bankInfo) {
             bankInfoList.add(
               BankInfos(code: element.code, id: element.id, name: element.name),
             );
           }
           debugPrint(bankInfoList.length.toString());
-          selectFlutterWaveBankName.value =
-              _flutterWaveBanksModel.data.bankInfo.first.name;
-          selectFlutterWaveBankCode.value =
-              _flutterWaveBanksModel.data.bankInfo.first.code;
+          selectFlutterWaveBankName.value = model.data.bankInfo.first.name;
+          selectFlutterWaveBankCode.value = model.data.bankInfo.first.code;
           update();
         })
         .catchError((onError) {
@@ -307,14 +281,14 @@ class WithdrawController extends GetxController {
 
   bool get isInsertLoading => _isInsertLoading.value;
 
-  late WithdrawManualInsertModel _moneyOutManualInsertModel;
+  WithdrawManualInsertModel? _moneyOutManualInsertModel;
 
-  WithdrawManualInsertModel get moneyOutManualInsertModel =>
+  WithdrawManualInsertModel? get moneyOutManualInsertModel =>
       _moneyOutManualInsertModel;
 
   // --------------------------- Api function ----------------------------------
   // Manual Payment Get Gateway process function
-  Future<WithdrawManualInsertModel> manualPaymentGetGatewaysProcess() async {
+  Future<WithdrawManualInsertModel?> manualPaymentGetGatewaysProcess() async {
     _isInsertLoading.value = true;
     inputFields.clear();
     listImagePath.clear();
@@ -330,10 +304,10 @@ class WithdrawController extends GetxController {
 
     await ApiServices.withdrawManualInsertApi(body: inputBody)
         .then((value) {
-          _moneyOutManualInsertModel = value!;
+          final model = value!;
+          _moneyOutManualInsertModel = model;
 
-          final previewData =
-              _moneyOutManualInsertModel.data.paymentInformation;
+          final previewData = model.data.paymentInformation;
           enteredAmount = previewData.requestAmount;
           transferFeeAmount = previewData.totalCharge;
           totalCharge = previewData.totalCharge;
@@ -341,7 +315,7 @@ class WithdrawController extends GetxController {
           payableAmount = previewData.payable;
 
           //-------------------------- Process inputs start ------------------------
-          final data = _moneyOutManualInsertModel.data.inputFields;
+          final data = model.data.inputFields;
 
           for (int item = 0; item < data.length; item++) {
             // make the dynamic controller
@@ -401,13 +375,13 @@ class WithdrawController extends GetxController {
     return _moneyOutManualInsertModel;
   }
 
-  late WithdrawFlutterWaveInsertModel _withdrawFlutterwaveInsertModel;
+  WithdrawFlutterWaveInsertModel? _withdrawFlutterwaveInsertModel;
 
-  WithdrawFlutterWaveInsertModel get withdrawFlutterwaveInsertModel =>
+  WithdrawFlutterWaveInsertModel? get withdrawFlutterwaveInsertModel =>
       _withdrawFlutterwaveInsertModel;
 
   // Automatic Payment Get Gateway process function
-  Future<WithdrawFlutterWaveInsertModel>
+  Future<WithdrawFlutterWaveInsertModel?>
   automaticPaymentFlutterwaveInsertProcess() async {
     inputFieldControllersFlutterWave.clear();
     inputFieldsFlutterWave.clear();
@@ -422,21 +396,20 @@ class WithdrawController extends GetxController {
 
     await ApiServices.withdrawAutomaticFluuerwaveInsertApi(body: inputBody)
         .then((value) {
-          _withdrawFlutterwaveInsertModel = value!;
+          final model = value!;
+          _withdrawFlutterwaveInsertModel = model;
 
-          final previewData =
-              _withdrawFlutterwaveInsertModel.data.paymentInformation;
+          final previewData = model.data.paymentInformation;
           enteredAmount = previewData.requestAmount;
           transferFeeAmount = previewData.totalCharge;
           totalCharge = previewData.totalCharge;
           youWillGet = previewData.willGet;
           payableAmount = previewData.payable;
-          isBranch.value = _withdrawFlutterwaveInsertModel.data.branchAvailable;
+          isBranch.value = model.data.branchAvailable;
 
           //-------------------------- Process inputs start ------------------------
-          final gatewayCurrencyCode =
-              _withdrawFlutterwaveInsertModel.data.gatewayCurrencyCode;
-          final data = _withdrawFlutterwaveInsertModel.data.inputFields;
+          final gatewayCurrencyCode = model.data.gatewayCurrencyCode;
+          final data = model.data.inputFields;
           final RxList<Option> branchDropdownList = <Option>[].obs;
 
           for (int item = 0; item < data.length; item++) {
@@ -661,18 +634,18 @@ class WithdrawController extends GetxController {
 
   bool get isConfirmManualLoading => _isConfirmManualLoading.value;
 
-  late CommonSuccessModel _manualPaymentConfirmModel;
+  CommonSuccessModel? _manualPaymentConfirmModel;
 
-  CommonSuccessModel get manualPaymentConfirmModel =>
+  CommonSuccessModel? get manualPaymentConfirmModel =>
       _manualPaymentConfirmModel;
 
-  Future<CommonSuccessModel> manualPaymentProcess() async {
+  Future<CommonSuccessModel?> manualPaymentProcess() async {
     _isConfirmManualLoading.value = true;
     final Map<String, String> inputBody = {
-      'trx': moneyOutManualInsertModel.data.paymentInformation.trx,
+      'trx': moneyOutManualInsertModel!.data.paymentInformation.trx,
     };
 
-    final data = moneyOutManualInsertModel.data.inputFields;
+    final data = moneyOutManualInsertModel!.data.inputFields;
 
     for (int i = 0; i < data.length; i += 1) {
       if (data[i].type != 'file') {
@@ -701,13 +674,13 @@ class WithdrawController extends GetxController {
     return _manualPaymentConfirmModel;
   }
 
-  Future<CommonSuccessModel> flutterwavePaymentProcess() async {
+  Future<CommonSuccessModel?> flutterwavePaymentProcess() async {
     _isConfirmManualLoading.value = true;
     final Map<String, String> inputBody = {
-      'trx': withdrawFlutterwaveInsertModel.data.paymentInformation.trx,
+      'trx': withdrawFlutterwaveInsertModel!.data.paymentInformation.trx,
     };
 
-    final data = _withdrawFlutterwaveInsertModel.data.inputFields;
+    final data = _withdrawFlutterwaveInsertModel!.data.inputFields;
 
     for (int i = 0; i < data.length; i += 1) {
       if (data[i].type != 'file') {
@@ -814,9 +787,9 @@ class WithdrawController extends GetxController {
     List<BankInfos> results = [];
 
     if (value!.isEmpty) {
-      results = _flutterWaveBanksModel.data.bankInfo;
+      results = _flutterWaveBanksModel!.data.bankInfo;
     } else {
-      results = _flutterWaveBanksModel.data.bankInfo
+      results = _flutterWaveBanksModel!.data.bankInfo
           .where(
             (element) => element.name.toString().toLowerCase().contains(
               value.toLowerCase(),
@@ -834,12 +807,12 @@ class WithdrawController extends GetxController {
     }
   }
 
-  late FlutterwaveAccountCheckModel _flutterwaveAccountCheckModel;
+  FlutterwaveAccountCheckModel? _flutterwaveAccountCheckModel;
 
-  FlutterwaveAccountCheckModel get flutterwaveAccountCheckModel =>
+  FlutterwaveAccountCheckModel? get flutterwaveAccountCheckModel =>
       _flutterwaveAccountCheckModel;
 
-  Future<FlutterwaveAccountCheckModel> cheackUser() async {
+  Future<FlutterwaveAccountCheckModel?> cheackUser() async {
     // _isConfirmManualLoading.value = true;
     final Map<String, String> inputBody = {
       // 'trx': withdrawFlutterwaveInsertModel.data.paymentInformations.trx,
@@ -849,11 +822,12 @@ class WithdrawController extends GetxController {
 
     await ApiServices.flutterwaveAccountCheackerApi(body: inputBody)
         .then((value) {
-          _flutterwaveAccountCheckModel = value!;
+          final model = value!;
+          _flutterwaveAccountCheckModel = model;
 
           isButtonEnable.value = true;
           CustomSnackBar.success(
-            "Hello ${_flutterwaveAccountCheckModel.data.bankInfo.accountName}",
+            "Hello ${model.data.bankInfo.accountName}",
           );
           update();
         })
@@ -882,8 +856,8 @@ class WithdrawController extends GetxController {
   final _isBranchLoading = false.obs;
   bool get isBranchLoading => _isBranchLoading.value;
 
-  late BankBranchesModel _bankBranchesModel;
-  BankBranchesModel get bankBranchesModel => _bankBranchesModel;
+  BankBranchesModel? _bankBranchesModel;
+  BankBranchesModel? get bankBranchesModel => _bankBranchesModel;
 
   Future<BankBranchesModel?> getFlutterWaveBanksBranch(
     String id,
@@ -892,11 +866,12 @@ class WithdrawController extends GetxController {
     return RequestProcess().request<BankBranchesModel>(
       fromJson: BankBranchesModel.fromJson,
       apiEndpoint:
-          "${ApiEndpoint.flutterWaveBanksBranchURL}trx=${withdrawFlutterwaveInsertModel.data.paymentInformation.trx}&bank_id=$id",
+          "${ApiEndpoint.flutterWaveBanksBranchURL}trx=${withdrawFlutterwaveInsertModel!.data.paymentInformation.trx}&bank_id=$id",
       isLoading: _isBranchLoading,
       onSuccess: (value) {
-        _bankBranchesModel = value!;
-        final data = _bankBranchesModel.data.bankBranches;
+        final model = value!;
+        _bankBranchesModel = model;
+        final data = model.data.bankBranches;
         branch.value = data;
         branchNameController.text = data.isNotEmpty
             ? data.first.branchName
@@ -926,9 +901,9 @@ class WithdrawController extends GetxController {
   void filterBranch(String? value) {
     List<BankBranch> results = [];
     if (value!.isEmpty) {
-      results = _bankBranchesModel.data.bankBranches;
+      results = _bankBranchesModel!.data.bankBranches;
     } else {
-      results = _bankBranchesModel.data.bankBranches
+      results = _bankBranchesModel!.data.bankBranches
           .where(
             (element) => element.branchName.toString().toLowerCase().contains(
               value.toLowerCase(),
@@ -956,8 +931,8 @@ class WithdrawController extends GetxController {
   final _isBankAccountCheckLoading = false.obs;
   bool get isBankAccountCheckLoading => _isBankAccountCheckLoading.value;
 
-  late BankAccountCheckModel _bankAccountCheckModel;
-  BankAccountCheckModel get bankAccountCheckModel => _bankAccountCheckModel;
+  BankAccountCheckModel? _bankAccountCheckModel;
+  BankAccountCheckModel? get bankAccountCheckModel => _bankAccountCheckModel;
 
   Future<BankAccountCheckModel?> checkAccountInfo() async {
     return RequestProcess().request<BankAccountCheckModel>(

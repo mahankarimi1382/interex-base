@@ -16,20 +16,20 @@ return new class extends Migration
     {
         Schema::create('frontend_header_sections', function (Blueprint $table) {
             $table->id();
-            $table->enum('type', [
+            $table->enum("type",[
                 GlobalConst::PERSONAL,
                 GlobalConst::BUSINESS,
                 GlobalConst::ENTERPRISE,
                 GlobalConst::COMPANY,
             ]);
-            $table->string('slug')->nullable()->unique();
-            $table->text('icon')->nullable();
-            $table->text('title')->nullable();
-            $table->longText('sub_title')->nullable();
-            $table->unsignedBigInteger('last_edit_by')->nullable();
-            $table->boolean('status')->default(true);
+            $table->string("slug")->nullable()->unique();
+            $table->text("icon")->nullable();
+            $table->text("title")->nullable();
+            $table->longText("sub_title")->nullable();
+            $table->unsignedBigInteger("last_edit_by")->nullable();
+            $table->boolean("status")->default(true);
 
-            $table->foreign('last_edit_by')->references('id')->on('admins')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign("last_edit_by")->references("id")->on("admins")->onDelete("cascade")->onUpdate("cascade");
             $table->timestamps();
         });
     }

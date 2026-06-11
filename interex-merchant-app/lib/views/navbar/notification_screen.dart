@@ -19,7 +19,7 @@ class NotificationScreen extends StatelessWidget {
   }
 
   Widget _bodyWidget(BuildContext context) {
-    return controller.notificationModelData.data.notifications.isNotEmpty
+    return controller.notificationModelData!.data.notifications.isNotEmpty
         ? RefreshIndicator(
             color: Theme.of(context).primaryColor,
             onRefresh: () async {
@@ -28,10 +28,10 @@ class NotificationScreen extends StatelessWidget {
             child: ListView.builder(
               physics: const BouncingScrollPhysics(),
               itemCount:
-                  controller.notificationModelData.data.notifications.length,
+                  controller.notificationModelData!.data.notifications.length,
               itemBuilder: (context, index) {
                 final data =
-                    controller.notificationModelData.data.notifications[index];
+                    controller.notificationModelData!.data.notifications[index];
 
                 return NotificationWidget(
                   subtitle: data.message,

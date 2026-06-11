@@ -28,9 +28,9 @@ class MoneyReceiverController extends GetxController {
 
   // -------------------------------Define API Model-----------------------------
   //
-  late ReceiveMoneyModel _receiveMoneyModel;
+  ReceiveMoneyModel? _receiveMoneyModel;
 
-  ReceiveMoneyModel get receiveMoneyModel => _receiveMoneyModel;
+  ReceiveMoneyModel get receiveMoneyModel => _receiveMoneyModel!;
 
   // ------------------------------API Function---------------------------------
   //
@@ -41,7 +41,7 @@ class MoneyReceiverController extends GetxController {
     await ApiServices.receiveMoneyApi()
         .then((value) {
           _receiveMoneyModel = value!;
-          inputController.text = _receiveMoneyModel.data.uniqueCode.toString();
+          inputController.text = _receiveMoneyModel!.data.uniqueCode.toString();
           update();
         })
         .catchError((onError) {
@@ -50,6 +50,6 @@ class MoneyReceiverController extends GetxController {
 
     _isLoading.value = false;
     update();
-    return _receiveMoneyModel;
+    return _receiveMoneyModel!;
   }
 }

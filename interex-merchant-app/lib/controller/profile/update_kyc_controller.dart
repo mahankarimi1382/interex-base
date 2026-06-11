@@ -32,11 +32,11 @@ class UpdateKycController extends GetxController {
 
   bool get isLoading => _isLoading.value;
 
-  late UpdateKycModel _kycModelData;
+  UpdateKycModel? _kycModelData;
 
-  UpdateKycModel get kycModelData => _kycModelData;
+  UpdateKycModel? get kycModelData => _kycModelData;
 
-  Future<UpdateKycModel> getBasicData() async {
+  Future<UpdateKycModel?> getBasicData() async {
     inputFields.clear();
     inputFieldControllers.clear();
     _isLoading.value = true;
@@ -45,9 +45,10 @@ class UpdateKycController extends GetxController {
     // calling  from api service
     await ApiServices.getUserKYCInfo()
         .then((value) {
-          _kycModelData = value!;
+          final model = value!;
+          _kycModelData = model;
 
-          final data = _kycModelData.data.userKyc;
+          final data = model.data.userKyc;
 
           for (int item = 0; item < data.length; item++) {
             // make the dynamic controller
@@ -114,17 +115,17 @@ class UpdateKycController extends GetxController {
 
   bool get isUpdateLoading => _isUpdateLoading.value;
 
-  late CommonSuccessModel _kycUpdateModel;
+  CommonSuccessModel? _kycUpdateModel;
 
-  CommonSuccessModel get kycUpdateModel => _kycUpdateModel;
+  CommonSuccessModel? get kycUpdateModel => _kycUpdateModel;
 
   // Profile update process with image
-  Future<CommonSuccessModel> kycSubmitProcess() async {
+  Future<CommonSuccessModel?> kycSubmitProcess() async {
     _isUpdateLoading.value = true;
     update();
 
     final Map<String, String> inputBody = {};
-    final data = kycModelData.data.userKyc;
+    final data = kycModelData!.data.userKyc;
 
     for (int i = 0; i < data.length; i += 1) {
       if (data[i].type != 'file') {

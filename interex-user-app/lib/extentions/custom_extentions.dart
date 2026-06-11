@@ -22,6 +22,19 @@ extension EndPointExtensions on String {
     return "${ApiEndpoint.baseUrl}$this";
   }
 
+  /// Backend builds absolute asset URLs from APP_URL (e.g. http://127.0.0.1:8000),
+  /// which is unreachable from an Android emulator/real device. Rewrite the host
+  /// to the configured API host (ApiEndpoint.mainDomain) so images/files load.
+  String fixHost() {
+    const hosts = ['http://127.0.0.1:8000', 'https://127.0.0.1:8000',
+      'http://localhost:8000', 'https://localhost:8000'];
+    var result = this;
+    for (final host in hosts) {
+      result = result.replaceAll(host, ApiEndpoint.mainDomain);
+    }
+    return result;
+  }
+
   double parseDouble() {
     return double.parse(this);
   }

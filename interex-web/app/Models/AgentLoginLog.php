@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class AgentLoginLog extends Model
 {
     use HasFactory;
-
     protected $fillable = [
         'agent_id',
         'ip',
@@ -20,6 +19,6 @@ class AgentLoginLog extends Model
         'browser',
         'os',
         'timezone',
-        'first_name', 'created_at',
+        'first_name','created_at'
     ];
 }

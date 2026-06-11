@@ -18,7 +18,7 @@ class PayLinkLogScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final data = controller.transactionModel.data.transactions.payLink;
+    final data = controller.transactionModel!.data.transactions.payLink;
     return SizedBox(
       height: MediaQuery.of(context).size.height,
       child: Column(

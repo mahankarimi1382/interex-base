@@ -16,140 +16,116 @@ class UserSupportTicket extends Model
 
     protected $with = [
         'user',
-        'attachments',
+        'attachments'
     ];
 
-    protected $appends = ['type', 'stringStatus', 'imagePath'];
+    protected $appends = ['type','stringStatus','imagePath'];
 
-    public function scopeAuthTickets($query)
-    {
-        $query->where('user_id', auth()->user()->id);
+    public function scopeAuthTickets($query) {
+        $query->where("user_id",auth()->user()->id);
+    }
+    public function scopeAuthTicketsAgent($query) {
+        $query->where("agent_id",auth()->user()->id);
+    }
+    public function scopeAuthTicketsMerchant($query) {
+        $query->where("merchant_id",auth()->user()->id);
     }
 
-    public function scopeAuthTicketsAgent($query)
-    {
-        $query->where('agent_id', auth()->user()->id);
-    }
-
-    public function scopeAuthTicketsMerchant($query)
-    {
-        $query->where('merchant_id', auth()->user()->id);
-    }
-
-    public function user()
-    {
+    public function user() {
         return $this->belongsTo(User::class);
     }
-
-    public function agent()
-    {
+    public function agent() {
         return $this->belongsTo(Agent::class);
     }
-
-    public function merchant()
-    {
+    public function merchant() {
         return $this->belongsTo(Merchant::class);
     }
-
-    public function creator()
-    {
-        if ($this->user_id != null) {
+    public function creator() {
+        if($this->user_id != null) {
             return $this->user();
-        } elseif ($this->agent_id != null) {
+        }else if($this->agent_id != null) {
             return $this->agent();
-        } elseif ($this->merchant_id != null) {
+        }else if($this->merchant_id != null) {
             return $this->merchant();
         }
     }
 
-    public function attachments()
-    {
+    public function attachments() {
         return $this->hasMany(UserSupportTicketAttachment::class);
     }
 
-    public function getTypeAttribute()
-    {
-        if ($this->user_id != null) {
-            return 'USER';
-        } elseif ($this->agent_id != null) {
-            return 'AGENT';
-        } elseif ($this->merchant_id != null) {
-            return 'MERCHANT';
+    public function getTypeAttribute() {
+        if($this->user_id != null) {
+            return "USER";
+        }else if($this->agent_id != null) {
+            return "AGENT";
+        }else if($this->merchant_id != null) {
+            return "MERCHANT";
+        }
+
+    }
+    public function getImagePathAttribute() {
+        if($this->user_id != null) {
+            return "user-profile";
+        }else if($this->agent_id != null) {
+            return "agent-profile";
+        }else if($this->merchant_id != null) {
+            return "merchant-profile";
         }
 
     }
 
-    public function getImagePathAttribute()
-    {
-        if ($this->user_id != null) {
-            return 'user-profile';
-        } elseif ($this->agent_id != null) {
-            return 'agent-profile';
-        } elseif ($this->merchant_id != null) {
-            return 'merchant-profile';
-        }
-
+    public function conversations() {
+        return $this->hasMany(UserSupportChat::class,"user_support_ticket_id");
     }
 
-    public function conversations()
-    {
-        return $this->hasMany(UserSupportChat::class, 'user_support_ticket_id');
+    public function scopePending($query) {
+        return $query->where("status",SupportTicketConst::PENDING)->orWhere("status",SupportTicketConst::DEFAULT);
     }
 
-    public function scopePending($query)
-    {
-        return $query->where('status', SupportTicketConst::PENDING)->orWhere('status', SupportTicketConst::DEFAULT);
+    public function scopeActive($query) {
+        return $query->where("status",SupportTicketConst::ACTIVE);
     }
 
-    public function scopeActive($query)
-    {
-        return $query->where('status', SupportTicketConst::ACTIVE);
+    public function scopeSolved($query) {
+        return $query->where("status",SupportTicketConst::SOLVED);
     }
 
-    public function scopeSolved($query)
-    {
-        return $query->where('status', SupportTicketConst::SOLVED);
+    public function scopeNotSolved($query,$token) {
+        $query->where('token',$token)->where('status','!=',SupportTicketConst::SOLVED);
     }
 
-    public function scopeNotSolved($query, $token)
-    {
-        $query->where('token', $token)->where('status', '!=', SupportTicketConst::SOLVED);
-    }
-
-    public function getStringStatusAttribute()
-    {
+    public function getStringStatusAttribute() {
         $status = $this->status;
         $data = [
-            'class' => '',
-            'value' => '',
+            'class' => "",
+            'value' => "",
         ];
-        if ($status == SupportTicketConst::ACTIVE) {
+        if($status == SupportTicketConst::ACTIVE) {
             $data = [
-                'class' => 'badge badge--info',
-                'value' => 'active',
+                'class'     => "badge badge--info",
+                'value'     => "active",
             ];
-        } elseif ($status == SupportTicketConst::DEFAULT) {
+        }else if($status == SupportTicketConst::DEFAULT) {
             $data = [
-                'class' => 'badge badge--warning',
-                'value' => 'Pending',
+                'class'     => "badge badge--warning",
+                'value'     => "Pending",
             ];
-        } elseif ($status == SupportTicketConst::PENDING) {
+        }else if($status == SupportTicketConst::PENDING) {
             $data = [
-                'class' => 'badge badge--warning',
-                'value' => 'Pending',
+                'class'     => "badge badge--warning",
+                'value'     => "Pending",
             ];
-        } elseif ($status == SupportTicketConst::SOLVED) {
+        }else if($status == SupportTicketConst::SOLVED) {
             $data = [
-                'class' => 'badge badge--success',
-                'value' => 'Solved',
+                'class'     => "badge badge--success",
+                'value'     => "Solved",
             ];
         }
 
         return (object) $data;
     }
-
-    public function admin()
-    {
+    public function admin() {
         return $this->belongsTo(Admin::class);
     }
 }

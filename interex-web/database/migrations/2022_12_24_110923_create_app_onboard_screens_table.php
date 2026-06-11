@@ -15,9 +15,9 @@ return new class extends Migration
     {
         Schema::create('app_onboard_screens', function (Blueprint $table) {
             $table->id();
-            $table->string('title', 150)->nullable();
-            $table->string('sub_title', 255)->nullable();
-            $table->string('image', 191)->unique();
+            $table->string('title',150)->nullable();
+            $table->string('sub_title',255)->nullable();
+            $table->string('image',191)->unique();
             $table->boolean('status')->default(true);
             $table->unsignedBigInteger('last_edit_by')->nullable();
             $table->timestamps();

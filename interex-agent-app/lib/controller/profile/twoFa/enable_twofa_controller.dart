@@ -27,9 +27,9 @@ class TwoFaController extends GetxController {
 
   bool get isLoading => _isLoading.value;
 
-  late TwoFaInfoModel _twoFaInfoModelData;
+  TwoFaInfoModel? _twoFaInfoModelData;
 
-  TwoFaInfoModel get twoFaInfoModelData => _twoFaInfoModelData;
+  TwoFaInfoModel get twoFaInfoModelData => _twoFaInfoModelData!;
 
   Future<TwoFaInfoModel> getBasicData() async {
     _isLoading.value = true;
@@ -40,7 +40,7 @@ class TwoFaController extends GetxController {
     await ApiServices.getTwoFAInfoAPi()
         .then((value) {
           _twoFaInfoModelData = value!;
-          _setData(_twoFaInfoModelData);
+          _setData(_twoFaInfoModelData!);
           _isLoading.value = false;
           update();
         })
@@ -48,7 +48,7 @@ class TwoFaController extends GetxController {
           log.e(onError);
         });
     update();
-    return _twoFaInfoModelData;
+    return _twoFaInfoModelData!;
   }
 
   void gotoOtp() {
@@ -57,11 +57,11 @@ class TwoFaController extends GetxController {
 
   /// >> set loading process & Two Fa Submit Model
   final _isSubmitLoading = false.obs;
-  late CommonSuccessModel _twoFaSubmitModel;
+  CommonSuccessModel? _twoFaSubmitModel;
 
   /// >> get loading process & Two Fa Submit Model
   bool get isSubmitLoading => _isSubmitLoading.value;
-  CommonSuccessModel get twoFaSubmitModel => _twoFaSubmitModel;
+  CommonSuccessModel get twoFaSubmitModel => _twoFaSubmitModel!;
 
   ///* Two fa submit api process
   Future<CommonSuccessModel> twoFaSubmitApiProcess() async {
@@ -84,7 +84,7 @@ class TwoFaController extends GetxController {
 
     _isSubmitLoading.value = false;
     update();
-    return _twoFaSubmitModel;
+    return _twoFaSubmitModel!;
   }
 
   void _setData(TwoFaInfoModel twoFaInfoModel) {

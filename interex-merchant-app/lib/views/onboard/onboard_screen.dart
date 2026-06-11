@@ -42,7 +42,7 @@ class OnboardScreen extends StatelessWidget {
                         child: CachedNetworkImage(
                           height: MediaQuery.of(context).size.height,
                           imageUrl:
-                              "${Get.find<AppSettingsController>().baseUrl.value}/${appSettingsController.appSettingsModel.data.screenImagePath}/${data.image}",
+                              "${Get.find<AppSettingsController>().baseUrl.value}/${appSettingsController.appSettingsModel!.data.screenImagePath}/${data.image}",
                           placeholder: (context, url) => Container(),
                           errorWidget: (context, url, error) => Container(),
                         ),

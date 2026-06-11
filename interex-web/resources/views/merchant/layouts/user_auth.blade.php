@@ -22,6 +22,5 @@
 
 @stack('script')
 
-@include('partials.jalali-datepicker')
 </body>
 </html>

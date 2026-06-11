@@ -73,9 +73,9 @@ class MobileTopupController extends GetxController {
 
   bool get isLoading => _isLoading.value;
 
-  late TopUpInfoModel _topUpInfoData;
+  TopUpInfoModel? _topUpInfoData;
 
-  TopUpInfoModel get topUpInfoData => _topUpInfoData;
+  TopUpInfoModel get topUpInfoData => _topUpInfoData!;
 
   // --------------------------- Api function ----------------------------------
   // get bill pay data function
@@ -101,26 +101,26 @@ class MobileTopupController extends GetxController {
               ),
             );
           }
-          baseCurrency.value = _topUpInfoData.data.baseCurr;
-          limitMin.value = _topUpInfoData.data.topupCharge.minLimit;
-          limitMax.value = _topUpInfoData.data.topupCharge.maxLimit;
-          dailyLimit.value = _topUpInfoData.data.topupCharge.dailyLimit;
-          monthlyLimit.value = _topUpInfoData.data.topupCharge.monthlyLimit;
-          percentCharge.value = _topUpInfoData.data.topupCharge.percentCharge;
-          fixedCharge.value = _topUpInfoData.data.topupCharge.fixedCharge;
-          rate.value = _topUpInfoData.data.baseCurrRate;
+          baseCurrency.value = _topUpInfoData!.data.baseCurr;
+          limitMin.value = _topUpInfoData!.data.topupCharge.minLimit;
+          limitMax.value = _topUpInfoData!.data.topupCharge.maxLimit;
+          dailyLimit.value = _topUpInfoData!.data.topupCharge.dailyLimit;
+          monthlyLimit.value = _topUpInfoData!.data.topupCharge.monthlyLimit;
+          percentCharge.value = _topUpInfoData!.data.topupCharge.percentCharge;
+          fixedCharge.value = _topUpInfoData!.data.topupCharge.fixedCharge;
+          rate.value = _topUpInfoData!.data.baseCurrRate;
 
-          billMethodselected.value = _topUpInfoData.data.topupTypes.first.name;
-          for (var element in _topUpInfoData.data.topupTypes) {
+          billMethodselected.value = _topUpInfoData!.data.topupTypes.first.name;
+          for (var element in _topUpInfoData!.data.topupTypes) {
             billList.add(element.name);
           }
 
           //start remaing get
           remainingController.transactionType.value =
-              _topUpInfoData.data.getRemainingFields.transactionType;
+              _topUpInfoData!.data.getRemainingFields.transactionType;
           remainingController.attribute.value =
-              _topUpInfoData.data.getRemainingFields.attribute;
-          remainingController.cardId.value = _topUpInfoData.data.topupCharge.id;
+              _topUpInfoData!.data.getRemainingFields.attribute;
+          remainingController.cardId.value = _topUpInfoData!.data.topupCharge.id;
           remainingController.senderAmount.value = amountController.text;
           remainingController.senderCurrency.value =
               selectMainWallet.value!.currency.code;
@@ -134,12 +134,12 @@ class MobileTopupController extends GetxController {
 
     // _isLoading.value = false;
     update();
-    return _topUpInfoData;
+    return _topUpInfoData!;
   }
 
-  late BasicDataModel _basicDataModel;
+  BasicDataModel? _basicDataModel;
 
-  BasicDataModel get basicDataModel => _basicDataModel;
+  BasicDataModel get basicDataModel => _basicDataModel!;
 
   Future<BasicDataModel> getBasicData() async {
     update();
@@ -148,9 +148,9 @@ class MobileTopupController extends GetxController {
     await ApiServices.basicData()
         .then((value) {
           _basicDataModel = value!;
-          countryCode.value = _basicDataModel.data.countries.first.mobileCode
+          countryCode.value = _basicDataModel!.data.countries.first.mobileCode
               .toString();
-          isoCode.value = _basicDataModel.data.countries.first.iso2.toString();
+          isoCode.value = _basicDataModel!.data.countries.first.iso2.toString();
           _isLoading.value = false;
           update();
         })
@@ -158,16 +158,16 @@ class MobileTopupController extends GetxController {
           log.e(onError);
         });
     update();
-    return _basicDataModel;
+    return _basicDataModel!;
   }
 
   final _isInsertLoading = false.obs;
 
   bool get isInsertLoading => _isInsertLoading.value;
 
-  late CommonSuccessModel _successDatya;
+  CommonSuccessModel? _successDatya;
 
-  CommonSuccessModel get successDatya => _successDatya;
+  CommonSuccessModel get successDatya => _successDatya!;
 
   Future<CommonSuccessModel> topUpApiProcess({
     required String type,
@@ -199,7 +199,7 @@ class MobileTopupController extends GetxController {
 
     _isInsertLoading.value = false;
     update();
-    return _successDatya;
+    return _successDatya!;
   }
 
   Future<CommonSuccessModel> mobileTopUpAutomaticProcess() async {
@@ -227,7 +227,7 @@ class MobileTopupController extends GetxController {
 
     _isInsertLoading.value = false;
     update();
-    return _successDatya;
+    return _successDatya!;
   }
 
   String? getType(String value) {
@@ -290,9 +290,9 @@ class MobileTopupController extends GetxController {
 
   bool get isDetectLoading => _isDetectLoading.value;
 
-  late DetectOperatorModel _detectOperatorModel;
+  DetectOperatorModel? _detectOperatorModel;
 
-  DetectOperatorModel get detectOperatorModel => _detectOperatorModel;
+  DetectOperatorModel get detectOperatorModel => _detectOperatorModel!;
 
   // --------------------------- Api function ----------------------------------
   // get bill pay data function
@@ -307,10 +307,10 @@ class MobileTopupController extends GetxController {
         )
         .then((value) {
           _detectOperatorModel = value!;
-          final data = _detectOperatorModel.data.data;
+          final data = _detectOperatorModel!.data.data;
 
-          if (_detectOperatorModel.data.status == false) {
-            CustomSnackBar.error(_detectOperatorModel.data.message);
+          if (_detectOperatorModel!.data.status == false) {
+            CustomSnackBar.error(_detectOperatorModel!.data.message);
             isGettingOperator.value = false;
           } else {
             operatorCurrency.value = data!.receiverCurrencyCode!;
@@ -346,6 +346,6 @@ class MobileTopupController extends GetxController {
         });
 
     update();
-    return _detectOperatorModel;
+    return _detectOperatorModel!;
   }
 }

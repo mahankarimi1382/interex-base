@@ -31,7 +31,7 @@ class UpdateKycScreen extends StatelessWidget {
   }
 
   StatelessWidget _bodyWidget(BuildContext context) {
-    final data = controller.kycModelData.data.kycStatus;
+    final data = controller.kycModelData!.data.kycStatus;
     return data == 2
         ? const StatusDataWidget(text: "Pending", icon: Icons.hourglass_empty)
         : data == 1

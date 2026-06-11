@@ -3,25 +3,21 @@
 namespace App\Http\Middleware\Merchant;
 
 use Closure;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 
 class GoogleTwoFactor
 {
     /**
      * Handle an incoming request.
      *
-     * @param  Closure(Request): (Response|RedirectResponse)  $next
-     * @return Response|RedirectResponse
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
+     * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
      */
     public function handle(Request $request, Closure $next)
     {
         $user = auth()->user();
-        if ($user->two_factor_status && $user->two_factor_verified == false) {
-            return merchantGoogleTwoFactorVerificationTemplate($user);
-        }
-
+        if($user->two_factor_status && $user->two_factor_verified == false) return merchantGoogleTwoFactorVerificationTemplate($user);
         return $next($request);
     }
 }

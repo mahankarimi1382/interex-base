@@ -2,39 +2,39 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Constants\GlobalConst;
-use App\Constants\NotificationConst;
-use App\Constants\PaymentGatewayConst;
-use App\Http\Controllers\Controller;
-use App\Http\Helpers\PushNotificationHelper;
-use App\Http\Helpers\Response;
-use App\Models\Admin\AdminNotification;
-use App\Models\Admin\BasicSettings;
-use App\Models\Agent as ModelsAgent;
-use App\Models\Merchants\Merchant;
-use App\Models\Merchants\MerchantLoginLog;
-use App\Models\Merchants\MerchantMailLog;
-use App\Models\Merchants\MerchantNotification;
-use App\Models\Merchants\MerchantWallet;
-use App\Models\Transaction;
+use Exception;
+use Carbon\Carbon;
 use App\Models\User;
-use App\Notifications\Admin\NewUserNotification;
+use App\Models\Transaction;
+use Illuminate\Support\Arr;
+use Jenssegers\Agent\Agent;
+use Illuminate\Http\Request;
+use App\Constants\GlobalConst;
+use App\Http\Helpers\Response;
+use App\Models\Merchants\Merchant;
+use Illuminate\Support\Facades\DB;
+use App\Models\Admin\BasicSettings;
 use App\Notifications\Kyc\Approved;
 use App\Notifications\Kyc\Rejected;
+use App\Constants\NotificationConst;
+use App\Http\Controllers\Controller;
+use App\Models\Agent as ModelsAgent;
 use App\Notifications\User\SendMail;
-use App\Traits\Merchant\LoggedInUsers;
-use App\Traits\Merchant\RegisteredUsers;
-use Carbon\Carbon;
-use Exception;
-use Illuminate\Http\Request;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Notification;
+use App\Constants\PaymentGatewayConst;
+use App\Traits\Merchant\LoggedInUsers;
+use App\Models\Admin\AdminNotification;
+use App\Models\Merchants\MerchantWallet;
+use App\Traits\Merchant\RegisteredUsers;
+use App\Models\Merchants\MerchantMailLog;
 use Illuminate\Support\Facades\Validator;
+use App\Models\Merchants\MerchantLoginLog;
+use App\Http\Helpers\PushNotificationHelper;
+use Illuminate\Support\Facades\Notification;
+use App\Models\Merchants\MerchantNotification;
 use Illuminate\Validation\ValidationException;
-use Jenssegers\Agent\Agent;
+use App\Notifications\Admin\NewUserNotification;
 
 class MerchantCareController extends Controller
 {
@@ -42,639 +42,570 @@ class MerchantCareController extends Controller
 
     public function index()
     {
-        $page_title = __('All Merchants');
+        $page_title = __("All Merchants");
         $merchants = Merchant::orderBy('id', 'desc')->paginate(12);
-
         return view('admin.sections.merchant-care.index', compact(
             'page_title',
             'merchants'
         ));
     }
-
     public function active()
     {
-        $page_title = __('Active Merchants');
+        $page_title = __("Active Merchants");
         $merchants = Merchant::active()->orderBy('id', 'desc')->paginate(12);
-
         return view('admin.sections.merchant-care.index', compact(
             'page_title',
             'merchants'
         ));
     }
-
     public function banned()
     {
-        $page_title = __('Banned Merchants');
+        $page_title = __("Banned Merchants");
         $merchants = Merchant::banned()->orderBy('id', 'desc')->paginate(12);
-
         return view('admin.sections.merchant-care.index', compact(
             'page_title',
             'merchants',
         ));
     }
-
     public function emailUnverified()
     {
-        $page_title = __('Email Unverified Merchants');
-        $merchants = Merchant::emailUnverified()->orderBy('id', 'desc')->paginate(12);
-
+        $page_title = __("Email Unverified Merchants");
+        $merchants =  Merchant::emailUnverified()->orderBy('id', 'desc')->paginate(12);
         return view('admin.sections.merchant-care.index', compact(
             'page_title',
             'merchants'
         ));
     }
-
     public function SmsUnverified()
     {
-        $page_title = __('SMS Unverified Merchants');
-        $merchants = Merchant::smsUnverified()->orderBy('id', 'desc')->paginate(12);
-
+        $page_title = __("SMS Unverified Merchants");
+        $merchants =  Merchant::smsUnverified()->orderBy('id', 'desc')->paginate(12);
         return view('admin.sections.merchant-care.index', compact(
             'page_title',
             'merchants'
         ));
     }
-
     public function KycUnverified()
     {
-        $page_title = __('KYC Unverified Merchants');
+        $page_title = __("KYC Unverified Merchants");
         $merchants = Merchant::kycUnverified()->orderBy('id', 'desc')->paginate(8);
-
         return view('admin.sections.merchant-care.index', compact(
             'page_title',
             'merchants'
         ));
     }
-
     public function emailAllUsers()
     {
-        $page_title = __('Email To Merchants');
-
+        $page_title = __("Email To Merchants");
         return view('admin.sections.merchant-care.email-to-users', compact(
             'page_title',
         ));
     }
-
-    public function sendMailUsers(Request $request)
-    {
+    public function sendMailUsers(Request $request) {
         $request->validate([
-            'user_type' => 'required|string|max:30',
-            'subject' => 'required|string|max:250',
-            'message' => 'required|string|max:2000',
+            'user_type'     => "required|string|max:30",
+            'subject'       => "required|string|max:250",
+            'message'       => "required|string|max:2000",
         ]);
         $basic_setting = BasicSettings::first();
         $users = [];
-        switch ($request->user_type) {
-            case 'active':
+        switch($request->user_type) {
+            case "active";
                 $users = Merchant::active()->get();
                 break;
-            case 'all':
+            case "all";
                 $users = Merchant::get();
                 break;
-            case 'email_unverified':
+            case "email_unverified";
                 $users = Merchant::emailUnverified()->get();
                 break;
-            case 'kyc_unverified':
+            case "kyc_unverified";
                 $users = Merchant::kycUnverified()->get();
                 break;
-            case 'banned':
+            case "banned";
                 $users = Merchant::banned()->get();
                 break;
         }
 
-        try {
-            if ($basic_setting->email_notification == true) {
-                Notification::send($users, new SendMail((object) $request->all()));
+        try{
+            if( $basic_setting->email_notification == true){
+             Notification::send($users,new SendMail((object) $request->all()));
             }
-        } catch (Exception $e) {
-            return back()->with(['error' => [__('Something went wrong! Please try again.')]]);
+        }catch(Exception $e) {
+            return back()->with(['error' => [__("Something went wrong! Please try again.")]]);
         }
 
-        return back()->with(['success' => [__('Email successfully sended')]]);
+        return back()->with(['success' => [__("Email successfully sended")]]);
 
     }
-
     public function userDetails($username)
     {
-        $page_title = __('Merchants Details');
+        $page_title = __("Merchants Details");
         $user = Merchant::where('username', $username)->first();
-        if (! $user) {
-            return back()->with(['error' => [__('Oops! Merchant not exists')]]);
-        }
+        if(!$user) return back()->with(['error' => [__("Oops! Merchant not exists")]]);
         $wallets = MerchantWallet::where('merchant_id', $user->id)
-            ->whereHas('currency', function ($q) {
-                $q->where('status', GlobalConst::ACTIVE); // Ensure the currency is active
-            })
-            ->paginate(16);
+                                ->whereHas('currency', function ($q) {
+                                    $q->where('status', GlobalConst::ACTIVE); // Ensure the currency is active
+                                })
+                                ->paginate(16);
 
         $money_out_amount = amountOnBaseCurrency(Transaction::where('merchant_id', $user->id)->where('type', PaymentGatewayConst::TYPEMONEYOUT)->where('status', 1)->get());
         $total_transaction = amountOnBaseCurrency(Transaction::where('merchant_id', $user->id)->where('status', 1)->get());
         $data = [
-            'wallets' => $wallets,
-            'money_out_amount' => $money_out_amount,
-            'total_transaction' => $total_transaction,
+            'wallets'              => $wallets,
+            'money_out_amount'    => $money_out_amount,
+            'total_transaction'    => $total_transaction,
         ];
-
         return view('admin.sections.merchant-care.details', compact(
             'page_title',
             'user',
             'data'
         ));
     }
-
     public function userDetailsUpdate(Request $request, $username)
     {
 
         $request->merge(['username' => $username]);
-        $validator = Validator::make($request->all(), [
-            'username' => 'required|exists:merchants,username',
-            'firstname' => 'required|string|max:60',
-            'lastname' => 'required|string|max:60',
-            'mobile_code' => 'required|string|max:10',
-            'mobile' => 'required|string|max:20',
-            'address' => 'nullable|string|max:250',
-            'country' => 'nullable|string|max:50',
-            'state' => 'nullable|string|max:50',
-            'city' => 'nullable|string|max:50',
-            'zip_code' => 'nullable|numeric|max_digits:8',
-            'email_verified' => 'required|boolean',
-            'sms_verified' => 'required|boolean',
-            'two_factor_status' => 'required|boolean',
-            'kyc_verified' => 'required|boolean',
-            'pin_status' => 'required|boolean',
-            'status' => 'required|boolean',
+        $validator = Validator::make($request->all(),[
+            'username'              => "required|exists:merchants,username",
+            'firstname'             => "required|string|max:60",
+            'lastname'              => "required|string|max:60",
+            'mobile_code'           => "required|string|max:10",
+            'mobile'                => "required|string|max:20",
+            'address'               => "nullable|string|max:250",
+            'country'               => "nullable|string|max:50",
+            'state'                 => "nullable|string|max:50",
+            'city'                  => "nullable|string|max:50",
+            'zip_code'              => "nullable|numeric|max_digits:8",
+            'email_verified'        => 'required|boolean',
+            'sms_verified'          => 'required|boolean',
+            'two_factor_status'     => 'required|boolean',
+            'kyc_verified'          => 'required|boolean',
+            'pin_status'            => 'required|boolean',
+            'status'                => 'required|boolean',
         ]);
         $validated = $validator->validate();
-        $validated['address'] = [
-            'country' => $validated['country'] ?? '',
-            'state' => $validated['state'] ?? '',
-            'city' => $validated['city'] ?? '',
-            'zip' => $validated['zip_code'] ?? '',
-            'address' => $validated['address'] ?? '',
+        $validated['address']  = [
+            'country'       => $validated['country'] ?? "",
+            'state'         => $validated['state'] ?? "",
+            'city'          => $validated['city'] ?? "",
+            'zip'           => $validated['zip_code'] ?? "",
+            'address'       => $validated['address'] ?? "",
         ];
-        $validated['mobile_code'] = remove_speacial_char($validated['mobile_code']);
-        $validated['mobile'] = remove_speacial_char($validated['mobile']);
-        $validated['full_mobile'] = $validated['mobile_code'].$validated['mobile'];
+        $validated['mobile_code']       = remove_speacial_char($validated['mobile_code']);
+        $validated['mobile']            = remove_speacial_char($validated['mobile']);
+        $validated['full_mobile']       = $validated['mobile_code'] . $validated['mobile'];
 
         $user = Merchant::where('username', $username)->first();
-        if (! $user) {
-            return back()->with(['error' => [__('Oops! Merchant not exists')]]);
-        }
+        if(!$user) return back()->with(['error' => [__("Oops! Merchant not exists")]]);
 
-        if ($validated['pin_status'] == false) {
-            $validated['pin_code'] = null;
+        if( $validated['pin_status']  == false){
+           $validated['pin_code']   = null;
 
-        } elseif ($validated['pin_status'] == true && $user->pin_code == null) {
-            return back()->with(['error' => [__('The user has not yet submitted the PIN.')]]);
+        }elseif($validated['pin_status'] == true && $user->pin_code == null){
+            return back()->with(['error' => [__("The user has not yet submitted the PIN.")]]);
         }
 
         try {
             $user->update($validated);
         } catch (Exception $e) {
-            return back()->with(['error' => [__('Something went wrong! Please try again.')]]);
+            return back()->with(['error' => [__("Something went wrong! Please try again.")]]);
         }
 
-        return back()->with(['success' => [__('Profile Information Updated Successfully!')]]);
+        return back()->with(['success' => [__("Profile Information Updated Successfully!")]]);
+    }
+    public function kycDetails($username) {
+        $user = Merchant::where("username",$username)->first();
+        if(!$user) return back()->with(['error' => [__("Oops! Merchant doesn't exists")]]);
+
+        $page_title = __("KYC Profile");
+        return view('admin.sections.merchant-care.kyc-details',compact("page_title","user"));
     }
 
-    public function kycDetails($username)
-    {
-        $user = Merchant::where('username', $username)->first();
-        if (! $user) {
-            return back()->with(['error' => [__("Oops! Merchant doesn't exists")]]);
-        }
-
-        $page_title = __('KYC Profile');
-
-        return view('admin.sections.merchant-care.kyc-details', compact('page_title', 'user'));
-    }
-
-    public function kycApprove(Request $request, $username)
-    {
+    public function kycApprove(Request $request, $username) {
         $request->merge(['username' => $username]);
         $request->validate([
-            'target' => 'required|exists:merchants,username',
-            'username' => 'required_without:target|exists:merchants,username',
+            'target'        => "required|exists:merchants,username",
+            'username'      => "required_without:target|exists:merchants,username",
         ]);
         $basic_setting = BasicSettings::first();
-        $user = Merchant::where('username', $request->target)->orWhere('username', $request->username)->first();
-        if ($user->kyc_verified == GlobalConst::VERIFIED) {
-            return back()->with(['warning' => ['Merchant already KYC verified']]);
-        }
-        if ($user->kyc == null) {
-            return back()->with(['error' => ['Merchant KYC information not found']]);
-        }
+        $user = Merchant::where('username',$request->target)->orWhere('username',$request->username)->first();
+        if($user->kyc_verified == GlobalConst::VERIFIED) return back()->with(['warning' => ['Merchant already KYC verified']]);
+        if($user->kyc == null) return back()->with(['error' => ['Merchant KYC information not found']]);
 
-        try {
-            try {
-                if ($basic_setting->email_notification == true) {
+        try{
+            try{
+                if( $basic_setting->email_notification == true){
                     $user->notify(new Approved($user));
                 }
-            } catch (Exception $e) {
-            }
+            }catch(Exception $e){}
 
-            try {
-                if ($basic_setting->merchant_sms_notification == true) {
-                    sendSms($user, 'KYC_APPROVED', [
-                        'time' => now()->format('Y-m-d h:i:s A'),
+            try{
+                if( $basic_setting->merchant_sms_notification == true){
+                    sendSms($user,'KYC_APPROVED',[
+                        'time' =>  now()->format('Y-m-d h:i:s A')
                     ]);
                 }
-            } catch (Exception $e) {
-            }
+            }catch(Exception $e){}
 
             $user->update([
-                'kyc_verified' => GlobalConst::APPROVED,
+                'kyc_verified'  => GlobalConst::APPROVED,
             ]);
-        } catch (Exception $e) {
+        }catch(Exception $e) {
             $user->update([
-                'kyc_verified' => GlobalConst::PENDING,
+                'kyc_verified'  => GlobalConst::PENDING,
             ]);
-
-            return back()->with(['error' => [__('Something went wrong! Please try again.')]]);
+            return back()->with(['error' => [__("Something went wrong! Please try again.")]]);
         }
-
-        return back()->with(['success' => [__('Merchants KYC successfully approved')]]);
+        return back()->with(['success' => [__("Merchants KYC successfully approved")]]);
     }
 
-    public function kycReject(Request $request, $username)
-    {
+    public function kycReject(Request $request, $username) {
         $request->validate([
-            'target' => 'required|exists:merchants,username',
-            'reason' => 'required|string|max:500',
+            'target'        => "required|exists:merchants,username",
+            'reason'        => "required|string|max:500"
         ]);
         $basic_setting = BasicSettings::first();
-        $user = Merchant::where('username', $request->target)->first();
-        if (! $user) {
-            return back()->with(['error' => [__("Merchant doesn't exists")]]);
-        }
-        if ($user->kyc == null) {
-            return back()->with(['error' => [__('Merchant KYC information not found')]]);
-        }
+        $user = Merchant::where("username",$request->target)->first();
+        if(!$user) return back()->with(['error' => [__("Merchant doesn't exists")]]);
+        if($user->kyc == null) return back()->with(['error' => [__("Merchant KYC information not found")]]);
 
-        try {
-            try {
-                if ($basic_setting->email_notification == true) {
-                    $user->notify(new Rejected($user, $request->reason));
+        try{
+            try{
+                if( $basic_setting->email_notification == true){
+                    $user->notify(new Rejected($user,$request->reason));
                 }
-            } catch (Exception $e) {
-            }
-            try {
-                if ($basic_setting->merchant_sms_notification == true) {
-                    sendSms($user, 'KYC_REJECTED', [
-                        'reason' => $request->reason,
-                        'time' => now()->format('Y-m-d h:i:s A'),
+            }catch(Exception $e){}
+            try{
+                if( $basic_setting->merchant_sms_notification == true){
+                    sendSms($user,'KYC_REJECTED',[
+                        'reason' =>  $request->reason,
+                        'time' =>  now()->format('Y-m-d h:i:s A')
                     ]);
                 }
-            } catch (Exception $e) {
-            }
+            }catch(Exception $e){}
             $user->update([
-                'kyc_verified' => GlobalConst::REJECTED,
+                'kyc_verified'  => GlobalConst::REJECTED,
             ]);
             $user->kyc->update([
                 'reject_reason' => $request->reason,
             ]);
-        } catch (Exception $e) {
+        }catch(Exception $e) {
             $user->update([
-                'kyc_verified' => GlobalConst::PENDING,
+                'kyc_verified'  => GlobalConst::PENDING,
             ]);
             $user->kyc->update([
                 'reject_reason' => null,
             ]);
 
-            return back()->with(['error' => [__('Something went wrong! Please try again.')]]);
+            return back()->with(['error' => [__("Something went wrong! Please try again.")]]);
         }
 
-        return back()->with(['success' => [__('Merchant KYC information is rejected')]]);
+        return back()->with(['success' => [__("Merchant KYC information is rejected")]]);
     }
 
-    public function search(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'text' => 'required|string',
+    public function search(Request $request) {
+        $validator = Validator::make($request->all(),[
+            'text'  => 'required|string',
         ]);
 
-        if ($validator->fails()) {
+        if($validator->fails()) {
             $error = ['error' => $validator->errors()];
-
-            return Response::error($error, null, 400);
+            return Response::error($error,null,400);
         }
 
         $validated = $validator->validate();
         $merchants = Merchant::search($validated['text'])->limit(10)->get();
-
-        return view('admin.components.search.merchant-search', compact(
+        return view('admin.components.search.merchant-search',compact(
             'merchants',
         ));
     }
-
     public function sendMail(Request $request, $username)
     {
         $request->merge(['username' => $username]);
-        $validator = Validator::make($request->all(), [
-            'subject' => 'required|string|max:200',
-            'message' => 'required|string|max:2000',
-            'username' => 'required|string|exists:merchants,username',
+        $validator = Validator::make($request->all(),[
+            'subject'       => 'required|string|max:200',
+            'message'       => 'required|string|max:2000',
+            'username'      => 'required|string|exists:merchants,username',
         ]);
-        if ($validator->fails()) {
-            return back()->withErrors($validator)->withInput()->with('modal', 'email-send');
+        if($validator->fails()) {
+            return back()->withErrors($validator)->withInput()->with("modal","email-send");
         }
         $validated = $validator->validate();
         $basic_setting = BasicSettings::first();
-        $user = Merchant::where('username', $username)->first();
+        $user = Merchant::where("username",$username)->first();
 
         $validated['merchant_id'] = $user->id;
-        $validated = Arr::except($validated, ['username']);
-        $validated['method'] = 'SMTP';
-        try {
+        $validated = Arr::except($validated,['username']);
+        $validated['method']   = "SMTP";
+        try{
             MerchantMailLog::create($validated);
-            try {
-                if ($basic_setting->email_notification == true) {
-                    $user->notify(new SendMail((object) $validated));
+            try{
+                if( $basic_setting->email_notification == true){
+                $user->notify(new SendMail((object) $validated));
                 }
-            } catch (Exception $e) {
+            }catch(Exception $e){
 
             }
-        } catch (Exception $e) {
-            return back()->with(['error' => [__('Something went wrong! Please try again.')]]);
+        }catch(Exception $e) {
+            return back()->with(['error' => [__("Something went wrong! Please try again.")]]);
         }
-
-        return back()->with(['success' => [__('Mail successfully sended')]]);
+        return back()->with(['success' => [__("Mail successfully sended")]]);
     }
-
-    public function mailLogs($username)
-    {
-        $page_title = __('Merchant Email Logs');
-        $user = Merchant::where('username', $username)->first();
-        if (! $user) {
-            return back()->with(['error' => [__("Oops! Merchant doesn't exists")]]);
-        }
-        $logs = MerchantMailLog::where('merchant_id', $user->id)->paginate(12);
-
-        return view('admin.sections.merchant-care.mail-logs', compact(
+    public function mailLogs($username) {
+        $page_title = __("Merchant Email Logs");
+        $user = Merchant::where("username",$username)->first();
+        if(!$user) return back()->with(['error' => [__("Oops! Merchant doesn't exists")]]);
+        $logs = MerchantMailLog::where("merchant_id",$user->id)->paginate(12);
+        return view('admin.sections.merchant-care.mail-logs',compact(
             'page_title',
             'logs',
         ));
     }
-
     public function loginLogs($username)
     {
-        $page_title = __('Login Logs');
-        $user = Merchant::where('username', $username)->first();
-        if (! $user) {
-            return back()->with(['error' => [__("Oops! Merchant doesn't exists")]]);
-        }
-        $logs = MerchantLoginLog::where('merchant_id', $user->id)->paginate(12);
-
+        $page_title = __("Login Logs");
+        $user = Merchant::where("username",$username)->first();
+        if(!$user) return back()->with(['error' => [__("Oops! Merchant doesn't exists")]]);
+        $logs = MerchantLoginLog::where('merchant_id',$user->id)->paginate(12);
         return view('admin.sections.merchant-care.login-logs', compact(
             'logs',
             'page_title',
         ));
     }
-
-    public function loginAsMember(Request $request, $username)
-    {
+    public function loginAsMember(Request $request,$username) {
         $request->merge(['username' => $username]);
         $request->validate([
-            'target' => 'required|string|exists:merchants,username',
-            'username' => 'required_without:target|string|exists:merchants',
+            'target'            => 'required|string|exists:merchants,username',
+            'username'          => 'required_without:target|string|exists:merchants',
         ]);
 
-        try {
-            $user = Merchant::where('username', $request->username)->first();
+        try{
+            $user = Merchant::where("username",$request->username)->first();
             $this->refreshUserWallets($user);
             $this->refreshSandboxWallets($user);
-            Auth::guard('merchant')->login($user);
-        } catch (Exception $e) {
+            Auth::guard("merchant")->login($user);
+        }catch(Exception $e) {
             return back()->with(['error' => [$e->getMessage()]]);
         }
-
         return redirect()->intended(route('merchant.dashboard'));
     }
 
-    public function walletBalanceUpdate(Request $request, $username)
-    {
-        $validator = Validator::make($request->all(), [
-            'type' => 'required|string|in:add,subtract',
-            'wallet' => 'required|numeric|exists:merchant_wallets,id',
-            'amount' => 'required|numeric',
-            'remark' => 'required|string|max:200',
+    public function walletBalanceUpdate(Request $request,$username) {
+        $validator = Validator::make($request->all(),[
+            'type'      => "required|string|in:add,subtract",
+            'wallet'    => "required|numeric|exists:merchant_wallets,id",
+            'amount'    => "required|numeric",
+            'remark'    => "required|string|max:200",
         ]);
 
-        if ($validator->fails()) {
-            return back()->withErrors($validator)->withInput()->with('modal', 'wallet-balance-update-modal');
+        if($validator->fails()) {
+            return back()->withErrors($validator)->withInput()->with('modal','wallet-balance-update-modal');
         }
 
         $validated = $validator->validate();
-        $user_wallet = MerchantWallet::whereHas('merchant', function ($q) use ($username) {
-            $q->where('username', $username);
+        $user_wallet = MerchantWallet::whereHas('merchant',function($q) use ($username){
+            $q->where('username',$username);
         })->find($validated['wallet']);
-        if (! $user_wallet) {
-            return back()->with(['error' => [__('Merchant wallet not found!')]]);
-        }
+        if(!$user_wallet) return back()->with(['error' => [__("Merchant wallet not found!")]]);
         DB::beginTransaction();
-        try {
+        try{
             $user_wallet_balance = 0;
 
-            switch ($validated['type']) {
-                case 'add':
-                    $type = 'Added';
+            switch($validated['type']){
+                case "add":
+                    $type = "Added";
                     $user_wallet_balance = $user_wallet->balance + $validated['amount'];
                     $user_wallet->balance += $validated['amount'];
                     break;
 
-                case 'subtract':
-                    $type = 'Subtracted';
-                    if ($user_wallet->balance >= $validated['amount']) {
+                case "subtract":
+                    $type = "Subtracted";
+                    if($user_wallet->balance >= $validated['amount']) {
                         $user_wallet_balance = $user_wallet->balance - $validated['amount'];
                         $user_wallet->balance -= $validated['amount'];
-                    } else {
-                        return back()->with(['error' => [__('Merchant do not have sufficient balance')]]);
+                    }else {
+                        return back()->with(['error' => [__("Merchant do not have sufficient balance")]]);
                     }
                     break;
             }
 
-            $inserted_id = DB::table('transactions')->insertGetId([
-                'admin_id' => auth()->user()->id,
-                'merchant_id' => $user_wallet->merchant->id,
-                'merchant_wallet_id' => $user_wallet->id,
-                'type' => PaymentGatewayConst::TYPEADDSUBTRACTBALANCE,
-                'attribute' => $validated['type'] === 'subtract' ? PaymentGatewayConst::SEND : PaymentGatewayConst::RECEIVED,
-                'trx_id' => generate_unique_string('transactions', 'trx_id', 16),
-                'request_amount' => $validated['amount'],
-                'payable' => $validated['amount'],
+            $inserted_id = DB::table("transactions")->insertGetId([
+                'admin_id'          => auth()->user()->id,
+                'merchant_id'       => $user_wallet->merchant->id,
+                'merchant_wallet_id'=> $user_wallet->id,
+                'type'              => PaymentGatewayConst::TYPEADDSUBTRACTBALANCE,
+                'attribute'         => $validated['type'] === 'subtract' ? PaymentGatewayConst::SEND: PaymentGatewayConst::RECEIVED,
+                'trx_id'            => generate_unique_string("transactions","trx_id",16),
+                'request_amount'    => $validated['amount'],
+                'payable'           => $validated['amount'],
                 'available_balance' => $user_wallet_balance,
-                'remark' => $validated['remark'],
-                'status' => GlobalConst::SUCCESS,
-                'created_at' => now(),
+                'remark'            => $validated['remark'],
+                'status'            => GlobalConst::SUCCESS,
+                'created_at'                    => now(),
             ]);
 
+
             DB::table('transaction_charges')->insert([
-                'transaction_id' => $inserted_id,
-                'percent_charge' => 0,
-                'fixed_charge' => 0,
-                'total_charge' => 0,
-                'created_at' => now(),
+                'transaction_id'    => $inserted_id,
+                'percent_charge'    => 0,
+                'fixed_charge'      => 0,
+                'total_charge'      => 0,
+                'created_at'        => now(),
             ]);
+
 
             $client_ip = request()->ip() ?? false;
             $location = geoip()->getLocation($client_ip);
-            $agent = new Agent;
+            $agent = new Agent();
 
             // $mac = exec('getmac');
             // $mac = explode(" ",$mac);
             // $mac = array_shift($mac);
-            $mac = '';
+            $mac = "";
 
-            DB::table('transaction_devices')->insert([
-                'transaction_id' => $inserted_id,
-                'ip' => $client_ip,
-                'mac' => $mac,
-                'city' => $location['city'] ?? '',
-                'country' => $location['country'] ?? '',
-                'longitude' => $location['lon'] ?? '',
-                'latitude' => $location['lat'] ?? '',
-                'timezone' => $location['timezone'] ?? '',
-                'browser' => $agent->browser() ?? '',
-                'os' => $agent->platform() ?? '',
+            DB::table("transaction_devices")->insert([
+                'transaction_id'=> $inserted_id,
+                'ip'            => $client_ip,
+                'mac'           => $mac,
+                'city'          => $location['city'] ?? "",
+                'country'       => $location['country'] ?? "",
+                'longitude'     => $location['lon'] ?? "",
+                'latitude'      => $location['lat'] ?? "",
+                'timezone'      => $location['timezone'] ?? "",
+                'browser'       => $agent->browser() ?? "",
+                'os'            => $agent->platform() ?? "",
             ]);
 
             $user_wallet->save();
 
             $notification_content = [
-                'type' => NotificationConst::BALANCE_UPDATE,
-                'title' => 'Update Balance',
-                'message' => 'Your Wallet ('.get_amount($validated['amount'], $user_wallet->currency->code, get_wallet_precision($user_wallet->currency)).') Balance Has Been '.$type ?? '',
-                'time' => Carbon::now()->diffForHumans(),
-                'image' => files_asset_path('profile-default'),
+                'type'          =>  NotificationConst::BALANCE_UPDATE,
+                'title'         => "Update Balance",
+                'message'       => "Your Wallet (".get_amount($validated['amount'],$user_wallet->currency->code,get_wallet_precision($user_wallet->currency)).") Balance Has Been ". $type??"",
+                'time'          => Carbon::now()->diffForHumans(),
+                'image'         => files_asset_path('profile-default'),
             ];
 
             MerchantNotification::create([
-                'type' => NotificationConst::BALANCE_UPDATE,
-                'merchant_id' => $user_wallet->merchant->id,
-                'message' => $notification_content,
+                'type'      => NotificationConst::BALANCE_UPDATE,
+                'merchant_id'  => $user_wallet->merchant->id,
+                'message'   => $notification_content,
             ]);
-            try {
-                (new PushNotificationHelper)->prepare([$user_wallet->merchant->id], [
+            try{
+                (new PushNotificationHelper())->prepare([$user_wallet->merchant->id],[
                     'title' => $notification_content['title'],
-                    'desc' => $notification_content['message'],
+                    'desc'  => $notification_content['message'],
                     'user_type' => 'merchant',
                 ])->send();
-            } catch (Exception $e) {
-            }
+            }catch(Exception $e) {}
 
-            // admin notification
-            $notification_content['title'] = $user_wallet->merchant->username."'s  Wallet (".$user_wallet->currency->code.') Balance Has Been '.$type ?? '';
+            //admin notification
+            $notification_content['title'] = $user_wallet->merchant->username."'s  Wallet (".$user_wallet->currency->code.") Balance Has Been ". $type??"";
             AdminNotification::create([
-                'type' => NotificationConst::BALANCE_UPDATE,
-                'admin_id' => 1,
-                'message' => $notification_content,
+                'type'      => NotificationConst::BALANCE_UPDATE,
+                'admin_id'  => 1,
+                'message'   => $notification_content,
             ]);
             DB::commit();
-        } catch (Exception $e) {
+        }catch(Exception $e) {
             DB::rollBack();
-
-            return back()->with(['error' => [__('Transaction Failed!')]]);
+            return back()->with(['error' => [__("Transaction Failed!")]]);
         }
 
-        return back()->with(['success' => [__('Transaction success')]]);
+        return back()->with(['success' => [__("Transaction success")]]);
     }
 
-    /**
+     /**
      * Method for view create new user page
-     *
      * @return view
      */
-    public function create()
-    {
-        $page_title = __('Create New Merchant');
+    public function create(){
+        $page_title             = __("Create New Merchant");
 
-        return view('admin.sections.merchant-care.create', compact(
+        return view('admin.sections.merchant-care.create',compact(
             'page_title'
         ));
     }
-
     /**
      * Method for store agent information
-     *
-     * @param  Illuminate\Http\Request  $request
+     * @param Illuminate\Http\Request $request
      */
-    public function store(Request $request)
-    {
-        $basic_settings = BasicSettings::first();
+    public function store(Request $request){
+        $basic_settings         = BasicSettings::first();
 
-        $validator = Validator::make($request->all(), [
-            'firstname' => 'required|string',
-            'lastname' => 'required|string',
-            'business_name' => 'required|string|max:200',
-            'email' => 'required|email',
-            'mobile_code' => 'required|string|max:10',
-            'mobile' => 'required|string|max:20',
-            'password' => 'required|min:8',
-            'country' => 'required|string|max:50',
+        $validator      = Validator::make($request->all(),[
+            'firstname'      => 'required|string',
+            'lastname'       => 'required|string',
+            'business_name'  => 'required|string|max:200',
+            'email'          => 'required|email',
+            'mobile_code'    => "required|string|max:10",
+            'mobile'         => "required|string|max:20",
+            'password'       => 'required|min:8',
+            'country'        => "required|string|max:50",
             'email_verified' => 'required|boolean',
-            'sms_verified' => 'required|boolean',
-            'kyc_verified' => 'required|boolean',
-            'status' => 'required|boolean',
+            'sms_verified'   => 'required|boolean',
+            'kyc_verified'   => 'required|boolean',
+            'status'         => 'required|boolean',
         ]);
-        if ($validator->fails()) {
+        if($validator->fails()){
             return back()->withErrors($validator)->withInput($request->all());
         }
-        $validated = $validator->validate();
+        $validated              = $validator->validate();
 
-        $user_name = make_username(slug($validated['firstname']), slug($validated['lastname']), 'users');
-        $validated['address'] = [
-            'country' => $validated['country'] ?? '',
-            'state' => '',
-            'city' => '',
-            'zip' => '',
-            'address' => '',
+        $user_name              = make_username(slug($validated['firstname']),slug($validated['lastname']),'users');
+        $validated['address']  = [
+            'country'       => $validated['country'] ?? "",
+            'state'         => "",
+            'city'          => "",
+            'zip'           => "",
+            'address'       => "",
         ];
-        $validated['mobile_code'] = remove_speacial_char($validated['mobile_code']);
-        $validated['mobile'] = remove_speacial_char($validated['mobile']);
-        $validated['full_mobile'] = $validated['mobile_code'].$validated['mobile'];
+        $validated['mobile_code']       = remove_speacial_char($validated['mobile_code']);
+        $validated['mobile']            = remove_speacial_char($validated['mobile']);
+        $validated['full_mobile']       = $validated['mobile_code'] . $validated['mobile'];
 
-        $validated['username'] = $user_name;
-        $validated['password'] = Hash::make($validated['password']);
+        $validated['username']      = $user_name;
+        $validated['password']      = Hash::make($validated['password']);
 
         $models = [User::class, ModelsAgent::class, Merchant::class];
 
         foreach ($models as $model) {
             if ($model::where('full_mobile', $validated['full_mobile'])
-                ->orWhere('email', $validated['email'])
-                ->exists()) {
+                    ->orWhere('email', $validated['email'])
+                    ->exists()) {
                 throw ValidationException::withMessages([
                     'phone' => __('The phone number or email address you have provided is already in use.'),
                 ]);
             }
         }
 
-        try {
+        try{
             $user = Merchant::create($validated);
             $this->createUserWallets($user);
             $this->createDeveloperApiReg($user);
-            if ($basic_settings->merchant_email_notification) {
-                try {
-                    Notification::route('mail', $validated['email'])->notify(new NewUserNotification($data = $validated, $request->password, 'MERCHANT'));
-                } catch (Exception $e) {
+            if($basic_settings->merchant_email_notification){
+                try{
+                    Notification::route('mail',$validated['email'])->notify(new NewUserNotification($data = $validated,$request->password,"MERCHANT"));
+                }catch(Exception $e){
                 }
             }
-            if ($basic_settings->merchant_sms_notification) {
+             if($basic_settings->merchant_sms_notification){
 
-                try {
-                    sendSms($user, 'NEW_USER_REGISTER', [
-                        'email' => $user->email,
-                        'phone' => $user->full_mobile,
-                        'password' => $request->password,
+                try{
+                   sendSms($user,'NEW_USER_REGISTER',[
+                        'email'     => $user->email,
+                        'phone'     => $user->full_mobile,
+                        'password'  => $request->password,
                         'site_name' => $basic_settings->site_name,
-                        'time' => now()->format('Y-m-d h:i:s A'),
+                        'time'      => now()->format('Y-m-d h:i:s A'),
                     ]);
-                } catch (Exception $e) {
+                }catch(Exception $e){
                 }
             }
-        } catch (Exception $e) {
-            return back()->with(['error' => [__('Something went wrong! Please try again.')]]);
+        }catch(Exception $e){
+            return back()->with(['error' => [__("Something went wrong! Please try again.")]]);
         }
-
         return redirect()->route('admin.merchants.index')->with(['success' => [__('Merchant created successfully.')]]);
     }
 }

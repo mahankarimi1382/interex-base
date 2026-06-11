@@ -32,9 +32,9 @@ class UpdateKycController extends GetxController {
 
   bool get isLoading => _isLoading.value;
 
-  late UpdateKycModel _kycModelData;
+  UpdateKycModel? _kycModelData;
 
-  UpdateKycModel get kycModelData => _kycModelData;
+  UpdateKycModel get kycModelData => _kycModelData!;
 
   Future<UpdateKycModel> getBasicData() async {
     inputFields.clear();
@@ -47,7 +47,7 @@ class UpdateKycController extends GetxController {
         .then((value) {
           _kycModelData = value!;
 
-          final data = _kycModelData.data.agentKyc;
+          final data = _kycModelData!.data.agentKyc;
 
           for (int item = 0; item < data.length; item++) {
             // make the dynamic controller
@@ -107,16 +107,16 @@ class UpdateKycController extends GetxController {
           log.e(onError);
         });
     update();
-    return _kycModelData;
+    return _kycModelData!;
   }
 
   final _isUpdateLoading = false.obs;
 
   bool get isUpdateLoading => _isUpdateLoading.value;
 
-  late CommonSuccessModel _kycUpdateModel;
+  CommonSuccessModel? _kycUpdateModel;
 
-  CommonSuccessModel get kycUpdateModel => _kycUpdateModel;
+  CommonSuccessModel get kycUpdateModel => _kycUpdateModel!;
 
   // Profile update process with image
   Future<CommonSuccessModel> kycSubmitProcess() async {
@@ -148,7 +148,7 @@ class UpdateKycController extends GetxController {
 
     _isUpdateLoading.value = false;
     update();
-    return _kycUpdateModel;
+    return _kycUpdateModel!;
   }
 
   void gotoNavigation(BuildContext context) {

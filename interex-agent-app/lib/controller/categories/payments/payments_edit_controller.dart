@@ -57,12 +57,12 @@ class PaymentsEditController extends GetxController
 
   //=> set loading process & payment link Model
   final _isEditLoading = false.obs;
-  late PaymentLinkEditModel _paymentLinkEditModel;
+  PaymentLinkEditModel? _paymentLinkEditModel;
 
   //=> get loading process & payment link Model
   bool get isEditLoading => _isEditLoading.value;
 
-  PaymentLinkEditModel get paymentLinkEditModel => _paymentLinkEditModel;
+  PaymentLinkEditModel get paymentLinkEditModel => _paymentLinkEditModel!;
 
   //=> get payment link edit api Process
   Future<PaymentLinkEditModel> getPaymentLinkEditProcess() async {
@@ -72,7 +72,7 @@ class PaymentsEditController extends GetxController
         .then((value) {
           _paymentLinkEditModel = value!;
           _isEditLoading.value = false;
-          _setData(_paymentLinkEditModel);
+          _setData(_paymentLinkEditModel!);
           update();
         })
         .catchError((onError) {
@@ -80,13 +80,13 @@ class PaymentsEditController extends GetxController
         });
     _isEditLoading.value = false;
     update();
-    return _paymentLinkEditModel;
+    return _paymentLinkEditModel!;
   }
 
   void _setData(PaymentLinkEditModel paymentLinkEdit) {
     defaultImage.value =
-        "${_paymentLinkEditModel.data.baseUrl}/${_paymentLinkEditModel.data.defaultImage}";
-    _paymentLinkEditModel.data.currencyData.forEach((element) {
+        "${_paymentLinkEditModel!.data.baseUrl}/${_paymentLinkEditModel!.data.defaultImage}";
+    _paymentLinkEditModel!.data.currencyData.forEach((element) {
       currencyList.add(
         CurrencyDatum(
           currencyName: element.currencyName,
@@ -119,12 +119,12 @@ class PaymentsEditController extends GetxController
 
   /// >> set loading process & Payment LinkStore Model
   final _isEditUpdateLoading = false.obs;
-  late PaymentLinkUpdateModel _paymentLinkUpdateModel;
+  PaymentLinkUpdateModel? _paymentLinkUpdateModel;
 
   /// >> get loading process & Payment LinkStore Model
   bool get isEditUpdateLoading => _isEditUpdateLoading.value;
 
-  PaymentLinkUpdateModel get paymentLinkUpdateModel => _paymentLinkUpdateModel;
+  PaymentLinkUpdateModel get paymentLinkUpdateModel => _paymentLinkUpdateModel!;
 
   /// >> Payment Link update  with image process api
   Future<PaymentLinkUpdateModel> paymentLinkUpdateWithImageProcess() async {
@@ -165,7 +165,7 @@ class PaymentsEditController extends GetxController
         .then((value) {
           _paymentLinkUpdateModel = value!;
           createNewLinkController.text =
-              _paymentLinkUpdateModel.data.paymentLink.shareLink;
+              _paymentLinkUpdateModel!.data.paymentLink.shareLink;
           _onEditCongratulationLink();
           update();
         })
@@ -175,7 +175,7 @@ class PaymentsEditController extends GetxController
 
     _isEditUpdateLoading.value = false;
     update();
-    return _paymentLinkUpdateModel;
+    return _paymentLinkUpdateModel!;
   }
 
   /// >> Payment Link update  without image process api
@@ -216,7 +216,7 @@ class PaymentsEditController extends GetxController
         .then((value) {
           _paymentLinkUpdateModel = value!;
           createNewLinkController.text =
-              _paymentLinkUpdateModel.data.paymentLink.shareLink;
+              _paymentLinkUpdateModel!.data.paymentLink.shareLink;
           _onEditCongratulationLink();
           update();
         })
@@ -226,7 +226,7 @@ class PaymentsEditController extends GetxController
 
     _isEditUpdateLoading.value = false;
     update();
-    return _paymentLinkUpdateModel;
+    return _paymentLinkUpdateModel!;
   }
 
   void _onEditCongratulationLink() {

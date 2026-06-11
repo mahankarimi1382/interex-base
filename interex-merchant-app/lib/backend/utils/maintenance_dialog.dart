@@ -7,6 +7,7 @@ import '../../utils/strings.dart';
 import '../../widgets/buttons/primary_button.dart';
 import '../../widgets/text_labels/title_heading3_widget.dart';
 import '../../widgets/text_labels/title_heading4_widget.dart';
+import '../extentions/custom_extentions.dart';
 import '../model/maintenance/maintenance_model.dart';
 
 class SystemMaintenanceController extends GetxController {
@@ -41,7 +42,7 @@ class MaintenanceDialog {
                     vertical: Dimensions.paddingVerticalSize * 0.5,
                   ),
                   child: Image.network(
-                    "${maintenanceModel.data.baseUrl}/${maintenanceModel.data.imagePath}/${maintenanceModel.data.image}",
+                    "${maintenanceModel.data.baseUrl.resolveBackendHost()}/${maintenanceModel.data.imagePath}/${maintenanceModel.data.image}",
                   ),
                 ),
 

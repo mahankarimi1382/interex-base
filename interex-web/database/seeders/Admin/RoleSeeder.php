@@ -3,7 +3,7 @@
 namespace Database\Seeders\Admin;
 
 use App\Models\Admin\Admin;
-use App\Models\Admin\AdminRole;
+use App\Models\Admin\AdminRole;;
 use Illuminate\Database\Seeder;
 
 class RoleSeeder extends Seeder
@@ -17,31 +17,31 @@ class RoleSeeder extends Seeder
     {
         $data = [
             [
-                'name' => 'Super Admin',
-                'admin_id' => 1,
+                "name"      => "Super Admin",
+                "admin_id"  => 1,
             ],
             [
-                'name' => 'Sub Admin',
-                'admin_id' => 1,
+                "name"      => "Sub Admin",
+                "admin_id"  => 1,
             ],
             [
-                'name' => 'Moderator',
-                'admin_id' => 1,
+                "name"      => "Moderator",
+                "admin_id"  => 1,
             ],
             [
-                'name' => 'Editor',
-                'admin_id' => 1,
+                "name"      => "Editor",
+                "admin_id"  => 1,
             ],
             [
-                'name' => 'Support Member',
-                'admin_id' => 1,
+                "name"      => "Support Member",
+                "admin_id"  => 1,
             ],
         ];
 
-        AdminRole::upsert($data, ['name'], ['name', 'admin_id']);
+        AdminRole::upsert($data,["name"],["name","admin_id"]);
 
         Admin::first()->update([
-            'admin_role_id' => 1,
+            "admin_role_id"     => 1,
         ]);
     }
 }

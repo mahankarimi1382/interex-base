@@ -16,17 +16,18 @@ use App\Models\TopupCategory;
 use App\Models\Transaction;
 use App\Models\UserNotification;
 use App\Models\UserWallet;
-use App\Notifications\Admin\ActivityNotification;
-use App\Notifications\User\MobileTopup\TopupAutomaticMail;
 use App\Notifications\User\MobileTopup\TopupMail;
 use App\Providers\Admin\BasicSettingsProvider;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use App\Notifications\Admin\ActivityNotification;
+use App\Notifications\User\MobileTopup\TopupAutomaticMail;
 use Illuminate\Support\Str;
 
 class MobileTopupController extends Controller
+
 {
     protected $basic_settings;
 
@@ -35,84 +36,71 @@ class MobileTopupController extends Controller
         $this->basic_settings = BasicSettingsProvider::get();
     }
 
-    public function index()
-    {
-        $page_title = __('Mobile Topup');
+    public function index() {
+        $page_title = __("Mobile Topup");
         $transactions = Transaction::auth()->mobileTopup()->latest()->take(10)->get();
-
-        return view('user.sections.mobile-top.index', compact('page_title', 'transactions'));
+        return view('user.sections.mobile-top.index',compact("page_title","transactions"));
     }
-
-    public function selectType(Request $request)
-    {
-        $validated = Validator::make($request->all(), [
-            'topup_type' => 'required|string',
+    public function selectType(Request $request){
+        $validated = Validator::make($request->all(),[
+            'topup_type' => 'required|string'
         ])->validate();
-        if ($validated['topup_type'] === PaymentGatewayConst::MANUAL) {
+        if($validated['topup_type'] === PaymentGatewayConst::MANUAL){
             return redirect()->route('user.mobile.topup.manual.index');
-        } elseif ($validated['topup_type'] === PaymentGatewayConst::AUTOMATIC) {
+        }elseif($validated['topup_type'] === PaymentGatewayConst::AUTOMATIC){
             return redirect()->route('user.mobile.topup.automatic.index');
-        } else {
-            return back()->with(['error' => [__('Something went wrong! Please try again.')]]);
+        }else{
+            return back()->with(['error' => [__("Something went wrong! Please try again.")]]);
         }
     }
-
-    // start automatic
-    public function automaticTopUp()
-    {
-        $page_title = __('Mobile Topup');
+    //start automatic
+    public function automaticTopUp(){
+        $page_title = __("Mobile Topup");
         $sender_wallets = Currency::sender()->active()->get();
         $sender_wallets = json_encode($sender_wallets);
-        $topupCharge = TransactionSetting::where('slug', 'mobile_topup')->where('status', 1)->first();
-
-        return view('user.sections.mobile-top.automatic.index', compact('page_title', 'sender_wallets', 'topupCharge'));
+        $topupCharge = TransactionSetting::where('slug','mobile_topup')->where('status',1)->first();
+        return view('user.sections.mobile-top.automatic.index',compact("page_title","sender_wallets","topupCharge"));
     }
-
-    public function checkOperator(Request $request)
-    {
+    public function checkOperator(Request $request){
         $phone = $request->mobile_code.$request->phone;
         $iso = $request->iso;
-        $operator = (new AirtimeHelper)->autoDetectOperator($phone, $iso);
-        if ($operator['status'] === false) {
+        $operator = (new AirtimeHelper())->autoDetectOperator($phone,$iso);
+        if($operator['status'] === false){
             $data = [
                 'status' => false,
-                'message' => $operator['message'] ?? '',
+                'message' => $operator['message']??"",
                 'data' => [],
-                'from' => 'error',
+                'from' => "error",
             ];
-        } else {
+        }else{
             $data = [
                 'status' => true,
                 'message' => 'Successfully Get Operator',
                 'data' => $operator,
-                'from' => 'success',
+                'from' => "success",
             ];
         }
-
         return response($data);
     }
-
-    public function payAutomatic(Request $request)
-    {
-        $validated = Validator::make($request->all(), [
-            'operator_id' => 'required',
-            'phone_code' => 'required',
-            'country_code' => 'required',
-            'mobile_number' => 'required|max:15',
-            'amount' => 'required|numeric|gt:0',
-            'currency' => 'required|exists:currencies,code',
-            'pin' => $this->basic_settings->user_pin_verification == true ? 'required|digits:4' : 'nullable',
+    public function payAutomatic(Request $request){
+        $validated = Validator::make($request->all(),[
+            'operator_id'       => 'required',
+            'phone_code'        => 'required',
+            'country_code'      => 'required',
+            'mobile_number'     => 'required|max:15',
+            'amount'            => 'required|numeric|gt:0',
+            'currency'          => 'required|exists:currencies,code',
+            'pin'               =>  $this->basic_settings->user_pin_verification == true ? 'required|digits:4' : 'nullable',
         ])->validate();
 
+
         $user = userGuard()['user'];
-        // check user pin
-        if ($this->basic_settings->user_pin_verification == true) {
-            $pin_status = pin_verification($user, $validated['pin']);
-            if ($pin_status['status'] == false) {
-                return back()->with(['error' => [$pin_status['message']]]);
-            }
+        //check user pin
+        if( $this->basic_settings->user_pin_verification == true){
+            $pin_status = pin_verification($user,$validated['pin']);
+            if( $pin_status['status'] == false) return back()->with(['error' => [$pin_status['message']]]);
         }
-        $sender_phone = $user->full_mobile ?? '';
+        $sender_phone = $user->full_mobile??"";
         $sender_country_name = @$user->address->country;
         $foundItem = '';
         foreach (freedom_countries(GlobalConst::USER) ?? [] as $item) {
@@ -123,556 +111,520 @@ class MobileTopupController extends Controller
         $sender_country_iso = $foundItem->iso2;
 
         $phone = remove_special_char($validated['phone_code']).$validated['mobile_number'];
-        $operator = (new AirtimeHelper)->autoDetectOperator($phone, $validated['country_code']);
-        if ($operator['status'] === false) {
-            return back()->with(['error' => [__($operator['message'] ?? '')]]);
+        $operator = (new AirtimeHelper())->autoDetectOperator($phone,$validated['country_code']);
+        if($operator['status'] === false){
+            return back()->with(['error' => [__($operator['message']??"")]]);
         }
-        $sender_wallet = UserWallet::where('user_id', $user->id)->whereHas('currency', function ($q) use ($validated) {
-            $q->where('code', $validated['currency'])->active();
+        $sender_wallet = UserWallet::where('user_id',$user->id)->whereHas("currency",function($q) use ($validated) {
+            $q->where("code",$validated['currency'])->active();
         })->active()->first();
-        if (! $sender_wallet) {
+        if(!$sender_wallet){
             return back()->with(['error' => [__('User Wallet not found')]]);
         }
-        $topupCharge = TransactionSetting::where('slug', 'mobile_topup')->where('status', 1)->first();
-        $charges = $this->topupChargeAutomatic($validated['amount'], $operator, $sender_wallet, $topupCharge);
+        $topupCharge = TransactionSetting::where('slug','mobile_topup')->where('status',1)->first();
+        $charges = $this->topupChargeAutomatic($validated['amount'],$operator,$sender_wallet,$topupCharge);
 
-        if ($operator['denominationType'] === 'RANGE') {
+        if($operator['denominationType'] === "RANGE"){
             $min_amount = 0;
             $max_amount = 0;
-            if ($operator['supportsLocalAmounts'] == true && $operator['destinationCurrencyCode'] == $operator['senderCurrencyCode'] && $operator['localMinAmount'] == null && $operator['localMaxAmount'] == null) {
-                $min_amount = get_amount($operator['minAmount'] / $charges['exchange_rate'], null, $charges['precision_digit']);
-                $max_amount = get_amount($operator['maxAmount'] / $charges['exchange_rate'], null, $charges['precision_digit']);
-            } elseif ($operator['supportsLocalAmounts'] == true && $operator['localMinAmount'] != null && $operator['localMaxAmount'] != null) {
-                $min_amount = get_amount($operator['localMinAmount'] / $charges['exchange_rate'], null, $charges['precision_digit']);
-                $max_amount = get_amount($operator['localMaxAmount'] / $charges['exchange_rate'], null, $charges['precision_digit']);
-            } else {
+            if($operator["supportsLocalAmounts"] == true && $operator["destinationCurrencyCode"] == $operator["senderCurrencyCode"] && $operator["localMinAmount"] == null && $operator["localMaxAmount"] == null){
+                $min_amount = get_amount($operator['minAmount'] / $charges['exchange_rate'],null,$charges['precision_digit']);
+                $max_amount = get_amount($operator['maxAmount'] / $charges['exchange_rate'],null,$charges['precision_digit']);
+            }else if($operator["supportsLocalAmounts"] == true && $operator["localMinAmount"] != null && $operator["localMaxAmount"] != null){
+                $min_amount = get_amount($operator["localMinAmount"] / $charges['exchange_rate'],null,$charges['precision_digit']);
+                $max_amount = get_amount($operator["localMaxAmount"] / $charges['exchange_rate'],null,$charges['precision_digit']);
+            }else{
                 $fxRate = $operator['fx']['rate'] ?? 1;
-                $min_amount = get_amount((($operator['minAmount'] * $fxRate) / $charges['exchange_rate']), null, $charges['precision_digit']);
-                $max_amount = get_amount((($operator['maxAmount'] * $fxRate) / $charges['exchange_rate']), null, $charges['precision_digit']);
+                $min_amount = get_amount((($operator['minAmount'] * $fxRate) / $charges['exchange_rate']),null,$charges['precision_digit']);
+                $max_amount = get_amount((($operator['maxAmount'] * $fxRate) / $charges['exchange_rate'] ),null,$charges['precision_digit']);
             }
 
-            if ($charges['sender_amount'] < ($min_amount) || $charges['sender_amount'] > ($max_amount)) {
-                return back()->with(['error' => [__('Please follow the transaction limit')]]);
+            if($charges['sender_amount'] < ($min_amount) || $charges['sender_amount'] > ($max_amount)) {
+                return back()->with(['error' => [__("Please follow the transaction limit")]]);
             }
         }
 
-        // daily and monthly
-        try {
-            (new TransactionLimit)->trxLimit('user_id', $sender_wallet->user->id, PaymentGatewayConst::MOBILETOPUP, $sender_wallet->currency, $validated['amount'], $topupCharge, PaymentGatewayConst::SEND);
-        } catch (Exception $e) {
-            $errorData = json_decode($e->getMessage(), true);
-
-            return back()->with(['error' => [__($errorData['message'] ?? __('Something went wrong! Please try again.'))]]);
+        //daily and monthly
+        try{
+            (new TransactionLimit())->trxLimit('user_id',$sender_wallet->user->id,PaymentGatewayConst::MOBILETOPUP,$sender_wallet->currency,$validated['amount'],$topupCharge,PaymentGatewayConst::SEND);
+        }catch(Exception $e){
+           $errorData = json_decode($e->getMessage(), true);
+            return back()->with(['error' => [__($errorData['message'] ?? __("Something went wrong! Please try again."))]]);
         }
 
-        if ($charges['payable'] > $sender_wallet->balance) {
-            return back()->with(['error' => [__('Sorry, insufficient balance')]]);
+        if($charges['payable'] > $sender_wallet->balance) {
+            return back()->with(['error' => [__("Sorry, insufficient balance")]]);
         }
-        // topup api
-        $topUpData = [
-            'operatorId' => $operator['operatorId'],
-            'amount' => getAmount($charges['payable_to_provider'], 2),
-            'useLocalAmount' => $operator['supportsLocalAmounts'],
-            'customIdentifier' => Str::uuid().'|'.'AIRTIME',
-            'recipientEmail' => null,
-            'recipientPhone' => [
+        //topup api
+         $topUpData = [
+            'operatorId'        => $operator['operatorId'],
+            'amount'            => getAmount($charges['payable_to_provider'],2),
+            'useLocalAmount'    => $operator['supportsLocalAmounts'],
+            'customIdentifier'  => Str::uuid() . "|" . "AIRTIME",
+            'recipientEmail'    => null,
+            'recipientPhone'  => [
                 'countryCode' => $validated['country_code'],
-                'number' => $phone,
+                'number'  => $phone,
             ],
-            'senderPhone' => [
+            'senderPhone'   => [
                 'countryCode' => $sender_country_iso,
-                'number' => $sender_phone,
-            ],
+                'number'      => $sender_phone,
+            ]
 
         ];
 
-        $topUpData = (new AirtimeHelper)->makeTopUp($topUpData);
-        if (isset($topUpData['status']) && $topUpData['status'] === false) {
+        $topUpData = (new AirtimeHelper())->makeTopUp($topUpData);
+        if( isset($topUpData['status']) && $topUpData['status'] === false){
             return back()->with(['error' => [$topUpData['message']]]);
         }
 
-        try {
+        try{
             $trx_id = 'MP'.getTrxNum();
-            $sender = $this->insertTransaction($trx_id, $sender_wallet, $charges, $operator, $phone, $topUpData);
-            $this->insertAutomaticCharges($sender, $charges, $sender_wallet);
-            if ($this->basic_settings->email_notification == true) {
-                // send notifications
+            $sender = $this->insertTransaction($trx_id,$sender_wallet,$charges,$operator,$phone,$topUpData);
+            $this->insertAutomaticCharges($sender,$charges,$sender_wallet);
+            if($this->basic_settings->email_notification == true){
+                //send notifications
                 $notifyData = [
-                    'trx_id' => $trx_id,
-                    'operator_name' => $operator['name'] ?? '',
-                    'mobile_number' => $phone,
-                    'request_amount' => get_amount($charges['sender_amount'], $charges['sender_currency'], $charges['precision_digit']),
-                    'exchange_rate' => get_amount(1, $charges['sender_currency']).' = '.get_amount($charges['exchange_rate'], $charges['destination_currency'], $charges['precision_digit']),
-                    'will_get' => get_amount($charges['conversion_amount'], $charges['destination_currency'], $charges['precision_digit']),
-                    'charges' => get_amount($charges['total_charge'], $charges['sender_currency'], $charges['precision_digit']),
-                    'payable' => get_amount($charges['payable'], $charges['sender_currency'], $charges['precision_digit']),
-                    'current_balance' => get_amount($sender_wallet->balance, $charges['sender_currency'], $charges['precision_digit']),
-                    'status' => __('Successful'),
+                    'trx_id'            => $trx_id,
+                    'operator_name'     => $operator['name']??'',
+                    'mobile_number'     => $phone,
+                    'request_amount'    => get_amount($charges['sender_amount'],$charges['sender_currency'],$charges['precision_digit']),
+                    'exchange_rate'     => get_amount(1,$charges['sender_currency'])." = ".get_amount($charges['exchange_rate'],$charges['destination_currency'],$charges['precision_digit']),
+                    'will_get'          => get_amount($charges['conversion_amount'],$charges['destination_currency'],$charges['precision_digit']),
+                    'charges'           => get_amount($charges['total_charge'],$charges['sender_currency'],$charges['precision_digit']),
+                    'payable'           => get_amount($charges['payable'],$charges['sender_currency'],$charges['precision_digit']),
+                    'current_balance'   => get_amount($sender_wallet->balance,$charges['sender_currency'],$charges['precision_digit']),
+                    'status'            => __("Successful"),
                 ];
-                try {
-                    $user->notify(new TopupAutomaticMail($user, (object) $notifyData));
-                } catch (Exception $e) {
-                }
+                try{
+                    $user->notify(new TopupAutomaticMail($user,(object)$notifyData));
+                }catch(Exception $e){}
             }
-            // send sms notification
-            if ($this->basic_settings->sms_notification == true) {
-                try {
-                    sendSms($user, 'MOBILE_TOPUP', [
-                        'amount' => get_amount($charges['conversion_amount'], $charges['destination_currency'], $charges['precision_digit']),
-                        'name' => $operator['name'] ?? '',
+            //send sms notification
+            if($this->basic_settings->sms_notification == true){
+                try{
+                    sendSms($user,'MOBILE_TOPUP',[
+                        'amount'        => get_amount($charges['conversion_amount'],$charges['destination_currency'],$charges['precision_digit']),
+                        'name'          => $operator['name']??'',
                         'mobile_number' => $phone,
-                        'charge' => get_amount($charges['total_charge'], $charges['sender_currency'], $charges['precision_digit']),
-                        'payable' => get_amount($charges['payable'], $charges['sender_currency'], $charges['precision_digit']),
-                        'trx' => $trx_id,
-                        'time' => now()->format('Y-m-d h:i:s A'),
+                        'charge'        => get_amount($charges['total_charge'],$charges['sender_currency'],$charges['precision_digit']),
+                        'payable'       => get_amount($charges['payable'],$charges['sender_currency'],$charges['precision_digit']),
+                        'trx'           => $trx_id,
+                        'time'          => now()->format('Y-m-d h:i:s A')
                     ]);
-                } catch (Exception $e) {
-                }
+                }catch(Exception $e) {}
             }
-            // admin notification
-            $this->adminNotificationAutomatic($trx_id, $charges, $operator, $user, $phone, $topUpData);
-
-            return redirect()->route('user.mobile.topup.index')->with(['success' => [__('Mobile topup request successful')]]);
-        } catch (Exception $e) {
-            return back()->with(['error' => [__('Something went wrong! Please try again.')]]);
+            //admin notification
+            $this->adminNotificationAutomatic($trx_id,$charges,$operator,$user,$phone,$topUpData);
+            return redirect()->route("user.mobile.topup.index")->with(['success' => [__('Mobile topup request successful')]]);
+        }catch(Exception $e) {
+            return back()->with(['error' => [__("Something went wrong! Please try again.")]]);
         }
     }
-
-    public function insertTransaction($trx_id, $sender_wallet, $charges, $operator, $mobile_number, $topUpData)
-    {
-        if (isset($topUpData) && isset($topUpData['status']) && $topUpData['status'] === 'SUCCESSFUL') {
+    public function insertTransaction($trx_id,$sender_wallet,$charges,$operator,$mobile_number,$topUpData) {
+        if(isset($topUpData) && isset($topUpData['status']) && $topUpData['status'] === "SUCCESSFUL"){
             $status = PaymentGatewayConst::STATUSSUCCESS;
-        } else {
+        }else{
             $status = PaymentGatewayConst::STATUSPROCESSING;
         }
         $trx_id = $trx_id;
         $authWallet = $sender_wallet;
-        $afterCharge = ($authWallet->balance - $charges['payable']);
-        $details = [
-            'topup_type' => PaymentGatewayConst::AUTOMATIC,
-            'topup_type_id' => $operator['operatorId'] ?? '',
-            'topup_type_name' => $operator['name'] ?? '',
-            'mobile_number' => $mobile_number,
-            'topup_amount' => $charges['sender_amount'] ?? 0,
-            'charges' => $charges,
-            'operator' => $operator ?? [],
-            'api_response' => $topUpData ?? [],
+        $afterCharge =  ($authWallet->balance - $charges['payable']);
+        $details =[
+            'topup_type'        => PaymentGatewayConst::AUTOMATIC,
+            'topup_type_id'     => $operator['operatorId']??'',
+            'topup_type_name'   => $operator['name']??'',
+            'mobile_number'     => $mobile_number,
+            'topup_amount'      => $charges['sender_amount']??0,
+            'charges'           => $charges,
+            'operator'          => $operator??[],
+            'api_response'      => $topUpData??[],
         ];
         DB::beginTransaction();
-        try {
-            $id = DB::table('transactions')->insertGetId([
-                'user_id' => $sender_wallet->user->id,
-                'user_wallet_id' => $authWallet->id,
-                'payment_gateway_currency_id' => null,
-                'type' => PaymentGatewayConst::MOBILETOPUP,
-                'trx_id' => $trx_id,
-                'request_amount' => $charges['sender_amount'],
-                'payable' => $charges['payable'],
-                'available_balance' => $afterCharge,
-                'remark' => ucwords(remove_special_char(PaymentGatewayConst::MOBILETOPUP, ' ')).' Request Successful',
-                'details' => json_encode($details),
-                'attribute' => PaymentGatewayConst::SEND,
-                'callback_ref' => $topUpData['customIdentifier'],
-                'status' => $status,
-                'created_at' => now(),
+        try{
+            $id = DB::table("transactions")->insertGetId([
+                'user_id'                       => $sender_wallet->user->id,
+                'user_wallet_id'                => $authWallet->id,
+                'payment_gateway_currency_id'   => null,
+                'type'                          => PaymentGatewayConst::MOBILETOPUP,
+                'trx_id'                        => $trx_id,
+                'request_amount'                => $charges['sender_amount'],
+                'payable'                       => $charges['payable'],
+                'available_balance'             => $afterCharge,
+                'remark'                        => ucwords(remove_special_char(PaymentGatewayConst::MOBILETOPUP," ")) . " Request Successful",
+                'details'                       => json_encode($details),
+                'attribute'                     => PaymentGatewayConst::SEND,
+                'callback_ref'                  => $topUpData['customIdentifier'],
+                'status'                        => $status,
+                'created_at'                    => now(),
             ]);
-            $this->updateSenderWalletBalance($authWallet, $afterCharge);
+            $this->updateSenderWalletBalance($authWallet,$afterCharge);
 
             DB::commit();
-        } catch (Exception $e) {
+        }catch(Exception $e) {
             DB::rollBack();
-            throw new Exception(__('Something went wrong! Please try again.'));
+            throw new Exception(__("Something went wrong! Please try again."));
         }
-
         return $id;
     }
-
-    public function insertAutomaticCharges($id, $charges, $sender_wallet)
-    {
+    public function insertAutomaticCharges($id,$charges,$sender_wallet) {
         DB::beginTransaction();
-        try {
+        try{
             DB::table('transaction_charges')->insert([
-                'transaction_id' => $id,
-                'percent_charge' => $charges['percent_charge'],
-                'fixed_charge' => $charges['fixed_charge'],
-                'total_charge' => $charges['total_charge'],
-                'created_at' => now(),
+                'transaction_id'    =>  $id,
+                'percent_charge'    =>  $charges['percent_charge'],
+                'fixed_charge'      =>  $charges['fixed_charge'],
+                'total_charge'      =>  $charges['total_charge'],
+                'created_at'        =>  now(),
             ]);
             DB::commit();
 
-            // notification
+            //notification
             $notification_content = [
-                'title' => __('Mobile Topup'),
-                'message' => __('Mobile topup request successful').' '.get_amount($charges['sender_amount'], $charges['sender_currency'], $charges['precision_digit']),
-                'image' => get_image($sender_wallet->user->image, 'user-profile'),
+                'title'         =>__("Mobile Topup"),
+                'message'       => __('Mobile topup request successful')." " .get_amount($charges['sender_amount'],$charges['sender_currency'],$charges['precision_digit']),
+                'image'         => get_image($sender_wallet->user->image,'user-profile'),
             ];
 
-            // user Notification
+            //user Notification
             UserNotification::create([
-                'type' => NotificationConst::MOBILE_TOPUP,
-                'user_id' => $sender_wallet->user->id,
-                'message' => $notification_content,
+                'type'      =>  NotificationConst::MOBILE_TOPUP,
+                'user_id'   =>  $sender_wallet->user->id,
+                'message'   =>  $notification_content,
             ]);
 
-            // Push Notification
-            if ($this->basic_settings->push_notification == true) {
-                try {
-                    (new PushNotificationHelper)->prepare([$sender_wallet->user->id], [
+           //Push Notification
+           if( $this->basic_settings->push_notification == true){
+                try{
+                    (new PushNotificationHelper())->prepare([$sender_wallet->user->id],[
                         'title' => $notification_content['title'],
-                        'desc' => $notification_content['message'],
+                        'desc'  => $notification_content['message'],
                         'user_type' => 'user',
                     ])->send();
-                } catch (Exception $e) {
-                }
+                }catch(Exception $e) {}
             }
 
-        } catch (Exception $e) {
+        }catch(Exception $e) {
             DB::rollBack();
-            throw new Exception(__('Something went wrong! Please try again.'));
+            throw new Exception(__("Something went wrong! Please try again."));
         }
     }
-
-    public function topupChargeAutomatic($sender_amount, $operator, $sender_wallet, $charges)
-    {
+    public function topupChargeAutomatic($sender_amount,$operator,$sender_wallet,$charges) {
         $sPrecision = get_wallet_precision($sender_wallet->currency);
         $destinationCurrency = Currency::where(['code' => $operator['destinationCurrencyCode']])->first();
-        $exchange_rate = $destinationCurrency->rate / $sender_wallet->currency->rate;
+        $exchange_rate = $destinationCurrency->rate/$sender_wallet->currency->rate;
 
-        $data['exchange_rate'] = $exchange_rate;
-        $data['sender_amount'] = $sender_amount;
-        $data['sender_currency'] = $sender_wallet->currency->code;
-        $data['sender_currency_rate'] = $sender_wallet->currency->rate;
-        $data['destination_currency'] = $destinationCurrency->code;
-        $data['destination_currency_rate'] = $destinationCurrency->rate;
-        $data['conversion_amount'] = $sender_amount * $exchange_rate;
-        $data['percent_charge'] = ($sender_amount / 100) * $charges->percent_charge ?? 0;
-        $data['fixed_charge'] = $sender_wallet->currency->rate * $charges->fixed_charge ?? 0;
-        $data['total_charge'] = $data['percent_charge'] + $data['fixed_charge'];
-        $data['sender_wallet_balance'] = $sender_wallet->balance;
-        $data['payable'] = $data['sender_amount'] + $data['total_charge'];
-        $data['payable_to_provider'] = $operator['supportsLocalAmounts'] == false ? $data['conversion_amount'] / $operator['fx']['rate'] ?? 1 : $data['conversion_amount'];
-        $data['precision_digit'] = $sPrecision;
+        $data['exchange_rate' ]                     = $exchange_rate;
+        $data['sender_amount']                      = $sender_amount;
+        $data['sender_currency']                    = $sender_wallet->currency->code;
+        $data['sender_currency_rate']               = $sender_wallet->currency->rate;
+        $data['destination_currency']               = $destinationCurrency->code;
+        $data['destination_currency_rate']          = $destinationCurrency->rate;
+        $data['conversion_amount']                  = $sender_amount * $exchange_rate;
+        $data['percent_charge']                     = ($sender_amount / 100) * $charges->percent_charge ?? 0;
+        $data['fixed_charge']                       = $sender_wallet->currency->rate * $charges->fixed_charge ?? 0;
+        $data['total_charge']                       = $data['percent_charge'] + $data['fixed_charge'];
+        $data['sender_wallet_balance']              = $sender_wallet->balance;
+        $data['payable']                            = $data['sender_amount'] + $data['total_charge'];
+        $data['payable_to_provider']                = $operator['supportsLocalAmounts'] == false ? $data['conversion_amount']/$operator['fx']['rate'] ?? 1 : $data['conversion_amount'];
+        $data['precision_digit']                    = $sPrecision;
 
         return $data;
     }
-    // end automatic
+    //end automatic
 
-    // start manual
-    public function manualTopUp()
-    {
-        $page_title = __('Mobile Topup');
-        $topupCharge = TransactionSetting::where('slug', 'mobile_topup')->where('status', 1)->first();
+    //start manual
+    public function manualTopUp() {
+        $page_title = __("Mobile Topup");
+        $topupCharge = TransactionSetting::where('slug','mobile_topup')->where('status',1)->first();
         $sender_wallets = Currency::sender()->active()->get();
         $topupType = TopupCategory::active()->orderByDesc('id')->get();
-
-        return view('user.sections.mobile-top.manual', compact('page_title', 'topupCharge', 'topupType', 'sender_wallets'));
+        return view('user.sections.mobile-top.manual',compact('page_title','topupCharge','topupType','sender_wallets'));
     }
-
-    public function payConfirm(Request $request)
-    {
-        $validated = Validator::make($request->all(), [
-            'topup_type' => 'required|exists:topup_categories,id',
-            'currency' => 'required|exists:currencies,code',
-            'mobile_code' => 'required',
+    public function payConfirm(Request $request){
+        $validated = Validator::make($request->all(),[
+            'topup_type'    => 'required|exists:topup_categories,id',
+            'currency'      => 'required|exists:currencies,code',
+            'mobile_code'   => 'required',
             'mobile_number' => 'required|max:15',
-            'amount' => 'required|numeric|gt:0',
-            'pin' => $this->basic_settings->user_pin_verification == true ? 'required|digits:4' : 'nullable',
+            'amount'        => 'required|numeric|gt:0',
+            'pin'           =>  $this->basic_settings->user_pin_verification == true ? 'required|digits:4' : 'nullable',
         ])->validate();
 
         $user = userGuard()['user'];
-        // check user pin
-        if ($this->basic_settings->user_pin_verification == true) {
-            $pin_status = pin_verification($user, $validated['pin']);
-            if ($pin_status['status'] == false) {
-                return back()->with(['error' => [$pin_status['message']]]);
-            }
+        //check user pin
+        if( $this->basic_settings->user_pin_verification == true){
+            $pin_status = pin_verification($user,$validated['pin']);
+            if( $pin_status['status'] == false) return back()->with(['error' => [$pin_status['message']]]);
         }
         $phone = remove_special_char($validated['mobile_code']).$validated['mobile_number'];
 
-        $sender_wallet = UserWallet::where('user_id', $user->id)->whereHas('currency', function ($q) use ($validated) {
-            $q->where('code', $validated['currency'])->active();
+        $sender_wallet = UserWallet::where('user_id',$user->id)->whereHas("currency",function($q) use ($validated) {
+            $q->where("code",$validated['currency'])->active();
         })->active()->first();
 
-        if (! $sender_wallet) {
+        if(!$sender_wallet){
             return back()->with(['error' => [__('User Wallet not found')]]);
         }
         $topup_type = TopupCategory::where('id', $validated['topup_type'])->first();
-        if (! $topup_type) {
+        if(! $topup_type){
             return back()->with(['error' => [__('Invalid type')]]);
         }
-        $topupCharge = TransactionSetting::where('slug', 'mobile_topup')->where('status', 1)->first();
-        $charges = $this->topupCharge($validated['amount'], $topupCharge, $sender_wallet);
+        $topupCharge = TransactionSetting::where('slug','mobile_topup')->where('status',1)->first();
+        $charges = $this->topupCharge($validated['amount'],$topupCharge,$sender_wallet);
 
         $sender_currency_rate = $sender_wallet->currency->rate;
         $min_amount = $topupCharge->min_limit * $sender_currency_rate;
         $max_amount = $topupCharge->max_limit * $sender_currency_rate;
 
-        if ($charges['sender_amount'] < $min_amount || $charges['sender_amount'] > $max_amount) {
-            return back()->with(['error' => [__('Please follow the transaction limit')]]);
+        if($charges['sender_amount'] < $min_amount || $charges['sender_amount'] > $max_amount) {
+            return back()->with(['error' => [__("Please follow the transaction limit")]]);
         }
-        // daily and monthly
-        try {
-            (new TransactionLimit)->trxLimit('user_id', $sender_wallet->user->id, PaymentGatewayConst::MOBILETOPUP, $sender_wallet->currency, $validated['amount'], $topupCharge, PaymentGatewayConst::SEND);
-        } catch (Exception $e) {
-            $errorData = json_decode($e->getMessage(), true);
+        //daily and monthly
+        try{
+            (new TransactionLimit())->trxLimit('user_id',$sender_wallet->user->id,PaymentGatewayConst::MOBILETOPUP,$sender_wallet->currency,$validated['amount'],$topupCharge,PaymentGatewayConst::SEND);
+        }catch(Exception $e){
+           $errorData = json_decode($e->getMessage(), true);
+            return back()->with(['error' => [__($errorData['message'] ?? __("Something went wrong! Please try again."))]]);
+        }
 
-            return back()->with(['error' => [__($errorData['message'] ?? __('Something went wrong! Please try again.'))]]);
+        if($charges['payable'] > $sender_wallet->balance) {
+            return back()->with(['error' => [__("Sorry, insufficient balance")]]);
         }
-
-        if ($charges['payable'] > $sender_wallet->balance) {
-            return back()->with(['error' => [__('Sorry, insufficient balance')]]);
-        }
-        try {
+        try{
             $trx_id = 'MP'.getTrxNum();
-            $sender = $this->insertSender($trx_id, $sender_wallet, $charges, $topup_type, $phone);
-            $this->insertSenderCharges($sender, $charges, $sender_wallet);
-            if ($this->basic_settings->email_notification == true) {
-                // send notifications
+            $sender = $this->insertSender($trx_id,$sender_wallet,$charges,$topup_type,$phone);
+            $this->insertSenderCharges($sender,$charges,$sender_wallet);
+            if($this->basic_settings->email_notification == true){
+                //send notifications
                 $notifyData = [
-                    'trx_id' => $trx_id,
-                    'topup_type' => @$topup_type->name,
-                    'mobile_number' => $phone,
-                    'request_amount' => $charges['sender_amount'],
-                    'charges' => $charges['total_charge'],
-                    'payable' => $charges['payable'],
-                    'current_balance' => getAmount($sender_wallet->balance, $charges['precision_digit']),
-                    'status' => __('Pending'),
+                    'trx_id'  => $trx_id,
+                    'topup_type'  => @$topup_type->name,
+                    'mobile_number'  =>$phone,
+                    'request_amount'   =>$charges['sender_amount'],
+                    'charges'   =>  $charges['total_charge'],
+                    'payable'  => $charges['payable'],
+                    'current_balance'  => getAmount($sender_wallet->balance,$charges['precision_digit']),
+                    'status'  => __("Pending"),
                 ];
-                try {
-                    $user->notify(new TopupMail($user, (object) $notifyData, $charges));
-                } catch (Exception $e) {
-                }
-                // sms notification
-                if ($this->basic_settings->sms_notification == true) {
-                    try {
-                        sendSms($user, 'MOBILE_TOPUP', [
-                            'amount' => get_amount($charges['sender_amount'], $charges['sender_currency']),
-                            'name' => $topup_type->name ?? '',
+                try{
+                    $user->notify(new TopupMail($user,(object)$notifyData,$charges));
+                }catch(Exception $e){}
+                 //sms notification
+                 if($this->basic_settings->sms_notification == true){
+                    try{
+                        sendSms($user,'MOBILE_TOPUP',[
+                            'amount'        => get_amount($charges['sender_amount'],$charges['sender_currency']),
+                            'name'          => $topup_type->name??'',
                             'mobile_number' => $phone,
-                            'charge' => get_amount($charges['total_charge'], $charges['sender_currency']),
-                            'payable' => get_amount($charges['payable'], $charges['sender_currency']),
-                            'trx' => $trx_id,
-                            'time' => now()->format('Y-m-d h:i:s A'),
+                            'charge'        => get_amount($charges['total_charge'],$charges['sender_currency']),
+                            'payable'       => get_amount($charges['payable'],$charges['sender_currency']),
+                            'trx'           => $trx_id,
+                            'time'          => now()->format('Y-m-d h:i:s A')
                         ]);
-                    } catch (Exception $e) {
-                    }
+                    }catch(Exception $e) {}
                 }
-                // admin notification
-                $this->adminNotificationManual($trx_id, $charges, $topup_type, $user, $phone);
+            //admin notification
+            $this->adminNotificationManual($trx_id,$charges,$topup_type,$user,$phone);
             }
-
-            return redirect()->route('user.mobile.topup.index')->with(['success' => [__('Mobile topup request send to admin successful')]]);
-        } catch (Exception $e) {
-            return back()->with(['error' => [__('Something went wrong! Please try again.')]]);
+            return redirect()->route("user.mobile.topup.index")->with(['success' => [__('Mobile topup request send to admin successful')]]);
+        }catch(Exception $e) {
+            return back()->with(['error' => [__("Something went wrong! Please try again.")]]);
         }
     }
-
-    public function insertSender($trx_id, $sender_wallet, $charges, $topup_type, $mobile_number)
-    {
+    public function insertSender($trx_id,$sender_wallet,$charges,$topup_type,$mobile_number) {
         $trx_id = $trx_id;
         $authWallet = $sender_wallet;
-        $afterCharge = ($authWallet->balance - $charges['payable']);
-        $details = [
-            'topup_type' => PaymentGatewayConst::MANUAL,
-            'topup_type_id' => $topup_type->id ?? '',
-            'topup_type_name' => $topup_type->name ?? '',
-            'mobile_number' => $mobile_number,
-            'topup_amount' => $charges['sender_amount'] ?? 0,
-            'charges' => $charges,
-            'api_response' => [],
+        $afterCharge =  ($authWallet->balance - $charges['payable']);
+        $details =[
+            'topup_type'        => PaymentGatewayConst::MANUAL,
+            'topup_type_id'     => $topup_type->id??'',
+            'topup_type_name'   => $topup_type->name??'',
+            'mobile_number'     => $mobile_number,
+            'topup_amount'      => $charges['sender_amount']??0,
+            'charges'           => $charges,
+            'api_response'      => [],
         ];
         DB::beginTransaction();
-        try {
-            $id = DB::table('transactions')->insertGetId([
-                'user_id' => $sender_wallet->user->id,
-                'user_wallet_id' => $authWallet->id,
-                'payment_gateway_currency_id' => null,
-                'type' => PaymentGatewayConst::MOBILETOPUP,
-                'trx_id' => $trx_id,
-                'request_amount' => $charges['sender_amount'],
-                'payable' => $charges['payable'],
-                'available_balance' => $afterCharge,
-                'remark' => ucwords(remove_special_char(PaymentGatewayConst::MOBILETOPUP, ' ')).' Request To Admin',
-                'details' => json_encode($details),
-                'attribute' => PaymentGatewayConst::SEND,
-                'status' => PaymentGatewayConst::STATUSPENDING,
-                'created_at' => now(),
+        try{
+            $id = DB::table("transactions")->insertGetId([
+                'user_id'                       => $sender_wallet->user->id,
+                'user_wallet_id'                => $authWallet->id,
+                'payment_gateway_currency_id'   => null,
+                'type'                          => PaymentGatewayConst::MOBILETOPUP,
+                'trx_id'                        => $trx_id,
+                'request_amount'                => $charges['sender_amount'],
+                'payable'                       => $charges['payable'],
+                'available_balance'             => $afterCharge,
+                'remark'                        => ucwords(remove_special_char(PaymentGatewayConst::MOBILETOPUP," ")) . " Request To Admin",
+                'details'                       => json_encode($details),
+                'attribute'                     => PaymentGatewayConst::SEND,
+                'status'                        => PaymentGatewayConst::STATUSPENDING,
+                'created_at'                    => now(),
             ]);
-            $this->updateSenderWalletBalance($authWallet, $afterCharge);
+            $this->updateSenderWalletBalance($authWallet,$afterCharge);
 
             DB::commit();
-        } catch (Exception $e) {
+        }catch(Exception $e) {
             DB::rollBack();
-            throw new Exception(__('Something went wrong! Please try again.'));
+            throw new Exception(__("Something went wrong! Please try again."));
         }
-
         return $id;
     }
-
-    public function insertSenderCharges($id, $charges, $sender_wallet)
-    {
+    public function insertSenderCharges($id,$charges,$sender_wallet) {
         DB::beginTransaction();
-        try {
+        try{
             DB::table('transaction_charges')->insert([
-                'transaction_id' => $id,
-                'percent_charge' => $charges['percent_charge'],
-                'fixed_charge' => $charges['fixed_charge'],
-                'total_charge' => $charges['total_charge'],
-                'created_at' => now(),
+                'transaction_id'    =>  $id,
+                'percent_charge'    =>  $charges['percent_charge'],
+                'fixed_charge'      =>  $charges['fixed_charge'],
+                'total_charge'      =>  $charges['total_charge'],
+                'created_at'        =>  now(),
             ]);
             DB::commit();
 
-            // notification
+            //notification
             $notification_content = [
-                'title' => __('Mobile Topup'),
-                'message' => __('Mobile topup request send to admin').' '.get_amount($charges['sender_amount'], $charges['sender_currency'], $charges['precision_digit']).' '.__('Successful'),
-                'image' => get_image($sender_wallet->user->image, 'user-profile'),
+                'title'         =>__("Mobile Topup"),
+                'message'       => __('Mobile topup request send to admin')." " .get_amount($charges['sender_amount'],$charges['sender_currency'],$charges['precision_digit'])." ".__("Successful"),
+                'image'         => get_image($sender_wallet->user->image,'user-profile'),
             ];
 
-            // user Notification
+            //user Notification
             UserNotification::create([
-                'type' => NotificationConst::MOBILE_TOPUP,
-                'user_id' => $sender_wallet->user->id,
-                'message' => $notification_content,
+                'type'      => NotificationConst::MOBILE_TOPUP,
+                'user_id'  => $sender_wallet->user->id,
+                'message'   => $notification_content,
             ]);
 
-            // Push Notification
-            if ($this->basic_settings->push_notification == true) {
-                try {
-                    (new PushNotificationHelper)->prepare([$sender_wallet->user->id], [
+            //Push Notification
+            if( $this->basic_settings->push_notification == true){
+                try{
+                    (new PushNotificationHelper())->prepare([$sender_wallet->user->id],[
                         'title' => $notification_content['title'],
-                        'desc' => $notification_content['message'],
+                        'desc'  => $notification_content['message'],
                         'user_type' => 'user',
                     ])->send();
-                } catch (Exception $e) {
-                }
+                }catch(Exception $e) {}
             }
 
-        } catch (Exception $e) {
+        }catch(Exception $e) {
             DB::rollBack();
-            throw new Exception(__('Something went wrong! Please try again.'));
+            throw new Exception(__("Something went wrong! Please try again."));
         }
     }
-
-    public function topupCharge($sender_amount, $charges, $sender_wallet)
-    {
+    public function topupCharge($sender_amount,$charges,$sender_wallet) {
         $sPrecision = get_wallet_precision($sender_wallet->currency);
         $exchange_rate = get_default_currency_rate() * $sender_wallet->currency->rate;
 
-        $data['exchange_rate'] = $exchange_rate;
-        $data['sender_amount'] = $sender_amount;
-        $data['sender_currency'] = $sender_wallet->currency->code;
-        $data['sender_currency_rate'] = $sender_wallet->currency->rate;
-        $data['destination_currency'] = get_default_currency_code();
-        $data['destination_currency_rate'] = get_default_currency_rate();
-        $data['conversion_amount'] = $sender_amount * $exchange_rate;
-        $data['percent_charge'] = ($sender_amount / 100) * $charges->percent_charge ?? 0;
-        $data['fixed_charge'] = $sender_wallet->currency->rate * $charges->fixed_charge ?? 0;
-        $data['total_charge'] = $data['percent_charge'] + $data['fixed_charge'];
-        $data['sender_wallet_balance'] = $sender_wallet->balance;
-        $data['payable'] = $sender_amount + $data['total_charge'];
-        $data['precision_digit'] = $sPrecision;
+        $data['exchange_rate' ]                     = $exchange_rate;
+        $data['sender_amount']                      = $sender_amount;
+        $data['sender_currency']                    = $sender_wallet->currency->code;
+        $data['sender_currency_rate']               = $sender_wallet->currency->rate;
+        $data['destination_currency']               = get_default_currency_code();
+        $data['destination_currency_rate']          = get_default_currency_rate();
+        $data['conversion_amount']                  = $sender_amount * $exchange_rate;
+        $data['percent_charge']                     = ($sender_amount / 100) * $charges->percent_charge ?? 0;
+        $data['fixed_charge']                       = $sender_wallet->currency->rate * $charges->fixed_charge ?? 0;
+        $data['total_charge']                       = $data['percent_charge'] + $data['fixed_charge'];
+        $data['sender_wallet_balance']              = $sender_wallet->balance;
+        $data['payable']                            = $sender_amount + $data['total_charge'];
+        $data['precision_digit']                    = $sPrecision;
 
         return $data;
     }
-
-    // end manual
-    public function updateSenderWalletBalance($authWallet, $afterCharge)
-    {
+    //end manual
+    public function updateSenderWalletBalance($authWallet,$afterCharge) {
         $authWallet->update([
-            'balance' => $afterCharge,
+            'balance'   => $afterCharge,
         ]);
     }
-
-    // admin notification
-    public function adminNotificationManual($trx_id, $charges, $topup_type, $user, $phone)
-    {
-        $exchange_rate = get_amount(1, $charges['destination_currency']).' = '.get_amount($charges['exchange_rate'], $charges['sender_currency'], $charges['precision_digit']);
+    //admin notification
+    public function adminNotificationManual($trx_id,$charges,$topup_type,$user,$phone){
+        $exchange_rate = get_amount(1,$charges['destination_currency'])." = ".get_amount($charges['exchange_rate'],$charges['sender_currency'],$charges['precision_digit']);
         $notification_content = [
-            // email notification
-            'subject' => __('Mobile Top Up For').' '.$topup_type->name.' ('.$phone.' )',
-            'greeting' => __('Mobile topup request send to admin successful').' ('.$topup_type->name.'-'.$phone.' )',
-            'email_content' => __('web_trx_id').' : '.$trx_id.'<br>'.__('Mobile Number').' : '.$phone.'<br>'.__('Operator Name').' : '.$topup_type->name.'<br>'.__('request Amount').' : '.get_amount($charges['sender_amount'], $charges['sender_currency'], $charges['precision_digit']).'<br>'.__('Exchange Rate').' : '.$exchange_rate.'<br>'.__('Fees & Charges').' : '.get_amount($charges['total_charge'], $charges['sender_currency'], $charges['precision_digit']).'<br>'.__('Total Payable Amount').' : '.get_amount($charges['payable'], $charges['sender_currency'], $charges['precision_digit']).'<br>'.__('Status').' : '.__('Pending'),
+            //email notification
+            'subject' => __("Mobile Top Up For")." ". $topup_type->name.' ('.$phone.' )',
+            'greeting' =>__("Mobile topup request send to admin successful")." (".$topup_type->name."-".$phone." )",
+            'email_content' =>__("web_trx_id")." : ".$trx_id."<br>".__("Mobile Number")." : ".$phone."<br>".__("Operator Name")." : ".$topup_type->name."<br>".__("request Amount")." : ".get_amount($charges['sender_amount'],$charges['sender_currency'],$charges['precision_digit'])."<br>".__("Exchange Rate")." : ". $exchange_rate."<br>".__("Fees & Charges")." : ".get_amount($charges['total_charge'],$charges['sender_currency'],$charges['precision_digit'])."<br>".__("Total Payable Amount")." : ".get_amount($charges['payable'],$charges['sender_currency'],$charges['precision_digit'])."<br>".__("Status")." : ".__("Pending"),
 
-            // push notification
-            'push_title' => __('Mobile topup request send to admin successful').' ('.userGuard()['type'].')',
-            'push_content' => __('web_trx_id').' : '.$trx_id.','.__('request Amount').' : '.get_amount($charges['sender_amount'], $charges['sender_currency'], $charges['precision_digit']).','.__('Operator Name').' : '.$topup_type->name.','.__('Mobile Number').' : '.$phone,
+            //push notification
+            'push_title' => __("Mobile topup request send to admin successful")." (".userGuard()['type'].")",
+            'push_content' => __('web_trx_id')." : ".$trx_id.",".__("request Amount")." : ".get_amount($charges['sender_amount'],$charges['sender_currency'],$charges['precision_digit']).",".__("Operator Name")." : ".$topup_type->name.",".__("Mobile Number")." : ".$phone,
 
-            // admin db notification
-            'notification_type' => NotificationConst::MOBILE_TOPUP,
-            'admin_db_title' => 'Mobile topup request send to admin successful'.' ('.userGuard()['type'].')',
-            'admin_db_message' => 'Transaction ID'.' : '.$trx_id.','.'Request Amount'.' : '.get_amount($charges['sender_amount'], $charges['sender_currency'], $charges['precision_digit']).','.'Operator Name'.' : '.$topup_type->name.','.'Mobile Number'.' : '.$phone.','.'Total Payable Amount'.' : '.get_amount($charges['payable'], $charges['sender_currency'], $charges['precision_digit']).' ('.$user->email.')',
+            //admin db notification
+            'notification_type' =>  NotificationConst::MOBILE_TOPUP,
+            'admin_db_title' => "Mobile topup request send to admin successful"." (".userGuard()['type'].")",
+            'admin_db_message' =>"Transaction ID"." : ".$trx_id.","."Request Amount"." : ".get_amount($charges['sender_amount'],$charges['sender_currency'],$charges['precision_digit']).","."Operator Name"." : ".$topup_type->name.","."Mobile Number"." : ".$phone.","."Total Payable Amount"." : ".get_amount($charges['payable'],$charges['sender_currency'],$charges['precision_digit'])." (".$user->email.")"
         ];
-        try {
-            // notification
-            (new NotificationHelper)->admin(['admin.mobile.topup.index', 'admin.mobile.topup.pending', 'admin.mobile.topup.processing', 'admin.mobile.topup.complete', 'admin.mobile.topup.canceled', 'admin.mobile.topup.details', 'admin.mobile.topup.approved', 'admin.mobile.topup.rejected', 'admin.mobile.topup.export.data'])
-                ->mail(ActivityNotification::class, [
-                    'subject' => $notification_content['subject'],
-                    'greeting' => $notification_content['greeting'],
-                    'content' => $notification_content['email_content'],
-                ])
-                ->push([
-                    'user_type' => 'admin',
-                    'title' => $notification_content['push_title'],
-                    'desc' => $notification_content['push_content'],
-                ])
-                ->adminDbContent([
-                    'type' => $notification_content['notification_type'],
-                    'title' => $notification_content['admin_db_title'],
-                    'message' => $notification_content['admin_db_message'],
-                ])
-                ->send();
+        try{
+            //notification
+            (new NotificationHelper())->admin(['admin.mobile.topup.index','admin.mobile.topup.pending','admin.mobile.topup.processing','admin.mobile.topup.complete','admin.mobile.topup.canceled','admin.mobile.topup.details','admin.mobile.topup.approved','admin.mobile.topup.rejected','admin.mobile.topup.export.data'])
+                                    ->mail(ActivityNotification::class, [
+                                        'subject'   => $notification_content['subject'],
+                                        'greeting'  => $notification_content['greeting'],
+                                        'content'   => $notification_content['email_content'],
+                                    ])
+                                    ->push([
+                                        'user_type' => "admin",
+                                        'title' => $notification_content['push_title'],
+                                        'desc'  => $notification_content['push_content'],
+                                    ])
+                                    ->adminDbContent([
+                                        'type' => $notification_content['notification_type'],
+                                        'title' => $notification_content['admin_db_title'],
+                                        'message'  => $notification_content['admin_db_message'],
+                                    ])
+                                    ->send();
 
-        } catch (Exception $e) {
-        }
+
+        }catch(Exception $e) {}
 
     }
-
-    public function adminNotificationAutomatic($trx_id, $charges, $operator, $user, $phone, $topUpData)
-    {
-        $exchange_rate = get_amount(1, $charges['sender_currency']).' = '.get_amount($charges['exchange_rate'], $charges['destination_currency'], $charges['precision_digit']);
-        if (isset($topUpData) && isset($topUpData['status']) && $topUpData['status'] === 'SUCCESSFUL') {
-            $status = 'success';
-        } else {
-            $status = 'Processing';
+    public function adminNotificationAutomatic($trx_id,$charges,$operator,$user,$phone,$topUpData){
+        $exchange_rate = get_amount(1,$charges['sender_currency'])." = ".get_amount($charges['exchange_rate'],$charges['destination_currency'],$charges['precision_digit']);
+        if(isset($topUpData) && isset($topUpData['status']) && $topUpData['status'] === "SUCCESSFUL"){
+            $status ="success";
+        }else{
+            $status ="Processing";
         }
         $notification_content = [
-            // email notification
-            'subject' => __('Mobile Top Up For').' '.$operator['name'].' ('.$phone.' )',
-            'greeting' => __('Mobile topup request successful').' ('.$operator['name'].'-'.$phone.' )',
-            'email_content' => __('web_trx_id').' : '.$trx_id.'<br>'.__('Mobile Number').' : '.$phone.'<br>'.__('Operator Name').' : '.$operator['name'].'<br>'.__('request Amount').' : '.get_amount($charges['sender_amount'], $charges['sender_currency']).'<br>'.__('Exchange Rate').' : '.$exchange_rate.'<br>'.__('Will Get').' : '.get_amount($charges['conversion_amount'], $charges['destination_currency']).'<br>'.__('Fees & Charges').' : '.get_amount($charges['total_charge'], $charges['sender_currency']).'<br>'.__('Total Payable Amount').' : '.get_amount($charges['payable'], $charges['sender_currency']).'<br>'.__('Status').' : '.__($status),
+            //email notification
+            'subject' => __("Mobile Top Up For")." ". $operator['name'].' ('.$phone.' )',
+            'greeting' =>__("Mobile topup request successful")." (".$operator['name']."-".$phone." )",
+            'email_content' =>__("web_trx_id")." : ".$trx_id."<br>".__("Mobile Number")." : ".$phone."<br>".__("Operator Name")." : ".$operator['name']."<br>".__("request Amount")." : ".get_amount($charges['sender_amount'],$charges['sender_currency'])."<br>".__("Exchange Rate")." : ". $exchange_rate."<br>".__("Will Get")." : ".get_amount($charges['conversion_amount'],$charges['destination_currency'])."<br>".__("Fees & Charges")." : ".get_amount($charges['total_charge'],$charges['sender_currency'])."<br>".__("Total Payable Amount")." : ".get_amount($charges['payable'],$charges['sender_currency'])."<br>".__("Status")." : ".__($status),
 
-            // push notification
-            'push_title' => __('Mobile topup request successful').' ('.userGuard()['type'].')',
-            'push_content' => __('web_trx_id').' : '.$trx_id.','.__('request Amount').' : '.get_amount($charges['sender_amount'], $charges['sender_currency'], $charges['precision_digit']).','.__('Operator Name').' : '.$operator['name'].','.__('Mobile Number').' : '.$phone,
+            //push notification
+            'push_title' => __("Mobile topup request successful")." (".userGuard()['type'].")",
+            'push_content' => __('web_trx_id')." : ".$trx_id.",".__("request Amount")." : ".get_amount($charges['sender_amount'],$charges['sender_currency'],$charges['precision_digit']).",".__("Operator Name")." : ".$operator['name'].",".__("Mobile Number")." : ".$phone,
 
-            // admin db notification
-            'notification_type' => NotificationConst::MOBILE_TOPUP,
-            'admin_db_title' => 'Mobile topup request successful'.' ('.userGuard()['type'].')',
-            'admin_db_message' => 'Transaction ID'.' : '.$trx_id.','.'Request Amount'.' : '.get_amount($charges['sender_amount'], $charges['sender_currency'], $charges['precision_digit']).','.'Operator Name'.' : '.$operator['name'].','.'Mobile Number'.' : '.$phone.','.'Total Payable Amount'.' : '.get_amount($charges['payable'], $charges['sender_currency'], $charges['precision_digit']).' ('.$user->email.')',
+            //admin db notification
+            'notification_type' =>  NotificationConst::MOBILE_TOPUP,
+            'admin_db_title' => "Mobile topup request successful"." (".userGuard()['type'].")",
+            'admin_db_message' =>"Transaction ID"." : ".$trx_id.","."Request Amount"." : ".get_amount($charges['sender_amount'],$charges['sender_currency'],$charges['precision_digit']).","."Operator Name"." : ".$operator['name'].","."Mobile Number"." : ".$phone.","."Total Payable Amount"." : ".get_amount($charges['payable'],$charges['sender_currency'],$charges['precision_digit'])." (".$user->email.")"
         ];
-        try {
-            // notification
-            (new NotificationHelper)->admin(['admin.mobile.topup.index', 'admin.mobile.topup.pending', 'admin.mobile.topup.processing', 'admin.mobile.topup.complete', 'admin.mobile.topup.canceled', 'admin.mobile.topup.details', 'admin.mobile.topup.approved', 'admin.mobile.topup.rejected', 'admin.mobile.topup.export.data'])
-                ->mail(ActivityNotification::class, [
-                    'subject' => $notification_content['subject'],
-                    'greeting' => $notification_content['greeting'],
-                    'content' => $notification_content['email_content'],
-                ])
-                ->push([
-                    'user_type' => 'admin',
-                    'title' => $notification_content['push_title'],
-                    'desc' => $notification_content['push_content'],
-                ])
-                ->adminDbContent([
-                    'type' => $notification_content['notification_type'],
-                    'title' => $notification_content['admin_db_title'],
-                    'message' => $notification_content['admin_db_message'],
-                ])
-                ->send();
+        try{
+            //notification
+            (new NotificationHelper())->admin(['admin.mobile.topup.index','admin.mobile.topup.pending','admin.mobile.topup.processing','admin.mobile.topup.complete','admin.mobile.topup.canceled','admin.mobile.topup.details','admin.mobile.topup.approved','admin.mobile.topup.rejected','admin.mobile.topup.export.data'])
+                                    ->mail(ActivityNotification::class, [
+                                        'subject'   => $notification_content['subject'],
+                                        'greeting'  => $notification_content['greeting'],
+                                        'content'   => $notification_content['email_content'],
+                                    ])
+                                    ->push([
+                                        'user_type' => "admin",
+                                        'title' => $notification_content['push_title'],
+                                        'desc'  => $notification_content['push_content'],
+                                    ])
+                                    ->adminDbContent([
+                                        'type' => $notification_content['notification_type'],
+                                        'title' => $notification_content['admin_db_title'],
+                                        'message'  => $notification_content['admin_db_message'],
+                                    ])
+                                    ->send();
 
-        } catch (Exception $e) {
-        }
+
+        }catch(Exception $e) {}
 
     }
 }

@@ -44,8 +44,8 @@ class RequestMoneyController extends GetxController
   bool get isRequestMoneyLoading => _isRequestMoneyLoading.value;
 
   /// Request money info process api
-  late RequestMoneyInfoModel _requestMoneyInfoModel;
-  RequestMoneyInfoModel get requestMoneyInfoModel => _requestMoneyInfoModel;
+  RequestMoneyInfoModel? _requestMoneyInfoModel;
+  RequestMoneyInfoModel get requestMoneyInfoModel => _requestMoneyInfoModel!;
   Future<RequestMoneyInfoModel> getRequestMoneyInfoData() async {
     _isLoading.value = true;
     update();
@@ -53,18 +53,18 @@ class RequestMoneyController extends GetxController
     await getRequestMoneyInfoProcessApi()
         .then((value) {
           _requestMoneyInfoModel = value!;
-          baseCurrency.value = _requestMoneyInfoModel.data.baseCurr;
-          baseCurrencyList.add(_requestMoneyInfoModel.data.baseCurr);
+          baseCurrency.value = _requestMoneyInfoModel!.data.baseCurr;
+          baseCurrencyList.add(_requestMoneyInfoModel!.data.baseCurr);
 
           limitMin.value =
-              _requestMoneyInfoModel.data.requestMoneyCharge.minLimit;
+              _requestMoneyInfoModel!.data.requestMoneyCharge.minLimit;
           limitMax.value =
-              _requestMoneyInfoModel.data.requestMoneyCharge.maxLimit;
+              _requestMoneyInfoModel!.data.requestMoneyCharge.maxLimit;
           percentCharge.value =
-              _requestMoneyInfoModel.data.requestMoneyCharge.percentCharge;
+              _requestMoneyInfoModel!.data.requestMoneyCharge.percentCharge;
           fixedCharge.value =
-              _requestMoneyInfoModel.data.requestMoneyCharge.fixedCharge;
-          rate.value = _requestMoneyInfoModel.data.baseCurrRate;
+              _requestMoneyInfoModel!.data.requestMoneyCharge.fixedCharge;
+          rate.value = _requestMoneyInfoModel!.data.baseCurrRate;
 
           update();
         })
@@ -74,13 +74,13 @@ class RequestMoneyController extends GetxController
 
     _isLoading.value = false;
     update();
-    return _requestMoneyInfoModel;
+    return _requestMoneyInfoModel!;
   }
 
   /// Check user by qr code
-  late CheckUserQrCodeModel _checkUserWithQrCodeModel;
+  CheckUserQrCodeModel? _checkUserWithQrCodeModel;
   CheckUserQrCodeModel get checkUserWithQrCodeModel =>
-      _checkUserWithQrCodeModel;
+      _checkUserWithQrCodeModel!;
   Future<CheckUserQrCodeModel> getCheckUserWithQrCodeData(String qrcode) async {
     _isCheckUserLoading.value = true;
     final Map<String, dynamic> inputBody = {'qr_code': qrcode};
@@ -89,7 +89,7 @@ class RequestMoneyController extends GetxController
         .then((value) {
           _checkUserWithQrCodeModel = value!;
           copyInputController.clear();
-          copyInputController.text = _checkUserWithQrCodeModel.data.userEmail;
+          copyInputController.text = _checkUserWithQrCodeModel!.data.userEmail;
           isValidUser.value = true;
           update();
         })
@@ -100,12 +100,12 @@ class RequestMoneyController extends GetxController
 
     _isCheckUserLoading.value = false;
     update();
-    return _checkUserWithQrCodeModel;
+    return _checkUserWithQrCodeModel!;
   }
 
   /// Check user
-  late CommonSuccessModel _checkUserExistModel;
-  CommonSuccessModel get checkUserExistModel => _checkUserExistModel;
+  CommonSuccessModel? _checkUserExistModel;
+  CommonSuccessModel get checkUserExistModel => _checkUserExistModel!;
   Future<CommonSuccessModel> getCheckUserExist() async {
     _isCheckUserLoading.value = true;
     final Map<String, dynamic> inputBody = {'email': copyInputController.text};
@@ -114,7 +114,7 @@ class RequestMoneyController extends GetxController
     await checkUserExistApi(body: inputBody)
         .then((value) {
           _checkUserExistModel = value!;
-          checkUserMessage.value = _checkUserExistModel.message.success.first;
+          checkUserMessage.value = _checkUserExistModel!.message.success.first;
           isValidUser.value = true;
           update();
         })
@@ -125,12 +125,12 @@ class RequestMoneyController extends GetxController
         });
     _isCheckUserLoading.value = false;
     update();
-    return _checkUserExistModel;
+    return _checkUserExistModel!;
   }
 
   ///  Request money submit process
-  late CommonSuccessModel _requestMoneyModel;
-  CommonSuccessModel get requestMoneyModel => _requestMoneyModel;
+  CommonSuccessModel? _requestMoneyModel;
+  CommonSuccessModel get requestMoneyModel => _requestMoneyModel!;
   Future<CommonSuccessModel> requestMoneyProcess() async {
     _isRequestMoneyLoading.value = true;
 
@@ -155,7 +155,7 @@ class RequestMoneyController extends GetxController
 
     _isRequestMoneyLoading.value = false;
     update();
-    return _requestMoneyModel;
+    return _requestMoneyModel!;
   }
 
   RxDouble getFee({required double rate}) {

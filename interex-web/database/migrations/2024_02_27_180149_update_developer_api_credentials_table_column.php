@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('developer_api_credentials', function (Blueprint $table) {
-            $table->string('name', 100)->nullable()->after('merchant_id');
+            $table->string('name',100)->nullable()->after('merchant_id');
         });
     }
 

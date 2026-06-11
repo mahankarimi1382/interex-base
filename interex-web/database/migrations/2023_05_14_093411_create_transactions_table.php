@@ -22,8 +22,8 @@ return new class extends Migration
             $table->unsignedBigInteger('merchant_id')->nullable();
             $table->unsignedBigInteger('merchant_wallet_id')->nullable();
             $table->unsignedBigInteger('sandbox_wallet_id')->nullable();
-            $table->unsignedBigInteger('payment_gateway_currency_id')->nullable();
-            $table->enum('type', [
+            $table->unsignedBigInteger("payment_gateway_currency_id")->nullable();
+            $table->enum("type",[
                 PaymentGatewayConst::TYPEADDMONEY,
                 PaymentGatewayConst::TYPEMONEYOUT,
                 PaymentGatewayConst::TYPEWITHDRAW,
@@ -39,28 +39,29 @@ return new class extends Migration
                 PaymentGatewayConst::CARDFUND,
                 PaymentGatewayConst::SENDREMITTANCE,
                 PaymentGatewayConst::TYPEMAKEPAYMENT,
-                PaymentGatewayConst::MERCHANTPAYMENT,
+                PaymentGatewayConst::MERCHANTPAYMENT
             ]);
-            $table->string('trx_id')->comment('Transaction ID');
+            $table->string("trx_id")->comment("Transaction ID");
             $table->decimal('request_amount', 28, 8)->default(0);
             $table->decimal('payable', 28, 8)->default(0);
             $table->decimal('available_balance', 28, 8)->default(0);
-            $table->string('remark')->nullable();
-            $table->text('details')->nullable();
-            $table->text('reject_reason')->nullable();
-            $table->tinyInteger('status')->default(0)->comment('0: Default, 1: Success, 2: Pending, 3: Hold, 4: Rejected');
-            $table->enum('attribute', [
+            $table->string("remark")->nullable();
+            $table->text("details")->nullable();
+            $table->text("reject_reason")->nullable();
+            $table->tinyInteger("status")->default(0)->comment("0: Default, 1: Success, 2: Pending, 3: Hold, 4: Rejected");
+            $table->enum("attribute",[
                 PaymentGatewayConst::SEND,
                 PaymentGatewayConst::RECEIVED,
             ]);
             $table->timestamps();
 
-            $table->foreign('admin_id')->references('id')->on('admins')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('user_wallet_id')->references('id')->on('user_wallets')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('merchant_id')->references('id')->on('merchants')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('merchant_wallet_id')->references('id')->on('merchant_wallets')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('payment_gateway_currency_id')->references('id')->on('payment_gateway_currencies')->onDelete('cascade')->onUpdate('cascade');
+
+            $table->foreign("admin_id")->references("id")->on("admins")->onDelete("cascade")->onUpdate("cascade");
+            $table->foreign("user_id")->references("id")->on("users")->onDelete("cascade")->onUpdate("cascade");
+            $table->foreign("user_wallet_id")->references("id")->on("user_wallets")->onDelete("cascade")->onUpdate("cascade");
+            $table->foreign("merchant_id")->references("id")->on("merchants")->onDelete("cascade")->onUpdate("cascade");
+            $table->foreign("merchant_wallet_id")->references("id")->on("merchant_wallets")->onDelete("cascade")->onUpdate("cascade");
+            $table->foreign("payment_gateway_currency_id")->references("id")->on("payment_gateway_currencies")->onDelete("cascade")->onUpdate("cascade");
         });
     }
 

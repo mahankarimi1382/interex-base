@@ -68,7 +68,7 @@ class PaymentLogScreenMobile extends StatelessWidget {
   }
 
   Widget _bodyWidget(BuildContext context) {
-    final data = controller.paymentLinkModel.data.paymentLinks;
+    final data = controller.paymentLinkModel!.data.paymentLinks;
     return data.isNotEmpty
         ? RefreshIndicator(
             color: CustomColor.primaryLightColor,

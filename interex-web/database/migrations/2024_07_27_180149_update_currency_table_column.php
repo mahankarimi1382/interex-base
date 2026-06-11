@@ -14,8 +14,8 @@ return new class extends Migration
     public function up()
     {
         Schema::table('currencies', function (Blueprint $table) {
-            $table->string('country', 255)->unique()->change();
-            $table->string('flag', 255)->nullable()->change();
+            $table->string('country',255)->unique()->change();
+            $table->string('flag',255)->nullable()->change();
         });
     }
 

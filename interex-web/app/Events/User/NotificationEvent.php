@@ -3,7 +3,6 @@
 namespace App\Events\User;
 
 use App\Models\User;
-use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
@@ -14,7 +13,6 @@ class NotificationEvent implements ShouldBroadcast
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public $notification;
-
     public $user;
 
     /**
@@ -22,24 +20,27 @@ class NotificationEvent implements ShouldBroadcast
      *
      * @return void
      */
-    public function __construct($notification_content, User $user)
+    public function __construct($notification_content,User $user)
     {
         $this->notification = $notification_content;
         $this->user = $user;
     }
 
+
+
     /**
      * Get the channels the event should broadcast on.
      *
-     * @return Channel|array
+     * @return \Illuminate\Broadcasting\Channel|array
      */
     public function broadcastOn()
     {
-        return ['user-notification-'.$this->user->id];
+        return ["user-notification-".$this->user->id];
     }
+
 
     public function broadcastAs()
     {
-        return 'user-dashboard-notification-push';
+        return "user-dashboard-notification-push";
     }
 }

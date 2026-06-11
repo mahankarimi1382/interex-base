@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 
 import 'package:qrpay/controller/profile/update_kyc_controller.dart';
 
+import '../../../backend/extentions/custom_extentions.dart';
 import '../../../backend/model/common/common_success_model.dart';
 
 import '../../../backend/model/pay_link/payment_link_model.dart';
@@ -44,11 +45,11 @@ class PaymentsController extends GetxController with PaymentLinkApiServices {
   Future? get onPayments => Get.toNamed(Routes.paymentsScreen);
 
   void onCreateNewLink() {
-    if (kycVerificationController.kycModelData.data.kycStatus == 0) {
+    if (kycVerificationController.kycModelData!.data.kycStatus == 0) {
       CustomSnackBar.error(Strings.kycUnverifiedText.tr);
-    } else if (kycVerificationController.kycModelData.data.kycStatus == 2) {
+    } else if (kycVerificationController.kycModelData!.data.kycStatus == 2) {
       CustomSnackBar.error(Strings.kycPendingText.tr);
-    } else if (kycVerificationController.kycModelData.data.kycStatus == 3) {
+    } else if (kycVerificationController.kycModelData!.data.kycStatus == 3) {
       CustomSnackBar.error(Strings.kycRejectedText.tr);
     } else {
       imageController.isImagePathSet.value
@@ -77,21 +78,22 @@ class PaymentsController extends GetxController with PaymentLinkApiServices {
 
   //=> set loading process & payment link Model
   final _isLoading = false.obs;
-  late PaymentLinkModel _paymentLinkModel;
+  PaymentLinkModel? _paymentLinkModel;
 
   //=> get loading process & payment link Model
   bool get isLoading => _isLoading.value;
 
-  PaymentLinkModel get paymentLinkModel => _paymentLinkModel;
+  PaymentLinkModel? get paymentLinkModel => _paymentLinkModel;
 
   //=> get payment link api Process
-  Future<PaymentLinkModel> getPaymentLinkProcess() async {
+  Future<PaymentLinkModel?> getPaymentLinkProcess() async {
     _isLoading.value = true;
     update();
     await getPaymentLinkProcessApi()
         .then((value) {
-          _paymentLinkModel = value!;
-          _setData(_paymentLinkModel);
+          final model = value!;
+          _paymentLinkModel = model;
+          _setData(model);
           _isLoading.value = false;
           update();
         })
@@ -103,8 +105,8 @@ class PaymentsController extends GetxController with PaymentLinkApiServices {
 
   void _setData(PaymentLinkModel paymentLinkModel) {
     defaultImage.value =
-        "${_paymentLinkModel.data.baseUrl}/${_paymentLinkModel.data.defaultImage}";
-    _paymentLinkModel.data.currencyData.forEach((element) {
+        "${paymentLinkModel.data.baseUrl.resolveBackendHost()}/${paymentLinkModel.data.defaultImage}";
+    paymentLinkModel.data.currencyData.forEach((element) {
       currencyList.add(
         CurrencyDatum(
           currencyName: element.currencyName,
@@ -127,14 +129,14 @@ class PaymentsController extends GetxController with PaymentLinkApiServices {
 
   ///=> set loading process and  payment link Model
   final _isStatusLoading = false.obs;
-  late CommonSuccessModel _commonSuccessModel;
+  CommonSuccessModel? _commonSuccessModel;
 
   ///=> get loading process and  payment link Model
   bool get isStatusLoading => _isStatusLoading.value;
 
-  CommonSuccessModel get commonSuccessModel => _commonSuccessModel;
+  CommonSuccessModel? get commonSuccessModel => _commonSuccessModel;
 
-  Future<CommonSuccessModel> updateStatusProcess({required dynamic id}) async {
+  Future<CommonSuccessModel?> updateStatusProcess({required dynamic id}) async {
     _isStatusLoading.value = true;
     update();
     final Map<String, dynamic> inputBody = {'target': id};
@@ -153,14 +155,14 @@ class PaymentsController extends GetxController with PaymentLinkApiServices {
 
   /// >> set loading process & Payment LinkStore Model
   final _isUpdateLoading = false.obs;
-  late PaymentLinkStoreModel _paymentLinkStoreModel;
+  PaymentLinkStoreModel? _paymentLinkStoreModel;
 
   /// >> get loading process & Payment LinkStore Model
   bool get isUpdateLoading => _isUpdateLoading.value;
 
-  PaymentLinkStoreModel get paymentLinkStoreModel => _paymentLinkStoreModel;
+  PaymentLinkStoreModel? get paymentLinkStoreModel => _paymentLinkStoreModel;
 
-  Future<PaymentLinkStoreModel> paymentLinkStoreWithImageProcess() async {
+  Future<PaymentLinkStoreModel?> paymentLinkStoreWithImageProcess() async {
     _isUpdateLoading.value = true;
     update();
 
@@ -195,9 +197,9 @@ class PaymentsController extends GetxController with PaymentLinkApiServices {
           filepath: imageController.userImagePath.value,
         )
         .then((value) {
-          _paymentLinkStoreModel = value!;
-          createNewLinkController.text =
-              _paymentLinkStoreModel.data.paymentLink.shareLink;
+          final model = value!;
+          _paymentLinkStoreModel = model;
+          createNewLinkController.text = model.data.paymentLink.shareLink;
           _onCreateNewLink();
           update();
         })
@@ -209,7 +211,7 @@ class PaymentsController extends GetxController with PaymentLinkApiServices {
   }
 
   //without image
-  Future<PaymentLinkStoreModel> paymentLinkStoreWithOutImageProcess() async {
+  Future<PaymentLinkStoreModel?> paymentLinkStoreWithOutImageProcess() async {
     _isUpdateLoading.value = true;
     update();
 
@@ -242,9 +244,9 @@ class PaymentsController extends GetxController with PaymentLinkApiServices {
               : subInputBody,
         )
         .then((value) {
-          _paymentLinkStoreModel = value!;
-          createNewLinkController.text =
-              _paymentLinkStoreModel.data.paymentLink.shareLink;
+          final model = value!;
+          _paymentLinkStoreModel = model;
+          createNewLinkController.text = model.data.paymentLink.shareLink;
           _onCreateNewLink();
           update();
         })

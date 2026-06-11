@@ -14,7 +14,6 @@ class AppOnboardScreens extends Model
     protected $appends = [
         'editData',
     ];
-
     protected $casts = [
         'title' => 'string',
         'sub_title' => 'string',
@@ -23,21 +22,18 @@ class AppOnboardScreens extends Model
         'type' => 'string',
         'last_edit_by' => 'integer',
     ];
-
-    public function getEditDataAttribute()
-    {
+    public function getEditDataAttribute() {
         $data = [
-            'title' => $this->title,
-            'sub_title' => $this->sub_title,
-            'image' => $this->image,
-            'type' => $this->type,
-            'status' => $this->status,
-            'target' => $this->id,
+            'title'      => $this->title,
+            'sub_title'  => $this->sub_title,
+            'image'      => $this->image,
+            'type'     => $this->type,
+            'status'     => $this->status,
+            'target'     => $this->id,
         ];
 
         return json_encode($data);
     }
-
     public function scopeActive($query)
     {
         return $query->where('status', true);

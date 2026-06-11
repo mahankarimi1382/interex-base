@@ -21,9 +21,9 @@ class SettingController extends GetxController {
   bool get isLoading => _isLoading.value;
 
   //! delete account Process
-  late CommonSuccessModel _deleteAccountModel;
+  CommonSuccessModel? _deleteAccountModel;
 
-  CommonSuccessModel get deleteAccountModel => _deleteAccountModel;
+  CommonSuccessModel get deleteAccountModel => _deleteAccountModel!;
 
   Future<CommonSuccessModel> deleteAccountProcess() async {
     _isLoading.value = true;
@@ -44,6 +44,6 @@ class SettingController extends GetxController {
 
     _isLoading.value = false;
     update();
-    return _deleteAccountModel;
+    return _deleteAccountModel!;
   }
 }

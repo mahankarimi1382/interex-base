@@ -73,12 +73,12 @@ class PaymentsController extends GetxController with PaymentLinkApiServices {
 
   //=> set loading process & payment link Model
   final _isLoading = false.obs;
-  late PaymentLinkModel _paymentLinkModel;
+  PaymentLinkModel? _paymentLinkModel;
 
   //=> get loading process & payment link Model
   bool get isLoading => _isLoading.value;
 
-  PaymentLinkModel get paymentLinkModel => _paymentLinkModel;
+  PaymentLinkModel get paymentLinkModel => _paymentLinkModel!;
 
   //=> get payment link api Process
   Future<PaymentLinkModel> getPaymentLinkProcess() async {
@@ -87,7 +87,7 @@ class PaymentsController extends GetxController with PaymentLinkApiServices {
     await getPaymentLinkProcessApi()
         .then((value) {
           _paymentLinkModel = value!;
-          _setData(_paymentLinkModel);
+          _setData(_paymentLinkModel!);
           _isLoading.value = false;
           update();
         })
@@ -96,13 +96,13 @@ class PaymentsController extends GetxController with PaymentLinkApiServices {
         });
     _isLoading.value = false;
     update();
-    return _paymentLinkModel;
+    return _paymentLinkModel!;
   }
 
   void _setData(PaymentLinkModel paymentLinkModel) {
     defaultImage.value =
-        "${_paymentLinkModel.data.baseUrl}/${_paymentLinkModel.data.defaultImage}";
-    _paymentLinkModel.data.currencyData.forEach((element) {
+        "${_paymentLinkModel!.data.baseUrl}/${_paymentLinkModel!.data.defaultImage}";
+    _paymentLinkModel!.data.currencyData.forEach((element) {
       currencyList.add(
         CurrencyDatum(
           currencyName: element.currencyName,
@@ -125,12 +125,12 @@ class PaymentsController extends GetxController with PaymentLinkApiServices {
 
   ///=> set loading process and  payment link Model
   final _isStatusLoading = false.obs;
-  late CommonSuccessModel _commonSuccessModel;
+  CommonSuccessModel? _commonSuccessModel;
 
   ///=> get loading process and  payment link Model
   bool get isStatusLoading => _isStatusLoading.value;
 
-  CommonSuccessModel get commonSuccessModel => _commonSuccessModel;
+  CommonSuccessModel get commonSuccessModel => _commonSuccessModel!;
 
   Future<CommonSuccessModel> updateStatusProcess({required dynamic id}) async {
     _isStatusLoading.value = true;
@@ -148,17 +148,17 @@ class PaymentsController extends GetxController with PaymentLinkApiServices {
         });
     _isStatusLoading.value = false;
     update();
-    return _commonSuccessModel;
+    return _commonSuccessModel!;
   }
 
   /// >> set loading process & Payment LinkStore Model
   final _isUpdateLoading = false.obs;
-  late PaymentLinkStoreModel _paymentLinkStoreModel;
+  PaymentLinkStoreModel? _paymentLinkStoreModel;
 
   /// >> get loading process & Payment LinkStore Model
   bool get isUpdateLoading => _isUpdateLoading.value;
 
-  PaymentLinkStoreModel get paymentLinkStoreModel => _paymentLinkStoreModel;
+  PaymentLinkStoreModel get paymentLinkStoreModel => _paymentLinkStoreModel!;
 
   Future<PaymentLinkStoreModel> paymentLinkStoreWithImageProcess() async {
     _isUpdateLoading.value = true;
@@ -197,7 +197,7 @@ class PaymentsController extends GetxController with PaymentLinkApiServices {
         .then((value) {
           _paymentLinkStoreModel = value!;
           createNewLinkController.text =
-              _paymentLinkStoreModel.data.paymentLink.shareLink;
+              _paymentLinkStoreModel!.data.paymentLink.shareLink;
           _onCreateNewLink();
           update();
         })
@@ -207,7 +207,7 @@ class PaymentsController extends GetxController with PaymentLinkApiServices {
 
     _isUpdateLoading.value = false;
     update();
-    return _paymentLinkStoreModel;
+    return _paymentLinkStoreModel!;
   }
 
   //without image
@@ -246,7 +246,7 @@ class PaymentsController extends GetxController with PaymentLinkApiServices {
         .then((value) {
           _paymentLinkStoreModel = value!;
           createNewLinkController.text =
-              _paymentLinkStoreModel.data.paymentLink.shareLink;
+              _paymentLinkStoreModel!.data.paymentLink.shareLink;
           _onCreateNewLink();
           update();
         })
@@ -256,7 +256,7 @@ class PaymentsController extends GetxController with PaymentLinkApiServices {
 
     _isUpdateLoading.value = false;
     update();
-    return _paymentLinkStoreModel;
+    return _paymentLinkStoreModel!;
   }
 
   void _onCreateNewLink() {

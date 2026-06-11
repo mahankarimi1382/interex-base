@@ -31,21 +31,27 @@ class AppSettingsController extends GetxController {
 
   final _isLoading = false.obs;
   bool get isLoading => _isLoading.value;
-  late AppSettingsModel _appSettingsModel;
-  AppSettingsModel get appSettingsModel => _appSettingsModel;
-  Future<AppSettingsModel> getSplashAndOnboardData() async {
+  AppSettingsModel? _appSettingsModel;
+  AppSettingsModel get appSettingsModel => _appSettingsModel!;
+  Future<void> getSplashAndOnboardData() async {
     _isLoading.value = true;
     update();
     await ApiServices.appSettingsApi()
         .then((value) {
-          _appSettingsModel = value!;
+          if (value == null) {
+            _isLoading.value = false;
+            update();
+            return;
+          }
+          _appSettingsModel = value;
+          final model = value;
 
-          baseUrl.value = _appSettingsModel.data.baseUrl;
+          baseUrl.value = model.data.baseUrl.fixHost();
 
           splashImagePath.value =
-              "${_appSettingsModel.data.baseUrl}/${_appSettingsModel.data.screenImagePath}/${_appSettingsModel.data.appSettings.user.splashScreen.splashScreenImage}";
+              "${model.data.baseUrl}/${model.data.screenImagePath}/${model.data.appSettings.user.splashScreen.splashScreenImage}";
           for (var element
-              in _appSettingsModel.data.appSettings.user.onboardScreen) {
+              in model.data.appSettings.user.onboardScreen) {
             onboardScreen.add(
               OnboardScreen(
                 id: element.id,
@@ -60,20 +66,20 @@ class AppSettingsController extends GetxController {
           }
 
           path.value =
-              "${baseUrl.value}/${_appSettingsModel.data.logoImagePath}/";
-          if (_appSettingsModel.data.appSettings.user.basicSettings.siteLogo ==
+              "${baseUrl.value}/${model.data.logoImagePath}/";
+          if (model.data.appSettings.user.basicSettings.siteLogo ==
               '') {
             appBasicLogoWhite.value =
-                "${baseUrl.value}/${_appSettingsModel.data.defaultImage}";
+                "${baseUrl.value}/${model.data.defaultImage}";
             appBasicLogoDark.value = appBasicLogoWhite.value;
           } else {
             appBasicLogoWhite.value =
-                "${baseUrl.value}/${_appSettingsModel.data.logoImagePath}/${_appSettingsModel.data.appSettings.user.basicSettings.siteLogo}";
+                "${baseUrl.value}/${model.data.logoImagePath}/${model.data.appSettings.user.basicSettings.siteLogo}";
             appBasicLogoDark.value =
-                "${baseUrl.value}/${_appSettingsModel.data.logoImagePath}/${_appSettingsModel.data.appSettings.user.basicSettings.siteLogoDark}";
+                "${baseUrl.value}/${model.data.logoImagePath}/${model.data.appSettings.user.basicSettings.siteLogoDark}";
           }
           BasicSettings basicSettings =
-              _appSettingsModel.data.appSettings.user.basicSettings;
+              model.data.appSettings.user.basicSettings;
           Strings.appName = basicSettings.siteName;
           CustomColor.primaryDarkColor = HexColor(basicSettings.baseColor);
           CustomColor.primaryLightColor = HexColor(basicSettings.baseColor);
@@ -91,6 +97,5 @@ class AppSettingsController extends GetxController {
         });
     _isLoading.value = false;
     update();
-    return _appSettingsModel;
   }
 }

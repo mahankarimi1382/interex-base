@@ -16,7 +16,7 @@ class OnBoardController extends GetxController {
 
   bool get isLastPage =>
       selectedIndex.value ==
-      controller.appSettingsModel.data.appSettings.agent.onboardScreen.length;
+      controller.appSettingsModel!.data.appSettings.agent.onboardScreen.length;
 
   bool get isFirstPage => selectedIndex.value == 0;
 
@@ -72,7 +72,13 @@ class OnBoardController extends GetxController {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: List.generate(
-        controller.appSettingsModel.data.appSettings.agent.onboardScreen.length,
+        controller
+            .appSettingsModel!
+            .data
+            .appSettings
+            .agent
+            .onboardScreen
+            .length,
         (index) => buildDot(index: index),
       ),
     );
@@ -87,7 +93,7 @@ class OnBoardController extends GetxController {
         mainAxisAlignment: MainAxisAlignment.center,
         children: List.generate(
           controller
-              .appSettingsModel
+              .appSettingsModel!
               .data
               .appSettings
               .agent

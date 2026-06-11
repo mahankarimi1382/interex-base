@@ -4,10 +4,9 @@ namespace App\Http\Middleware;
 
 use App\Http\Helpers\Api\Helpers;
 use Closure;
-use Illuminate\Auth\AuthenticationException;
 use Illuminate\Auth\Middleware\Authenticate;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\UnauthorizedException;
 
 class ApiAuthenticator extends Authenticate
@@ -15,11 +14,12 @@ class ApiAuthenticator extends Authenticate
     /**
      * Determine if the user is authenticated and authorized to access the requested resource.
      *
-     * @param  Request  $request
+     * @param  \Illuminate\Http\Request  $request
+     * @param  array  $guards
      * @return void
      *
-     * @throws AuthenticationException
-     * @throws UnauthorizedException
+     * @throws \Illuminate\Auth\AuthenticationException
+     * @throws \Illuminate\Validation\UnauthorizedException
      */
     protected function authenticate($request, array $guards)
     {
@@ -33,22 +33,22 @@ class ApiAuthenticator extends Authenticate
     /**
      * Handle an unauthenticated user.
      *
-     * @param  Request  $request
+     * @param  \Illuminate\Http\Request  $request
      * @param  array  $guards
-     * @return JsonResponse
+     * @return \Illuminate\Http\JsonResponse
      *
-     * @throws UnauthorizedException
+     * @throws \Illuminate\Validation\UnauthorizedException
      */
     public function handle($request, Closure $next, ...$guards)
     {
         try {
             $this->authenticate($request, $guards);
         } catch (UnauthorizedException $e) {
-            $message = ['error' => [__('Sorry, You are unauthorized user')]];
-
+            $message = ['error'=>[__('Sorry, You are unauthorized user')]];
             return Helpers::unauthorized($data = null, $message);
         }
 
         return $next($request);
     }
+
 }

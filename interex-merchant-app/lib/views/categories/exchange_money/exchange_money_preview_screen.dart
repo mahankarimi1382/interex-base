@@ -91,7 +91,7 @@ class ExchangeMoneyPreviewScreen extends StatelessWidget {
                     if (!context.mounted) return;
                     StatusScreen.show(
                       context: context,
-                      subTitle: value.message.success.first,
+                      subTitle: value!.message.success.first,
                       onPressed: () {
                         Get.offAllNamed(Routes.bottomNavBarScreen);
                       },

@@ -10,10 +10,10 @@ class AddPaymentGatewayTableUpdateColumn extends Migration
     public function up()
     {
         Schema::table('payment_gateways', function (Blueprint $table) {
-            $table->enum('env', [
+            $table->enum('env',[
                 PaymentGatewayConst::ENV_SANDBOX,
                 PaymentGatewayConst::ENV_PRODUCTION,
-            ])->comment('Payment Gateway Environment (Ex: Production/Sandbox)')->nullable();
+            ])->comment("Payment Gateway Environment (Ex: Production/Sandbox)")->nullable();
         });
     }
 

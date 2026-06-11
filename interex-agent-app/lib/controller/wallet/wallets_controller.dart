@@ -14,8 +14,8 @@ class WalletsController extends GetxController {
 
   final _isLoading = false.obs;
   bool get isLoading => _isLoading.value;
-  late WalletsModel _walletsInfoModel;
-  WalletsModel get walletsInfoModel => _walletsInfoModel;
+  WalletsModel? _walletsInfoModel;
+  WalletsModel get walletsInfoModel => _walletsInfoModel!;
   Future<WalletsModel> getWalletsInfoProcess() async {
     _isLoading.value = true;
     update();
@@ -23,7 +23,7 @@ class WalletsController extends GetxController {
         .then((value) {
           _walletsInfoModel = value!;
           final double currencyRate = double.parse(
-            _walletsInfoModel.data.userWallets.first.currency.rate,
+            _walletsInfoModel!.data.userWallets.first.currency.rate,
           );
           exchangeRate.value = (currencyRate * currencyRate);
           update();
@@ -36,6 +36,6 @@ class WalletsController extends GetxController {
         });
     _isLoading.value = false;
     update();
-    return _walletsInfoModel;
+    return _walletsInfoModel!;
   }
 }

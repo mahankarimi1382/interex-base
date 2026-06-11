@@ -21,8 +21,8 @@ class MySenderRecipientController extends GetxController {
   final _isLoading = false.obs;
   bool get isLoading => _isLoading.value;
 
-  late MySenderRecipientListModel _allRecepientData;
-  MySenderRecipientListModel get allRecepientData => _allRecepientData;
+  MySenderRecipientListModel? _allRecepientData;
+  MySenderRecipientListModel get allRecepientData => _allRecepientData!;
 
   // --------------------------- Api function ----------------------------------
   Future<MySenderRecipientListModel> getMySenderRecipientData() async {
@@ -40,11 +40,11 @@ class MySenderRecipientController extends GetxController {
 
     _isLoading.value = false;
     update();
-    return _allRecepientData;
+    return _allRecepientData!;
   }
 
-  late CommonSuccessModel _successDatya;
-  CommonSuccessModel get successDatya => _successDatya;
+  CommonSuccessModel? _successDatya;
+  CommonSuccessModel get successDatya => _successDatya!;
 
   Future<CommonSuccessModel> recipientDeleteApiProcess({
     required String id,
@@ -68,11 +68,11 @@ class MySenderRecipientController extends GetxController {
           update();
         });
 
-    return _successDatya;
+    return _successDatya!;
   }
 
-  late RecipientEditModel _recipientEditData;
-  RecipientEditModel get recipientEditData => _recipientEditData;
+  RecipientEditModel? _recipientEditData;
+  RecipientEditModel get recipientEditData => _recipientEditData!;
 
   Future<RecipientEditModel> recipientEditApiProcess({
     required String id,
@@ -88,36 +88,36 @@ class MySenderRecipientController extends GetxController {
           final controller = Get.put(MySenderEditRecipientController());
 
           controller.transactionTypeSelectedMethod.value =
-              _recipientEditData.data.recipient.type;
+              _recipientEditData!.data.recipient.type;
           controller.receiverCountrySelectedMethodId.value =
-              _recipientEditData.data.recipient.country;
+              _recipientEditData!.data.recipient.country;
           controller.receiverBankSelectedMethod.value =
-              _recipientEditData.data.recipient.alias;
+              _recipientEditData!.data.recipient.alias;
           controller.pickupPointMethod.value =
-              _recipientEditData.data.recipient.alias;
+              _recipientEditData!.data.recipient.alias;
           controller.accountNumberController.text =
-              _recipientEditData.data.recipient.accountNumber;
+              _recipientEditData!.data.recipient.accountNumber;
 
           controller.firstNameController.text =
-              _recipientEditData.data.recipient.firstname;
+              _recipientEditData!.data.recipient.firstname;
           controller.lastNameController.text =
-              _recipientEditData.data.recipient.lastname;
+              _recipientEditData!.data.recipient.lastname;
           controller.addressController.text =
-              _recipientEditData.data.recipient.address;
+              _recipientEditData!.data.recipient.address;
           controller.stateController.text =
-              _recipientEditData.data.recipient.state;
+              _recipientEditData!.data.recipient.state;
           controller.cityController.text =
-              _recipientEditData.data.recipient.city;
+              _recipientEditData!.data.recipient.city;
           controller.emailController.text =
-              _recipientEditData.data.recipient.email;
+              _recipientEditData!.data.recipient.email;
           controller.zipController.text =
-              _recipientEditData.data.recipient.zipCode;
+              _recipientEditData!.data.recipient.zipCode;
           controller.numberController.text =
-              _recipientEditData.data.recipient.mobile;
-          controller.updateUserId.value = _recipientEditData.data.recipient.id
+              _recipientEditData!.data.recipient.mobile;
+          controller.updateUserId.value = _recipientEditData!.data.recipient.id
               .toString();
           controller.basicController.countryCode.value =
-              _recipientEditData.data.recipient.mobileCode;
+              _recipientEditData!.data.recipient.mobileCode;
 
           controller.getRecipientInfoData();
 
@@ -130,6 +130,6 @@ class MySenderRecipientController extends GetxController {
 
     _isLoading.value = false;
     update();
-    return _recipientEditData;
+    return _recipientEditData!;
   }
 }

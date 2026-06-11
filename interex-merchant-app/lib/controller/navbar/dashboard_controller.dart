@@ -33,27 +33,28 @@ class DashBoardController extends GetxController {
   final _isLoading = false.obs;
   bool get isLoading => _isLoading.value;
 
-  late DashboardModel _dashboardModel;
-  DashboardModel get dashBoardModel => _dashboardModel;
+  DashboardModel? _dashboardModel;
+  DashboardModel? get dashBoardModel => _dashboardModel;
 
-  Future<DashboardModel> getDashboardData() async {
+  Future<DashboardModel?> getDashboardData() async {
     _isLoading.value = true;
     update();
 
     // calling  from api service
     await ApiServices.dashboardApi()
         .then((value) async {
-          _dashboardModel = value!;
+          final model = value!;
+          _dashboardModel = model;
 
-          pinStatus.value = _dashboardModel.data.merchant.pinStatus;
-          pinVerification.value = _dashboardModel.data.pinVerification;
-          pinCode.value = _dashboardModel.data.merchant.pinCode.toString();
+          pinStatus.value = model.data.merchant.pinStatus;
+          pinVerification.value = model.data.pinVerification;
+          pinCode.value = model.data.merchant.pinCode.toString();
 
           // print("${pinStatus.value} - ${pinVerification.value}");
           // print("${pinStatus.value} - ${pinVerification.value}");
 
-          kycStatus.value = _dashboardModel.data.merchant.kycVerified;
-          final moduleAccess = _dashboardModel.data.moduleAccess;
+          kycStatus.value = model.data.merchant.kycVerified;
+          final moduleAccess = model.data.moduleAccess;
           receiveMoney.value = moduleAccess.receiveMoney;
           withdrawMoney.value = moduleAccess.withdrawMoney;
           developerApiKey.value = moduleAccess.developerApiKey;
@@ -71,18 +72,19 @@ class DashBoardController extends GetxController {
     return _dashboardModel;
   }
 
-  Future<DashboardModel> getDashboardData2() async {
+  Future<DashboardModel?> getDashboardData2() async {
     // _isLoading.value = true;
     update();
 
     // calling  from api service
     await ApiServices.dashboardApi()
         .then((value) async {
-          _dashboardModel = value!;
-          kycStatus.value = _dashboardModel.data.merchant.kycVerified;
-          pinStatus.value = _dashboardModel.data.merchant.pinStatus;
-          pinVerification.value = _dashboardModel.data.pinVerification;
-          pinCode.value = _dashboardModel.data.merchant.pinCode.toString();
+          final model = value!;
+          _dashboardModel = model;
+          kycStatus.value = model.data.merchant.kycVerified;
+          pinStatus.value = model.data.merchant.pinStatus;
+          pinVerification.value = model.data.pinVerification;
+          pinCode.value = model.data.merchant.pinCode.toString();
           // _isLoading.value = false;
           update();
         })
@@ -96,11 +98,11 @@ class DashBoardController extends GetxController {
   // Register Pusher Beams
   final _isPusherBeamsLoading = false.obs;
   bool get isPusherBeamsLoading => _isPusherBeamsLoading.value;
-  late PusherBeamsModel _pusherBeamsModel;
+  PusherBeamsModel? _pusherBeamsModel;
 
-  PusherBeamsModel get pusherBeamsModel => _pusherBeamsModel;
+  PusherBeamsModel? get pusherBeamsModel => _pusherBeamsModel;
 
-  Future<PusherBeamsModel> getPusherAuth() async {
+  Future<PusherBeamsModel?> getPusherAuth() async {
     _isPusherBeamsLoading.value = true;
 
     update();

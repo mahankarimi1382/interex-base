@@ -70,9 +70,9 @@ class SendMoneyController extends GetxController {
 
   // -------------------------------Define API Model-----------------------------
   //
-  late SendMoneyInfoModel _sendMoneyInfoModel;
+  SendMoneyInfoModel? _sendMoneyInfoModel;
 
-  SendMoneyInfoModel get sendMoneyInfoModel => _sendMoneyInfoModel;
+  SendMoneyInfoModel get sendMoneyInfoModel => _sendMoneyInfoModel!;
 
   // ------------------------------API Function---------------------------------
 
@@ -88,26 +88,26 @@ class SendMoneyController extends GetxController {
           selectSenderWallet.value =
               walletsController.walletsInfoModel.data.userWallets.first;
 
-          limitMin.value = _sendMoneyInfoModel.data.sendMoneyCharge.minLimit;
-          limitMax.value = _sendMoneyInfoModel.data.sendMoneyCharge.maxLimit;
+          limitMin.value = _sendMoneyInfoModel!.data.sendMoneyCharge.minLimit;
+          limitMax.value = _sendMoneyInfoModel!.data.sendMoneyCharge.maxLimit;
           dailyLimit.value =
-              _sendMoneyInfoModel.data.sendMoneyCharge.dailyLimit;
+              _sendMoneyInfoModel!.data.sendMoneyCharge.dailyLimit;
           monthlyLimit.value =
-              _sendMoneyInfoModel.data.sendMoneyCharge.monthlyLimit;
+              _sendMoneyInfoModel!.data.sendMoneyCharge.monthlyLimit;
           percentCharge.value =
-              _sendMoneyInfoModel.data.sendMoneyCharge.percentCharge;
+              _sendMoneyInfoModel!.data.sendMoneyCharge.percentCharge;
           fixedCharge.value =
-              _sendMoneyInfoModel.data.sendMoneyCharge.fixedCharge;
+              _sendMoneyInfoModel!.data.sendMoneyCharge.fixedCharge;
           receiverExchangeRate.value = walletsController.exchangeRate.value;
           senderExchangeRate.value = walletsController.exchangeRate.value;
 
           //start remaing get
           remainingController.transactionType.value =
-              _sendMoneyInfoModel.data.getRemainingFields.transactionType;
+              _sendMoneyInfoModel!.data.getRemainingFields.transactionType;
           remainingController.attribute.value =
-              _sendMoneyInfoModel.data.getRemainingFields.attribute;
+              _sendMoneyInfoModel!.data.getRemainingFields.attribute;
           remainingController.cardId.value =
-              _sendMoneyInfoModel.data.sendMoneyCharge.id;
+              _sendMoneyInfoModel!.data.sendMoneyCharge.id;
           remainingController.senderAmount.value = senderAmountController.text;
           remainingController.senderCurrency.value =
               selectSenderWallet.value!.currency.code;
@@ -134,7 +134,7 @@ class SendMoneyController extends GetxController {
 
     _isLoading.value = false;
     update();
-    return _sendMoneyInfoModel;
+    return _sendMoneyInfoModel!;
   }
 
   // ---------------------------------------------------------------------------
@@ -150,9 +150,9 @@ class SendMoneyController extends GetxController {
   // -------------------------------Define API Model-----------------------------
   //
 
-  late CommonSuccessModel _checkUserExistModel;
+  CommonSuccessModel? _checkUserExistModel;
 
-  CommonSuccessModel get checkUserExistModel => _checkUserExistModel;
+  CommonSuccessModel get checkUserExistModel => _checkUserExistModel!;
 
   // ------------------------------API Function---------------------------------
 
@@ -167,7 +167,7 @@ class SendMoneyController extends GetxController {
     await ApiServices.checkUserExistApi(body: inputBody)
         .then((value) {
           _checkUserExistModel = value!;
-          checkUserMessage.value = _checkUserExistModel.message.success.first;
+          checkUserMessage.value = _checkUserExistModel!.message.success.first;
           isValidUser.value = true;
           update();
         })
@@ -178,7 +178,7 @@ class SendMoneyController extends GetxController {
         });
     _isCheckUserLoading.value = false;
     update();
-    return _checkUserExistModel;
+    return _checkUserExistModel!;
   }
 
   // ---------------------------------------------------------------------------
@@ -187,10 +187,10 @@ class SendMoneyController extends GetxController {
 
   // -------------------------------Define API Model-----------------------------
   //
-  late CheckUserWithQrCodeModel _checkUserWithQrCodeModel;
+  CheckUserWithQrCodeModel? _checkUserWithQrCodeModel;
 
   CheckUserWithQrCodeModel get checkUserWithQrCodeModel =>
-      _checkUserWithQrCodeModel;
+      _checkUserWithQrCodeModel!;
 
   // ------------------------------API Function---------------------------------
   //
@@ -206,7 +206,7 @@ class SendMoneyController extends GetxController {
         .then((value) {
           _checkUserWithQrCodeModel = value!;
           copyInputController.clear();
-          copyInputController.text = _checkUserWithQrCodeModel.data.userMobile;
+          copyInputController.text = _checkUserWithQrCodeModel!.data.userMobile;
           isValidUser.value = true;
           update();
         })
@@ -217,7 +217,7 @@ class SendMoneyController extends GetxController {
 
     _isCheckUserLoading.value = false;
     update();
-    return _checkUserWithQrCodeModel;
+    return _checkUserWithQrCodeModel!;
   }
 
   // ---------------------------------------------------------------------------
@@ -231,9 +231,9 @@ class SendMoneyController extends GetxController {
 
   // -------------------------------Define API Model-----------------------------
   //
-  late CommonSuccessModel _sendMoneyModel;
+  CommonSuccessModel? _sendMoneyModel;
 
-  CommonSuccessModel get sendMoneyModel => _sendMoneyModel;
+  CommonSuccessModel get sendMoneyModel => _sendMoneyModel!;
 
   // ------------------------------API Function---------------------------------
   //
@@ -263,7 +263,7 @@ class SendMoneyController extends GetxController {
 
     _isSendMoneyLoading.value = false;
     update();
-    return _sendMoneyModel;
+    return _sendMoneyModel!;
   }
 
   RxDouble getFee({required double rate}) {
@@ -327,7 +327,7 @@ class SendMoneyController extends GetxController {
   }
 
   void updateLimit() {
-    final limit = _sendMoneyInfoModel.data.sendMoneyCharge;
+    final limit = _sendMoneyInfoModel!.data.sendMoneyCharge;
     limitMin.value =
         limit.minLimit! * double.parse(selectSenderWallet.value!.currency.rate);
     limitMax.value =

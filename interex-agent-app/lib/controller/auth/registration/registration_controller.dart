@@ -46,9 +46,9 @@ class RegistrationController extends GetxController {
 
   bool get isLoading => _isLoading.value;
 
-  late CheckRegisterUserModel _checkRegisterUserModel;
+  CheckRegisterUserModel? _checkRegisterUserModel;
 
-  CheckRegisterUserModel get checkRegisterUserModel => _checkRegisterUserModel;
+  CheckRegisterUserModel get checkRegisterUserModel => _checkRegisterUserModel!;
 
   Future<CheckRegisterUserModel> checkExistUserProcess() async {
     _isLoading.value = true;
@@ -89,7 +89,7 @@ class RegistrationController extends GetxController {
 
     _isLoading.value = false;
     update();
-    return _checkRegisterUserModel;
+    return _checkRegisterUserModel!;
   }
 
   final isVerifyCode = false.obs;
@@ -98,9 +98,9 @@ class RegistrationController extends GetxController {
 
   bool get isSendOTPLoading => _isSendOTPLoading.value;
 
-  late CommonSuccessModel _sendOTPEmailModel;
+  CommonSuccessModel? _sendOTPEmailModel;
 
-  CommonSuccessModel get sendOTPEmailModel => _sendOTPEmailModel;
+  CommonSuccessModel get sendOTPEmailModel => _sendOTPEmailModel!;
 
   Future<CommonSuccessModel> sendOTPEmailProcess() async {
     _isSendOTPLoading.value = true;
@@ -128,16 +128,16 @@ class RegistrationController extends GetxController {
 
     _isSendOTPLoading.value = false;
     update();
-    return _sendOTPEmailModel;
+    return _sendOTPEmailModel!;
   }
 
   final _isLoading2 = false.obs;
 
   bool get isLoading2 => _isLoading2.value;
 
-  late CommonSuccessModel _verifyEmailModel;
+  CommonSuccessModel? _verifyEmailModel;
 
-  CommonSuccessModel get verifyEmailModel => _verifyEmailModel;
+  CommonSuccessModel get verifyEmailModel => _verifyEmailModel!;
 
   // Verify email process function
   Future<CommonSuccessModel> verifyEmailProcess({
@@ -166,13 +166,13 @@ class RegistrationController extends GetxController {
 
     _isLoading2.value = false;
     update();
-    return _verifyEmailModel;
+    return _verifyEmailModel!;
   }
 
   // For Sms section
-  late CommonSuccessModel _verifyPhoneModel;
+  CommonSuccessModel? _verifyPhoneModel;
 
-  CommonSuccessModel get verifyPhoneModel => _verifyPhoneModel;
+  CommonSuccessModel get verifyPhoneModel => _verifyPhoneModel!;
 
   Future<CommonSuccessModel> verifyPhoneOtpProcess({
     required String otpCode,
@@ -201,7 +201,7 @@ class RegistrationController extends GetxController {
 
     _isLoading2.value = false;
     update();
-    return _verifyPhoneModel;
+    return _verifyPhoneModel!;
   }
 
   List<String> logInTypeList = ['Phone', 'Email'];

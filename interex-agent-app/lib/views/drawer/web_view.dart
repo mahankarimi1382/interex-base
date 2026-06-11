@@ -12,7 +12,7 @@ class WebScreen extends StatelessWidget {
   final String url, title;
   WebScreen({super.key, required this.url, required this.title});
 
-  late InAppWebViewController webViewController;
+  InAppWebViewController? webViewController;
   final ValueNotifier<bool> isLoading = ValueNotifier<bool>(true);
 
   @override

@@ -26,20 +26,21 @@ class MoneyReceiverController extends GetxController {
 
   // -------------------------------Define API Model-----------------------------
   //
-  late ReceiveMoneyModel _receiveMoneyModel;
+  ReceiveMoneyModel? _receiveMoneyModel;
 
-  ReceiveMoneyModel get receiveMoneyModel => _receiveMoneyModel;
+  ReceiveMoneyModel? get receiveMoneyModel => _receiveMoneyModel;
 
   // ------------------------------API Function---------------------------------
   //
-  Future<ReceiveMoneyModel> getReceiveMoneyData() async {
+  Future<ReceiveMoneyModel?> getReceiveMoneyData() async {
     _isLoading.value = true;
     update();
 
     await ApiServices.receiveMoneyApi()
         .then((value) {
-          _receiveMoneyModel = value!;
-          inputController.text = _receiveMoneyModel.data.uniqueCode.toString();
+          final model = value!;
+          _receiveMoneyModel = model;
+          inputController.text = model.data.uniqueCode.toString();
           update();
         })
         .catchError((onError) {

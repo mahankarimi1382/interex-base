@@ -4,6 +4,8 @@ namespace Database\Seeders\Update;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\File;
+use Database\Seeders\Admin\SmsTemplateSeeder;
+use Database\Seeders\Admin\SectionHasPageSeeder;
 
 class VersionUpdateSeeder extends Seeder
 {
@@ -14,7 +16,7 @@ class VersionUpdateSeeder extends Seeder
      */
     public function run()
     {
-        // version Update Seeders
+        //version Update Seeders
         $this->call([
             AppSettingsSeeder::class,
             BasicSettingsSeeder::class,

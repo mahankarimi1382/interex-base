@@ -2,75 +2,65 @@
 
 namespace App\Models;
 
-use App\Constants\PaymentGatewayConst;
-use App\Models\Admin\PaymentGatewayCurrency;
-use App\Models\Merchants\Merchant;
-use App\Models\Merchants\MerchantWallet;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
+use App\Models\Merchants\Merchant;
+use App\Constants\PaymentGatewayConst;
+use Illuminate\Database\Eloquent\Model;
+use App\Models\Merchants\MerchantWallet;
+use App\Models\Admin\PaymentGatewayCurrency;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Transaction extends Model
 {
     use HasFactory;
-
     protected $guarded = ['id'];
+    protected $appends = ['stringStatus','stringMarketplaceStatus'];
 
-    protected $appends = ['stringStatus', 'stringMarketplaceStatus'];
 
     public function getConfirmAttribute()
     {
-        if ($this->gateway_currency == null) {
-            return false;
-        }
-        if ($this->gateway_currency->gateway->isTatum($this->gateway_currency->gateway) && $this->status == PaymentGatewayConst::STATUSWAITING) {
-            return true;
-        }
+        if($this->gateway_currency == null) return false;
+        if($this->gateway_currency->gateway->isTatum($this->gateway_currency->gateway) && $this->status == PaymentGatewayConst::STATUSWAITING) return true;
     }
 
     public function getDynamicInputsAttribute()
     {
-        if ($this->confirm == false) {
-            return [];
-        }
+        if($this->confirm == false) return [];
         $input_fields = $this->details->payment_info->requirements;
-
         return $input_fields;
     }
 
     public function getConfirmUrlAttribute()
     {
-        if ($this->confirm == false) {
-            return false;
-        }
-
+        if($this->confirm == false) return false;
         return setRoute('api.user.add.money.payment.crypto.confirm', $this->trx_id);
     }
 
     protected $casts = [
-        'admin_id' => 'integer',
-        'user_id' => 'integer',
-        'user_wallet_id' => 'integer',
-        'merchant_id' => 'integer',
-        'merchant_wallet_id' => 'integer',
+        'admin_id'                    => 'integer',
+        'user_id'                     => 'integer',
+        'user_wallet_id'              => 'integer',
+        'merchant_id'                 => 'integer',
+        'merchant_wallet_id'          => 'integer',
         'payment_gateway_currency_id' => 'integer',
-        'trx_id' => 'string',
-        'request_amount' => 'double',
-        'payable' => 'double',
-        'available_balance' => 'double',
-        'remark' => 'string',
-        'status' => 'integer',
-        'details' => 'object',
-        'reject_reason' => 'string',
+        'trx_id'                      => 'string',
+        'request_amount'              => 'double',
+        'payable'                     => 'double',
+        'available_balance'           => 'double',
+        'remark'                      => 'string',
+        'status'                      => 'integer',
+        'details'                     => 'object',
+        'reject_reason'               => 'string',
     ];
+
+
 
     public function trade()
     {
-        return $this->belongsTo(Trade::class, 'trade_id');
+        return $this->belongsTo(Trade::class,'trade_id');
     }
 
-    public function scopeTradeTransaction($query)
-    {
+    public function scopeTradeTransaction($query){
         return $query->where('type', PaymentGatewayConst::TRADE);
     }
 
@@ -78,7 +68,6 @@ class Transaction extends Model
     {
         return $this->belongsTo(User::class);
     }
-
     public function agent()
     {
         return $this->belongsTo(Agent::class);
@@ -93,397 +82,313 @@ class Transaction extends Model
     {
         return $this->belongsTo(UserWallet::class, 'user_wallet_id');
     }
-
     public function agent_wallet()
     {
         return $this->belongsTo(AgentWallet::class, 'agent_wallet_id');
     }
-
     public function merchant_wallet()
     {
         return $this->belongsTo(MerchantWallet::class, 'merchant_wallet_id');
     }
-
-    public function creator()
-    {
-        if ($this->user_id != null) {
+    public function creator() {
+        if($this->user_id != null) {
             return $this->user();
-        } elseif ($this->agent_id != null) {
+        }else if($this->agent_id != null) {
             return $this->agent();
-        } elseif ($this->merchant_id != null) {
+        }else if($this->merchant_id != null) {
             return $this->merchant();
         }
     }
-
-    public function creator_wallet()
-    {
-        if ($this->user_id != null) {
+    public function creator_wallet() {
+        if($this->user_id != null) {
             return $this->user_wallet();
-        } elseif ($this->agent_id != null) {
+        }else if($this->agent_id != null) {
             return $this->agent_wallet();
-        } elseif ($this->merchant_id != null) {
+        }else if($this->merchant_id != null) {
             return $this->merchant_wallet();
         }
     }
 
     public function currency()
     {
-        return $this->belongsTo(PaymentGatewayCurrency::class, 'payment_gateway_currency_id');
+        return $this->belongsTo(PaymentGatewayCurrency::class,'payment_gateway_currency_id');
     }
 
-    public function scopeAuth($query)
-    {
-        $query->where('user_id', auth()->user()->id);
+    public function scopeAuth($query) {
+        $query->where("user_id",auth()->user()->id);
+    }
+    public function scopeMerchantAuth($query) {
+        $query->where("merchant_id",auth()->user()->id);
+    }
+    public function scopeAgentAuth($query) {
+        $query->where("agent_id",auth()->user()->id);
     }
 
-    public function scopeMerchantAuth($query)
-    {
-        $query->where('merchant_id', auth()->user()->id);
-    }
 
-    public function scopeAgentAuth($query)
-    {
-        $query->where('agent_id', auth()->user()->id);
-    }
 
-    public function getTradeStringStatusAttribute()
-    {
+    public function getTradeStringStatusAttribute() {
         $status = $this->trade->status;
         $data = [
-            'class' => '',
-            'value' => '',
+            'class' => "",
+            'value' => "",
         ];
-        if ($status == PaymentGatewayConst::TRADE_STATUSONGOING) {
+        if($status == PaymentGatewayConst::TRADE_STATUSONGOING) {
             $data = [
-                'class' => 'badge badge--success',
-                'value' => __('Ongoing'),
+                'class'     => "badge badge--success",
+                'value'     => __("Ongoing"),
             ];
-        } elseif ($status == PaymentGatewayConst::TRADE_STATUSPENDING) {
+        }else if($status == PaymentGatewayConst::TRADE_STATUSPENDING) {
             $data = [
-                'class' => 'badge badge--warning',
-                'value' => __('Pending'),
+                'class'     => "badge badge--warning",
+                'value'     => __("Pending"),
             ];
-        } elseif ($status == PaymentGatewayConst::TRADE_STATUSCANCELLED) {
+        }else if($status == PaymentGatewayConst::TRADE_STATUSCANCELLED) {
             $data = [
-                'class' => 'badge badge--danger',
-                'value' => __('Cancelled'),
+                'class'     => "badge badge--danger",
+                'value'     => __("Cancelled"),
             ];
-        } elseif ($status == PaymentGatewayConst::TRADE_STATUSPAYMENTPENDING) {
+        }
+        else if($status == PaymentGatewayConst::TRADE_STATUSPAYMENTPENDING) {
             $data = [
-                'class' => 'badge badge--warning',
-                'value' => __('Payment Pending'),
+                'class'     => "badge badge--warning",
+                'value'     => __("Payment Pending"),
             ];
-        } elseif ($status == PaymentGatewayConst::TRADE_STATUSCOMPLETE) {
+        }
+        else if($status == PaymentGatewayConst::TRADE_STATUSCOMPLETE) {
             $data = [
-                'class' => 'badge badge--success',
-                'value' => __('Sold'),
+                'class'     => "badge badge--success",
+                'value'     => __("Sold"),
             ];
-        } elseif ($status == PaymentGatewayConst::TRADE_CANCEL_REQUEST) {
+        }
+        else if($status == PaymentGatewayConst::TRADE_CANCEL_REQUEST) {
             $data = [
-                'class' => 'badge badge--warning',
-                'value' => __('Close Requested'),
+                'class'     => "badge badge--warning",
+                'value'     => __("Close Requested"),
             ];
-        } elseif ($status == PaymentGatewayConst::TRADE_CANCEL_BY_USER) {
+        }
+        else if($status == PaymentGatewayConst::TRADE_CANCEL_BY_USER) {
             $data = [
-                'class' => 'badge badge--danger',
-                'value' => __('Closed'),
+                'class'     => "badge badge--danger",
+                'value'     => __("Closed"),
             ];
         }
 
         return (object) $data;
     }
 
-    public function getStringStatusAttribute()
-    {
+    public function getStringStatusAttribute() {
         $status = $this->status;
         $data = [
-            'class' => '',
-            'value' => '',
+            'class' => "",
+            'value' => "",
         ];
-        if ($status == PaymentGatewayConst::STATUSSUCCESS) {
+        if($status == PaymentGatewayConst::STATUSSUCCESS) {
             $data = [
-                'class' => 'badge badge--success',
-                'value' => 'success',
+                'class'     => "badge badge--success",
+                'value'     => "success",
             ];
-        } elseif ($status == PaymentGatewayConst::STATUSPENDING) {
+        }else if($status == PaymentGatewayConst::STATUSPENDING) {
             $data = [
-                'class' => 'badge badge--warning',
-                'value' => 'Pending',
+                'class'     => "badge badge--warning",
+                'value'     => "Pending",
             ];
-        } elseif ($status == PaymentGatewayConst::STATUSHOLD) {
+        }else if($status == PaymentGatewayConst::STATUSHOLD) {
             $data = [
-                'class' => 'badge badge--warning',
-                'value' => 'Hold',
+                'class'     => "badge badge--warning",
+                'value'     => "Hold",
             ];
-        } elseif ($status == PaymentGatewayConst::STATUSREJECTED) {
+        }else if($status == PaymentGatewayConst::STATUSREJECTED) {
             $data = [
-                'class' => 'badge badge--danger',
-                'value' => 'Rejected',
+                'class'     => "badge badge--danger",
+                'value'     => "Rejected",
             ];
-        } elseif ($status == PaymentGatewayConst::STATUSWAITING) {
+        }else if($status == PaymentGatewayConst::STATUSWAITING) {
             $data = [
-                'class' => 'badge badge--warning',
-                'value' => 'Waiting',
+                'class'     => "badge badge--warning",
+                'value'     => "Waiting",
             ];
-        } elseif ($status == PaymentGatewayConst::STATUSFAILD) {
+        }else if($status == PaymentGatewayConst::STATUSFAILD) {
             $data = [
-                'class' => 'badge badge--danger',
-                'value' => 'Failed',
+                'class'     => "badge badge--danger",
+                'value'     => "Failed",
             ];
-        } elseif ($status == PaymentGatewayConst::STATUSPROCESSING) {
+        }else if($status == PaymentGatewayConst::STATUSPROCESSING) {
             $data = [
-                'class' => 'badge badge--warning',
-                'value' => 'Processing',
+                'class'     => "badge badge--warning",
+                'value'     => "Processing",
             ];
-        } elseif ($status == PaymentGatewayConst::STATUSREFUND) {
+        }else if($status == PaymentGatewayConst::STATUSREFUND) {
             $data = [
-                'class' => 'badge badge--info',
-                'value' => 'Refund',
+                'class'     => "badge badge--info",
+                'value'     => "Refund",
             ];
         }
 
         return (object) $data;
     }
 
-    public function getStringMarketplaceStatusAttribute()
-    {
+
+    public function getStringMarketplaceStatusAttribute() {
         $status = $this->status;
         $data = [
-            'class' => '',
-            'value' => '',
+            'class' => "",
+            'value' => "",
         ];
-        if ($status == PaymentGatewayConst::TRADE_STATUSONGOING) {
+        if($status == PaymentGatewayConst::TRADE_STATUSONGOING) {
             $data = [
-                'class' => 'badge badge--success',
-                'value' => __('complete'),
+                'class'     => "badge badge--success",
+                'value'     => __("complete"),
             ];
-        } elseif ($status == PaymentGatewayConst::TRADE_STATUSPENDING) {
+        }else if($status == PaymentGatewayConst::TRADE_STATUSPENDING) {
             $data = [
-                'class' => 'badge badge--warning',
-                'value' => __('pending'),
+                'class'     => "badge badge--warning",
+                'value'     => __("pending"),
             ];
-        } elseif ($status == PaymentGatewayConst::TRADE_STATUSCANCELLED) {
+        }else if($status == PaymentGatewayConst::TRADE_STATUSCANCELLED) {
             $data = [
-                'class' => 'badge badge--danger',
-                'value' => __('Cancelled'),
+                'class'     => "badge badge--danger",
+                'value'     => __("Cancelled"),
             ];
         }
 
         return (object) $data;
     }
 
-    public function charge()
-    {
-        return $this->hasOne(TransactionCharge::class, 'transaction_id', 'id');
+    public function charge() {
+        return $this->hasOne(TransactionCharge::class,"transaction_id","id");
     }
 
-    public function scopeAddMoney($query)
-    {
-        return $query->where('type', PaymentGatewayConst::TYPEADDMONEY);
+    public function scopeAddMoney($query) {
+        return $query->where("type",PaymentGatewayConst::TYPEADDMONEY);
     }
 
-    public function scopeMoneyOut($query)
-    {
-        return $query->where('type', PaymentGatewayConst::TYPEMONEYOUT);
+    public function scopeMoneyOut($query) {
+        return $query->where("type",PaymentGatewayConst::TYPEMONEYOUT);
+    }
+    public function scopeSenMoney($query) {
+        return $query->where("type",PaymentGatewayConst::TYPETRANSFERMONEY);
+    }
+    public function scopeExchangeMoney($query) {
+        return $query->where("type",PaymentGatewayConst::TYPEMONEYEXCHANGE);
+    }
+    public function scopeMoneyIn($query) {
+        return $query->where("type",PaymentGatewayConst::MONEYIN);
+    }
+    public function scopeBillPay($query) {
+        return $query->where("type",PaymentGatewayConst::BILLPAY);
+    }
+    public function scopeMobileTopup($query) {
+        return $query->where("type",PaymentGatewayConst::MOBILETOPUP);
+    }
+    public function scopeVirtualCard($query) {
+        return $query->where("type",PaymentGatewayConst::VIRTUALCARD);
+    }
+    public function scopeRemitance($query) {
+        return $query->where("type",PaymentGatewayConst::SENDREMITTANCE);
+    }
+    public function scopeMakePayment($query) {
+        return $query->where("type",PaymentGatewayConst::TYPEMAKEPAYMENT);
+    }
+    public function scopeMerchantPayment($query) {
+        return $query->where("type",PaymentGatewayConst::MERCHANTPAYMENT);
+    }
+    public function scopeAddSubBalance($query) {
+        return $query->where("type",PaymentGatewayConst::TYPEADDSUBTRACTBALANCE);
+    }
+    public function scopeRequestMoney($query) {
+        return $query->where("type",PaymentGatewayConst::REQUESTMONEY);
+    }
+    public function scopePayLink($query) {
+        return $query->where("type",PaymentGatewayConst::TYPEPAYLINK);
     }
 
-    public function scopeSenMoney($query)
-    {
-        return $query->where('type', PaymentGatewayConst::TYPETRANSFERMONEY);
+    public function scopeAgentMoneyOut($query) {
+        return $query->where("type",PaymentGatewayConst::AGENTMONEYOUT);
+    }
+    public function scopeGiftCards($query) {
+        return $query->where("type",PaymentGatewayConst::GIFTCARD);
+    }
+    public function scopeReferBonus($query) {
+        return $query->where("type",PaymentGatewayConst::TYPEREFERBONUS);
+    }
+    public function scopeRegisterBonus($query) {
+        return $query->where("type",PaymentGatewayConst::TYPEBONUS);
+    }
+    public function scopeTrade($query) {
+        return $query->where("type",PaymentGatewayConst::TRADE);
+    }
+    public function scopeMarketplace($query) {
+        return $query->where("type",PaymentGatewayConst::MARKETPLACE);
     }
 
-    public function scopeExchangeMoney($query)
-    {
-        return $query->where('type', PaymentGatewayConst::TYPEMONEYEXCHANGE);
-    }
 
-    public function scopeMoneyIn($query)
-    {
-        return $query->where('type', PaymentGatewayConst::MONEYIN);
-    }
-
-    public function scopeBillPay($query)
-    {
-        return $query->where('type', PaymentGatewayConst::BILLPAY);
-    }
-
-    public function scopeMobileTopup($query)
-    {
-        return $query->where('type', PaymentGatewayConst::MOBILETOPUP);
-    }
-
-    public function scopeVirtualCard($query)
-    {
-        return $query->where('type', PaymentGatewayConst::VIRTUALCARD);
-    }
-
-    public function scopeRemitance($query)
-    {
-        return $query->where('type', PaymentGatewayConst::SENDREMITTANCE);
-    }
-
-    public function scopeMakePayment($query)
-    {
-        return $query->where('type', PaymentGatewayConst::TYPEMAKEPAYMENT);
-    }
-
-    public function scopeMerchantPayment($query)
-    {
-        return $query->where('type', PaymentGatewayConst::MERCHANTPAYMENT);
-    }
-
-    public function scopeAddSubBalance($query)
-    {
-        return $query->where('type', PaymentGatewayConst::TYPEADDSUBTRACTBALANCE);
-    }
-
-    public function scopeRequestMoney($query)
-    {
-        return $query->where('type', PaymentGatewayConst::REQUESTMONEY);
-    }
-
-    public function scopePayLink($query)
-    {
-        return $query->where('type', PaymentGatewayConst::TYPEPAYLINK);
-    }
-
-    public function scopeAgentMoneyOut($query)
-    {
-        return $query->where('type', PaymentGatewayConst::AGENTMONEYOUT);
-    }
-
-    public function scopeGiftCards($query)
-    {
-        return $query->where('type', PaymentGatewayConst::GIFTCARD);
-    }
-
-    public function scopeReferBonus($query)
-    {
-        return $query->where('type', PaymentGatewayConst::TYPEREFERBONUS);
-    }
-
-    public function scopeRegisterBonus($query)
-    {
-        return $query->where('type', PaymentGatewayConst::TYPEBONUS);
-    }
-
-    public function scopeTrade($query)
-    {
-        return $query->where('type', PaymentGatewayConst::TRADE);
-    }
-
-    public function scopeMarketplace($query)
-    {
-        return $query->where('type', PaymentGatewayConst::MARKETPLACE);
-    }
-
-    public function scopeSearch($query, $data)
-    {
+    public function scopeSearch($query,$data) {
         $data = Str::slug($data);
+        return $query->where("trx_id","like","%".$data."%")
+                    ->orWhere('type', 'like', '%'.$data.'%')
+                    ->orderBy('id',"DESC");
 
-        return $query->where('trx_id', 'like', '%'.$data.'%')
-            ->orWhere('type', 'like', '%'.$data.'%')
-            ->orderBy('id', 'DESC');
+    }
+    public function scopeProfits($query) {
+
+        return $query->where("type","!=",PaymentGatewayConst::TYPEADDMONEY)
+                    ->where("type","!=",PaymentGatewayConst::TYPEMONEYOUT)
+                    ->orderBy('id',"DESC");
 
     }
 
-    public function scopeProfits($query)
-    {
-
-        return $query->where('type', '!=', PaymentGatewayConst::TYPEADDMONEY)
-            ->where('type', '!=', PaymentGatewayConst::TYPEMONEYOUT)
-            ->orderBy('id', 'DESC');
-
+    public function scopeMoneyExchange($query) {
+        return $query->where("type",PaymentGatewayConst::TYPEMONEYEXCHANGE);
     }
-
-    public function scopeMoneyExchange($query)
-    {
-        return $query->where('type', PaymentGatewayConst::TYPEMONEYEXCHANGE);
-    }
-
-    public function creatorIsAuthUser()
-    {
-        if ($this->creator->id == auth()->user()->id) {
-            return true;
-        }
-
+    public function creatorIsAuthUser() {
+        if($this->creator->id == auth()->user()->id) return true;
         return false;
     }
-
-    public function isAuthUser()
-    {
-        if ($this->user_id === auth()->user()->id) {
-            return true;
-        }
-
+    public function isAuthUser() {
+        if($this->user_id === auth()->user()->id) return true;
         return false;
     }
-
-    public function isAuthUserMerchant()
-    {
-        if ($this->merchant_id === auth()->user()->id) {
-            return true;
-        }
-
+    public function isAuthUserMerchant() {
+        if($this->merchant_id === auth()->user()->id) return true;
         return false;
     }
-
-    public function isAuthUserAgent()
-    {
-        if ($this->agent_id === auth()->user()->id) {
-            return true;
-        }
-
+    public function isAuthUserAgent() {
+        if($this->agent_id === auth()->user()->id) return true;
         return false;
     }
-
-    public function gateway_currency()
-    {
-        return $this->belongsTo(PaymentGatewayCurrency::class, 'payment_gateway_currency_id');
+    public function gateway_currency() {
+        return $this->belongsTo(PaymentGatewayCurrency::class,'payment_gateway_currency_id');
+    }
+    public function scopePending($query) {
+        return $query->where('status',PaymentGatewayConst::STATUSPENDING);
     }
 
-    public function scopePending($query)
-    {
-        return $query->where('status', PaymentGatewayConst::STATUSPENDING);
+    public function scopeSuccess($query) {
+        return $query->where('status',PaymentGatewayConst::STATUSSUCCESS);
     }
 
-    public function scopeSuccess($query)
-    {
-        return $query->where('status', PaymentGatewayConst::STATUSSUCCESS);
+    public function scopeRejected($query) {
+        return $query->where('status',PaymentGatewayConst::STATUSREJECTED);
     }
 
-    public function scopeRejected($query)
-    {
-        return $query->where('status', PaymentGatewayConst::STATUSREJECTED);
+    public function scopeSend($query) {
+        return $query->where('attribute',PaymentGatewayConst::SEND);
+    }
+    public function scopeReceive($query) {
+        return $query->where('attribute',PaymentGatewayConst::RECEIVED);
     }
 
-    public function scopeSend($query)
-    {
-        return $query->where('attribute', PaymentGatewayConst::SEND);
+    public function scopeToday($query) {
+        return $query->whereDate('created_at',now()->today());
     }
 
-    public function scopeReceive($query)
-    {
-        return $query->where('attribute', PaymentGatewayConst::RECEIVED);
+    public function scopeMonthly($query) {
+        return $query->whereMonth('created_at',now()->month());
     }
-
-    public function scopeToday($query)
-    {
-        return $query->whereDate('created_at', now()->today());
+    public function scopeUserTrx($query) {
+        $query->where("user_id",'!=', null);
     }
-
-    public function scopeMonthly($query)
-    {
-        return $query->whereMonth('created_at', now()->month());
-    }
-
-    public function scopeUserTrx($query)
-    {
-        $query->where('user_id','!=', null);
-    }
-
-    public function scopeNotRejected($query)
-    {
+    public function scopeNotRejected($query){
         return $query->where('status', '!=', PaymentGatewayConst::STATUSREJECTED);
     }
 }

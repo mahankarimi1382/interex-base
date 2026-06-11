@@ -21,10 +21,10 @@ class RemaingBalanceController extends GetxController {
 
   final _isLoading = false.obs;
   bool get isLoading => _isLoading.value;
-  late RemainingBalanceModel _remainingBalanceModel;
+  RemainingBalanceModel? _remainingBalanceModel;
 
-  RemainingBalanceModel get remainingBalanceModel => _remainingBalanceModel;
-  Future<RemainingBalanceModel> getRemainingBalanceProcess() async {
+  RemainingBalanceModel? get remainingBalanceModel => _remainingBalanceModel;
+  Future<RemainingBalanceModel?> getRemainingBalanceProcess() async {
     _isLoading.value = true;
     update();
 
@@ -36,15 +36,16 @@ class RemaingBalanceController extends GetxController {
           cardId.value,
         )
         .then((value) {
-          _remainingBalanceModel = value!;
+          final model = value!;
+          _remainingBalanceModel = model;
 
           remainingDailyLimit.value = double.parse(
-            _remainingBalanceModel.data.remainingDaily,
+            model.data.remainingDaily,
           );
 
-          senderCurrency.value = _remainingBalanceModel.data.currency;
+          senderCurrency.value = model.data.currency;
           remainingMonthLyLimit.value = double.parse(
-            _remainingBalanceModel.data.remainingMonthly,
+            model.data.remainingMonthly,
           );
 
           _isLoading.value = false;
