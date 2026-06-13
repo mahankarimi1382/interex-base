@@ -35,6 +35,7 @@
                                     <option disabled>{{ __("Select Name") }}</option>
                                     <option value="twilio" @if(@$general->sms_config->name == 'twilio') selected @endif>@lang('Twilio')</option>
                                     <option value="nexmo" @if(@$general->sms_config->name == 'nexmo') selected @endif>@lang('Nexmo')</option>
+                                    <option value="iranSms" @if(@$general->sms_config->name == 'iranSms') selected @endif>@lang('Iran SMS')</option>
                                 </select>
 
                             </div>
@@ -91,6 +92,40 @@
                                 'name'          => "nexmo_api_secret",
                                 'type'          => "text",
                                 'value'         => @$general->sms_config->nexmo_api_secret,
+                            ])
+                        </div>
+                    </div>
+                    <div class="row mt-4 d-none configForm" id="iranSms">
+                        <div class="form-group col-md-4">
+                            @include('admin.components.form.input',[
+                                'label'         => __("Username")."*",
+                                'name'          => "iran_sms_username",
+                                'type'          => "text",
+                                'value'         => @$general->sms_config->iran_sms_username,
+                            ])
+                        </div>
+                        <div class="form-group col-md-4">
+                            @include('admin.components.form.input',[
+                                'label'         => __("Password")."*",
+                                'name'          => "iran_sms_password",
+                                'type'          => "text",
+                                'value'         => @$general->sms_config->iran_sms_password,
+                            ])
+                        </div>
+                        <div class="form-group col-md-4">
+                            @include('admin.components.form.input',[
+                                'label'         => __("From Number")."*",
+                                'name'          => "iran_sms_from",
+                                'type'          => "text",
+                                'value'         => @$general->sms_config->iran_sms_from,
+                            ])
+                        </div>
+                        <div class="form-group col-md-12">
+                            @include('admin.components.form.input',[
+                                'label'         => __("API URL"),
+                                'name'          => "iran_sms_url",
+                                'type'          => "text",
+                                'value'         => @$general->sms_config->iran_sms_url ?? 'http://185.4.30.32/class/sms/restful/sendSms_ManyToMany_v2.php',
                             ])
                         </div>
                     </div>

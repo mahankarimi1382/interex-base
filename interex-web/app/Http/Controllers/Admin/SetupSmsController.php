@@ -23,7 +23,10 @@ class SetupSmsController extends Controller
     {
 
         $validator = Validator::make($request->all(),[
-            'sms_method' => 'required|in:clickatell,infobip,messageBird,nexmo,smsBroadcast,twilio,textMagic',
+            'sms_method' => 'required|in:clickatell,infobip,messageBird,nexmo,smsBroadcast,twilio,textMagic,iranSms',
+            'iran_sms_username' => 'required_if:sms_method,iranSms',
+            'iran_sms_password' => 'required_if:sms_method,iranSms',
+            'iran_sms_from' => 'required_if:sms_method,iranSms',
             'clickatell_api_key' => 'required_if:sms_method,clickatell',
             'message_bird_api_key' => 'required_if:sms_method,messageBird',
             'nexmo_api_key' => 'required_if:sms_method,nexmo',

@@ -4,6 +4,7 @@ namespace App\Http\Middleware\Merchant;
 
 use Closure;
 use Illuminate\Http\Request;
+use App\Models\Admin\BasicSettings;
 
 class VerificationGuard
 {
@@ -17,7 +18,8 @@ class VerificationGuard
     public function handle(Request $request, Closure $next)
     {
         $merchant = auth()->user();
-        if($merchant->email_verified == false) return mailVerificationTemplateMerchant($merchant);
+        $basic_settings = BasicSettings::first();
+        if($basic_settings->merchant_email_verification == true && $merchant->email_verified == false) return mailVerificationTemplateMerchant($merchant);
         return $next($request);
     }
 }

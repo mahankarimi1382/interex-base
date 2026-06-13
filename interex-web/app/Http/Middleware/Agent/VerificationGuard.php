@@ -4,6 +4,7 @@ namespace App\Http\Middleware\Agent;
 
 use Closure;
 use Illuminate\Http\Request;
+use App\Models\Admin\BasicSettings;
 
 class VerificationGuard
 {
@@ -17,7 +18,8 @@ class VerificationGuard
     public function handle(Request $request, Closure $next)
     {
         $agent = auth()->user();
-        if($agent->email_verified == false) return mailVerificationTemplateAgent($agent);
+        $basic_settings = BasicSettings::first();
+        if($basic_settings->agent_email_verification == true && $agent->email_verified == false) return mailVerificationTemplateAgent($agent);
         return $next($request);
     }
 }

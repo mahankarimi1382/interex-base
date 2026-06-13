@@ -3263,8 +3263,14 @@ function sendSms($user, $type, $shortCodes = [])
             $message = smsShortCodeReplacer("{{message}}", $template, $basic_settings->sms_api);
             $message = smsShortCodeReplacer("{{name}}", $user->username, $message);
             $sendSms->$platform($user->full_mobile, $basic_settings->site_name, $message, $basic_settings->sms_config);
+        } else {
+            \Illuminate\Support\Facades\Log::warning('sendSms: no active sms template found', ['type' => $type]);
         }
     } catch (Exception $e) {
+        \Illuminate\Support\Facades\Log::error('sendSms: failed', [
+            'type'    => $type,
+            'message' => $e->getMessage(),
+        ]);
     }
 }
 function sendSmsNotAuthUser($mobile, $type, $shortCodes = [])
@@ -3283,8 +3289,14 @@ function sendSmsNotAuthUser($mobile, $type, $shortCodes = [])
             $message = smsShortCodeReplacer("{{message}}", $template, $basic_settings->sms_api);
             $message = smsShortCodeReplacer("{{name}}", "User", $message);
             $sendSms->$platform($mobile, $basic_settings->site_name, $message, $basic_settings->sms_config);
+        } else {
+            \Illuminate\Support\Facades\Log::warning('sendSmsNotAuthUser: no active sms template found', ['type' => $type]);
         }
     } catch (Exception $e) {
+        \Illuminate\Support\Facades\Log::error('sendSmsNotAuthUser: failed', [
+            'type'    => $type,
+            'message' => $e->getMessage(),
+        ]);
     }
 }
 function smsVerificationTemplate($user)
