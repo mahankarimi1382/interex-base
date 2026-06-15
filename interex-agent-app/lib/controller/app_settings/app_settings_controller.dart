@@ -83,7 +83,12 @@ class AppSettingsController extends GetxController {
           path.value =
               "${baseUrl.value}/${_appSettingsModel!.data.logoImagePath}/";
 
-          if (_appSettingsModel!.data.appSettings.agent.basicSettings.siteLogo ==
+          if (_appSettingsModel!
+                  .data
+                  .appSettings
+                  .agent
+                  .basicSettings
+                  .siteLogo ==
               '') {
             appBasicLogoWhite.value =
                 "${baseUrl.value}/${_appSettingsModel!.data.defaultImage}";

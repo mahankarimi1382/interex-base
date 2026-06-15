@@ -34,10 +34,10 @@ extension NetworkUrlHostFix on String {
   /// URLs built from the backend base url fail to load without this fix.
   /// In production the backend returns a real domain, so this is a no-op.
   String fixHost() {
-    return replaceAll('127.0.0.1', ApiEndpoint.host).replaceAll(
-      'localhost',
+    return replaceAll(
+      '127.0.0.1',
       ApiEndpoint.host,
-    );
+    ).replaceAll('localhost', ApiEndpoint.host);
   }
 }
 

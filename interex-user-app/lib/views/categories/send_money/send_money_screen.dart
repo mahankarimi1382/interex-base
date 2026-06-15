@@ -29,9 +29,7 @@ class MoneyTransferScreen extends StatelessWidget {
           subtitleKey: Strings.recipient,
         ),
         body: Obx(
-          () => controller.isLoading
-              ? const _LoadingState()
-              : _body(context),
+          () => controller.isLoading ? const _LoadingState() : _body(context),
         ),
         bottomNavigationBar: Obx(
           () => controller.isLoading
@@ -191,8 +189,7 @@ class MoneyTransferScreen extends StatelessWidget {
         if (isSender) {
           controller.selectSenderWallet.value = w;
           controller.updateExchangeRate();
-          controller.remainingController.senderCurrency.value =
-              w.currency.code;
+          controller.remainingController.senderCurrency.value = w.currency.code;
           controller.remainingController.getRemainingBalanceProcess();
           controller.getReceiverAmount();
         } else {

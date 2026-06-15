@@ -39,9 +39,7 @@ class RemaingBalanceController extends GetxController {
           final model = value!;
           _remainingBalanceModel = model;
 
-          remainingDailyLimit.value = double.parse(
-            model.data.remainingDaily,
-          );
+          remainingDailyLimit.value = double.parse(model.data.remainingDaily);
 
           senderCurrency.value = model.data.currency;
           remainingMonthLyLimit.value = double.parse(

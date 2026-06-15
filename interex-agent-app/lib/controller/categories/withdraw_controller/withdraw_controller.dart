@@ -169,8 +169,12 @@ class WithdrawController extends GetxController {
             }
           }
 
-          final Currency currency =
-              _moneyOutPaymentGatewayModel!.data.gateways.first.currencies.first;
+          final Currency currency = _moneyOutPaymentGatewayModel!
+              .data
+              .gateways
+              .first
+              .currencies
+              .first;
           final Gateway gateway =
               _moneyOutPaymentGatewayModel!.data.gateways.first;
 
@@ -443,7 +447,8 @@ class WithdrawController extends GetxController {
           totalCharge = previewData.totalCharge;
           youWillGet = previewData.willGet;
           payableAmount = previewData.payable;
-          isBranch.value = _withdrawFlutterwaveInsertModel!.data.branchAvailable;
+          isBranch.value =
+              _withdrawFlutterwaveInsertModel!.data.branchAvailable;
 
           //-------------------------- Process inputs start ------------------------
           final gatewayCurrencyCode =

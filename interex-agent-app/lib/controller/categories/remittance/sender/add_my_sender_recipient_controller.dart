@@ -126,7 +126,8 @@ class AddMySenderRecipientController extends GetxController {
         _recipientInfoData!.data.transactionTypes.first.fieldName;
     transactionType = _recipientInfoData!.data.transactionTypes.first;
 
-    receiverBankSelectedMethod.value = _recipientInfoData!.data.banks.first.name;
+    receiverBankSelectedMethod.value =
+        _recipientInfoData!.data.banks.first.name;
     receiverBank = _recipientInfoData!.data.banks.first;
 
     pickupPointMethod.value =

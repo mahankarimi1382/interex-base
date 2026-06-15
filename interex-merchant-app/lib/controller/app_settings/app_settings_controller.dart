@@ -50,8 +50,7 @@ class AppSettingsController extends GetxController {
           splashImagePath.value =
               "${baseUrl.value}/${model.data.screenImagePath}/${model.data.appSettings.merchant.splashScreen.splashScreenImage}";
 
-          for (var element
-              in model.data.appSettings.merchant.onboardScreen) {
+          for (var element in model.data.appSettings.merchant.onboardScreen) {
             onboardScreen.add(
               OnboardScreen(
                 id: element.id,

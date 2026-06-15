@@ -106,7 +106,8 @@ class MoneyExchangeController extends GetxController
 
           limitMin.value = _moneyExchangeInfoModel!.data!.charges!.minLimit!;
           limitMax.value = _moneyExchangeInfoModel!.data!.charges!.maxLimit!;
-          dailyLimit.value = _moneyExchangeInfoModel!.data!.charges!.dailyLimit!;
+          dailyLimit.value =
+              _moneyExchangeInfoModel!.data!.charges!.dailyLimit!;
           monthlyLimit.value =
               _moneyExchangeInfoModel!.data!.charges!.monthlyLimit!;
           //start remaing get

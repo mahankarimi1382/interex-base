@@ -50,8 +50,7 @@ class AppSettingsController extends GetxController {
 
           splashImagePath.value =
               "${model.data.baseUrl}/${model.data.screenImagePath}/${model.data.appSettings.user.splashScreen.splashScreenImage}";
-          for (var element
-              in model.data.appSettings.user.onboardScreen) {
+          for (var element in model.data.appSettings.user.onboardScreen) {
             onboardScreen.add(
               OnboardScreen(
                 id: element.id,
@@ -65,10 +64,8 @@ class AppSettingsController extends GetxController {
             );
           }
 
-          path.value =
-              "${baseUrl.value}/${model.data.logoImagePath}/";
-          if (model.data.appSettings.user.basicSettings.siteLogo ==
-              '') {
+          path.value = "${baseUrl.value}/${model.data.logoImagePath}/";
+          if (model.data.appSettings.user.basicSettings.siteLogo == '') {
             appBasicLogoWhite.value =
                 "${baseUrl.value}/${model.data.defaultImage}";
             appBasicLogoDark.value = appBasicLogoWhite.value;

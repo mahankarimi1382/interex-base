@@ -92,9 +92,7 @@ class MoneyExchangeController extends GetxController
           limitMin.value = double.parse(model.data.charges.minLimit);
           limitMax.value = double.parse(model.data.charges.maxLimit);
 
-          percentCharge.value = double.parse(
-            model.data.charges.percentCharge,
-          );
+          percentCharge.value = double.parse(model.data.charges.percentCharge);
           rate.value = double.parse(model.data.baseCurrRate);
 
           fixedCharge.value = double.parse(model.data.charges.fixedCharge);

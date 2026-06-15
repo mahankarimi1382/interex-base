@@ -28,9 +28,7 @@ class RemittanceScreen extends StatelessWidget {
           subtitleKey: Strings.receivingMethod,
         ),
         body: Obx(
-          () => controller.isLoading
-              ? const _LoadingState()
-              : _body(context),
+          () => controller.isLoading ? const _LoadingState() : _body(context),
         ),
         bottomNavigationBar: Obx(
           () => controller.isLoading

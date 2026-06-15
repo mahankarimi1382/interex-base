@@ -116,7 +116,8 @@ class MySenderEditRecipientController extends GetxController {
     }
     debugPrint("Set Value in add recipient controller--------------");
 
-    receiverBankSelectedMethod.value = _recipientInfoData!.data.banks.first.name;
+    receiverBankSelectedMethod.value =
+        _recipientInfoData!.data.banks.first.name;
     receiverBank = _recipientInfoData!.data.banks.first;
 
     pickupPointMethod.value =
@@ -135,7 +136,8 @@ class MySenderEditRecipientController extends GetxController {
       }
     }
 
-    receiverBankSelectedMethod.value = _recipientInfoData!.data.banks.first.name;
+    receiverBankSelectedMethod.value =
+        _recipientInfoData!.data.banks.first.name;
     receiverBank = _recipientInfoData!.data.banks.first;
     for (var element in _recipientInfoData!.data.banks) {
       if (element.alias == receiverBankSelectedMethod.value) {

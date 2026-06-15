@@ -3,7 +3,6 @@ plugins {
     // START: FlutterFire Configuration
     id 'com.google.gms.google-services'
     // END: FlutterFire Configuration
-    id "kotlin-android"
     id "dev.flutter.flutter-gradle-plugin"
     id 'com.github.triplet.play' version '3.10.0'  // Play Publisher plugin
 }
@@ -35,17 +34,13 @@ if (keystorePropertiesFile.exists()) {
 android {
     namespace "net.appdevs.qrpayuser"
     compileSdkVersion flutter.compileSdkVersion
+    ndkVersion = "28.2.13676358"
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
         coreLibraryDesugaringEnabled true
     }
-
-    kotlinOptions {
-        jvmTarget = '1.8'
-    }
-
 
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
@@ -59,14 +54,16 @@ android {
         versionName flutterVersionName
     }
 
-
-
     buildTypes {
         release {
-        
             signingConfig signingConfigs.debug
-//
         }
+    }
+}
+
+kotlin {
+    compilerOptions {
+        jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17
     }
 }
 

@@ -115,7 +115,8 @@ class AddRecipientController extends GetxController {
         "${_recipientInfoData!.data.receiverCountries.first.name} (${_recipientInfoData!.data.receiverCountries.first.code})";
     receiverCountry = _recipientInfoData!.data.receiverCountries.first;
 
-    receiverBankSelectedMethod.value = _recipientInfoData!.data.banks.first.name;
+    receiverBankSelectedMethod.value =
+        _recipientInfoData!.data.banks.first.name;
     receiverBank = _recipientInfoData!.data.banks.first;
 
     pickupPointMethod.value =

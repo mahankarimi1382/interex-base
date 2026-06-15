@@ -28,8 +28,10 @@ extension EndPointExtensions on String {
   /// for the Android emulator). Without this, images served by the local
   /// server are unreachable from the emulator/device.
   String resolveBackendHost() {
-    return replaceAll('127.0.0.1', ApiEndpoint.host)
-        .replaceAll('localhost', ApiEndpoint.host);
+    return replaceAll(
+      '127.0.0.1',
+      ApiEndpoint.host,
+    ).replaceAll('localhost', ApiEndpoint.host);
   }
 
   double parseDouble() {

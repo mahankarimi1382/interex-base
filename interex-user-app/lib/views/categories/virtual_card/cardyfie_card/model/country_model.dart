@@ -18,7 +18,7 @@ class Country implements DropdownModel {
     required this.currencyName,
     required this.currencyCode,
     required this_iso2,
-    @override required this.flag,
+    required this.flag,
   }) : iso2 =
            this_iso2; // Handle potential conflict with a variable named 'iso2'
 

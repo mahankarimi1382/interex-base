@@ -120,7 +120,8 @@ class MobileTopupController extends GetxController {
               _topUpInfoData!.data.getRemainingFields.transactionType;
           remainingController.attribute.value =
               _topUpInfoData!.data.getRemainingFields.attribute;
-          remainingController.cardId.value = _topUpInfoData!.data.topupCharge.id;
+          remainingController.cardId.value =
+              _topUpInfoData!.data.topupCharge.id;
           remainingController.senderAmount.value = amountController.text;
           remainingController.senderCurrency.value =
               selectMainWallet.value!.currency.code;

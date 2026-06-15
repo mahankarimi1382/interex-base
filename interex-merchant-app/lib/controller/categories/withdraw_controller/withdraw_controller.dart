@@ -826,9 +826,7 @@ class WithdrawController extends GetxController {
           _flutterwaveAccountCheckModel = model;
 
           isButtonEnable.value = true;
-          CustomSnackBar.success(
-            "Hello ${model.data.bankInfo.accountName}",
-          );
+          CustomSnackBar.success("Hello ${model.data.bankInfo.accountName}");
           update();
         })
         .catchError((onError) {

@@ -163,8 +163,12 @@ class DepositController extends GetxController {
             }
           }
 
-          final Currency currency =
-              _addMoneyPaymentGatewayModel!.data.gateways.first.currencies.first;
+          final Currency currency = _addMoneyPaymentGatewayModel!
+              .data
+              .gateways
+              .first
+              .currencies
+              .first;
           final Gateway gateway =
               _addMoneyPaymentGatewayModel!.data.gateways.first;
 
@@ -463,7 +467,8 @@ class DepositController extends GetxController {
     await ApiServices.addMoneyInsertRazorPayApi(body: inputBody)
         .then((value) {
           _addMoneyPerfectMoneyInsertModel = value!;
-          final data = _addMoneyPerfectMoneyInsertModel!.data.paymentInformation;
+          final data =
+              _addMoneyPerfectMoneyInsertModel!.data.paymentInformation;
           enteredAmount = data.requestAmount;
           transferFeeAmount = data.totalCharge;
           totalCharge = data.totalCharge;

@@ -54,11 +54,25 @@ class TransferTokens {
     ),
   ];
 
-  static TextStyle heading({double size = 16, FontWeight weight = FontWeight.w700, Color? color}) =>
-      GoogleFonts.inter(fontSize: size, fontWeight: weight, color: color ?? textPrimary);
+  static TextStyle heading({
+    double size = 16,
+    FontWeight weight = FontWeight.w700,
+    Color? color,
+  }) => GoogleFonts.inter(
+    fontSize: size,
+    fontWeight: weight,
+    color: color ?? textPrimary,
+  );
 
-  static TextStyle body({double size = 14, FontWeight weight = FontWeight.w500, Color? color}) =>
-      GoogleFonts.inter(fontSize: size, fontWeight: weight, color: color ?? textPrimary);
+  static TextStyle body({
+    double size = 14,
+    FontWeight weight = FontWeight.w500,
+    Color? color,
+  }) => GoogleFonts.inter(
+    fontSize: size,
+    fontWeight: weight,
+    color: color ?? textPrimary,
+  );
 }
 
 // ---------------------------------------------------------------------------
@@ -532,7 +546,11 @@ class StatusPill extends StatelessWidget {
           Expanded(
             child: Text(
               message,
-              style: TransferTokens.body(size: 12.5, weight: FontWeight.w600, color: color),
+              style: TransferTokens.body(
+                size: 12.5,
+                weight: FontWeight.w600,
+                color: color,
+              ),
             ),
           ),
         ],
@@ -767,7 +785,9 @@ Future<void> showTransferPicker<T>({
                     final item = items[index];
                     return Material(
                       color: TransferTokens.field,
-                      borderRadius: BorderRadius.circular(TransferTokens.radius),
+                      borderRadius: BorderRadius.circular(
+                        TransferTokens.radius,
+                      ),
                       child: InkWell(
                         borderRadius: BorderRadius.circular(
                           TransferTokens.radius,
