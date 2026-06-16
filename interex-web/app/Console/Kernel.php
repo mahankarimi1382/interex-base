@@ -20,13 +20,10 @@ class Kernel extends ConsoleKernel
             ->everyFiveMinutes()
             ->withoutOverlapping();
 
-        // New cron job for currency rate updates
-        
-        // $schedule->command('currency:update')->everyMinute(); // Adjust the frequency as needed
-         // Other options could be:
-        // $schedule->command('currency:update')->everyTenMinutes();
-        // $schedule->command('currency:update')->hourly();
-        $schedule->command('currency:update')->daily();
+        // Currency rates are refreshed every minute from the internal brsapi proxy.
+        $schedule->command('currency:update')
+            ->everyMinute()
+            ->withoutOverlapping();
     }
 
     /**

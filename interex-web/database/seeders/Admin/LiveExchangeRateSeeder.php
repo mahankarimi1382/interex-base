@@ -15,8 +15,16 @@ class LiveExchangeRateSeeder extends Seeder
     public function run()
     {
 
+        // Default to brsapi.ir (real free-market rates). These values are also
+        // editable from the admin panel (Setup Live Exchange Rate API).
+        $value = json_encode([
+            'access_key'  => config('exchange_rate.brsapi.key', ''),
+            'base_url'    => config('exchange_rate.brsapi.url', 'https://api.brsapi.ir/Market/Gold_Currency.php'),
+            'multiply_by' => '1',
+        ]);
+
         $live_exchange_rate_api_settings = array(
-            array('slug' => 'CURRENCY-LAYER','provider' => 'Currency Layer','value' => '{"access_key":"5fec442d27f34a1c71eed0fce252a16d","base_url":"https:\\/\\/api.currencylayer.com","multiply_by":"1"}','multiply_by' => '1.00000000','currency_module' => '1','payment_gateway_module' => '1','status' => '1','created_at' => now(),'updated_at' => now())
+            array('slug' => 'CURRENCY-LAYER','provider' => 'Currency Layer','value' => $value,'multiply_by' => '1.00000000','currency_module' => '1','payment_gateway_module' => '1','status' => '1','created_at' => now(),'updated_at' => now())
         );
 
         LiveExchangeRateApiSetting::insert($live_exchange_rate_api_settings);
