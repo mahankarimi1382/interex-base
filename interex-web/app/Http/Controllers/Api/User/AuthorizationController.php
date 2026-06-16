@@ -282,7 +282,7 @@ class AuthorizationController extends Controller
         $validator = Validator::make($request->all(), [
           'register_type' => 'required|in:'.global_const()::PHONE.','.global_const()::EMAIL,
             'credentials' => ['required', function ($attribute, $value, $fail) use ($request) {
-                if ($request->type == global_const()::PHONE && !preg_match('/^0?[0-9]{9,14}$/', $value)) {
+                if ($request->register_type == global_const()::PHONE && !preg_match('/^0?[0-9]{9,14}$/', $value)) {
                     $fail('The ' . $attribute . ' must be a valid phone number.');
                 }
                 if ($request->register_type == global_const()::EMAIL && !filter_var($value, FILTER_VALIDATE_EMAIL)) {
@@ -339,7 +339,7 @@ class AuthorizationController extends Controller
         $validator = Validator::make($request->all(), [
            'register_type' => 'required|in:'.global_const()::PHONE.','.global_const()::EMAIL,
             'credentials' => ['required', function ($attribute, $value, $fail) use ($request) {
-                if ($request->type == global_const()::PHONE && !preg_match('/^0?[0-9]{9,14}$/', $value)) {
+                if ($request->register_type == global_const()::PHONE && !preg_match('/^0?[0-9]{9,14}$/', $value)) {
                     $fail('The ' . $attribute . ' must be a valid phone number.');
                 }
                 if ($request->register_type == global_const()::EMAIL && !filter_var($value, FILTER_VALIDATE_EMAIL)) {
@@ -415,7 +415,7 @@ class AuthorizationController extends Controller
                 return Helpers::error($message);
             }
             $code = generate_random_code();
-            $email_verify_status = ($basic_settings->sms_verification == true) ? false : true;
+            $email_verify_status = ($basic_settings->email_verification == true) ? false : true;
 
             $data = [
                 'user_id'       => 0,
@@ -431,6 +431,7 @@ class AuthorizationController extends Controller
                 'created_at'    => now(),
             ];
 
+            DB::beginTransaction();
             try{
                 DB::table("user_authorizations")->insert($data);
                 if($basic_settings->email_notification == true && $basic_settings->email_verification == true){

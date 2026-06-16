@@ -430,7 +430,9 @@ class UserController extends Controller
                     ];
                 }
             }
-        });
+        })->reject(function($item){
+            return is_null($item);
+        })->values();
 
         //module access permissions
         $module_access =[
@@ -562,7 +564,7 @@ class UserController extends Controller
         $validated['mobile']        = $user->registered_by == GlobalConst::PHONE ? $user->mobile : remove_special_char($data['phone']);
         $validated['mobile_code']   = $user->registered_by == GlobalConst::PHONE ? $user->mobile_code : remove_special_char($data['phone_code']);
         $complete_phone             = $mobileCode.$mobile;
-        $validated['full_mobile']   = $complete_phone;
+        $validated['full_mobile']   = $user->registered_by == GlobalConst::PHONE ? $user->full_mobile : $complete_phone;
         $validated['email']         = $user->registered_by == GlobalConst::EMAIL ? $user->email : $data['email'];
 
 
@@ -730,7 +732,6 @@ class UserController extends Controller
         }catch(Exception $e){
             $errorData = json_decode($e->getMessage(), true);
             $error = ['error'=>[__($errorData['message'] ?? __("Something went wrong! Please try again."))]];
-            return Helpers::error($error);
             return Helpers::error($error);
         }
     }

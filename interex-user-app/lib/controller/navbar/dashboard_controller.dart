@@ -35,7 +35,9 @@ class DashBoardController extends GetxController {
       await Future.delayed(Duration(seconds: isFirst.value ? 0 : 2));
       if (isLoggedIn.value) {
         DashboardModel data = await getDashboardData();
-        // walletController.getWalletsInfoProcess();
+        // Refresh wallet balances on every poll so amounts update right after
+        // a transaction. `silent` avoids flashing the full-screen loader.
+        await walletController.getWalletsInfoProcess(silent: true);
         isFirst.value = false;
         yield data;
       }

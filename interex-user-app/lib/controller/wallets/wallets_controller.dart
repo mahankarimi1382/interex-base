@@ -17,26 +17,34 @@ class WalletsController extends GetxController {
   late WalletsModel _walletsInfoModel;
 
   WalletsModel get walletsInfoModel => _walletsInfoModel;
-  Future<WalletsModel> getWalletsInfoProcess() async {
-    _isLoading.value = true;
-    update();
+  /// Fetches the latest wallet balances.
+  ///
+  /// Pass [silent] = true for background refreshes (e.g. the dashboard polling
+  /// loop) so the full-screen loader is NOT shown; the data still updates and
+  /// listeners are notified via [update].
+  Future<WalletsModel> getWalletsInfoProcess({bool silent = false}) async {
+    if (!silent) {
+      _isLoading.value = true;
+      update();
+    }
 
     await ApiServices.walletsInfoApi()
         .then((value) {
-          _walletsInfoModel = value!;
+          if (value == null) return;
+          _walletsInfoModel = value;
           double currencyRate = double.parse(
             _walletsInfoModel.data.userWallets.first.currency.rate,
           );
           exchangeRate.value = (currencyRate * currencyRate);
 
-          _isLoading.value = false;
+          if (!silent) _isLoading.value = false;
           update();
         })
         .catchError((onError) {
           log.e(onError);
-          _isLoading.value = false;
+          if (!silent) _isLoading.value = false;
         });
-    _isLoading.value = false;
+    if (!silent) _isLoading.value = false;
     update();
     return _walletsInfoModel;
   }

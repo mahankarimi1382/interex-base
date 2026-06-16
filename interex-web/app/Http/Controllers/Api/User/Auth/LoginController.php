@@ -49,7 +49,7 @@ class LoginController extends Controller
         $validator = Validator::make($request->all(), [
             'login_type' => 'required|in:'.global_const()::PHONE.','.global_const()::EMAIL,
             'credentials' => ['required', function ($attribute, $value, $fail) use ($request) {
-                if ($request->type == global_const()::PHONE && !preg_match('/^0?[0-9]{9,14}$/', $value)) {
+                if ($request->login_type == global_const()::PHONE && !preg_match('/^0?[0-9]{9,14}$/', $value)) {
                     $fail('The ' . $attribute . ' must be a valid phone number.');
                 }
                 if ($request->login_type == global_const()::EMAIL && !filter_var($value, FILTER_VALIDATE_EMAIL)) {
@@ -208,7 +208,7 @@ class LoginController extends Controller
         $user = new User();
         $user->firstname = isset($data['firstname']) ? $data['firstname'] : null;
         $user->lastname = isset($data['lastname']) ? $data['lastname'] : null;
-        $user->email = strtolower(trim($data['email']));
+        $user->email = isset($data['email']) ? strtolower(trim($data['email'])) : null;
         $user->mobile =  $mobile;
         $user->mobile_code =  $mobile_code;
         $user->full_mobile =    $complete_phone;

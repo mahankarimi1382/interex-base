@@ -364,6 +364,9 @@ class VirtualCardController extends Controller
                 $error = ['error'=>[$result['message']]];
                 return Helpers::error($error);
             }
+        } else {
+            $error = ['error'=>[__("Something went wrong! Please try again.")]];
+            return Helpers::error($error);
         }
 
     }
@@ -383,7 +386,6 @@ class VirtualCardController extends Controller
             $error = ['error'=>[__('Something is wrong in your card')]];
             return Helpers::error($error);
         }
-        $curl = curl_init();
         $curl = curl_init();
         curl_setopt_array($curl, array(
             CURLOPT_URL =>  $this->api->config->flutterwave_url.'/'."virtual-cards/".$card->card_id."/status/".$status,
@@ -423,6 +425,9 @@ class VirtualCardController extends Controller
                 $error = ['error'=>[$result['message']]];
                 return Helpers::error($error);
             }
+        } else {
+            $error = ['error'=>[__("Something went wrong! Please try again.")]];
+            return Helpers::error($error);
         }
 
     }
@@ -518,6 +523,10 @@ class VirtualCardController extends Controller
                     return $item['currency'] === $currency;
                 });
                 $values =  $filteredCollection;
+                if(empty($values)){
+                    $error = ['error'=>[__("Something went wrong! Please try again.")]];
+                    return Helpers::error($error);
+                }
                 $k = array_rand($values);
                 $result = (object) $values[$k];
                 //Save Card
@@ -591,6 +600,9 @@ class VirtualCardController extends Controller
                 $error = ['error'=>[__("Something went wrong! Please try again.")]];
                 return Helpers::error($error);
             }
+        } else {
+            $error = ['error'=>[__("Something went wrong! Please try again.")]];
+            return Helpers::error($error);
         }
 
     }

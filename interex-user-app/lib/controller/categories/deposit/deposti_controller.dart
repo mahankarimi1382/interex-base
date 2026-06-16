@@ -757,14 +757,14 @@ class DepositController extends GetxController {
 
   // ---------------------------- AddMoneyManualInsertModel -----------------
 
-  late AddMoneyManualInsertModel _addMoneyManualInsertModel;
+  AddMoneyManualInsertModel? _addMoneyManualInsertModel;
 
-  AddMoneyManualInsertModel get addMoneyManualInsertModel =>
+  AddMoneyManualInsertModel? get addMoneyManualInsertModel =>
       _addMoneyManualInsertModel;
 
   // --------------------------- Api function ----------------------------------
   // Manual Payment Get Gateway process function
-  Future<AddMoneyManualInsertModel> manualPaymentGetGatewaysProcess() async {
+  Future<AddMoneyManualInsertModel?> manualPaymentGetGatewaysProcess() async {
     _isInsertLoading.value = true;
     inputFields.clear();
     listImagePath.clear();
@@ -782,8 +782,7 @@ class DepositController extends GetxController {
         .then((value) {
           _addMoneyManualInsertModel = value!;
 
-          final previewData =
-              _addMoneyManualInsertModel.data.paymentInformation;
+          final previewData = value.data.paymentInformation;
           enteredAmount = previewData.requestAmount;
           transferFeeAmount = previewData.totalCharge;
           totalCharge = previewData.totalCharge;
@@ -791,7 +790,7 @@ class DepositController extends GetxController {
           payableAmount = previewData.payableAmount;
 
           //-------------------------- Process inputs start ------------------------
-          final data = _addMoneyManualInsertModel.data.inputFields;
+          final data = value.data.inputFields;
 
           for (int item = 0; item < data.length; item++) {
             // make the dynamic controller
@@ -904,11 +903,12 @@ class DepositController extends GetxController {
 
   Future<CommonSuccessModel> manualPaymentProcess() async {
     _isConfirmManualLoading.value = true;
+    final manualModel = _addMoneyManualInsertModel!;
     Map<String, String> inputBody = {
-      'track': addMoneyManualInsertModel.data.paymentInformation.trx,
+      'track': manualModel.data.paymentInformation.trx,
     };
 
-    final data = addMoneyManualInsertModel.data.inputFields;
+    final data = manualModel.data.inputFields;
 
     for (int i = 0; i < data.length; i += 1) {
       if (data[i].type != 'file') {

@@ -40,12 +40,12 @@ class SignInController extends GetxController {
 
   bool get isLoading => _isLoading.value;
 
-  late LoginModel _loginModel;
+  LoginModel? _loginModel;
 
-  LoginModel get loginModel => _loginModel;
+  LoginModel? get loginModel => _loginModel;
 
   // Login process function
-  Future<LoginModel> loginProcess() async {
+  Future<LoginModel?> loginProcess() async {
     _isLoading.value = true;
     update();
 
@@ -62,18 +62,18 @@ class SignInController extends GetxController {
         .then((value) {
           _loginModel = value!;
 
-          twoFaStatus.value = _loginModel.data.user.twoFactorStatus;
-          twoFaVerified.value = _loginModel.data.user.twoFactorVerified;
+          twoFaStatus.value = _loginModel!.data.user.twoFactorStatus;
+          twoFaVerified.value = _loginModel!.data.user.twoFactorVerified;
 
-          if (_loginModel.data.user.emailVerified == 0) {
+          if (_loginModel!.data.user.emailVerified == 0) {
             isEmailVerification.value = false;
-            LocalStorages.saveToken(token: loginModel.data.token.toString());
+            LocalStorages.saveToken(token: loginModel!.data.token.toString());
             _goToEmailVerification();
-          } else if (_loginModel.data.user.smsVerified == 0) {
-            LocalStorages.saveToken(token: loginModel.data.token.toString());
+          } else if (_loginModel!.data.user.smsVerified == 0) {
+            LocalStorages.saveToken(token: loginModel!.data.token.toString());
             _goToPhoneVerification();
           } else {
-            _goToSavedUser(_loginModel);
+            _goToSavedUser(_loginModel!);
             if (twoFaStatus.value == 1 && twoFaVerified.value == 0) {
               Get.toNamed(Routes.otp2FaScreen);
             } else {

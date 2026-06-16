@@ -87,7 +87,10 @@ class AddMoneyManualPaymentScreen extends StatelessWidget {
   }
 
   Container _descriptionWidget(BuildContext context) {
-    final data = controller.addMoneyManualInsertModel.data;
+    final data = controller.addMoneyManualInsertModel?.data;
+    if (data == null) {
+      return Container();
+    }
     return Container(
       padding: EdgeInsets.symmetric(
         vertical: Dimensions.paddingSize * 0.5,

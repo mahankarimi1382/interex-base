@@ -177,7 +177,6 @@ Route::prefix('user')->group(function(){
                     Route::get('details','cardDetails');
                     Route::post('create','cardBuy')->middleware('api.kyc');
                     Route::post('fund','cardFundConfirm')->middleware('api.kyc');
-                    Route::get('details','cardDetails');
                     Route::get('transaction','cardTransaction');
                     Route::post('block','cardBlock');
                     Route::post('unblock','cardUnBlock');
@@ -213,8 +212,7 @@ Route::prefix('user')->group(function(){
                     Route::get('details','cardDetails');
                     Route::get('transaction','cardTransaction');
                     Route::post('block','cardBlock');
-                    Route::post('unblock','cardUnBlock')->name('block');
-                    Route::post('make-remove/default','makeDefaultOrRemove');
+                    Route::post('unblock','cardUnBlock');
                     Route::post('make-remove/default','makeDefaultOrRemove');
                     Route::get('webhook','webhookTransaction');
                 });

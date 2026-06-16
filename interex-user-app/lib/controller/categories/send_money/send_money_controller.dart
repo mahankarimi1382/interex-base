@@ -231,13 +231,13 @@ class SendMoneyController extends GetxController {
 
   // -------------------------------Define API Model-----------------------------
   //
-  late CommonSuccessModel _sendMoneyModel;
+  CommonSuccessModel? _sendMoneyModel;
 
-  CommonSuccessModel get sendMoneyModel => _sendMoneyModel;
+  CommonSuccessModel? get sendMoneyModel => _sendMoneyModel;
 
   // ------------------------------API Function---------------------------------
   //
-  Future<CommonSuccessModel> sendMoneyProcess(BuildContext context) async {
+  Future<CommonSuccessModel?> sendMoneyProcess(BuildContext context) async {
     _isSendMoneyLoading.value = true;
 
     Map<String, dynamic> inputBody = {

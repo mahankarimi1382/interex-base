@@ -152,6 +152,14 @@ class AddMoneyController extends Controller
         $precision          = get_precision($payment_gateways_currencies->gateway);
         $wallet_precision   = get_wallet_precision($user_wallet->currency);
 
+        // Guard against unconfigured/zero exchange rates. Without this a zero rate
+        // causes a DivisionByZeroError below (an Error, not an Exception), which
+        // bypasses the catch blocks and returns a raw "Server Error" 500.
+        if((float) $payment_gateways_currencies->rate <= 0 || (float) $user_wallet->currency->rate <= 0) {
+            $error = ['error'=>[__("This payment method is not properly configured (exchange rate is not set). Please contact support.")]];
+            return Helpers::error($error);
+        }
+
         $gCurrencyRate      = get_amount($payment_gateways_currencies->rate,null,$precision);
         $wCurrencyRate      = get_amount($user_wallet->currency->rate,null,$wallet_precision);
 

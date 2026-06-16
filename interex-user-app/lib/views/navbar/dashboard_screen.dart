@@ -5,12 +5,11 @@ import 'package:qrpaypro/custom_assets/assets.gen.dart';
 import 'package:qrpaypro/utils/basic_screen_imports.dart';
 import 'package:qrpaypro/utils/responsive_layout.dart';
 import 'package:qrpaypro/widgets/bottom_navbar/categorie_widget.dart';
-import 'package:qrpaypro/widgets/others/custom_glass/custom_glass_widget.dart';
 
 import '../../backend/model/bottom_navbar_model/dashboard_model.dart';
 import '../../backend/utils/no_data_widget.dart';
 import '../../controller/wallets/wallets_controller.dart';
-import '../../widgets/bottom_navbar/transaction_history_widget.dart';
+import '../../widgets/bottom_navbar/recent_transaction_card.dart';
 import '../set_up_pin/controller/set_up_pin_controller.dart';
 
 class DashboardScreen extends StatelessWidget {
@@ -202,53 +201,113 @@ class DashboardScreen extends StatelessWidget {
     BuildContext context,
     ScrollController scrollController,
   ) {
-    var data = controller.dashBoardModel.data.transactions;
-    return data.isEmpty
-        ? NoDataWidget(title: Strings.noTransaction.tr)
-        : ListView(
-            padding: EdgeInsets.symmetric(
-              horizontal: Dimensions.paddingSize * 0.8,
-            ),
-            physics: const NeverScrollableScrollPhysics(),
+    final data = controller.dashBoardModel.data.transactions;
+    final isDark = Get.isDarkMode;
+
+    return Container(
+      decoration: BoxDecoration(
+        color: isDark
+            ? const Color(0xFF0F1330)
+            : const Color(0xFFF6F7FB),
+        borderRadius: BorderRadius.vertical(top: Radius.circular(28.r)),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: isDark ? 0.4 : 0.08),
+            blurRadius: 24,
+            offset: const Offset(0, -6),
+          ),
+        ],
+      ),
+      child: Column(
+        children: [
+          _sheetHandle(isDark),
+          _sheetHeader(isDark, data.length),
+          Expanded(
+            child: data.isEmpty
+                ? NoDataWidget(title: Strings.noTransaction.tr)
+                : ListView.builder(
+                    controller: scrollController,
+                    physics: const BouncingScrollPhysics(),
+                    padding: EdgeInsets.fromLTRB(16.w, 4.h, 16.w, 24.h),
+                    itemCount: data.length,
+                    itemBuilder: (context, index) {
+                      final tx = data[index];
+                      return RecentTransactionCard(
+                        type: tx?.transactionType ?? '',
+                        status: tx?.status ?? '',
+                        amount: tx?.requestAmount ?? '',
+                        payableAmount: tx?.payable ?? '',
+                        trx: tx?.trx ?? '',
+                        dateText: tx?.dateTime != null
+                            ? DateFormat.d().format(tx!.dateTime!)
+                            : '',
+                        monthText: tx?.dateTime != null
+                            ? DateFormat.MMM().format(tx!.dateTime!)
+                            : '',
+                      );
+                    },
+                  ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _sheetHandle(bool isDark) {
+    return Container(
+      margin: EdgeInsets.only(top: 12.h, bottom: 4.h),
+      width: 44.w,
+      height: 5.h,
+      decoration: BoxDecoration(
+        color: isDark
+            ? Colors.white.withValues(alpha: 0.18)
+            : Colors.black.withValues(alpha: 0.12),
+        borderRadius: BorderRadius.circular(10.r),
+      ),
+    );
+  }
+
+  Widget _sheetHeader(bool isDark, int count) {
+    final titleColor = isDark ? Colors.white : const Color(0xFF1B2138);
+    return Padding(
+      padding: EdgeInsets.fromLTRB(20.w, 12.h, 16.w, 12.h),
+      child: Row(
+        mainAxisAlignment: mainSpaceBet,
+        crossAxisAlignment: crossCenter,
+        children: [
+          Row(
             children: [
-              CustomTitleHeadingWidget(
-                text: Strings.recentTransactions,
-                style: Get.isDarkMode
-                    ? CustomStyle.darkHeading3TextStyle.copyWith(
-                        fontSize: Dimensions.headingTextSize2,
-                        fontWeight: FontWeight.w600,
-                      )
-                    : CustomStyle.lightHeading3TextStyle.copyWith(
-                        fontSize: Dimensions.headingTextSize2,
-                        fontWeight: FontWeight.w600,
-                      ),
-              ),
-              verticalSpace(Dimensions.widthSize),
-              SizedBox(
-                height: MediaQuery.of(context).size.height,
-                child: ListView.builder(
-                  controller: scrollController,
-                  physics: const BouncingScrollPhysics(),
-                  itemCount: data.length,
-                  itemBuilder: (context, index) {
-                    return TransactionWidget(
-                      status: data[index]?.status ?? '',
-                      amount: data[index]?.requestAmount ?? '',
-                      payableAmount: data[index]?.payable ?? '',
-                      title: data[index]?.transactionType ?? '',
-                      dateText: data[index]?.dateTime != null
-                          ? DateFormat.d().format(data[index]!.dateTime!)
-                          : '',
-                      transaction: data[index]?.trx ?? '',
-                      monthText: data[index]?.dateTime != null
-                          ? DateFormat.MMM().format(data[index]!.dateTime!)
-                          : '',
-                    );
-                  },
+              Text(
+                Strings.recentTransactions.tr,
+                style: TextStyle(
+                  fontSize: 18.sp,
+                  fontWeight: FontWeight.w700,
+                  color: titleColor,
                 ),
               ),
+              if (count > 0) ...[
+                SizedBox(width: 8.w),
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 2.h),
+                  decoration: BoxDecoration(
+                    color: CustomColor.primaryLightColor.withValues(alpha: 0.12),
+                    borderRadius: BorderRadius.circular(20.r),
+                  ),
+                  child: Text(
+                    '$count',
+                    style: TextStyle(
+                      fontSize: 11.sp,
+                      fontWeight: FontWeight.w700,
+                      color: CustomColor.primaryLightColor,
+                    ),
+                  ),
+                ),
+              ],
             ],
-          ).customGlassWidget();
+          ),
+        ],
+      ),
+    );
   }
 
   Column _walletsWidget(BuildContext context) {

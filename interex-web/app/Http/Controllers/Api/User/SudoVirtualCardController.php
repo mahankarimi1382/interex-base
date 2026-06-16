@@ -569,7 +569,7 @@ class SudoVirtualCardController extends Controller
         }
 
        }
-       if($created_card['statusCode']  = 200){
+       if($created_card['statusCode']  == 200){
             $card_info = (object)$created_card['data'];
             $v_card = new SudoVirtualCard();
             $v_card->user_id = $user->id;

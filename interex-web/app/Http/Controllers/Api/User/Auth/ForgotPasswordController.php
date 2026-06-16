@@ -135,7 +135,7 @@ class ForgotPasswordController extends Controller
         }
         $code = $request->code;
         $basic_settings = BasicSettingsProvider::get();
-        $otp_exp_seconds = $basic_settings->otp_exp_seconds ?? 0;
+        $otp_exp_seconds = $basic_settings->otp_exp_seconds ?? GlobalConst::DEFAULT_TOKEN_EXP_SEC;
         $password_reset = UserPasswordReset::where("code", $code)->where('email',$request->email)->first();
         if(!$password_reset) {
             $error = ['error'=>[__('Verification Otp is Invalid')]];
@@ -250,7 +250,7 @@ class ForgotPasswordController extends Controller
 
         $code = $request->code;
         $basic_settings = BasicSettingsProvider::get();
-        $otp_exp_seconds = $basic_settings->otp_exp_seconds ?? 0;
+        $otp_exp_seconds = $basic_settings->otp_exp_seconds ?? GlobalConst::DEFAULT_TOKEN_EXP_SEC;
         $password_reset = UserPasswordReset::where("code",$code)->where('phone', $full_mobile)->first();
         if(!$password_reset) {
             $error = ['error'=>[__('Verification Otp is Invalid')]];

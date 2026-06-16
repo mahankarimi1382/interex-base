@@ -48,19 +48,21 @@ class Data {
   final String method;
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
-    gatewayType: json["gateway_type"],
-    gatewayCurrencyName: json["gateway_currency_name"],
-    alias: json["alias"],
-    identify: json["identify"],
-    details: json["details"],
-    inputFields: List<InputField>.from(
-      json["input_fields"].map((x) => InputField.fromJson(x)),
-    ),
+    gatewayType: json["gateway_type"] ?? "",
+    gatewayCurrencyName: json["gateway_currency_name"] ?? "",
+    alias: json["alias"] ?? "",
+    identify: json["identify"] ?? "",
+    details: json["details"] ?? "",
+    inputFields: json["input_fields"] == null
+        ? []
+        : List<InputField>.from(
+            json["input_fields"].map((x) => InputField.fromJson(x)),
+          ),
     paymentInformation: PaymentInformation.fromJson(
       json["payment_information"],
     ),
-    url: json["url"],
-    method: json["method"],
+    url: json["url"] ?? "",
+    method: json["method"] ?? "",
   );
 
   Map<String, dynamic> toJson() => {
@@ -92,11 +94,11 @@ class InputField {
   final Validation validation;
 
   factory InputField.fromJson(Map<String, dynamic> json) => InputField(
-    type: json["type"],
-    label: json["label"],
-    name: json["name"],
-    required: json["required"],
-    validation: Validation.fromJson(json["validation"]),
+    type: json["type"] ?? "",
+    label: json["label"] ?? "",
+    name: json["name"] ?? "",
+    required: json["required"] ?? false,
+    validation: Validation.fromJson(json["validation"] ?? {}),
   );
 
   Map<String, dynamic> toJson() => {
@@ -125,10 +127,14 @@ class Validation {
 
   factory Validation.fromJson(Map<String, dynamic> json) => Validation(
     max: json["max"] ?? "",
-    mimes: List<dynamic>.from(json["mimes"].map((x) => x)),
+    mimes: json["mimes"] == null
+        ? []
+        : List<dynamic>.from(json["mimes"].map((x) => x)),
     min: json["min"] ?? "",
-    options: List<dynamic>.from(json["options"].map((x) => x)),
-    required: json["required"],
+    options: json["options"] == null
+        ? []
+        : List<dynamic>.from(json["options"].map((x) => x)),
+    required: json["required"] ?? false,
   );
 
   Map<String, dynamic> toJson() => {
