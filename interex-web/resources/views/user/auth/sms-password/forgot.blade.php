@@ -28,7 +28,7 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text copytext">+{{ getDialCode() }}</span>
                             </div>
-                            <input type="number" name="mobile" class="form--control mobile" placeholder="Enter Number" value="{{ old('mobile') }}">
+                            <input type="number" name="mobile" class="form--control mobile" placeholder="{{ __('Enter Number') }}" value="{{ old('mobile') }}">
 
                         </div>
                         <small class="text-danger exits"></small>

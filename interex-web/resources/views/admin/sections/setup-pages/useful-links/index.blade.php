@@ -108,7 +108,7 @@
                                     <button class="nav-link @if (get_default_language_code() == language_const()::NOT_REMOVABLE) active @endif"
                                         id="modal-english-tab" data-bs-toggle="tab" data-bs-target="#modal-english"
                                         type="button" role="tab" aria-controls="edit-modal-english"
-                                        aria-selected="false">English</button>
+                                        aria-selected="false">{{ __('English') }}</button>
                                     @foreach ($languages as $item)
                                         <button class="nav-link @if (get_default_language_code() == $item->code) active @endif"
                                             id="edit-modal-{{ $item->name }}-tab" data-bs-toggle="tab"

@@ -142,7 +142,7 @@
                                     </div>
                                 </div>
                                 <div class="preview-list-right">
-                                    <span class="request-amount">{{ __("1") }} {{ $moneyOutData->charges['wallet_cur_code']??get_default_currency_code() }} =  {{ get_amount($moneyOutData->charges['exchange_rate']??$moneyOutData->gateway_rate,$moneyOutData->charges['gateway_cur_code']??$moneyOutData->gateway_currency,$pricison)}} </span>
+                                    <span class="request-amount">{{ "1" }} {{ $moneyOutData->charges['wallet_cur_code']??get_default_currency_code() }} =  {{ get_amount($moneyOutData->charges['exchange_rate']??$moneyOutData->gateway_rate,$moneyOutData->charges['gateway_cur_code']??$moneyOutData->gateway_currency,$pricison)}} </span>
                                 </div>
                             </div>
                             <div class="preview-list-item">

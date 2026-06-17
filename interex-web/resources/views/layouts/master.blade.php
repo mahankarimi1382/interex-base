@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ get_default_language_code() }}">
+<html lang="{{ get_default_language_code() }}" dir="{{ selectedLangDir() ?? 'ltr' }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,7 +11,7 @@
     @include('partials.header-asset')
     @stack('css')
 </head>
-<body>
+<body class="{{ selectedLangDir() ?? 'ltr' }}">
 
 @include('frontend.partials.preloader')
 

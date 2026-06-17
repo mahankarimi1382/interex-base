@@ -22,7 +22,7 @@
                     <img class="avatar" src="{{ get_image($support_ticket->user->image,"user-profile") }}" alt="client">
                     <div class="card-header-user-content">
                         <h6 class="title">{{ $support_ticket->user->fullname }}</h6>
-                        <span class="sub-title">Ticket ID : <span class="text--warning">#{{ $support_ticket->token }}</span></span>
+                        <span class="sub-title">{{ __('Ticket ID :') }} <span class="text--warning">#{{ $support_ticket->token }}</span></span>
                     </div>
                 </div>
                 <div class="info-btn">

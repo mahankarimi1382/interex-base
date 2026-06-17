@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ get_default_language_code() }}" dir="{{ selectedLangDir() ?? 'ltr' }}">
 
 <head>
     <meta charset="UTF-8">
@@ -27,11 +27,13 @@
     <link rel="stylesheet" href="{{ asset('backend/css/rte_theme_default.css') }}">
     <!-- main style css link -->
     <link rel="stylesheet" href="{{ asset('backend/css/style.css') }}">
+    <!-- RTL overrides (scoped to body.rtl) -->
+    <link rel="stylesheet" href="{{ asset('backend/css/rtl.css') }}">
 
     @stack('css')
 </head>
 
-<body>
+<body class="{{ selectedLangDir() ?? 'ltr' }}">
 
     <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     Start Admin

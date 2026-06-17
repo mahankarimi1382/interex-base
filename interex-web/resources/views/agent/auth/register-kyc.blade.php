@@ -65,7 +65,7 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text copytext">{{ __("Email") }}</span>
                             </div>
-                            <input type="email" name="email" class="form--control" placeholder="Email" value="{{ old('email',$register_type == global_const()::EMAIL ? $credentials : '') }}" @if(@$register_type == global_const()::EMAIL) readonly @endif>
+                            <input type="email" name="email" class="form--control" placeholder="{{ __('Email') }}" value="{{ old('email',$register_type == global_const()::EMAIL ? $credentials : '') }}" @if(@$register_type == global_const()::EMAIL) readonly @endif>
                         </div>
                     </div>
                     <div class="col-xl-4 col-lg-4 col-md-4 form-group">

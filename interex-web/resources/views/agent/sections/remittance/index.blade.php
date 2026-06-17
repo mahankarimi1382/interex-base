@@ -59,7 +59,7 @@ $siteWallet = str_replace(' ','_',$basic_settings->site_name)."_Wallet";
                                @if($receiver_token)
                                 <div class="col-xl-6 col-lg-6 form-group">
                                     <label>{{ __("To Country") }}<span class="text--base">*</span></label>
-                                    <select name="to_country" class="form--control select2-basic" required data-placeholder="Select To Country" >
+                                    <select name="to_country" class="form--control select2-basic" required data-placeholder="{{ __('Select To Country') }}" >
                                         {{-- <option disabled selected value="">Select To Country</option> --}}
                                     @foreach ($receiverCountries as $country)
                                         <option value="{{ $country->id }}" {{ @$rtoken->receiver_country ==  $country->id ? 'selected':''}}
@@ -76,7 +76,7 @@ $siteWallet = str_replace(' ','_',$basic_settings->site_name)."_Wallet";
                                 @else
                                 <div class="col-xl-6 col-lg-6 form-group">
                                     <label>{{ __("To Country") }}<span class="text--base">*</span></label>
-                                    <select name="to_country" class="form--control select2-basic" required data-placeholder="Select To Country" >
+                                    <select name="to_country" class="form--control select2-basic" required data-placeholder="{{ __('Select To Country') }}" >
                                         {{-- <option disabled selected value="">Select To Country</option> --}}
                                         @foreach ($receiverCountries as $country)
                                         <option value="{{ $country->id }}"
@@ -93,7 +93,7 @@ $siteWallet = str_replace(' ','_',$basic_settings->site_name)."_Wallet";
                                 @if($sender_token)
                                 <div class="col-xl-12 col-lg-12 form-group">
                                     <label>{{ __("Transaction Type") }}<span>*</span></label>
-                                    <select  name="transaction_type" required  class="form--control select2-auto-tokenize" data-placeholder="Select Transaction Type" data-minimum-results-for-search="Infinity">
+                                    <select  name="transaction_type" required  class="form--control select2-auto-tokenize" data-placeholder="{{ __('Select Transaction Type') }}" data-minimum-results-for-search="Infinity">
                                         {{-- <option disabled selected value="">{{ __("Select Transaction Type") }}</option> --}}
                                         <option value="bank-transfer" {{ @$token->transacion_type == 'bank-transfer' ? 'selected':''}} data-name="Bank Transfer">{{__("Bank Transfer")}}</option>
                                         <option value="wallet-to-wallet-transfer" {{ @$token->transacion_type == 'wallet-to-wallet-transfer' ? 'selected':''}} data-name="wallet-to-wallet-transfer">{{ @$basic_settings->site_name }} {{__("Wallet")}}</option>
@@ -104,7 +104,7 @@ $siteWallet = str_replace(' ','_',$basic_settings->site_name)."_Wallet";
                                 @elseif($receiver_token)
                                 <div class="col-xl-12 col-lg-12 form-group">
                                     <label>{{ __("Transaction Type") }}<span>*</span></label>
-                                    <select  name="transaction_type" required  class="form--control select2-auto-tokenize" data-placeholder="Select Transaction Type" data-minimum-results-for-search="Infinity">
+                                    <select  name="transaction_type" required  class="form--control select2-auto-tokenize" data-placeholder="{{ __('Select Transaction Type') }}" data-minimum-results-for-search="Infinity">
                                         {{-- <option disabled selected value="">{{ __("Select Transaction Type") }}</option> --}}
                                         <option value="bank-transfer" {{ @$rtoken->transacion_type == 'bank-transfer' ? 'selected':''}} data-name="Bank Transfer">{{__("Bank Transfer")}}</option>
                                         <option value="wallet-to-wallet-transfer" {{ @$token->transacion_type == 'wallet-to-wallet-transfer' ? 'selected':''}} data-name="wallet-to-wallet-transfer">{{ @$basic_settings->site_name }} {{__("Wallet")}}</option>
@@ -115,7 +115,7 @@ $siteWallet = str_replace(' ','_',$basic_settings->site_name)."_Wallet";
                                 @else
                                 <div class="col-xl-12 col-lg-12 form-group">
                                     <label>{{ __("Transaction Type") }}<span>*</span></label>
-                                    <select  name="transaction_type" required  class="form--control select2-auto-tokenize" data-placeholder="Select Transaction Type" data-minimum-results-for-search="Infinity">
+                                    <select  name="transaction_type" required  class="form--control select2-auto-tokenize" data-placeholder="{{ __('Select Transaction Type') }}" data-minimum-results-for-search="Infinity">
                                         {{-- <option disabled selected value="">{{ __("Select Transaction Type") }}</option> --}}
                                         <option value="bank-transfer"  data-name="Bank Transfer">{{__("Bank Transfer")}}</option>
                                         <option value="wallet-to-wallet-transfer" data-name="wallet-to-wallet-transfer">{{ @$basic_settings->site_name }} {{__("Wallet")}}</option>

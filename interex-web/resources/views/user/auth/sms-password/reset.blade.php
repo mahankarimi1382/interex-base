@@ -22,11 +22,11 @@
                     <div class="row ml-b-20">
 
                         <div class="col-lg-12 form-group show_hide_password" >
-                            <input type="password"  class="form-control form--control" name="password" placeholder="New Password">
+                            <input type="password"  class="form-control form--control" name="password" placeholder="{{ __('New Password') }}">
                             <a href="javascript:void(0)" class="show-pass"><i class="fa fa-eye-slash" aria-hidden="true"></i></a>
                         </div>
                         <div class="col-lg-12 form-group show_hide_password-2" >
-                            <input type="password"  class="form-control form--control" name="password_confirmation" placeholder="Confirmed Password">
+                            <input type="password"  class="form-control form--control" name="password_confirmation" placeholder="{{ __('Confirmed Password') }}">
                             <a href="javascript:void(0)" class="show-pass"><i class="fa fa-eye-slash" aria-hidden="true"></i></a>
                         </div>
 

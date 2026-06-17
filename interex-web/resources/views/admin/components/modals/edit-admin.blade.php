@@ -66,7 +66,7 @@
                             </div>
                             <div class="col-xl-6 col-lg-6 form-group role-select-wrp" data-admin-roles="{{ json_encode($admin_roles) }}">
                                 <label>{{ __("Role") }}*</label>
-                                <select class="form--control select2-auto-tokenize" name="edit_role[]" data-old="{{ old("edit_role") }}" multiple data-placeholder="Select Role">
+                                <select class="form--control select2-auto-tokenize" name="edit_role[]" data-old="{{ old("edit_role") }}" multiple data-placeholder="{{ __('Select Role') }}">
                                     @foreach ($admin_roles as $item)
                                         <option value="{{ $item->id }}">{{ $item->name }}</option>
                                     @endforeach
@@ -114,7 +114,7 @@
                         }
                     });
 
-                    var roleSelect = `<select class="form--control select2-auto-tokenize" name="edit_role[]" data-old="{{ old("edit_role") }}" multiple data-placeholder="Select Role">
+                    var roleSelect = `<select class="form--control select2-auto-tokenize" name="edit_role[]" data-old="{{ old("edit_role") }}" multiple data-placeholder="{{ __('Select Role') }}">
                                         ${options}
                                     </select>`;
 

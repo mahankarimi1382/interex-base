@@ -12881,3 +12881,32 @@ input[type="number"] {
 .terms-agrement{
     justify-content: flex-start !important;
 }
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   RTL: mirror directional icons (arrows / angles / chevrons / carets)
+   so that "next/forward" points right-to-left. Scoped to .rtl body.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+.rtl .fa-arrow-right, .rtl .fa-arrow-left,
+.rtl .fa-long-arrow-right, .rtl .fa-long-arrow-left,
+.rtl .fa-long-arrow-alt-right, .rtl .fa-long-arrow-alt-left,
+.rtl .fa-arrow-alt-circle-right, .rtl .fa-arrow-alt-circle-left,
+.rtl .fa-arrow-circle-right, .rtl .fa-arrow-circle-left,
+.rtl .fa-angle-right, .rtl .fa-angle-left,
+.rtl .fa-angle-double-right, .rtl .fa-angle-double-left,
+.rtl .fa-chevron-right, .rtl .fa-chevron-left,
+.rtl .fa-chevron-circle-right, .rtl .fa-chevron-circle-left,
+.rtl .fa-caret-right, .rtl .fa-caret-left,
+.rtl .fa-hand-point-right, .rtl .fa-hand-point-left,
+.rtl .la-arrow-right, .rtl .la-arrow-left,
+.rtl .la-long-arrow-right, .rtl .la-long-arrow-left,
+.rtl .la-long-arrow-alt-right, .rtl .la-long-arrow-alt-left,
+.rtl .la-arrow-alt-circle-right, .rtl .la-arrow-alt-circle-left,
+.rtl .la-arrow-circle-right, .rtl .la-arrow-circle-left,
+.rtl .la-angle-right, .rtl .la-angle-left,
+.rtl .la-angle-double-right, .rtl .la-angle-double-left,
+.rtl .la-chevron-right, .rtl .la-chevron-left,
+.rtl .la-caret-right, .rtl .la-caret-left {
+    display: inline-block;
+    -webkit-transform: scaleX(-1);
+            transform: scaleX(-1);
+}

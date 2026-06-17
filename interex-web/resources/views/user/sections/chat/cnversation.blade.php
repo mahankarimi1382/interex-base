@@ -28,7 +28,7 @@
                             <img class="avatar" src="{{ @$chatBox->senderImage->image}}" alt="client">
                             <div class="card-header-user-content">
                                 <h6 class="title">{{ @$chatBox->senderImage->fullname }}</h6>
-                                <span class="sub-title">Email : <span
+                                <span class="sub-title">{{ __('Email :') }} <span
                                         class="text--warning">{{ $chatBox->senderImage->email }}</span></span>
                             </div>
                         </div>
@@ -55,7 +55,7 @@
                             <div class="publisher">
                                 <div class="chatbox-message-part">
                                     <textarea class="publisher-input message-input message-input-event" name="message"
-                                        placeholder="Write something...."></textarea>
+                                        placeholder="{{ __('Write something....') }}"></textarea>
                                 </div>
                                 <div class="chatbox-send-part">
                                     <button type="button" class="submit chat-submit-btn-event chat-submit-btn"><i class="lab la-telegram-plane"> </i></button>

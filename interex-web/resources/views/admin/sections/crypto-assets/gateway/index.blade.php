@@ -244,7 +244,7 @@
                             <div class="col-12 form-group">
                                 @include('admin.components.form.input',[
                                     'label'         => __("Mnemonic"),
-                                    'label_after'   => '<span> (Optional)</span>',
+                                    'label_after'   => '<span> {{ __('(Optional)') }}</span>',
                                     'name'          => 'mnemonic',
                                     'value'         => old('mnemonic')
                                 ])
@@ -253,7 +253,7 @@
                             <div class="col-12 form-group">
                                 @include('admin.components.form.input',[
                                     'label'         => __("Extended Public Key (Xpub)"),
-                                    'label_after'   => '<span> (Optional)</span>',
+                                    'label_after'   => '<span> {{ __('(Optional)') }}</span>',
                                     'name'          => 'xpub',
                                     'value'         => old('xpub')
                                 ])
@@ -262,7 +262,7 @@
                             <div class="col-12 form-group">
                                 @include('admin.components.form.input',[
                                     'label'         => __("Private Key"),
-                                    'label_after'   => '<span> (Optional)</span>',
+                                    'label_after'   => '<span> {{ __('(Optional)') }}</span>',
                                     'name'          => 'private_key',
                                     'value'         => old('private_key')
                                 ])

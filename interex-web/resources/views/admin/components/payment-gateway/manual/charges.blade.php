@@ -104,7 +104,7 @@
                         <label>{{ __("Rate") }}</label>
                         <div class="input-group">
                             <span class="input-group-text append ">1 &nbsp; <span class="default-currency">{{ get_default_currency_code($default_currency) }}</span>&nbsp; = </span>
-                            <input type="text" class="form--control" value="{{ old("rate",0) }}" name="rate" placeholder="Type Here...">
+                            <input type="text" class="form--control" value="{{ old("rate",0) }}" name="rate" placeholder="{{ __('Type Here...') }}">
                             <span class="input-group-text currency">-</span>
                         </div>
                     </div>

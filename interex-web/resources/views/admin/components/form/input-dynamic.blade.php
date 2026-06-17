@@ -6,7 +6,7 @@
         @if($item->required == true)
         <span class="text-danger">*</span>
         @else
-        <span class="">( Optional )</span>
+        <span class="">{{ __('( Optional )') }}</span>
         @endif
     </label>
 @endif

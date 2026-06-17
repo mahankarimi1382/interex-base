@@ -46,7 +46,7 @@
                             <div class="row">
                                 <div class="col-lg-12 form-group">
                                     <label for="bank_name">{{ __("select Bank") }} <span class="text-danger">*</span></label>
-                                    <select name="bank_name" class="form--control select2-basic" required data-placeholder="Select Bank" >
+                                    <select name="bank_name" class="form--control select2-basic" required data-placeholder="{{ __('Select Bank') }}" >
                                           <option disabled selected value="">{{ __("select Bank") }}</option>
                                         @foreach ($allBanks ??[] as $bank)
                                             <option value="{{ $bank['code'] }}">{{ $bank['name'] }}</option>
@@ -55,7 +55,7 @@
                                 </div>
                                 <div class="col-lg-12 form-group">
                                     <label for="account_number">{{ __("account Number") }} <span class="text-danger">*</span></label>
-                                    <input type="text" class="form--control check_bank number-input" id="account_number"  name="account_number" value="{{ old('account_number') }}" placeholder="Account Number">
+                                    <input type="text" class="form--control check_bank number-input" id="account_number"  name="account_number" value="{{ old('account_number') }}" placeholder="{{ __('Account Number') }}">
                                     <label class="exist text-start"></label>
                                 </div>
                                 <div class="col-xl-12 col-lg-12">
@@ -105,7 +105,7 @@
                                     </div>
                                 </div>
                                 <div class="preview-list-right">
-                                    <span class="request-amount">{{ __("1") }} {{ get_default_currency_code() }} =  {{ number_format(@$moneyOutData->gateway_rate,2 )}} {{ @$moneyOutData->gateway_currency }}</span>
+                                    <span class="request-amount">{{ "1" }} {{ get_default_currency_code() }} =  {{ number_format(@$moneyOutData->gateway_rate,2 )}} {{ @$moneyOutData->gateway_currency }}</span>
                                 </div>
                             </div>
                             <div class="preview-list-item">

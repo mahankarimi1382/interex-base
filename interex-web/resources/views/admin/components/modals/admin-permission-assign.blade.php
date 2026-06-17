@@ -11,7 +11,7 @@
 
                         <div class="col-xl-12 col-lg-12 form-group mt-2">
                             <label for="selectRole">{{ __("Assign Permission Page/Task") }}</label>
-                            <select name="title[]" id="selectTitle" class="select2-auto-tokenize form--control" data-placeholder="Select Pages" multiple>
+                            <select name="title[]" id="selectTitle" class="select2-auto-tokenize form--control" data-placeholder="{{ __('Select Pages') }}" multiple>
                                 @foreach ($routes as $item)
                                     <option value="{{ $item['route'] }}">{{ $item['text'] }}</option>
                                 @endforeach

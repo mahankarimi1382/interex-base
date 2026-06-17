@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ app()->getLocale() }}" dir="{{ in_array(app()->getLocale(), ['ar','fa','he','ur','ps']) ? 'rtl' : 'ltr' }}">
 
 <head>
     <meta charset="UTF-8">

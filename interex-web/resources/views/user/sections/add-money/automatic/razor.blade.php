@@ -61,7 +61,7 @@
                                     </div>
                                 </div>
                                 <div class="preview-list-right">
-                                    <span class="request-amount">{{ __("1") }} {{ get_default_currency_code() }} =  {{ get_amount(@$output->data->amount->sender_cur_rate, @$output->data->amount->sender_cur_code,4 )}}</span>
+                                    <span class="request-amount">{{ "1" }} {{ get_default_currency_code() }} =  {{ get_amount(@$output->data->amount->sender_cur_rate, @$output->data->amount->sender_cur_code,4 )}}</span>
                                 </div>
                             </div>
                             <div class="preview-list-item">

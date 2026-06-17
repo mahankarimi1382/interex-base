@@ -87,7 +87,7 @@
 
         <div class="col-xl-3 col-lg-3 col-md-4 form-group">
             <label>{{ __("select Bank") }} <span>*</span></label>
-            <select name="bank" class="form--control select2-basic" data-placeholder="Select Bank Name">
+            <select name="bank" class="form--control select2-basic" data-placeholder="{{ __('Select Bank Name') }}">
                 <option selected disabled>{{ __("Select Bank Name") }}</option>
                 @foreach ($banks as $item)
                     <option value="{{ $item->alias }}">{{  $item->name  }}</option>

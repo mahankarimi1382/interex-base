@@ -145,7 +145,7 @@
                 options += `<option value="${item}" selected>${item}</option>`;
 
             });
-            var seletedTags = `<select class="form--control select2-auto-tokenize" data-tags="true" name="tags[]"  multiple data-placeholder="Select Tags">
+            var seletedTags = `<select class="form--control select2-auto-tokenize" data-tags="true" name="tags[]"  multiple data-placeholder="{{ __('Select Tags') }}">
                                 ${options}
                             </select>`;
 

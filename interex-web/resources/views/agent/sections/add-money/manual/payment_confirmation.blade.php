@@ -137,7 +137,7 @@
                                     </div>
                                 </div>
                                 <div class="preview-list-right">
-                                    <span class="request-amount">{{ __("1") }} {{ $hasData->data->amount->receiver_cur_code }} =  {{ get_amount(@$hasData->data->amount->exchange_rate,$hasData->data->amount->sender_cur_code,$pricison)}}</span>
+                                    <span class="request-amount">{{ "1" }} {{ $hasData->data->amount->receiver_cur_code }} =  {{ get_amount(@$hasData->data->amount->exchange_rate,$hasData->data->amount->sender_cur_code,$pricison)}}</span>
                                 </div>
                             </div>
                             <div class="preview-list-item">

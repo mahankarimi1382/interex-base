@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ app()->getLocale() }}" dir="{{ in_array(app()->getLocale(), ['ar','fa','he','ur','ps']) ? 'rtl' : 'ltr' }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -92,14 +92,14 @@
         </div>
         <div class="email-templates-box">
             <div class="email-templates-content">
-                <p class="hello">Hello,</p>
-                <p>You have requested us to send a link to reset your password for your admin account</p>
+                <p class="hello">{{ __('Hello,') }}</p>
+                <p>{{ __('You have requested us to send a link to reset your password for your admin account') }}</p>
                 <div class="email-templates-btn">
-                    <a href="{{ $reset_url ?? "javascript:void(0)" }}" class="btn--base">Reset Password</a>
+                    <a href="{{ $reset_url ?? "javascript:void(0)" }}" class="btn--base">{{ __('Reset Password') }}</a>
                 </div>
-                <p>If you didn't initiate this request, you can safely ignore this email.</p>
-                <p class="thanks">Thanks!</p>
-                <span><a href="{{ $site_url ?? "" }}">{{ $site_name ?? "" }}</a> Support Team</span>
+                <p>{{ __("If you didn't initiate this request, you can safely ignore this email.") }}</p>
+                <p class="thanks">{{ __('Thanks!') }}</p>
+                <span><a href="{{ $site_url ?? "" }}">{{ $site_name ?? "" }}</a> {{ __('Support Team') }}</span>
             </div>
         </div>
     </div>

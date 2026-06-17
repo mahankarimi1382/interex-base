@@ -192,7 +192,7 @@
                                         <label>{{ __("Rate") }}</label>
                                         <div class="input-group">
                                             <span class="input-group-text append ">1 &nbsp; <span class="default-currency">{{ get_default_currency_code($default_currency) }}</span>&nbsp; = </span>
-                                            <input type="t" class="form--control" value="{{ old("rate",get_amount($payment_gateway->currencies->first()->rate,null,$pricison)) }}" name="rate" placeholder="Type Here...">
+                                            <input type="t" class="form--control" value="{{ old("rate",get_amount($payment_gateway->currencies->first()->rate,null,$pricison)) }}" name="rate" placeholder="{{ __('Type Here...') }}">
                                             <span class="input-group-text currency">{{ $payment_gateway->currencies->first()->currency_code }}</span>
                                         </div>
                                     </div>

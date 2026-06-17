@@ -53,7 +53,7 @@
                                 <div class="nav nav-tabs" id="nav-tab" role="tablist">
                                     <button class="nav-link @if (get_default_language_code() == language_const()::NOT_REMOVABLE) active @endif"
                                         id="english-tab" data-bs-toggle="tab" data-bs-target="#english" type="button"
-                                        role="tab" aria-controls="english" aria-selected="false">English</button>
+                                        role="tab" aria-controls="english" aria-selected="false">{{ __('English') }}</button>
                                     @foreach ($languages as $item)
                                         <button class="nav-link @if (get_default_language_code() == $item->code) active @endif"
                                             id="{{ $item->name }}-tab" data-bs-toggle="tab"
@@ -99,7 +99,7 @@
                                         <label for="">{{ __('Button Link') }}</label>
                                         <div class="input-group mb-3">
                                             <span class="input-group-text" id="basic-addon1">{{ url('/') }}/</span>
-                                            <input type="text" class="form--control" placeholder="Button link"
+                                            <input type="text" class="form--control" placeholder="{{ __('Button link') }}"
                                                 name="{{ $default_lang_code }}_button_link"
                                                 value="{{ old($default_lang_code . '_button_link', $data->value->language->$default_lang_code->button_link ?? '') }}">
                                         </div>
@@ -147,7 +147,7 @@
                                             <div class="input-group mb-3">
                                                 <span class="input-group-text"
                                                     id="basic-addon1">{{ url('/') }}/</span>
-                                                <input type="text" class="form--control" placeholder="Button link"
+                                                <input type="text" class="form--control" placeholder="{{ __('Button link') }}"
                                                     name="{{ $item->code }}_button_link"
                                                     value="{{ old($item->code . '_button_link', $data->value->language->$lang_code->button_link ?? '') }}">
                                             </div>
@@ -228,7 +228,7 @@
                                     <button class="nav-link @if (get_default_language_code() == language_const()::NOT_REMOVABLE) active @endif"
                                         id="edit-modal-english-tab" data-bs-toggle="tab"
                                         data-bs-target="#edit-modal-english" type="button" role="tab"
-                                        aria-controls="edit-modal-english" aria-selected="false">English</button>
+                                        aria-controls="edit-modal-english" aria-selected="false">{{ __('English') }}</button>
                                     @foreach ($languages as $item)
                                         <button class="nav-link @if (get_default_language_code() == $item->code) active @endif"
                                             id="edit-modal-{{ $item->name }}-tab" data-bs-toggle="tab"

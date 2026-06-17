@@ -62,7 +62,7 @@
                                 <div class="nav nav-tabs" id="nav-tab" role="tablist">
                                     <button class="nav-link @if (get_default_language_code() == language_const()::NOT_REMOVABLE) active @endif"
                                         id="english-tab" data-bs-toggle="tab" data-bs-target="#english" type="button"
-                                        role="tab" aria-controls="english" aria-selected="false">English</button>
+                                        role="tab" aria-controls="english" aria-selected="false">{{ __('English') }}</button>
                                     @foreach ($languages as $item)
                                         <button class="nav-link @if (get_default_language_code() == $item->code) active @endif"
                                             id="{{ $item->name }}-tab" data-bs-toggle="tab"

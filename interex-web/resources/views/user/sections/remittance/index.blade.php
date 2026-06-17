@@ -54,7 +54,7 @@ $siteWallet = str_replace(' ','_',$basic_settings->site_name)."_Wallet";
                                 </div>
                                 <div class="col-xl-6 col-lg-6 form-group">
                                     <label>{{ __("To Country") }}<span class="text--base">*</span></label>
-                                    <select name="to_country" class="form--control select2-basic" required data-placeholder="Select To Country" >
+                                    <select name="to_country" class="form--control select2-basic" required data-placeholder="{{ __('Select To Country') }}" >
                                         @foreach ($receiverCountries as $country)
                                             <option value="{{ $country->id }}" {{ @$token->receiver_country ==  $country->id ? 'selected':''}}
                                                 data-code="{{ $country->code }}"
@@ -68,7 +68,7 @@ $siteWallet = str_replace(' ','_',$basic_settings->site_name)."_Wallet";
                                 </div>
                                 <div class="col-xl-12 col-lg-12 form-group">
                                     <label>{{ __("Transaction Type") }}<span>*</span></label>
-                                    <select  name="transaction_type" required  class="form--control select2-auto-tokenize" data-placeholder="Select Transaction Type" data-minimum-results-for-search="Infinity">
+                                    <select  name="transaction_type" required  class="form--control select2-auto-tokenize" data-placeholder="{{ __('Select Transaction Type') }}" data-minimum-results-for-search="Infinity">
                                         <option value="bank-transfer" {{ @$token->transacion_type == 'bank-transfer' ? 'selected':''}} data-name="Bank Transfer">{{__("Bank Transfer")}}</option>
                                         <option value="wallet-to-wallet-transfer" {{ @$token->transacion_type == 'wallet-to-wallet-transfer' ? 'selected':''}} data-name="wallet-to-wallet-transfer">{{ @$basic_settings->site_name }} {{__("Wallet")}}</option>
                                         <option value="cash-pickup" {{ @$token->transacion_type ==  'cash-pickup' ? 'selected':''}} data-name="Cash Pickup">{{__("Cash Pickup")}}</option>

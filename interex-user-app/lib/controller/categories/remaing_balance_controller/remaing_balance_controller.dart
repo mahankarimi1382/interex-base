@@ -16,10 +16,10 @@ class RemaingBalanceController extends GetxController {
 
   final _isLoading = false.obs;
   bool get isLoading => _isLoading.value;
-  late RemainingBalanceModel _remainingBalanceModel;
+  RemainingBalanceModel? _remainingBalanceModel;
 
-  RemainingBalanceModel get remainingBalanceModel => _remainingBalanceModel;
-  Future<RemainingBalanceModel> getRemainingBalanceProcess() async {
+  RemainingBalanceModel? get remainingBalanceModel => _remainingBalanceModel;
+  Future<RemainingBalanceModel?> getRemainingBalanceProcess() async {
     _isLoading.value = true;
     update();
 
@@ -34,14 +34,14 @@ class RemaingBalanceController extends GetxController {
           _remainingBalanceModel = value!;
 
           remainingDailyLimit.value = double.parse(
-            _remainingBalanceModel.data.remainingDaily,
+            _remainingBalanceModel!.data.remainingDaily,
           );
 
           print(" this is daily limit: ${remainingMonthLyLimit.value}");
 
-          senderCurrency.value = _remainingBalanceModel.data.currency;
+          senderCurrency.value = _remainingBalanceModel!.data.currency;
           remainingMonthLyLimit.value = double.parse(
-            _remainingBalanceModel.data.remainingMonthly,
+            _remainingBalanceModel!.data.remainingMonthly,
           );
           print(" this is monthly limit: ${remainingMonthLyLimit.value}");
 

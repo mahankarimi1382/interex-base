@@ -147,7 +147,7 @@
                             <div class="col-lg-6 col-md-6 col-sm-6 mb-10">
                                 <div class="form-group">
                                     <label for="expiry" class="form-label">{{ __("Expiration Date") }}*</label>
-                                    <input type="text" id="expiry" name="date" class="form--control" placeholder="YY / MM" required>
+                                    <input type="text" id="expiry" name="date" class="form--control" placeholder="{{ __('YY / MM') }}" required>
                                     <div class="invalid-feedback">{{ __("Please enter a valid future expiration date (YY/MM)") }}</div>
                                 </div>
                             </div>
@@ -155,7 +155,7 @@
                                 <div class="form-group">
                                     <label for="cvc" class="form-label">{{ __("Security Code") }} {{ __("CVV/CVC") }}*</label>
                                     <div class="cvc-container">
-                                        <input type="text" id="cvc" name="code" class="form--control" placeholder="CVC" required>
+                                        <input type="text" id="cvc" name="code" class="form--control" placeholder="{{ __('CVC') }}" required>
                                     </div>
                                     <div class="invalid-feedback">{{ __("Please enter a valid 3 or 4 digit security code") }}
                                     </div>

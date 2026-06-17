@@ -152,14 +152,14 @@
                         $("select[name=country]").select2();
                         var state_select = `
                             <label>State <span>*</span></label>
-                            <select name="state" class="form--control state-select" data-placeholder="Select State" data-old="">
+                            <select name="state" class="form--control state-select" data-placeholder="{{ __('Select State') }}" data-old="">
                                 <option selected disabled>Select State</option>
                             </select>
                         `;
                         $(".state-select-wrp").html(state_select);
                         var city_select = `
                             <label>City <span>*</span></label>
-                            <select name="city" class="form--control city-select" data-placeholder="Select City" data-old="">
+                            <select name="city" class="form--control city-select" data-placeholder="{{ __('Select City') }}" data-old="">
                                 <option selected disabled>Select City</option>
                             </select>
                         `;

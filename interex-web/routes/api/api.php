@@ -340,7 +340,7 @@ Route::prefix('user')->group(function(){
             });
 
             //request Money
-            Route::controller(RequestMoneyController::class)->prefix("request-money")->middleware(['user.pin.setup.guard'])->group(function(){
+            Route::controller(RequestMoneyController::class)->prefix("request-money")->name('request.money.')->middleware(['user.pin.setup.guard'])->group(function(){
                 Route::get('/','index')->name('index');
                 Route::post('submit','submit')->name('submit')->middleware('api.kyc');
                 Route::post('check/user','checkUser');

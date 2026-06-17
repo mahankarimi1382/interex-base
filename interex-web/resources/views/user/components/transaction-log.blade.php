@@ -77,7 +77,7 @@
                             @elseif ($item->type == payment_gateway_const()::TYPEBONUS)
                                 <h4 class="title">{{ __("Registration Bonus") }}</h4>
                             @elseif ($item->type == payment_gateway_const()::MARKETPLACE)
-                                <h4 class="title">Trade Buy via <span class="text--warning">{{ @$item->currency->name }}</span></h4></h4>
+                                <h4 class="title">{{ __('Trade Buy via') }} <span class="text--warning">{{ @$item->currency->name }}</span></h4></h4>
                                 <span class="sub-title text--base px-1">
 
                                     @if ($item->attribute == payment_gateway_const()::SEND)

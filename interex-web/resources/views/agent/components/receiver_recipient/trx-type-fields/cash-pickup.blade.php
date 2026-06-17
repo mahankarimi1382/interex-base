@@ -84,7 +84,7 @@
         </div>
         <div class="col-xl-3 col-lg-3 col-md-6 form-group">
             <label>{{ __("Pickup Point") }} <span>*</span></label>
-            <select name="cash_pickup" class="form--control select2-basic" data-placeholder="Select Pickup Point">
+            <select name="cash_pickup" class="form--control select2-basic" data-placeholder="{{ __('Select Pickup Point') }}">
                 <option selected disabled>{{ __("Select Pickup Point") }}</option>
                 @foreach ($pickup_points as $item)
                     <option value="{{ $item->alias }}">{{  $item->name  }}</option>

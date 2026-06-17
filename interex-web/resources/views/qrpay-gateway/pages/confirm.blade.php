@@ -143,19 +143,19 @@
                                 <div class="row mb-20-none">
                                     <div class="col-lg-6 form-group">
                                         <input type="text" class="form--control custom-input"
-                                            placeholder="Cardholder Name" name="name" autocomplete="off" autofocus>
+                                            placeholder="{{ __('Cardholder Name') }}" name="name" autocomplete="off" autofocus>
                                     </div>
                                     <div class="col-lg-6 form-group card-number">
-                                        <input type="tel" class="form--control custom-input" placeholder="Card number"
+                                        <input type="tel" class="form--control custom-input" placeholder="{{ __('Card number') }}"
                                             name="cardNumber" autocomplete="off" autofocus>
                                         <i class="las la-credit-card"></i>
                                     </div>
                                     <div class="col-lg-6 form-group">
                                         <input type="tel" id="expiryDateInput" class="form--control custom-input"
-                                            placeholder="Expiry Date" name="cardExpiry" autocomplete="off">
+                                            placeholder="{{ __('Expiry Date') }}" name="cardExpiry" autocomplete="off">
                                     </div>
                                     <div class="col-lg-6 form-group">
-                                        <input type="password" class="form--control custom-input" placeholder="CVV"
+                                        <input type="password" class="form--control custom-input" placeholder="{{ __('CVV') }}"
                                             name="cardCVC" autocomplete="off">
                                     </div>
                                 </div>

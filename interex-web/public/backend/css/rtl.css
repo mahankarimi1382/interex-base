@@ -1,0 +1,160 @@
+/*
+ * RTL overrides for the admin (backend) panel.
+ * All rules are scoped under `body.rtl`, so this file is safe to load
+ * unconditionally — it has no effect in LTR languages.
+ * The base direction also comes from `dir="rtl"` on <html>; these rules
+ * flip the parts that rely on physical left/right (fixed sidebars, paddings,
+ * floats, dropdowns) which the dir attribute alone cannot handle.
+ */
+
+body.rtl {
+  direction: rtl;
+  text-align: right;
+}
+
+/* ~~~~~~~~~~~~~~~~~~~~~~ Layout structure ~~~~~~~~~~~~~~~~~~~~~~ */
+
+/* Mini sidebar (.header) — far edge */
+body.rtl .header {
+  left: auto;
+  right: 0;
+}
+
+/* Main sidebar */
+body.rtl .sidebar {
+  left: auto;
+  right: 0;
+  margin-left: 0;
+  margin-right: 45px;
+}
+
+/* Top navbar */
+body.rtl .navbar-wrapper {
+  margin-left: 0;
+  margin-right: 265px;
+}
+body.rtl .navbar-wrapper.active {
+  margin-left: 0;
+  margin-right: 100px;
+}
+
+/* Main content area */
+body.rtl .body-wrapper {
+  padding-left: 15px;
+  padding-right: 280px;
+}
+body.rtl .body-wrapper.active {
+  padding-left: 15px;
+  padding-right: 115px;
+}
+
+/* Right-settings drawer slides in from the left in RTL */
+body.rtl .settings-sidebar-area {
+  right: auto;
+  left: -300px;
+  -webkit-transform: translateX(-240px);
+          transform: translateX(-240px);
+}
+body.rtl .settings-sidebar-area.active {
+  right: auto;
+  left: 0;
+  -webkit-transform: translateX(0px);
+          transform: translateX(0px);
+}
+
+/* ~~~~~~~~~~~~~~~~~~~~~~ Responsive (<=1199px) ~~~~~~~~~~~~~~~~~~~~~~ */
+@media only screen and (max-width: 1199px) {
+  body.rtl .header {
+    left: auto;
+    right: -100px;
+  }
+  body.rtl .header.active {
+    left: auto;
+    right: 0;
+  }
+  body.rtl .sidebar {
+    left: auto;
+    right: -300px;
+  }
+  body.rtl .sidebar.active {
+    left: auto;
+    right: 0;
+  }
+  body.rtl .navbar-wrapper {
+    margin-left: 0;
+    margin-right: 0;
+  }
+  body.rtl .body-wrapper {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+}
+
+/* ~~~~~~~~~~~~~~~~~~~~~~ Common helper flips ~~~~~~~~~~~~~~~~~~~~~~ */
+
+/* Bootstrap float utilities */
+body.rtl .float-left,
+body.rtl .pull-left { float: right !important; }
+body.rtl .float-right,
+body.rtl .pull-right { float: left !important; }
+
+/* Bootstrap text alignment utilities */
+body.rtl .text-left { text-align: right !important; }
+body.rtl .text-right { text-align: left !important; }
+
+/* Bootstrap 4 spacing helpers that auto-flip in BS5 but not here */
+body.rtl .ml-auto,
+body.rtl .me-auto { margin-left: 0 !important; margin-right: auto !important; }
+body.rtl .mr-auto,
+body.rtl .ms-auto { margin-right: 0 !important; margin-left: auto !important; }
+
+/* Dropdown menus align to the opposite edge */
+body.rtl .dropdown-menu {
+  left: auto;
+  right: 0;
+  text-align: right;
+}
+body.rtl .dropdown-menu-right,
+body.rtl .dropdown-menu-end {
+  left: 0;
+  right: auto;
+}
+
+/* Input groups: keep prepend/append on the logical side */
+body.rtl .input-group > .form-control,
+body.rtl .input-group > .input-group-prepend > .input-group-text {
+  text-align: right;
+}
+
+/* List defaults */
+body.rtl ul,
+body.rtl ol {
+  padding-right: 0;
+}
+
+/* ~~~~~~~~~~~~~~~~~~~~~~ Directional icons ~~~~~~~~~~~~~~~~~~~~~~ */
+/* Mirror arrows / angles / chevrons / carets so "next/forward" points RTL. */
+body.rtl .fa-arrow-right, body.rtl .fa-arrow-left,
+body.rtl .fa-long-arrow-right, body.rtl .fa-long-arrow-left,
+body.rtl .fa-long-arrow-alt-right, body.rtl .fa-long-arrow-alt-left,
+body.rtl .fa-arrow-alt-circle-right, body.rtl .fa-arrow-alt-circle-left,
+body.rtl .fa-arrow-circle-right, body.rtl .fa-arrow-circle-left,
+body.rtl .fa-angle-right, body.rtl .fa-angle-left,
+body.rtl .fa-angle-double-right, body.rtl .fa-angle-double-left,
+body.rtl .fa-chevron-right, body.rtl .fa-chevron-left,
+body.rtl .fa-chevron-circle-right, body.rtl .fa-chevron-circle-left,
+body.rtl .fa-caret-right, body.rtl .fa-caret-left,
+body.rtl .fa-hand-point-right, body.rtl .fa-hand-point-left,
+body.rtl .la-arrow-right, body.rtl .la-arrow-left,
+body.rtl .la-long-arrow-right, body.rtl .la-long-arrow-left,
+body.rtl .la-long-arrow-alt-right, body.rtl .la-long-arrow-alt-left,
+body.rtl .la-arrow-alt-circle-right, body.rtl .la-arrow-alt-circle-left,
+body.rtl .la-arrow-circle-right, body.rtl .la-arrow-circle-left,
+body.rtl .la-angle-right, body.rtl .la-angle-left,
+body.rtl .la-angle-double-right, body.rtl .la-angle-double-left,
+body.rtl .la-chevron-right, body.rtl .la-chevron-left,
+body.rtl .la-caret-right, body.rtl .la-caret-left {
+  display: inline-block;
+  -webkit-transform: scaleX(-1);
+          transform: scaleX(-1);
+}

@@ -181,7 +181,7 @@
                                     </div>
                                 </div>
                                 <div class="preview-list-right">
-                                    <span id="cvv">{{ __("***") }}</span>
+                                    <span id="cvv">{{ "***" }}</span>
                                 </div>
                             </div>
 

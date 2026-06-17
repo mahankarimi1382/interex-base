@@ -177,7 +177,7 @@
                                                         <div class="strip-black"></div>
                                                         <div class="ccv">
                                                             <label>{{ __("Cvv") }}</label>
-                                                            <div>{{ __("***") }}</div>
+                                                            <div>{{ "***" }}</div>
 
                                                         </div>
                                                         <div class="terms">

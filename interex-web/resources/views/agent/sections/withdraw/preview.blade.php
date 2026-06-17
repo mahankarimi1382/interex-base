@@ -55,7 +55,7 @@
                                             @if($item->required == true)
                                             <span class="text-danger">*</span>
                                             @else
-                                            <span class="">( Optional )</span>
+                                            <span class="">{{ __('( Optional )') }}</span>
                                             @endif
                                         </label>
                                         <select name="{{ $item->name }}" id="{{ $item->name }}" class="form--control nice-select">
@@ -76,7 +76,7 @@
                                             @if($item->required == true)
                                             <span class="text-danger">*</span>
                                             @else
-                                            <span class="">( Optional )</span>
+                                            <span class="">{{ __('( Optional )') }}</span>
                                             @endif
                                         </label>
                                         <input type="{{ $item->type }}" class="form--control"  name="{{ $item->name }}" value="{{ old($item->name) }}">
@@ -87,7 +87,7 @@
                                             @if($item->required == true)
                                             <span class="text-danger">*</span>
                                             @else
-                                            <span class="">( Optional )</span>
+                                            <span class="">{{ __('( Optional )') }}</span>
                                             @endif
                                         </label>
                                         <input type="{{ $item->type }}" class="form--control" placeholder="{{ ucwords(str_replace('_',' ', $item->name)) }}" name="{{ $item->name }}" value="{{ old($item->name) }}">
@@ -149,7 +149,7 @@
                                     </div>
                                 </div>
                                 <div class="preview-list-right">
-                                    <span class="request-amount">{{ __("1") }} {{ get_default_currency_code() }} =  {{ number_format(@$moneyOutData->gateway_rate,2 )}} {{ @$moneyOutData->gateway_currency }}</span>
+                                    <span class="request-amount">{{ "1" }} {{ get_default_currency_code() }} =  {{ number_format(@$moneyOutData->gateway_rate,2 )}} {{ @$moneyOutData->gateway_currency }}</span>
                                 </div>
                             </div>
                             <div class="preview-list-item">

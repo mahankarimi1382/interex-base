@@ -52,12 +52,12 @@
                                     <div class="form-group">
                                         <label>{{ __('titleS') }}</label>
                                         <input type="text" class="form--control link_title" name="title"
-                                            placeholder="Name of cause or service"
+                                            placeholder="{{ __('Name of cause or service') }}"
                                             value="{{ old('title', $payment_link->title ?? '') }}">
                                     </div>
                                     <div class="form-group">
                                         <label>{{ __('Description') }} <span>{{ __('Optional') }}</span></label>
-                                        <textarea class="form--control" name="details" placeholder="Give customers more detail about what they're paying for.">{{ old('details', $payment_link->details ?? '') }}</textarea>
+                                        <textarea class="form--control" name="details" placeholder="{{ __('Give customers more detail about what they\'re paying for.') }}">{{ old('details', $payment_link->details ?? '') }}</textarea>
                                     </div>
                                 </div>
                                 <div class="col-xl-6">
@@ -133,7 +133,7 @@
                                 <div class="col-xl-12 form-group">
                                     <label>{{ __('titleS') }}*</label>
                                     <input type="text" class="form--control link_title" name="sub_title"
-                                        placeholder="Collecting Payment Platform"
+                                        placeholder="{{ __('Collecting Payment Platform') }}"
                                         value="{{ old('title', $payment_link->title ?? '') }}">
                                 </div>
                                 <div class="col-xl-12 form-group">

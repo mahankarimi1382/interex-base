@@ -241,7 +241,7 @@
                             $old_state = old('state',$user->address->state ?? "");
                         @endphp
                         <label>{{ __("state") }}</label>
-                        <select name="state" class="form--control select2-auto-tokenize state-select" data-placeholder="Select State" data-old="{{ $old_state }}">
+                        <select name="state" class="form--control select2-auto-tokenize state-select" data-placeholder="{{ __('Select State') }}" data-old="{{ $old_state }}">
                             @if ($old_state)
                                 <option value="{{ $old_state }}" selected>{{ $old_state }}</option>
                             @endif
@@ -252,7 +252,7 @@
                             $old_city = old('city',$user->address->city ?? "");
                         @endphp
                         <label>{{ __("city") }}</label>
-                        <select name="city" class="form--control select2-auto-tokenize city-select" data-placeholder="Select City" data-old="{{ $old_city }}">
+                        <select name="city" class="form--control select2-auto-tokenize city-select" data-placeholder="{{ __('Select City') }}" data-old="{{ $old_city }}">
                             @if ($old_city)
                                 <option value="{{ $old_city }}" selected>{{ $old_city }}</option>
                             @endif

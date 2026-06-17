@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ get_default_language_code() }}" dir="{{ selectedLangDir() ?? 'ltr' }}">
 
 <head>
     <meta charset="UTF-8">
@@ -44,7 +44,7 @@
     </style>
 </head>
 
-<body class="bg-light">
+<body class="bg-light {{ selectedLangDir() ?? 'ltr' }}">
     <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     Start pay page
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
@@ -64,7 +64,7 @@
                                         class="text-danger">*</span></label>
                                 <div class="input-group">
                                     <input type="number" id="amount" name="amount" class="form--control"
-                                        placeholder="Enter Amount...">
+                                        placeholder="{{ __('Enter Amount...') }}">
                                     <select class="form--control nice-select" name="wallet">
                                         @foreach ($sender_wallets ?? [] as $data)
                                             <option value="{{ $data->code }}">{{ $data->code }}</option>

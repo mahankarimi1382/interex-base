@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ get_default_language_code() }}">
+<html lang="{{ get_default_language_code() }}" dir="{{ selectedLangDir() ?? 'ltr' }}">
 
 <head>
     <meta charset="UTF-8">
@@ -36,6 +36,8 @@
 
     <!-- main style css link -->
     <link rel="stylesheet" href="{{ asset('backend/css/style.css') }}">
+    <!-- RTL overrides (scoped to body.rtl) -->
+    <link rel="stylesheet" href="{{ asset('backend/css/rtl.css') }}">
 
     <style>
         .fileholder-single-file-view {
@@ -45,7 +47,7 @@
     @stack('css')
 </head>
 
-<body>
+<body class="{{ selectedLangDir() ?? 'ltr' }}">
 
     <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     Start Admin

@@ -8,7 +8,7 @@
             <div class="radio-wrapper">
                 <div class="radio-item">
                     <input type="radio" id="test-default" value="en" name="lang_switch" @if (app()->currentLocale() == language_const()::NOT_REMOVABLE) checked @endif>
-                    <label for="test-default">English</label>
+                    <label for="test-default">{{ __('English') }}</label>
                 </div>
                 @foreach ($__languages->where("code","!=",language_const()::NOT_REMOVABLE) as $key => $item)
                     <div class="radio-item">
