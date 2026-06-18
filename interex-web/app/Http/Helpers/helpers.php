@@ -2421,11 +2421,15 @@ function get_api_languages()
 
                 $lan_key = implode("", $var_array);
 
-                if (array_key_exists($lan_key, $lan_key_values) && $lan_key_values[$lan_key] != $item) {
-                    throw new Exception("Duplicate Key Found! Please check/update this key [$lan_key_original]");
+                // Different original keys can collapse to the same sanitised
+                // key (e.g. "2FA Security" / "2fa Security"). Keep the first
+                // occurrence so the result is deterministic instead of throwing
+                // and breaking the whole languages endpoint.
+                if ($lan_key == "" || array_key_exists($lan_key, $lan_key_values)) {
+                    continue;
                 }
 
-                ($lan_key != "") ? $lan_key_values[$lan_key] = $item : "";
+                $lan_key_values[$lan_key] = $item;
             }
         }
 

@@ -1,6 +1,7 @@
 import 'package:qrpaypro/extentions/custom_extentions.dart';
 
 class ApiEndpoint {
+  // static const String mainDomain = ""; http://10.0.2.2:8000
   static const String mainDomain = "https://api.habel.ir";
 
   static const String baseUrl = "$mainDomain/api";
