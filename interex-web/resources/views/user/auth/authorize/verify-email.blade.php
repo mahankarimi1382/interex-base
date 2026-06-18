@@ -13,7 +13,7 @@
     <div class="account-area">
         <div class="account-wrapper">
             <div class="account-logo text-center">
-                <a class="site-logo" href="{{ setRoute('index') }}">
+                <a class="site-logo" href="{{ url('/') }}">
                     <img src="{{ get_logo($basic_settings) }}"  data-white_img="{{ get_logo($basic_settings,'white') }}"
                     data-dark_img="{{ get_logo($basic_settings,'dark') }}"
                         alt="site-logo">

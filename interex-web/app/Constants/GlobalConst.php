@@ -8,7 +8,7 @@ class GlobalConst {
     const INVEST_PROFIT_DAILY_BASIS = "DAILY-BASIS";
     const INVEST_PROFIT_ONE_TIME = "ONE-TIME";
 
-    const USER_PASS_RESEND_TIME_MINUTE = "1";
+    const USER_PASS_RESEND_TIME_MINUTE = 1;
     const USER_VERIFY_RESEND_TIME_MINUTE = 1;
 
     const ACTIVE = true;

@@ -81,15 +81,24 @@ class ForgotPasswordController extends Controller
 
         if($validated['type'] == GlobalConst::PHONE){
             $mobile_code = remove_special_char($validated['mobile_code']);
-            $mobile = $validated['mobile_code'] == '880' ? (int)$validated['credentials'] :  $validated['credentials'];
-            $full_mobile = $mobile_code.$mobile;
+            $raw_mobile  = $validated['mobile_code'] == '880' ? (int)$validated['credentials'] :  $validated['credentials'];
+            // Normalize the national number (drop any leading zero, e.g. 0919... -> 919...).
+            $national    = ltrim((string) $raw_mobile, '0');
+            $full_mobile = $mobile_code.$national;
 
-            $column = "full_mobile";
-            $user = User::where($column,$full_mobile)->first();
+            // Tolerant lookup: match the fully-qualified number first, then fall back to the
+            // national mobile number so that country-code / leading-zero formatting differences
+            // between registration and this form don't yield a false "user doesn't exist".
+            $user = User::where('full_mobile', $full_mobile)
+                        ->orWhere('full_mobile', $mobile_code.'0'.$national)
+                        ->orWhere('mobile', $national)
+                        ->orWhere('mobile', '0'.$national)
+                        ->first();
 
             if(!$user) {
                 return back()->with(['error' => [__("User doesn't exists.")]]);
             }
+            $full_mobile = $user->full_mobile;
 
             $token = generate_unique_string("user_password_resets","token",80);
             $code = generate_random_code();

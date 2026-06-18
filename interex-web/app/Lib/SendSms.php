@@ -19,14 +19,13 @@ class SendSms
 		$url = $credentials->iran_sms_url ?? 'http://185.4.30.32/class/sms/restful/sendSms_ManyToMany_v2.php';
 
 		// Normalize the receiver number to the local 09xxxxxxxxx format expected by the panel.
-		$to = ltrim($to, '+');
-		if (str_starts_with($to, '0098')) {
-			$to = '0' . substr($to, 4);
-		} elseif (str_starts_with($to, '98')) {
-			$to = '0' . substr($to, 2);
-		} elseif (!str_starts_with($to, '0')) {
-			$to = '0' . $to;
-		}
+		// This is an Iranian SMS gateway, so every recipient is an Iranian mobile whose
+		// national part is 10 digits (9xxxxxxxxx). Reduce any incoming format (+98, 0098,
+		// 98, a wrong country-code prefix, or an already-local number) to the canonical
+		// local form by keeping the last 10 national digits and prefixing a single 0.
+		$digits = preg_replace('/\D/', '', (string) $to);
+		$national = strlen($digits) >= 10 ? substr($digits, -10) : $digits;
+		$to = '0' . $national;
 
 		$payload = [
 			'op'      => 'sendSms',

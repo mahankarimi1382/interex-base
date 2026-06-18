@@ -31,6 +31,9 @@ use Illuminate\Support\Facades\Session;
 use App\Http\Helpers\Response;
 use App\Models\Admin\ReferralSetting;
 use App\Providers\Admin\ExtensionProvider;
+use App\Rules\IranianNationalCode;
+use App\Rules\IranianPostalCode;
+use App\Rules\PassportNumber;
 
 class RegisterController extends Controller
 {
@@ -241,6 +244,9 @@ class RegisterController extends Controller
         }catch(Exception $e) {
             return redirect()->route('user.register')->with(['error' => [__('Something went wrong! Please try again.')]]);
         }
+        $register_data = session()->get('register_data', []);
+        $register_data['sms_verified'] = true;
+        session()->put('register_data', $register_data);
         return redirect()->route("user.register.kyc")->with(['success' => [__('Otp successfully verified')]]);
     }
     /**
@@ -273,6 +279,9 @@ class RegisterController extends Controller
             return redirect()->route('user.register')->with(['error' => [__('Something went wrong! Please try again.')]]);
         }
 
+        $register_data = session()->get('register_data', []);
+        $register_data['email_verified'] = true;
+        session()->put('register_data', $register_data);
         return redirect()->route("user.register.kyc")->with(['success' => [__('Otp successfully verified')]]);
     }
 
@@ -459,32 +468,39 @@ class RegisterController extends Controller
         //check register type
         $register_data      = session()->get('register_data');
 
-        if($register_data['register_type'] == GlobalConst::PHONE){
-            if($register_data['sms_verified'] == true && $basic_settings->sms_verification == false){
-                $sms_verified = true;
-            }elseif($register_data['sms_verified'] == false && $basic_settings->sms_verification == true){
-                $sms_verified = true;
-            }else{
-                $sms_verified = false;
-            }
-        }elseif($basic_settings->sms_verification == false){
-            $sms_verified = true;
-        }else{
-            $sms_verified = false;
+        // The registration must originate from a verified pre-registration session.
+        if(!$register_data || empty($register_data['register_type'])) {
+            return redirect()->route('user.register')->with(['error' => [__('Session expired. Please try again')]]);
         }
 
+        // Anti-tampering: the submitted credential must match the one that was actually verified,
+        // and the verification step must have been completed when it is required by settings.
         if($register_data['register_type'] == GlobalConst::EMAIL){
-            if($register_data['email_verified'] == true && $basic_settings->email_verification == false){
-                $email_verified = true;
-            }elseif($register_data['email_verified'] == false && $basic_settings->email_verification == true){
-                $email_verified = true;
-            }else{
-                $email_verified = false;
+            $verified_email = strtolower(trim($register_data['credentials'] ?? ''));
+            if(strtolower(trim($validated['email'] ?? '')) !== $verified_email){
+                throw ValidationException::withMessages([
+                    'email' => __('The email address does not match the verified one.'),
+                ]);
             }
-        }elseif($basic_settings->email_verification == false){
+            $email_verified = ($register_data['email_verified'] ?? false) === true;
+            if($basic_settings->email_verification && !$email_verified){
+                return redirect()->route('user.register')->with(['error' => [__('Please verify your email address before completing registration.')]]);
+            }
             $email_verified = true;
-        }else{
-            $email_verified = false;
+            $sms_verified   = $basic_settings->sms_verification ? false : true;
+        }else{ // PHONE
+            $verified_full_mobile = remove_special_char($register_data['mobile_code'] ?? '') . ($register_data['credentials'] ?? '');
+            if($complete_phone !== $verified_full_mobile){
+                throw ValidationException::withMessages([
+                    'phone' => __('The phone number does not match the verified one.'),
+                ]);
+            }
+            $sms_verified = ($register_data['sms_verified'] ?? false) === true;
+            if($basic_settings->sms_verification && !$sms_verified){
+                return redirect()->route('user.register')->with(['error' => [__('Please verify your phone number before completing registration.')]]);
+            }
+            $sms_verified   = true;
+            $email_verified = $basic_settings->email_verification ? false : true;
         }
 
 
@@ -504,6 +520,10 @@ class RegisterController extends Controller
                                         ];
         $validated['registered_by']          = $register_data['register_type']??GlobalConst::EMAIL;
         $validated['referral_id']           = generate_unique_string('users','referral_id',8,'number');
+
+        // These are captured into the JSON `address` column (or used only for referral linking),
+        // so they must not be passed as standalone columns to User::create().
+        $validated = Arr::except($validated, ['country', 'city', 'zip_code', 'refer']);
 
 
        $data = event(new Registered($user = $this->create($validated)));
@@ -547,7 +567,7 @@ class RegisterController extends Controller
     public function validator(array $data) {
 
         $basic_settings = $this->basic_settings;
-        $passowrd_rule = "required|string|min:6|confirmed";
+        $passowrd_rule = "required|string|min:8|confirmed";
         if($basic_settings->secure_password) {
             $passowrd_rule = ["required","confirmed",Password::min(8)->letters()->mixedCase()->numbers()->symbols()->uncompromised()];
         }
@@ -570,7 +590,11 @@ class RegisterController extends Controller
         }
 
 
-        return Validator::make($data,[
+        // Iranian users are validated against Iran-specific algorithms (national code + postal code),
+        // foreign users provide their nationality and passport number instead.
+        $is_iranian = isset($data['country']) && trim($data['country']) === 'Iran';
+
+        $rules = [
             'firstname'     => 'required|string|max:60',
             'lastname'      => 'required|string|max:60',
             'email'         => $email_field,
@@ -579,10 +603,20 @@ class RegisterController extends Controller
             'city'          => 'required|string|max:150',
             'phone_code'    => $mobile_code_field,
             'phone'         => $mobile_field,
-            'zip_code'         => 'required|string|max:8',
             'agree'         =>  $agree,
             'refer'         => 'nullable|string|exists:users,referral_id',
-        ]);
+        ];
+
+        if($is_iranian) {
+            $rules['national_id'] = ['required', 'string', new IranianNationalCode];
+            $rules['zip_code']    = ['required', 'string', new IranianPostalCode];
+        } else {
+            $rules['nationality'] = 'required|string|max:100';
+            $rules['passport_no'] = ['required', 'string', new PassportNumber];
+            $rules['zip_code']    = 'required|string|max:20';
+        }
+
+        return Validator::make($data, $rules);
     }
 
     /**

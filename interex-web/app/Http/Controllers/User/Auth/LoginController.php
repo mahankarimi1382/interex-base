@@ -86,9 +86,21 @@ class LoginController extends Controller
     {
         if($request->login_type == global_const()::PHONE){
             $mobile_code = remove_special_char($request->mobile_code);
-            $mobile = $request->mobile_code == '880' ? (int)$request->credentials :  $request->credentials;
-            $full_mobile = $mobile_code.$mobile;
-            $credentials = $full_mobile;
+            $raw_mobile  = $request->mobile_code == '880' ? (int)$request->credentials :  $request->credentials;
+            // Normalize the national number (drop any leading zero, e.g. 0919... -> 919...).
+            $national    = ltrim((string) $raw_mobile, '0');
+            $full_mobile = $mobile_code.$national;
+
+            // Tolerant resolve: find the stored account by the fully-qualified number or by the
+            // national mobile number, then authenticate against its actual full_mobile. This keeps
+            // password verification intact while avoiding false "credentials don't match" errors
+            // caused by country-code / leading-zero formatting differences.
+            $user = \App\Models\User::where('full_mobile', $full_mobile)
+                        ->orWhere('full_mobile', $mobile_code.'0'.$national)
+                        ->orWhere('mobile', $national)
+                        ->orWhere('mobile', '0'.$national)
+                        ->first();
+            $credentials = $user->full_mobile ?? $full_mobile;
         }else{
             $credentials = $request->credentials;
         }
