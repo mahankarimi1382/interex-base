@@ -55,7 +55,7 @@
                                         <option value="{{ $country->name }}" data-mobile-code="{{$country->mobile_code}}" selected>{{ $country->name }}</option>
                                     @endif
                                 @else
-                                <option value="{{ $country->name }}" data-mobile-code="{{$country->mobile_code}}">{{ $country->name }}</option>
+                                <option value="{{ $country->name }}" data-mobile-code="{{$country->mobile_code}}" {{ old('country') == $country->name ? 'selected' : '' }}>{{ $country->name }}</option>
                                 @endif
                             @endforeach
                         </select>

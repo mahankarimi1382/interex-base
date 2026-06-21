@@ -3144,5 +3144,7 @@
     "Thanks!": "Merci !",
     "Ticket ID :": "ID du ticket :",
     "Trade Buy via": "Acheter la transaction via",
-    "You have requested us to send a link to reset your password for your admin account": "Vous avez demandé l'envoi d'un lien pour réinitialiser le mot de passe de votre compte administrateur"
+    "You have requested us to send a link to reset your password for your admin account": "Vous avez demandé l'envoi d'un lien pour réinitialiser le mot de passe de votre compte administrateur",
+    "Uploaded": "Téléchargé",
+    "Click or drag a file to upload": "Cliquez ou glissez un fichier à téléverser"
 }
