@@ -26,11 +26,13 @@ use App\Traits\PaymentGateway\PaystackTrait;
 use App\Traits\PaymentGateway\SslcommerzTrait;
 use Illuminate\Validation\ValidationException;
 use App\Traits\PaymentGateway\FlutterwaveTrait;
+use App\Traits\PaymentGateway\Zarinpal;
+use App\Traits\PaymentGateway\Alipayplus;
 use App\Models\Admin\PaymentGateway as PaymentGatewayModel;
 
 class PaymentGateway {
 
-    use Paypal,Stripe,Manual,FlutterwaveTrait,RazorTrait,PagaditoTrait,SslcommerzTrait,CoinGate,Tatum,PerfectMoney,PaystackTrait,Bkash,Authorize;
+    use Paypal,Stripe,Manual,FlutterwaveTrait,RazorTrait,PagaditoTrait,SslcommerzTrait,CoinGate,Tatum,PerfectMoney,PaystackTrait,Bkash,Authorize,Zarinpal,Alipayplus;
 
     protected $request_data;
     protected $output;
@@ -432,6 +434,14 @@ class PaymentGateway {
             if(method_exists(Authorize::class,$method_name)) {
                 return $this->$method_name($this->output);
             }
+        }elseif($type == 'zarinpal'){
+            if(method_exists(Zarinpal::class,$method_name)) {
+                return $this->$method_name($this->output);
+            }
+        }elseif($type == 'alipayplus'){
+            if(method_exists(Alipayplus::class,$method_name)) {
+                return $this->$method_name($this->output);
+            }
         }else{
             if(method_exists(Paypal::class,$method_name)) {
                 return $this->$method_name($this->output);
@@ -657,6 +667,12 @@ class PaymentGateway {
                 return $response['token'] ?? "";
                 break;
             case PaymentGatewayConst::AUTHORIZE:
+                return $response['token'] ?? "";
+                break;
+            case PaymentGatewayConst::ZARINPAL:
+                return $response['token'] ?? "";
+                break;
+            case PaymentGatewayConst::ALIPAY_PLUS:
                 return $response['token'] ?? "";
                 break;
             default:

@@ -115,6 +115,12 @@ class DepositPreviewScreen extends StatelessWidget {
               'authorize-usd',
             )) {
               controller.gotoAuthorizeUSDScreen();
+            } else if (controller.selectedCurrencyAlias.contains('zarinpal')) {
+              controller.goToZarinpalScreen();
+            } else if (controller.selectedCurrencyAlias.contains(
+              'alipayplus',
+            )) {
+              controller.goToAlipayplusScreen();
             }
           } else if (controller.selectedCurrencyType.value.contains("MANUAL")) {
             controller.goToManualSendMoneyManualScreen();

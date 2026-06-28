@@ -876,6 +876,52 @@ class ApiServices {
     return null;
   }
 
+  //  add money insert zarinpal Api method
+  static Future<AddMoneyStripeInsertModel?> addMoneyInsertZarinpalApi({
+    required Map<String, dynamic> body,
+  }) async {
+    Map<String, dynamic>? mapResponse;
+    try {
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).post(ApiEndpoint.sendMoneyInsertURL, body, code: 200);
+      if (mapResponse != null) {
+        AddMoneyStripeInsertModel result = AddMoneyStripeInsertModel.fromJson(
+          mapResponse,
+        );
+        return result;
+      }
+    } catch (e) {
+      log.e('err from add money Zarinpal api service ==> $e');
+      CustomSnackBar.error('Something went Wrong!');
+      return null;
+    }
+    return null;
+  }
+
+  //  add money insert alipayplus Api method
+  static Future<AddMoneyStripeInsertModel?> addMoneyInsertAlipayplusApi({
+    required Map<String, dynamic> body,
+  }) async {
+    Map<String, dynamic>? mapResponse;
+    try {
+      mapResponse = await ApiMethod(
+        isBasic: false,
+      ).post(ApiEndpoint.sendMoneyInsertURL, body, code: 200);
+      if (mapResponse != null) {
+        AddMoneyStripeInsertModel result = AddMoneyStripeInsertModel.fromJson(
+          mapResponse,
+        );
+        return result;
+      }
+    } catch (e) {
+      log.e('err from add money Alipayplus api service ==> $e');
+      CustomSnackBar.error('Something went Wrong!');
+      return null;
+    }
+    return null;
+  }
+
   //  send money insert paypal  Api method
   static Future<AddMoneyAuthorizeInsertModel?> addMoneyInsertAuthorizeApi({
     required Map<String, dynamic> body,

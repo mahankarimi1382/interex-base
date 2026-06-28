@@ -99,6 +99,9 @@ class Routes {
   static const String sudoCreateCardScreen = '/sudoCreateCardScreen';
   static const String sudoAddFuncCardScreen = '/sudoAddFuncCardScreen';
   static const String stripeWebPaymentScreen = '/stripeWebPaymentScreen';
+  static const String zarinpalWebPaymentScreen = '/zarinpalWebPaymentScreen';
+  static const String alipayplusWebPaymentScreen =
+      '/alipayplusWebPaymentScreen';
   static const String sslWebPaymentScreen = '/sslWebPaymentScreen';
   static const String coinGatePaymentScreen = '/coinGatePaymentScreen';
   static const String paymentLogScreen = '/paymentLogScreen';

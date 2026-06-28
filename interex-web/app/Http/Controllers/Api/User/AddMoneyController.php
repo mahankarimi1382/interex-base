@@ -349,6 +349,30 @@ class AddMoneyController extends Controller
                     ];
                     $message =  ['success'=>[__('Add Money Inserted Successfully')]];
                     return Helpers::success($data,$message);
+                }elseif($temData->type == PaymentGatewayConst::ZARINPAL) {
+                    $data =[
+                        'gateway_type'          => $payment_gateway->type,
+                        'gateway_currency_name' => $payment_gateway_currency->name,
+                        'alias'                 => $payment_gateway_currency->alias,
+                        'identify'              => $temData->type,
+                        'payment_information'   => $payment_information,
+                        'url'                   => @$instance['response']['link'],
+                        'method'                => "get",
+                    ];
+                    $message =  ['success'=>[__('Add Money Inserted Successfully')]];
+                    return Helpers::success($data,$message);
+                }elseif($temData->type == PaymentGatewayConst::ALIPAY_PLUS) {
+                    $data =[
+                        'gateway_type'          => $payment_gateway->type,
+                        'gateway_currency_name' => $payment_gateway_currency->name,
+                        'alias'                 => $payment_gateway_currency->alias,
+                        'identify'              => $temData->type,
+                        'payment_information'   => $payment_information,
+                        'url'                   => @$instance['response']['link'],
+                        'method'                => "get",
+                    ];
+                    $message =  ['success'=>[__('Add Money Inserted Successfully')]];
+                    return Helpers::success($data,$message);
                 }
             }elseif($payment_gateway->type == "MANUAL"){
                     $data =[

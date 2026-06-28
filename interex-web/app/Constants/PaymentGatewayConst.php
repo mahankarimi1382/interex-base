@@ -95,6 +95,8 @@ class PaymentGatewayConst {
     const PAYSTACK              = "paystack";
     const BKASH                 = "bkash";
     const AUTHORIZE             = "authorize";
+    const ZARINPAL             = "zarinpal";
+    const ALIPAY_PLUS          = "alipayplus";
 
 
     const SEND = "SEND";
@@ -145,7 +147,9 @@ class PaymentGatewayConst {
             self::PERFECT_MONEY => 'perfectMoneyInit',
             self::PAYSTACK      => 'paystackInit',
             self::BKASH         => 'bkashInit',
-            self::AUTHORIZE     => 'authorizeInit'
+            self::AUTHORIZE     => 'authorizeInit',
+            self::ZARINPAL      => 'zarinpalInit',
+            self::ALIPAY_PLUS   => 'alipayPlusInit',
         ];
 
         if($alias == null) {
@@ -182,6 +186,8 @@ class PaymentGatewayConst {
             'isPayStack'        => self::PAYSTACK,
             'isBkash'           => self::BKASH,
             'isAuthorize'       => self::AUTHORIZE,
+            'isZarinpal'        => self::ZARINPAL,
+            'isAlipayplus'      => self::ALIPAY_PLUS,
         ];
     }
 

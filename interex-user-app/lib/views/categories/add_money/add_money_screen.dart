@@ -78,6 +78,14 @@ class DepositScreen extends StatelessWidget {
               )) {
                 debugPrint("==============> this is working ");
                 controller.addMoneyAuthorizeInsertProcess();
+              } else if (controller.selectedCurrencyAlias.contains(
+                'zarinpal',
+              )) {
+                controller.addMoneyZarinpalInsertProcess();
+              } else if (controller.selectedCurrencyAlias.contains(
+                'alipayplus',
+              )) {
+                controller.addMoneyAlipayplusInsertProcess();
               }
             } else if (controller.selectedCurrencyType.value.contains(
               'MANUAL',

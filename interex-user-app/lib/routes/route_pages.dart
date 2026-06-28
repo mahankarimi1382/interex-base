@@ -59,6 +59,8 @@ import '../views/categories/add_money/perfect_money_payment_screen.dart';
 import '../views/categories/add_money/razor_pay_web_screen.dart';
 import '../views/categories/add_money/ssl_web_payment_screen.dart';
 import '../views/categories/add_money/stripe_web_payment_screen.dart';
+import '../views/categories/add_money/zarinpal_web_payment_screen.dart';
+import '../views/categories/add_money/alipayplus_web_payment_screen.dart';
 import '../views/categories/add_money/tatum/tatum_payment_screen.dart';
 import '../views/categories/agent_moneyout/agent_money_screen.dart';
 import '../views/categories/agent_moneyout/agent_moneyout_preview_screen.dart';
@@ -355,6 +357,14 @@ class RoutePageList {
     GetPage(
       name: Routes.stripeWebPaymentScreen,
       page: () => StripeWebPaymentScreen(),
+    ),
+    GetPage(
+      name: Routes.zarinpalWebPaymentScreen,
+      page: () => ZarinpalWebPaymentScreen(),
+    ),
+    GetPage(
+      name: Routes.alipayplusWebPaymentScreen,
+      page: () => AlipayplusWebPaymentScreen(),
     ),
     GetPage(
       name: Routes.sslWebPaymentScreen,

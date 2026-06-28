@@ -635,6 +635,82 @@ class DepositController extends GetxController {
     return _addMoneyPerfectMoneyInsertModel;
   }
 
+  // ---------------------------- AddMoneyZarinpalInsertModel ------------------
+   AddMoneyStripeInsertModel? _addMoneyZarinpalInsertModel;
+
+  AddMoneyStripeInsertModel? get addMoneyZarinpalInsertModel =>
+      _addMoneyZarinpalInsertModel;
+
+  // --------------------------- Api function ----------------------------------
+  // add money zarinpal
+  Future<AddMoneyStripeInsertModel> addMoneyZarinpalInsertProcess() async {
+    _isInsertLoading.value = true;
+    update();
+
+    Map<String, dynamic> inputBody = {
+      'amount': amountTextController.text,
+      'currency': selectedCurrencyAlias.value,
+      'wallet_currency': selectMainWallet.value!.currency.code,
+    };
+
+    await ApiServices.addMoneyInsertZarinpalApi(body: inputBody)
+        .then((value) {
+          _addMoneyZarinpalInsertModel = value!;
+          final data = _addMoneyZarinpalInsertModel!.data.paymentInformation;
+          enteredAmount = data.requestAmount;
+          transferFeeAmount = data.totalCharge;
+          totalCharge = data.totalCharge;
+          youWillGet = data.willGet;
+          payableAmount = data.payableAmount;
+          gotoPreview();
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+        });
+    _isInsertLoading.value = false;
+    update();
+    return _addMoneyZarinpalInsertModel!;
+  }
+
+  // ---------------------------- AddMoneyAlipayplusInsertModel ----------------
+    AddMoneyStripeInsertModel? _addMoneyAlipayplusInsertModel;
+
+  AddMoneyStripeInsertModel? get addMoneyAlipayplusInsertModel =>
+      _addMoneyAlipayplusInsertModel;
+
+  // --------------------------- Api function ----------------------------------
+  // add money alipayplus
+  Future<AddMoneyStripeInsertModel> addMoneyAlipayplusInsertProcess() async {
+    _isInsertLoading.value = true;
+    update();
+
+    Map<String, dynamic> inputBody = {
+      'amount': amountTextController.text,
+      'currency': selectedCurrencyAlias.value,
+      'wallet_currency': selectMainWallet.value!.currency.code,
+    };
+
+    await ApiServices.addMoneyInsertAlipayplusApi(body: inputBody)
+        .then((value) {
+          _addMoneyAlipayplusInsertModel = value!;
+          final data = _addMoneyAlipayplusInsertModel!.data.paymentInformation;
+          enteredAmount = data.requestAmount;
+          transferFeeAmount = data.totalCharge;
+          totalCharge = data.totalCharge;
+          youWillGet = data.willGet;
+          payableAmount = data.payableAmount;
+          gotoPreview();
+          update();
+        })
+        .catchError((onError) {
+          log.e(onError);
+        });
+    _isInsertLoading.value = false;
+    update();
+    return _addMoneyAlipayplusInsertModel!;
+  }
+
   // ---------------------------- AddMoneyStripeInsertModel --------------------
   late AddMoneyStripeInsertModel _addMoneyInsertStripeModel;
 
@@ -721,6 +797,14 @@ class DepositController extends GetxController {
 
   void goToStripeScreen() {
     Get.toNamed(Routes.stripeWebPaymentScreen);
+  }
+
+  void goToZarinpalScreen() {
+    Get.toNamed(Routes.zarinpalWebPaymentScreen);
+  }
+
+  void goToAlipayplusScreen() {
+    Get.toNamed(Routes.alipayplusWebPaymentScreen);
   }
 
   void goToCoinGateScreen() {
